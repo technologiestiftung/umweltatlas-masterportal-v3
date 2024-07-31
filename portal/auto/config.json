@@ -30,7 +30,7 @@
         "active" :true,
         "searchBar": {
           "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
+          "searchInterfaceInstanceIds": ["elasticSearch_1"],
           "searchCategory": "Thema (externe Fachdaten)"
         }
       },

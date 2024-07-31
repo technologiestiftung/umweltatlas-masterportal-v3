@@ -4333,10 +4333,32 @@ Configuration of the addLayerButton to select layers.
             "active": true,
             "buttonTitle": "Add Layers",
             "searchBar": {
-            "active": true,
-            "searchInterfaceInstanceId": "elasticSearch_0",
-            "searchCategory": "Thema (externe Fachdaten)"
+                "active": true,
+                "searchInterfaceInstanceIds": ["elasticSearch_0"],
+                "searchCategory": "Thema (externe Fachdaten)"
         }
+    }
+}
+```
+
+***
+#### portalConfig.tree.addLayerButton.searchBar
+A topic search is enabled within the configured SearchInterface and SearchCategory.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|active|yes|Boolean||Specifies whether the search is displayed.|false|
+|searchCategory|yes|String||The search category.|false|
+|searchInterfaceInstanceIds|yes|Array||List of search interfaces from the searchbar that are to be used here. The searchInterfaceInstanceId results from the type of the searchInterface. If several interfaces of the same type are configured in the searchbar, followed by an underscore and a counter. The search only works with interfaces that perform a topic search.|true|
+
+**Beispiel**
+
+```json
+{
+   "searchBar": {
+        "active": true,
+        "searchInterfaceInstanceIds": ["elasticSearch_0", "topicTree"],
+        "searchCategory": "Topic (external and internal data)"
     }
 }
 ```

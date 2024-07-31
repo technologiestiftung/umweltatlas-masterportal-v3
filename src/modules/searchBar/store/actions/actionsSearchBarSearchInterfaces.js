@@ -74,7 +74,7 @@ export default {
         let currentSearchInterfaceInstances = state.searchInterfaceInstances;
 
         if (getters.showAllResults) {
-            currentSearchInterfaceInstances = state.searchInterfaceInstances.filter(instance =>instance.searchInterfaceId === getters.showAllResultsSearchInterfaceInstance);
+            currentSearchInterfaceInstances = state.searchInterfaceInstances.filter(instance =>getters.showAllResultsSearchInterfaceInstance.includes(instance.searchInterfaceId));
         }
 
         currentSearchInterfaceInstances.forEach(instance => {

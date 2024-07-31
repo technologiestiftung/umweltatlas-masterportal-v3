@@ -83,9 +83,9 @@ export default {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
         if (rootGetters.showLayerAddButton === true && searchBar && searchBar?.active !== undefined) {
-            if (searchBar.searchInterfaceInstanceId || searchBar.searchCategory) {
-                if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
-                    commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceId);
+            if (searchBar.searchInterfaceInstanceIds || searchBar.searchCategory) {
+                if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceIds) {
+                    commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceIds);
                     commit("setShowAllResultsSearchCategory", searchBar.searchCategory);
                 }
                 else {

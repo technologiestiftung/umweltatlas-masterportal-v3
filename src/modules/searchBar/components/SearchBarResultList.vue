@@ -67,7 +67,15 @@ export default {
     methods: {
         ...mapMutations("Modules/SearchBar", [
             "setSearchResultsActive"
-        ])
+        ]),
+        getTitle(){
+          let count = this.limitedSortedSearchResults?.results[this.currentAvailableCategories + "Count"];
+
+          if(count === undefined){
+            return this.currentAvailableCategories + ": " + this.$t("common:modules.searchBar.searchResults")
+          }
+            return this.currentAvailableCategories + ": " + count + "    " + this.$t("common:modules.searchBar.searchResults")
+        }
     }
 };
 </script>
@@ -93,7 +101,7 @@ export default {
                     :class="limitedSortedSearchResults?.results[currentAvailableCategories + 'Icon']"
                 />
 
-                {{ currentAvailableCategories + ": " + limitedSortedSearchResults?.results[currentAvailableCategories + "Count"] + "    " + $t("common:modules.searchBar.searchResults") }}
+                {{ getTitle() }}
             </h5>
             <SearchBarResultListTopicTree
                 v-if="hitTemplate === 'layer'"

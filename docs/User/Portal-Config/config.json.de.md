@@ -4316,7 +4316,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
-|searchBar|nein|String||Wenn active:true dann wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und SearchCategory ermöglicht.|false|
+|searchBar|nein|**[layerIDsToStyle](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
 
 **Beispiel**
@@ -4328,9 +4328,9 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
             "active": true,
             "buttonTitle": "Layer hinzufügen",
             "searchBar": {
-            "active": true,
-            "searchInterfaceInstanceId": "elasticSearch_0",
-            "searchCategory": "Thema (externe Fachdaten)"
+                "active": true,
+                "searchInterfaceInstanceIds": ["elasticSearch_0"],
+                "searchCategory": "Thema (externe Fachdaten)"
         }
     }
 }
@@ -4338,6 +4338,28 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 
 ***
 
+#### portalConfig.tree.addLayerButton.searchBar {data-toc-label='Searchbar in Topic Tree'}
+Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und SearchCategory ermöglicht.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|ja|Boolean||Gibt an, ob die Suche angezeigt wird.|false|
+|searchCategory|ja|String||Die search category.|false|
+|searchInterfaceInstanceIds|ja|Array||Liste der search interfaces aus der searchbar, die hier genutzt werden sollen. Die searchInterfaceInstanceId ergibt sich aus dem type des searchInterfaces. Falls mehrere interfaces des selben Typs in der searchbar konfiguriert sind, gefolgt von einem Unterstrich und einem Zähler. Die Suche funktioniert nur mit interfaces, die eine Themensuche ausführen. |true|
+
+**Beispiel**
+
+```json
+{
+    "searchBar": {
+        "active": true,
+        "searchInterfaceInstanceIds": ["elasticSearch_0", "topicTree"],
+        "searchCategory": "Thema (externe und interne Fachdaten)"
+    }
+}
+```
+
+***
 #### portalConfig.tree.categories {data-toc-label='Categories'}
 Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.
 

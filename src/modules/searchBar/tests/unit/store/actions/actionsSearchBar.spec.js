@@ -116,7 +116,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
         });
     });
     describe("checkLayerSelectionSearchConfig", () => {
-        it("it updates searchInterfaceInstanceId, searchCategory, addLayerButton", () => {
+        it("it updates searchInterfaceInstanceIds, searchCategory, addLayerButton", () => {
             rootGetters = {
                 showLayerAddButton: true
             };
@@ -128,7 +128,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
                             searchBar: {
                                 active: true,
                                 searchInterfaceInstance: "elasticSeaarch",
-                                searchInterfaceInstanceId: "elastic_0",
+                                searchInterfaceInstanceIds: ["elastic_0"],
                                 searchCategory: "addresses"
 
                             }

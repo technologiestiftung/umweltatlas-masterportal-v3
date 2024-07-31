@@ -33,14 +33,6 @@
       ]
     },
     "tree": {
-      "addLayerButton": {
-        "active": false,
-        "searchBar": {
-          "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
-        }
-      },
       "highlightedFeatures": {
         "active": true
       }

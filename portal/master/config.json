@@ -203,164 +203,8 @@
             }
           },
           {
-            "type": "elasticSearch",
-            "serviceId": "elastic_address",
-            "requestType": "POST",
-            "epsg": "EPSG:4326",
-            "searchStringAttribute": "query_str",
-            "hitType": "_source.properties.type",
-            "payload": {
-              "id": "addr_search",
-              "params": {
-                "query_str": ""
-              }
-            },
-            "responseEntryPath": "hits.hits",
-            "hitMap": {
-              "name": "_source.properties.searchfield",
-              "id": "_source.id",
-              "coordinate": "_source.geometry.coordinates"
-            },
-            "resultEvents": {
-              "onClick": [
-                "setMarker",
-                "zoomToResult"
-              ],
-              "onHover": [
-                "setMarker"
-              ],
-              "buttons": [
-                "startRouting",
-                "setMarker",
-                "zoomToResult"
-              ]
-            }
-          },
-          {
-            "type": "gazetteer",
-            "serviceId": "6",
-            "searchAddress": true,
-            "searchStreets": true,
-            "searchHouseNumbers": true,
-            "searchDistricts": true,
-            "searchParcels": true,
-            "searchStreetKey": true,
-            "resultEvents": {
-              "onClick": [
-                "setMarker",
-                "zoomToResult"
-              ],
-              "onHover": [
-                "setMarker"
-              ],
-              "buttons": [
-                "startRouting"
-              ]
-            }
-          },
-          {
-            "type": "locationFinder",
-            "serviceId": "locationFinder",
-            "classes": [
-              {
-                "name": "Haltestelle",
-                "icon": "bi-record-circle"
-              },
-              {
-                "name": "Straßenname"
-              }
-            ]
-          },
-          {
-            "type": "komootPhoton",
-            "minChars": 3,
-            "serviceId": "11",
-            "limit": 10,
-            "lang": "de",
-            "lat": 53.6,
-            "lon": 10.0,
-            "bbox": "9.6,53.3,10.4,53.8"
-          },
-          {
-            "type": "osmNominatim",
-            "serviceId": "10",
-            "limit": 60,
-            "states": "Hamburg",
-            "classes": "place,highway,building,shop,historic,leisure,city,county"
-          },
-          {
             "type": "topicTree",
             "hitTemplate": "layer"
-          },
-          {
-            "type": "visibleVector",
-            "resultEvents": {
-              "onClick": [
-                "openGetFeatureInfo",
-                "setMarker",
-                "zoomToResult"
-              ],
-              "onHover": [
-                "setMarker"
-              ],
-              "buttons": [
-                "startRouting"
-              ]
-            }
-          },
-          {
-            "type": "exampleSearch"
-          },
-          {
-            "type": "specialWfs",
-            "definitions": [
-              {
-                "url": "https://geodienste.hamburg.de/HH_WFS_Krankenhaeuser",
-                "typeName": "de.hh.up:gesundheit_krankenhaeuser",
-                "propertyNames": ["de.hh.up:name"],
-                "geometryName": "de.hh.up:geom",
-                        "name": "Krankenhaus123",
-                        "namespaces": "xmlns:de.hh.up='https://registry.gdi-de.org/id/de.hh.up'"
-              },
-              {
-                "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
-                "typeName": "app:hh_hh_festgestellt",
-                "propertyNames": [
-                  "app:geltendes_planrecht"
-                ],
-                "geometryName": "app:geom",
-                "name": "common:modules.searchBar.specialWFS.terminated",
-                "namespaces": "xmlns:app='http://www.deegree.org/app'"
-              },
-              {
-                "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
-                "typeName": "app:prosin_imverfahren",
-                "propertyNames": [
-                  "app:plan"
-                ],
-                "geometryName": "app:the_geom",
-                "name": "common:modules.searchBar.specialWFS.ongoing",
-                "namespaces": "xmlns:app='http://www.deegree.org/app'"
-              },
-              {
-                "url": "https://geodienste.hamburg.de/HH_WFS_KitaEinrichtung",
-                "typeName": "app:KitaEinrichtungen",
-                "propertyNames": [
-                  "app:Name"
-                ],
-
-                "namespaces": "xmlns:app='http://www.deegree.org/app'"
-              },
-              {
-                "url": "https://geodienste.hamburg.de/HH_WFS_Stoerfallbetriebe",
-                "typeName": "app:stoerfallbetrieb",
-                "propertyNames": [
-                  "app:standort"
-                ],
-                "name": "common:modules.searchBar.specialWFS.hazardous",
-                "namespaces": "xmlns:app='http://www.deegree.org/app'"
-              }
-            ]
           }
         ]
       },
@@ -747,8 +591,8 @@
         "active": true,
         "searchBar": {
           "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
+          "searchInterfaceInstanceIds": ["elasticSearch", "topicTree"],
+          "searchCategory": "Thema (externe und interne Fachdaten)"
         }
       },
       "highlightedFeatures": {
@@ -921,16 +765,6 @@
               "url": "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_gry.json"
             }
           ]
-        },
-        {
-          "id": "WMTS",
-          "name": "EOC Basemap",
-          "typ": "WMTS",
-          "visibility": false,
-          "transparency": 20,
-          "capabilitiesUrl": "https://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
-          "layers": "eoc:basemap",
-          "optionsFromCapabilities": true
         }
       ]
     },
