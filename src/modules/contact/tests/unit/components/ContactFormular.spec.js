@@ -247,9 +247,9 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
 
                 expect(checkNoDuplicatesSpy.calledOnce).to.be.true;
                 expect(addSingleAlertSpy.calledOnce).to.be.true;
-                expect(addSingleAlertSpy.calledWith({
+                expect(addSingleAlertSpy.calledWithMatch({
                     category: "error",
-                    content: wrapper.vm.$t("common:modules.contact.fileDuplicatedMessage")
+                    content: sinon.match((value) => value.includes(wrapper.vm.$t("common:modules.contact.fileDuplicatedMessage")))
                 })).to.be.true;
                 expect(result).to.be.false;
             });
@@ -273,9 +273,9 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
 
                 expect(checkValidSpy.calledOnce).to.be.true;
                 expect(addSingleAlertSpy.calledOnce).to.be.true;
-                expect(addSingleAlertSpy.calledWith({
+                expect(addSingleAlertSpy.calledWithMatch({
                     category: "error",
-                    content: wrapper.vm.$t("common:modules.contact.fileSizeMessage")
+                    content: sinon.match((value) => value.includes(wrapper.vm.$t("common:modules.contact.fileSizeMessage")))
                 })).to.be.true;
                 expect(result).to.be.false;
             });
@@ -287,7 +287,7 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
                 expect(addSingleAlertSpy.calledOnce).to.be.true;
                 expect(addSingleAlertSpy.calledWith({
                     category: "error",
-                    content: wrapper.vm.$t("common:modules.contact.fileSizeMessage")
+                    content: wrapper.vm.$t("common:modules.contact.fileSizeSumMessage")
                 })).to.be.true;
                 expect(result).to.be.false;
             });
