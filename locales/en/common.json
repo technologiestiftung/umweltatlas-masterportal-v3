@@ -82,6 +82,10 @@
     "aria": {
       "sliderAria": "Slider for "
     },
+    "button": {
+      "confirm": "Confirm",
+      "stop": "Cancel"
+    },
     "bufferAnalysis": {
       "clearButton": "Reset",
       "description": "Find out what is within a radius of an object",

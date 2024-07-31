@@ -82,6 +82,10 @@
     "aria": {
       "sliderAria": "Schieberegeler für "
      },
+     "button": {
+      "confirm": "Bestätigen",
+      "stop": "Abbrechen"
+    },
     "bufferAnalysis": {
       "clearButton": "Zurücksetzen",
       "description": "Finde heraus, was sich in einem Umkreis um ein Objekt befindet",
