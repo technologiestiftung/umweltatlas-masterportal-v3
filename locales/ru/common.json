@@ -97,7 +97,6 @@
       "errorIncompleteDeclarations": "Пожалуйста, заполните все поля контактной формы правильно, чтобы ваш запрос мог быть отправлен.",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
-      "fileDuplicatedMessage": "",
       "mailSubject": "Запрос на поддержку портала",
       "messageLabel": "Ваше сообщение",
       "name": "Контакт",

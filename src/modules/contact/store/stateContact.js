@@ -27,6 +27,7 @@
  * @property {Boolean} fileUpload If File Upload should be available.
  * @property {Array} fileArray Uploaded Files.
  * @property {Number} maxFileSize the max file size for uploadable content. Default: 1MB
+ * @property {Number} maxSumFileSize the maximum total size of all files for uploadable content. Default: 6MB
  * @property {Array} configuredFileExtensions additional file extensions that can be configured. Note: currently the geoportal backend only supports images.
 */
 const state = {

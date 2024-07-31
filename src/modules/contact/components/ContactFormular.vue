@@ -154,7 +154,7 @@ export default {
                 });
                 return false;
             }
-            // Check if sum of all file sizes exceeds configured size
+            // Check if the maximum total size of all files exceeds configured size
             // Default 6MB
             if (this.sumFileSize > this.maxSumFileSize) {
                 this.addSingleAlert({
@@ -299,7 +299,7 @@ export default {
                                             <embed
                                                 :src="image.src"
                                                 height="30"
-                                                class="col-2"
+                                                class="col-2 no-scroll"
                                             >
                                             <span class="d-flex align-items-center col">
                                                 {{ image.name }}
@@ -347,5 +347,9 @@ export default {
     .remove-btn {
         z-index: 20;
         position: relative;
+    }
+
+    .no-scroll {
+    overflow: hidden;
     }
 </style>

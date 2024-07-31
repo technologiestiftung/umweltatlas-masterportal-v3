@@ -97,7 +97,6 @@
       "errorIncompleteDeclarations": "Por favor, rellene correctamente todos los campos del formulario de contacto para que su solicitud pueda ser enviada.",
       "fileFormatMessage": "",
       "fileSizeMessage": "",
-      "fileDuplicatedMessage": "",
       "mailSubject": "Solicitud de ayuda al portal ",
       "messageLabel": "Su mensaje",
       "name": "Contacto",
