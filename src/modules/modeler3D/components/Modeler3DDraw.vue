@@ -1,6 +1,6 @@
 <script>
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import DrawLayout from "./ui/DrawLayout.vue";
+import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
 import DrawModels from "./ui/DrawModels.vue";
 import DrawTypes from "./ui/DrawTypes.vue";
 import EntityList from "./ui/EntityList.vue";
@@ -528,7 +528,7 @@ export default {
                         Cesium.Color.fromBytes(...this.currentLayout.strokeColor).withAlpha(1 - this.currentLayout.fillTransparency / 100)
                     ),
                     positions: positionData,
-                    width: this.lineWidth
+                    width: this.currentLayout.strokeWidth
                 };
             }
             else if (this.selectedDrawType === "polygon" || this.selectedDrawType === "rectangle") {
@@ -541,7 +541,7 @@ export default {
                     outline: true,
                     outlineColor: Cesium.Color.fromBytes(...this.currentLayout.strokeColor).withAlpha(1 - this.currentLayout.fillTransparency / 100),
                     shadows: Cesium.ShadowMode.ENABLED,
-                    extrudedHeight: this.extrudedHeight + this.height
+                    extrudedHeight: this.currentLayout.extrudedHeight + this.height
                 };
             }
 
@@ -566,8 +566,8 @@ export default {
          * @param {Object} layout - The new layout with current values
          * @returns {void}
          */
-        resetDrawing (layout) {
-            this.setLayout(layout);
+        resetDrawing () {
+            this.setCurrentLayout(this.currentLayout);
 
             if (this.isDrawing) {
                 this.stopDrawing();
@@ -955,8 +955,10 @@ export default {
                 </label>
                 <DrawLayout
                     :current-layout="currentLayout"
+                    :set-current-layout="setCurrentLayout"
                     :selected-draw-type="selectedDrawType"
-                    @update-layout="setLayout"
+                    :has-extruded-height="selectedDrawType === 'polygon' || selectedDrawType === 'rectangle'"
+                    @update-current-layout="setLayout"
                 />
             </div>
         </AccordionItem>
