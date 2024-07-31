@@ -100,7 +100,7 @@ export default {
         <div
             v-if="supportedTransparency"
             :id="'layer-component-icon-sub-menu-transparency-container-' + layerConf.id"
-            class="d-flex align-items-center ms-3 transparency-container"
+            class="d-flex align-items-center transparency-container"
         >
             <i class="bi-droplet-half" />
             <label
@@ -124,8 +124,8 @@ export default {
             <FlatButton
                 :interaction="() => removeLayer(layerConf)"
                 :text="'common:modules.layerTree.iconRemoveLayer'"
+                :customclass="'btn-light'"
                 :icon="'bi-trash3'"
-                :customclass="'mt-3'"
             />
         </div>
     </div>
@@ -143,12 +143,15 @@ export default {
     }
     .layer-component-sub-menu {
         font-size: $font-size-base;
+        padding-left: 2rem;
+        padding-right: 0.5rem;
 
         .transparency-container {
             min-height: 2.5rem;
 
             i {
-                padding-right: .5rem;
+                padding-right: 1rem;
+                padding-left: 1rem;
             }
 
             .transparency-input {

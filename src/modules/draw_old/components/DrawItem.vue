@@ -6,6 +6,7 @@ import DrawItemAttributes from "./DrawItemAttributes.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "../../../core/layers/js/layerCollection.js";
 import main from "../js/main";
+import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 import VectorSource from "ol/source/Vector";
 import {Vector as VectorLayer} from "ol/layer";
 
@@ -16,7 +17,6 @@ import {Vector as VectorLayer} from "ol/layer";
  * @vue-data {String} storePath - Path to the draw store.
  * @vue-data {Object} constants - Constants for Dropdowns.
  * @vue-data {Boolean} draing - Shows if drawing is true.
- * @vue-computed {Boolean} drawLayerVisibleComputed - Shows/hides the draw layer and enables/disables the tools of the draw tool.
  * @vue-computed {Boolean} drawHTMLElements - Enables or disables all the select or input elements depending on if the currentInteraction is "draw".
  * @vue-computed {Boolean} drawHTMLElementsModifyFeature - Enables or disables the select- or input-boxes depending on the state of currentInteraction and selectedFeature.
  * @vue-computed {Boolean} drawCircleMethods - Enables the input for the radius if the circleMethod is "defined", for interaction "modify" the rule of drawHTMLElementsModifyFeature takes place.
@@ -44,7 +44,8 @@ export default {
     components: {
         DrawItemFeaturesFilter,
         DrawItemAttributes,
-        DownloadItem
+        DownloadItem,
+        SwitchInput
     },
     data () {
         return {
@@ -80,25 +81,6 @@ export default {
             "outerBorderColor",
             "innerBorderColor"
         ]),
-
-        /**
-         * Shows/hides the draw layer and enables/disables the tools of the draw tool.
-         * @returns {Boolean} drawLayerVisible.
-         */
-        drawLayerVisibleComputed: {
-            get () {
-                return this.drawLayerVisible;
-            },
-            set (value) {
-                if (value) {
-                    this.setCanvasCursorByInteraction(this.currentInteraction);
-                }
-                else {
-                    this.resetCanvasCursor();
-                }
-                this.updateDrawLayerVisible(value);
-            }
-        },
         /**
          * Enables or disables all the select or input elements depending on if the currentInteraction is "draw".
          * @returns {Boolean} currentInteraction === "draw": return false and activate the HTML elements, else: return true and deactivate the HTML elements.
@@ -516,6 +498,20 @@ export default {
         },
 
         /**
+         * Shows/hides the draw layer and enables/disables the tools of the draw tool.
+         * @param {Boolean} value: the value of the switch
+         * @returns {void}
+         */
+        switchDrawLayerVisible (value) {
+            if (value) {
+                this.setCanvasCursorByInteraction(this.currentInteraction);
+            }
+            else {
+                this.resetCanvasCursor();
+            }
+            this.updateDrawLayerVisible(value);
+        },
+        /**
          * Updates the attributes' key list.
          * @param {String[]} keyList The attributes' key list
          * @returns {void}
@@ -529,23 +525,15 @@ export default {
 
 <template lang="html">
     <div>
-        <div class="form-group form-group-sm">
-            <div class="row">
-                <label
-                    class="col-md-5 form-check-label"
-                    for="tool-draw-drawLayerVisible"
-                >
-                    {{ $t("common:modules.draw_old.drawLayerVisible") }}
-                </label>
-                <div class="col-md-7">
-                    <input
-                        id="tool-draw-drawLayerVisible"
-                        v-model="drawLayerVisibleComputed"
-                        class="form-check-input"
-                        type="checkbox"
-                        name="checkbox-drawLayerVisible"
-                    >
-                </div>
+        <div class="form-check form-switch mb-3 d-flex align-items-center">
+            <div class="col-md-7">
+                <SwitchInput
+                    :id="'tool-draw-drawLayerVisible'"
+                    :checked="drawLayerVisible"
+                    :aria="$t('common:modules.print.withLegendLabel')"
+                    :interaction="($event) => switchDrawLayerVisible($event.target.checked)"
+                    :label="$t('common:modules.draw_old.drawLayerVisible')"
+                />
             </div>
         </div>
         <div
@@ -1028,7 +1016,7 @@ export default {
                     <button
                         id="tool-draw-drawInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'draw' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'draw' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'draw'"
                         @click="toggleInteraction('draw'); setCanvasCursorByInteraction('draw')"
                     >
@@ -1043,7 +1031,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-undoInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="undoLastStep"
                     >
@@ -1058,7 +1046,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-redoInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="redoLastStep"
                     >
@@ -1074,7 +1062,7 @@ export default {
                     <button
                         id="tool-draw-editInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'modify' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'modify' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'modify'"
                         @click="toggleInteraction('modify'); setCanvasCursorByInteraction('modify')"
                     >
@@ -1093,7 +1081,7 @@ export default {
                     <button
                         id="tool-draw-editInteraction-attributes"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'modifyAttributes' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'modifyAttributes'"
                         @click="toggleInteraction('modifyAttributes'); setCanvasCursorByInteraction('modifyAttributes')"
                     >
@@ -1109,7 +1097,7 @@ export default {
                     <button
                         id="tool-draw-deleteInteraction"
                         class="btn btn-sm"
-                        :class="currentInteraction === 'delete' ? 'btn-primary' : 'btn-secondary'"
+                        :class="currentInteraction === 'delete' ? 'btn-primary' : ''"
                         :disabled="!drawLayerVisible || currentInteraction === 'delete'"
                         @click="toggleInteraction('delete'); setCanvasCursorByInteraction('delete')"
                     >
@@ -1124,7 +1112,7 @@ export default {
                 <div class="col-12 d-grid gap-2">
                     <button
                         id="tool-draw-deleteAllInteraction"
-                        class="btn btn-sm btn-secondary"
+                        class="btn btn-sm"
                         :disabled="!drawLayerVisible"
                         @click="clearLayer"
                     >

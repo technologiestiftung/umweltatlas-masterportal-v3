@@ -66,4 +66,25 @@ describe("src/core/maps/store/actionsMapsInteractions.js", () => {
             expect(rootGetters.map3dParameter.camera).to.deep.equals(cameraParams);
         });
     });
+    describe("activateViewpoint", () => {
+        it("should set camera in case of 3D mode", () => {
+            const dispatch = sinon.spy(),
+                altitude = 272.3469798217454,
+                heading = -0.30858728378862876,
+                tilt = 0.9321791580603296,
+                center = [564028.7954571751, 5934555.967867207],
+                zoom = 7.456437968949651,
+                getters = {
+                    mode: "3D"
+                };
+
+            actions.activateViewpoint({dispatch, getters}, {altitude, heading, tilt, center, zoom});
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToCoordinates");
+            expect(dispatch.secondCall.args[0]).to.equals("setCamera");
+            expect(dispatch.firstCall.args[1]).to.deep.equals({center, zoom});
+            expect(dispatch.secondCall.args[1]).to.deep.equals({altitude, heading, tilt});
+        });
+    });
 });

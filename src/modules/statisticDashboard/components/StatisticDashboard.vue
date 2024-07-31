@@ -17,6 +17,7 @@ import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import Multiselect from "vue-multiselect";
 
 import {
@@ -26,7 +27,7 @@ import {
 } from "ol/format/filter";
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
-import {sort} from "../../../shared/js/utils/sort.js";
+import sortBy from "../../../shared/js/utils/sortBy";
 
 export default {
     name: "StatisticDashboard",
@@ -39,11 +40,13 @@ export default {
         LegendComponent,
         AccordionItem,
         FlatButton,
-        Multiselect
+        Multiselect,
+        IconButton
     },
     data () {
         return {
             tableData: [],
+            chosenTableData: [],
             testFixedData: {
                 items: []
             },
@@ -58,9 +61,9 @@ export default {
             timeStepsFilter: [],
             regions: [],
             allRegions: [],
+            selectedLevelRegionNameAttribute: [],
             areCategoriesGrouped: false,
             dates: [],
-            selectedLevel: undefined,
             sortedRows: [],
             currentChart: {},
             chartCounts: 0,
@@ -74,9 +77,15 @@ export default {
             showFilter: false,
             showAllHiddenTags: false,
             showLegendView: false,
-            showLineLimitView: false,
-            limitedLines: {},
-            selectedFilteredRegions: []
+            showLimitView: false,
+            selectedFilteredRegions: [],
+            allFilteredRegions: [],
+            numberOfColouredBars: 3,
+            diagramType: undefined,
+            sideMenuWidth: undefined,
+            canvasSize: undefined,
+            statisticsData: undefined,
+            noDataInColumn: undefined
         };
     },
     computed: {
@@ -144,6 +153,13 @@ export default {
          */
         showTable () {
             return this.chartTableToggle === "table";
+        },
+        /**
+         * Returns the statisticName of chart.
+         * @returns {String[]} the statistic name.
+         */
+        statisticNameOfChart () {
+            return typeof this.chosenStatisticName === "string" && this.chosenStatisticName !== "" ? [this.chosenStatisticName] : this.selectedStatisticsNames;
         }
     },
     watch: {
@@ -152,29 +168,58 @@ export default {
                 this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }
         },
-        selectedRegionsValues () {
-            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
+        selectedDatesValues () {
+            if (this.showLimitView) {
+                this.updateLimitedData();
+            }
         },
-        active (value) {
-            if (!value) {
-                Object.values(this.currentChart).forEach(chart => {
-                    if (typeof chart?.chart?.destroy === "function") {
-                        chart.chart.destroy();
-                    }
-                });
+        selectedRegionsValues () {
+            if (this.flattenedRegions?.length) {
+                this.flattenedRegions[this.flattenedRegions.length - 1].selectedValues = this.selectedRegions;
             }
-            else if (this.selectedStatisticsNames?.length
-                && this.selectedRegionsValues?.length
-                && this.selectedDatesValues?.length
-            ) {
-                this.handleChartData(
-                    this.selectedStatisticsNames,
-                    this.selectedRegionsValues,
-                    this.selectedDatesValues,
-                    this.statisticsData,
-                    this.selectedReferenceData?.type
-                );
+
+            if (this.showLimitView) {
+                this.updateLimitedData();
             }
+        },
+        chosenStatisticName (val) {
+            this.chosenTableData = this.getTableData(this.statisticsData, val);
+            this.handleChartData(
+                this.statisticNameOfChart,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type
+            );
+        },
+        selectedStatisticsNames (val, oldVal) {
+            if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
+                this.setChosenStatisticName(val[0]);
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
+            }
+
+            if (!val.length) {
+                this.chosenTableData = [];
+                this.setChosenStatisticName("");
+            }
+            this.handleChartData(
+                this.statisticNameOfChart,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type
+            );
+
+        },
+        statisticsData (val) {
+            this.chosenTableData = this.getTableData(val, this.chosenStatisticName);
+            this.handleChartData(
+                this.statisticNameOfChart,
+                this.selectedRegionsValues,
+                this.selectedDatesValues,
+                this.statisticsData,
+                this.selectedReferenceData?.type
+            );
         },
         legendData: {
             handler (val) {
@@ -182,20 +227,71 @@ export default {
             },
             deep: true
         },
-        classificationMode () {
-            this.updateAfterLegendChange();
+
+        classificationMode (val) {
+            if (val === "custom") {
+                return;
+            }
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    val,
+                    this.allowPositiveNegativeClasses
+                ));
+            this.setColorPalette(this.createColorPalette());
         },
-        allowPositiveNegativeClasses () {
-            this.updateAfterLegendChange();
+
+        allowPositiveNegativeClasses (val) {
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    this.classificationMode,
+                    val
+                )
+            );
         },
-        numberOfClasses () {
-            this.updateAfterLegendChange();
+
+        numberOfClasses (val, oldVal) {
+            if (this.classificationMode === "custom" && val > oldVal) {
+                return;
+            }
+            else if (this.classificationMode === "custom") {
+                this.setStepValues(this.stepValues.slice(0, val));
+                return;
+            }
+            this.setStepValues(FeaturesHandler.getStepValue(
+                this.statisticsData[this.selectedStatisticsNames[0]],
+                val,
+                this.selectedColumn,
+                this.classificationMode,
+                this.allowPositiveNegativeClasses
+            ));
+            this.setColorPalette(this.createColorPalette());
         },
+
         selectedColorPaletteIndex () {
-            this.updateAfterLegendChange();
+            this.setColorPalette(this.createColorPalette());
         },
+
         opacity () {
             this.updateAfterLegendChange();
+        },
+
+        stepValues () {
+            this.updateAfterLegendChange();
+        },
+
+        colorPalette () {
+            this.updateAfterLegendChange();
+        },
+        chartTableToggle (val) {
+            if (val === "table" && isObject(this.statisticsData) && Object.keys(this.statisticsData).length && this.chosenStatisticName === "") {
+                this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
+            }
         }
     },
     async created () {
@@ -212,7 +308,12 @@ export default {
         };
     },
     mounted () {
-        this.selectedLevel = this.data[0];
+        this.sideMenuWidth = document.getElementById("mp-menu-secondaryMenu").style.width;
+        document.getElementById("mp-menu-secondaryMenu").style.width = "47vw";
+
+        if (typeof this.selectedLevel === "undefined") {
+            this.setSelectedLevel(this.data[0]);
+        }
         this.initializeData(this.selectedLevel);
         if (this.minNumberOfClasses < 2) {
             this.setMinNumberOfClasses(2);
@@ -223,9 +324,12 @@ export default {
         if (this.numberOfClasses < this.minNumberOfClasses) {
             this.setNumberOfClasses(this.minNumberOfClasses);
         }
-        if (this.numberOfClasses > this.maxNumberOfClasses) {
+        else if (this.numberOfClasses > this.maxNumberOfClasses) {
             this.setNumberOfClasses(this.maxNumberOfClasses);
         }
+    },
+    unmounted () {
+        document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
@@ -233,11 +337,56 @@ export default {
         ...mapActions("Menu", ["changeCurrentComponent"]),
 
         /**
+         * Prepares and downloads the statistic data.
+         * @param {Function} onsuccess The function which is called when the data is ready to download.
+         * @returns {void}
+         */
+        downloadData (onsuccess) {
+            if (typeof onsuccess !== "function") {
+                return;
+            }
+
+            if (!isObject(this.statisticsData)) {
+                onsuccess(null);
+                return;
+            }
+
+            const csv = {},
+                csvHeader = [""],
+                csvSubHeader = ["Gebiet"];
+            let elements = [];
+
+            Object.entries(this.statisticsData).forEach(([statisticName, statisticValues]) => {
+                const statisticAreaNames = Object.keys(statisticValues),
+                    statisticTimeLabels = Object.keys(statisticValues[statisticAreaNames[0]]).reverse(),
+                    amount = statisticTimeLabels.length;
+
+                csvSubHeader.push(...statisticTimeLabels);
+                for (let i = 0; i < amount; i++) {
+                    csvHeader.push(statisticName);
+                }
+                statisticAreaNames.forEach(statisticAreaName => {
+                    if (!Array.isArray(csv[statisticAreaName])) {
+                        csv[statisticAreaName] = [];
+                    }
+                    const statisticTimeValues = Object.values(statisticValues[statisticAreaName]).reverse();
+
+                    csv[statisticAreaName].push(...statisticTimeValues);
+                });
+            });
+            elements = Object.entries(csv).map(([area, values]) => [area, ...values]);
+
+            onsuccess([csvHeader, csvSubHeader, ...elements]);
+        },
+
+        /**
          * Performs necessary updates after the user has made changes in legend settings.
+         * @returns {void}
          */
         updateAfterLegendChange () {
             if (this.selectedStatisticsNames?.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || this.dates[0],
+                this.updateFeatureStyle(
+                    this.selectedColumn,
                     typeof this.selectedReferenceData !== "undefined",
                     this.selectedReferenceData);
             }
@@ -267,6 +416,7 @@ export default {
             let uniqueValues = null;
 
             uniqueValues = await FetchDataHandler.getUniqueValues(layerId, [timeAttribute, regionNameAttribute], timeInputFormat, timeOutputFormat);
+
             return uniqueValues;
         },
 
@@ -299,7 +449,7 @@ export default {
                 });
             }
 
-            result = sort("", result, "label").reverse();
+            result = sortBy(result, "label").reverse();
 
             return result;
         },
@@ -381,7 +531,9 @@ export default {
                 return;
             }
             if (typeof referenceData.value === "string") {
-                regions.push(referenceData.value);
+                if (!regions.includes(referenceData.value)) {
+                    regions.push(referenceData.value);
+                }
                 this.handleFilterSettings([...new Set(regions)], dates, "region");
             }
             else if (isObject(referenceData.value) && typeof referenceData.value.label === "string") {
@@ -392,15 +544,16 @@ export default {
 
         /**
          * Returns the color palette for choropleth map and legend.
+         * @returns {Number[][]} - An array of rgb arrays containing the color palette.
          */
-        getColorPalette () {
+        createColorPalette () {
             const color = this.selectableColorPalettes?.[this.selectedColorPaletteIndex]?.baseColor,
                 r = color?.[0],
                 g = color?.[1],
                 b = color?.[2],
                 palette = [];
 
-            let baseColor, a;
+            let baseColor;
 
             if (typeof r === "number" && r >= 0 && r <= 255 &&
                 typeof g === "number" && g >= 0 && g <= 255 &&
@@ -412,17 +565,10 @@ export default {
                 baseColor = [0, 0, 0];
             }
 
-            if (typeof this.opacity === "number" && this.opacity >= 0 && this.opacity <= 1) {
-                a = this.opacity;
-            }
-            else {
-                a = 0.9;
-            }
-
-            for (i = 0; i < this.numberOfClasses; i++) {
+            for (let i = 0; i < this.numberOfClasses; i++) {
                 const newColor = baseColor.map(v => Math.floor(v + i * (255 - v) / this.numberOfClasses));
 
-                palette.unshift([...newColor, a]);
+                palette.unshift(newColor);
             }
 
             return palette;
@@ -438,7 +584,7 @@ export default {
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
             this.layer.getSource().clear();
 
-            const regionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel).attrName,
+            const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
 
             let filteredFeatures;
@@ -452,20 +598,20 @@ export default {
 
             this.layer.getSource().addFeatures(filteredFeatures);
 
-            if (!differenceMode) {
-                FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
-                this.setLegendData({
-                    "color": this.getColorPalette(),
-                    "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
-                });
-                return;
-            }
-            FeaturesHandler.styleFeaturesByStatistic(filteredFeatures, this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, regionNameAttribute, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses);
+            FeaturesHandler.styleFeaturesByStatistic(
+                filteredFeatures,
+                this.statisticsData[this.selectedStatisticsNames[0]],
+                this.colorPalette.map(v => [...v, this.opacity]),
+                date,
+                regionNameAttribute,
+                this.stepValues
+            );
             this.setLegendData({
-                "color": this.getColorPalette(),
-                "value": FeaturesHandler.getStepValue(this.statisticsData[this.selectedStatisticsNames[0]], this.getColorPalette(), date, this.classificationMode, this.allowPositiveNegativeClasses, this.numberOfClasses)
+                "color": this.colorPalette.map(v => [...v, this.opacity]),
+                "value": this.stepValues
             });
-            if (selectedReferenceData?.type === "region") {
+
+            if (differenceMode && selectedReferenceData?.type === "region") {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);
 
                 FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
@@ -506,12 +652,24 @@ export default {
             }
 
             this.selectedColumn = value;
-            if (typeof this.selectedReferenceData !== "undefined") {
-                this.updateFeatureStyle(value, true, this.selectedReferenceData);
+            this.noDataInColumn = undefined;
+
+            if (this.classificationMode === "custom") {
+                this.noDataInColumn =
+                    FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.selectedStatisticsNames[0]], this.selectedColumn).length === 0;
+                this.updateFeatureStyle(value, typeof this.selectedReferenceData !== "undefined", this.selectedReferenceData);
+                return;
             }
-            else {
-                this.updateFeatureStyle(value, false);
-            }
+
+            this.setStepValues(
+                FeaturesHandler.getStepValue(
+                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.numberOfClasses,
+                    this.selectedColumn,
+                    this.classificationMode,
+                    this.allowPositiveNegativeClasses
+                )
+            );
         },
 
         /**
@@ -581,7 +739,7 @@ export default {
         async handleFilterSettings (regions, dates, differenceMode) {
             const statsKeys = Object.keys(this.selectedStatistics),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
-                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(this.selectedLevel),
+                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel.mappingFilter.regionNameAttribute),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel),
                 payload = {
                     featureTypes: [selectedLayer.featureType],
@@ -605,10 +763,10 @@ export default {
                     selectedLayer.collection,
                     payload.propertyNames,
                     this.projection.getCode(),
-                    "http://www.opengis.net/def/crs/EPSG/0/25832",
-                    "EPSG:25832",
+                    this.selectedLevel.oafRequestCRS,
+                    this.selectedLevel.oafDataProjectionCode,
                     this.parseOLFilterToOAF(payload.filter, this.filterMap),
-                    "http://www.opengis.net/def/crs/EPSG/0/25832",
+                    this.selectedLevel.oafRequestCRS,
                     400
                 );
             }
@@ -619,13 +777,28 @@ export default {
 
             this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
+            this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
             this.chartCounts = this.selectedStatisticsNames.length;
 
-            this.handleChartData(this.selectedStatisticsNames, regions, dates, this.statisticsData, differenceMode);
+            this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
 
-            if (this.selectedStatisticsNames.length === 1) {
-                this.updateFeatureStyle(this.selectedColumn || dates[0], differenceMode, this.selectedReferenceData);
-                this.showNoLegendData = false;
+            if (this.selectedStatisticsNames.length === 1 && this.classificationMode !== "custom") {
+                this.setStepValues(
+                    FeaturesHandler.getStepValue(
+                        this.statisticsData[this.selectedStatisticsNames[0]],
+                        this.numberOfClasses,
+                        this.selectedColumn || this.timeStepsFilter.find(v => v.value === dates[0])?.label,
+                        this.classificationMode,
+                        this.allowPositiveNegativeClasses
+                    )
+                );
+                this.setColorPalette(this.createColorPalette());
+            }
+            else if (this.selectedStatisticsNames.length === 1) {
+                this.updateFeatureStyle(
+                    this.selectedColumn,
+                    typeof this.selectedReferenceData !== "undefined",
+                    this.selectedReferenceData);
             }
             else {
                 this.layer.getSource().clear();
@@ -636,8 +809,8 @@ export default {
                 filteredFeatures.map(feature => {
                     return FeaturesHandler.styleFeature(feature);
                 });
-                this.showNoLegendData = true;
             }
+            this.showNoLegendData = this.selectedStatisticsNames.length !== 1;
         },
 
         /**
@@ -657,7 +830,7 @@ export default {
                 this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
 
-            else if (regions.length >= 1) {
+            else if (regions.length >= 1 && preparedData?.[filteredStatistics[0]]) {
                 this.$nextTick(() => {
                     if (dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region") {
                         this.prepareChartData(filteredStatistics[0], preparedData[filteredStatistics[0]], undefined, "line", differenceMode);
@@ -721,54 +894,60 @@ export default {
                 if (this.$refs.chartContainer.hasChildNodes()) {
                     this.$refs.chartContainer.childNodes[0].remove();
                 }
-
+                this.$refs.chartContainer.style.height = typeof this.canvasSize !== "undefined" && type === "bar" ? this.canvasSize : "";
                 this.$refs.chartContainer.appendChild(canvasTmp);
             }
-
+            this.diagramType = type;
             this.currentChart[uniqueTopic] = {};
             if (type === "line") {
-                if (preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
-                    if (!this.showLineLimitView) {
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingLines(preparedData), canvasTmp, this.colorScheme.lineCharts, renderSimple);
+                if (this.lineLimit !== null && preparedData && Object.keys(preparedData)?.length > this.lineLimit) {
+                    if (!this.showLimitView) {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.limitingDataForChart(preparedData, 3), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
                     else {
-                        const newLines = Object.keys(preparedData).filter(key => this.selectedFilteredRegions.includes(key)).reduce((obj, key) => {
-                            obj[key] = preparedData[key];
-                            return obj;
-                        }, {});
-
-                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, newLines, canvasTmp, this.colorScheme.lineCharts, renderSimple);
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, this.getNewLimitedData(this.selectedFilteredRegions, preparedData), canvasTmp, this.colorScheme.lineCharts, renderSimple);
                     }
 
                 }
                 else {
-                    this.showLineLimitView = false;
+                    this.showLimitView = false;
                     this.currentChart[uniqueTopic].chart = ChartProcessor.createLineChart(topic, preparedData, canvasTmp, this.colorScheme.lineCharts, renderSimple);
                 }
             }
             else if (type === "bar") {
-                this.showLineLimitView = false;
-                if (typeof differenceMode === "string") {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple, this.colorArrayDifference);
+                if (this.barLimit !== null && preparedData && Object.keys(preparedData)?.length > this.barLimit) {
+                    if (typeof differenceMode === "string") {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, false, renderSimple, this.colorArrayDifference);
+                    }
+                    else {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, !this.showLimitView ? this.limitingDataForChart(preparedData, this.barLimit) : this.getNewLimitedData(this.allFilteredRegions, preparedData), direction, canvasTmp, differenceMode, this.numberOfColouredBars, renderSimple, ["#DCE2F3", "#d3d3d3"]);
+                    }
                 }
                 else {
-                    this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, renderSimple);
+                    this.showLimitView = false;
+                    if (typeof differenceMode === "string") {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, false, renderSimple, this.colorArrayDifference);
+                    }
+                    else {
+                        this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, false, renderSimple);
+                    }
                 }
             }
         },
         /**
-         * Limiting the number of the lines for line chart.
+         * Limiting the number of data for charts.
          * @param {Object} data The data.
+         * @param {Number} number Number of data in the chart.
          * @returns {Object} The trimmed data.
          */
-        limitingLines (data) {
-            const limitLines = Object.fromEntries(Object.entries(data).slice(0, 3));
+        limitingDataForChart (data, number) {
+            const limitData = Object.fromEntries(Object.entries(data).slice(0, number));
 
-            this.selectedFilteredRegions = Object.keys(limitLines);
+            this.selectedFilteredRegions = this.diagramType === "line" ? Object.keys(limitData) : Object.keys(limitData).slice(0, 3);
+            this.allFilteredRegions = Object.keys(limitData);
+            this.showLimitView = true;
 
-            this.showLineLimitView = true;
-
-            return limitLines;
+            return limitData;
         },
         /**
          * Adds the selected region to chart data.
@@ -776,8 +955,27 @@ export default {
          * @returns {void}
          */
         addSelectedFilteredRegions (region) {
-            this.selectedFilteredRegions.push(region);
-            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
+            if (this.allFilteredRegions.length > this.barLimit && this.diagramType === "bar") {
+                this.updateChartSize();
+            }
+
+            this.selectedFilteredRegions.unshift(region);
+            this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
+            this.allFilteredRegions.unshift(region);
+            this.numberOfColouredBars = this.selectedFilteredRegions.length;
+            this.handleChartData(this.statisticNameOfChart, this.diagramType === "line" ? this.selectedFilteredRegions : this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+        },
+        /**
+         * Increases the canvas size by 45 pixels.
+         * @returns {void}
+         */
+        updateChartSize () {
+            const chart = document.querySelector(".chart-container"),
+                totalBars = this.allFilteredRegions.length,
+                chartHeight = 400,
+                newHeight = (totalBars - this.barLimit) * 45 + chartHeight;
+
+            this.canvasSize = chart.style.height = newHeight + "px";
         },
         /**
          * Remove the selected region.
@@ -785,8 +983,40 @@ export default {
          * @returns {void}
          */
         removeRegion (region) {
-            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
-            this.handleChartData(this.selectedStatisticsNames, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, false);
+            if (this.diagramType === "line") {
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
+                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
+            else if (this.diagramType === "bar") {
+                const index = this.allFilteredRegions.indexOf(region);
+
+                this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
+                this.allFilteredRegions.push(this.allFilteredRegions.splice(index, 1)[0]);
+                this.numberOfColouredBars = this.selectedFilteredRegions.length;
+                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            }
+        },
+        /**
+         * Returns only the data from the selected regions.
+         * @param {String} region The selected region.
+         * @param {String} preparedData The data.
+         * @returns {Object} The new data.
+         */
+        getNewLimitedData (selectedRegions, preparedData) {
+            const limitedData = selectedRegions.filter(key => Object.keys(preparedData).includes(key)).reduce((obj, key) => {
+                obj[key] = preparedData[key];
+                return obj;
+            }, {});
+
+            return limitedData;
+        },
+        /**
+         * Update limit view when the filter settings change.
+         * @returns {void}
+         */
+        updateLimitedData () {
+            this.selectedFilteredRegions = this.selectedFilteredRegions.filter(name => this.selectedRegionsValues.includes(name));
+            this.numberOfColouredBars = this.selectedFilteredRegions.length;
         },
         /**
          * Gets the filter based on given regions and dates array.
@@ -801,7 +1031,7 @@ export default {
             if (!Array.isArray(regions) || !Array.isArray(dates)) {
                 return undefined;
             }
-            const regionAttrName = this.getSelectedLevelRegionNameAttribute(this.selectedLevel)?.attrName,
+            const regionAttrName = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute)?.attrName,
                 dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
 
             if (regions.length === this.regions.length) {
@@ -836,26 +1066,40 @@ export default {
         /**
          * Gets the data for the table from the prepared statistics.
          * @param {Object} statisticsData - Prepared statistical data.
-         * @returns {Object[]} Data for table with header and items.
+         * @param {undefined|String|String[]} statisticName - The chosen statistic name.
+         * @returns {Object[]} Data for table with header and items or empty array.
          */
-        getTableData (statisticsData) {
+        getTableData (statisticsData, statisticName = undefined) {
             const headers = [],
                 data = [];
+
+            if (typeof statisticName !== "undefined" && !isObject(statisticsData) || !Object.keys(statisticsData).length) {
+                return [];
+            }
+
+            if (statisticName === "" && Object.keys(statisticsData).length && this.chartTableToggle === "table") {
+                this.setChosenStatisticName(Object.keys(statisticsData)[0]);
+            }
 
             Object.keys(statisticsData).forEach(statData => {
                 const items = [];
 
+                if (typeof statisticName === "string" && statisticName !== "" && statData !== statisticName) {
+                    return;
+                }
+
                 Object.entries(statisticsData[statData]).forEach(([region, years]) => {
                     if (headers.length === 0) {
-                        headers.push({name: "Gebiet"});
-                        Object.keys(years).reverse().forEach((year) => {
-                            headers.push({name: year});
+                        headers.push({name: "Gebiet", index: 0});
+                        Object.keys(years).reverse().forEach((year, idx) => {
+                            headers.push({name: year, index: idx + 1});
                         });
                     }
 
                     items.push({Gebiet: region, ...years});
 
                 });
+
                 data.push({
                     headers,
                     items
@@ -922,21 +1166,21 @@ export default {
                 value = NaN;
 
             if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
-                return parseInt(foundFeature?.get(statisticKey), 10) || "-";
+                return Number(parseFloat(foundFeature?.get(statisticKey)).toFixed(2)) || "-";
             }
 
             if (differenceMode === "date") {
                 refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
-                value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+                value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
                 this.setSelectedReferenceValueTag("");
 
                 return isNaN(value) ? "-" : value;
             }
             refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
-            value = parseInt(foundFeature?.get(statisticKey), 10) - parseInt(refFeature?.get(statisticKey), 10);
+            value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
 
-            this.referenceFeatures[date] = parseInt(refFeature?.get(statisticKey), 10);
-            this.setSelectedReferenceValueTag(parseInt(refFeature?.get(statisticKey), 10));
+            this.referenceFeatures[date] = Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2));
+            this.setSelectedReferenceValueTag(Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2)));
 
             return isNaN(value) ? "-" : value;
         },
@@ -975,6 +1219,23 @@ export default {
         },
 
         /**
+         * Gets the last child object in the region hierarchy.
+         * @param {Object} region - The region hierarchy.
+         * @returns {Object} The deepest child.
+         */
+        getSelectedLevelRegionNameAttributeInDepth (region) {
+            let child;
+
+            if (!Object.prototype.hasOwnProperty.call(region, "child")) {
+                child = region;
+            }
+            if (Object.prototype.hasOwnProperty.call(region, "child")) {
+                child = this.getSelectedLevelRegionNameAttributeInDepth(region.child);
+            }
+            return child;
+        },
+
+        /**
          * Gets the date attribute by the given level.
          * @param {Object} level The level object.
          * @returns {Object} The time attribute object.
@@ -999,6 +1260,7 @@ export default {
         toggleChartTable () {
             this.setChartTableToggle(this.chartTableToggle === "table" ? "chart" : "table");
         },
+
         /**
          * Reset tables and charts.
          * @returns {void}
@@ -1015,7 +1277,13 @@ export default {
             this.showGrid = false;
             this.legendValue = [];
             this.showNoLegendData = false;
-            this.showLineLimitView = false;
+            this.showLimitView = false;
+            this.diagramType = undefined;
+            this.selectedFilteredRegions = [];
+            this.chosenTableData = [];
+            this.statisticsData = undefined;
+            this.canvasSize = undefined;
+            this.numberOfColouredBars = 3;
         },
         /**
          * Checks if at least one description is present in the statistics.
@@ -1088,17 +1356,24 @@ export default {
                 ?? this.getRawLayerByLayerId(selectedLevel.layerId)?.datasets?.[0]?.md_name);
 
             const uniqueValues = await this.getUniqueValuesForLevel(selectedLevel),
-                selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel),
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(selectedLevel);
 
-            if (uniqueValues[selectedLevelRegionNameAttribute.attrName] && uniqueValues[selectedLevelDateAttribute.attrName]) {
-                this.regions = sort("", Object.keys(uniqueValues[selectedLevelRegionNameAttribute.attrName]), "value");
+            this.selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttribute(selectedLevel);
+            if (uniqueValues[this.selectedLevelRegionNameAttribute?.attrName] && uniqueValues[selectedLevelDateAttribute?.attrName]) {
+                this.regions = Object.keys(uniqueValues[this.selectedLevelRegionNameAttribute.attrName]).sort((a, b) => b - a);
+                this.selectedLevelRegionNameAttribute.values = this.regions.map(val => {
+                    return {
+                        value: val,
+                        label: val
+                    };
+                });
                 this.allRegions = this.getAllRegions(this.regions);
                 this.dates = Object.keys(uniqueValues[selectedLevelDateAttribute.attrName]);
                 this.timeStepsFilter = this.getTimestepsMerged(selectedLevel?.timeStepsFilter, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat);
             }
+
             this.areCategoriesGrouped = StatisticsHandler.hasOneGroup(this.getSelectedLevelStatisticsAttributes(selectedLevel));
-            this.categories = sort("", StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
+            this.categories = sortBy(StatisticsHandler.getCategoriesFromStatisticAttributes(this.getSelectedLevelStatisticsAttributes(selectedLevel), this.areCategoriesGrouped), "name");
             this.setStatisticsByCategories(this.selectedCategories);
             this.loadedFilterData = true;
             this.loadedReferenceData = true;
@@ -1106,6 +1381,27 @@ export default {
                 "date": this.getTimestepsMerged(undefined, uniqueValues[selectedLevelDateAttribute.attrName], selectedLevelDateAttribute.inputFormat, selectedLevelDateAttribute.outputFormat),
                 "region": this.regions
             };
+
+            if (!this.flattenedRegions.length) {
+                this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
+            }
+        },
+
+        /**
+         * For the template flats the region hierarchy into a list of objects.
+         * In addition, the attributes 'values' and 'selectedValues' are set on the region objects.
+         * @param {Object} regions - Represents the hierarchy of the regions.
+         * @returns {void}
+         */
+        flattenRegionHierarchy (region) {
+            region.selectedValues = [];
+            region.loadingDataCounter = 0;
+            this.flattenedRegions.push(region);
+
+            if (Object.prototype.hasOwnProperty.call(region, "child")) {
+                region.child.values = [];
+                this.flattenRegionHierarchy(region.child);
+            }
         },
         /**
          * Gets the current level object.
@@ -1119,9 +1415,9 @@ export default {
 
             this.resetLevel();
 
-            this.selectedLevel = this.data.find(val=> {
+            this.setSelectedLevel(this.data.find(val=> {
                 return val?.levelName === name;
-            });
+            }));
 
             this.initializeData(this.selectedLevel);
         },
@@ -1137,7 +1433,11 @@ export default {
             this.allRegions = [];
             this.dates = [];
             this.timeStepsFilter = [];
+            this.showLimitView = false;
+            this.diagramType = undefined;
+            this.selectedFilteredRegions = [];
             this.showLineLimitView = false;
+            this.setFlattenedRegions([]);
             this.setSelectedCategories([]);
             this.setSelectedRegions([]);
             this.setSelectedDates([]);
@@ -1226,7 +1526,8 @@ export default {
                 :are-categories-grouped="areCategoriesGrouped"
                 :statistics="statisticsByCategory"
                 :time-steps-filter="timeStepsFilter"
-                :regions="allRegions"
+                :regions="selectedLevelRegionNameAttribute"
+                :selected-level="selectedLevel"
                 @change-category="setStatisticsByCategories"
                 @change-filter-settings="checkFilterSettings"
                 @reset-statistics="handleReset"
@@ -1242,24 +1543,17 @@ export default {
         <div v-show="!showFilter && !showLegendView">
             <div class="row justify-content-between">
                 <div class="col-md-12 d-flex align-items-center">
-                    <h5 class="mb-2">
+                    <h5 class="m-0">
                         {{ $t(levelTitle ?? subtitle) }}
                     </h5>
-                    <div
+                    <IconButton
                         v-if="getMetadataLink()"
-                        class="mx-2"
-                        role="button"
-                        tabindex="0"
-                        @click="openMetadata"
-                        @keypress.enter="openMetadata"
-                    >
-                        <span class="bootstrap-icon">
-                            <i
-                                class="bi-info-circle-fill"
-                                :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
-                            />
-                        </span>
-                    </div>
+                        :aria="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
+                        :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
+                        icon="bi-info-circle"
+                        :interaction="() => openMetadata()"
+                        class="info btn btn-light btn-sm ms-1 mt-0"
+                    />
                 </div>
                 <div
                     v-if="buttonGroupRegions.length > 1"
@@ -1267,6 +1561,7 @@ export default {
                 >
                     <StatisticSwitcher
                         :buttons="buttonGroupRegions"
+                        :pre-checked-value="selectedLevel?.levelName"
                         group="regions"
                         class="level-switch"
                         @show-view="toggleLevel"
@@ -1305,7 +1600,7 @@ export default {
                     class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
                     @click="resetAll"
                 >
-                    <i class="bi bi-x-circle" />
+                    <i class="bi bi-x-circle fs-6 pe-2" />
                     {{ $t("common:modules.statisticDashboard.button.reset") }}
                 </button>
                 <button
@@ -1330,15 +1625,15 @@ export default {
                 </div>
             </div>
             <hr
-                v-if="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                v-if="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
                 class="mb-0"
             >
             <AccordionItem
-                v-show="Array.isArray(legendValue) && legendValue.length || showNoLegendData"
+                v-show="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
                 id="legend-accordion"
                 :title="$t('common:modules.statisticDashboard.legend.legend')"
                 icon="bi bi-map"
-                :is-open="!showNoLegendData"
+                is-open
             >
                 <div
                     id="legend-content"
@@ -1385,9 +1680,7 @@ export default {
                             </div>
                         </div>
                         <div v-else>
-                            <div class="more-statistics">
-                                {{ $t("common:modules.statisticDashboard.legend.nodata") }}
-                            </div>
+                            {{ $t("common:modules.statisticDashboard.legend.nodata") }}
                         </div>
                     </div>
                 </div>
@@ -1397,60 +1690,34 @@ export default {
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
+                :enable-download="tableData.length > 0"
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
+                @download="downloadData"
             />
             <div v-show="showTable">
-                <div v-if="!showGrid">
-                    <TableComponent
-                        v-for="(data, index) in tableData"
-                        :key="index"
-                        :title="selectedStatisticsNames[index]"
-                        :data="data"
-                        :fixed-data="testFixedData"
-                        :total-prop="getTotalProp(addTotalCount, selectedStatisticsNames[index])"
-                        :select-mode="selectMode"
-                        :show-header="showHeader"
-                        :sortable="sortable"
-                        :enable-settings="true"
-                        sort-by-numeric-value
-                        @set-sorted-rows="setSortedRows"
-                        @column-selected="setSelectedColumn"
-                    />
-                </div>
-                <GridComponent
-                    v-else
-                    :dates="tableData"
-                    :titles="selectedStatisticsNames"
-                >
-                    <template
-                        #tableContainers="props"
-                    >
-                        <TableComponent
-                            :data="props.data"
-                            :fixed-data="testFixedData"
-                            :show-header="showHeader"
-                            sort-by-numeric-value
-                            @set-sorted-rows="setSortedRows"
-                        />
-                    </template>
-                    <template
-                        #tableContainersModal="props"
-                    >
-                        <TableComponent
-                            :data="props.data"
-                            :fixed-data="testFixedData"
-                            :show-header="showHeader"
-                            :sortable="sortable"
-                            sort-by-numeric-value
-                            @set-sorted-rows="setSortedRows"
-                        />
-                    </template>
-                </GridComponent>
+                <TableComponent
+                    v-for="(data, index) in chosenTableData"
+                    :key="index"
+                    :title="tableData.length <= 1 ? chosenStatisticName : ''"
+                    :data="data"
+                    :fixed-data="testFixedData"
+                    :total-prop="getTotalProp(addTotalCount, chosenStatisticName)"
+                    :select-mode="selectMode"
+                    :show-header="showHeader"
+                    :dynamic-column-table="true"
+                    :font-size="'small'"
+                    :sortable="sortable"
+                    :enable-settings="true"
+                    :max-decimal-places="2"
+                    sort-by-numeric-value
+                    @set-sorted-rows="setSortedRows"
+                    @column-selected="setSelectedColumn"
+                />
             </div>
             <div v-show="showChart">
                 <div
-                    v-if="showLineLimitView"
+                    v-if="showLimitView"
                     class="filtered-areas"
                 >
                     <div
@@ -1522,45 +1789,38 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-    hr {
+hr {
     clear: both;
-    }
+}
 
-    .btn-pb {
-        padding-bottom: 2px;
-    }
+.btn-pb {
+    padding-bottom: 2px;
+}
 
-    .more-statistics {
-        display: none;
-    }
+img {
+    width: 30px;
+}
+.more-statistics {
+    display: none;
+}
+.legend-names {
+    font-size: 12px;
+}
+.info-icon i {
+    font-size: $icon_length_small;
+}
+.info-text {
+    font-size: $font_size_sm;
+    margin-top: 15px;
+}
+.chart-container {
+    min-height: 60vh;
 
-    img {
-        width: 30px;
-    }
-
-    .legend-names {
-        font-size: 12px;
-    }
-
-    .more-statistics {
-        /** @TODO **/
-        color: #525252;
-    }
-    .info-icon i {
-        font-size: $icon_length_small;
-    }
-    .info-text {
-        font-size: $font_size_sm;
-        margin-top: 15px;
-    }
-    .chart-container {
-        min-height: 50vh;
-
-    }
+}
 </style>
 <style lang="scss" scoped>
 @import "~variables";
- .static-dashboard .multiselect__tags {
+.static-dashboard .multiselect__tags {
     padding-left: 25px;
 }
 .static-dashboard .multiselect__clear {

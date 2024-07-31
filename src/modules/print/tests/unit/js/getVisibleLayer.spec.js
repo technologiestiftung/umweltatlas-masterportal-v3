@@ -47,7 +47,9 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
             getMinResolution: () => 0,
             getZIndex: () => 2,
             addEventListener: sinon.stub(),
-            get: () => "no_markerPoint"
+            get: () => "no_markerPoint",
+            setZIndex: () => sinon.stub(),
+            setOpacity: () => sinon.stub()
         };
 
         store.getters = {
@@ -133,7 +135,10 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
                     getMinResolution: () => 0,
                     getZIndex: () => 3,
                     addEventListener: sinon.stub(),
-                    get: () => "no_markerPoint"
+                    get: () => "no_markerPoint",
+                    setZIndex: () => sinon.stub(),
+                    setOpacity: () => sinon.stub()
+
                 },
 
                 groupLayer = new LayerGroup({

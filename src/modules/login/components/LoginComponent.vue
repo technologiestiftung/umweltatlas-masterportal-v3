@@ -10,22 +10,10 @@ export default {
         ...mapGetters(["isMobile"]),
         ...mapGetters("Modules/Login", ["loggedIn", "screenName", "email", "iconLogin", "iconLogged"])
     },
-    watch: {
-        /**
-         * Listens to the active property change.
-         * @param {Boolean} isActive Value deciding whether the tool gets activated or deactivated.
-         * @returns {void}
-         */
-        active (isActive) {
-            if (isActive) {
-                if (!this.isLoggedIn()) {
-                    this.openLoginWindow();
-                }
-            }
-        }
-    },
     mounted () {
-        this.isLoggedIn();
+        if (!this.isLoggedIn()) {
+            this.openLoginWindow();
+        }
         setInterval(() => this.isLoggedIn(), 10_000);
     },
     methods: {
@@ -108,8 +96,6 @@ export default {
          * @return {void}
          */
         logoutButton (reload = false) {
-            this.closeLoginWindow();
-
             this.logout();
 
             this.setLoginProps();
@@ -132,16 +118,6 @@ export default {
             this.setIcon(iconType);
             this.setCurrentComponentPropsName({side: "secondaryMenu", name: componentName});
             this.setCurrentComponentPropsDescription({side: "secondaryMenu", description: componentDescription});
-        },
-
-        /**
-         * Closes the window of login by setting store active to false.
-         * @pre window is opened
-         * @post window is closed
-         * @returns {void}
-         */
-        closeLoginWindow () {
-            this.setActive(false);
         }
     }
 };

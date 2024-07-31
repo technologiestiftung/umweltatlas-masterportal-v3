@@ -36,6 +36,41 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                             }
                         }
                     }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        mainExpanded: () => true,
+                        secondaryExpanded: () => true,
+                        mainMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "contact"
+                                        },
+                                        {
+                                            type: "about"
+                                        }
+                                    ]
+                                ]
+                            };
+                        },
+                        secondaryMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "section1"
+                                        },
+                                        {
+                                            type: "section2"
+                                        }
+                                    ]
+                                ]
+                            };
+                        }
+                    }
                 }
             },
             getters: {
@@ -68,9 +103,9 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find("a").exists()).to.be.true;
-        expect(wrapper.find("a").text()).to.equals("Alphabet");
-        expect(wrapper.find("a").attributes().href).to.equals("https://abc.de");
+        expect(wrapper.find("a.footerUrl").exists()).to.be.true;
+        expect(wrapper.find("a.footerUrl").text()).to.equals("Alphabet");
+        expect(wrapper.find("a.footerUrl").attributes().href).to.equals("https://abc.de");
     });
 
     it("renders the mobile urls in footer", () => {
@@ -82,9 +117,9 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find("a").exists()).to.be.true;
-        expect(wrapper.find("a").text()).to.equals("ABC");
-        expect(wrapper.find("a").attributes().href).to.equals("https://abc.de");
+        expect(wrapper.find("a.footerUrl").exists()).to.be.true;
+        expect(wrapper.find("a.footerUrl").text()).to.equals("ABC");
+        expect(wrapper.find("a.footerUrl").attributes().href).to.equals("https://abc.de");
     });
 
     it("renders scaleLine exist", () => {
@@ -95,5 +130,15 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
         });
 
         expect(wrapper.find("scale-line-stub").exists()).to.be.true;
+    });
+
+    it("renders imprint link", () => {
+        const wrapper = shallowMount(PortalFooterComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find(".impressumLink").exists()).to.be.true;
     });
 });

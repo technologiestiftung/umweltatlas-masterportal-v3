@@ -1,14 +1,12 @@
-import getPosition from "../utils/getPosition";
-import {getRenderPixel} from "ol/render";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import store from "../../../app-store";
 
 export default {
-    windowWidthChanged ({commit, dispatch, state, getters}) {
+    windowWidthChanged ({commit, dispatch, state, getters, rootGetters}) {
         commit("setWindowWidth");
 
-        if (!getters.minWidth && state.layerSwiper.active) {
+        if (!getters.minWidth && rootGetters["Modules/LayerSwiper/active"]) {
             dispatch("toggleSwiper", state.timeSlider.currentLayerId + state.layerAppendix);
         }
     },
@@ -38,7 +36,7 @@ export default {
         store.watch((_, getters) => getters.visibleLayerConfigs, layerConfig => {
             if (!state.timeSlider.active) {
                 layerConfig.forEach(element => {
-                    if (element.typ === "WMS" && element.time) {
+                    if (element.typ === "WMS" && element.time && !rootGetters["Modules/CompareMaps/active"]) {
                         commit("setTimeSliderActive", {
                             active: true,
                             currentLayerId: element.id,
@@ -55,8 +53,8 @@ export default {
                 let currentLayerConf = rootGetters.layerConfigById(state.timeSlider.currentLayerId),
                     visLayerConf = layerConfig.find(layerConf => layerConf.id === currentLayerConf.id);
 
-                if (state.layerSwiper.targetLayer) {
-                    currentLayerConf = rootGetters.layerConfigById(state.layerSwiper.targetLayer.get("id"));
+                if (rootGetters["Modules/LayerSwiper/targetLayer"]) {
+                    currentLayerConf = rootGetters.layerConfigById(rootGetters["Modules/LayerSwiper/targetLayer"].get("id"));
                     visLayerConf = layerConfig.find(layerConf => layerConf.id === currentLayerConf.id);
                 }
                 if (!visLayerConf) {
@@ -85,17 +83,17 @@ export default {
      * @param {String} id Id of the Layer that should be toggled.
      * @returns {void}
      */
-    async toggleSwiper ({commit, state, dispatch}, id) {
-        commit("setLayerSwiperActive", !state.layerSwiper.active);
+    async toggleSwiper ({commit, state, dispatch, rootGetters}, id) {
+        commit("Modules/LayerSwiper/setActive", !rootGetters["Modules/LayerSwiper/active"], {root: true});
 
         const secondId = id.endsWith(state.layerAppendix) ? id : id + state.layerAppendix,
-            layerId = state.layerSwiper.active ? id : secondId,
+            layerId = rootGetters["Modules/LayerSwiper/active"] ? id : secondId,
             layer = layerCollection.getLayerById(layerId);
 
-        if (state.layerSwiper.active) {
+        if (rootGetters["Modules/LayerSwiper/active"]) {
             const {name, time, url, level, layers, version, parentId, gfiAttributes, featureCount} = layer.attributes;
 
-            commit("setLayerSwiperSourceLayer", layer);
+            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", layer, {root: true});
 
             if (!layerCollection.getLayerById(secondId)) {
                 await dispatch("addLayerToLayerConfig", {
@@ -132,7 +130,7 @@ export default {
                 }, {root: true});
             }
 
-            commit("setLayerSwiperTargetLayer", layerCollection.getLayerById(secondId));
+            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", layerCollection.getLayerById(secondId), {root: true});
         }
         else {
 
@@ -166,77 +164,8 @@ export default {
                 }]
             }, {root: true});
 
-            commit("setLayerSwiperSourceLayer", null);
-            commit("setLayerSwiperTargetLayer", null);
+            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", null, {root: true});
+            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", null, {root: true});
         }
-    },
-    /**
-     * Sets the postion of the layerSwiper to state according to the x-coordinate of the mousedown event
-     * or adjusts it based on the direction of the key pressed by the state defined value.
-     * @param {Object} context the vuex context
-     * @param {Object} context.state the state
-     * @param {Object} context.commit the commit
-     * @param {Object} context.dispatch the dispatch
-     * @param {Object} context.getters the getters
-     * @param {KeyboardEvent.keydown | MouseEvent.mousemove} event DOM Event.
-     * @returns {void}
-     */
-    moveSwiper ({state, commit, dispatch, getters}, event) {
-        const position = getPosition(event, state.layerSwiper.valueX, getters.currentTimeSliderObject.keyboardMovement);
-
-        commit("setLayerSwiperValueX", position);
-        commit("setLayerSwiperStyleLeft", position);
-        dispatch("updateMap");
-    },
-    /**
-     * Updates the map so that the layer is displayed clipped again.
-     *
-     * @param {Object} context the vuex context
-     * @param {Object} context.state the state
-     * @param {Object} context.rootGetters the rootGetters
-     * @param {Object} context.dispatch the dispatch
-     * @returns {void}
-     */
-    async updateMap ({state, rootGetters, dispatch}) {
-        if (!state.timeSlider.playing) {
-            await mapCollection.getMap(rootGetters["Maps/mode"]).render();
-        }
-
-        state.layerSwiper.targetLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.layerSwiper.targetLayer?.getLayer().once("postrender", ({context}) => {
-            context.restore();
-        });
-
-        state.layerSwiper.sourceLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.layerSwiper.sourceLayer?.getLayer().once("postrender", ({context}) => {
-            context.restore();
-            if (!state.layerSwiper.active) {
-                mapCollection.getMap(rootGetters["Maps/mode"]).render();
-            }
-        });
-    },
-    /**
-     * Manipulates the width of each layer according to the position of the layerSwiper and the side of the layer.
-     *
-     * @param {Object} context the vuex context
-     * @param {Object} context.state the state
-     * @param {Object} context.rootGetters the rootGetters
-     * @param {ol.render.Event} renderEvent The event object triggered on prerender
-     * @returns {void}
-     */
-    drawLayer ({state, rootGetters}, renderEvent) {
-        const {context} = renderEvent,
-            mapSize = mapCollection.getMap(rootGetters["Maps/mode"]).getSize(),
-            isRightSided = renderEvent.target.get("id").endsWith(state.layerAppendix);
-
-        // Clip everything that is to the other side of the swiper
-        context.save();
-        context.beginPath();
-        context.moveTo(...getRenderPixel(renderEvent, isRightSided ? [state.layerSwiper.valueX, 0] : [0, 0]));
-        context.lineTo(...getRenderPixel(renderEvent, isRightSided ? [state.layerSwiper.valueX, mapSize[1]] : [0, mapSize[1]]));
-        context.lineTo(...getRenderPixel(renderEvent, isRightSided ? mapSize : [state.layerSwiper.valueX, mapSize[1]]));
-        context.lineTo(...getRenderPixel(renderEvent, isRightSided ? [mapSize[0], 0] : [state.layerSwiper.valueX, 0]));
-        context.closePath();
-        context.clip();
     }
 };

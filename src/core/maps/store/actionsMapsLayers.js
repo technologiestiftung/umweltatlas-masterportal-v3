@@ -10,11 +10,11 @@ import store from "../../../app-store";
 export default {
     /**
      * Adds a layer to the map.
-     * @param {Object} _ context object.
+     * @param {Object} context context object.
      * @param {module:ol/layer/Base~BaseLayer} layer The layer to add.
      * @returns {void}
      */
-    addLayer (_, layer) {
+    addLayer (context, layer) {
         const map2D = mapCollection.getMap("2D");
 
         if (!map2D.getLayers().getArray().includes(layer)) {
@@ -29,12 +29,12 @@ export default {
     },
     /**
      * Checks if the layer with the given name already exists and uses it or creates a new layer and returns it if not.
-     * @param {Object} _ context object.
+     * @param {Object} context context object.
      * @param {String} payload.layerName - The name of the new layer or the already existing layer.
      * @param {Boolean} [payload.alwaysOnTop=true] - Layers with the attribute "alwaysOnTop": true are set on top of the map.
      * @returns {module:ol/layer/Base~BaseLaye} The found layer or a new layer with the given name.
      */
-    async addNewLayerIfNotExists (_, {layerName, alwaysOnTop = true}) {
+    async addNewLayerIfNotExists (context, {layerName, alwaysOnTop = true}) {
         let resultLayer = store.getters["Maps/getLayerByName"](layerName);
 
         if (!resultLayer) {
@@ -61,12 +61,12 @@ export default {
     /**
      * Verifies if all features of a given layerId are loaded
      * and waits if the layer has not been loaded previously
-     * @param {Object} _ - context object.
+     * @param {Object} context - context object.
      * @param {String} layerId - the layer ID to check loaded status
      *
      * @return {Promise} Resolves if the given Layer is fully loaded
      */
-    async areLayerFeaturesLoaded (_, layerId) {
+    async areLayerFeaturesLoaded (context, layerId) {
         const map2D = mapCollection.getMap("2D"),
             layer = map2D.getLayers().getArray().find(singleLayer => singleLayer.get("id") === layerId);
 
@@ -91,11 +91,11 @@ export default {
 
     /**
      * Checks if a layer is in the map collections
-     * @param {Object} _ context object.
+     * @param {Object} context The Vuex action context.
      * @param {module:ol/layer/Base~BaseLayer} layer The layer to check.
      * @returns {Boolean} if layer exists in mapCollection
      */
-    checkLayer (_, layer) {
+    checkLayer (context, layer) {
         const map2D = mapCollection.getMap("2D");
 
         if (map2D.getLayers().getArray().includes(layer)) {

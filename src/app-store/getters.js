@@ -79,11 +79,11 @@ export default {
 
     /**
      * Returns a folder by id.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object} a folder by id
      */
-    folderById: (_, getters) => (id) => {
+    folderById: (state, getters) => (id) => {
         const folders = getters.allFolders;
 
         return folders.find(folder => folder.id === id);
@@ -124,20 +124,20 @@ export default {
 
     /**
      * Returns all subject data layers of layerConfig.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
-    allSubjectDataLayerConfigs: (_, getters) => {
+    allSubjectDataLayerConfigs: (state, getters) => {
         return getters.allLayerConfigsByParentKey(treeSubjectsKey);
     },
     /**
      * Returns all baselayers of layerConfig.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
-    allBaselayerConfigs: (_, getters) => {
+    allBaselayerConfigs: (state, getters) => {
         return getters.allLayerConfigsByParentKey(treeBaselayersKey);
     },
 
@@ -170,11 +170,11 @@ export default {
 
     /**
      * Returns the content of all menu sections and of controls startModule menu entries.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Array} configs of all modules in sections and controls
      */
-    configuredModules: (_, getters) => {
+    configuredModules: (state, getters) => {
         let content = [];
 
         getters.menuFromConfig("mainMenu").sections?.forEach(subSections => {
@@ -194,12 +194,12 @@ export default {
 
     /**
      * Returns the max zIndex of layer configs by parentKey.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @param {String} parentKey key of the parent
      * @returns {Number} the max zIndex
      */
-    maxZIndexOfLayerConfigsByParentKey: (_, getters) => (parentKey) => {
+    maxZIndexOfLayerConfigsByParentKey: (state, getters) => (parentKey) => {
         let maxZIndex = -1;
         const layerConfigs = getters.allLayerConfigsByParentKey(parentKey).filter(config => Object.prototype.hasOwnProperty.call(config, "zIndex") && typeof config.zIndex === "number");
 
@@ -211,12 +211,12 @@ export default {
 
     /**
      * Returns the zIndex for the given layerConfig. If zIndex already exists at layerConfig, it is returned.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @param {String} id id of the layer
      * @returns {Number|null} the zIndex for the given layerConfig or null if layerConfig is not available
      */
-    determineZIndex: (_, getters) => (id) => {
+    determineZIndex: (state, getters) => (id) => {
         const layerConf = getters.layerConfigById(id);
 
         if (layerConf) {
@@ -272,11 +272,11 @@ export default {
 
     /**
      * Returns all not visible baselayer configurations.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers.
      */
-    invisibleBaselayerConfigs: (_, getters) => {
+    invisibleBaselayerConfigs: (state, getters) => {
         const layerContainer = getters.allBaselayerConfigs;
 
         return layerContainer.filter(layerConf => layerConf.visibility !== true);
@@ -284,11 +284,11 @@ export default {
 
     /**
      * Returns the layer is a baselayer or not
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Boolean} Is baselayer.
      */
-    isBaselayer: (_, getters) => layerId => {
+    isBaselayer: (state, getters) => layerId => {
         const layerConfig = getters.allLayerConfigs.find(layerConf => layerConf.id === layerId);
 
         return Boolean(layerConfig.baselayer);
@@ -315,11 +315,11 @@ export default {
 
     /**
      * Filters the layer configs by the given attributes.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Array} filtered layer configs by the given attributes
      */
-    layerConfigsByAttributes: (_, getters) => (attributes = {}) =>{
+    layerConfigsByAttributes: (state, getters) => (attributes = {}) =>{
         const layerContainer = getters.allLayerConfigs;
 
         return layerContainer.filter(layerConf => {
@@ -338,12 +338,12 @@ export default {
 
     /**
      * Returns the layer configuration with the given id.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @param {String} id id of the layer
      * @returns {Object|null}} the layer configuration with the given id
      */
-    layerConfigById: (_, getters) => (id) => {
+    layerConfigById: (state, getters) => (id) => {
         const layerContainer = getters.allLayerConfigs;
 
         return layerContainer.find(layerConf => layerConf.id === id);
@@ -351,11 +351,11 @@ export default {
 
     /**
      * Returns the layer configs for url params.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layerConfigs for url params.
      */
-    layerUrlParams: (_, getters) => {
+    layerUrlParams: (state, getters) => {
         const layers = getters.layerConfigsByAttributes({showInLayerTree: true}),
             layerParams = [];
 
@@ -498,11 +498,11 @@ export default {
 
     /**
      * Returns all visible layer configurations.
-     * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} Containing all layer configurations with property 'visibility' is true.
      */
-    visibleLayerConfigs: (_, getters) => {
+    visibleLayerConfigs: (state, getters) => {
         const layerContainer = getters.allLayerConfigs;
 
         return layerContainer.filter(layerConf => layerConf.visibility === true);
@@ -510,11 +510,11 @@ export default {
 
     /**
      * Returns all visible subject data layer configurations.
-      * @param {Object} _ state of the app-store.
+      * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} Containing all layer configurations with property 'visibility' is true.
      */
-    visibleSubjectDataLayerConfigs: (_, getters)=> {
+    visibleSubjectDataLayerConfigs: (state, getters)=> {
         const layerContainer = getters.allSubjectDataLayerConfigs;
 
         return layerContainer.filter(layerConf => layerConf.visibility === true);
@@ -522,11 +522,11 @@ export default {
 
     /**
      * Returns all visible baselayer configurations.
-      * @param {Object} _ state of the app-store.
+     * @param {Object} state state of the app-store.
      * @param {Object} getters getters of the app-store.
      * @returns {Object[]} The layers with property 'visibility' is not true.
      */
-    visibleBaselayerConfigs: (_, getters) => {
+    visibleBaselayerConfigs: (state, getters) => {
         const layerContainer = getters.allBaselayerConfigs;
 
         return layerContainer.filter(layerConf => layerConf.visibility === true);

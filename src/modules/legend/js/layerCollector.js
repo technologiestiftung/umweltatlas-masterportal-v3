@@ -3,7 +3,7 @@ import layerCollection from "../../../core/layers/js/layerCollection";
 export default {
     /**
      * Returns all layers of the map and their visibility.
-     * If layer is a group, the grouped subject layers or the first baselayer are returned.
+     * If layer is a group, the grouped subject layers or the first baselayer (with the grouped name) are returned.
      * @returns {Array} - layer holders
      */
     getLayerHolder: () => {
@@ -12,6 +12,9 @@ export default {
         layerCollection.getLayers().forEach(layer => {
             if (layer.get("typ") === "GROUP") {
                 if (layer.get("baselayer")) {
+                    if (layer.attributes.name) {
+                        layer.getLayerSource()[0].attributes.name = layer.attributes.name;
+                    }
                     allLayers.push({layer: layer.getLayerSource()[0], visibility: layer.get("visibility")});
                 }
                 else {

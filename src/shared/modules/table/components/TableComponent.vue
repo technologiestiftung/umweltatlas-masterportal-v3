@@ -7,6 +7,7 @@ import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
 import IconButton from "../../buttons/components/IconButton.vue";
 import isObject from "../../../js/utils/isObject";
 import Multiselect from "vue-multiselect";
+import thousandsSeparator from "../../../js/utils/thousandsSeparator";
 
 export default {
     name: "TableComponent",
@@ -28,6 +29,11 @@ export default {
         data: {
             type: Object,
             required: true
+        },
+        dynamicColumnTable: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         hits: {
             type: [String, Boolean],
@@ -53,6 +59,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        fontSize: {
+            type: String,
+            required: false,
+            default: "medium"
         },
         title: {
             type: [String, Boolean],
@@ -98,6 +109,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        maxDecimalPlaces: {
+            type: [Number, Boolean],
+            required: false,
+            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows"],
@@ -118,7 +134,8 @@ export default {
             selectedRow: "",
             sortedRows: [],
             showTotal: this.totalProp === true || this.totalProp.enabled,
-            showTotalData: false
+            showTotalData: false,
+            firstColumnName: ""
         };
     },
     computed: {
@@ -158,11 +175,10 @@ export default {
     },
     watch: {
         data: {
-            handler (val) {
-                this.draggableHeader = val?.headers;
+            handler () {
+                this.setupTableData();
             },
-            deep: true,
-            immediate: true
+            deep: true
         },
 
         draggableHeader: {
@@ -218,6 +234,12 @@ export default {
         }
     },
     mounted () {
+        this.setupTableData();
+
+        if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
+            this.firstColumnName = this.data?.headers[0]?.name;
+        }
+
         if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
             this.selectColumn(this.data.headers[1], 1);
         }
@@ -226,6 +248,30 @@ export default {
         }
     },
     methods: {
+        thousandsSeparator,
+
+        /**
+         * Returns the decimal or group separator of current locale
+         * @param {String} separatorType - The type of the separator 'decimal' or 'group'
+         * @returns {String} the decimal or group separator
+         */
+        getSeparator (separatorType) {
+            const numberWithGroupAndDecimalSeparator = 1000.1;
+
+            return Intl.NumberFormat(this.$i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
+        },
+
+        /**
+         * Setups the table data. Call it to set fresh and new table.
+         * @returns {void}
+         */
+        setupTableData () {
+            this.visibleHeaders = this.data?.headers;
+            this.draggableHeader = this.data?.headers;
+            if (typeof this.fixedColumn !== "undefined") {
+                this.fixedColumn = undefined;
+            }
+        },
         /**
          * Gets the items sorted by column and order.
          * @param {Object[]} items - The items to sort.
@@ -535,8 +581,10 @@ export default {
             if (this.selectMode !== "column" || !columnName || idx === 0) {
                 return;
             }
-            this.selectedColumn = columnName;
-            this.$emit("columnSelected", this.selectedColumn?.name);
+            const nameOfColumn = isObject(columnName) ? columnName.name : columnName;
+
+            this.selectedColumn = nameOfColumn;
+            this.$emit("columnSelected", nameOfColumn);
         },
 
         /**
@@ -555,14 +603,18 @@ export default {
                 return [];
             }
 
-            const totalData = [this.$t("common:shared.modules.table.total")];
+            const totalData = [];
 
             if (Array.isArray(data?.headers) && Array.isArray(data?.items)) {
+
+                let indexOfFirstColumn = "";
+
                 data.headers.forEach((header, index) => {
-                    if (index === 0) {
-                        return;
-                    }
                     let value = 0;
+
+                    if (Object.values(header).includes(this.firstColumnName)) {
+                        indexOfFirstColumn = index;
+                    }
 
                     if (!header?.name) {
                         return;
@@ -572,11 +624,18 @@ export default {
                             return;
                         }
 
-                        value += item[header.name];
+                        if (typeof this.maxDecimalPlaces === "number") {
+                            value = Number((parseFloat(item[header.name]) + parseFloat(value)).toFixed(this.maxDecimalPlaces));
+                        }
+                        else {
+                            value += item[header.name];
+                        }
                     });
 
-                    totalData.push(typeof value === "number" ? value : "-");
+                    totalData.push(typeof value === "number" && !isNaN(value) ? value : "-");
+
                 });
+                indexOfFirstColumn !== "" ? totalData.splice(indexOfFirstColumn, 1, this.$t("common:shared.modules.table.total")) : "";
             }
 
             return totalData;
@@ -589,6 +648,11 @@ export default {
          */
         toggleShowTotalData (val) {
             this.showTotalData = !val;
+            this.$nextTick(() => {
+                if (!val && this.$refs.totalDataRow) {
+                    this.$refs.totalDataRow.scrollIntoView({behavior: "smooth"});
+                }
+            });
         },
 
         /**
@@ -599,6 +663,15 @@ export default {
          */
         checkTotalHint (totalProp, showTotalData) {
             return typeof totalProp?.hintText === "string" && showTotalData;
+        },
+
+        /**
+         * Gets the selected class if given columnIdx is selected.
+         * @param {Number} columnIdx The column id.
+         * @returns {String} the 'selected' class if column is selected, empty string otherwise.
+         */
+        getClassForSelectedColumn (columnIdx) {
+            return isObject(this.visibleHeaders[columnIdx]) && this.selectedColumn === this.visibleHeaders[columnIdx].name ? "selected" : "";
         }
     }
 };
@@ -607,7 +680,8 @@ export default {
 <template>
     <div
         v-if="title"
-        class="mb-3 text-center font-bold fs-4 title"
+        class="mb-3 text-center title"
+        :class="fontSize === 'small' ? 'small-title' : 'fs-4'"
     >
         {{ title }}
     </div>
@@ -740,14 +814,17 @@ export default {
         class="fixed"
         :class="tableClass"
     >
-        <table class="table table-sm table-hover rounded-pill">
+        <table
+            class="table table-sm table-hover rounded-pill"
+            :class="[dynamicColumnTable && !filterable ? 'dynamic-column-table' : '']"
+        >
             <thead>
                 <tr v-if="showHeader">
                     <th
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
                         class="filter-select-box-wrapper"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column ? 'selected' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         @click="selectColumn(column, idx)"
                     >
                         <div class="d-flex justify-content-between me-3">
@@ -807,20 +884,24 @@ export default {
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
-                        {{ item[entry.name] }}
+                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(item[entry.name], getSeparator('group'), getSeparator('decimal')) : item[entry.name] }}
                     </td>
                 </tr>
                 <template v-if="showTotalData">
-                    <tr>
+                    <tr
+                        ref="totalDataRow"
+                        class="fixed"
+                    >
                         <td
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
+                            :fixed="typeof fixedColumn !== 'undefined'"
                             class="p-2 total"
-                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[index] ? 'selected' : '']"
+                            :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index), typeof entry === 'number' ? 'pull-right' : '']"
                         >
-                            {{ entry }}
+                            {{ typeof entry === 'number' ? thousandsSeparator(entry, getSeparator('group'), getSeparator('decimal')) : entry }}
                         </td>
                     </tr>
                 </template>
@@ -834,7 +915,7 @@ export default {
                             v-for="(entry, columnIdx) in row"
                             :key="'fixed-'+columnIdx"
                             class="p-2"
-                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', selectedColumn === visibleHeaders[columnIdx] ? 'selected' : '']"
+                            :class="[selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         >
                             {{ entry }}
                         </td>
@@ -878,9 +959,30 @@ export default {
         }
     }
 }
-
+.title {
+    font-family: $font_family_accent;
+}
+.small-title {
+    font-size: 16px;
+}
 .btn-toolbar {
     float: left;
+}
+
+.small-font-size {
+    font-size: 12px;
+}
+
+.medium-font-size {
+    font-size: 14px;
+}
+
+.pull-left {
+    text-align: left;
+}
+.pull-right {
+    text-align: right;
+    padding-right: 25px !important;
 }
 
 table {
@@ -889,8 +991,6 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     td {
-        font-size: 14px;
-        text-align: left;
         &.total:not(.selected) {
             background: $light_blue;
             font-family: "MasterPortalFont Bold";
@@ -938,6 +1038,24 @@ table {
     }
     th.fixedColumn {
         z-index: 3;
+    }
+    td:first-child[fixed=true] {
+            position: sticky;
+            left: 0;
+            background-color: $light_blue;
+            z-index: 1;
+            }
+}
+
+.dynamic-column-table {
+    table-layout: inherit;
+    th {
+        width: fit-content;
+        position: sticky;
+        span.sortable-icon {
+            position: static;
+            padding-top: 10px;
+        }
     }
 }
 

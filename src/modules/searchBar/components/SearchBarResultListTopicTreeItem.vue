@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         ...mapActions("Modules/SearchBar", [
-            "addLayerToTopicTree", "removeLayerFromTopicTree"
+            "addLayerToTopicTree", "removeLayerFromTopicTree", "showInTree"
         ]),
 
         /**
@@ -59,13 +59,18 @@ export default {
         addOrRemoveLayer () {
             const actionArgs = this.searchResult.events?.onClick?.activateLayerInTopicTree || this.searchResult.events?.onClick?.addLayerToTopicTree;
 
-            if (actionArgs) {
-                if (!this.isChecked) {
-                    this.addLayerToTopicTree(actionArgs);
+            if (!this.searchResult.category.includes("Ordner")) {
+                if (actionArgs) {
+                    if (!this.isChecked) {
+                        this.addLayerToTopicTree(actionArgs);
+                    }
+                    else {
+                        this.removeLayerFromTopicTree(actionArgs);
+                    }
                 }
-                else {
-                    this.removeLayerFromTopicTree(actionArgs);
-                }
+            }
+            else {
+                this.showInTree({layerId: this.searchResult.id});
             }
         }
 
@@ -86,7 +91,11 @@ export default {
                 @click="addOrRemoveLayer"
                 @keydown.enter="addOrRemoveLayer"
             >
+                <span v-if="searchResult.category.includes('Ordner')">
+                    <i :class="[searchResult.icon, 'pe-3']" />
+                </span>
                 <span
+                    v-else
                     :id="'search-bar-result-list-topic-tree-item-checkbox-' + searchResult.id"
                     :class="[
                         'search-bar-result-list-topic-tree-item-checkbox ps-1 pe-3',
@@ -110,7 +119,7 @@ export default {
         </span>
         <div class="d-flex">
             <div
-                v-for="action, i in Object.keys(actions)"
+                v-for="(action, i) in Object.keys(actions)"
                 :key="i"
             >
                 <ActionButton

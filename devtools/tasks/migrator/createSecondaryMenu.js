@@ -41,7 +41,18 @@ function fillSections (data, secondaryMenu, migratedTools, toRemoveFromTools) {
                 }
                 console.info("       " + name);
                 if (name === "layerClusterToggler") {
-                    console.info("--- HINT configuration of LayerClusterToggler in Layers must be done by hand. 'Suffix' is replaced by direct suffix at layer id.");
+                    console.log(tool);
+                    const migratedIds = [];
+
+                    tool.clusterList.forEach(layerId => {
+                        if (typeof layerId === "object") {
+                            const idCopy = {...layerId};
+
+                            migratedIds.push(idCopy.layerId + "." + idCopy.suffix);
+                        }
+                    });
+                    delete tool.clusterList;
+                    tool.layerIdList = migratedIds;
                 }
                 if (name === "parcelSearch") {
                     console.info("--- HINT parcelSearch was removed, use wfsSearch instead.");

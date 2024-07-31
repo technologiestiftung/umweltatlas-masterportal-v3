@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import mutations from "../store/mutationsShareView";
 import QRCode from "qrcode";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
@@ -35,6 +35,7 @@ export default {
     },
     methods: {
         ...mapMutations("Modules/ShareView", Object.keys(mutations)),
+        ...mapActions("Alerting", ["addSingleAlert"]),
 
         /**
          * Shares the link on a mobile device.
@@ -85,7 +86,16 @@ export default {
             const toast = new Toast(this.$refs.copyToast);
 
             toast.show();
-            navigator.clipboard.writeText(this.url);
+
+            if (window.isSecureContext) {
+                navigator.clipboard.writeText(this.url);
+            }
+            else {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.shareView.copyErrorAlert", {url: this.url})
+                });
+            }
         }
     }
 };

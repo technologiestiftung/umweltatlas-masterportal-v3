@@ -95,10 +95,6 @@ export default {
         setGlobalVariables () {
             global.mapCollection = mapCollection;
             global.moduleCollection = {};
-
-            if (typeof Cesium === "undefined") {
-                global.Cesium = null;
-            }
         },
 
         /**

@@ -19,6 +19,7 @@ export default {
             "activatedExpandable",
             "baselayerIds",
             "configPaths",
+            "singleBaseLayer",
             "topBaselayerId",
             "type"
         ])
@@ -127,6 +128,13 @@ export default {
             selectableBackroundLayerIds.splice(index, 1);
             if (this.topBaselayerId !== null) {
                 selectableBackroundLayerIds.push(this.topBaselayerId);
+                if (this.singleBaseLayer) {
+                    this.layerConfigsByAttributes({
+                        id: this.topBaselayerId
+                    }).forEach(layer => {
+                        layer.visibility = false;
+                    });
+                }
             }
             this.setBaselayerIds(selectableBackroundLayerIds);
 
@@ -140,7 +148,7 @@ export default {
 
 <template>
     <div
-        v-if="baselayerIds.length > 1 && active"
+        v-if="baselayerIds.length > 0 && active"
         id="baselayer-switcher"
         class="btn-group-vertical my-5 btn-group-background-switcher shadow"
         role="group"

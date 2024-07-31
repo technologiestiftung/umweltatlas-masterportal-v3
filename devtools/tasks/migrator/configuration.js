@@ -1,7 +1,5 @@
 const toolsNotToMigrate = [
         "compareFeatures",
-        "saveSelection",
-        "quickHelp",
         "addLayerRemotely",
         "bauforum",
         "boris",
@@ -30,9 +28,9 @@ const toolsNotToMigrate = [
         "staticlinks",
         "vcOblique",
         "coord",
-        "styleWMS",
-        "addWMS"
+        "styleWMS"
     ],
+    removed = ["quickHelp", "saveSelection"],
     deprecated = ["searchByCoord", "supplyCoord", "parcelSearch", "extendedFilter", "wfsFeatureFilter"],
     // toRemoveFromTools => attributes not to provide at tool-configs in v3.0.0
     toRemoveFromTools = {
@@ -58,13 +56,13 @@ const toolsNotToMigrate = [
         "modules.searchbar": "modules.searchBar",
         "translate#common": "common",
         "translate#additional": "additional",
-        "\"clusterList\":": "\"layerIdList\":", // module LayerClusterToggler
         "\"iconFor\":": "\"iconForward\":", // control "BackForward"
         "\"type\": \"gfi\"": "\"type\":\"getFeatureInfo\""// module gfi
     };
 
 module.exports = {
     deprecated,
+    removed,
     replacementsInConfigJson,
     toolsNotToMigrate,
     toRemoveFromConfigJs,

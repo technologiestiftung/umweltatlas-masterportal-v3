@@ -130,25 +130,31 @@ export default {
                 params,
                 url;
 
-            if (layerConfig.typ === "GROUP") {
-                layerConfigUrl = layerConfig.children[0].url;
-                params = wms.makeParams(layerConfig.children[0]);
+            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                url = layerConfig.preview.src;
             }
             else {
-                layerConfigUrl = layerConfig.url;
-                params = wms.makeParams(layerConfig);
-            }
-            url = `${layerConfigUrl}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
-            params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
-            params.SRS = params.CRS;
-            params.BBOX = this.calculateExtent();
-            params.STYLES = "";
-
-            Object.entries(params).forEach(([key, value]) => {
-                if (key !== "WIDTH" && key !== "HEIGHT") {
-                    url += `&${key}=${encodeURIComponent(value)}`;
+                if (layerConfig.typ === "GROUP") {
+                    layerConfigUrl = layerConfig.children[0].url;
+                    params = wms.makeParams(layerConfig.children[0]);
                 }
-            });
+                else {
+                    layerConfigUrl = layerConfig.url;
+                    params = wms.makeParams(layerConfig);
+                }
+                url = `${layerConfigUrl}?SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
+                params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
+                params.SRS = params.CRS;
+                params.BBOX = this.calculateExtent();
+                params.STYLES = "";
+
+                Object.entries(params).forEach(([key, value]) => {
+                    if (key !== "WIDTH" && key !== "HEIGHT") {
+                        url += `&${key}=${encodeURIComponent(value)}`;
+                    }
+                });
+            }
+
             this.load(url);
         },
 
@@ -191,7 +197,7 @@ export default {
                 capabilitiesOptions.projection = "EPSG:3857";
             }
             options = optionsFromCapabilities(capabilities, capabilitiesOptions);
-            transformedCoords = proj4(proj4(mapView.getProjection().getCode()), proj4("EPSG:3857"), this.previewCenter(this.layerId));
+            transformedCoords = proj4(proj4(mapView.getProjection().getCode()), proj4(options.projection?.getCode() ? options.projection?.getCode() : "EPSG:3857"), this.previewCenter(this.layerId));
             tileZ = options?.tileGrid.getZForResolution(mapView.getResolutions()[this.previewZoomLevel(this.layerId)]);
             tileCoord = options?.tileGrid.getTileCoordForCoordAndZ(transformedCoords, tileZ);
 

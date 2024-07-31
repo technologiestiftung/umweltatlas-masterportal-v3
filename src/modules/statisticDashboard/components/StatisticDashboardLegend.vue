@@ -2,6 +2,7 @@
 import {mapGetters, mapMutations} from "vuex";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import InputText from "../../../shared/modules/inputs/components/InputText.vue";
+import {convertColor} from "../../../shared/js/utils/convertColor";
 export default {
     name: "StatisticDashboardLegend",
     components: {
@@ -9,11 +10,6 @@ export default {
         InputText
     },
     emits: ["changeLegendView"],
-    data () {
-        return {
-            selectColor: "#ffffff"
-        };
-    },
     computed: {
         ...mapGetters("Modules/StatisticDashboard", [
             "classificationMode",
@@ -23,8 +19,18 @@ export default {
             "numberOfClasses",
             "selectableColorPalettes",
             "selectedColorPaletteIndex",
-            "opacity"
-        ])
+            "opacity",
+            "stepValues",
+            "colorPalette"
+        ]),
+
+        /**
+         * Checks if the current step values are numbers in ascending order.
+         * @returns {Boolean} True if stepValues are ascending, false if not.
+         */
+        areStepValuesAscending () {
+            return this.stepValues.every((v, i, a) => a[i] > a[i - 1] || i === 0);
+        }
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", [
@@ -32,8 +38,50 @@ export default {
             "setAllowPositiveNegativeClasses",
             "setNumberOfClasses",
             "setSelectedColorPaletteIndex",
-            "setOpacity"
-        ])
+            "setOpacity",
+            "setStepValues",
+            "setColorPalette"
+        ]),
+        convertColor: convertColor,
+
+        /**
+         * Changes a single value in step values.
+         * @param {Number} index - The index in stepValues the value at which is to be changed.
+         * @param {Number} value - The new value to be set.
+         * @returns {void}
+         */
+        changeStepValues (index, value) {
+            const number = parseFloat(value),
+                values = [...this.stepValues];
+
+            if (!Number.isFinite(number)) {
+                return;
+            }
+            values[index] = number;
+            this.setStepValues(values);
+        },
+
+        /**
+         * Changes a single color in the color palette.
+         * @param {Number} index - The index in colorPalette the value at which is to be changed.
+         * @param {Number} value - The new color value to be set.
+         * @returns {void}
+         */
+        changeOneColor (index, value) {
+            const palette = [...this.colorPalette];
+
+            palette[index] = value;
+            this.setColorPalette(palette);
+        },
+
+        /**
+         * Event handler for reset event.
+         * Sets step values and colors to the values they would have in quantile mode, but leaves classification as custom.
+         */
+        reset () {
+            this.setClassificationMode("quantiles");
+            setTimeout(() => this.setClassificationMode("custom"));
+        }
     }
 };
 </script>
@@ -62,8 +110,8 @@ export default {
                     {{ $t("common:modules.statisticDashboard.legend.equalIntervals") }}
                 </option>
                 <option
-                    value="benutzerdefiniert"
-                    :selected="classificationMode === 'benutzerdefiniert'"
+                    value="custom"
+                    :selected="classificationMode === 'custom'"
                 >
                     {{ $t("common:modules.statisticDashboard.legend.customized") }}
                 </option>
@@ -85,17 +133,20 @@ export default {
                 :max="maxNumberOfClasses"
                 list="numbers"
                 :value="numberOfClasses"
-                @change="setNumberOfClasses(parseInt($event.target.value))"
+                @input="setNumberOfClasses(parseInt($event.target.value))"
             >
             <datalist id="numbers">
                 <option
-                    v-for="n in maxNumberOfClasses - minNumberOfClasses + 1"
-                    :key="n"
-                    :label="minNumberOfClasses + n - 1"
+                    :key="minNumberOfClasses"
+                    :label="minNumberOfClasses"
+                />
+                <option
+                    :key="maxNumberOfClasses"
+                    :label="maxNumberOfClasses"
                 />
             </datalist>
         </div>
-        <div v-if="classificationMode !== 'benutzerdefiniert'">
+        <div v-if="classificationMode !== 'custom'">
             <div class="form-check">
                 <input
                     id="allowPosNegMix"
@@ -148,31 +199,46 @@ export default {
                     :class="['col', 'col-3']"
                     :placeholder="$t('common:modules.statisticDashboard.legend.range')"
                     type="number"
-                    :input="() => event"
+                    :disabled="index > stepValues.length + 1"
+                    :value="stepValues[index - 1]?.toString()"
+                    :change="value => changeStepValues(index - 1, value)"
                 />
                 <div
                     class="col col-auto align-self-center my-0"
                 >
-                    {{ $t('common:modules.statisticDashboard.legend.betweenValues') }}
+                    {{ index === numberOfClasses ?
+                        $t('common:modules.statisticDashboard.legend.andAbove') :
+                        $t('common:modules.statisticDashboard.legend.betweenValues')
+                    }}
                 </div>
                 <InputText
+                    v-if="index !== numberOfClasses"
                     :id="'value-range2' + index"
                     :label="$t('common:modules.statisticDashboard.legend.range') + ' ' + index"
                     :class="['col', 'col-3']"
                     :placeholder="$t('common:modules.statisticDashboard.legend.range')"
                     type="number"
-                    :input="() => event"
+                    :disabled="index > stepValues.length"
+                    :value="stepValues[index]?.toString()"
+                    :change="value => changeStepValues(index, value)"
                 />
                 <InputText
                     :id="'color-range' + index"
-                    :model="selectColor"
                     :label="$t('common:modules.statisticDashboard.legend.color')"
                     :class="['col-3', 'ms-md-auto']"
                     :placeholder="$t('common:modules.statisticDashboard.legend.color')"
                     type="color"
-                    value="#ffffff"
-                    :input="() => selectColor"
+                    :disabled="index > stepValues.length"
+                    :value="convertColor(colorPalette?.[index - 1], 'hex')"
+                    :input="value => changeOneColor(index - 1, convertColor(value, 'rgb'))"
                 />
+            </div>
+            <div
+                v-if="!areStepValuesAscending"
+                class="alert alert-danger"
+                role="alert"
+            >
+                {{ $t('common:modules.statisticDashboard.legend.invalidCustomStepsAlert') }}
             </div>
         </div>
         <div class="form-floating mb-5">
@@ -202,6 +268,7 @@ export default {
                 :icon="'bi bi-check-lg'"
                 :class="''"
                 :interaction="() => $emit('changeLegendView')"
+                :disabled="!areStepValuesAscending"
             />
         </div>
         <div class="d-flex justify-content-center">
@@ -210,6 +277,7 @@ export default {
                 :aria-label="$t('common:modules.statisticDashboard.legend.reset')"
                 :text="$t('common:modules.statisticDashboard.legend.reset')"
                 :icon="'bi bi-x-circle'"
+                :interaction="reset"
             />
         </div>
     </div>

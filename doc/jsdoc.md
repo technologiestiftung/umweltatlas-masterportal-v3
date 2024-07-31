@@ -4,6 +4,8 @@
 
 Create the jsdoc with `npm run buildJsDoc` and open file .../jsdoc/index.html.
 
+See files under `src\modules\coordToolkit` as examples for correct jsdoc.
+
 ## vue component
 
 The jsdoc should have a module path corresponding to the path in the folder structure: `@module modules/draw/components/DrawModule` and must be located directly above `export default {`.

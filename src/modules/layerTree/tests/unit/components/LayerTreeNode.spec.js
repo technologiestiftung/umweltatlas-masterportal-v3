@@ -23,10 +23,14 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         layersWithFolder,
         layersBG,
         addLayerButton,
-        treeType;
+        treeType,
+        removeLayerSpy,
+        setRemoveOnSpillSpy;
 
     beforeEach(() => {
         mapMode = "2D";
+        removeLayerSpy = sinon.spy();
+        setRemoveOnSpillSpy = sinon.spy();
         addLayerButton = {
             active: false
         };
@@ -130,6 +134,12 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                                 delayOnTouchOnly: () => true,
                                 removeOnSpill: () => true,
                                 touchStartThreshold: () => 3
+                            },
+                            actions: {
+                                removeLayer: removeLayerSpy
+                            },
+                            mutations: {
+                                setRemoveOnSpill: setRemoveOnSpillSpy
                             }
                         },
                         LayerSelection: {
@@ -159,6 +169,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                         }
                     };
                 },
+                layerConfigsByAttributes: () => () => [],
                 portalConfig: () => {
                     return {
                         tree: {
@@ -219,6 +230,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.vm.isLayerShowInLayerTree(layerBG_2)).to.be.false;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
+        expect(setRemoveOnSpillSpy.calledOnce).to.be.true;
     });
 
     it("renders the LayerTree with 3D layers", () => {
@@ -244,5 +256,28 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         expect(wrapper.find("#layer-tree-layer-" + layer3D.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_1.id).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-layer-" + layerBG_2.id).exists()).to.be.false;
+        expect(setRemoveOnSpillSpy.calledOnce).to.be.true;
+    });
+    describe("methods", () => {
+        it("removeLayerOnSpill - calls removeLayer if showLayerAddButton is true", () => {
+            wrapper = mount(LayerTreeNode, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            wrapper.vm.removeLayerOnSpill({oldIndex: 1});
+            expect(removeLayerSpy.notCalled).to.be.true;
+        });
+        it("removeLayerOnSpill - calls not removeLayer if showLayerAddButton is false", () => {
+            addLayerButton.active = true;
+            wrapper = mount(LayerTreeNode, {
+                global: {
+                    plugins: [store]
+                }
+            });
+            wrapper.vm.removeLayerOnSpill({oldIndex: 1});
+            expect(removeLayerSpy.calledOnce).to.be.true;
+            expect(setRemoveOnSpillSpy.notCalled).to.be.true;
+        });
     });
 });

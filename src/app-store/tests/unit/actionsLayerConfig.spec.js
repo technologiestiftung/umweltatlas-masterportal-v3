@@ -274,6 +274,52 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(state.layerConfig[treeSubjectsKey]?.elements[0]).to.deep.equal(layerToAdd);
         });
 
+        it("addLayerToLayerConfig no folders - add config to 'treeSubjectsKey' if only one baselayer is visible", () => {
+            const baselayerConfig = {
+                    id: "453",
+                    visibility: true,
+                    zIndex: 0
+                },
+                layerToAdd = {
+                    id: "I_m_the_id",
+                    name: "Trees in Hamburg",
+                    typ: "WMS",
+                    layers: "trees",
+                    url: "https://geodienste.hamburg.de/trees",
+                    version: "1.4.3",
+                    visibility: true,
+                    showInLayerTree: true,
+                    maxScale: 2000,
+                    minScale: 12
+                };
+
+            layerConfig[treeSubjectsKey] = {
+                elements: []
+            };
+            layerConfig[treeBaselayersKey] = {
+                elements: [baselayerConfig]
+            };
+            state.layerConfig = layerConfig;
+            getters = {
+                allLayerConfigs: [baselayerConfig],
+                allLayerConfigsByParentKey: () => []
+            };
+
+            expect(state.layerConfig[treeSubjectsKey]?.elements.length).to.equal(0);
+            actions.addLayerToLayerConfig({dispatch, getters, state}, {layerConfig: layerToAdd, parentKey: treeSubjectsKey});
+            expect(dispatch.callCount).to.equals(2);
+            expect(dispatch.firstCall.args[0]).to.equals("updateLayerConfigZIndex");
+            expect(dispatch.firstCall.args[1]).to.deep.equals({
+                layerContainer: [baselayerConfig],
+                maxZIndex: 0
+            });
+            expect(dispatch.secondCall.args[0]).to.equals("addBaselayerAttribute");
+            expect(dispatch.secondCall.args[1]).to.be.undefined;
+            expect(state.layerConfig[treeSubjectsKey]?.elements.length).to.equal(1);
+            expect(state.layerConfig[treeSubjectsKey]?.elements[0]).to.deep.equal(layerToAdd);
+            expect(state.layerConfig[treeSubjectsKey]?.elements[0].zIndex).to.be.equals(1);
+        });
+
         it("addLayerToLayerConfig no folders - add config to 'treeBaselayersKey'", () => {
             layerConfig[treeBaselayersKey] = {
                 elements: []

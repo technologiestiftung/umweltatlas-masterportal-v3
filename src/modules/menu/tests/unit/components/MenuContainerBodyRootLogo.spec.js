@@ -25,7 +25,7 @@ describe("src/modules/menu/MenuContainerBodyRootLogo.vue", () => {
         expect(wrapper.find("#mp-menu-logo-idAppendix").attributes("title")).to.be.equals(props.toolTip);
         expect(wrapper.find("#mp-menu-logo-idAppendix").attributes("href")).to.be.equals(props.link);
         expect(wrapper.find("#mp-menu-logo-idAppendix > img").attributes("src")).to.be.equals(props.logo);
-        expect(wrapper.find("#mp-menu-logo-idAppendix > img").attributes("alt")).to.be.equals(props.text);
+        expect(wrapper.find("#mp-menu-logo-idAppendix > img").attributes("alt")).to.be.equals(props.toolTip);
         expect(wrapper.find("#mp-menu-logo-idAppendix > h1").text()).to.be.equals(props.text);
     });
 

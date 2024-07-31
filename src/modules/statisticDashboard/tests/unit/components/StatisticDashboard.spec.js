@@ -2,9 +2,9 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
 import StatisticDashboard from "../../../components/StatisticDashboard.vue";
+import FeatureHandler from "../../../js/handleFeatures.js";
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
-import StatisticSwitcherComponent from "../../../components/StatisticDashboardSwitcher.vue";
 import sinon from "sinon";
 import fetchData from "../../../js/fetchData";
 import ChartProcessor from "../../../js/chartProcessor";
@@ -16,6 +16,17 @@ import {
 import Feature from "ol/Feature.js";
 
 config.global.mocks.$t = key => key;
+
+/**
+ * mocks secondary menu
+ * @returns {void}
+ */
+function addSecondaryMenuElement () {
+    const app = document.createElement("div");
+
+    app.setAttribute("id", "mp-menu-secondaryMenu");
+    document.body.append(app);
+}
 
 describe("src/modules/StatisticDashboard.vue", () => {
     const sourceStub = {
@@ -48,6 +59,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
     let store;
 
     beforeEach(() => {
+        addSecondaryMenuElement();
         store = createStore({
             namespaced: true,
             modules: {
@@ -84,58 +96,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
             expect(wrapper.find(".level-switch").exists()).to.be.false;
         });
 
-        it("Level name as switch button should exist", () => {
-            const localStore = createStore({
-                    namespaced: true,
-                    modules: {
-                        Modules: {
-                            namespaced: true,
-                            modules: {
-                                StatisticDashboard: {
-                                    namespaced: true,
-                                    getters: {
-                                        active: () => true,
-                                        subtitle: () => "test",
-                                        levelTitle: () => "test",
-                                        selectedReferenceData: () => undefined,
-                                        legendData: () => [],
-                                        chartTableToggle: () => "table",
-                                        data: () => [],
-                                        buttonGroupRegions: () => [
-                                            {
-                                                "levelName": "test1"
-                                            },
-                                            {
-                                                "levelName": "test2"
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        },
-                        Maps: {
-                            namespaced: true,
-                            getters: {
-                                projection: () => "EPSG:25832"
-                            },
-                            actions: {
-                                addNewLayerIfNotExists: () => {
-                                    return Promise.resolve({
-                                        getSource: () => sourceStub
-                                    });
-                                }
-                            }
-                        }
-                    }}),
-                wrapper = shallowMount(StatisticDashboard, {
-                    global: {
-                        plugins: [localStore]
-                    }
-                });
-
-            expect(wrapper.findComponent(StatisticSwitcherComponent).exists()).to.be.false;
-        });
-
         it("The legend component should not exist", () => {
             const wrapper = shallowMount(StatisticDashboard, {
                 global: {
@@ -165,7 +125,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             "name": "90"
                         }
                     ],
-                    showNoticeText: false
+                    showNoticeText: false,
+                    selectedLevel: {
+                        id: ""
+                    }
                 },
                 wrapper = shallowMount(StatisticDashboard, {
                     global: {
@@ -209,7 +172,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             await wrapper.setData({loadedFilterData: true});
             expect(wrapper.findComponent({name: "AccordionItem"}).exists()).to.be.true;
         });
-        it("should render filter search field if showLineLimitView is true", async () => {
+        it("should render filter search field if showLimitView is true", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
                 global: {
                     plugins: [store]
@@ -217,7 +180,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
 
             await wrapper.setData({
-                showLineLimitView: true,
+                showLimitView: true,
                 showChart: true
             });
 
@@ -264,78 +227,101 @@ describe("src/modules/StatisticDashboard.vue", () => {
         });
 
         it("should call 'checkFilterSettings' if selectedReferenceData is changed", async () => {
-            const newStore = createStore({
-                    namespaced: true,
-                    modules: {
-                        Modules: {
-                            namespaced: true,
-                            modules: {
-                                StatisticDashboard: {
-                                    namespaced: true,
-                                    state: {
-                                        selectedReferenceData: undefined
-                                    },
-                                    getters: {
-                                        active: () => true,
-                                        name: () => "test",
-                                        icon: () => "bi-speedometer",
-                                        renderToWindow: () => false,
-                                        resizableWindow: () => true,
-                                        isVisibleInMenu: () => true,
-                                        deactivateGFI: () => true,
-                                        colorScheme: () => undefined,
-                                        data: () => [],
-                                        selectedReferenceData: (state) => state.selectedReferenceData,
-                                        selectedCategories: () => [],
-                                        selectedReferenceValueTag: () => undefined,
-                                        selectedRegions: () => [],
-                                        selectedDates: () => ["test"],
-                                        selectedStatistics: () => undefined,
-                                        chartTableToggle: () => "table",
-                                        legendData: () => [],
-                                        selectedRegionsValues: () => ["test"],
-                                        subtitle: () => "Test",
-                                        levelTitle: () => "Test"
-                                    },
-                                    mutations: {
-                                        setSelectedReferenceData (state, value) {
-                                            state.selectedReferenceData = value;
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        Maps: {
-                            namespaced: true,
-                            getters: {
-                                projection: () => "EPSG:25832"
-                            },
-                            actions: {
-                                addNewLayerIfNotExists: () => {
-                                    return Promise.resolve({
-                                        getSource: () => sourceStub
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }),
-                wrapper = shallowMount(StatisticDashboard, {
+            const wrapper = shallowMount(StatisticDashboard, {
                     global: {
-                        plugins: [newStore]
+                        plugins: [store]
                     }
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
-            newStore.commit("Modules/StatisticDashboard/setSelectedReferenceData", "too");
+            wrapper.vm.setSelectedReferenceData("too");
+            wrapper.vm.setSelectedDates(["too"]);
+            wrapper.vm.setSelectedRegions(["too"]);
+
             await wrapper.vm.$nextTick();
 
             expect(spyCheckFilterSettings.calledOnce).to.be.true;
             sinon.restore();
         });
+
+        it("should call 'handleChartData' if chosenStatisticName is changed", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                spyHandleChartData = sinon.stub(wrapper.vm, "handleChartData");
+
+            store.commit("Modules/StatisticDashboard/setChosenStatisticName", "foo");
+            await wrapper.vm.$nextTick();
+            expect(spyHandleChartData.calledOnce).to.be.true;
+            sinon.restore();
+        });
+
     });
 
+
     describe("methods", () => {
+        describe("downloadData", () => {
+            it("should call onsuccess without params", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    onsuccess = sinon.stub(),
+                    statisticsData = wrapper.vm.statisticsData;
+
+                wrapper.vm.downloadData(onsuccess);
+                wrapper.vm.statisticsData = null;
+                expect(onsuccess.calledWith(null)).to.be.true;
+                wrapper.vm.statisticsData = statisticsData;
+                sinon.restore();
+            });
+            it("should call onsuccess with expected params", () => {
+                const statisticsTmp = {
+                        "Arbeitslose": {
+                            "Herzogtum Lauenburg": {
+                                "2020": 5785,
+                                "2021": 5603
+                            },
+                            "Harburg": {
+                                "2020": 6166,
+                                "2021": 6186
+                            }
+                        },
+                        "Arbeitslose 15 bis unter 25 Jahre": {
+                            "Herzogtum Lauenburg": {
+                                "2020": 643,
+                                "2021": 597
+                            },
+                            "Harburg": {
+                                "2020": 670,
+                                "2021": 591
+                            }
+                        }
+                    },
+                    wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    onsuccess = sinon.stub(),
+                    statisticsData = wrapper.vm.statisticsData,
+                    expected = [
+                        ["", "Arbeitslose", "Arbeitslose", "Arbeitslose 15 bis unter 25 Jahre", "Arbeitslose 15 bis unter 25 Jahre"],
+                        ["Gebiet", "2021", "2020", "2021", "2020"],
+                        ["Herzogtum Lauenburg", 5603, 5785, 597, 643],
+                        ["Harburg", 6186, 6166, 591, 670]
+                    ];
+
+                wrapper.vm.statisticsData = statisticsTmp;
+                wrapper.vm.downloadData(onsuccess);
+                expect(onsuccess.getCall(0).args[0]).to.deep.equal(expected);
+                wrapper.vm.statisticsData = statisticsData;
+                sinon.restore();
+            });
+        });
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -489,7 +475,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     "mappingFilter": {
                         "statisticsAttributes": {
                             "beschaeftigte": {
@@ -502,7 +488,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             }
                         }
                     }
-                };
+                });
 
                 wrapper.vm.setStatisticsByCategories([{name: "alle"}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
@@ -526,7 +512,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.categories = [{name: "Beschäftigte"}, {name: "Bevölkerung"}];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     "mappingFilter": {
                         "statisticsAttributes": {
                             "beschaeftigte": {
@@ -539,7 +525,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             }
                         }
                     }
-                };
+                });
 
                 wrapper.vm.setStatisticsByCategories([{name: "Beschäftigte"}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
@@ -562,6 +548,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = regions;
                 wrapper.vm.dates = dates;
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.be.undefined;
             });
@@ -577,6 +570,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = regions;
                 wrapper.vm.dates = ["01.01.1999"];
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(dates, undefined)).to.be.true;
@@ -594,9 +594,16 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = ["foo"];
                 wrapper.vm.dates = dates;
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        }
+                    }
+                });
 
                 wrapper.vm.getFilter(regions, dates);
-                expect(getFilterForListSpy.calledWith(regions, undefined)).to.be.true;
+                expect(getFilterForListSpy.calledWith(regions, "bar")).to.be.true;
                 sinon.restore();
             });
             it("should return an and filter if given regions and dates have values but not the same length as the data values", () => {
@@ -613,7 +620,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.regions = [...regions, "faw"];
                 wrapper.vm.dates = [...dates, "01.01.2001"];
-                wrapper.vm.selectedLevel = {
+                wrapper.vm.setSelectedLevel({
                     mappingFilter: {
                         timeAttribute: {
                             attrName: "bow"
@@ -622,7 +629,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             attrName: "bar"
                         }
                     }
-                };
+                });
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
             });
@@ -768,36 +775,20 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("setSelectedColumn", () => {
-            it("should call 'updateFeatureStyle' with the correct arguments if no reference is selected", () => {
+            it("should call 'getStepValue' with the correct arguments", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", undefined);
                 const wrapper = shallowMount(StatisticDashboard, {
                         global: {
                             plugins: [store]
                         }
                     }),
-                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
+                    stubGetStepValue = sinon.stub(FeatureHandler, "getStepValue");
 
+                await wrapper.setData({statisticsData: {}});
+                wrapper.vm.setNumberOfClasses(3);
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
-                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2022", false]);
-
-                sinon.restore();
-            });
-
-            it("should call 'updateFeatureStyle' with the correct arguments if reference is selected", () => {
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    spyUpdateFeatureStyle = sinon.stub(wrapper.vm, "updateFeatureStyle");
-
-                wrapper.vm.setSelectedColumn("2000");
-
-                expect(spyUpdateFeatureStyle.calledOnce).to.be.true;
-                expect(spyUpdateFeatureStyle.args[0]).to.deep.equal(["2000", true, {}]);
+                expect(stubGetStepValue.calledWith(undefined, 3, "2022")).to.be.true;
 
                 sinon.restore();
             });
@@ -954,7 +945,17 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("getTableData", () => {
-            it("should return the data for the table(s) from the statistics object", () => {
+            it("should return an empty array if there are no statistic data", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getTableData({}, "")).to.deep.equal([]);
+            });
+
+            it("should return the data for the table(s) from the statistics object according the chosen statistic name", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                         global: {
                             plugins: [store]
@@ -976,23 +977,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     },
                     expectedValue = [{
                         headers: [
-                            {name: "Gebiet"},
-                            {name: "1990"},
-                            {name: "1890"}
-                        ],
-                        items: [
-                            {
-                                "1890": "13",
-                                "1990": "113",
-                                "Gebiet": "Hamburg"
-                            }
-                        ]
-                    },
-                    {
-                        headers: [
-                            {name: "Gebiet"},
-                            {name: "1990"},
-                            {name: "1890"}
+                            {name: "Gebiet", index: 0},
+                            {name: "1990", index: 1},
+                            {name: "1890", index: 2}
                         ],
                         items: [{
                             "1890": "12",
@@ -1001,7 +988,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }]
                     }];
 
-                expect(wrapper.vm.getTableData(preparedData)).to.deep.equal(expectedValue);
+                expect(wrapper.vm.getTableData(preparedData, "Bevölkerung weiblich")).to.deep.equal(expectedValue);
             });
         });
         describe("handleChartData", () => {
@@ -1431,49 +1418,95 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
             });
         });
-        describe("limitingLines", () => {
-            it("should return trimmed object", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    data = {
-                        "Region1": {
-                            "2021": 80395,
-                            "2022": 73800
-                        },
-                        "Region2": {
-                            "2021": 4478,
-                            "2022": 4260
-                        },
-                        "Region3": {
-                            "2021": 6186,
-                            "2022": 6065
-                        },
-                        "Region4": {
-                            "2021": 6186,
-                            "2022": 6065
-                        }
+        describe("limitingDataForChart", () => {
+            const data = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
                     },
-                    expectedObject = {
-                        "Region1": {
-                            "2021": 80395,
-                            "2022": 73800
-                        },
-                        "Region2": {
-                            "2021": 4478,
-                            "2022": 4260
-                        },
-                        "Region3": {
-                            "2021": 6186,
-                            "2022": 6065
-                        }
-                    };
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    },
+                    "Region4": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedObject = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
+                    },
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedBarObject = {
+                    "Region1": {
+                        "2021": 80395,
+                        "2022": 73800
+                    },
+                    "Region2": {
+                        "2021": 4478,
+                        "2022": 4260
+                    },
+                    "Region3": {
+                        "2021": 6186,
+                        "2022": 6065
+                    },
+                    "Region4": {
+                        "2021": 6186,
+                        "2022": 6065
+                    }
+                },
+                expectedArray = [
+                    "Region1",
+                    "Region2",
+                    "Region3"
+                ],
+                expectedBarArray = [
+                    "Region1",
+                    "Region2",
+                    "Region3",
+                    "Region4"
+                ];
 
-                expect(wrapper.vm.limitingLines(data)).to.deep.equal(expectedObject);
-                expect(wrapper.vm.showLineLimitView).to.be.true;
+            it("should return trimmed object for line charts", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
 
+                await wrapper.setData({diagramType: "line"});
+
+                expect(wrapper.vm.limitingDataForChart(data, 3)).to.deep.equal(expectedObject);
+                expect(wrapper.vm.showLimitView).to.be.true;
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(expectedArray);
+            });
+            it("should return trimmed object for bar charts", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "bar"});
+
+                expect(wrapper.vm.limitingDataForChart(data, 4)).to.deep.equal(expectedBarObject);
+                expect(wrapper.vm.showLimitView).to.be.true;
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(expectedArray);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(expectedBarArray);
             });
         });
         describe("addSelectedFilteredRegions", () => {
@@ -1485,12 +1518,49 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc"];
+                wrapper.vm.allFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
+
                 wrapper.vm.addSelectedFilteredRegions("ddddd");
                 await wrapper.vm.$nextTick();
-                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "ddddd"]);
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["ddddd", "aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(["ddddd", "aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.numberOfColouredBars).to.be.equal(4);
             });
         });
-        describe("getColorPalette", () => {
+        describe("removeRegion", () => {
+            it("should remove selected region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "line"});
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
+                wrapper.vm.removeRegion("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc"]);
+            });
+            it("should remove region", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.setData({diagramType: "bar", allFilteredRegions: ["aaaa", "bbbb", "ccccc", "ddddd"]});
+
+                wrapper.vm.selectedFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd"];
+                wrapper.vm.allFilteredRegions = ["aaaa", "bbbb", "ccccc", "ddddd", "eeeee"];
+                wrapper.vm.removeRegion("ddddd");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc"]);
+                expect(wrapper.vm.allFilteredRegions).to.deep.equal(["aaaa", "bbbb", "ccccc", "eeeee", "ddddd"]);
+                expect(wrapper.vm.numberOfColouredBars).to.be.equal(3);
+            });
+        });
+        describe("createColorPalette", () => {
             it("should return expected result", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                     global: {
@@ -1499,12 +1569,71 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
-                wrapper.vm.setOpacity(0.7);
                 wrapper.vm.setNumberOfClasses(2);
 
-                expect(wrapper.vm.getColorPalette()).to.deep.equal(
-                    [[127, 127, 127, 0.7], [0, 0, 0, 0.7]]
+                expect(wrapper.vm.createColorPalette()).to.deep.equal(
+                    [[127, 127, 127], [0, 0, 0]]
                 );
+            });
+        });
+        describe("getSelectedLevelRegionNameAttributeInDepth", () => {
+            it("should", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland",
+                        "child": {
+                            "attrName": "statistisches_gebiet",
+                            "name": "Kreise und Städte",
+                            "child": {
+                                "attrName": "statistisches_gebiet",
+                                "name": "Gemeinden"
+                            }
+                        }
+                    },
+                    nameAttribute = wrapper.vm.getSelectedLevelRegionNameAttributeInDepth(obj);
+
+                expect(nameAttribute).to.deep.equal(obj.child.child);
+            });
+            it("should", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland"
+                    },
+                    nameAttribute = wrapper.vm.getSelectedLevelRegionNameAttributeInDepth(obj);
+
+                expect(nameAttribute).to.deep.equal(obj);
+            });
+        });
+        describe("flattenRegionHierarchy", () => {
+            it("should flatten the given object", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    obj = {
+                        "attrName": "bundesland",
+                        "name": "Bundesland",
+                        "child": {
+                            "attrName": "statistisches_gebiet",
+                            "name": "Kreise und Städte"
+                        }
+                    };
+
+                wrapper.vm.setFlattenedRegions([]);
+                wrapper.vm.flattenRegionHierarchy(obj);
+
+                expect(wrapper.vm.flattenedRegions).to.deep.equal([obj, obj.child]);
             });
         });
     });

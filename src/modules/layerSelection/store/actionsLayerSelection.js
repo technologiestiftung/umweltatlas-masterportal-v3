@@ -114,11 +114,14 @@ const actions = {
      * @param {Object} param.rootGetters the rootGetters
      * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
-     * @param {String} payload.rawLayer The rawLayer config.
      * @returns {void}
      */
-    showLayer: ({commit, dispatch, rootGetters}, {layerId, rawLayer}) => {
-        const layerConfig = !rawLayer ? rootGetters.layerConfigById(layerId) : rawLayer;
+    showLayer: ({commit, dispatch, rootGetters}, {layerId}) => {
+        let layerConfig = rootGetters.layerConfigById(layerId);
+
+        if (!layerConfig) {
+            layerConfig = rootGetters.folderById(layerId);
+        }
 
         if (layerConfig) {
             let lastFolderName = "",

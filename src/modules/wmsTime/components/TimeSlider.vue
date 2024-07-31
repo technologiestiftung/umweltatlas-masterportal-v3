@@ -20,7 +20,13 @@ export default {
     },
     data: () => ({playing: false, playbackHandle: null, sliderValue: 0}),
     computed: {
-        ...mapGetters("Modules/WmsTime", ["timeRange", "minWidth", "layerSwiper", "timeSlider"]),
+        ...mapGetters("Modules/WmsTime", ["timeRange", "minWidth", "timeSlider"]),
+        ...mapGetters("Modules/LayerSwiper", {
+            layerSwiperActive: "active"
+        }),
+        ...mapGetters("Modules/CompareMaps", {
+            compareMapsActive: "active"
+        }),
         sliderOptionCount () {
             return this.timeRange.length - 1;
         },
@@ -29,6 +35,11 @@ export default {
         }
     },
     watch: {
+        compareMapsActive (newValue) {
+            if (newValue) {
+                this.timeSlider.active = false;
+            }
+        },
         defaultValue () {
             this.sliderValue = this.timeRange.indexOf(this.defaultValue);
         },
@@ -47,7 +58,7 @@ export default {
 
             if (layer) {
                 layer.updateTime(this.layerId, targetTime);
-                if (this.layerSwiper.active) {
+                if (this.layerSwiperActive) {
                     this.updateMap();
                 }
             }
@@ -57,8 +68,9 @@ export default {
         this.sliderValue = this.timeRange.indexOf(this.defaultValue);
     },
     methods: {
-        ...mapActions("Modules/WmsTime", ["toggleSwiper", "updateMap"]),
-        ...mapMutations("Modules/WmsTime", ["setWindowWidth", "setTimeSliderActive", "setLayerSwiperActive", "setTimeSliderPlaying"]),
+        ...mapActions("Modules/LayerSwiper", ["updateMap"]),
+        ...mapActions("Modules/WmsTime", ["toggleSwiper"]),
+        ...mapMutations("Modules/WmsTime", ["setTimeSliderPlaying"]),
         setSliderValue (value) {
             this.sliderValue = Number(value);
         },
@@ -124,7 +136,7 @@ export default {
                     :id="'timeSlider-activate-layerSwiper-' + layerId"
                     :aria-label="$t('common:modules.wmsTime.timeSlider.buttons')"
                     :interaction="() => toggleSwiper(layerId)"
-                    :text="$t(minWidth && layerSwiper.active ? 'common:modules.wmsTime.timeSlider.buttons.deactivateLayerSwiper' : 'common:modules.wmsTime.timeSlider.buttons.layerSwiper')"
+                    :text="$t(minWidth && layerSwiperActive ? 'common:modules.wmsTime.timeSlider.buttons.deactivateLayerSwiper' : 'common:modules.wmsTime.timeSlider.buttons.layerSwiper')"
                 />
             </div>
             <div class="timeSlider-innerWrapper-interactions">

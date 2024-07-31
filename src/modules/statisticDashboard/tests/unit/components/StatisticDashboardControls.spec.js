@@ -136,6 +136,106 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             await wrapper.setData({referenceTag: "2001"});
             expect(wrapper.find(".reference-tag").exists()).to.be.true;
         });
+
+        it("should not find a back-overview element", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".back-overview").exists()).to.be.false;
+        });
+
+        it("should find a back to overview element", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("chart");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".back-overview").exists()).to.be.true;
+        });
+
+        it("should not find a static-name container", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".static-name").exists()).to.be.false;
+        });
+
+        it("should find a static-name container", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("table");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".static-name").exists()).to.be.true;
+        });
     });
 
     describe("Computed Properties", () => {
@@ -228,6 +328,70 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             wrapper.vm.setChartTableToggle("chart");
             expect(wrapper.vm.precheckedViewSwitcher).to.be.equal(expected);
+        });
+        it("should set showStatisticnameInChart to be false", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+        });
+        it("should set showStatisticnameInChart to be false", () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("table");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+            wrapper.vm.setChosenStatisticName("");
+            wrapper.vm.setChartTableToggle("chart");
+            expect(wrapper.vm.showStatisticnameInChart).to.be.false;
+        });
+        it("should set showStatisticnameInChart to be true", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setChosenStatisticName("name");
+            wrapper.vm.setChartTableToggle("chart");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+            wrapper.vm.setSelectedStatistics({
+                "Bevölkerung maennlich": {
+                    Hamburg: {
+                        "1890": "13",
+                        "1990": "113"
+                    }
+                },
+                "Bevölkerung weiblich": {
+                    Hamburg: {
+                        "1890": "12",
+                        "1990": "112"
+                    }
+                }
+            });
+            expect(wrapper.vm.showStatisticnameInChart).to.be.true;
         });
     });
 
@@ -403,6 +567,68 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             });
         });
+        describe("prevStatistic", () => {
+            it("should set the chosenStatisticName to the previous name", async () => {
+                const wrapper = shallowMount(StatisticDashboardControls, {
+                        propsData: {
+                            referenceData
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    statistics = {
+                        "arbeitnehmer_inland_tausend": {
+                            "key": "arbeitnehmer_inland_tausend",
+                            "name": "Arbeitnehmer (Inland) in 1.000",
+                            "category": "Beschäftigte",
+                            "selectedOrder": 0
+                        },
+                        "arbeitslose_jahresdurchschnitt": {
+                            "key": "arbeitslose_jahresdurchschnitt",
+                            "name": "Arbeitslose",
+                            "category": "Beschäftigte",
+                            "selectedOrder": 1
+                        }
+                    };
+
+                wrapper.vm.prevStatistic(1, statistics);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.chosenStatisticName).to.be.equal("Arbeitnehmer (Inland) in 1.000");
+            });
+        });
+        describe("nextStatistic", () => {
+            it("should set the chosenStatisticName to the next name", async () => {
+                const wrapper = shallowMount(StatisticDashboardControls, {
+                        propsData: {
+                            referenceData
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    statistics = {
+                        "arbeitnehmer_inland_tausend": {
+                            "key": "arbeitnehmer_inland_tausend",
+                            "name": "Arbeitnehmer (Inland) in 1.000",
+                            "category": "Beschäftigte",
+                            "selectedOrder": 0
+                        },
+                        "arbeitslose_jahresdurchschnitt": {
+                            "key": "arbeitslose_jahresdurchschnitt",
+                            "name": "Arbeitslose",
+                            "category": "Beschäftigte",
+                            "selectedOrder": 1
+                        }
+                    };
+
+                wrapper.vm.nextStatistic(0, statistics);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.chosenStatisticName).to.be.equal("Arbeitslose");
+            });
+        });
     });
 
     describe("User Interaction", () => {
@@ -452,6 +678,82 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             await wrapper.find(".reference-tag button").trigger("click");
             expect(wrapper.vm.selectedReferenceData).to.be.undefined;
             expect(wrapper.vm.referenceTag).to.be.undefined;
+        });
+
+        it("should set the chosenStatisticName to the previous name", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+            let prevStatisticButton = "";
+
+            wrapper.vm.setData({indexSelectedStatistics: 0});
+            wrapper.vm.setSelectedStatistics({
+                "arbeitnehmer_inland_tausend": {
+                    "key": "arbeitnehmer_inland_tausend",
+                    "name": "Arbeitnehmer (Inland) in 1.000",
+                    "category": "Beschäftigte",
+                    "selectedOrder": 0
+                },
+                "arbeitslose_jahresdurchschnitt": {
+                    "key": "arbeitslose_jahresdurchschnitt",
+                    "name": "Arbeitslose",
+                    "category": "Beschäftigte",
+                    "selectedOrder": 1
+                }
+            });
+            wrapper.vm.setChartTableToggle("table");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.setData({indexSelectedStatistics: 1});
+            prevStatisticButton = wrapper.findAll(".static-name button").at(0);
+            prevStatisticButton.trigger("click");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.chosenStatisticName).to.be.equal("Arbeitslose");
+        });
+
+        it("should set the chosenStatisticName to the next name", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                    propsData: {
+                        referenceData
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                nextStatisticButton = wrapper.findAll(".static-name button").at(1);
+
+            wrapper.vm.setData({indexSelectedStatistics: 0});
+            wrapper.vm.setSelectedStatistics({
+                "arbeitnehmer_inland_tausend": {
+                    "key": "arbeitnehmer_inland_tausend",
+                    "name": "Arbeitnehmer (Inland) in 1.000",
+                    "category": "Beschäftigte",
+                    "selectedOrder": 0
+                },
+                "arbeitslose_jahresdurchschnitt": {
+                    "key": "arbeitslose_jahresdurchschnitt",
+                    "name": "Arbeitslose",
+                    "category": "Beschäftigte",
+                    "selectedOrder": 1
+                }
+            });
+            wrapper.vm.setChartTableToggle("table");
+            wrapper.vm.setSelectedDates([{value: "value1"}]);
+            wrapper.vm.setSelectedRegions([{value: "value1"}]);
+
+            await wrapper.vm.$nextTick();
+            nextStatisticButton.trigger("click");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.chosenStatisticName).to.be.equal("Arbeitslose");
         });
     });
 });

@@ -39,7 +39,6 @@
       "alertTitleSuccess": "",
       "alreadyAdded": "",
       "completeMessage": "I layer del WMS richiesto sono stati aggiunti all'albero dei livelli alla voce di menu <strong>Dati specialistici esterni</strong>!",
-      "errorEmptyUrl": "Inserire l'URL di un WMS nel campo di testo!",
       "errorHttpsMessage": "Il WMS che avete richiesto utilizza HTTP. Il Masterportal può integrare WMS solo utilizzando HTTPS (SSL).",
       "errorMessage": "Il servizio specificato non ha potuto essere caricato. Si prega di assicurarsi che l'URL sia stato specificato correttamente.<br><br>Se il problema si verifica ancora, si prega di contattare il gestore del servizio con la seguente nota:<br><strong>CORS-Header deve essere obbligatoriamente impostata per il servizio. Questo è raccomandato nel capitolo 4.7.1. da <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a></strong>",
       "errorTitle": "",
@@ -73,6 +72,18 @@
       "sourceSelectLabel": "Layer sorgente",
       "targetLayerNotFound": "Il layer di destinazione salvato con l'ID {{layerId}} non è stato trovato.",
       "targetSelectLabel": "Layer di destinazione"
+    },
+    "compareMaps": {
+      "description": "Confrontare due mappe affiancate o una sopra l'altra",
+      "firstLayer": "Primo strato",
+      "horizontal": "orizzontale",
+      "loadingWait": "Attendere, lo strumento sta caricando le mappe di confronto",
+      "name": "Confronta mappe",
+      "reset": "Reimposta",
+      "secondLayer": "Secondo strato",
+      "selectLayerOneFirst": "Si prega di selezionare prima il primo strato",
+      "splitDirection": "Direzione: ",
+      "vertical": "verticale"
     },
     "contact": {
       "addFileButton": "",

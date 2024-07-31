@@ -20,7 +20,6 @@ const CanvasModel = {
         for (const layer of canvasLayerList) {
             if (typeof layer !== "undefined") {
                 canvasLayer = layer;
-                break;
             }
         }
 

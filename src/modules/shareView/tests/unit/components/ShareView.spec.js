@@ -9,23 +9,24 @@ config.global.mocks.$t = key => key;
 
 describe("src/modules/shareView/components/ShareView.vue", () => {
     const mockConfigJson = {
-        portalConfig: {
-            navigationSecondary: {
-                sections: [
-                    {
-                        shareView: {
-                            title: "Share",
-                            icon: "bi-share",
-                            itemType: "shareView",
-                            facebookShare: true,
-                            copyShare: true,
-                            qrShare: true
+            portalConfig: {
+                navigationSecondary: {
+                    sections: [
+                        {
+                            shareView: {
+                                title: "Share",
+                                icon: "bi-share",
+                                itemType: "shareView",
+                                facebookShare: true,
+                                copyShare: true,
+                                qrShare: true
+                            }
                         }
-                    }
-                ]
+                    ]
+                }
             }
-        }
-    };
+        },
+        addSingleAlertSpy = sinon.spy();
     let defaultState,
         store,
         wrapper;
@@ -60,6 +61,12 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                         getView: sinon.stub()
                     },
                     actions: {}
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: {
+                        addSingleAlert: addSingleAlertSpy
+                    }
                 }
             },
             state: {
@@ -91,6 +98,58 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
         expect(wrapper.find("#facebook-btn").exists()).to.be.true;
         expect(wrapper.find("#copy-btn").exists()).to.be.true;
         expect(wrapper.find("#qr-btn").exists()).to.be.true;
+    });
+
+    describe("copyToClipboard", () => {
+        let localWindow,
+            localNavigator;
+
+        before(() => {
+            localWindow = global.window;
+            localNavigator = global.navigator;
+        });
+
+        afterEach(() => {
+            global.window = localWindow;
+            global.navigator = localNavigator;
+        });
+
+        it("copy to clipboard for secure websites", () => {
+            const writeTextSpy = sinon.spy();
+
+            global.window.isSecureContext = true;
+            global.navigator = {
+                clipboard: {
+                    writeText: writeTextSpy
+                }
+            };
+
+            wrapper = shallowMount(ShareViewComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            wrapper.vm.copyToClipboard();
+
+
+            expect(writeTextSpy.callCount).to.equals(1);
+        });
+
+        it("draw an alert for unsecure websites", () => {
+            global.window.isSecureContext = false;
+            wrapper = shallowMount(ShareViewComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            wrapper.vm.copyToClipboard();
+
+            expect(addSingleAlertSpy.callCount).to.equals(1);
+            expect(addSingleAlertSpy.firstCall.args[1]).to.deep.equals({
+                category: "error",
+                content: "common:modules.shareView.copyErrorAlert"
+            });
+        });
     });
 
 });

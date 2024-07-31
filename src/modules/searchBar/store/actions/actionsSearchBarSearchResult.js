@@ -187,19 +187,29 @@ export default {
     /**
      * Open folders in layerSelection and shows layer to select.
      * If layer is not contained, it is added.
+     * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
-     * @param {Object} payload The payload.
      * @param {String} payload.layerId The layer id.
      * @param {String} payload.source The layer source from search result.
      * @returns {void}
      */
     showInTree: async ({commit, dispatch}, {layerId, source}) => {
-        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source});
+        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source}),
+            typeLayerSelection = {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}};
 
-        if (layerConfig) {
-            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: []}, {root: true});
+        if (layerId.includes("folder-")) {
+            const folderChildId = layerConfig.elements[0]?.id;
+
+            commit("Modules/SearchBar/setShowAllResults", false, {root: true});
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]}, {root: true});
+            dispatch("Modules/LayerSelection/showLayer", {layerId: folderChildId}, {root: true});
+            // unset the highlightLayerId in layerSelection, for not highlighting first child element of folder
+            commit("Modules/LayerSelection/setHighlightLayerId", null, {root: true});
+        }
+        else if (layerConfig) {
+            commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection, typeLayerSelection]}, {root: true});
             dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
-            dispatch("Modules/LayerSelection/showLayer", {layerId, rawLayer: layerConfig}, {root: true});
+            dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});
         }
         else {
             console.warn("Cannot show layer with id ", layerId, ": is not contained in services.json");
@@ -249,6 +259,9 @@ export default {
     retrieveLayerConfig: ({dispatch, rootGetters}, {layerId, source}) => {
         let layerConfig = rootGetters.layerConfigById(layerId);
 
+        if (!layerConfig && layerId.includes("folder-")) {
+            layerConfig = rootGetters.folderById(layerId);
+        }
         if (!layerConfig) {
             layerConfig = rawLayerList.getLayerWhere({id: layerId});
             if (source) {

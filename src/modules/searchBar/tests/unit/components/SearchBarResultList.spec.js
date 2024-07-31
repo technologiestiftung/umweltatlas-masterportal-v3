@@ -75,7 +75,7 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
                     example: "exampleSearch"
                 },
                 exampleCount: 1,
-                exampleIcon: "bi-signpost-2-fill"
+                exampleIcon: "bi-signpost-2"
             },
             currentShowAllList: searchResults
         },

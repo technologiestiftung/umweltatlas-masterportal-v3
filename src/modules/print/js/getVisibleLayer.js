@@ -10,22 +10,25 @@ import store from "../../../app-store";
 function getVisibleLayer (printMapMarker = false) {
     const layers = mapCollection.getMap("2D").getLayers();
     let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
-
-        return layer.getVisible() === true &&
+            return layer.getVisible() === true &&
                 (
                     layer.get("name") !== "markerPoint" || printMapMarker
                 );
-    });
+        }),
+        groupedLayers = null;
 
     groupedLayers = visibleLayerList.filter(layer => {
         return layer instanceof LayerGroup;
     });
+
     if (groupedLayers.length > 0) {
         visibleLayerList = visibleLayerList.filter(layer => {
             return !(layer instanceof LayerGroup);
         });
         groupedLayers.forEach(groupedLayer => {
             groupedLayer.getLayers().forEach(gLayer => {
+                gLayer.setZIndex(groupedLayer.getZIndex());
+                gLayer.setOpacity(groupedLayer.getOpacity());
                 visibleLayerList.push(gLayer);
             });
         });

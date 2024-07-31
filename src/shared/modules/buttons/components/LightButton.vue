@@ -1,4 +1,6 @@
 <script>
+import decodeHtmlEntites from "../../../js/utils/htmlEntities";
+
 export default {
     name: "LightButton",
     props: {
@@ -30,6 +32,9 @@ export default {
             default: null,
             required: false
         }
+    },
+    methods: {
+        decodeHtmlEntites
     }
 };
 </script>
@@ -41,7 +46,7 @@ export default {
         :class="[
             customclass
         ]"
-        :aria-label=" $t(text)"
+        :aria-label=" decodeHtmlEntites($t(text))"
         @click="interaction"
         @keydown.enter="interaction"
     >
@@ -56,7 +61,7 @@ export default {
             class="col lh-1 btn-texts row py-2"
         >
             <span class="btn-title">
-                {{ $t(text) }}
+                {{ decodeHtmlEntites($t(text)) }}
             </span>
             <span
                 v-if="description"

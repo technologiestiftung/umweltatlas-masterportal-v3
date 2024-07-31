@@ -114,6 +114,7 @@ function getUniqueValuesFromFetchedFeatures (allFetchedProperties, attrName, nes
         }
         result[properties[attrName]] = true;
     });
+
     return result;
 }
 /**

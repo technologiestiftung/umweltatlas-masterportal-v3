@@ -98,8 +98,9 @@ Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
-activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
+|active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
+|activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
+|singleBaseLayer|nein|Boolean|false|Definiert ob der bisherige Baselayer ausgeblendet wird.|false|
 
 **Beispiel**
 
@@ -806,7 +807,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
+|backgroundImage|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md#markdown-header-portalconfigmapview"|Pfad zum alternativen Hintergrund angeben.|false|
 |epsg|nein|String|"EPSG:25832"|Der EPSG-Code der Projektion der Karte. Der EPSG-Code muss als namedProjection definiert sein.|false|
 |extent|nein|**[Extent](#markdown-header-datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
 |mapInteractions|nein|**[mapInteractions](#markdown-header-portalconfigmapmapviewInteractions)**||Überschreibt die ol map Interaktionen. Bietet weitere Konfigurationsmöglichkeiten für Steuerungsverhalten und keyboardEventTarget.|false|
@@ -1167,7 +1168,7 @@ Konfiguration des Elastic Search Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|hitIcon|nein|String|"bi-signpost-2-fill"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
+|hitIcon|nein|String|"bi-signpost-2"|CSS Icon Klasse des Suchergebnisses. Wird vor dem Namen angezeigt.|false|
 |hitMap|nein|**[hitMap](#markdown-header-portalconfigsearchbarelasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
 |hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
 |hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
@@ -1348,7 +1349,7 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|icon|nein|String|"bi-signpost-2-fill"|Visualisierung der Klasse durch ein Icon|false|
+|icon|nein|String|"bi-signpost-2"|Visualisierung der Klasse durch ein Icon|false|
 |name|ja|String||Name der Klasse|false|
 |zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
 
@@ -1688,6 +1689,11 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 |title|nein|String|""|Titel der Metadaten|false|
 |version|nein|String|""|Versionangabe des Masterportals|false|
 |versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link zu der Masterportalversion|false|
+|ustId|nein|String|""|Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt|false|
+|privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt|false|
+|accessibilityUrl|no|String|""|URL zu der Barrierefreiheitserklärungsseite|false|
 
 **Beispiel**
 
@@ -1852,6 +1858,27 @@ Email Objekt bestehend aus der Email-Adresse und dem angezeigten Namen.
 ```
 
 ***
+
+##### portalConfig.menu.sections.modules.compareMaps
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+compareMaps Tool: Dieses Tool ermöglicht es Benutzern, zwei Layer nebeneinander mit einem Layer-Swiper zu vergleichen. Benutzer wählen Layer aus den aktiven, sichtbaren Layern aus, und der Swiper teilt die Karte, um jeden Layer in separaten Abschnitten anzuzeigen. Das Tool unterstützt WMS- und WFS-Layer und stellt sicher, dass die Layer vollständig aktualisiert werden, bevor der Swiper bewegt wird, um einen genauen Vergleich zu ermöglichen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|--------|----|-------|-----------|------|
+|type|nein|String|"compareMaps"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+
+**Example**
+
+```json
+{
+    "type": "compareMaps",
+}
+```
+
+***
+
 
 ##### portalConfig.menu.sections.modules.coordToolkit
 
@@ -2993,7 +3020,7 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
 {
     "type": "routing",
     "name": "common:modules.tools.routing",
-    "icon": "bi-signpost-2-fill",
+    "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTONS",
     "routingToolOptions": ["DIRECTONS", "ISOCHRONES"],
     "download": {
@@ -3519,7 +3546,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|
 |numberOfClasses|nein|Number|5|Aktuell ausgewählte Zahl der Klassen für Choroplethen und Legende.|false|
-|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false
+|selectableColorPalettes|nein|**[selectableColorPalettes](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboardselectableColorPalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false|
+|downloadFilename|nein|String|"Statistic Dashboard Download"|Der Titel der exportierten CSV Datei.|false|
 
 **Beispiel**
 
@@ -3528,6 +3556,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
     "name": "translate#common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
+    "downloadFilename": "Downloaded_Data",
     "colorScheme": {
         "referenceRegion": [155, 155, 155, 0.7],
         "lineCharts": [[74, 0, 30, 1], [117, 18, 50, 1], [189, 47, 83, 1], [198, 81, 84, 1], [228, 121, 97, 1], [240, 168, 130, 1], [250, 212, 172, 1], [157, 185, 171, 1], [137, 192, 196, 1], [87, 158, 185, 1],
@@ -3631,6 +3660,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|------|------------|------|
 |layerId|ja|String|""|Die ID des Layers.|false|
+|oafRequestCRS|no|String|""|Nur für OAF-Dienste - Das Koordinatenreferenzsystem in dem die Antwort des OAF Dienstes erfolgen soll. Zum Beispiel: 'http://www.opengis.net/def/crs/EPSG/0/25832'|false|
+|oafDataProjectionCode|no|String|""|Nur für OAF-Dienste - Der Projektionscode der Daten, die vom Dienst als Antwort kommen. Wird benötigt, um die Features auf der Karte anzeigen zu können. Zum Beispiel: 'EPSG:25832'|false|
 |geometryAttribute|ja|String|""|Typ des Geometrieattributs.|false|
 |chartDirectionValue|nein|String|""|Gibt die Anzahl an, ab der die Balken im Diagramm von vertikal zu horizontal wechseln.|false|
 |timeStepsFilter|yes|**[timeStepsFilter](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboarddatatimeStepsFilter)**|""|Ein Objekt welches aus Schlüsseln und Werten besteht bei denen der Schlüssel die Anzahl an Zeitgruppierungen und der Wert die Beschreibung für die Gruppierung beinhaltet.|false|
@@ -3641,6 +3672,8 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 ```json
 {
     "layerId": "28992",
+    "oafRequestCRS": "http://www.opengis.net/def/crs/EPSG/0/25832",
+    "oafDataProjectionCode": "EPSG:25832",
     "geometryAttribute": "geom",
     "chartDirectionValue": 10,
     "timeStepsFilter": {
@@ -3797,7 +3830,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 ```json
 {
     "attrName": "statistisches_gebiet",
-    "name": "Statistisches Gebiet"
+    "name": "Kreis"
 }
 ```
 
@@ -4191,7 +4224,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|addLayerButton|nein|**[addLayerButton](#markdown-header-portalconfigtreeaddlayerbutton)**|false|Wenn achtive:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
+|addLayerButton|nein|**[addLayerButton](#markdown-header-portalconfigtreeaddlayerbutton)**|false|Wenn active:true, dann wird ein Button zum Hinzufügen von Layern dargestellt. Im Themenbaum werden initial nur sichtbare Layer und Layer mit der property `showInLayerTree = true` dargestellt. Wenn false, dann werden alle konfigurierten Layer im Themenbaum angezeigt. Bei dem tree.type `auto` wird immer ein Hinzufügen-Button angezeigt.|false|
 |categories|nein|**[categories](#markdown-header-portalconfigtreecategories)**||Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.|false|
 |highlightedFeatures|nein|**[highlightedFeatures](#markdown-header-portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|

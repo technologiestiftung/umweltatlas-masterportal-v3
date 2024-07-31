@@ -1,5 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Draw Download Item
@@ -7,6 +8,7 @@ import {mapActions, mapGetters} from "vuex";
  */
 export default {
     name: "DownloadItem",
+    components: {FlatButton},
     computed: {
         ...mapGetters("Modules/Draw_old", [
             "dataString",
@@ -33,7 +35,17 @@ export default {
             "setDownloadFileName",
             "fileDownloaded",
             "validateFileName"
-        ])
+        ]),
+        startDownload (button, downloadUrl, filename) {
+            const link = document.createElement("a");
+
+            link.href = downloadUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            this.fileDownloaded();
+        }
     }
 };
 </script>
@@ -95,20 +107,16 @@ export default {
                 </div>
             </div>
             <div class="form-group form-group-sm row">
-                <div class="d-grid gap-2">
-                    <a
-                        class="btn btn-sm btn-primary downloadFile"
-                        :href="download.fileUrl"
-                        :download="download.file"
+                <div class="col-md-12 d-flex justify-content-center pt-3">
+                    <FlatButton
+                        id="downloadBtn"
+                        :aria-label="$t('common:modules.draw_old.button.saveDrawing')"
+                        :interaction="($event) => startDownload($event.target, download.fileUrl, download.file)"
+                        :text="$t('common:modules.draw_old.button.saveDrawing')"
+                        :icon="'bi-save'"
                         :class="{disabled: disableFileDownload}"
                         role="button"
-                        @click="fileDownloaded"
-                    >
-                        <span class="bootstrap-icon">
-                            <i class="bi-save-fill" />
-                        </span>
-                        {{ $t("common:modules.draw_old.button.saveDrawing") }}
-                    </a>
+                    />
                 </div>
             </div>
         </form>

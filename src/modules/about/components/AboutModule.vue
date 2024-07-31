@@ -1,5 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
+import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
 
 /**
  * The About Module gives information about the metadata, contact and current version of the portal
@@ -7,6 +8,9 @@ import {mapActions, mapGetters} from "vuex";
  */
 export default {
     name: "AboutModule",
+    components: {
+        LightButton
+    },
     computed: {
         ...mapGetters(["configJs"]),
         ...mapGetters("Modules/About", [
@@ -19,15 +23,76 @@ export default {
             "metaUrl",
             "showAdditionalMetaData",
             "version",
-            "versionLink"
-        ])
+            "versionLink",
+            "ustId",
+            "privacyStatementText",
+            "privacyStatementUrl",
+            "accessibilityText",
+            "accessibilityUrl"
+        ]),
+        ...mapGetters("Menu", [
+            "mainMenu",
+            "secondaryMenu"
+        ]),
+        /**
+         * Returns true if the contact module is configured in either of the menus.
+         * @returns {Boolean} Returns true if the contact module is configured in either of the menus.
+         */
+        contactConfigured () {
+            return this.mainMenu.sections[0].find(m => {
+                return m.type === "contact";
+            })
+            || this.secondaryMenu.sections[0].find(m => {
+                return m.type === "contact";
+            });
+        },
+        /**
+         * Returns the menu the about module is in.
+         * @returns {String} Returns the menu the about module is in.
+         */
+        menuIndicator () {
+            return this.mainMenu.sections[0].find(m => {
+                return m.type === "about";
+            })
+                ? "mainMenu"
+                : "secondaryMenu";
+        }
     },
     mounted () {
         this.initializeAboutInfo();
     },
 
     methods: {
-        ...mapActions("Modules/About", ["initializeAboutInfo"])
+        ...mapActions("Modules/About", ["initializeAboutInfo"]),
+        ...mapActions("Menu", ["changeCurrentComponent"]),
+        /**
+         * Opens the privacy statement URL in a new tab.
+         * @returns {void}
+         */
+        openDataPrivacyLink () {
+            window.open(this.privacyStatementUrl, "_blank");
+        },
+        /**
+         * Opens the accessibility statement URL in a new tab.
+         * @returns {void}
+         */
+        openAccessibilityLink () {
+            window.open(this.accessibilityUrl, "_blank");
+        },
+        /**
+         * Opens the contact module in the same menu where the about module is in.
+         * @returns {void}
+         */
+        openContactModule () {
+            this.changeCurrentComponent({type: "contact", side: this.menuIndicator, props: {name: this.$t("common:modules.contact.name")}});
+        },
+        /**
+         * Checks if a variable is a string and not empty.
+         * @returns {String} Returns the input string if it is typeof string and it is not empty.
+         */
+        checkStringContent (inputString) {
+            return typeof inputString === "string" && inputString.length ? inputString : null;
+        }
     }
 };
 </script>
@@ -55,29 +120,95 @@ export default {
                 </p>
             </div>
             <div
-                v-if="contact"
-                class="pt-5 contact"
+                v-if="checkStringContent(privacyStatementUrl)"
+                class="pt-5 privacyStatementWrapper"
             >
-                <h4>{{ $t("common:modules.about.contact") }}</h4>
-                <p
-                    v-html="contact.name"
+                <h4>
+                    {{ $t("common:modules.about.privacyStatement") }}
+                </h4>
+                <span class="pb-3 privacyStatementText">
+                    {{ checkStringContent(privacyStatementText) || $t("common:modules.about.privacyStatementText") }}
+                </span>
+                <LightButton
+                    class="mt-3 privacyStatementButton"
+                    :interaction="openDataPrivacyLink"
+                    :text="$t('common:modules.about.privacyStatement')"
+                    icon="bi-box-arrow-up-right"
+                    customclass="w-100"
+                    :title="privacyStatementUrl"
                 />
-                <p
-                    v-for="(positionName) in contact.positionName"
-                    :key="positionName"
-                    v-html="positionName"
+            </div>
+            <div
+                v-if="checkStringContent(accessibilityUrl)"
+                class="pt-5 accessibilityStatementWrapper"
+            >
+                <h4>
+                    {{ $t("common:modules.about.accessibilityStatement") }}
+                </h4>
+                <span class="pb-3 accessibilityText">
+                    {{ checkStringContent(accessibilityText) || $t("common:modules.about.accessibilityText") }}
+                </span>
+                <LightButton
+                    class="mt-3 accessibilityStatementButton"
+                    :interaction="openAccessibilityLink"
+                    :text="$t('common:modules.about.accessibilityStatement')"
+                    icon="bi-box-arrow-up-right"
+                    customclass="w-100"
+                    :title="accessibilityUrl"
                 />
-                <p>
-                    {{ contact.street + "  " + contact.postalCode }}
-                </p>
-                <p>
-                    {{ contact.city }}
-                </p>
-                <a
-                    :href="'mailto:' + contact.email"
+            </div>
+            <div
+                id="imprint"
+                class="pt-5"
+            >
+                <h4>
+                    {{ $t("common:modules.about.imprintTitle") }}
+                </h4>
+                <div
+                    v-if="contact"
+                    class="pt-3 contact"
                 >
-                    {{ contact.email }}
-                </a>
+                    <h4>{{ $t("common:modules.about.contact") }}</h4>
+                    <p
+                        v-html="contact.name"
+                    />
+                    <p
+                        v-for="(positionName) in contact.positionName"
+                        :key="positionName"
+                        v-html="positionName"
+                    />
+                    <p>
+                        {{ contact.street + "  " + contact.postalCode }}
+                    </p>
+                    <p>
+                        {{ contact.city }}
+                    </p>
+                    <a
+                        :href="'mailto:' + contact.email"
+                    >
+                        {{ contact.email }}
+                    </a>
+                </div>
+                <LightButton
+                    v-if="contactConfigured"
+                    class="mt-3 openContactButton"
+                    :interaction="openContactModule"
+                    :text="$t('common:modules.about.contactButton')"
+                    icon="bi-envelope"
+                    customclass="w-100"
+                    :title="$t('common:modules.about.contactButton')"
+                />
+                <div
+                    v-if="checkStringContent(ustId)"
+                    class="pt-4 ustIdWrapper"
+                >
+                    <p>
+                        {{ $t("common:modules.about.ustId") }}
+                    </p>
+                    <p class="ustId">
+                        {{ ustId }}
+                    </p>
+                </div>
             </div>
         </div>
         <div
@@ -117,8 +248,9 @@ export default {
         .content {
             overflow-y: auto;
 
-            .abstract > p {
+            p {
                 font-size: $font-size-base;
+                margin-bottom: 0rem;
             }
         }
 
@@ -127,11 +259,11 @@ export default {
             margin-top: auto;
 
             .logo {
-                width: 7rem;
+                width: 5rem;
             }
             .version {
                 display: flex;
-                font-size: 1.5rem;
+                font-size: small;
             }
         }
     }
