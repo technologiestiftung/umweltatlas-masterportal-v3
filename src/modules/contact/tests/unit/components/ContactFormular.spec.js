@@ -42,6 +42,12 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
                         namespaced: true,
                         Contact: ContactModule
                     }
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: {
+                        addSingleAlert: sinon.spy()
+                    }
                 }
             },
             getters: {
