@@ -96,7 +96,7 @@
       },
       "errorIncompleteDeclarations": "Talebinizin gönderilebilmesi için lütfen iletişim formunun tüm alanlarını doğru doldurun.",
       "fileFormatMessage": "",
-      "fileSizeMessage": "",      
+      "fileSizeMessage": "",
       "mailSubject": "Portal Destek İsteği ",
       "messageLabel": "Mesajınız",
       "name": "iletişim",
