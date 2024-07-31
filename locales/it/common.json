@@ -215,8 +215,7 @@
         "editAttributes": "Modifica degli attributi",
         "redo": "Ripeti",
         "saveDrawing": "Salva il disegno",
-        "undo": "Annulla",
-        "stop": ""
+        "undo": "Annulla"
       },
       "clickToPlaceText": "Clicca sulla mappa per inserire il testo",
       "color": "Colore interno",

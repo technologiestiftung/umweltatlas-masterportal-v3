@@ -215,8 +215,7 @@
         "editAttributes": "",
         "redo": "Repetir",
         "saveDrawing": "",
-        "undo": "Desfazer",
-        "stop": ""
+        "undo": "Desfazer"
       },
       "clickToPlaceText": "Clique no mapa para inserir o texto",
       "color": "Cor de preenchimento",

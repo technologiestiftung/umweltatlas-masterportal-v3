@@ -276,8 +276,7 @@
         "editAttributes": "Edit attributes",
         "redo": "Redo",
         "saveDrawing": "Save drawing",
-        "undo": "Undo",
-        "stop": "Cancel"
+        "undo": "Undo"
       },
       "clickToPlaceText": "Click on the map to place the text",
       "color": "Fill color",
