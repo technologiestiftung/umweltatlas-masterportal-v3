@@ -366,6 +366,22 @@
       },
       "sections": [
         [
+            {
+              "name": "WFS-T Tool",
+              "layerIds": [
+                  "lgvpoint"
+              ],
+              "toggleLayer": false,
+              "pointButton": [
+                  {
+                      "layerId": "lgvpoint",
+                      "available": true
+                  }
+              ],
+              "update": "Bearbeiten!",
+              "delete": true,
+              "type": "wfst"
+          },
           {
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
@@ -1389,5 +1405,15 @@
         }
       ]
     }
-  }
+  },
+  "subjectlayer": {
+            "elements": [
+                {
+                    "id": "lgvpoint",
+                    "name": "wfst_punkt_test",
+                    "visibility": false,
+                    "typ": "WFS"
+                }
+            ]
+        }
 }

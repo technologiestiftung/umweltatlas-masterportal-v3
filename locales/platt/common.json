@@ -215,7 +215,8 @@
         "editAttributes": "",
         "redo": "Wiederholen",
         "saveDrawing": "Zeichnung speichern",
-        "undo": "Rückgängig machen"
+        "undo": "Rückgängig machen",
+        "stop": ""
       },
       "clickToPlaceText": "Klicken Sie auf die Karte um den Text zu platzieren",
       "color": "Füllfarbe",

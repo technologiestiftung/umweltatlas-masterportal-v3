@@ -215,7 +215,8 @@
         "editAttributes": "",
         "redo": "Tekrar",
         "saveDrawing": "Çizimi kaydet",
-        "undo": "İptal"
+        "undo": "İptal",
+        "stop": ""
       },
       "clickToPlaceText": "Metni yerleştirmek için karta tıklayın",
       "color": "Dolgu rengi",

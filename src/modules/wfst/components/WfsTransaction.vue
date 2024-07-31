@@ -225,7 +225,7 @@ export default {
                         class="btn btn-secondary"
                         @click="sendTransaction(); setShowConfirmModal(false)"
                     >
-                        {{ $t("common:modules.button.confirm") }}
+                        {{ $t("common:modules.button.delete") }}
                     </button>
                     <button
                         id="modal-button-right"

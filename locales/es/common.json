@@ -215,7 +215,8 @@
         "editAttributes": "",
         "redo": "Repetir",
         "saveDrawing": "Guardar dibujo",
-        "undo": "Deshacer"
+        "undo": "Deshacer",
+        "stop": ""
       },
       "clickToPlaceText": "Haga clic en el mapa para colocar el texto",
       "color": "Color del relleno",
