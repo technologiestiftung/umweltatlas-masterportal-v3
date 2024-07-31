@@ -150,7 +150,7 @@ export default {
             if (file.size > this.maxFileSize) {
                 this.addSingleAlert({
                     category: "error",
-                    content: this.$t("common:modules.contact.fileSizeMessage")
+                    content: this.$t("common:modules.contact.fileSizeMessage") + file.name
                 });
                 return false;
             }
@@ -159,7 +159,7 @@ export default {
             if (this.sumFileSize > this.maxSumFileSize) {
                 this.addSingleAlert({
                     category: "error",
-                    content: this.$t("common:modules.contact.fileSizeMessage")
+                    content: this.$t("common:modules.contact.fileSizeSumMessage")
                 });
                 return false;
             }
@@ -182,7 +182,7 @@ export default {
             if (!notDuplicated) {
                 this.addSingleAlert({
                     category: "error",
-                    content: this.$t("common:modules.contact.fileDuplicatedMessage")
+                    content: this.$t("common:modules.contact.fileDuplicatedMessage") + file.name
                 });
             }
             return notDuplicated;
@@ -298,8 +298,8 @@ export default {
                                         >
                                             <embed
                                                 :src="image.src"
-                                                height="30"
-                                                class="col-2 no-scroll"
+                                                height="42"
+                                                class="col-2"
                                             >
                                             <span class="d-flex align-items-center col">
                                                 {{ image.name }}
@@ -347,9 +347,5 @@ export default {
     .remove-btn {
         z-index: 20;
         position: relative;
-    }
-
-    .no-scroll {
-    overflow: hidden;
     }
 </style>
