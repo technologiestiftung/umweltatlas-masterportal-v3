@@ -124,6 +124,9 @@
             "qrShare": true
           },
           {
+            "type": "compareMaps"
+          },
+          {
             "type": "layerSlider",
             "name": "Luftbilder Zeitreihe",
             "title": "Luftbilder-Zeitreihe von Berlin 1928-2024. Klicken Sie ein bestimmtes Jahr an oder lassen Sie die Luftbilder automatisch nacheinander abspielen.",
