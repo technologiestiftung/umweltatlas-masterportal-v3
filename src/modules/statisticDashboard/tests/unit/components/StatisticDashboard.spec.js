@@ -556,6 +556,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "bar"]
+                }]);
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.be.undefined;
             });
@@ -569,7 +572,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
-                wrapper.vm.regions = regions;
                 wrapper.vm.dates = ["01.01.1999"];
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -578,6 +580,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "bar"]
+                }]);
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(dates, undefined)).to.be.true;
@@ -593,7 +598,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
-                wrapper.vm.regions = ["foo"];
                 wrapper.vm.dates = dates;
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -602,6 +606,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo"]
+                }]);
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(regions, "bar")).to.be.true;
@@ -619,7 +626,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     });
 
-                wrapper.vm.regions = [...regions, "faw"];
                 wrapper.vm.dates = [...dates, "01.01.2001"];
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -631,6 +637,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "faw"]
+                }]);
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
             });

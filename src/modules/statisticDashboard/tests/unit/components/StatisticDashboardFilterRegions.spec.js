@@ -246,13 +246,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     }),
                     stubSetSelectedRegions = sinon.stub(wrapper.vm, "setSelectedRegions");
 
-                wrapper.vm.setSelectedValuesToRegion([], {child: {}});
+                wrapper.vm.setSelectedValuesToRegion([], {});
 
                 expect(stubSetSelectedRegions.calledOnce).to.be.true;
                 expect(stubSetSelectedRegions.calledWith([])).to.be.true;
             });
 
-            it("should call 'setSelectedRegions' if given region has no child", () => {
+            it("should call 'setSelectedRegions' if given region has child", () => {
                 const store = factory.createVuexStore(),
                     wrapper = shallowMount(StatisticDashboardFilterRegions, {
                         propsData: {
@@ -268,6 +268,23 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
 
                 expect(stubSetSelectedRegions.calledOnce).to.be.true;
                 expect(stubSetSelectedRegions.calledWith([])).to.be.true;
+            });
+
+            it("should call 'getValuesFromLayer' if given value is not empty array", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    stubGetValuesFromLayer = sinon.stub(wrapper.vm, "getValuesFromLayer");
+
+                wrapper.vm.setSelectedValuesToRegion(["value"], {child: {}});
+
+                expect(stubGetValuesFromLayer.calledOnce).to.be.true;
             });
         });
         describe("updatesRegionSelectedValues", () => {

@@ -1034,9 +1034,10 @@ export default {
                 return undefined;
             }
             const regionAttrName = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute)?.attrName,
-                dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
+                dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName,
+                allRegions = this.flattenedRegions.find(region => !Object.prototype.hasOwnProperty.call(region, "child"))?.values;
 
-            if (regions.length === this.regions.length) {
+            if (regions.length === allRegions.length) {
                 if (dates.length === this.dates.length) {
                     return undefined;
                 }

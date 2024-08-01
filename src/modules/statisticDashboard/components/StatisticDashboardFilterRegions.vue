@@ -71,47 +71,21 @@ export default {
          * Sets the selected value(s) to the region and updates the values of its child under certain conditions.
          * @param {Object[]} value - The value to select.
          * @param {Object} region - The region.
+         * @param {Boolean} schemeRequest - Flag to decide wether the scheme schould be requested or not. Only for OAF.
          * @returns {void}
          */
-        async setSelectedValuesToRegion (value, region) {
+        async setSelectedValuesToRegion (value, region, schemeRequest = false) {
             region.selectedValues = value;
 
             if (!this.hasRegionChild(region)) {
                 this.setSelectedRegions(region.selectedValues);
             }
-            else if (this.hasRegionChild(region) && !region.selectedValues.length) {
+            else if (!region.selectedValues.length) {
                 region.child.values = [];
                 this.setSelectedValuesToRegion([], region.child);
             }
             else {
-                const {url, collection, typ, featureType, featureNS} = rawLayerList.getLayerWhere({id: this.selectedLevel.layerId});
-                let uniqueValues;
-
-                region.child.loadingDataCounter++;
-                if (typ === "OAF") {
-                    const filter = this.getFilterOAF(region.attrName, region.selectedValues),
-                        features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
-                        fetchedProperties = features.map(feature => feature?.properties);
-
-                    uniqueValues = getUniqueValuesFromOAF(fetchedProperties, [region.child.attrName], true);
-                }
-                else {
-                    const payload = {
-                            featureTypes: [featureType],
-                            featureNS: featureNS,
-                            srsName: this.projection.getCode(),
-                            propertyNames: [region.child.attrName],
-                            filter: this.getFilterWFS(region.attrName, region.selectedValues)
-                        },
-                        features = await getFeaturePOST(url, payload, error => {
-                            console.error(error);
-                        }),
-                        olFeatures = new WFS().readFeatures(features),
-                        attributesWithType = await FetchDataHandler.getAttributesWithType(url, [region.child.attrName], featureType);
-
-                    uniqueValues = FetchDataHandler.getUniqueValuesFromFeatures(olFeatures, attributesWithType);
-                }
-                region.child.loadingDataCounter--;
+                const uniqueValues = await this.getValuesFromLayer(this.selectedLevel.layerId, region, schemeRequest || value.some(val => val.label === i18next.t("common:modules.statisticDashboard.button.all")));
 
                 region.child.values = Object.keys(uniqueValues[region.child.attrName]).map(key => {
                     return {label: key, value: key};
@@ -124,6 +98,50 @@ export default {
                 }
 
             }
+        },
+
+        /**
+         * Gets values from the layer. This function decides wether to get the values by oaf or wfs based on the given layerId.
+         * @param {String} layerId The layer id.
+         * @param {Object} region The region object.
+         * @param {Boolean} schemeRequest Flag to decide if the data for the given region field should be requested via scheme oaf scheme.
+         * @returns {Object} the values unified.
+         */
+        async getValuesFromLayer (layerId, region, schemeRequest = false) {
+            const {url, collection, typ, featureType, featureNS} = rawLayerList.getLayerWhere({id: layerId});
+            let uniqueValues = {};
+
+            region.child.loadingDataCounter++;
+            if (typ === "OAF") {
+                if (schemeRequest) {
+                    uniqueValues = await getOAFFeature.getUniqueValuesByScheme(url, collection, [region.child.attrName]);
+                }
+                else {
+                    const filter = this.getFilterOAF(region.attrName, region.selectedValues),
+                        features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
+                        fetchedProperties = features.map(feature => feature?.properties);
+
+                    uniqueValues = getUniqueValuesFromOAF(fetchedProperties, [region.child.attrName], true);
+                }
+            }
+            else {
+                const payload = {
+                        featureTypes: [featureType],
+                        featureNS: featureNS,
+                        srsName: this.projection.getCode(),
+                        propertyNames: [region.child.attrName],
+                        filter: this.getFilterWFS(region.attrName, region.selectedValues)
+                    },
+                    features = await getFeaturePOST(url, payload, error => {
+                        console.error(error);
+                    }),
+                    olFeatures = new WFS().readFeatures(features),
+                    attributesWithType = await FetchDataHandler.getAttributesWithType(url, [region.child.attrName], featureType);
+
+                uniqueValues = FetchDataHandler.getUniqueValuesFromFeatures(olFeatures, attributesWithType);
+            }
+            region.child.loadingDataCounter--;
+            return uniqueValues;
         },
 
         /**
@@ -237,9 +255,8 @@ export default {
                 if (indexOfValue === -1) {
                     selectedValues.push(value);
                 }
-
-                this.setSelectedValuesToRegion(selectedValues, region);
             });
+            this.setSelectedValuesToRegion(region.selectedValues, region, true);
         }
     }
 };
