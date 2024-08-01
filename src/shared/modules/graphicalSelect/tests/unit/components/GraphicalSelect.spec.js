@@ -9,18 +9,31 @@ import VectorSource from "ol/source/Vector.js";
 
 config.global.mocks.$t = key => key;
 
-let store, layersOnMap, layer, mockMapGetters, mockMapActions;
+let store, layersOnMap, layer, mockMapGetters, mockMapActions, map;
 
 describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", () => {
     GraphicalSelectComponent.props.label = "";
     beforeEach(function () {
-        mockMapGetters = {
+        map = {
+            id: "ol",
+            mode: "2D",
+            addOverlay: sinon.spy(),
+            removeOverlay: sinon.spy(),
+            removeLayer: sinon.spy(),
+            getLayers: () => {
+                return {
+                    getArray: () => layersOnMap
+                };
+            }
         };
+
+        mockMapGetters = {};
         mockMapActions = {
             addLayer: sinon.spy(),
-            removeInteraction: sinon.stub(),
-            addInteraction: sinon.stub(),
-            registerListener: sinon.stub()
+            removeInteraction: sinon.spy(),
+            addInteraction: sinon.spy(),
+            registerListener: sinon.spy(),
+            removeLayer: sinon.spy()
         };
         layersOnMap = [];
         layer = new VectorLayer({
@@ -29,17 +42,6 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             source: new VectorSource(),
             alwaysOnTop: true
         });
-        const map = {
-            id: "ol",
-            mode: "2D",
-            addOverlay: sinon.spy(),
-            removeOverlay: sinon.spy(),
-            getLayers: () => {
-                return {
-                    getArray: () => layersOnMap
-                };
-            }
-        };
 
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
@@ -131,6 +133,32 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             wrapper.vm.createDrawInteraction();
 
             expect(mockMapActions.addLayer.calledOnce).to.be.true;
+        });
+    });
+
+    describe("resetView method", () => {
+        it("should clear vector source, remove layer and overlays, and remove interaction", async () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Set up initial state
+            wrapper.vm.layer = layer;
+            layersOnMap.push(layer);
+            wrapper.vm.draw = { /* mock draw interaction */ };
+            wrapper.vm.circleOverlay = {element: {innerHTML: ""}};
+            wrapper.vm.tooltipOverlay = {};
+
+            await wrapper.vm.resetView();
+
+            expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(0);
+            expect(map.removeLayer.called).to.be.true;
+            expect(mockMapActions.removeInteraction.calledOnce).to.be.true;
+            expect(wrapper.vm.circleOverlay.element.innerHTML).to.equal("");
+            expect(map.removeOverlay.calledWith(wrapper.vm.circleOverlay)).to.be.true;
+            expect(map.removeOverlay.calledWith(wrapper.vm.tooltipOverlay)).to.be.true;
         });
     });
 });
