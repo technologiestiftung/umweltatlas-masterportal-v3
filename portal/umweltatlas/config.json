@@ -3678,46 +3678,40 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
-                          "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
-                          "name": "seit-1989 - Passivsammler (außer Betrieb)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
-                          "name": "seit-1989 - RUBIS und Passivsammler (außer Betrieb)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:d_p_aktuell",
-                          "name": "seit-1989 - Passivsammler (aktuell)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
-                          "name": "seit-1989 - RUBIS und Passivsammler (aktuell)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
-                          "name": "seit-1989 - automatisches Messnetz bis 1989 (außer Betrieb)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
-                          "name": "seit-1989 - Messcontainer (außer Betrieb)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:h_mc_aktuell",
-                          "name": "seit-1989 - Messcontainer (aktuell)"
-                        },
-                        {
-                          "id": "ua_luftguetemessnetz:i_umweltzone",
-                          "name": "seit-1989 - Umweltzone"
-                        }
-                      ]
+                      "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
+                      "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
+                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
+                      "name": "seit-1989 - RUBIS und Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:d_p_aktuell",
+                      "name": "seit-1989 - Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
+                      "name": "seit-1989 - RUBIS und Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
+                      "name": "seit-1989 - automatisches Messnetz bis 1989 (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
+                      "name": "seit-1989 - Messcontainer (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:h_mc_aktuell",
+                      "name": "seit-1989 - Messcontainer (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:i_umweltzone",
+                      "name": "seit-1989 - Umweltzone"
                     }
                   ]
                 },
@@ -3726,70 +3720,64 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "wmsk_03_12_2emissionen:3",
-                          "name": "seit-1989 - Verursacher Diagramm NOx-Emissionen"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:12",
-                          "name": "seit-1989 - NOx-Emissionen Hausbrand"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:13",
-                          "name": "seit-1989 - NOx-Emissionen Industrie"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:14",
-                          "name": "seit-1989 - NOx-Emissionen Verkehr"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:15",
-                          "name": "seit-1989 - NOx-Emissionen Gesamt"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:2",
-                          "name": "seit-1989 - Verursacher Diagramm PM10-Emissionen"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:8",
-                          "name": "seit-1989 - PM10-Emissionen Hausbrand"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:9",
-                          "name": "seit-1989 - PM10-Emissionen Industrie"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:10",
-                          "name": "seit-1989 - PM10-Emissionen Verkehr"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:11",
-                          "name": "seit-1989 - PM10-Emissionen Gesamt"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:1",
-                          "name": "seit-1989 - Verursacher Diagramm PM2,5-Emissionen"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:4",
-                          "name": "seit-1989 - PM2,5-Emissionen Hausbrand"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:5",
-                          "name": "seit-1989 - PM2,5-Emissionen Industrie"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:6",
-                          "name": "seit-1989 - PM2,5-Emissionen Verkehr"
-                        },
-                        {
-                          "id": "wmsk_03_12_2emissionen:7",
-                          "name": "seit-1989 - PM2,5-Emissionen Gesamt"
-                        }
-                      ]
+                      "id": "wmsk_03_12_2emissionen:3",
+                      "name": "seit-1989 - Verursacher Diagramm NOx-Emissionen"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:12",
+                      "name": "seit-1989 - NOx-Emissionen Hausbrand"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:13",
+                      "name": "seit-1989 - NOx-Emissionen Industrie"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:14",
+                      "name": "seit-1989 - NOx-Emissionen Verkehr"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:15",
+                      "name": "seit-1989 - NOx-Emissionen Gesamt"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:2",
+                      "name": "seit-1989 - Verursacher Diagramm PM10-Emissionen"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:8",
+                      "name": "seit-1989 - PM10-Emissionen Hausbrand"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:9",
+                      "name": "seit-1989 - PM10-Emissionen Industrie"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:10",
+                      "name": "seit-1989 - PM10-Emissionen Verkehr"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:11",
+                      "name": "seit-1989 - PM10-Emissionen Gesamt"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:1",
+                      "name": "seit-1989 - Verursacher Diagramm PM2,5-Emissionen"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:4",
+                      "name": "seit-1989 - PM2,5-Emissionen Hausbrand"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:5",
+                      "name": "seit-1989 - PM2,5-Emissionen Industrie"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:6",
+                      "name": "seit-1989 - PM2,5-Emissionen Verkehr"
+                    },
+                    {
+                      "id": "wmsk_03_12_2emissionen:7",
+                      "name": "seit-1989 - PM2,5-Emissionen Gesamt"
                     }
                   ]
                 },
@@ -3798,22 +3786,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_all1989:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_all1989:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_nox_all1989:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_nox_all1989:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_all1989:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_nox_all1989:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -3822,22 +3804,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_all1994:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_all1994:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_nox_all1994:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_nox_all1994:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_all1994:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_nox_all1994:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -3846,22 +3822,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_all2002:3",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_nox_all2002:2",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_all2002:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_nox_all2002:3",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_nox_all2002:2",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_all2002:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -3870,22 +3840,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:2",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:3",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:1",
-                          "name": "seit-1989 - NOx Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "k03_12_02_4noxemigesamt2005:2",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_02_4noxemigesamt2005:3",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "k03_12_02_4noxemigesamt2005:1",
+                      "name": "seit-1989 - NOx Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -3894,22 +3858,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:3",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:1",
-                          "name": "seit-1989 - NOx Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "k03_12_02_5noxemigesamt2009:3",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "k03_12_02_5noxemigesamt2009:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_02_5noxemigesamt2009:1",
+                      "name": "seit-1989 - NOx Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -3918,22 +3876,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_haus1989:4",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_haus1989:2",
-                          "name": "seit-1989 - Hintergrund ALK"
-                        },
-                        {
-                          "id": "emi_nox_haus1989:1",
-                          "name": "seit-1989 - Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "emi_nox_haus1989:4",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_haus1989:2",
+                      "name": "seit-1989 - Hintergrund ALK"
+                    },
+                    {
+                      "id": "emi_nox_haus1989:1",
+                      "name": "seit-1989 - Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -3942,18 +3894,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_haus1994:3",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_haus1994:1",
-                          "name": "seit-1989 - Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "emi_nox_haus1994:3",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_haus1994:1",
+                      "name": "seit-1989 - Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -3962,18 +3908,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_haus2002:2",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_haus2002:1",
-                          "name": "seit-1989 - Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "emi_nox_haus2002:2",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_haus2002:1",
+                      "name": "seit-1989 - Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -3982,18 +3922,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_03_4noxemihaus2005:2",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_03_4noxemihaus2005:1",
-                          "name": "seit-1989 - NOx Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "k03_12_03_4noxemihaus2005:2",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_03_4noxemihaus2005:1",
+                      "name": "seit-1989 - NOx Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -4002,18 +3936,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_03_5noxemihaus2009:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_03_5noxemihaus2009:1",
-                          "name": "seit-1989 - NOx Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "k03_12_03_5noxemihaus2009:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_03_5noxemihaus2009:1",
+                      "name": "seit-1989 - NOx Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -4022,22 +3950,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_ind1989:4",
-                          "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_ind1989:2",
-                          "name": "seit-1989 - Hintergrund ALK"
-                        },
-                        {
-                          "id": "emi_nox_ind1989:1",
-                          "name": "seit-1989 - Emissionen Industrie"
-                        }
-                      ]
+                      "id": "emi_nox_ind1989:4",
+                      "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_ind1989:2",
+                      "name": "seit-1989 - Hintergrund ALK"
+                    },
+                    {
+                      "id": "emi_nox_ind1989:1",
+                      "name": "seit-1989 - Emissionen Industrie"
                     }
                   ]
                 },
@@ -4046,18 +3968,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_ind1994:3",
-                          "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_ind1994:1",
-                          "name": "seit-1989 - Emissionen Industrie"
-                        }
-                      ]
+                      "id": "emi_nox_ind1994:3",
+                      "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_ind1994:1",
+                      "name": "seit-1989 - Emissionen Industrie"
                     }
                   ]
                 },
@@ -4066,18 +3982,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_ind2002:3",
-                          "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_ind2002:1",
-                          "name": "seit-1989 - Emissionen Industrie"
-                        }
-                      ]
+                      "id": "emi_nox_ind2002:3",
+                      "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_ind2002:1",
+                      "name": "seit-1989 - Emissionen Industrie"
                     }
                   ]
                 },
@@ -4086,18 +3996,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_04_4noxemiindustrie2005:3",
-                          "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_04_4noxemiindustrie2005:1",
-                          "name": "seit-1989 - NOx Emissionen Industrie"
-                        }
-                      ]
+                      "id": "k03_12_04_4noxemiindustrie2005:3",
+                      "name": "seit-1989 - Industrie - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_04_4noxemiindustrie2005:1",
+                      "name": "seit-1989 - NOx Emissionen Industrie"
                     }
                   ]
                 },
@@ -4106,18 +4010,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_04_5noxemiindustrie2008:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_04_5noxemiindustrie2008:1",
-                          "name": "seit-1989 - NOx Emissionen Industrie"
-                        }
-                      ]
+                      "id": "k03_12_04_5noxemiindustrie2008:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_04_5noxemiindustrie2008:1",
+                      "name": "seit-1989 - NOx Emissionen Industrie"
                     }
                   ]
                 },
@@ -4126,18 +4024,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_verkehr1989:3",
-                          "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_verkehr1989:1",
-                          "name": "seit-1989 - Emissionen Verkehr"
-                        }
-                      ]
+                      "id": "emi_nox_verkehr1989:3",
+                      "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_verkehr1989:1",
+                      "name": "seit-1989 - Emissionen Verkehr"
                     }
                   ]
                 },
@@ -4146,18 +4038,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_verkehr1994:3",
-                          "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_verkehr1994:1",
-                          "name": "seit-1989 - Emissionen Verkehr"
-                        }
-                      ]
+                      "id": "emi_nox_verkehr1994:3",
+                      "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_verkehr1994:1",
+                      "name": "seit-1989 - Emissionen Verkehr"
                     }
                   ]
                 },
@@ -4166,18 +4052,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_verkehr2002:2",
-                          "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_verkehr2002:1",
-                          "name": "seit-1989 - Emissionen Verkehr"
-                        }
-                      ]
+                      "id": "emi_nox_verkehr2002:2",
+                      "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_nox_verkehr2002:1",
+                      "name": "seit-1989 - Emissionen Verkehr"
                     }
                   ]
                 },
@@ -4186,18 +4066,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_05_4noxemiverkehr2005:2",
-                          "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_05_4noxemiverkehr2005:1",
-                          "name": "seit-1989 - NOx Emissionen Verkehr"
-                        }
-                      ]
+                      "id": "k03_12_05_4noxemiverkehr2005:2",
+                      "name": "seit-1989 - Verkehr - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_05_4noxemiverkehr2005:1",
+                      "name": "seit-1989 - NOx Emissionen Verkehr"
                     }
                   ]
                 },
@@ -4206,18 +4080,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_05_5noxemiverkehrges2009:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_05_5noxemiverkehrges2009:1",
-                          "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Gesamt"
-                        }
-                      ]
+                      "id": "k03_12_05_5noxemiverkehrges2009:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_05_5noxemiverkehrges2009:1",
+                      "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Gesamt"
                     }
                   ]
                 },
@@ -4226,18 +4094,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_05_5_1noxemiverkehrhaupt2009:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_05_5_1noxemiverkehrhaupt2009:1",
-                          "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Hauptnetz 2009 (Umweltatlas)"
-                        }
-                      ]
+                      "id": "k03_12_05_5_1noxemiverkehrhaupt2009:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_05_5_1noxemiverkehrhaupt2009:1",
+                      "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Hauptnetz 2009 (Umweltatlas)"
                     }
                   ]
                 },
@@ -4246,18 +4108,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_05_5_2noxemiverkehrneben2009:2",
-                          "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_05_5_2noxemiverkehrneben2009:1",
-                          "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Nebennetz"
-                        }
-                      ]
+                      "id": "k03_12_05_5_2noxemiverkehrneben2009:2",
+                      "name": "seit-1989 - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_05_5_2noxemiverkehrneben2009:1",
+                      "name": "seit-1989 - NOx Emissionen Kfz-Verkehr Nebennetz"
                     }
                   ]
                 },
@@ -4266,22 +4122,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_so2_all1989:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_so2_all1989:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_so2_all1989:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_so2_all1989:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_so2_all1989:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_so2_all1989:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -4290,22 +4140,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_so2_all1994:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_so2_all1994:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_so2_all1994:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_so2_all1994:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_so2_all1994:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_so2_all1994:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -4314,22 +4158,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_so2_all2002:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_so2_all2002:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_so2_all2002:1",
-                          "name": "seit-1989 - Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "emi_so2_all2002:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_so2_all2002:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "emi_so2_all2002:1",
+                      "name": "seit-1989 - Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -4338,22 +4176,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_06_4so2emigesamt2005:3",
-                          "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_06_4so2emigesamt2005:4",
-                          "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "k03_12_06_4so2emigesamt2005:1",
-                          "name": "seit-1989 - SO2 Emissionen aller Verursacher"
-                        }
-                      ]
+                      "id": "k03_12_06_4so2emigesamt2005:3",
+                      "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "k03_12_06_4so2emigesamt2005:4",
+                      "name": "seit-1989 - Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                    },
+                    {
+                      "id": "k03_12_06_4so2emigesamt2005:1",
+                      "name": "seit-1989 - SO2 Emissionen aller Verursacher"
                     }
                   ]
                 },
@@ -4362,18 +4194,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_so2_haus1989:3",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_so2_haus1989:1",
-                          "name": "seit-1989 - Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "emi_so2_haus1989:3",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_so2_haus1989:1",
+                      "name": "seit-1989 - Emissionen Hausbrand"
                     }
                   ]
                 },
@@ -4382,18 +4208,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "seit-1989",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_so2_haus1994:3",
-                          "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_so2_haus1994:1",
-                          "name": "seit-1989 - Emissionen Hausbrand"
-                        }
-                      ]
+                      "id": "emi_so2_haus1994:3",
+                      "name": "seit-1989 - Hausbrand - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                    },
+                    {
+                      "id": "emi_so2_haus1994:1",
+                      "name": "seit-1989 - Emissionen Hausbrand"
                     }
                   ]
                 }
