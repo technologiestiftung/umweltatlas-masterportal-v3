@@ -257,7 +257,7 @@ export default {
                 :model-value="region.selectedValues"
                 :multiple="true"
                 :options="getRegionsSorted(region.values, region.selectedValues)"
-                :searchable="false"
+                :searchable="true"
                 :close-on-select="false"
                 :clear-on-select="false"
                 :show-labels="false"
