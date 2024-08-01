@@ -85,6 +85,7 @@
 - ContactFormular:
     - removed attachments are not being send.
     - uploading attachments separately doesn't remove previously added attachments.
+- Graphical Select: Fixed an issue where the drawn geometry was not correctly displayed after unmounting and remounting the component.
 
 ---
 ## 2024-06-27 v3.0.0
