@@ -115,7 +115,7 @@ button {
     }
 }
 .results-container {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 </style>

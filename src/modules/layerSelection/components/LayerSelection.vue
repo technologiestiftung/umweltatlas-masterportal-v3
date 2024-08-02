@@ -156,6 +156,7 @@ export default {
                 v-if="showAllResults === false"
                 class="layer-selection-navigation"
             >
+                {{ filterBaseLayer() }}
                 <h5
                     v-if="filterBaseLayer().length > 0"
                     class="layer-selection-subheadline"
@@ -279,7 +280,7 @@ export default {
 }
 
 .layer-selection-navigation-baselayer {
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 @include media-breakpoint-down(md) {
     .layer-selection-navigation-baselayer {
