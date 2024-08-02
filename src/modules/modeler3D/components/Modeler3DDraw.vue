@@ -2,7 +2,7 @@
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
 import DrawModels from "./ui/DrawModels.vue";
-import DrawTypes from "./ui/DrawTypes.vue";
+import DrawTypes from "../../../shared/modules/draw/components/DrawTypes.vue";
 import EntityList from "./ui/EntityList.vue";
 import EntityModel from "./Modeler3DEntityModel.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
@@ -938,6 +938,7 @@ export default {
                         :draw-icons="drawIcons"
                         :selected-draw-type="selectedDrawType"
                         :set-selected-draw-type="setSelectedDrawType"
+                        :should-emit-events="true"
                         @start-drawing="startDrawing"
                         @stop-drawing="stopDrawing"
                     />

@@ -1,7 +1,6 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-
 import DrawLayoutComponent from "../../../components/DrawLayout.vue";
 
 config.global.mocks.$t = key => key;
@@ -37,7 +36,6 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
 
             expect(wrapper.find("#draw-layout-innerCircle-fillColor").exists()).to.be.false;
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency").exists()).to.be.false;
-
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor > label").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor > label > i").exists()).to.be.true;
@@ -124,7 +122,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
     });
 
     describe("updateCurrentLayout", () => {
-        it("should set currentlayout", () => {
+        it("should set current layout and emit event", () => {
             const layoutKey = "fillColor",
                 value = "#ff00aa";
 
@@ -145,6 +143,13 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
                 strokeColor: [0, 0, 0],
                 strokeWidth: 1
             });
+            expect(wrapper.emitted()["update-current-layout"]).to.exist;
+            expect(wrapper.emitted()["update-current-layout"][0]).to.deep.equals([{
+                fillColor: [255, 0, 170],
+                fillTransparency: 0,
+                strokeColor: [0, 0, 0],
+                strokeWidth: 1
+            }]);
         });
     });
 });

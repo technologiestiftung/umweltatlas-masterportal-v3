@@ -1254,6 +1254,7 @@
           "pen": "Stift",
           "point": "Punkt",
           "polygon": "Fläche",
+          "rectangle": "Rechteck",
           "symbols": "Symbole"
         }
       },

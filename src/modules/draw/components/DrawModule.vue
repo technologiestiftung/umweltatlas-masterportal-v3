@@ -117,6 +117,7 @@ export default {
                 :set-selected-draw-type-main="setSelectedDrawTypeMain"
                 :set-selected-interaction="setSelectedInteraction"
                 :source="source"
+                :should-emit-events="false"
             />
             <DrawTypes
                 v-if="selectedDrawTypeMain === 'geometries'"
@@ -129,6 +130,7 @@ export default {
                 :selected-draw-type="selectedDrawType"
                 :set-selected-draw-type="setSelectedDrawType"
                 :source="source"
+                :should-emit-events="false"
             />
             <DrawTypes
                 v-else-if="selectedDrawTypeMain === 'symbols'"
@@ -139,6 +141,7 @@ export default {
                 :selected-draw-type="selectedDrawType"
                 :set-selected-draw-type="setSelectedDrawType"
                 :source="source"
+                :should-emit-events="false"
             />
         </div>
         <div
