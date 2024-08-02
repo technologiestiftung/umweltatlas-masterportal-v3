@@ -88,7 +88,9 @@
     - removed attachments are not being send.
     - uploading attachments separately doesn't remove previously added attachments.
 - Graphical Select: Fixed an issue where the drawn geometry was not correctly displayed after unmounting and remounting the component.
-- Topic tree/Search bar: Scrollbars have been adjusted so that they only appear in the Firefox browser when they are needed.
+- Topic tree/Search bar
+    - Scrollbars have been adjusted so that they only appear in the Firefox browser when they are needed.
+    - The results of the `topicTree` search are no longer displayed twice in Firefox.
 
 ---
 ## 2024-06-27 v3.0.0

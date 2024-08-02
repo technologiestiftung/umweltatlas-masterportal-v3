@@ -297,7 +297,6 @@ export default {
                 class="form-control"
                 :placeholder="$t(layerSelectionPlaceHolder)"
                 :aria-label="$t(layerSelectionPlaceHolder)"
-                @input="startSearch(currentComponentSide)"
                 @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
             >
             <button
