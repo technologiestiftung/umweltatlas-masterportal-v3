@@ -107,7 +107,6 @@ nav:
                     - 'Migrate Config to v3': User/Misc/migrateConfigv2Tov3.md
                     - 'Migrate Config to v3 DE': User/Misc/migrateConfigv2Tov3.de.md
                     - User/Misc/languages.md
-                    - User/Misc/quickHelp.md
                     -   'URL Parameters': User/Misc/urlParameter.md
             -   'Proxies':
                     -   'Proxy': User/Proxies/proxy.md
@@ -133,10 +132,8 @@ nav:
                     - Dev/Tutorials/addOnsVue.md
             -   'Vue Components':
                     - Dev/vueComponents/Alerting.md
-                    - Dev/vueComponents/Alerting.md
                     - Dev/vueComponents/BasicDragHandle.md
                     - Dev/vueComponents/BasicResizeHandle.md
-                    - Dev/vueComponents/confirmAction.md
                     - Dev/vueComponents/GraphicalSelect.md
                     - Dev/vueComponents/LayerPreview.md
                     - Dev/vueComponents/layerSelector.md
