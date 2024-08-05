@@ -65,6 +65,8 @@
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.
     - The information text will show under legend when there are more than one statistics selected.
+    - Unit test warnings.
+    - mapGetters and mapMutations in components.
 - LayerPreview for WMTS uses the crs of the service.
 - Legend: changed the name in the legend for group and baselayer.
 - OAF-Layer: bbox and bboxCrs are respected when building url.

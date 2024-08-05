@@ -4,7 +4,6 @@ import TableComponent from "../../../shared/modules/table/components/TableCompon
 import isObject from "../../../shared/js/utils/isObject";
 import getters from "../store/gettersStatisticDashboard";
 import GridComponent from "./StatisticGridComponent.vue";
-import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import LegendComponent from "./StatisticDashboardLegend.vue";
@@ -89,9 +88,38 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", Object.keys(getters)),
+        ...mapGetters("Modules/StatisticDashboard", [
+            "selectedRegions",
+            "selectedDates",
+            "selectedStatistics",
+            "selectedCategories",
+            "data",
+            "chartTableToggle",
+            "chosenStatisticName",
+            "selectedRegionsValues",
+            "selectedReferenceData",
+            "flattenedRegions",
+            "selectedDatesValues",
+            "numberOfClasses",
+            "allowPositiveNegativeClasses",
+            "classificationMode",
+            "stepValues",
+            "legendData",
+            "selectedLevel",
+            "minNumberOfClasses",
+            "maxNumberOfClasses",
+            "selectableColorPalettes",
+            "selectedColorPaletteIndex",
+            "colorPalette",
+            "opacity",
+            "colorScheme",
+            "lineLimit",
+            "barLimit",
+            "levelTitle",
+            "subtitle",
+            "addTotalCount"
+        ]),
         ...mapGetters("Maps", ["projection"]),
-
 
         /**
          * Gets the names of the selected filters.
@@ -334,7 +362,28 @@ export default {
         document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setLegendData",
+            "setDescriptionsOfSelectedStatistics",
+            "setChosenStatisticName",
+            "setStepValues",
+            "setColorPalette",
+            "setSelectedLevel",
+            "setMinNumberOfClasses",
+            "setMaxNumberOfClasses",
+            "setNumberOfClasses",
+            "setSelectedReferenceValueTag",
+            "setChartTableToggle",
+            "setLevelTitle",
+            "setStatisticsByCategories",
+            "setFlattenedRegions",
+            "setSelectedCategories",
+            "setSelectedRegions",
+            "setSelectedDates",
+            "setSelectedReferenceData",
+            "setSelectedStatistics",
+            "setSelectableColorPalettes"
+        ]),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
 

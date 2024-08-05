@@ -1,8 +1,6 @@
 <script>
 import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
-import getters from "../store/gettersStatisticDashboard";
-import mutations from "../store/mutationsStatisticDashboard";
 import isObject from "../../../shared/js/utils/isObject";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 
@@ -34,7 +32,9 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", Object.keys(getters))
+        ...mapGetters("Modules/StatisticDashboard", [
+            "selectedReferenceData"
+        ])
     },
     created () {
         document.addEventListener("click", this.handleClickOutside);
@@ -55,8 +55,9 @@ export default {
         document.removeEventListener("click", this.handleClickOutside);
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
-
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setSelectedReferenceData"
+        ]),
         /**
         * Set the dropdown type.
         * @param {String} value The name of clicked button.

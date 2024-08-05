@@ -3,8 +3,6 @@ import DifferenceModal from "./StatisticDashboardDifference.vue";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import isObject from "../../../shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
-import getters from "../store/gettersStatisticDashboard";
-import mutations from "../store/mutationsStatisticDashboard";
 import ExportButtonCSV from "../../../shared/modules/buttons/components/ExportButtonCSV.vue";
 
 export default {
@@ -50,7 +48,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", Object.keys(getters)),
+        ...mapGetters("Modules/StatisticDashboard", [
+            "chartTableToggle",
+            "selectedStatistics",
+            "chosenStatisticName",
+            "selectedReferenceValueTag",
+            "selectedReferenceData",
+            "selectedDatesValues",
+            "selectedRegionsValues",
+            "downloadFilename"
+        ]),
 
         /**
          * Checks if there is at least one description
@@ -122,7 +129,16 @@ export default {
         this.setSelectedReferenceValueTag(this.referenceTag);
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setChartTableToggle",
+            "setChosenStatisticName",
+            "setData",
+            "setSelectedDates",
+            "setSelectedReferenceData",
+            "setSelectedReferenceValueTag",
+            "setSelectedRegions",
+            "setSelectedStatistics"
+        ]),
         /**
          * Handles the referenceTag value for given property.
          * @param {String|Object} val The value to handle.

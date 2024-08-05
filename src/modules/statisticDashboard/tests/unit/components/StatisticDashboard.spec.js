@@ -795,10 +795,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     stubGetStepValue = sinon.stub(FeatureHandler, "getStepValue");
 
                 await wrapper.setData({statisticsData: {}});
-                wrapper.vm.setNumberOfClasses(3);
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(stubGetStepValue.calledWith(undefined, 3, "2022")).to.be.true;
+                expect(stubGetStepValue.calledWith(undefined, 5, "2022")).to.be.true;
 
                 sinon.restore();
             });
@@ -1579,10 +1578,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
-                wrapper.vm.setNumberOfClasses(2);
 
                 expect(wrapper.vm.createColorPalette()).to.deep.equal(
-                    [[127, 127, 127], [0, 0, 0]]
+                    [[204, 204, 204], [153, 153, 153], [102, 102, 102], [51, 51, 51], [0, 0, 0]]
                 );
             });
         });

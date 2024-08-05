@@ -64,7 +64,16 @@ export default {
 
     computed: {
         ...mapGetters("Maps", ["projection"]),
-        ...mapGetters("Modules/StatisticDashboard", ["flattenedRegions", "selectedCategories", "selectedRegions", "selectedRegionsValues", "selectedDates", "selectedDatesValues", "selectedStatistics", "selectedReferenceData"]),
+        ...mapGetters("Modules/StatisticDashboard", [
+            "flattenedRegions",
+            "selectedCategories",
+            "selectedRegions",
+            "selectedRegionsValues",
+            "selectedDates",
+            "selectedDatesValues",
+            "selectedStatistics",
+            "selectedReferenceData"
+        ]),
 
         /**
          * Check if all the input options are chosen.
@@ -135,7 +144,12 @@ export default {
     },
 
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", ["setSelectedCategories", "setSelectedRegions", "setSelectedDates", "setSelectedStatistics"]),
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setSelectedCategories",
+            "setSelectedRegions",
+            "setSelectedDates",
+            "setSelectedStatistics"
+        ]),
 
         /**
          * Gets the categories sorted.
