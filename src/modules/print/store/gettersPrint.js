@@ -6,7 +6,12 @@ import {rawLayerList} from "@masterportal/masterportalapi";
 const getters = {
     ...generateSimpleGetters(statePrint),
 
-    activeAdditionLayers: state => {
+    /**
+     * Provides state for urlParams.
+     * @param {Object} state state of the app-store.
+     * @returns {Array} list of additional layers with status active
+     */
+    activeAdditionalLayers: state => {
         return state.additionalLayers.filter(layer => layer.active)
             .map(layer => layerFactory.createLayer(rawLayerList.getLayerWhere({id: layer.id}), "2D").layer);
     },
