@@ -862,6 +862,11 @@ export default {
                 });
             }
             this.showNoLegendData = this.selectedStatisticsNames.length !== 1;
+            if (this.selectedColumn) {
+                this.$nextTick(() => {
+                    this.updateReferenceTag(this.selectedColumn, this.selectedLevel, this.referenceFeatures);
+                });
+            }
         },
 
         /**
