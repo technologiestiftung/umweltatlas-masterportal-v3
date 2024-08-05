@@ -15,8 +15,7 @@
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
-    "optionsFromCapabilities": true,
-    "layerAttribution": "Für die Nutzung der Daten ist die Datenlizenz Deutschland - Namensnennung - Version 2.0 anzuwenden. Die Lizenz ist über https://www.govdata.de/dl-de/by-2-0 abrufbar. Der Quellenvermerk gemäß (2) der Lizenz lautet \"Geoportal Berlin / [Titel des Datensatzes]\""
+    "optionsFromCapabilities": true
   },
   {
     "id": "k5_farbe:k5_farbe:gdi_be_25833",
@@ -34,8 +33,7 @@
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
-    "optionsFromCapabilities": true,
-    "layerAttribution": "Für die Nutzung der Daten ist die Datenlizenz Deutschland - Namensnennung - Version 2.0 anzuwenden. Die Lizenz ist über https://www.govdata.de/dl-de/by-2-0 abrufbar. Der Quellenvermerk gemäß (2) der Lizenz lautet \"Geoportal Berlin / [Titel des Datensatzes]\""
+    "optionsFromCapabilities": true
   },
   {
     "id": "basemap_raster_farbe",
@@ -49,7 +47,6 @@
     "optionsFromCapabilities": true,
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
     "legend": "https://sgx.geodatenzentrum.de/wms_basemapde?format=image%2Fpng&layer=de_basemapde_web_raster_farbe&sld_version=1.1.0&request=GetLegendGraphic&service=WMS&version=1.1.1&styles=",
-    "layerAttribution": "© basemap.de / BKG (Monat) (Jahr)",
     "datasets": [
       {
         "md_id": "FE1D2837-ABE0-46B5-9821-BB11BAF22531",
@@ -71,7 +68,6 @@
     "optionsFromCapabilities": true,
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
     "legend": "https://sgx.geodatenzentrum.de/wms_basemapde?format=image/png&layer=de_basemapde_web_raster_grau&sld_version=1.1.0&request=GetLegendGraphic&service=WMS&version=1.1.1&styles=",
-    "layerAttribution": "© basemap.de / BKG (Monat) (Jahr)",
     "datasets": [
       {
         "md_id": "FE1D2837-ABE0-46B5-9821-BB11BAF22531",
@@ -51045,3 +51041,4 @@
     }
   }
 ]
+

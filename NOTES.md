@@ -8,7 +8,7 @@ Now you can merge the _bitbucket_dev_vue_ branch with the _main_ branch.
 
 nvm use v20.12.2
 
-## Migration can be done like so
+## Migration can be done like so (not needed)
 
 npm run migrateConfig source=old_v2_portal/umweltatlas dest=portal/umweltatlas
 
