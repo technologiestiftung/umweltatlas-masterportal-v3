@@ -5,6 +5,7 @@ import sortBy from "../../../shared/js/utils/sortBy";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
+import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Layer Selection
@@ -18,7 +19,8 @@ export default {
     components: {
         LayerCheckBox,
         SearchBar,
-        LayerSelectionTreeNode
+        LayerSelectionTreeNode,
+        IconButton
     },
     data () {
         return {
@@ -179,35 +181,65 @@ export default {
                     v-if="filterBaseLayer().length > 0"
                     class="m-2"
                 >
-                <div
-                    v-if="activeOrFirstCategory && categorySwitcher && lastFolderNames.length === 1"
-                    class="form-floating mb-3 mt-3"
-                >
-                    <select
-                        id="select_category"
-                        v-model="activeCategory"
-                        class="form-select"
-                        @change="categorySelected($event.target.value)"
-                    >
-                        <option
-                            v-for="category in allCategories"
-                            :key="category.key"
-                            :value="category.key"
-                        >
-                            {{ $t(category.name) }}
-                        </option>
-                    </select>
-                    <label for="select_category">
-                        {{ $t("common:modules.layerTree.categories") }}
-                    </label>
-                </div>
+
                 <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer">
-                    <h5
-                        v-if="lastFolderNames.length === 1"
-                        class="layer-selection-subheadline"
+                    <div class="layer-selection-category-head">
+                        <h5
+                            v-if="lastFolderNames.length === 1"
+                            class="layer-selection-subheadline"
+                        >
+                            {{ $t("common:modules.layerSelection.datalayer") }}
+                        </h5>
+
+                        <div
+                            v-if="activeOrFirstCategory && categorySwitcher && lastFolderNames.length === 1"
+                            class="btn d-flex mb-auto layer-selection-category-div-btn"
+                        >
+                            <IconButton
+                                id="layer-selection-category-btn"
+                                :class-array="['btn-light']"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseCategory"
+                                :icon="'bi bi-filter-left'"
+                                :aria="`${$t('common:modules.layerTree.categories')}: ${$t('common:modules.layerTree.iconSubMenu')}`"
+                            />
+                        </div>
+                    </div>
+
+                    <div
+                        v-if="activeOrFirstCategory && categorySwitcher && lastFolderNames.length === 1"
+                        id="collapseCategory"
+                        class="collapse"
                     >
-                        {{ $t("common:modules.layerSelection.datalayer") }}
-                    </h5>
+                        <div class="layer-selection-category-list">
+                            <h6>{{ $t('common:modules.layerTree.categoriesListHead') }}</h6>
+                            <div
+                                v-for="category in allCategories"
+                                :key="category.key"
+                                class="grid-item"
+                            >
+                                <span class="subItem">
+                                    <input
+                                        :id="'collapse-category-sub-menu-' + category.key"
+                                        type="radio"
+                                        name="category"
+                                        :value="category.key"
+                                        class="form-check-input"
+                                        :checked="activeCategory === category.key? true : false"
+                                        @click="categorySelected($event.target.value)"
+                                        @keydown.enter="categorySelected($event.target.value)"
+                                    >
+                                </span>
+                                <span class="subItem">
+                                    <label
+                                        :for="'collapse-category-sub-menu-' + category.key"
+                                    > {{ $t(category.name) }}
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <nav
                         v-if="lastFolderNames.length > 1"
                         aria-label="breadcrumb"
@@ -273,6 +305,36 @@ export default {
         height: calc(100% - 85px);
     }
 }
+
+.layer-selection-category-head {
+    display: flex;
+}
+
+.layer-selection-category-div-btn {
+    position: relative;
+    bottom: 0.8rem;
+    margin-left: auto;
+    height: 3rem;
+    cursor: inherit;
+}
+
+.layer-selection-category-list {
+    margin: 0 0 0.5rem 2rem;
+
+    > h6 {
+        margin-bottom: 1rem;
+    }
+    > .grid-item {
+        margin: 0.8rem 0 0 0;
+        text-align: left;
+
+        > .subItem {
+            margin: 0 0.4rem 0 0;
+            vertical-align: text-bottom;
+        }
+    }
+}
+
 .layer-selection-navigation {
     height: 90%;
     flex-direction: column;

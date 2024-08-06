@@ -9,6 +9,8 @@
 ### Added
 
 ### Changed
+- LayerSelection
+    - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton.
 
 ### Deprecated
 

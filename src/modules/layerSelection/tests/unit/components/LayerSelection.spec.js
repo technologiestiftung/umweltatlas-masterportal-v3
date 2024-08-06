@@ -247,7 +247,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         expect(wrapper.findAll("option").length).to.be.equals(0);
     });
 
-    it("renders the LayerSelection - check categories select", () => {
+    it("renders the LayerSelection - check categories list", () => {
         showAllResults = false;
         LayerSelection.state.lastFolderNames = ["root"];
         wrapper = shallowMount(LayerSelectionComponent, {
@@ -256,11 +256,17 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             }});
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
-        expect(wrapper.find("#select_category").exists()).to.be.true;
-        expect(wrapper.findAll("option").length).to.be.equals(3);
-        expect(wrapper.findAll("option").at(0).text()).to.be.equals("common:modules.layerTree.categoryOpendata");
-        expect(wrapper.findAll("option").at(1).text()).to.be.equals("common:modules.layerTree.categoryInspire");
-        expect(wrapper.findAll("option").at(2).text()).to.be.equals("common:modules.layerTree.categoryOrganisation");
+
+        expect(wrapper.find("div.layer-selection-category-list").exists()).to.be.true;
+        expect(wrapper.find("#layer-selection-category-btn").exists()).to.be.true;
+
+        expect(wrapper.findAll("div.layer-selection-category-list div").length).to.be.equals(3);
+
+        const listResult = wrapper.findAll("div.layer-selection-category-list div");
+
+        expect(listResult.at(0).text()).to.be.equals("common:modules.layerTree.categoryOpendata");
+        expect(listResult.at(1).text()).to.be.equals("common:modules.layerTree.categoryInspire");
+        expect(listResult.at(2).text()).to.be.equals("common:modules.layerTree.categoryOrganisation");
     });
 
 
