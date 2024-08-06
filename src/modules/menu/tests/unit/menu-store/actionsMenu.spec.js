@@ -493,7 +493,7 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
         const side = "mainMenu";
 
         it("should close and reset MenuContainer", async () => {
-            actions.closeMenu({commit, dispatch}, side);
+            actions.closeMenu({commit, dispatch, getters, state}, side);
 
             await nextTick(() => {
                 expect(commit.calledOnce).to.be.true;
