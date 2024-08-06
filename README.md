@@ -38,7 +38,7 @@ Our further Roadmap is to work further on 3.0.0 and to release monthly minor rel
 
 * [Download](https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/)
 * [Quick start for users](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/setup.md)
-* [Remote interface](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/remoteInterface.md)
+* [Remote interface](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/remoteInterface/remoteInterface.md)
 * [User documentation](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/doc.md)
 * [User documentation online](https://www.masterportal.org/dokumentation)
 * [Community board (User forum and issue tracker)](https://trello.com/c/qajdXkMa/110-willkommen)
