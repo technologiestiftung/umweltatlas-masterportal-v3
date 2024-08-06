@@ -156,7 +156,6 @@ export default {
                 v-if="showAllResults === false"
                 class="layer-selection-navigation"
             >
-                {{ filterBaseLayer() }}
                 <h5
                     v-if="filterBaseLayer().length > 0"
                     class="layer-selection-subheadline"
