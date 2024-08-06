@@ -81,6 +81,17 @@
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
+- LayerSelection
+    - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton
+
+
+### Deprecated
+
+### Removed
+
 
 ### Fixed
 - Fix migration of login module to Masterportal v3
