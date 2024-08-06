@@ -148,6 +148,7 @@ export default {
             }
             if (rootGetters["Modules/SearchBar/showAllResults"] === false || rootGetters["Modules/SearchBar/currentSide"] !== side) {
                 commit("switchToPreviousComponent", side);
+                commit("Modules/SearchBar/setShowInTree", false, {root: true});
             }
             if (getters.currentComponent(side).type === "searchbar") {
                 dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});

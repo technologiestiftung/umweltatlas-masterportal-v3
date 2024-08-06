@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "../../../components/LayerSelection.vue";
@@ -8,23 +8,25 @@ import LayerSelection from "../../../store/indexLayerSelection";
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
-    let store,
-        wrapper,
+    let addLayerButtonSearchActive,
         categories,
+        changeCategorySpy,
+        lastFolderNames,
         layerBG_1,
         layerBG_2,
         layerBG_3,
         layer2D_1,
         layer2D_2,
         layer2D_3,
-        subjectDataLayers,
-        layersWithFolder,
         layersBG,
-        changeCategorySpy,
+        layersWithFolder,
         mapMode,
-        showAllResults,
         searchInput,
-        lastFolderNames;
+        showAllResults,
+        showInTree,
+        store,
+        subjectDataLayers,
+        wrapper;
 
     beforeEach(() => {
         lastFolderNames = [];
@@ -112,6 +114,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                 ]
             }];
         subjectDataLayers = layersWithFolder;
+        addLayerButtonSearchActive = true;
+        showInTree = false;
         LayerSelection.actions.navigateForward = sinon.spy();
         LayerSelection.actions.navigateBack = sinon.spy();
         LayerSelection.actions.changeVisibility = sinon.spy();
@@ -129,7 +133,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                                 searchInput: () => searchInput,
                                 searchInterfaceInstances: () => [],
                                 searchResults: () => [],
-                                addLayerButtonSearchActive: () => true,
+                                addLayerButtonSearchActive: () => addLayerButtonSearchActive,
                                 showAllResults: () => showAllResults,
                                 searchResultsActive: () => true,
                                 currentSide: () => {
@@ -138,6 +142,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                                 minCharacters: () => 3,
                                 placeholder: () => "",
                                 configPaths: () => "",
+                                showInTree: () => showInTree,
                                 type: () => ""
 
                             },
@@ -320,6 +325,68 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         await wrapper.vm.$nextTick();
         expect(navigateStepsBackSpy.calledOnce).to.be.true;
         expect(navigateStepsBackSpy.firstCall.args[0]).to.equals(0);
+    });
+
+    describe("render SearchBar", () => {
+        it("render the SearchBar, if showInTree = true and addLayerButtonSearchActive = false", () => {
+            showInTree = true;
+            addLayerButtonSearchActive = false;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("render the SearchBar, if showInTree = false and addLayerButtonSearchActive = true", () => {
+            showInTree = false;
+            addLayerButtonSearchActive = true;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("render the SearchBar, if showInTree = true and addLayerButtonSearchActive = true", () => {
+            showInTree = true;
+            addLayerButtonSearchActive = true;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("don't render the SearchBar, if showInTree = false and addLayerButtonSearchActive = false", () => {
+            showInTree = false;
+            addLayerButtonSearchActive = false;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.false;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
     });
 
     describe("methods", () => {
