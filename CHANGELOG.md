@@ -3,9 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
-
+## 2024-08-07 v3.1.0
 ### Added
 - SearchBar:
     - Added the possibility to zoom to an extent from a search result.
@@ -51,10 +49,6 @@
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Fix migration of login module to Masterportal v3
