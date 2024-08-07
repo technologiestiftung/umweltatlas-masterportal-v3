@@ -1,8 +1,7 @@
 import VueMatomo from "vue-matomo";
 
 /**
- * Initialization. Wrapped in a function to avoid calling it initially
- * in a mochapack run.
+ * Initialization.
  * @param {Object} app Vue-app
  * @returns {void}
  */
@@ -14,9 +13,10 @@ export function initiateMatomo (app) {
 }
 
 /**
- * Initialization. Wrapped in a function to avoid calling it initially
- * in a mochapack run.
- * @param {Object} app Vue-app
+ * Tracking Call
+ * @param {String} category Category of the matomo Event.
+ * @param {String} action Description of action of the matomo Event.
+ * @param {String} name Value or name of the matomo Event.
  * @returns {void}
  */
 export function trackMatomo (category, action, name) {
