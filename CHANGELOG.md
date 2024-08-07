@@ -62,6 +62,7 @@
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 - ViewPoint:
     - Migrated from dev to dev_vue.
+- Matomo: Added Support for analytics via matomo.  
 - Migrator: supports ids with suffix.
 - InputText:
     - Added change event handler property and disabled property.
