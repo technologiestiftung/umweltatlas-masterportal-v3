@@ -51,9 +51,6 @@
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
-- The following packages have been updated:
-    - dependencies:
-        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
 
 ### Deprecated
 
