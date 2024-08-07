@@ -10,6 +10,8 @@
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
 - Modeler3D: Modeler3D was added
+- LayerTree:
+    - In SubMenu added button to open contact form with layer specific parameters to be used in email.
 
 ### Changed
 - LayerSelection

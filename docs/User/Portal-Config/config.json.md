@@ -4250,6 +4250,7 @@ Possibility to make settings for the topic selection tree.
 |backgroundsHeaderText|no|String||Alternativ backgrounds headline. If set, a none empty string is required. An empty string will output the default i18n string/translation.|false|
 |hideDatalayerHeader|no|Boolean|false|Set to true to hide the datalayer headline.|false|
 |datalayerHeaderText|no|String||Alternativ datalayer headline. If set, a none empty string is required. An empty string will output the default i18n string/ translation.|false|
+|subMenuContactButton|no|Boolean|true|Defines if the button to open the contact form with layer specific parameters is shown|false|
 
 **Example type auto**
 

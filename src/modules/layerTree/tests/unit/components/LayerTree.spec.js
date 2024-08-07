@@ -112,6 +112,36 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                         changeCurrentComponent: sinon.stub(),
                         setMenuBackAndActivateItem: sinon.stub()
                     },
+                    getters: {
+                        mainMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "contact"
+                                        },
+                                        {
+                                            type: "about"
+                                        }
+                                    ]
+                                ]
+                            };
+                        },
+                        secondaryMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "section1"
+                                        },
+                                        {
+                                            type: "section2"
+                                        }
+                                    ]
+                                ]
+                            };
+                        }
+                    },
                     modules: {
                         Navigation: {
                             namespaced: true,
@@ -129,7 +159,9 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                         LayerInformation: {
                             namespaced: true,
                             getters: {
-                                icon: sinon.stub()
+                                icon: sinon.stub(),
+                                pointOfContact: () => "ABC Kontakt",
+                                publisher: () => ""
                             }
                         },
                         LayerSelection: {

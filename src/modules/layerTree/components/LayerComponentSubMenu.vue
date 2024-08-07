@@ -3,6 +3,7 @@ import {mapActions, mapGetters} from "vuex";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import LayerInfoContactButton from "./LayerInfoContactButton.vue";
 
 /**
  * Layer Component Sub Menu
@@ -15,7 +16,8 @@ export default {
     name: "LayerComponentSubMenu",
     components: {
         FlatButton,
-        SliderItem
+        SliderItem,
+        LayerInfoContactButton
     },
     props: {
         /** current layer configuration */
@@ -25,7 +27,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["folderById", "showFolderPath"]),
+        ...mapGetters(["folderById", "showFolderPath", "portalConfig"]),
         /**
          * Returns the transparency of the layer config.
          * @returns {Number} Transparency of the layer config.
@@ -43,6 +45,20 @@ export default {
             const unSupportedLayerTypes = layerFactory.getLayerTypes3d().filter(layerType => layerType !== "TILESET3D");
 
             return !unSupportedLayerTypes.includes(this.layerConf.typ?.toUpperCase());
+        },
+        /**
+         * Returns the Name of the layer fromt the metadata if available otherwise from the confg.
+         * @returns {String} Name of the layer.
+         */
+        layerName () {
+            return this.layerConf?.datasets?.length > 0 ? this.layerConf.datasets[0].md_name : this.layerConf.name;
+        },
+        /**
+         * Returns the metadata id
+         * @returns {String} Metadata Id.
+         */
+        mdid () {
+            return this.layerConf?.datasets?.length > 0 ? this.layerConf.datasets[0].md_id : null;
         }
     },
     methods: {
@@ -128,6 +144,12 @@ export default {
                 :icon="'bi-trash3'"
             />
         </div>
+        <LayerInfoContactButton
+            v-if="portalConfig.tree.subMenuContactButton !== false"
+            class="layerInfo-contact-button"
+            :layer-name="layerName"
+            previous-component="root"
+        />
     </div>
 </template>
 
@@ -158,6 +180,12 @@ export default {
                 accent-color: $secondary;
                 width: 100%;
             }
+        }
+
+        .layerInfo-contact-button {
+            position: relative;
+            left: 0.125rem;
+            bottom: 0.5rem;
         }
     }
 </style>

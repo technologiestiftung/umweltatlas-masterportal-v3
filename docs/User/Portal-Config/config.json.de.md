@@ -4245,6 +4245,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |backgroundsHeaderText|nein|String||Alternative Überschrift für Hintergründe. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard-i18n-Zeichenfolge/Übersetzung aus.|false|
 |hideDatalayerHeader|nein|Boolean|false|Auf true setzen, um die Überschrift für datalayer auszublenden.|false|
 |datalayerHeaderText|nein|String||Alternative Überschrift für datalayer. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard i18n-Zeichenfolge/ Übersetzung aus.|false|
+|subMenuContactButton|nein|Boolean|true|Legt fest, ob der Button zum Öffnen des Kontaktformulars mit layerspezifischen Paramentern im LayerSubMenu eingestellt ist|false|
 
 **Beispiel type auto**
 

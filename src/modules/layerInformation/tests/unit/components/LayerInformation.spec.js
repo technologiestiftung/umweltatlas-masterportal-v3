@@ -18,9 +18,13 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         downloadLinks = null;
         legendAvailable = true;
         mainMenu = {
+            currentComponent: "layerInformation",
             navigation: {
                 currentComponent: {
-                    type: "layerInformation"
+                    type: "layerInformation",
+                    props: {
+                        name: "abc"
+                    }
                 }
             },
             sections: [
@@ -227,80 +231,5 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         });
 
         expect(wrapper.find("#accordion-container-layer-info-contact").exists()).to.be.true;
-    });
-
-    it("should show contact button", async () => {
-        pointOfContact = {
-            "name": "Behörde ABC",
-            "positionName": ["Metadaten-Verantwortlicher"],
-            "street": "XYZ Straße 99",
-            "housenr": "",
-            "postalCode": "D-12345",
-            "city": "Hamburg",
-            "email": "test@gv.hamburg.de",
-            "country": "DEU"
-        };
-        publisher = "";
-
-        const wrapper = mount(LayerInformationComponent, {
-            global: {
-                plugins: [store]
-            }
-        });
-
-        expect(wrapper.find("#openContactButton").exists()).to.be.true;
-    });
-
-    it("should not show contact button if no contact information is in the metadata", async () => {
-        pointOfContact = "";
-        publisher = "";
-
-        const wrapper = mount(LayerInformationComponent, {
-            global: {
-                plugins: [store]
-            }
-        });
-
-        expect(wrapper.find("#openContactButton").exists()).to.be.false;
-    });
-
-    it("should not show contact button if contact module is not configured", async () => {
-        pointOfContact = {
-            "name": "Behörde ABC",
-            "positionName": ["Metadaten-Verantwortlicher"],
-            "street": "XYZ Straße 99",
-            "housenr": "",
-            "postalCode": "D-12345",
-            "city": "Hamburg",
-            "email": "test@gv.hamburg.de",
-            "country": "DEU"
-        };
-        publisher = "";
-
-        mainMenu = {
-            navigation: {
-                currentComponent: {
-                    type: "layerInformation"
-                }
-            },
-            sections: [
-                [
-                    {
-                        type: "layerInformation"
-                    },
-                    {
-                        type: "about"
-                    }
-                ]
-            ]
-        };
-
-        const wrapper = mount(LayerInformationComponent, {
-            global: {
-                plugins: [store]
-            }
-        });
-
-        expect(wrapper.find("#openContactButton").exists()).to.be.false;
     });
 });

@@ -3,7 +3,7 @@ import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "../../../shared/js/utils/urlHelper";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -19,19 +19,15 @@ import LightButton from "../../../shared/modules/buttons/components/LightButton.
  * @vue-computed {String} layerUrl - The layer URL.
  * @vue-computed {String} legendURL - The legend URL.
  * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
- * @vue-computed {Boolean} contactConfigured - Returns true if the contact module is configured in either of the menus.
  * @vue-computed {Boolean} menuIndicator - Returns the menu the LayerInfo module is in.
  * @vue-computed {String} layerName - Name of the layer.
- * @vue-computed {String} infoMessage - Info message to be given to the contact module if opened from the LayerInformation module.
- * @vue-computed {String} mailSubject - Mail subject containing the name of the layer to be given to the contact module if opened from the LayerInformation module.
- * @vue-computed {String} mailOriginHint - Text containing URL of the portal to be given to the contact module if opened from the LayerInformation module.
  */
 export default {
     name: "LayerInformation",
     components: {
         LegendSingleLayer,
         AccordionItem,
-        LightButton
+        LayerInfoContactButton
     },
     data () {
         return {
@@ -60,9 +56,6 @@ export default {
         ...mapGetters("Menu", [
             "mainMenu",
             "secondaryMenu"
-        ]),
-        ...mapGetters("Modules/BaselayerSwitcher", [
-            "topBaselayerId"
         ]),
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
@@ -97,14 +90,6 @@ export default {
         contact () {
             return this.pointOfContact || this.publisher || null;
         },
-        contactConfigured () {
-            return this.mainMenu.sections[0].find(m => {
-                return m.type === "contact";
-            })
-            || this.secondaryMenu.sections[0].find(m => {
-                return m.type === "contact";
-            });
-        },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
@@ -114,17 +99,6 @@ export default {
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
-        },
-        infoMessage () {
-            return this.$t("common:modules.layerInformation.contactInfoMessage") + this.layerName;
-        },
-        mailSubject () {
-            return this.$t("common:modules.layerInformation.mailSubject") + this.layerName;
-        },
-        mailOriginHint () {
-            const layerInfo = `{"layerInfo":{"id":"${this.layerInfo.id}"}}`;
-
-            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayerId}","visibility":true}]`);
         }
     },
 
@@ -195,31 +169,6 @@ export default {
                 urlObject.searchParams.set("REQUEST", "GetCapabilities");
             }
             return urlObject.href;
-        },
-        /**
-         * Opens the contact module in the same menu where the about module is in.
-         * @returns {void}
-         */
-        openContactModule () {
-            const props = {
-                name: this.$t("common:modules.contact.name"),
-                to: [
-                    {
-                        email: this.contact.email,
-                        name: this.contact.name
-                    }
-                ],
-                infoMessage: this.infoMessage,
-                includeSystemInfo: false,
-                subject: this.mailSubject,
-                mailOriginHint: this.mailOriginHint,
-                withTicketNo: false,
-                noConfigProps: true,
-                previousComponent: "layerInformation",
-                layerName: this.layerName
-            };
-
-            this.changeCurrentComponent({type: "contact", side: this.menuIndicator, props: props});
         }
     }
 };
@@ -263,15 +212,9 @@ export default {
                 {{ contact.email }}
             </a>
         </AccordionItem>
-        <LightButton
-            v-if="contactConfigured && contact"
-            id="openContactButton"
-            class="mt-3"
-            :interaction="openContactModule"
-            :text="$t('common:modules.about.contactButton')"
-            icon="bi-envelope"
-            customclass="w-100"
-            :title="$t('common:modules.about.contactButton')"
+        <LayerInfoContactButton
+            :layer-name="layerName"
+            previous-component="layerInformation"
         />
         <div v-if="showAdditionalMetaData">
             <p
