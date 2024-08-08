@@ -36,6 +36,40 @@ export default {
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
+        },
+        /**
+         * @return {string|null|false} False: to hide the headline; null: using i18n text; none empty string to show that one
+         */
+        categoryBackgroundsHeaderText () {
+            if (this.portalConfig?.tree?.hideBackgroundsHeader === true) {
+                return false;
+            }
+
+            if (this.portalConfig?.tree?.backgroundsHeaderText
+                && typeof this.portalConfig.tree.backgroundsHeaderText === "string"
+                && this.portalConfig.tree.backgroundsHeaderText > ""
+            ) {
+                return this.portalConfig.tree.backgroundsHeaderText;
+            }
+
+            return null;
+        },
+        /**
+         *  @return {string|null|false} False: to hide the headline; null: using i18n text; none empty string to show that one
+         */
+        datalayerHeaderText () {
+            if (this.portalConfig?.tree?.hideDatalayerHeader === true) {
+                return false;
+            }
+
+            if (this.portalConfig?.tree?.datalayerHeaderText
+                && typeof this.portalConfig.tree.datalayerHeaderText === "string"
+                && this.portalConfig.tree.datalayerHeaderText > ""
+            ) {
+                return this.portalConfig.tree.datalayerHeaderText;
+            }
+
+            return null;
         }
     },
     unmounted () {
@@ -159,10 +193,10 @@ export default {
                 class="layer-selection-navigation"
             >
                 <h5
-                    v-if="filterBaseLayer().length > 0"
+                    v-if="(filterBaseLayer().length > 0 && categoryBackgroundsHeaderText !== false)"
                     class="layer-selection-subheadline"
                 >
-                    {{ $t("common:modules.layerSelection.backgrounds") }}
+                    {{ categoryBackgroundsHeaderText ?? $t("common:modules.layerSelection.backgrounds") }}
                 </h5>
                 <div class="d-flex justify-content-start layer-selection-navigation-baselayer">
                     <template
@@ -185,10 +219,10 @@ export default {
                 <div class="align-items-left justify-content-center layer-selection-navigation-dataLayer">
                     <div class="layer-selection-category-head">
                         <h5
-                            v-if="lastFolderNames.length === 1"
+                            v-if="lastFolderNames.length === 1 && datalayerHeaderText !== false"
                             class="layer-selection-subheadline"
                         >
-                            {{ $t("common:modules.layerSelection.datalayer") }}
+                            {{ datalayerHeaderText ?? $t("common:modules.layerSelection.datalayer") }}
                         </h5>
 
                         <div

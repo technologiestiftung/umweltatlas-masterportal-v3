@@ -14,6 +14,11 @@
 ### Changed
 - LayerSelection
     - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton.
+    - Adds handling for parameters in `config.json`/`portalConfig.tree`:
+        - `hideBackgroundsHeader` to hide the headline for backgrounds
+        - `backgroundsHeaderText` custom headline for the backgrounds (to overwrite the default translation)
+        - `hideDatalayerHeader` to hide the headline for datalayers
+        - `datalayerHeaderText` custom headline for the datalayers (to overwrite the default translation)
 - Login: Access Tokens are now revoked after logout
 - The following packages have been updated:
     - dependencies:
@@ -81,17 +86,6 @@
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
-- The following packages have been updated:
-    - dependencies:
-        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
-- LayerSelection
-    - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton
-
-
-### Deprecated
-
-### Removed
-
 
 ### Fixed
 - Fix migration of login module to Masterportal v3

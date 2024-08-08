@@ -4253,6 +4253,10 @@ Possibility to make settings for the topic selection tree.
 |singleBaselayer|no|Boolean|false|Specifies whether only one base layer may be active at any time.|false|
 |type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#markdown-header-layerconfig)**. If the type `auto` is configured, all layers from the [services.json](services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
 |validLayerTypesAutoTree|no|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer types to be used with the tree.type `auto`.|false|
+|hideBackgroundsHeader|no|Boolean|false|Set to true to hide the backgrounds headline.|false|
+|backgroundsHeaderText|no|String||Alternativ backgrounds headline. If set, a none empty string is required. An empty string will output the default i18n string/translation.|false|
+|hideDatalayerHeader|no|Boolean|false|Set to true to hide the datalayer headline.|false|
+|datalayerHeaderText|no|String||Alternativ datalayer headline. If set, a none empty string is required. An empty string will output the default i18n string/ translation.|false|
 
 **Example type auto**
 
@@ -4289,7 +4293,11 @@ Possibility to make settings for the topic selection tree.
           "key": "kategorie_organisation",
           "name": "common:modules.layerTree.categoryOrganisation"
         }
-      ]
+      ],
+      "hideBackgroundsHeader": true,
+      "backgroundsHeaderText": "This should not appear on output",
+      "hideDatalayerHeader": false,
+      "datalayerHeaderText": "Specific heading for datalayers across all languages - overwrites i18n"
     }
 }
 ```
