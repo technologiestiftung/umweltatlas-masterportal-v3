@@ -19,6 +19,8 @@
 ### Fixed
 - Filter:
     - The buttons were always disabled in the accordion of the filter.
+- LayerSelection:
+    - After layer category switch the visible background layer were removed from layer selection.
 
 ---
 
