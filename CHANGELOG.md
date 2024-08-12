@@ -17,6 +17,8 @@
 ### Removed
 
 ### Fixed
+- Filter:
+    - The buttons were always disabled in the accordion of the filter.
 
 ---
 
