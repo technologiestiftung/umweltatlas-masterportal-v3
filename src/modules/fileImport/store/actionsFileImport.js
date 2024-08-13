@@ -598,6 +598,8 @@ export default {
         });
 
         if (!vectorLayer.get("gfiAttributes")) {
+            vectorLayer.set("gfiAttributes", gfiAttributes);
+
             dispatch("replaceByIdInLayerConfig", {
                 layerConfigs: [{
                     id: state.layerId,
