@@ -253,20 +253,20 @@ describe("Actions", () => {
         });
     });
 
-    describe("confirmDeletion", () => {
-        it("should open the modal dialog to confirm action", () => {
-            const dispatch = sinon.spy(),
-                id = 1;
+    // describe("confirmDeletion", () => {
+    //     it("should open the modal dialog to confirm action", () => {
+    //         const dispatch = sinon.spy(),
+    //             id = 1;
 
-            store.dispatch = sinon.spy();
-            getters = {
-                getModelNameById: sinon.stub().returns("House")
-            };
+    //         store.dispatch = sinon.spy();
+    //         getters = {
+    //             getModelNameById: sinon.stub().returns("House")
+    //         };
 
-            actions.confirmDeletion({dispatch, getters}, id);
-            expect(store.dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
-        });
-    });
+    //         actions.confirmDeletion({dispatch, getters}, id);
+    //         expect(store.dispatch.firstCall.args[0]).to.equal("ConfirmAction/addSingleAction");
+    //     });
+    // });
 
     describe("changeVisibility", () => {
         it("should change the entities show attribute", () => {

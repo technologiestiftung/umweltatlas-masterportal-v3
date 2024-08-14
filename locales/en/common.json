@@ -662,6 +662,120 @@
     "modalItem": {
       "close": "Close window"
     },
+    "modeler3D": {
+      "entity": {
+        "captions": {
+          "backToList": "Back to Overview",
+          "copyTitle": "Copy 3D Model \"{{name}}\"",
+          "delete": "Delete Model",
+          "deletionTitle": "Delete 3D Model \"{{name}}\"",
+          "dimensionsModel": "Show dimensions of 3D Model \"{{name}}\"",
+          "editModel": "Edit 3D Model \"{{name}}\"",
+          "incrementTooltip": "Hold Shift to increase the value coarser.",
+          "modelName": "Model Name",
+          "projectionInfo": "Attention! When using the WGS84 coordinate system, there may be inaccuracies. We recommend using decimal notation.",
+          "rotationPlaceholder": "Increment/Decrement steps",
+          "rotation": "Rotation",
+          "rotationSwitch": "Rotation Steps",
+          "scale": "Scale",
+          "steps": "Steps",
+          "visibilityTitle": "Show/Hide 3D Model \"{{name}}\"",
+          "zoomTo": "Zoom to 3D Model \"{{name}}\""
+        },
+        "deleteInteraction": {
+          "confirm": "Delete",
+          "headline": "Attention",
+          "text": "Are you sure you want to delete the model \"{{name}}\"?"
+        },
+        "projections": {
+          "adaptToHeight": "Adapt to Terrain",
+          "area": "Area",
+          "cartesian": {
+            "eastingLabel": "Easting",
+            "northingLabel": "Northing"
+          },
+          "depth": "Depth",
+          "hdms": {
+            "eastingLabel": "Longitude",
+            "northingLabel": "Latitude"
+          },
+          "height": "Height",
+          "projection": "Coordinate System",
+          "width": "Width"
+        }
+      },
+      "import": {
+        "alertingMessages": {
+          "featureError": "A feature in this file could not be read.",
+          "fileSizeError": "The file size exceeds the limit of 100 MB.",
+          "formatError": "The file \"{{filename}}\" could not be read. Please check if the file has the format *.gltf, *.obj *.dae or *.geojson.",
+          "missingFileContent": "Error reading the file \"{{filename}}\". Please check the file type and content. If the file is error-free, please contact support.",
+          "missingFormat": "The file format \"{{format}}\" is not supported. Please contact support.",
+          "success": "The file \"{{filename}}\" was successfully imported.",
+          "successPartly": "The file \"{{filename}}\" was partially imported."
+        },
+        "captions": {
+          "introInfo": "With the importer, you can load, visualize, and analyze digital urban designs into the existing 3D model of the city.",
+          "introInfo2": "Simply import your desired file by dragging and dropping or alternatively using the browser's open dialog.",
+          "introFormats": "You can import glTF- (*.gltf), OBJ- (*.obj), Collada- (*.dae), or GeoJSON-files.",
+          "info": "Information",
+          "successfullyImportedLabel": "Imported 3D Models:",
+          "newImport": "New Import"
+        }
+      },
+      "draw": {
+        "captions": {
+          "beginModelling": "Model 3D Object",
+          "clampToGround": "Align to Terrain Model",
+          "color": "Color",
+          "coordinates": "Coordinates",
+          "design": "Design",
+          "dimensions": "Dimensions",
+          "drawing": "Drawing",
+          "drawName": "Name",
+          "drawnModels": "Drawn Models:",
+          "export": "Export",
+          "exportTitle": "Export all drawn models in GeoJSON format.",
+          "extrudedHeight": "Extruded Height",
+          "fillColor": "Fill Color",
+          "fillTransparency": "Transparency",
+          "geometries": "Geometries",
+          "introInfo": "With this function, you can draw 3D objects on the map and edit and design them individually. You can sketch buildings and then, for example, perform shadow simulations.<br><br>The tool also allows drawing on existing buildings and imported objects. A prerequisite is that you have activated the terrain height.<br><br>Using the export function, you can export your designs and load them back into the application later using the importer.",
+          "info": "Information",
+          "newModel": "New Model",
+          "options": "Options",
+          "readyGeometries": "Ready Geometries",
+          "showDimensions": "Show dimensions while drawing",
+          "strokeColor": "Outline Color",
+          "strokeWidth": "Line Width",
+          "transformation": "Transformation"
+        },
+        "geometries": {
+          "line": "Line",
+          "polygon": "Polygon",
+          "rectangle": "Rectangle"
+        }
+      },
+      "options": {
+        "captions": {
+          "enableFunction": "Enable/Disable Function",
+          "hideObjectInfo": "Existing buildings can be deactivated in their representation, allowing you to place imported elements on the corresponding property.<br><br>To activate this function, click Enable and click on the desired objects to deactivate them in the view.<br><br>All hidden objects appear in a list and can be reactivated there.",
+          "hideSwitchLabel": "Hide Buildings with Mouse Click",
+          "pov": "Jump to Pedestrian View",
+          "povInfo": "Here you have the option to take the perspective of pedestrians and look around the city.<br><br>Navigate to the desired position. Once you set the cylinder on the map with a mouse click, you will enter the pedestrian view at that location.<br><br>You can change your field of view with mouse movements. To return to the starting position, press the Escape key (ESC).",
+          "povTitle": "Pedestrian Perspective",
+          "visibilityTitle": "Visibility Options"
+        }
+      },
+      "nav": {
+        "drawTitle": "Draw",
+        "importTitle": "Import",
+        "options": "Options"
+      },
+      "description": "Import, draw and edit 3D models and buildings in the city model",
+      "hiddenObjectsLabel": "Hidden Buildings:",
+      "title": "3D Modeler"
+    },
     "mouseHover": {
       "infoText": "(more objects. Please zoom.)"
     },

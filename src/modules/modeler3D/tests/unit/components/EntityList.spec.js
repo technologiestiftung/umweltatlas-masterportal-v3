@@ -7,7 +7,7 @@ import EntityListComponent from "../../../components/ui/EntityList.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/modeler3D/components/EntityList.vue", () => {
+describe("src/modules/modeler3D/components/EntityList.vue", () => {
     let store, wrapper;
 
     beforeEach(() => {

@@ -70,7 +70,7 @@ const globalDocument = global.document,
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/modeler3D/components/Modeler3DImport.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
     let store, wrapper, scene;
     const entities = {
             getById: () => ({position: {}}),

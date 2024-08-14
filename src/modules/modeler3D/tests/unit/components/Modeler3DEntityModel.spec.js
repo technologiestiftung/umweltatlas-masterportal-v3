@@ -7,7 +7,7 @@ import Modeler3D from "../../../store/indexModeler3D";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const provide = {
             toggleDimensions: () => {
                 sinon.stub();
@@ -169,7 +169,7 @@ describe("src_3_0_0/modules/modeler3D/components/Modeler3DEntityModel.vue", () =
     });
 
     it("renders Modeler3DEntityModel", () => {
-        wrapper = shallowMount(Modeler3DEntityModelComponent, {provide, global: {
+        wrapper = mount(Modeler3DEntityModelComponent, {provide, global: {
             plugins: [store]
         }});
 

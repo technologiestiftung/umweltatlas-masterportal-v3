@@ -7,7 +7,7 @@ import Modeler3D from "../../../store/indexModeler3D";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/modeler3D/components/Modeler3DDraw.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
     const globalURL = global.URL,
         mockMapGetters = {
             mouseCoordinate: () => {

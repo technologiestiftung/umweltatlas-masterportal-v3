@@ -12,7 +12,7 @@ import layerCollection from "../../../../../core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/modeler3D/components/Modeler3D.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
     const mockMapGetters = {
             mouseCoordinate: () => {
                 return [11.549606597773037, 48.17285700012215];

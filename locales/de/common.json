@@ -662,6 +662,123 @@
     "modalItem": {
       "close": "Fenster schließen"
     },
+    "modeler3D": {
+      "entity": {
+        "captions": {
+          "backToList": "Zur Übersicht",
+          "copyTitle": "3D-Modell \"{{name}}\" kopieren",
+          "delete": "Modell löschen",
+          "deletionTitle": "3D-Modell \"{{name}}\" löschen",
+          "dimensionsModel": "Maße für 3D Model \"{{name}}\" anzeigen",
+          "editModel": "3D-Modell \"{{name}}\" bearbeiten",
+          "incrementTooltip": "Halten Sie Shift gedrückt, um den Wert gröber zu erhöhen.",
+          "modelName": "Modell Name",
+          "projectionInfo": "Achtung! Bei Nutzung des WGS84 Koordinatensystems kann es zu Ungenauigkeiten kommen. Wir empfehlen die Nutzung der Dezimal Schreibweise.",
+          "rotationPlaceholder": "Inkrement-/Dekrement-Schritte",
+          "rotation": "Rotation",
+          "rotationSwitch": "Rotationsschritte",
+          "scale": "Skalierung",
+          "steps": "Schritte",
+          "visibilityTitle": "3D-Modell \"{{name}}\" ein-/ausblenden",
+          "zoomTo": "Zu 3D-Modell \"{{name}}\" zoomen"
+        },
+        "deleteInteraction": {
+            "confirm": "Löschen",
+            "headline": "Achtung",
+            "text": "Sind Sie sicher, dass Sie das Modell \"{{name}}\" löschen möchten?"
+        },
+        "projections": {
+            "adaptToHeight": "An Gelände anpassen",
+            "area": "Grundfläche",
+            "cartesian": {
+                "eastingLabel": "Rechtswert",
+                "northingLabel": "Hochwert"
+            },
+            "depth": "Tiefe",
+            "hdms": {
+                "eastingLabel": "Länge",
+                "northingLabel": "Breite"
+            },
+            "height": "Höhe",
+            "projection": "Koordinatensystem",
+            "width": "Breite"
+        }
+      },
+      "import": {
+        "alertingMessages": {
+          "featureError": "Ein Feature in dieser Datei konnte nicht gelesen werden.",
+          "fileSizeError": "Die Dateigröße überschreitet das Limit von 100 MB.",
+          "formatError": "Die Datei \"{{filename}}\" konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.gltf, *.obj *.dae oder *.geojson hat.",
+          "missingFileContent": "Fehler beim Lesen der Datei \"{{filename}}\". Bitte überprüfen Sie den Dateityp sowie den Inhalt der Datei. Falls die Datei fehlerfrei ist, wenden Sie sich bitte an den Support.",
+          "missingFormat": "Das Dateiformat \"{{format}}\" wird nicht unterstützt. Bitte wenden Sie sich an den Support.",
+          "success": "Die Datei \"{{filename}}\" wurde erfolgreich importiert.",
+          "successPartly": "Die Datei \"{{filename}}\" wurde teilweise importiert."
+        },
+        "captions": {
+          "introInfo": "Mit dem Importer können Sie digitale städtebauliche Entwürfe in das bestehende 3D-Modell der Stadt laden, visualisieren und analysieren.",
+          "introInfo2": "Importieren Sie Ihre gewünschte Datei einfach per Drag and Drop oder alternativ mit dem Öffnen-Dialog des Browsers.",
+          "introFormats": "Es können glTF- (*.gltf), OBJ- (*.obj) Collada- (*.dae) oder GeoJSON-Dateien importiert werden.",
+          "info": "Informationen",
+          "successfullyImportedLabel": "Importierte 3D-Modelle",
+          "newImport": "Neuer Import"
+        }
+      },
+      "draw": {
+        "captions": {
+          "beginModelling": "3D Objekt modellieren",
+          "clampToGround": "Am Höhenmodell orientieren",
+          "color": "Farbe",
+          "coordinates": "Koordinaten",
+          "design": "Design",
+          "dimensions": "Maße",
+          "drawing": "Zeichnung",
+          "drawName": "Name",
+          "drawnModels": "Gezeichnete Modelle",
+          "export": "alles Exportieren",
+          "exportTitle": "Alle gezeichneten Modelle in GeoJSON Format exportieren.",
+          "extrudedHeight": "Extrudierte Höhe",
+          "fillColor": "Füllfarbe",
+          "fillTransparency": "Transparenz",
+          "geometries": "Geometrien",
+          "introInfo": "Über diese Funktion können Sie 3D-Objekte in die Karte zeichnen, individuell gestalten und anschließend z.B. Schattensimulationen durchführen.<br>Das Tool ermöglicht auch das Zeichnen auf bereits bestehenden Gebäuden sowie importierten Objekten. Voraussetzung ist, dass Sie die Geländehöhe deaktiviert haben.<br>Gezeichnete Objekte können über die Funktion Alles Exportieren exportiert und zu einem späteren Zeitpunkt über den Importer wieder geladen werden.<br><br>Mit einem Klick der linken Maustaste werden Eckpunkte beim Zeichnen gesetzt, mit einem Doppelklick wird die Zeichnung beendet. Sie können den zuletzt platzierten Punkt mit Strg+Z entfernen und mit Strg+Y wieder hinzufügen. Klicken Sie auf ein Objekt, um es anzuheben, zu verschieben oder zu bearbeiten.",
+          "info": "Informationen",
+          "newModel": "Neues Modell",
+          "options": "Optionen",
+          "readyGeometries": "Fertige Geometrien",
+          "showDimensions": "Maße beim Zeichnen anzeigen",
+          "strokeColor": "Umrissfarbe",
+          "strokeWidth": "Strichstärke",
+          "transformation": "Transformation"
+        },
+        "geometries": {
+          "line": "Linie",
+          "polygon": "Polygon",
+          "rectangle": "Rechteck"
+        },
+        "oneClicks": {
+          "rectangle": "15m x 20m x 20m (BxTxH) Rechteck"
+        }
+      },
+      "options": {
+        "captions": {
+          "enableFunction": "Funktion de-/aktivieren",
+          "hideObjectInfo": "Bestandsgebäude können in ihrer Darstellung deaktiviert werden, um so z.B. importierte Elemente auf dem entsprechenden Grundstück zu platzieren.<br><br>Starten Sie diese Funktion über Aktivieren und klicken Sie auf die gewünschten Objekte, sodass es nun in der Ansicht deaktiviert wird.<br><br>Alle ausgeblendeten Objekte erscheinen in einer Liste und können dort wieder aktiviert werden. ",
+          "hideSwitchLabel": "Gebäude per Mausklick ausblenden",
+          "pov": "Zur Fußgängeransicht springen",
+          "povInfo": "Hier haben Sie die Möglichkeit die Sichtperspektive von Fußgänger*innen einzunehmen und sich so in der Stadt umzuschauen.<br>Navigieren Sie an die gewünschte Position, sobald Sie den Zylinder in der Karte mit einem Mausklick setzen, gelangen Sie an dieser Stelle in die Fußgängeransicht.<br>Mit Mausbewegungen und gedrückter linker Maustaste können Sie Ihr Sichtfeld verändern. Um zur Ausgangsposition zurückzukehren, deaktivieren Sie die Funktion über den Schieberegler.",
+          "povTitle": "Fußgängerperspektive",
+          "visibilityTitle": "Sichtbarkeitsoptionen"
+        }
+      },
+      "nav": {
+        "drawTitle": "Zeichnen",
+        "importTitle": "Importieren",
+        "options": "Optionen"
+      },
+      "description": "Importiere, zeichne und bearbeite 3D-Modelle im Stadtmodell",
+      "hiddenObjectsLabel": "Ausgeblendete Gebäude:",
+      "name": "3D Modeller"
+    },
     "mouseHover": {
       "infoText": "(weitere Objekte. Bitte zoomen.)"
     },
