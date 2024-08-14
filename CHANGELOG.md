@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- WFST: Added buttons names for confirm and stop.
 
 ### Changed
 - LayerSelection
@@ -21,6 +22,7 @@
     - The buttons were always disabled in the accordion of the filter.
 - LayerSelection:
     - After layer category switch the visible background layer were removed from layer selection.
+- Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 
 ---
 
@@ -67,7 +69,6 @@
     - Added info message at the top of the contact form
     - Can be opened from other components using props, which allow a different addressee (to) to be used from the one set in config.json
 - Print: Parameter additionalLayer to add layer (e.g. coordinate grid) during print.
-- WFST: Added buttons names for confirm and stop.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
@@ -110,7 +111,6 @@
     - Scrollbars have been adjusted so that they only appear in the Firefox browser when they are needed.
     - The results of the `topicTree` search are no longer displayed twice in Firefox.
     - With the `topicTree` search, you can now access the layerSelection via the folder icon, even if no search is configured in the layerSelection.
-- Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 
 ---
 ## 2024-06-27 v3.0.0
