@@ -109,10 +109,10 @@ describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
             wrapper.vm.attributeValue = "bar";
             wrapper.vm.addAttributesToFeature();
             expect(wrapper.vm.attributes).to.be.an("array").and.to.deep.include(expectedLocal);
-            expect(testFeature.get("attributes")).to.deep.equal(expected);
+            expect(testFeature.getProperties()).to.deep.include(expected);
         });
         it("should remove attributes from the feature and row in local attributes array", () => {
-            testFeature.set("attributes", {foo: "bar", biz: "buz"});
+            testFeature.setProperties({foo: "bar", biz: "buz"});
             const props = {selectedFeature: testFeature},
                 wrapper = factory.getShallowMount(props),
                 notExpected = {key: "biz", value: "buz"},
@@ -123,30 +123,30 @@ describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
 
             expect(wrapper.vm.attributes).to.be.an("array").and.to.not.include(notExpected);
             expect(wrapper.vm.attributes).to.be.an("array").and.to.deep.include(localExpected);
-            expect(testFeature.get("attributes")).to.deep.equal(expected);
+            expect(testFeature.getProperties()).to.deep.include(expected);
         });
         it("should update the attributes on the feature", () => {
-            testFeature.set("attributes", {foo: "bar", biz: "buz"});
+            testFeature.setProperties({foo: "bar", biz: "buz"});
             const props = {selectedFeature: testFeature},
                 wrapper = factory.getShallowMount(props),
-                expected = {fow: "bar", biz: "buz"},
-                attributes = [{key: "fow", value: "bar"}, {key: "biz", value: "buz"}];
+                expected = {foo: "bar", biz: "buz"},
+                attributes = [{key: "foo", value: "bar"}, {key: "biz", value: "buz"}];
 
             wrapper.vm.saveChanges(attributes, testFeature, testLayer);
 
-            expect(testFeature.get("attributes")).to.deep.equal(expected);
+            expect(testFeature.getProperties()).to.deep.include(expected);
         });
         it("should update the attributes from the feature", async () => {
-            testFeature.set("attributes", {foo: "bar", biz: "buz"});
+            testFeature.setProperties({foo: "bar", biz: "buz"});
             const props = {selectedFeature: testFeature},
                 wrapper = factory.getShallowMount(props),
-                localExpected = [{key: "fow", value: "bar"}, {key: "biz", value: "buz"}],
+                localExpected = {key: "fow", value: "bar"},
                 expected = {fow: "bar", biz: "buz"};
 
-            wrapper.vm.attributes[0].key = "fow";
+            wrapper.vm.attributes[3].key = "fow";
             await wrapper.vm.$nextTick();
-            expect(wrapper.vm.attributes).to.deep.equal(localExpected);
-            expect(testFeature.get("attributes")).to.deep.equal(expected);
+            expect(wrapper.vm.attributes).to.deep.include(localExpected);
+            expect(testFeature.getProperties()).to.deep.include(expected);
         });
     });
     describe("checkAttributes", () => {

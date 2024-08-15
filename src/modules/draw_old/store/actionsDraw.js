@@ -45,7 +45,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 drawType = {geometry: "Circle", id: "drawCircle"};
             }
 
-            feature.set("drawState", {
+            feature.set("masterportal_attributes", Object.assign(feature.get("masterportal_attributes") ?? {}, {"drawState": {
                 strokeWidth: styleSettingsCopy.strokeWidth,
                 opacity: styleSettingsCopy.opacity,
                 opacityContour: styleSettingsCopy.opacityContour,
@@ -63,7 +63,8 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 color: styleSettingsCopy.color,
                 colorContour: styleSettingsCopy.colorContour,
                 outerColorContour: styleSettingsCopy.outerColorContour
-            }, false);
+            }}), false);
+
         },
         /**
          * Adds an interaction to the current map instance.
@@ -191,8 +192,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             let tooltip;
 
             interaction.on("drawstart", event => {
-                event.feature.set("isOuterCircle", isOuterCircle);
-                event.feature.set("isVisible", true);
+                event.feature.set("masterportal_attributes", Object.assign(event.feature.get("masterportal_attributes") ?? {}, {"isOuterCircle": isOuterCircle, "isVisible": true}));
                 dispatch("drawInteractionOnDrawEvent", drawInteraction);
 
                 if (!tooltip && state?.drawType?.id === "drawCircle" || state?.drawType?.id === "drawDoubleCircle") {
@@ -225,7 +225,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             interaction.on("drawend", event => {
                 dispatch("addDrawStateToFeature", event.feature);
                 dispatch("uniqueID").then(id => {
-                    event.feature.set("styleId", id);
+                    event.feature.set("masterportal_attributes", Object.assign(event.feature.get("masterportal_attributes") ?? {}, {"styleId": id}));
 
                     if (tooltip) {
                         event.feature.getGeometry().un("change", tooltip.get("featureChangeEvent"));
@@ -452,8 +452,10 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                     else if (typeof state.selectedFeature.getStyle() === "object") {
                         const style = state.selectedFeature.getStyle();
 
-                        style.setText(textStyle);
-                        state.selectedFeature.setStyle(style);
+                        if (style) {
+                            style.setText(textStyle);
+                            state.selectedFeature.setStyle(style);
+                        }
                     }
                 }, 300);
             });
@@ -653,7 +655,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
          */
         saveAsCurrentFeatureAndApplyStyleSettings: async ({commit, dispatch, getters}, feature) => {
             const {styleSettings} = getters;
-            let drawState = feature.get("drawState");
+            let drawState = feature.get("masterportal_attributes").drawState;
 
             if (typeof drawState === "undefined") {
                 // setDrawType changes visibility of all select- and input-boxes
@@ -661,17 +663,17 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
 
                 // use current state as standard for extern features (e.g. kml or gpx import)
                 await dispatch("addDrawStateToFeature", feature);
-                drawState = feature.get("drawState");
+                drawState = feature.get("masterportal_attributes").drawState;
             }
             else {
                 // setDrawType changes visibility of all select- and input-boxes
-                let drawType = feature.get("drawState").drawType;
+                let drawType = feature.get("masterportal_attributes").drawState.drawType;
 
                 if (!drawType && drawState.fontSize) {
                     drawType = {geometry: "Point", id: "writeText"};
                     commit("setDrawType", drawType);
                     drawState = Object.assign(getters.styleSettings, drawState, {drawType: drawType});
-                    feature.set("drawState", drawState);
+                    feature.set("masterportal_attributes", Object.assign(feature.get("masterportal_attributes") ?? {}, {"drawState": drawState}));
                 }
                 else {
                     commit("setDrawType", drawType);
@@ -700,7 +702,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             Object.assign(styleSettings,
                 drawState);
 
-            commit("setSymbol", feature.get("drawState").symbol);
+            commit("setSymbol", feature.get("masterportal_attributes").drawState.symbol);
 
             setters.setStyleSettings({commit, getters}, styleSettings);
         },
@@ -805,8 +807,8 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 const {styleSettings} = getters;
 
                 state.selectedFeature.setStyle(function (feature) {
-                    if (feature.get("isVisible") === undefined || feature.get("isVisible")) {
-                        return createStyleModule.createStyle(feature.get("drawState"), styleSettings);
+                    if (feature.get("masterportal_attributes").isVisible === undefined || feature.get("masterportal_attributes").isVisible) {
+                        return createStyleModule.createStyle(feature.get("masterportal_attributes").drawState, styleSettings);
                     }
                     return undefined;
                 });

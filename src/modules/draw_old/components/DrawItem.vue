@@ -285,7 +285,9 @@ export default {
          * @returns {Boolean} True if there are visible features otherwise false.
          */
         isFromDrawTool () {
-            const visibleFeatures = this.layer?.getSource()?.getFeatures()?.filter(feature => feature.get("fromDrawTool") && feature.get("isVisible"));
+            const visibleFeatures = this.layer?.getSource()?.getFeatures()?.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
+                feature.get("masterportal_attributes").isVisible
+            );
 
             return visibleFeatures?.length > 0;
         },
@@ -295,7 +297,7 @@ export default {
          * @returns {module:ol/Feature[]} The features from drawTool
          */
         featuresFromDrawTool () {
-            return this.layer.getSource().getFeatures().filter(feature => feature.get("fromDrawTool"));
+            return this.layer.getSource().getFeatures().filter(feature => feature.get("masterportal_attributes").fromDrawTool);
         }
     },
     created () {

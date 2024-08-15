@@ -296,7 +296,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equals("Jungfernstieg");
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextAlign()).to.equals("left");
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextBaseline()).to.equals("bottom");
-            expect(layer.getSource().getFeatures()[0].get("drawState")).to.deep.equals({
+            expect(layer.getSource().getFeatures()[0].get("masterportal_attributes").drawState).to.deep.equals({
                 fontSize: 32,
                 text: "Jungfernstieg",
                 color: [228, 26, 28, 1]

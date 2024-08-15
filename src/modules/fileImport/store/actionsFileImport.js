@@ -137,10 +137,11 @@ function checkIsVisibleSetting (features) {
 
     resFeatures.forEach(feature => {
         // in case File doesn't have the isVisible setting
-        if (Object.prototype.hasOwnProperty.call(feature, "values_")) {
-            if (!Object.prototype.hasOwnProperty.call(feature.values_, "isVisible")) {
-                feature.values_.isVisible = true;
-            }
+        if (!Object.prototype.hasOwnProperty.call(feature.getProperties(), "masterportal_attributes")) {
+            feature.set("masterportal_attributes", {isVisible: true});
+        }
+        else if (!Object.prototype.hasOwnProperty.call(feature.get("masterportal_attributes"), "isVisible")) {
+            feature.get("masterportal_attributes").isVisible = true;
         }
     });
 
@@ -283,24 +284,48 @@ export default {
         }
 
         features.forEach(feature => {
-            const featureAttributes = getParsedCustomAttributes(feature);
+            const featureAttributes = getParsedCustomAttributes(feature),
+                masterportal_attributes = {};
             let geometries;
 
-            feature.set("attributes", featureAttributes);
             feature.setProperties(featureAttributes);
             Object.keys(featureAttributes).forEach(key => {
                 if (!Object.prototype.hasOwnProperty.call(customAttributes, key)) {
                     customAttributes[key] = key;
                 }
+                feature.unset("custom-attribute____" + key);
             });
 
-            if (feature.get("isGeoCircle")) {
-                const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
-                    circleRadius = parseFloat(feature.get("geoCircleRadius"));
+            Object.keys(feature.getProperties()).forEach((key) => {
+                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+
+                    if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle" && key !== "masterportal_attributes") {
+                        // transform "true" or "false" from KML to Boolean
+                        let valueToSetForMasterportal = feature.get(key);
+
+                        if (valueToSetForMasterportal === "true") {
+                            valueToSetForMasterportal = true;
+                        }
+                        else if (valueToSetForMasterportal === "false") {
+                            valueToSetForMasterportal = false;
+                        }
+
+                        masterportal_attributes[key] = valueToSetForMasterportal;
+                    }
+
+                    feature.unset(key);
+                }
+            });
+
+            feature.set("masterportal_attributes", masterportal_attributes);
+
+            if (feature.get("masterportal_attributes").isGeoCircle) {
+                const circleCenter = feature.get("masterportal_attributes").geoCircleCenter.split(",").map(parseFloat),
+                    circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
-            if ((/true/).test(feature.get("fromDrawTool")) && feature.get("name") && feature.getGeometry().getType() === "Point") {
+            if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
 
                 feature.setStyle(new Style({
@@ -314,11 +339,11 @@ export default {
                         textBaseline: "bottom"
                     })
                 }));
-                feature.set("drawState", {
+                feature.get("masterportal_attributes").drawState = {
                     fontSize: parseInt(defaultFont.split("px")[0], 10) * style.getText().getScale(),
                     text: style.getText().getText(),
                     color: style.getText().getFill().getColor()
-                });
+                };
             }
             if (feature.getGeometry() === null) {
                 featureError = true;
@@ -357,8 +382,8 @@ export default {
                     feature.set("source", fileName);
                 });
             }
-            if (typeof feature.get === "function" && typeof feature.get("styleId") === "undefined") {
-                feature.set("styleId", uniqueId(""));
+            if (typeof feature.get === "function" && typeof feature.get("masterportal_attributes").styleId === "undefined") {
+                feature.get("masterportal_attributes").styleId = uniqueId("");
             }
         });
 
@@ -403,7 +428,8 @@ export default {
         const vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
             format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            gfiAttributes = {};
+            gfiAttributes = {},
+            fileDataProjection = getCrsPropertyName(datasrc.raw);
 
         let
             alertingMessage,
@@ -424,7 +450,7 @@ export default {
 
         try {
             features = format.readFeatures(datasrc.raw, {
-                dataProjection: getCrsPropertyName(datasrc.raw),
+                dataProjection: fileDataProjection,
                 featureProjection: rootGetters["Maps/projectionCode"]
             });
         }
@@ -573,8 +599,6 @@ export default {
             return style.clone();
         });
 
-        features = checkIsVisibleSetting(features);
-
         features.forEach(feature => {
             if (feature.get("fromDrawTool") && !feature.get("masterportal_attributes")) {
                 // move old styling properties which were set in the export from the draw tool to a neu structure
@@ -602,10 +626,18 @@ export default {
 
             if (isObject(feature.getProperties())) {
                 Object.keys(feature.getProperties()).forEach(key => {
-                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes" && key !== "isOuterCircle") {
+                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes") {
                         gfiAttributes[key] = key;
                     }
                 });
+
+                // check if "isVisible"-Property is set in masterportal_attributes
+                if (!Object.prototype.hasOwnProperty.call(feature.getProperties(), "masterportal_attributes")) {
+                    feature.set("masterportal_attributes", {isVisible: true});
+                }
+                else if (!Object.prototype.hasOwnProperty.call(feature.get("masterportal_attributes"), "isVisible")) {
+                    feature.get("masterportal_attributes").isVisible = true;
+                }
             }
 
             if (vectorLayer.getStyleFunction()(feature) !== undefined) {
@@ -617,6 +649,9 @@ export default {
                     circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
+
+                // Transformation here is necessary because all other geometries have already been transformed within "format.readFeatures(..."
+                feature.getGeometry().transform(fileDataProjection, rootGetters["Maps/projectionCode"]);
             }
 
             feature.set("source", fileName);

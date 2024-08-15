@@ -4,6 +4,7 @@ import {GeoJSON, GPX} from "ol/format.js";
 import convertFeaturesToKml from "../../../../shared/js/utils/convertFeaturesToKml.js";
 import {convertJsonToCsv} from "../../../../shared/js/utils/convertJsonToCsv";
 import {setCsvAttributes} from "../../js/setCsvAttributes.js";
+import {setKmlAttributes} from "../../js/setKmlAttributes.js";
 import {transform, transformPoint, transformGeometry} from "../../js/download/transformGeometry";
 import main from "../../js/main";
 
@@ -54,12 +55,14 @@ async function prepareData ({state, commit, dispatch, rootGetters}) {
             features = await dispatch("convertFeatures", new GPX());
             break;
         case "KML":
+            features = setKmlAttributes(state.download.features);
+
             features = await convertFeaturesToKml(state.download.features);
             break;
         case "CSV":
             features = setCsvAttributes(state.download.features, rootGetters["Maps/projection"].getCode());
 
-            features = Array.isArray(features) ? convertJsonToCsv(features.map(feature => feature.get("attributes")), false, state.semicolonCSVDelimiter) : "";
+            features = Array.isArray(features) ? convertJsonToCsv(features.map(feature => feature.get("csv_attributes")), false, state.semicolonCSVDelimiter) : "";
             break;
         case "none":
             commit("setDownloadSelectedFormat", "");
@@ -105,23 +108,26 @@ function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
             geometry = feature.getGeometry();
 
         // If the feature is invisible from filter, the style will be reset by printing.
-        if (!feature.get("isVisible") && feature.get("invisibleStyle")) {
-            feature.setStyle(feature.get("invisibleStyle"));
+        if (!feature.get("masterportal_attributes").isVisible && feature.get("masterportal_attributes").invisibleStyle) {
+            feature.setStyle(feature.get("masterportal_attributes").invisibleStyle);
         }
 
         if (state.oldStyle && typeof state.selectedFeature?.get === "function"
-            && drawnFeature.get("styleId") === state.selectedFeature.get("styleId")
-            && (typeof drawnFeature.get("styleId") === "number" || typeof drawnFeature.get("styleId") === "string")
+            && drawnFeature.get("masterportal_attributes").styleId === state.selectedFeature.get("masterportal_attributes").styleId
+            && (typeof drawnFeature.get("masterportal_attributes").styleId === "number" || typeof drawnFeature.get("masterportal_attributes").styleId === "string")
         ) {
             feature.setStyle(state.oldStyle);
         }
 
         if (geometry instanceof Circle) {
-            feature.set("isGeoCircle", true);
-            transformGeometry(rootGetters["Maps/projection"].getCode(), geometry);
-            feature.set("geoCircleCenter", geometry.getCenter().join(","));
-            feature.set("geoCircleRadius", geometry.getRadius());
             feature.setGeometry(fromCircle(geometry));
+            // transform after setting geometry, transformed coordinates are only for center and radius
+            transformGeometry(rootGetters["Maps/projection"].getCode(), geometry);
+            feature.set("masterportal_attributes", Object.assign(feature.get("masterportal_attributes") ?? {}, {
+                "isGeoCircle": true,
+                "geoCircleCenter": geometry.getCenter().join(","),
+                "geoCircleRadius": geometry.getRadius()
+            }));
         }
 
         downloadFeatures.push(feature);

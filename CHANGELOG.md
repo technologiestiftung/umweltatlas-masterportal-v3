@@ -46,6 +46,8 @@
 - Import GeoJson
     - GFI attributes are added in the import of a standard GeoJson
     - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
+- Export from draw_old tool
+    - update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Deprecated
 

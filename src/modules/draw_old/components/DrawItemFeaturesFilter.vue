@@ -60,7 +60,7 @@ export default {
         filterFeaturesByType (features, type) {
             return features.filter(feature => {
                 // drawType.id = the name of the draw type
-                return type.search(feature.get("drawState").drawType.id) !== -1;
+                return type.search(feature.get("masterportal_attributes").drawState.drawType.id) !== -1;
             });
         },
 
@@ -70,7 +70,9 @@ export default {
          * @returns {Boolean} True if there are visible features otherwise false.
          */
         hasVisibleFeatures (features) {
-            const visibleFeatures = features.filter(feature => feature.get("fromDrawTool") && feature.get("isVisible"));
+            const visibleFeatures = features.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
+                feature.get("masterportal_attributes").isVisible
+            );
 
             return visibleFeatures.length > 0;
         },
@@ -83,8 +85,8 @@ export default {
          */
         setFeaturesVisibility (features, value) {
             features.forEach(feature => {
-                if (feature.get("fromDrawTool")) {
-                    feature.set("isVisible", value);
+                if (feature.get("masterportal_attributes").fromDrawTool) {
+                    feature.get("masterportal_attributes").isVisible = value;
                 }
             });
         }
