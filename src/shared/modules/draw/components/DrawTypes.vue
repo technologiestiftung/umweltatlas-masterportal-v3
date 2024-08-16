@@ -268,9 +268,3 @@ export default {
         />
     </div>
 </template>
-
-<style scoped>
-.btn-primary.active {
-    background-color: #0056b3;
-}
-</style>
