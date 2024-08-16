@@ -38,7 +38,6 @@ export default function initProjections (crs, projections, namedProjections, cur
         }
         if (proj.id === currentProjection?.id) {
             projectionsObj.currentProjection = proj;
-            // this.setCurrentProjection(proj);
         }
     });
     if (wgs84Proj.length > 0) {
@@ -55,7 +54,6 @@ export default function initProjections (crs, projections, namedProjections, cur
     }
 
     projectionsObj.projections = pr;
-    // this.setProjections(pr);
     return projectionsObj;
 
 }
