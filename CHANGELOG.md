@@ -9,6 +9,7 @@
 ### Added
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
+- Refactored Modeler3D to work with MP 3.0
 
 ### Changed
 - LayerSelection
@@ -74,7 +75,6 @@
     - Added info message at the top of the contact form
     - Can be opened from other components using props, which allow a different addressee (to) to be used from the one set in config.json
 - Print: Parameter additionalLayer to add layer (e.g. coordinate grid) during print.
-- Refactored Modeler3D to work with MP 3.0
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
