@@ -25,6 +25,7 @@ export default {
             return;
         }
         if (!Array.isArray(geojson?.features)) {
+            console.warn("No features found in the given GeoJSON content.");
             return;
         }
 
