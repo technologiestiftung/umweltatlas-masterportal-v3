@@ -43,6 +43,9 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.39.0 to 2.40.0
+- Import GeoJson
+    - GFI attributes are added in the import of a standard GeoJson
+    - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
 
 ### Deprecated
 

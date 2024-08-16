@@ -450,7 +450,7 @@ export default {
         }
 
         vectorLayer.setStyle((feature) => {
-            const drawState = feature.getProperties().drawState;
+            const drawState = feature.getProperties().masterportal_attributes?.drawState;
             let style;
 
             if (!drawState) {
@@ -576,9 +576,35 @@ export default {
         features = checkIsVisibleSetting(features);
 
         features.forEach(feature => {
-            if (isObject(feature.get("attributes"))) {
-                Object.keys(feature.get("attributes")).forEach(key => {
-                    gfiAttributes[key] = key;
+            if (feature.get("fromDrawTool") && !feature.get("masterportal_attributes")) {
+                // move old styling properties which were set in the export from the draw tool to a neu structure
+                // within masterportal_attributes in accordance to the new structure set by the draw tool
+                const attributes = {},
+                    masterportal_attributes = {};
+
+                masterportal_attributes.drawState = feature.getProperties().drawState;
+                masterportal_attributes.invisibleStyle = feature.getProperties().invisibleStyle;
+
+                Object.keys(feature.getProperties()).forEach((key) => {
+                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+
+                        if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle") {
+                            masterportal_attributes[key] = feature.get(key);
+                        }
+
+                        feature.unset(key);
+                    }
+                });
+
+                attributes.masterportal_attributes = masterportal_attributes;
+                feature.setProperties(attributes);
+            }
+
+            if (isObject(feature.getProperties())) {
+                Object.keys(feature.getProperties()).forEach(key => {
+                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes" && key !== "isOuterCircle") {
+                        gfiAttributes[key] = key;
+                    }
                 });
             }
 
@@ -586,9 +612,9 @@ export default {
                 feature.setStyle(vectorLayer.getStyleFunction()(feature));
             }
 
-            if (feature.get("isGeoCircle")) {
-                const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
-                    circleRadius = parseFloat(feature.get("geoCircleRadius"));
+            if (isObject(feature.get("masterportal_attributes")) && feature.get("masterportal_attributes").isGeoCircle) {
+                const circleCenter = feature.get("masterportal_attributes").geoCircleCenter.split(",").map(parseFloat),
+                    circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
@@ -597,7 +623,7 @@ export default {
             vectorLayer.getSource().addFeature(feature);
         });
 
-        if (!vectorLayer.get("gfiAttributes")) {
+        if (Object.keys(gfiAttributes).length > 0) {
             vectorLayer.set("gfiAttributes", gfiAttributes);
 
             dispatch("replaceByIdInLayerConfig", {

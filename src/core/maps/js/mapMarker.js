@@ -98,9 +98,17 @@ function addFeatureToMapMarkerLayer (layerId, feature) {
  * @returns {void}
  */
 function removeMapMarker (layerId) {
-    const markerLayer = getMapmarkerLayerById(layerId);
+    const markerLayer = getMapmarkerLayerById(layerId),
+        markerLayerSource = markerLayer.getSource(),
+        features = markerLayerSource.getFeatures();
+
+    features.forEach((feature) => {
+        // unset the style otherwise the feature will remain on the map
+        feature.setStyle();
+    });
 
     markerLayer.getSource().clear();
+
 }
 
 /**

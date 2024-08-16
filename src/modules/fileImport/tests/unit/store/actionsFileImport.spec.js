@@ -354,6 +354,74 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                 payload: {"file1": [100, 100, 100, 100], "file2": [10, 10, 10, 10]}
             }], {}, done);
         });
+
+        it("adds a geojson file with gfiAttributes from draw old export structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"isOuterCircle\":false,\"isVisible\":true,\"drawState\":{\"opacity\":1,\"font\":\"Arial\",\"fontSize\":16,\"text\":\"Mein Schatzzzz\",\"drawType\":{\"id\":\"writeText\",\"geometry\":\"Point\"},\"symbol\":{\"id\":\"iconPoint\",\"type\":\"simple_point\",\"value\":\"simple_point\"},\"zIndex\":0,\"imgPath\":\"https://geodienste.hamburg.de/lgv-config/img/\",\"pointSize\":16,\"color\":[77,175,74,1]},\"fromDrawTool\":true,\"invisibleStyle\":{\"geometry_\":null,\"fill_\":null,\"image_\":null,\"renderer_\":null,\"hitDetectionRenderer_\":null,\"stroke_\":null,\"text_\":{\"font_\":\"16px Arial\",\"scaleArray_\":[1,1],\"text_\":\"Mein Schatzzzz\",\"textAlign_\":\"left\",\"textBaseline_\":\"bottom\",\"fill_\":{\"color_\":[77,175,74,1]},\"maxAngle_\":0.7853981633974483,\"placement_\":\"point\",\"overflow_\":false,\"stroke_\":null,\"offsetX_\":0,\"offsetY_\":0,\"backgroundFill_\":null,\"backgroundStroke_\":null,\"padding_\":null},\"zIndex_\":9999},\"styleId\":\"1\",\"attributes\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"},\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
+            expect(layer.get("gfiAttributes")).to.be.an("object");
+            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+        });
+
+        it("adds a geojson file with gfiAttributes from draw new export structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"masterportal_attributes\":{\"isOuterCircle\":false,\"isVisible\":true,\"drawState\":{\"opacity\":1,\"font\":\"Arial\",\"fontSize\":16,\"text\":\"Mein Schatzzzz\",\"drawType\":{\"id\":\"writeText\",\"geometry\":\"Point\"},\"symbol\":{\"id\":\"iconPoint\",\"type\":\"simple_point\",\"value\":\"simple_point\"},\"zIndex\":0,\"imgPath\":\"https://geodienste.hamburg.de/lgv-config/img/\",\"pointSize\":16,\"color\":[77,175,74,1]},\"fromDrawTool\":true,\"invisibleStyle\":{\"geometry_\":null,\"fill_\":null,\"image_\":null,\"renderer_\":null,\"hitDetectionRenderer_\":null,\"stroke_\":null,\"text_\":{\"font_\":\"16px Arial\",\"scaleArray_\":[1,1],\"text_\":\"Mein Schatzzzz\",\"textAlign_\":\"left\",\"textBaseline_\":\"bottom\",\"fill_\":{\"color_\":[77,175,74,1]},\"maxAngle_\":0.7853981633974483,\"placement_\":\"point\",\"overflow_\":false,\"stroke_\":null,\"offsetX_\":0,\"offsetY_\":0,\"backgroundFill_\":null,\"backgroundStroke_\":null,\"padding_\":null},\"zIndex_\":9999},\"styleId\":\"1\"},\"attributes\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"},\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
+            expect(layer.get("gfiAttributes")).to.be.an("object");
+            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+        });
+
+        it("adds a geojson file with gfiAttributes from standard geojson structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.get("gfiAttributes")).to.be.an("object");
+            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+        });
     });
 
     describe("addLayerConfig", () => {
