@@ -12,6 +12,7 @@
 ### Changed
 - LayerSelection
     - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton.
+- Login: Access Tokens are now revoked after logout
 
 ### Deprecated
 
