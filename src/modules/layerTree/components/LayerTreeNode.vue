@@ -5,6 +5,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import Layer from "./LayerComponent.vue";
 import {sortObjects} from "../../../shared/js/utils/sortObjects";
 
+draggable.compatConfig = {MODE: 3};
 /**
  * Representation of a node in layertree containing folders or layers.
  * @module modules/layerTree/components/LayerTreeNode

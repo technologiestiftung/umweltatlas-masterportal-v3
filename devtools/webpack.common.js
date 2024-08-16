@@ -93,6 +93,7 @@ module.exports = function () {
         resolve: {
             alias: {
                 text: "text-loader",
+                vue: "@vue/compat",
                 "mixins": path.resolve(__dirname, "..", "src", "assets", "css", "mixins.scss"),
                 "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss")
             },
@@ -155,7 +156,14 @@ module.exports = function () {
                 },
                 {
                     test: /\.vue$/,
-                    loader: "vue-loader"
+                    loader: "vue-loader",
+                    options: {
+                        compilerOptions: {
+                            compatConfig: {
+                                MODE: 3
+                            }
+                        }
+                    }
                 },
                 {
                     test: /\.(png|jpe?g|gif)$/i,
