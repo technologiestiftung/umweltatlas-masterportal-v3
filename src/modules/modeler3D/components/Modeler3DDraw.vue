@@ -981,24 +981,4 @@ export default {
     .text-with-newlines {
     white-space: pre-wrap;
 }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $dark_blue;
-        display: block;
-        text-align:center;
-        padding: 0.1rem 0.7rem;
-        cursor: pointer;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-        &:disabled {
-            background-color: $dark_grey;
-            cursor: not-allowed;
-        }
-    }
 </style>

@@ -824,52 +824,6 @@ export default {
     @import "~mixins";
     @import "~variables";
 
-    .h-seperator {
-        margin:12px 0 12px 0;
-        border: 1px solid #DDDDDD;
-    }
-
-    .primary-button-wrapper {
-        color: $white;
-        background-color: $dark_blue;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-    }
-
-    .delete-button-wrapper {
-        color: $white;
-        background-color: $light_red;
-        display: block;
-        text-align:center;
-        padding: 8px 12px;
-        cursor: pointer;
-        margin:12px 0 0 0;
-        font-size: $font_size_big;
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            opacity: 1;
-            &.btn-select, &:active, &.active, &:checked, &::selection, &.show, &[aria-expanded="true"] {
-                background-color: $light_red;
-                border-radius: .25rem;
-            }
-            background-color: lighten($light_red, 10%);
-            color: $light_grey_contrast;
-            cursor: pointer;
-        }
-    }
-
     .cta {
         margin-bottom:12px;
     }
@@ -878,37 +832,8 @@ export default {
         color: red;
     }
 
-    .position-control {
-        display: flex;
-        gap: 0.25em;
-    }
-
-    .position-input {
-        height: 3.8em;
-    }
-
-    .btn-margin {
-        margin-top: 1em;
-    }
-
-    .btn-pos {
-        padding: 0.25em;
-    }
-
     .row {
         align-items: center;
-    }
-
-    .btn-return {
-        &:focus {
-            @include primary_action_focus;
-        }
-        &:hover {
-            @include primary_action_hover;
-        }
-        &:active {
-            transform: scale(0.98);
-        }
     }
 
 </style>
