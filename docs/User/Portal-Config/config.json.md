@@ -1782,6 +1782,8 @@ The contact form allows users to send messages to a configured mail address. A f
 |to|yes|**[email](#portalconfigmenusectionsmodulescontactemail)**[]||Recipient of the Email. Please mind our **hints regarding Email safety** below.|false|
 |type|no|String|"contact"|The type of the module. Defines which module is configured.|false|
 |withTicketNo|no|Boolean|true|Whether successfully sending a email retrieves a ticket number for the user.|false|
+|infoMessage|no|String|"common:modules.contact.infoMessage"|Explanatory note|false|
+
 ***
 **Example**
 
@@ -2910,6 +2912,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|additionalLayers|nein|**[additionalLayers](#portalconfigmenusectionsmodulesprintadditionallayers)**||Defines layers that can be added to print.|false|
 |capabilitiesFilter|no|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
 |currentLayoutName|no|String|"A4 Hochformat"|Defines which layout is the default layout on opening the print tool, e.g. "A4 portrait format". If the given layout is not available oder none is provided, the first layout mentioned in the Capabilities is used.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
@@ -2961,6 +2964,25 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
     "filename": "Ausdruck",
     "title": "Mein Titel"
 }
+```
+
+***
+
+###### portalConfig.menu.sections.modules.print.additionalLayers
+List of Layers that can be added to the print document.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|active|no|Boolean|false|Defines if the layer is active.|false|
+|id|yes|String||Service-ID of the layer.|false|
+|label|yes|String||Label of the checkbox in the print dialog.|false|
+
+
+```json title="Example additionalLayers"
+"additionalLayers": [{
+  "id": "wms_coord_grid_25832",
+  "label": "Coordinate Grid UTM32N - ETRS89"
+}]
 ```
 
 ***

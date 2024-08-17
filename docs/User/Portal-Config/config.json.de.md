@@ -1782,6 +1782,8 @@ Mit diesem Modul, kann der Benutzer mit einem definierten Postfach Kontakt aufne
 |to|ja|**[email](#portalconfigmenusectionsmodulescontactemail)**[]||Adressat der Email.  Bitte den untenstehenden **Hinweis zur Email-Sicherheit** beachten.|false|
 |type|nein|String|"contact"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |withTicketNo|nein|Boolean|true|Kennzeichen, ob bei erfolgreichem Versand der Anfrage eine Ticketnummer zurückgegeben werden soll.|false|
+|infoMessage|nein|String|"common:modules.contact.infoMessage"|Satz zur Erläuterung|false|
+
 ***
 **Beispiel**
 
@@ -2907,6 +2909,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|additionalLayers|nein|**[additionalLayers](#portalconfigmenusectionsmodulesprintadditionallayers)**||Definiert Layer die über Checkbox gesteuert zusätzlich gedruckt werden können.|false|
 |capabilitiesFilter|nein|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||Filterung der Capabilities vom Druckdienst. Mögliche Parameter sind layouts und outputFormats.|false|
 |currentLayoutName|nein|String|"A4 Hochformat"|Legt fest, welches Layout als Standardwert beim Öffnen des Druckwerkzeuges ausgewählt sein soll. Zum Beispiel "A4 Hochformat". Wenn das angegebene Layout nicht vorhanden ist oder keins angegeben wurde, dann wird das erste Layout der Capabilities verwendet.|false|
 |defaultCapabilitiesFilter|nein|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||Ist für ein Attribut kein Filter in capabilitiesFilter gesetzt, wird der Wert aus diesem Objekt genommen.|false|
@@ -2977,6 +2980,24 @@ Liste von Layouts und Formaten, welche die Antwort vom Druckdienst in der jeweil
     "layouts": ["A4 Hochformat", "A3 Hochformat"],
     "outputFormats": ["PDF"]
 }
+```
+
+***
+
+###### portalConfig.menu.sections.modules.print.additionalLayers
+Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|nein|Boolean|false|Definiert ob der Layer aktiv ist.|false|
+|id|ja|String||Service-ID des zu druckenden Layers.|false|
+|label|ja|String||Beschriftung der Checkbox zu aktivieren des Layers im Druckdialog.|false|
+
+```json title="Beispiel additionalLayers"
+"additionalLayers": [{
+  "id": "wms_koordinatennetze_25832",
+  "label": "Koordinatennetz UTM32N - ETRS89"
+}]
 ```
 
 ***
