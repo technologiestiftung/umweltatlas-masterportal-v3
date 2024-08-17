@@ -43,6 +43,10 @@ validation:
         unrecognized_links: warn
         anchors: warn
 
+plugins:
+    - tablestrip:
+          strip_word: "Expert"
+
 markdown_extensions:
     # Code Block Highlighting:
     -   pymdownx.highlight:
