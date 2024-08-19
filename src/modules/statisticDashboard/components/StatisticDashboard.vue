@@ -1223,7 +1223,7 @@ export default {
                 value = NaN;
 
             if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
-                return Number(parseFloat(foundFeature?.get(statisticKey)).toFixed(2)) || "-";
+                return parseFloat(foundFeature?.get(statisticKey)) || "-";
             }
 
             if (differenceMode === "date") {

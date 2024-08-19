@@ -53,7 +53,7 @@ export default {
         document.addEventListener("click", this.handleClickOutside);
     },
     async mounted () {
-        this.regionOptions = await this.getRegionsOptionsForLastChild();
+        this.regionOptions = await this.getRegionsOptionsForLastChild(this.flattenedRegions);
         this.handleReference(this.buttonGroupReference[0].name);
         if (isObject(this.selectedReferenceData)) {
             if (this.selectedReferenceData.type === "date" && isObject(this.selectedReferenceData.value)) {
@@ -119,14 +119,15 @@ export default {
         },
 
         /**
-         * Gets the region options for the last child. Is needed if the regions does have nested childs.
+         * Gets the region options for the last child. Is required if the region has nested children.
+         * @param {Object[]} flattenedRegions The regions as flattened array.
          * @returns {String[]} the list of options for region dropdown.
          */
-        async getRegionsOptionsForLastChild () {
-            if (!Array.isArray(this.flattenedRegions) || !this.flattenedRegions.length) {
+        async getRegionsOptionsForLastChild (flattenedRegions) {
+            if (!Array.isArray(flattenedRegions) || !flattenedRegions.length) {
                 return [];
             }
-            const lastChild = this.flattenedRegions[this.flattenedRegions.length - 1],
+            const lastChild = flattenedRegions[flattenedRegions.length - 1],
                 selectedLayer = rawLayerList.getLayerWhere({id: this.selectedLevel?.layerId});
             let uniqueObject = {};
 
