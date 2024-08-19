@@ -1,4 +1,17 @@
 <script>
+/**
+ * The entity attribute component.
+ * @module modeler3D/components/ui/EntityAttribute
+ * @vue-prop {String} title - The title of the attribute.
+ * @vue-prop {String} label - The label of the attribute.
+ * @vue-prop {String[]} widthClasses - The width classes of the attribute.
+ * @vue-prop {String} value - The value of the attribute.
+ * @vue-prop {Boolean} [buttons=true] - If the buttons should be rendered.
+ * @vue-prop {Boolean} [keepHeight=false] - Defines in combination with 'buttons' prop whether the class 'position-input' is added to the input element.
+ * @vue-prop {Boolean} [disabled=false] - If the input should be disabled.
+ * @vue-prop {Boolean} [formGroup=true] - If true, the css classes 'form-group' and 'form-group-sm' are added to the root element of the component.
+ * @vue-prop {String} [type='text'] - The type of the input element.
+ */
 export default {
     name: "EntityAttribute",
     props: {
