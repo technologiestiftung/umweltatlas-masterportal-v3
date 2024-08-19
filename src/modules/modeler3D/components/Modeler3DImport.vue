@@ -7,7 +7,10 @@ import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";
-
+/**
+ * The component that handels the import of 3D models in different formats (dae, obj, glb, gltf, geojson).
+ * @module modules/modeler3D/components/Modeler3DImport
+ */
 export default {
     name: "Modeler3DImport",
     components: {
