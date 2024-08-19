@@ -1,4 +1,14 @@
 <script>
+/**
+ * The EntityAttributeSlider component.
+ * @module modeler3D/components/ui/EntityAttributeSlider
+ * @vue-data {String} clickValue - The value of the steps that are made by the slider.
+ * @vue-data {Number[]} dropdownValues - The values for the dropdown.
+ * @vue-prop {String} title - The title of the slider.
+ * @vue-prop {String} valueLabel - The label of the value.
+ * @vue-prop {String} stepLabel - The label of the steps.
+ * @vue-prop {String} value - The value of the slider.
+ */
 export default {
     name: "EntityAttributeSlider",
     props: {
