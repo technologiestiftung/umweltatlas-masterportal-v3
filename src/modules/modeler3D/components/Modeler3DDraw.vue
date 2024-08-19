@@ -11,7 +11,17 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../utils/draw";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
-
+/**
+ * The 3D modeler component that displays the draw types, draw layout and drawn entities.
+ * @module modules/Modeler3D/components/Modeler3DDraw
+ * @vue-data {Object} currentPosition - The current coordinates (x,y,z) of the drawn geometry.
+ * @vue-data {String} shapeId - The ID of the drawn entity.
+ * @vue-data {Object} undonePointInfo - The last point information (position, length, posIndex) to redo the last undone point.
+ * @vue-data {Object} lastAddedPosition - The last added position. It is set while positioning a pin to avoid moving errors of the drawn geometry.
+ * @vue-data {Array} labelList - List of labels to keep track of changing labels while adding, undoing or redoing positions.
+ * @vue-data {Object} undoneLabelInfo - Label information (position, text) of the undone position.
+ * @vue-data {Boolean} isStandardRectangle - Value to identify a standard rectangle
+ */
 let eventHandler = null;
 
 export default {
