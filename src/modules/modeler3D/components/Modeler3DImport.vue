@@ -22,11 +22,8 @@ export default {
     },
     computed: {
         ...mapGetters(["namedProjections"]),
-        ...mapGetters("Modules/Modeler3D", ["currentModelId", "importedModels", "isLoading", "wasDrawn"]),
+        ...mapGetters("Modules/Modeler3D", ["currentModelId", "importedModels", "isLoading", "wasDrawn"])
 
-        dropZoneAdditionalClass () {
-            return this.dzIsDropHovering ? "dzReady" : "";
-        }
     },
     mounted () {
         this.setFocusToFirstControl();
