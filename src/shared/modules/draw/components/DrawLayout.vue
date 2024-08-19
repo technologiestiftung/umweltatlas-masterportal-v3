@@ -185,13 +185,7 @@ export default {
                         :class="mappingLayout[layoutKey].icon"
                         role="img"
                     />
-                    <input
-                        :id="'text-fill-transparency-' + circleType + '-' + layoutKey"
-                        type="text"
-                        :title="`${currentLayout[layoutKey]}%`"
-                        :value="`${currentLayout[layoutKey]}%`"
-                        disabled="true"
-                    >
+                    <span>{{ currentLayout[layoutKey]+"%" }}</span>
                 </label>
                 <label
                     v-else-if="layoutKey === 'strokeWidth'"
@@ -201,13 +195,7 @@ export default {
                         :class="mappingLayout[layoutKey].icon"
                         role="img"
                     />
-                    <input
-                        :id="'text-stroke-width-' + circleType + '-' + layoutKey"
-                        type="text"
-                        :title="`${currentLayout[layoutKey]}px`"
-                        :value="`${currentLayout[layoutKey]}px`"
-                        disabled="true"
-                    >
+                    <span>{{ currentLayout[layoutKey]+"px" }}</span>
                 </label>
                 <label
                     v-else-if="layoutKey === 'extrudedHeight' && hasExtrudedHeight"
@@ -217,13 +205,7 @@ export default {
                         :class="mappingLayout[layoutKey].icon"
                         role="img"
                     />
-                    <input
-                        :id="'text-extruded-height-' + circleType + '-' + layoutKey"
-                        type="text"
-                        :title="`${currentLayout[layoutKey]}m`"
-                        :value="`${currentLayout[layoutKey]}m`"
-                        disabled="true"
-                    >
+                    <span>{{ currentLayout[layoutKey]+"m" }}</span>
                 </label>
             </button>
         </div>
@@ -309,20 +291,18 @@ export default {
             color: $white;
         }
 
-        input[type="text"] {
-            font-size: $font_size_sm;
-            width: 3rem;
-            text-align: center;
-            padding-top: .3rem;
-            &:disabled {
-                background: none;
-            }
-        }
-
         input[type="color"] {
             height: 0.5rem;
             width: 1.8rem;
             margin-top: .3rem;
+        }
+
+        span {
+            font-size: $font_size_sm;
+            padding-top: .3rem;
+            width: 3rem;
+            text-align: center;
+            padding-top: .3rem;
         }
     }
 }
