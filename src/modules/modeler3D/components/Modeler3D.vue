@@ -14,6 +14,16 @@ import {adaptCylinderUnclamped} from "../utils/draw";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import initProjections from "../../../shared/js/utils/initProjections";
 
+/**
+ * The component that handels the 3D modeler.
+ *  @module modules/modeler3D/components/Modeler3D
+ * @vue-data {Object} currentCartesian - The current position in cartesian coordinates.
+ * @vue-data {Object} currentPosition - The current position in cartographic coordinates.
+ * @vue-data {String} lastAction - The last action performed (undo/redo).
+ * @vue-data {String} originalCursorStyle - Saves the original style of the cursor.
+ * @vue-data {Object} originalPosition - The original position of the entity before moving. Can include the entity ID, the attachedEntityId and the position.
+ * @vue-data {Object} undonePosition - The position of the entity after undoing a movement. Can include the entity ID, the attachedEntityId and the position.
+ */
 
 export default {
     name: "Modeler3D",
@@ -27,10 +37,8 @@ export default {
     },
     data () {
         return {
-            activeTabClass: "active",
             currentCartesian: null,
             currentPosition: null,
-            defaultTabClass: "",
             lastAction: null,
             originalCursorStyle: null,
             originalPosition: null,
