@@ -9,7 +9,16 @@ import {convertColor} from "../../../shared/js/utils/convertColor";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 import {calculatePolygonArea} from "../utils/draw";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
-
+/**
+ * The entity model component for the 3D modeler.
+ * Contains the display of the entity's properties and methods to manipulate them.
+ * @module modules/modeler3D/components/Modeler3DEntityModel
+ * @vue-data {String} widthString - The width of rectangle entities.
+ * @vue-data {String} depthString - The depth of rectangle entities.
+ * @vue-data {String} extrudedHeightString - The extruded height of rectangle or polygon entities.
+ * @vue-data {String} eastingString - The easting coordinate of the entity as a string.
+ * @vue-data {String} northingString - The northing coordinate of the entity as a string.
+ */
 export default {
     name: "Modeler3DEntityModel",
     components: {
