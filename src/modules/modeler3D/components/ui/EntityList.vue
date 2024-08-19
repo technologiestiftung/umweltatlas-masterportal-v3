@@ -1,7 +1,16 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import SwitchInput from "../../../../shared/modules/checkboxes/components/SwitchInput.vue";
-
+/**
+ * The component to display the drawn entities as list.
+ * @module modules/modeler3D/components/ui/EntityList
+ * @vue-data {String} isHovering - Contains the string for the icon that is displayed.
+ * @vue-prop {Array} objects - The entity object
+ * @vue-prop {Boolean|String} objectsLabel - label of the object
+ * @vue-prop {Boolean} entity - If the object is a drawn entity or not.
+ * @vue-prop {Boolean} geometry - If the object is a geometry or not.
+ * @vue-prop {Boolean} enableCheckboxes - If the checkboxes are enabled or not.
+ */
 export default {
     name: "EntityList",
     components: {
