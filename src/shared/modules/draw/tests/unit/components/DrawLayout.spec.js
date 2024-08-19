@@ -43,7 +43,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > i").exists()).to.be.true;
-            expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > input").exists()).to.be.true;
+            expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > span").exists()).to.be.true;
         });
 
         it("renders the layout buttons for drawType - circle ", () => {
@@ -62,7 +62,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency > label").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency > label > i").exists()).to.be.true;
-            expect(wrapper.find("#draw-layout-innerCircle-fillTransparency > label > input").exists()).to.be.true;
+            expect(wrapper.find("#draw-layout-innerCircle-fillTransparency > label > span").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor > label").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeColor > label > i").exists()).to.be.true;
@@ -70,7 +70,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label").exists()).to.be.true;
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > i").exists()).to.be.true;
-            expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > input").exists()).to.be.true;
+            expect(wrapper.find("#draw-layout-innerCircle-strokeWidth > label > span").exists()).to.be.true;
         });
 
         it("renders the slider for strokeWidth of drawType - circle ", async () => {
