@@ -22,7 +22,6 @@ import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInp
  * @vue-data {Object} undoneLabelInfo - Label information (position, text) of the undone position.
  * @vue-data {Boolean} isStandardRectangle - Value to identify a standard rectangle
  */
-let eventHandler = null;
 
 export default {
     name: "Modeler3DDraw",
@@ -127,20 +126,20 @@ export default {
                 new Cesium.CallbackProperty(() => adaptCylinderToGround(floatingPoint, this.currentPosition), false) :
                 new Cesium.CallbackProperty(() => adaptCylinderUnclamped(floatingPoint, this.currentPosition), false);
 
-            eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
-            eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction((event) => {
+            this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction((event) => {
                 this.onMouseMove({endPosition: event.position});
                 this.addGeometryPosition();
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-            eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-            eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-            eventHandler.setInputAction(() => {
-                eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+            this.eventHandler.setInputAction(this.stopDrawing, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+            this.eventHandler.setInputAction(() => {
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-            eventHandler.setInputAction(() => {
-                eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(() => {
+                this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             }, Cesium.ScreenSpaceEventType.LEFT_UP);
             document.addEventListener("keydown", this.catchUndoRedo);
         },
@@ -506,7 +505,7 @@ export default {
             this.setIsDrawing(false);
             this.setSelectedDrawType("");
             document.body.style.cursor = "auto";
-            eventHandler.destroy();
+            this.eventHandler.destroy();
             window.removeEventListener("keydown", this.catchUndoRedo);
         },
 
@@ -943,6 +942,7 @@ export default {
                 <div>
                     <DrawTypes
                         id="tool-modeler3d-draw-types"
+                        :source="{}"
                         :current-layout="currentLayout"
                         :draw-types="drawTypes"
                         :draw-icons="drawIcons"

@@ -14,8 +14,6 @@ import {adaptCylinderUnclamped} from "../utils/draw";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import initProjections from "../../../shared/js/utils/initProjections";
 
-let eventHandler = null,
-    preRenderListener;
 
 export default {
     name: "Modeler3D",
@@ -106,16 +104,16 @@ export default {
         const scene = mapCollection.getMap("3D").getCesiumScene();
 
         this.initProjectionsInModeler3D(crs, this.projections, this.namedProjections, this.currentProjection);
-        eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
-        eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-        eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+        this.eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         document.addEventListener("keydown", this.catchUndoRedo);
     },
     beforeUnmount () {
         this.setCurrentModelId(null);
-        eventHandler.destroy();
+        this.eventHandler.destroy();
         document.removeEventListener("keydown", this.catchUndoRedo);
     },
     methods: {
@@ -293,9 +291,9 @@ export default {
                 this.setIsDragging(true);
                 scene.screenSpaceCameraController.enableInputs = false;
                 this.setHideObjects(false);
-                eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-                eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 document.getElementById("map").style.cursor = "grabbing";
 
                 if (entity?.cylinder) {
@@ -311,28 +309,28 @@ export default {
 
                     this.setCylinderId(entity.id);
 
-                    eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    this.eventHandler.setInputAction(this.moveCylinder, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 }
                 else if (entity?.wasDrawn) {
                     this.originalPosition = {entityId: entity.id, position: this.getCenterFromGeometry(entity)};
-                    eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                    this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                     if (this.currentModelId && this.currentModelId === entity.id) {
-                        eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     }
                 }
                 else {
                     this.originalPosition = entity ? {entityId: entity.id, position: entity.position.getValue()} : null;
-                    eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    this.eventHandler.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     if (this.importedEntities.length) {
                         const importedEntity = this.importedEntities.find(importEntity => importEntity.entityId === entity?.id);
 
                         if (importedEntity) {
                             importedEntity.position = entity.position.getValue();
-                            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                            this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                         }
                     }
                 }
-                eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
+                this.eventHandler.setInputAction(this.onMouseUp, Cesium.ScreenSpaceEventType.LEFT_UP);
             }
         },
         /**
@@ -467,8 +465,8 @@ export default {
                 scene = mapCollection.getMap("3D").getCesiumScene(),
                 entity = entities.getById(this.currentModelId);
 
-            eventHandler?.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_UP);
-            eventHandler?.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler?.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_UP);
+            this.eventHandler?.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             this.setIsDragging(false);
 
             if (this.importedEntities.length) {
@@ -485,7 +483,7 @@ export default {
 
             if (this.originalHideOption) {
                 this.setHideObjects(this.originalHideOption);
-                eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             }
             this.setUseAnchorMove(true);
             document.getElementById("map").style.cursor = "grab";
@@ -687,7 +685,7 @@ export default {
             scene.screenSpaceCameraController.enableTilt = false;
             scene.screenSpaceCameraController.enableLook = true;
             scene.screenSpaceCameraController.lookEventTypes = Cesium.CameraEventType.LEFT_DRAG;
-            preRenderListener = scene.preRender.addEventListener(() => {
+            this.preRenderListener = scene.preRender.addEventListener(() => {
                 scene.camera.setView({
                     orientation: {
                         heading: scene.camera.heading,
@@ -719,13 +717,13 @@ export default {
                 scene.camera.flyTo({
                     destination: this.currentCartesian,
                     complete: () => {
-                        scene.preRender.removeEventListener(preRenderListener);
+                        scene.preRender.removeEventListener(this.preRenderListener);
                         scene.screenSpaceCameraController.enableLook = false;
                         scene.screenSpaceCameraController.enableTilt = true;
                         scene.screenSpaceCameraController.enableZoom = true;
                         scene.screenSpaceCameraController.enableRotate = true;
 
-                        eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                        this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                         document.removeEventListener("keydown", this.escapePedView);
                         document.getElementById("map").style.cursor = this.originalCursorStyle;
                         this.togglePovInteraction();
@@ -746,9 +744,9 @@ export default {
             this.setPovActive(false);
             entities.removeById(this.cylinderId);
             document.getElementById("map").style.cursor = this.originalCursorStyle;
-            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-            eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-            eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            this.eventHandler.setInputAction(this.moveEntity, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+            this.eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         },
         /**
          * Toggles the active state of a switch and performs related actions.
@@ -768,7 +766,7 @@ export default {
                 else {
                     this.setPovActive(true);
                     this.setHideObjects(false);
-                    eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+                    this.eventHandler.setInputAction(this.cursorCheck, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     this.setCurrentModelId(null);
                 }
             }
@@ -788,8 +786,8 @@ export default {
          */
         clickHandler () {
             document.getElementById("map").style.cursor = this.originalCursorStyle;
-            eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            this.eventHandler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             this.positionPovCamera();
         },
         /**
@@ -849,8 +847,8 @@ export default {
                 povCylinder = entities.getById(this.cylinderId);
                 povCylinder.position = new Cesium.CallbackProperty(() => adaptCylinderUnclamped(povCylinder, this.currentCartesian), false);
             }
-            eventHandler.setInputAction(this.moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            eventHandler.setInputAction(this.clickHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            this.eventHandler.setInputAction(this.moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            this.eventHandler.setInputAction(this.clickHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         }
     }
 };
