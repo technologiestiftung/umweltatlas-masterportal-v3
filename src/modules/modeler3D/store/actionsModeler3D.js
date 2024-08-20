@@ -5,6 +5,10 @@ import blobHandler from "../utils/blob";
 import {nextTick} from "vue";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
+/**
+ * The actions for the modeler3D module.
+ * @module modules/modeler3D/store/actionsModeler3D
+ */
 export default {
     /**
      * Handles the processing of GeoJSON content.

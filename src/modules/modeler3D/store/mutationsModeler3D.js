@@ -1,6 +1,9 @@
 import {generateSimpleMutations} from "../../../shared/js/utils/generators";
 import modeler3DState from "./stateModeler3D";
-
+/**
+ * The mutations for the modeler3D module.
+ * @module modules/modeler3D/store/mutationsModeler3D
+ */
 export default {
     /**
      * Creates from every state-key a setter.
