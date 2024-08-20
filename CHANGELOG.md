@@ -9,7 +9,7 @@
 ### Added
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
-- Refactored Modeler3D to work with MP 3.0
+- Modeler3D: Modeler3D was added
 
 ### Changed
 - LayerSelection
