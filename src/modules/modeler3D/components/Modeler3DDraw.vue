@@ -13,7 +13,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 /**
  * The 3D modeler component that displays the draw types, draw layout and drawn entities.
- * @module modules/Modeler3D/components/Modeler3DDraw
+ * @module modules/modeler3D/components/Modeler3DDraw
  * @vue-data {Object} currentPosition - The current coordinates (x,y,z) of the drawn geometry.
  * @vue-data {String} shapeId - The ID of the drawn entity.
  * @vue-data {Object} undonePointInfo - The last point information (position, length, posIndex) to redo the last undone point.

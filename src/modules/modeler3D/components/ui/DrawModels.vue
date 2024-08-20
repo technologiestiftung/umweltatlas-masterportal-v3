@@ -3,7 +3,7 @@ import IconButton from "../../../../shared/modules/buttons/components/IconButton
 
 /**
  * Shared component that provides buttons for two-level selection of ready to place 3D elements.
- * @module shared/modules/draw/DrawModels
+ * @module modules/modeler3D/components/ui/DrawModels
  * @vue-prop {Object} [icons={box: "bi-square", circle: "bi-circle", doubleCircle: "bi-record-circle", geometries: "bi-hexagon-fill", line: "bi-slash-lg", pen: "bi-pencil-fill", point: "bi-circle-fill", polygon: "bi-octagon", symbols: "bi-circle-square"}] - The icons for draw buttons.
  * @vue-prop {String[]} [drawModelTypes=["line", "polygon", "rectangle"]] - The drawing types.
  * @vue-prop {String} [selectedDrawType=""] - The selected draw type.

@@ -1,7 +1,7 @@
 <script>
 /**
  * The entity attribute component.
- * @module modeler3D/components/ui/EntityAttribute
+ * @module modules/modeler3D/components/ui/EntityAttribute
  * @vue-prop {String} title - The title of the attribute.
  * @vue-prop {String} label - The label of the attribute.
  * @vue-prop {String[]} widthClasses - The width classes of the attribute.
