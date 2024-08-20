@@ -202,23 +202,6 @@ export default {
             entities.removeById(id);
         }
     },
-    // TODO: Hier sollte geklärt werden, ob ConfirmAction auch refactored werden soll
-    /**
-     * Confirms the deletion of an entity by adding a confirmation action.
-     * @param {Object} context - The context of the Vuex module.
-     * @param {String} id - The ID of the entity to be deleted.
-     * @returns {void}
-     */
-    // confirmDeletion ({dispatch, getters}, id) {
-    //     const modelName = getters.getModelNameById(id);
-
-    //     dispatch("ConfirmAction/addSingleAction", {
-    //         actionConfirmedCallback: () => dispatch("deleteEntity", id),
-    //         confirmCaption: i18next.t("common:modules.modeler3D.entity.deleteInteraction.confirm"),
-    //         textContent: i18next.t("common:modules.modeler3D.entity.deleteInteraction.text", {name: modelName}),
-    //         headline: i18next.t("common:modules.modeler3D.entity.deleteInteraction.headline")
-    //     });
-    // },
     /**
      * Toggles the visibility of a model entity.
      * @param {Object} context The context of the Vuex module.
