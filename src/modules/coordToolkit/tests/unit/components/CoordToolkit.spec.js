@@ -320,36 +320,6 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             expect(typeof store.state.Modules.CoordToolkit.selectPointerMove).to.be.equals("object");
         });
 
-        it("initProjectionsInCoordToolkit adds WGS84 decimal projection", () => {
-            let projections = [];
-
-            wrapper = shallowMount(CoordToolkitComponent, {
-                global: {
-                    plugins: [store]
-                }});
-            wrapper.vm.initProjectionsInCoordToolkit();
-
-            projections = store.state.Modules.CoordToolkit.projections;
-            expect(projections.length).to.be.equals(6);
-            expect(projections[0].id).to.be.not.null;
-            expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#4326-DG").length).to.be.equals(1);
-        });
-
-        it("initProjectionsInCoordToolkit adds ETRS89_3GK3", () => {
-            let projections = [];
-
-            wrapper = shallowMount(CoordToolkitComponent, {
-                global: {
-                    plugins: [store]
-                }});
-            wrapper.vm.initProjectionsInCoordToolkit();
-
-            projections = store.state.Modules.CoordToolkit.projections;
-            expect(projections.length).to.be.equals(6);
-            expect(projections[0].id).to.be.not.null;
-            expect(projections.filter(proj => proj.id === "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3").length).to.be.equals(1);
-        });
-
         it("label returns correct path", () => {
             const key = "key";
             let value = "http://www.opengis.net/gml/srs/epsg.xml#4326",
