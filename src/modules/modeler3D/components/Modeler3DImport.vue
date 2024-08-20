@@ -262,9 +262,4 @@ export default {
         position: absolute;
         background: rgba(0, 0, 0, 0);
     }
-
-    .h-seperator {
-        margin:12px 0 12px 0;
-        border: 1px solid #DDDDDD;
-    }
 </style>

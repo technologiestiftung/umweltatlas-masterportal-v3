@@ -970,14 +970,6 @@ export default {
 @import "~mixins";
 @import "~variables";
 
-.nav-link {
-    font-size: $font_size_big;
-}
-
-.accordion-button {
-    font-size: 0.95rem;
-}
-
 .text-with-newlines {
     white-space: pre-wrap;
 }

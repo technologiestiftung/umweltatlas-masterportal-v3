@@ -128,7 +128,4 @@ export default {
         min-width: 6em;
     }
 
-    .row {
-        align-items: center;
-    }
 </style>
