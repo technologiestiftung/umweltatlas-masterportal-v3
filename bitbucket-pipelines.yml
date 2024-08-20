@@ -1,91 +1,91 @@
 image: node:20.12.2
 
 clone:
-  depth: 5000       # include the last five hundred commits
+    depth: 5000       # include the last five hundred commits
 
 pipelines:
     # Start pipeline with tag to build examples zips and copy them to the Bitbucket download folder
     tags:
         'v3.*.*':
-            - step:
-                name: build examples zip
-                caches:
-                    - node
-                artifacts:
-                    - dist/**
-                script:
-                    - export NODE_OPTIONS=--openssl-legacy-provider
-                    - npm install
-                    - npm run buildExamples
-                    - apt-get update
-            - step:
-                name: deploy examples zip
-                caches:
-                    - node
-                script:
-                    - apt-get install -y curl
-                    # find all zip folders in dist folder, loop through the results and post the zips to the BB download folder
-                    - for zipFilePath in $(find dist -name \*.zip); do
-                        curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads" --form files=@"$zipFilePath" --verbose;
-                      done
-            - step:
-                name: publish docs
-                caches:
-                    - node
-                artifacts:
-                    - docHtml/**
-                script:
-                    - npm install
-                    - npm run buildMdDoc
-                    - apt-get update
-            - step:
-                name: deploy files
-                caches:
-                    - node
-                script:
-                    - echo 'deploy files with tag '$BITBUCKET_TAG
-                    - apt-get update && apt-get install -y curl wput jq
-                    # create folder to store the last files with the tag from server
-                    - mkdir $BITBUCKET_TAG && cd $BITBUCKET_TAG
-                    - wget --user $DOC_USER --password $DOC_PASSWORD --no-parent -r $DOC_URLLatest
-                    - cd ..
-                    # find tag and docHtml folder , push the files to the masterportal.org folder
-                    - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$DOC_USER:$DOC_PASSWORD" --ftp-create-dirs -T {} "$DOC_URL$BITBUCKET_TAG/" --verbose \;
-                    - find docHtml -type f -exec curl --insecure --user "$DOC_USER:$DOC_PASSWORD" --ftp-create-dirs -T {} "$DOC_URLLatest" --verbose \;
-            - step:
-                name: deploy on openCode
-                script:
-                    - echo 'deply to opencode:'$BITBUCKET_TAG
-                    - git fetch --all --tags
-                    - git checkout tags/$BITBUCKET_TAG
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
-                    - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
-                    - cd masterportal
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
+            -   step:
+                    name: build examples zip
+                    caches:
+                        - node
+                    artifacts:
+                        - dist/**
+                    script:
+                        - export NODE_OPTIONS=--openssl-legacy-provider
+                        - npm install
+                        - npm run buildExamples
+                        - apt-get update
+            -   step:
+                    name: deploy examples zip
+                    caches:
+                        - node
+                    script:
+                        - apt-get install -y curl
+                        # find all zip folders in dist folder, loop through the results and post the zips to the BB download folder
+                        - for zipFilePath in $(find dist -name \*.zip); do
+                            curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads" --form files=@"$zipFilePath" --verbose;
+                            done
+            -   step:
+                    name: publish docs
+                    caches:
+                        - node
+                    artifacts:
+                        - docHtml/**
+                    script:
+                        - npm install
+                        - npm run buildMdDoc
+                        - apt-get update
+            -   step:
+                    name: deploy files
+                    caches:
+                        - node
+                    script:
+                        - echo 'deploy files with tag '$BITBUCKET_TAG
+                        - apt-get update && apt-get install -y curl wput jq
+                        # create folder to store the last files with the tag from server
+                        - mkdir $BITBUCKET_TAG && cd $BITBUCKET_TAG
+                        - wget --user $DOC_USER --password $DOC_PASSWORD --no-parent -r $DOC_URLLatest
+                        - cd ..
+                        # find tag and docHtml folder , push the files to the masterportal.org folder
+                        - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$DOC_USER:$DOC_PASSWORD" --ftp-create-dirs -T {} "$DOC_URL$BITBUCKET_TAG/" --verbose \;
+                        - find docHtml -type f -exec curl --insecure --user "$DOC_USER:$DOC_PASSWORD" --ftp-create-dirs -T {} "$DOC_URLLatest" --verbose \;
+            -   step:
+                    name: deploy on openCode
+                    script:
+                        - echo 'deply to opencode:'$BITBUCKET_TAG
+                        - git fetch --all --tags
+                        - git checkout tags/$BITBUCKET_TAG
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
+                        - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                        - cd masterportal
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
     custom: # Pipelines that are triggered manually
         npm audit:
-            - step:
-                name: npm audit (security)
-                caches:
-                    - node
-                script:
-                    - npm install
-                    - npm audit --json
+            -   step:
+                    name: npm audit (security)
+                    caches:
+                        - node
+                    script:
+                        - npm install
+                        - npm audit --json
         deploy last tag on openCode:
-            - step:
-                name: deploy last tag on openCode
-                script:
-                    - apt-get update && apt-get install -y curl wput jq
-                    - git fetch --all --tags
-                    # Get taglist sorted by date, take the penultimate tag name and remove quotation marks
-                    - lastTag=$(curl --request GET --user "$bbapi_name:$bbapi_key" --url "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/refs/tags?sort=-target.date" --header "Accept:application/json" | jq .values[1].name | tr -d '"')
-                    - echo 'deply to opencode:'$lastTag
-                    - git checkout tags/$lastTag
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $lastTag
-                    - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
-                    - cd masterportal
-                    - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
-        mkdocs:
+            -   step:
+                    name: deploy last tag on openCode
+                    script:
+                        - apt-get update && apt-get install -y curl wput jq
+                        - git fetch --all --tags
+                        # Get taglist sorted by date, take the penultimate tag name and remove quotation marks
+                        - lastTag=$(curl --request GET --user "$bbapi_name:$bbapi_key" --url "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/refs/tags?sort=-target.date" --header "Accept:application/json" | jq .values[1].name | tr -d '"')
+                        - echo 'deply to opencode:'$lastTag
+                        - git checkout tags/$lastTag
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $lastTag
+                        - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                        - cd masterportal
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
+        mkdocs to bitbucket download:
             -   step:
                     name: create mkdocs
                     image: python:3.8
@@ -93,7 +93,47 @@ pipelines:
                         - pip
                     script:
                         - apt-get update && apt-get install zip
-                        - pip install -r python-dependencies.txt
-                        - mike deploy v3.0.0 # TODO: This should always run when a new version is released (= a tag is created). Perhaps use the $BITBUCKET_TAG variable here.
+                        - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - mike deploy v3.0.1 # TODO: This should always run when a new version is released (= a tag is created). Perhaps use the $BITBUCKET_TAG variable here.
                         - zip -r masterportal_docs.zip /opt/atlassian/pipelines/agent/build/site
                         - curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads/" --form files=@"masterportal_docs.zip" --verbose;
+        mkdocs to masterportal.org:
+            -   step:
+                    name: create mkdocs
+                    image: python:3.8
+                    caches:
+                        - pip
+                    script:
+                        - apt-get update && apt-get install zip && apt-get install -y curl wput jq  && apt-get install zip
+                        - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - mike deploy v3.0.1 # TODO: This should always run when a new version is released (= a tag is created). Perhaps use the $BITBUCKET_TAG variable here.
+                        - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/v3.0.1 # TODO: use the $BITBUCKET_TAG variable here.
+                        -   pipe: atlassian/ftp-deploy:0.7.0
+                            variables:
+                                USER: $MKDOCS_FTP_NAME
+                                PASSWORD: $MKDOCS_FTP_PW
+                                SERVER: $MKDOCS_FTP_SERVER
+                                REMOTE_PATH: '/mkdocs/' # TODO: change REMOTE_PATH to /doc/
+                                LOCAL_PATH: '$BITBUCKET_CLONE_DIR/v3.0.1' # TODO: use the $BITBUCKET_TAG variable here.
+                                DEBUG: 'true'
+                        - mv $BITBUCKET_CLONE_DIR/v3.0.1 $BITBUCKET_CLONE_DIR/latest
+                        -   pipe: atlassian/ftp-deploy:0.7.0
+                            variables:
+                                USER: $MKDOCS_FTP_NAME
+                                PASSWORD: $MKDOCS_FTP_PW
+                                SERVER: $MKDOCS_FTP_SERVER
+                                REMOTE_PATH: '/mkdocs/' # TODO: change REMOTE_PATH to /doc/
+                                LOCAL_PATH: '$BITBUCKET_CLONE_DIR/latest'
+                                DEBUG: 'true'
+        validate mkdocs:
+            -   step:
+                    name: validate mkdocs
+                    image: python:3.8
+                    caches:
+                        - pip
+                    script:
+                        - python -m venv .venv
+                        - source .venv/bin/activate
+                        - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - devtools/docsValidation/docsValidation.sh
+
