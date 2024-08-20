@@ -46,5 +46,6 @@ export default {
         }
     },
     supportedMapModes: ["2D", "3D"],
-    type: "fileImport"
+    type: "fileImport",
+    features: undefined
 };

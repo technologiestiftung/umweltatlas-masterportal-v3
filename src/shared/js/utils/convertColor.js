@@ -399,6 +399,70 @@ function convertToRgbaString (color) {
         + String(color[3]) + ")";
 }
 
+// Function to convert a hex color to HSL
+function convertHexToHSL (hex) {
+    console.log("xxxxxxx")
+    console.log(hex)
+    const r = parseInt(hex.slice(1, 3), 16) / 255,
+        g = parseInt(hex.slice(3, 5), 16) / 255,
+        b = parseInt(hex.slice(5, 7), 16) / 255,
+        max = Math.max(r, g, b),
+        min = Math.min(r, g, b),
+        l = (max + min) / 2; // Calculate Lightness
+
+    let h, s;
+
+    if (max === min) {
+        h = s = 0; // achromatic
+    }
+    else {
+        const d = max - min;
+
+        // Calculate Saturation
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+        // Calculate Hue
+        /* eslint-disable default-case*/
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+
+        h /= 6;
+    }
+
+    return {
+        h: h * 360, // Convert to degrees
+        s: s * 100, // Convert to percentage
+        l: l * 100 // Convert to percentage
+    };
+}
+
+    // Function to convert HSL back to hex
+function convertHslToHex (h, s, l) {
+    const lightness = l / 100,
+        a = s * Math.min(lightness, 1 - lightness) / 100;
+
+        console.log("iiiiiiiiii")
+
+    /* eslint-disable jsdoc/require-jsdoc*/
+    function f (n) {
+        const k = (n + h / 30) % 12,
+            color = lightness - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+
+        return Math.round(255 * color).toString(16).padStart(2, "0");
+    }
+
+    return `#${f(0)}${f(8)}${f(4)}`;
+}
+
 
 // MAPPING
 
@@ -579,5 +643,7 @@ export {
     convertToRgbaArrayString,
     convertToRgbString,
     convertToRgbaString,
-    getCssColorMap
+    getCssColorMap,
+    convertHexToHSL,
+    convertHslToHex
 };

@@ -385,7 +385,8 @@
       "name": "Datei-Import",
       "removeAttachment": "Datei entfernen",
       "successfullyImportedLabel": "Erfolgreich importiert:",
-      "zoom": "Zoomen"
+      "zoom": "Zoomen",
+      "colorPerAttributes": "Farbe nach Attributen"
     },
     "filter": {
       "alertingMessages": {

@@ -385,7 +385,8 @@
       "name": "Import file",
       "removeAttachment": "Remove file",
       "successfullyImportedLabel": "Successfully imported:",
-      "zoom": "Zoom"
+      "zoom": "Zoom",
+      "colorPerAttributes": "Color per attribute"
     },
     "filter": {
       "alertingMessages": {

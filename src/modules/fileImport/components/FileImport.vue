@@ -4,6 +4,7 @@ import isObject from "../../../shared/js/utils/isObject";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import AttributeStyler from "./AttributeStyler.vue";
 
 /**
  * File Import
@@ -17,12 +18,14 @@ export default {
     components: {
         FlatButton,
         FileUpload,
-        IconButton
+        IconButton,
+        AttributeStyler
     },
     data () {
         return {
             fileUploaded: false,
-            uploadedFiles: []
+            uploadedFiles: [],
+            fileExtension: undefined
         };
     },
     computed: {
@@ -65,6 +68,11 @@ export default {
                     if (this.checkValid(file)) {
                         this.uploadedFiles.push(file);
                         this.fileUploaded = true;
+
+                        const fileNameSplit = file.name.split("."),
+                            fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+
+                        this.fileExtension = fileExtension;
                     }
                 });
                 e.target.value = null;
@@ -76,6 +84,13 @@ export default {
                     if (this.checkValid(file)) {
                         this.uploadedFiles.push(file);
                         this.fileUploaded = true;
+
+                        const fileNameSplit = file.name.split("."),
+                            fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+
+                        this.fileExtension = fileExtension;
+
+                        console.log(file)
                     }
                 });
             }
@@ -222,6 +237,10 @@ export default {
                 </div>
             </div>
         </FileUpload>
+
+        <AttributeStyler
+            v-if="fileExtension === 'json' || fileExtension === 'geojson' "
+        />
 
         <div class="d-flex justify-content-center">
             <FlatButton
