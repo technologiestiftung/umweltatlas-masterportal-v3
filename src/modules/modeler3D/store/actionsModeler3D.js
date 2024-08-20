@@ -180,7 +180,7 @@ export default {
     /**
      * Action to delete an entity.
      * @param {Object} context - The context of the Vuex module.
-     * @param {string} id - The ID of the entity to delete.
+     * @param {String} id - The ID of the entity to delete.
      * @returns {void}
      */
     deleteEntity ({commit, dispatch, state}, id) {
@@ -205,8 +205,8 @@ export default {
     // TODO: Hier sollte geklärt werden, ob ConfirmAction auch refactored werden soll
     /**
      * Confirms the deletion of an entity by adding a confirmation action.
-     * @param {object} context - The context of the Vuex module.
-     * @param {string} id - The ID of the entity to be deleted.
+     * @param {Object} context - The context of the Vuex module.
+     * @param {String} id - The ID of the entity to be deleted.
      * @returns {void}
      */
     // confirmDeletion ({dispatch, getters}, id) {
@@ -222,7 +222,7 @@ export default {
     /**
      * Toggles the visibility of a model entity.
      * @param {Object} context The context of the Vuex module.
-     * @param {object} model - The model object.
+     * @param {Object} model - The model object.
      * @returns {void}
      */
     changeVisibility (context, model) {
@@ -234,7 +234,7 @@ export default {
     },
     /**
      * Reacts on new selected projection. Sets the current projection and its name to state and updates the UI.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @param {String} value id of the new selected projection
      * @returns {void}
     */
@@ -246,7 +246,7 @@ export default {
     },
     /**
      * Reacts on new input value. Gets the currently selected entity and updates its position.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @returns {void}
     */
     updateEntityPosition ({dispatch, state}) {
@@ -274,7 +274,7 @@ export default {
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
      * to the currently selected projection.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @returns {void}
     */
     updatePositionUI ({commit, dispatch, getters, state}) {
@@ -292,7 +292,7 @@ export default {
     /**
      * Reacts on changed entity position. Gets the currently selected entity position and transforms its coordinates
      * to the currently selected projection.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @returns {void}
     */
     updateUI ({commit, dispatch, state}) {
@@ -329,7 +329,7 @@ export default {
     },
     /**
      * Transforms the Cartesian3 coordinates to the currently selected projection and sets it to state.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @param {Cartesian3} entityPosition position of currently selected entity
      * @returns {void}
     */
@@ -354,7 +354,7 @@ export default {
     },
     /**
      * Transforms the current UI values to Cartesian3 coordinates and sets it to state.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @returns {void}
     */
     transformToCartesian ({commit, state}) {
@@ -381,8 +381,8 @@ export default {
     },
     /**
      * Generates Cesium cylinders at all polygon positions.
-     * @param {object} context - The context of the Vuex module.
-     * @param {object} entity - The entity to generate the cylinders for.
+     * @param {Object} context - The context of the Vuex module.
+     * @param {Object} entity - The entity to generate the cylinders for.
      * @returns {void}
     */
     generateCylinders ({dispatch, state}, entity) {
@@ -404,8 +404,8 @@ export default {
     },
     /**
      * Create a singular Cesium cylinder at the given position.
-     * @param {object} context - The context of the Vuex module.
-     * @param {object} positionObj - The position options to create the cylinder with
+     * @param {Object} context - The context of the Vuex module.
+     * @param {Object} positionObj - The position options to create the cylinder with
      * @returns {void}
     */
     createCylinder ({commit, state}, {position = new Cesium.Cartesian3(), posIndex, length, entityId = state.currentModelId}) {
@@ -426,7 +426,7 @@ export default {
     },
     /**
      * Removes all Cesium cylinders from the the Cesium EntityCollection.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @returns {void}
     */
     removeCylinders () {
@@ -439,8 +439,8 @@ export default {
     },
     /**
      * Moves a given polygon to a given new position.
-     * @param {object} context - The context of the Vuex module.
-     * @param {object} moveOptions - Contains the polygon and new position it shall be moved to.
+     * @param {Object} context - The context of the Vuex module.
+     * @param {Object} moveOptions - Contains the polygon and new position it shall be moved to.
      * @returns {void}
     */
     movePolygon ({dispatch, getters, state}, {entityId, position, anchor = null}) {
@@ -468,8 +468,8 @@ export default {
     },
     /**
      * Moves a given polyline to a given new position.
-     * @param {object} context - The context of the Vuex module.
-     * @param {object} moveOptions - Contains the polyline and new position it shall be moved to.
+     * @param {Object} context - The context of the Vuex module.
+     * @param {Object} moveOptions - Contains the polyline and new position it shall be moved to.
      * @returns {void}
     */
     movePolyline ({getters}, {entityId, position, anchor = null}) {
@@ -488,7 +488,7 @@ export default {
     },
     /**
      * Edits the layout of the currently selected entity.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @param {String} keyword - The keyword defines which part of the layout is being edited.
      * @returns {void}
      */
@@ -541,7 +541,7 @@ export default {
     },
     /**
      * Moves the adjacent corners of a rectangle to a new position.
-     * @param {object} context - The context of the Vuex module
+     * @param {Object} context - The context of the Vuex module
      * @param {Object} moveOptions - Contains the moved corner index and a boolean to clamp the new position to the ground.
      * @returns {void}
      */
@@ -578,7 +578,7 @@ export default {
     },
     /**
      * Rotates the currently selected drawn entity.
-     * @param {object} context - The context of the Vuex module.
+     * @param {Object} context - The context of the Vuex module.
      * @param {Number} rotation - The rotation angle in degrees.
      * @returns {void}
      */
@@ -693,7 +693,7 @@ export default {
     },
     /**
     * Removes all Labels of the entity from the the Cesium EntityCollection.
-    * @param {object} context - The context of the Vuex module.
+    * @param {Object} context - The context of the Vuex module.
     * @param {Cesium.Entity} entity - The entity to remove the labels from.
     * @returns {void}
     */

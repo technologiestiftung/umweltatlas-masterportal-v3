@@ -11,7 +11,7 @@ export default {
      * Returns the Model name of the corresponding id.
      * @param {Object} state state of this tool
      * @param {String} id of the model
-     * @returns {string} the model name of the entity.
+     * @returns {String} the model name of the entity.
      */
     getModelNameById: state => (id) => {
         const allModels = state.importedModels.concat(state.drawnModels),

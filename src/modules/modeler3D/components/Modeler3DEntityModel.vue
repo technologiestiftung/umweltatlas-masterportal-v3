@@ -371,7 +371,7 @@ export default {
         /**
          * Handles the change event of the "Adapt to Height" checkbox.
          * Updates the adaptToHeight state and triggers the entity position update if the checkbox is checked.
-         * @param {boolean} value - The new value of the checkbox.
+         * @param {Boolean} value - The new value of the checkbox.
          * @returns {void}
          */
         checkedAdapt (value) {

@@ -147,7 +147,7 @@ export default {
         },
         /**
          * Toggles the visibility of a model entity.
-         * @param {object} model - The model object.
+         * @param {Object} model - The model object.
          * @returns {void}
          */
         changeVisibility (model) {
@@ -159,7 +159,7 @@ export default {
         },
         /**
          * Zooms the camera to the specified entity.
-         * @param {string} id - The ID of the entity to zoom to.
+         * @param {String} id - The ID of the entity to zoom to.
          * @returns {void}
          */
         zoomTo (id) {

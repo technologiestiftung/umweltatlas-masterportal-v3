@@ -11,8 +11,8 @@ export default {
     ...generateSimpleMutations(modeler3DState),
     /**
      * Updates the name of a model in the state.
-     * @param {object} state - The state object of the Vuex module.
-     * @param {string} name - The new name for the model.
+     * @param {Object} state - The state object of the Vuex module.
+     * @param {String} name - The new name for the model.
      * @returns {void}
      */
     setModelName: (state, name) => {
