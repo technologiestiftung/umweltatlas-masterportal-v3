@@ -50,30 +50,35 @@ export default {
         }
     },
     data () {
+        const mappingLayout = {
+            fillColor: {
+                drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
+                icon: "bi-paint-bucket"
+            },
+            strokeColor: {
+                drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
+                icon: "bi-pencil-fill"
+            },
+            strokeWidth: {
+                drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
+                icon: "bi-border-width"
+            },
+            fillTransparency: {
+                drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
+                icon: "bi-droplet-half"
+            }
+        };
+
+        if (this.hasExtrudedHeight) {
+            mappingLayout.extrudedHeight = {
+                drawTypes: ["polygon", "rectangle"],
+                icon: "bi-box-arrow-up"
+            };
+        }
+
         return {
             activeLayoutKey: "",
-            mappingLayout: {
-                fillColor: {
-                    drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
-                    icon: "bi-paint-bucket"
-                },
-                strokeColor: {
-                    drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
-                    icon: "bi-pencil-fill"
-                },
-                strokeWidth: {
-                    drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
-                    icon: "bi-border-width"
-                },
-                fillTransparency: {
-                    drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
-                    icon: "bi-droplet-half"
-                },
-                extrudedHeight: {
-                    drawTypes: ["polygon", "rectangle"],
-                    icon: "bi-box-arrow-up"
-                }
-            }
+            mappingLayout
         };
     },
     computed: {

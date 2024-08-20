@@ -907,7 +907,8 @@
           "innerCircle": "",
           "outerCircle": "",
           "strokeColor": "Колір контуру",
-          "strokeWidth": "Товщина лінії"
+          "strokeWidth": "Товщина лінії",
+          "extrudedHeight": "Екструдована висота"
         },
         "drawSettingsCircle": {
           "interactive": "інтерактивний",

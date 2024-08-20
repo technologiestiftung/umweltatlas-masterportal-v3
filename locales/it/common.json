@@ -907,7 +907,8 @@
           "innerCircle": "Cerchio interno:",
           "outerCircle": "Cerchio esterno:",
           "strokeColor": "Colore contorno",
-          "strokeWidth": "Larghezza linea"
+          "strokeWidth": "Larghezza linea",
+          "extrudedHeight": "Altezza estrusa"
         },
         "drawSettingsCircle": {
           "interactive": "Interattivo",

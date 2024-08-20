@@ -1230,7 +1230,8 @@
           "innerCircle": "Innerer Kreis:",
           "outerCircle": "Äußerer Kreis:",
           "strokeColor": "Umrissfarbe",
-          "strokeWidth": "Strichstärke"
+          "strokeWidth": "Strichstärke",
+          "extrudedHeight": "Extrudierte Höhe"
         },
         "drawSettingsCircle": {
           "interactive": "Interaktiv",

@@ -1227,7 +1227,8 @@
           "innerCircle": "Inner circle:",
           "outerCircle": "Outer circle:",
           "strokeColor": "Outline color",
-          "strokeWidth": "Stroke width"
+          "strokeWidth": "Stroke width",
+          "extrudedHeight": "Extruded Height"
         },
         "drawSettingsCircle": {
           "interactive": "Interactive",
