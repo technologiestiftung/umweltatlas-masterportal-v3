@@ -106,8 +106,8 @@ export default {
                 >
                     <SwitchInput
                         v-if="enableCheckboxes"
-                        :id="object.id"
-                        :aria="object.id"
+                        :id="object.id.toString()"
+                        :aria="object.id.toString()"
                         :value="object.id"
                         :checked="object.id === currentModelId"
                         class="checkbox-selected-entity"
