@@ -86,7 +86,6 @@
     "@masterportal/mpconfigparser": "^1.4.0",
     "@sinonjs/fake-timers": "^11.2.2",
     "@stylistic/eslint-plugin-js": "^2.2.1",
-    "@vue/compat": "3.3.4",
     "@vue/compiler-sfc": "^3.3.4",
     "@vue/devtools-api": "^6.5.0",
     "@vue/test-utils": "^2.4.1",
