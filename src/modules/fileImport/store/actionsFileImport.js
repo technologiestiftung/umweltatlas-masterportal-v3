@@ -208,8 +208,7 @@ export default {
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
             format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            crsPropName = getCrsPropertyName(datasrc.raw),
-            customAttributes = {};
+            crsPropName = getCrsPropertyName(datasrc.raw);
 
         let
             featureError = false,
@@ -290,8 +289,8 @@ export default {
 
             feature.setProperties(featureAttributes);
             Object.keys(featureAttributes).forEach(key => {
-                if (!Object.prototype.hasOwnProperty.call(customAttributes, key)) {
-                    customAttributes[key] = key;
+                if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
+                    state.gfiAttributes[key] = key;
                 }
                 feature.unset("custom-attribute____" + key);
             });
@@ -390,7 +389,7 @@ export default {
         features = checkIsVisibleSetting(features);
 
         vectorLayer.getSource().addFeatures(features);
-        vectorLayer.set("gfiAttributes", customAttributes);
+        vectorLayer.set("gfiAttributes", state.gfiAttributes);
 
         if (featureError) {
             alertingMessage = {
@@ -626,8 +625,10 @@ export default {
 
             if (isObject(feature.getProperties())) {
                 Object.keys(feature.getProperties()).forEach(key => {
-                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes") {
-                        gfiAttributes[key] = key;
+                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes" && key !== "isOuterCircle") {
+                        if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
+                            state.gfiAttributes[key] = key;
+                        }
                     }
                 });
 
@@ -658,13 +659,13 @@ export default {
             vectorLayer.getSource().addFeature(feature);
         });
 
-        if (Object.keys(gfiAttributes).length > 0) {
-            vectorLayer.set("gfiAttributes", gfiAttributes);
+        if (Object.keys(state.gfiAttributes).length > 0) {
+            vectorLayer.set("gfiAttributes", state.gfiAttributes);
 
             dispatch("replaceByIdInLayerConfig", {
                 layerConfigs: [{
                     id: state.layerId,
-                    layer: {gfiAttributes}
+                    layer: state.gfiAttributes
                 }]
             }, {root: true});
         }
