@@ -1,6 +1,6 @@
 <script>
 import beautifyKey from "../../../../../shared/js/utils/beautifyKey.js";
-import {isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
+import {isImage, isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
 import {translateKeyWithPlausibilityCheck} from "../../../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
 import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
@@ -35,7 +35,7 @@ export default {
     },
     data: () => {
         return {
-            imageLinks: ["bildlink", "link_bild", "Bild", "bild", "pic"],
+            imageLinks: ["bildlink", "link_bild", "Bild", "bild"],
             importedComponents: [],
             showFavoriteIcons: true,
             maxWidth: "600px",
@@ -96,6 +96,7 @@ export default {
     methods: {
         beautifyKey,
         isWebLink,
+        isImage,
         isPhoneNumber,
         getPhoneNumberAsWebLink,
         isEmailAddress,
@@ -307,11 +308,23 @@ export default {
                             {{ key }}
                         </span>
                     </td>
-                    <td v-if="isWebLink(value)">
+                    <td v-if="isWebLink(value) && !isImage(value)">
                         <a
                             :href="value"
                             target="_blank"
                         >Link</a>
+                    </td>
+                    <td v-else-if="isWebLink(value) && isImage(value)">
+                        <a
+                            :href="value"
+                            target="_blank"
+                        >
+                            <img
+                                class="gfi-theme-images-image"
+                                :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
+                                :src="value"
+                            >
+                        </a>
                     </td>
                     <td v-else-if="isHTML(value)">
                         <div v-html="value" />
@@ -397,6 +410,7 @@ export default {
     display: block;
     text-align: center;
     color: $black;
+    width: 100%;
 }
 .favorite-icon-container {
     display: flex;

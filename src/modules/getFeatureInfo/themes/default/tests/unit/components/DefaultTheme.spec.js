@@ -115,6 +115,34 @@ describe("src/modules/getFeatureInfo/themes/default/components/DefaultTheme.vue"
             expect(wrapper.find(".gfi-theme-images > div:nth-child(2) > a > img").attributes().src).equals("https://test.png");
         });
 
+        it("should the img have the source to the image", () => {
+            const wrapper1 = shallowMount(DefaultTheme, {
+                props: {
+                    feature: {
+                        getProperties: function () {
+                            return {
+                                abc: "https://abc.jpeg"
+                            };
+                        },
+                        getTheme: function () {
+                            return {
+                                name: "images",
+                                params: {
+                                    imageLinks: "abc"
+                                }
+                            };
+                        },
+                        getGfiUrl: () => "",
+                        getMimeType: () => "text/xml"
+                    }
+                }
+            });
+
+            expect(wrapper1.find(".gfi-theme-images-image").exists());
+            expect(wrapper1.find(".gfi-theme-images-image").attributes().src).equals("https://abc.jpeg");
+        });
+
+
         it("should the img have the source of gfiTheme params as string", () => {
             const wrapper1 = shallowMount(DefaultTheme, {
                 props: {
