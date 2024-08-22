@@ -35,7 +35,7 @@ export default {
     },
     data: () => {
         return {
-            imageLinks: ["bildlink", "link_bild", "Bild", "bild"],
+            imageLinks: ["bildlink", "link_bild", "Bild", "bild", "pic"],
             importedComponents: [],
             showFavoriteIcons: true,
             maxWidth: "600px",
