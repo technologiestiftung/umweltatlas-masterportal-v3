@@ -399,10 +399,26 @@ function convertToRgbaString (color) {
         + String(color[3]) + ")";
 }
 
-// Function to convert a hex color to HSL
+// Functions to convert from Hex to HSL and vice versa
+// Hue is a degree on the color wheel from 0 to 360. 0 (or 360) is red, 120 is green, 240 is blue.
+// Saturation can be described as the intensity of a color. It is a percentage value from 0% to 100%.
+// The lightness of a color can be described as how much light you want to give the color, where 0% means no light (dark),
+// means medium 50% light (neither dark nor light), and 100% means full light.
+
+/**
+ * Converts a hex color to HSL (Hue, Saturation, Lightness)
+ * @param {String} hex the color in a hex string
+ * @returns {Object} Object containing the hsl values
+ */
 function convertHexToHSL (hex) {
-    console.log("xxxxxxx")
-    console.log(hex)
+    const hexColor = isHexColorString(hex);
+
+    if (!hexColor) {
+        console.warn("The color to convert from hex to hsl is not a hex value");
+        return false;
+    }
+
+    /* eslint-disable one-var*/
     const r = parseInt(hex.slice(1, 3), 16) / 255,
         g = parseInt(hex.slice(3, 5), 16) / 255,
         b = parseInt(hex.slice(5, 7), 16) / 255,
@@ -445,12 +461,21 @@ function convertHexToHSL (hex) {
     };
 }
 
-    // Function to convert HSL back to hex
+/**
+ * Converts HSL to hex
+ * @param {Number} h hue value
+ * @param {Number} s saturation value
+ * @param {Number} l lightness value
+ * @returns {String} hex string
+ */
 function convertHslToHex (h, s, l) {
+
+    if (typeof h !== "number" || typeof s !== "number" || typeof l !== "number") {
+        return false;
+    }
+
     const lightness = l / 100,
         a = s * Math.min(lightness, 1 - lightness) / 100;
-
-        console.log("iiiiiiiiii")
 
     /* eslint-disable jsdoc/require-jsdoc*/
     function f (n) {

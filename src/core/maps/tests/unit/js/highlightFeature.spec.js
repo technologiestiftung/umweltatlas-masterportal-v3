@@ -216,12 +216,14 @@ describe("src/core/maps/js/highlightFeature", () => {
 
             await highlightFeature.highlightLine({commit, dispatch}, highlightObject);
 
-            sinon.assert.calledWith(featureLine.setStyle, sinon.match.instanceOf(Style));
-            sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", featureLine);
-            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.instanceOf(Style));
             sinon.assert.calledWith(dispatch, "fetchAndApplyStyle", sinon.match({
                 highlightObject: highlightObject,
                 feature: featureLine
+            }));
+            sinon.assert.calledWith(dispatch, "setHighlightStyleToFeature", sinon.match({
+                feature: featureLine,
+                clonedStyle: highlightObject.highlightStyle,
+                newStyle: highlightObject.highlightStyle
             }));
         });
 

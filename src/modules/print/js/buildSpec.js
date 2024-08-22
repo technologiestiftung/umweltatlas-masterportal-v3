@@ -970,8 +970,14 @@ const BuildSpecModel = {
             fillColor = [0, 0, 0, 0];
         }
 
-        obj.fillColor = convertColor(fillColor, "hex");
-        obj.fillOpacity = fillColor[3];
+        if (fillColor[0] === "#") {
+            obj.fillColor = fillColor;
+            obj.fillOpacity = 1;
+        }
+        else {
+            obj.fillColor = convertColor(fillColor, "hex");
+            obj.fillOpacity = fillColor[3];
+        }
 
         return obj;
     },

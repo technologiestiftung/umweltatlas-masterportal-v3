@@ -1,5 +1,6 @@
 <script>
 export default {
+    name: "ColorPicker",
     data () {
         return {
             selectedColor: "#f50000"

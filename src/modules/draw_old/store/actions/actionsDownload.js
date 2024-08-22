@@ -57,7 +57,7 @@ async function prepareData ({state, commit, dispatch, rootGetters}) {
         case "KML":
             features = setKmlAttributes(state.download.features);
 
-            features = await convertFeaturesToKml(state.download.features);
+            features = await convertFeaturesToKml(features);
             break;
         case "CSV":
             features = setCsvAttributes(state.download.features, rootGetters["Maps/projection"].getCode());

@@ -108,7 +108,6 @@ function removeMapMarker (layerId) {
     });
 
     markerLayer.getSource().clear();
-
 }
 
 /**

@@ -29,7 +29,8 @@ const
     });
 let dispatch,
     test1KML,
-    test2KML;
+    test2KML,
+    commit;
 
 before(() => {
     crs.registerProjections(namedProjections);
@@ -50,6 +51,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
         resetUniqueId();
         dispatch = sinon.spy();
         layer.getSource().getFeatures().forEach(feature => layer.getSource().removeFeature(feature));
+        commit = sinon.spy();
     });
 
     afterEach(sinon.restore);
@@ -197,7 +199,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                     }
                 };
 
-            importFile({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters, commit}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -316,10 +318,12 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
                             rgx: /\.(geo)?json$/i
                         }
-                    }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
                 };
 
-            importGeoJSON({state, dispatch, rootGetters}, payload);
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -367,15 +371,17 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
                             rgx: /\.(geo)?json$/i
                         }
-                    }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
                 };
 
-            importGeoJSON({state, dispatch, rootGetters}, payload);
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
 
             expect(layer.getSource().getFeatures().length).to.equal(1);
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
-            expect(layer.get("gfiAttributes")).to.be.an("object");
-            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "Attribut1"});
         });
 
         it("adds a geojson file with gfiAttributes from draw new export structure", () => {
@@ -390,15 +396,17 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
                             rgx: /\.(geo)?json$/i
                         }
-                    }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
                 };
 
-            importGeoJSON({state, dispatch, rootGetters}, payload);
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
 
             expect(layer.getSource().getFeatures().length).to.equal(1);
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
-            expect(layer.get("gfiAttributes")).to.be.an("object");
-            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "attributes"});
         });
 
         it("adds a geojson file with gfiAttributes from standard geojson structure", () => {
@@ -413,14 +421,93 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
                             rgx: /\.(geo)?json$/i
                         }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "Attribut1"});
+        });
+
+        it("adds a geojson file with custom styling with different colors", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}, {\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.899147727017332,53.57029963338006]},\"properties\":{\"Attribut1\":\"xyz\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {
+                        "beispielText.geojson": [
+                            {
+                                "attribute": "Attribut1",
+                                "attributeValue": "abc",
+                                "attributeColor": "#00c4f5"
+                            },
+                            {
+                                "attribute": "Attribut1",
+                                "attributeValue": "xyz",
+                                "attributeColor": "#00f531"
+                            }
+                        ]
                     }
                 };
 
-            importGeoJSON({state, dispatch, rootGetters}, payload);
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
 
-            expect(layer.getSource().getFeatures().length).to.equal(1);
-            expect(layer.get("gfiAttributes")).to.be.an("object");
-            expect(layer.get("gfiAttributes").Attribut1).to.equal("Attribut1");
+            /* eslint-disable one-var */
+            const feature1 = layer.getSource().getFeatures()[0],
+                feature2 = layer.getSource().getFeatures()[1];
+
+            expect(layer.getSource().getFeatures().length).to.equal(2);
+            expect(feature1.getStyle().getFill().getColor()).to.equal("#00c4f5");
+            expect(feature2.getStyle().getFill().getColor()).to.equal("#00f531");
+        });
+
+        it("adds a geojson file with custom styling with one color for all features", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}, {\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.899147727017332,53.57029963338006]},\"properties\":{\"Attribut1\":\"xyz\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {
+                        "beispielText.geojson": [
+                            {
+                                "attribute": "All",
+                                "attributeValue": "none",
+                                "attributeColor": "#00c4f5"
+                            }
+                        ]
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            /* eslint-disable one-var */
+            const feature1 = layer.getSource().getFeatures()[0],
+                feature2 = layer.getSource().getFeatures()[1];
+
+            expect(layer.getSource().getFeatures().length).to.equal(2);
+            expect(feature1.getStyle().getFill().getColor()).to.equal("#00c4f5");
+            expect(feature2.getStyle().getFill().getColor()).to.equal("#00c4f5");
         });
     });
 

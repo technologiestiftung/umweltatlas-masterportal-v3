@@ -203,7 +203,7 @@ export default {
      * @param {Object} datasrc data source to import, with properties filename, layer and raw.
      * @returns {void}
      */
-    importFile ({state, dispatch, rootGetters}, datasrc) {
+    importFile ({state, dispatch, rootGetters, commit}, datasrc) {
         const
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
@@ -290,7 +290,7 @@ export default {
             feature.setProperties(featureAttributes);
             Object.keys(featureAttributes).forEach(key => {
                 if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
-                    state.gfiAttributes[key] = key;
+                    commit("setGFIAttribute", {key});
                 }
                 feature.unset("custom-attribute____" + key);
             });
@@ -423,11 +423,10 @@ export default {
      * @param {Object} datasrc data source to import, with properties filename, layer and raw.
      * @returns {void}
      */
-    importGeoJSON ({state, dispatch, rootGetters}, datasrc) {
+    importGeoJSON ({state, dispatch, rootGetters, commit}, datasrc) {
         const vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
             format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            gfiAttributes = {},
             fileDataProjection = getCrsPropertyName(datasrc.raw);
 
         let
@@ -475,10 +474,11 @@ export default {
         }
 
         vectorLayer.setStyle((feature) => {
-            const drawState = feature.getProperties().masterportal_attributes?.drawState;
+            const drawState = feature.getProperties()?.masterportal_attributes?.drawState,
+                customStyles = state.customAttributeStyles[fileName];
             let style;
 
-            if (!drawState) {
+            if (!drawState && !customStyles) {
                 const defaultColor = [226, 26, 28, 0.9],
                     defaultFillColor = [228, 26, 28, 0.5],
                     defaultPointSize = 16,
@@ -529,7 +529,7 @@ export default {
                 return style.clone();
             }
 
-            if (drawState.drawType.geometry === "Point") {
+            if (drawState?.drawType.geometry === "Point") {
                 if (drawState.text) {
                     style = new Style({
                         image: new CircleStyle({
@@ -543,7 +543,7 @@ export default {
                         })
                     });
                 }
-                else if (drawState.symbol.value !== "simple_point") {
+                else if (drawState?.symbol.value !== "simple_point") {
                     style = new Style({
                         image: new Icon({
                             crossOrigin: "anonymous",
@@ -553,10 +553,10 @@ export default {
                     });
                 }
                 else {
-                    style = createDrawStyle(drawState.color, drawState.color, drawState.drawType.geometry, drawState.pointSize, 1, drawState.zIndex);
+                    style = createDrawStyle(drawState?.color, drawState?.color, drawState?.drawType.geometry, drawState?.pointSize, 1, drawState?.zIndex);
                 }
             }
-            else if (drawState.drawType.geometry === "LineString" || drawState.drawType.geometry === "MultiLineString") {
+            else if (drawState?.drawType.geometry === "LineString" || drawState?.drawType.geometry === "MultiLineString") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -564,7 +564,7 @@ export default {
                     })
                 });
             }
-            else if (drawState.drawType.geometry === "Polygon" || drawState.drawType.geometry === "MultiPolygon") {
+            else if (drawState?.drawType.geometry === "Polygon" || drawState?.drawType.geometry === "MultiPolygon") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -575,7 +575,7 @@ export default {
                     })
                 });
             }
-            else if (drawState.drawType.geometry === "Circle") {
+            else if (drawState?.drawType.geometry === "Circle") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -589,6 +589,55 @@ export default {
                     colorContour: drawState.colorContour,
                     outerColorContour: drawState.outerColorContour
                 });
+            }
+            else if (!drawState && customStyles) {
+                const geometryType = feature ? feature.getGeometry().getType() : "Cesium",
+                    featureAttribute = feature.get(customStyles[0].attribute),
+                    featureColor = customStyles.find(attribute => {
+                        return attribute.attributeValue === featureAttribute || attribute.attributeValue === "none";
+                    }).attributeColor,
+                    defaultPointSize = 16,
+                    defaultStrokeWidth = 2,
+                    defaultCircleRadius = 300,
+                    defaultStrokeColor = [169, 159, 163, 0.9];
+
+                if (geometryType === "Point" || geometryType === "MultiPoint") {
+                    style = createDrawStyle(featureColor, featureColor, geometryType, defaultPointSize, 1, 1);
+                }
+                else if (geometryType === "LineString" || geometryType === "MultiLineString") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: featureColor,
+                            width: defaultStrokeWidth
+                        })
+                    });
+                }
+                else if (geometryType === "Polygon" || geometryType === "MultiPolygon") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        })
+                    });
+                }
+                else if (geometryType === "Circle") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        }),
+                        circleRadius: defaultCircleRadius,
+                        colorContour: featureColor
+                    });
+                }
+
+                feature.set("styleId", featureAttribute);
             }
             else {
                 console.warn("Geometry type not implemented: " + drawState.drawType.geometry);
@@ -625,9 +674,9 @@ export default {
 
             if (isObject(feature.getProperties())) {
                 Object.keys(feature.getProperties()).forEach(key => {
-                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes" && key !== "isOuterCircle") {
+                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes") {
                         if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
-                            state.gfiAttributes[key] = key;
+                            commit("setGFIAttribute", {key});
                         }
                     }
                 });
@@ -656,6 +705,9 @@ export default {
             }
 
             feature.set("source", fileName);
+            // set a feature id just in case the feature has an id that is already set on a previously imported feature
+            feature.setId(state.geojsonFeatureId);
+            commit("setGeojsonFeatureId");
             vectorLayer.getSource().addFeature(feature);
         });
 

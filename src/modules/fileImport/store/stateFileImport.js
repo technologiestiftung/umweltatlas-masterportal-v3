@@ -10,10 +10,14 @@
  * @property {String}   layerId - the layer id
  * @property {String}   name - Displayed as title (config-param)
  * @property {String}   selectedFiletype - This controls, which openlayers format is used when displaying the file data. Using "auto" will result in selecting one format according to the filename's suffix.
+ * @property {Boolean}  customStylingOption - Indicates whether the possibility to style GeoJSON features at import (AttributeStyler) shall be displayed or not.
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {Object}   supportedFiletypes - Configuration object which is used to generate the selectedFiletype radio form from.
  * @property {String[]} supportedMapModes - Map mode in which this module can be used.
  * @property {String}   type - The type of the module.
+ * @property {Object}   gfiAttributes - All attributes that should be shown in the GFI.
+ * @property {Object}   customAttributeStyles - All custom styles set by the user.
+ * @property {Number}   geojsonFeatureId - Id of the last added feeature of a GeoJson.
  */
 
 export default {
@@ -26,6 +30,7 @@ export default {
     layerId: "importDrawLayer",
     name: "common:modules.fileImport.name",
     selectedFiletype: "auto",
+    customStylingOption: false,
 
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedFiletypes: {
@@ -47,5 +52,7 @@ export default {
     },
     supportedMapModes: ["2D", "3D"],
     type: "fileImport",
-    features: undefined
+    gfiAttributes: {},
+    customAttributeStyles: {},
+    geojsonFeatureId: 0
 };

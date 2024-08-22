@@ -386,7 +386,9 @@
       "removeAttachment": "Remove file",
       "successfullyImportedLabel": "Successfully imported:",
       "zoom": "Zoom",
-      "colorPerAttributes": "Color per attribute"
+      "colorPerAttributes": "Color per attribute",
+      "stylingAttributeDescription":"Select an attribute to style the layer by.",
+      "stylingColorDescription": "When a color is selected, a color scale is automatically created. For numerical (quantitative) values, a color scale is created ranging from light to dark. The selected color is assigned to the highest value in the data. Different colors are created for qualitative data."
     },
     "filter": {
       "alertingMessages": {

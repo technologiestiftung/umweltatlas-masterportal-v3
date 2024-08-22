@@ -381,7 +381,8 @@
             "qrShare": true
           },
           {
-            "type": "fileImport"
+            "type": "fileImport",
+            "customStylingOption": true
           },
           {
             "type": "openConfig"

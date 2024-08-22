@@ -60,7 +60,7 @@ export default {
         filterFeaturesByType (features, type) {
             return features.filter(feature => {
                 // drawType.id = the name of the draw type
-                return type.search(feature.get("masterportal_attributes").drawState.drawType.id) !== -1;
+                return type.search(feature.get("masterportal_attributes").drawState?.drawType?.id) !== -1;
             });
         },
 
