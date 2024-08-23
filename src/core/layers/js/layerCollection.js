@@ -68,7 +68,7 @@ function getLayers () {
 /**
  * Returns an layer by id of the layer collection.
  * @param {String} id The layer id.
- * @returns {Layer} The layer.
+ * @returns {Layer|undefined} The layer or undefined if layer not exits.
  */
 function getLayerById (id) {
     return layerCollection.find(layer => layer.attributes.id === id);

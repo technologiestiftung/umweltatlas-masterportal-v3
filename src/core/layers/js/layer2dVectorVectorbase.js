@@ -47,7 +47,8 @@ Layer2dVectorVectorbase.prototype.createVectorLayer = function (attrs) {
         name: attrs.name,
         typ: attrs.typ,
         gfiAttributes: attrs.gfiAttributes,
-        id: attrs.id
+        id: attrs.id,
+        alwaysOnTop: attrs.alwaysOnTop
     });
 };
 
