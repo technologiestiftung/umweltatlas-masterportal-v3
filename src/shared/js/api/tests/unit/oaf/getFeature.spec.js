@@ -2,9 +2,50 @@ import {expect} from "chai";
 import sinon from "sinon";
 import getOAFFeature from "../../../oaf/getOAFFeature";
 import axios from "axios";
-
+import Feature from "ol/Feature";
+import Polygon from "ol/geom/Polygon";
+import Point from "ol/geom/Point";
 
 describe("src/shared/js/api/oaf", () => {
+    const feature = new Feature({
+        geometry: new Polygon([[
+            [563599.939, 5936263.688, 0],
+            [563602.501, 5936266.163, 0],
+            [563608.446, 5936271.905, 0],
+            [563609.548, 5936272.969, 0],
+            [563617.959, 5936281.094, 0],
+            [563619.708, 5936280.381, 0],
+            [563628.979, 5936276.605, 0],
+            [563630.879, 5936275.831, 0],
+            [563634.164, 5936274.492, 0],
+            [563625.036, 5936252.064, 0],
+            [563624.785, 5936251.517, 0],
+            [563624.488, 5936250.994, 0],
+            [563624.147, 5936250.498, 0],
+            [563623.765, 5936250.033, 0],
+            [563623.344, 5936249.603, 0],
+            [563622.888, 5936249.21, 0],
+            [563622.4, 5936248.858, 0],
+            [563621.883, 5936248.55, 0],
+            [563621.342, 5936248.287, 0],
+            [563620.78, 5936248.071, 0],
+            [563620.202, 5936247.904, 0],
+            [563619.612, 5936247.788, 0],
+            [563619.013, 5936247.723, 0],
+            [563618.412, 5936247.709, 0],
+            [563617.811, 5936247.747, 0],
+            [563617.216, 5936247.837, 0],
+            [563616.631, 5936247.977, 0],
+            [563616.06, 5936248.168, 0],
+            [563615.508, 5936248.406, 0],
+            [563614.978, 5936248.691, 0],
+            [563614.474, 5936249.021, 0],
+            [563614.001, 5936249.392, 0],
+            [563613.561, 5936249.803, 0],
+            [563599.939, 5936263.688, 0]]])
+    });
+
+
     describe("getOAFFeatureGet", () => {
         it("should returns a promise which rejects if first param is not a string", async () => {
             let catchError = null;
@@ -233,6 +274,72 @@ describe("src/shared/js/api/oaf", () => {
             });
             expect(await getOAFFeature.getUniqueValuesByScheme("foo", "foo", ["boo"])).to.deep.equal(expected);
             sinon.restore();
+        });
+    });
+    describe("getOAFGeometryFilter", () => {
+        it("should return undefined if no filter type is provided", () => {
+            expect(getOAFFeature.getOAFGeometryFilter(feature.getGeometry(), undefined)).to.be.undefined;
+        });
+
+        it("should return a within filter", () => {
+            const filter = getOAFFeature.getOAFGeometryFilter(feature.getGeometry(), "geom", "within");
+
+            expect(filter.startsWith("S_WITHIN")).to.be.true;
+        });
+        it("should return a intersects filter", () => {
+            const filter = getOAFFeature.getOAFGeometryFilter(feature.getGeometry(), "geom", "intersects");
+
+            expect(filter.startsWith("S_INTERSECTS")).to.be.true;
+        });
+        it("should return a polygon filter with the coordinates fixed", () => {
+            const expected = [
+                "563599.939 5936263.688",
+                "563602.501 5936266.163",
+                "563608.446 5936271.905",
+                "563609.548 5936272.969",
+                "563617.959 5936281.094",
+                "563619.708 5936280.381",
+                "563628.979 5936276.605",
+                "563630.879 5936275.831",
+                "563634.164 5936274.492",
+                "563625.036 5936252.064",
+                "563624.785 5936251.517",
+                "563624.488 5936250.994",
+                "563624.147 5936250.498",
+                "563623.765 5936250.033",
+                "563623.344 5936249.603",
+                "563622.888 5936249.21",
+                "563622.4 5936248.858",
+                "563621.883 5936248.55",
+                "563621.342 5936248.287",
+                "563620.78 5936248.071",
+                "563620.202 5936247.904",
+                "563619.612 5936247.788",
+                "563619.013 5936247.723",
+                "563618.412 5936247.709",
+                "563617.811 5936247.747",
+                "563617.216 5936247.837",
+                "563616.631 5936247.977",
+                "563616.06 5936248.168",
+                "563615.508 5936248.406",
+                "563614.978 5936248.691",
+                "563614.474 5936249.021",
+                "563614.001 5936249.392",
+                "563613.561 5936249.803",
+                "563599.939 5936263.688"];
+
+            expect(getOAFFeature.getOAFGeometryFilter(feature.getGeometry(), "geom", "intersects")).to
+                .be.equal(`S_INTERSECTS(geom, POLYGON((${expected.join(", ")})))`);
+        });
+
+        it("should return a point filter with the coordinates fixed ", () => {
+            const pointFeature = new Feature({
+                    geometry: new Point([563599.939, 5936263.688])
+                }),
+                expected = ["563599.939 5936263.688"];
+
+            expect(getOAFFeature.getOAFGeometryFilter(pointFeature.getGeometry(), "geom", "intersects")).to
+                .be.equal(`S_INTERSECTS(geom, POINT(${expected.join(", ")}))`);
         });
     });
 });
