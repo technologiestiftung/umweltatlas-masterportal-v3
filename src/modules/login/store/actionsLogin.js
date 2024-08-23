@@ -28,6 +28,7 @@ export default {
     logout ({commit}) {
         const token = Cookie.get("token"),
             refreshToken = Cookie.get("refresh_token"),
+            oidcClientId = Config?.login?.oidcClientId,
             oidcRevocationEndpoint = Config?.login?.oidcRevocationEndpoint;
 
         OIDC.eraseCookies();
@@ -40,10 +41,10 @@ export default {
         commit("setEmail", undefined);
 
         if (oidcRevocationEndpoint && token) {
-            OIDC.revokeToken(oidcRevocationEndpoint, token);
+            OIDC.revokeToken(oidcRevocationEndpoint, oidcClientId, token);
         }
         if (oidcRevocationEndpoint && refreshToken) {
-            OIDC.revokeToken(oidcRevocationEndpoint, refreshToken);
+            OIDC.revokeToken(oidcRevocationEndpoint, oidcClientId, refreshToken);
         }
     },
 

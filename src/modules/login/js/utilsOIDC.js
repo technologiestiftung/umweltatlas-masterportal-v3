@@ -196,12 +196,16 @@ function refreshToken (oidcTokenEndpoint, oidcClientId, refresh_token) {
  * @param {String} token the token to revoke
  * @returns {XMLHttpRequest} the sent request
  */
-function revokeToken (oidcRevocationEndpoint, token) {
+function revokeToken (oidcRevocationEndpoint, oidcClientId, token) {
     const xhr = new XMLHttpRequest();
 
     xhr.open("POST", oidcRevocationEndpoint, false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhr.send(`token=${encodeURIComponent(token)}`);
+    xhr.send(new URLSearchParams({
+        grant_type: "refresh_token",
+        token: token,
+        client_id: oidcClientId
+    }));
 
     if (xhr.status !== 200) {
         throw new Error(`Failed to revoke token: ${xhr.statusText}`);
