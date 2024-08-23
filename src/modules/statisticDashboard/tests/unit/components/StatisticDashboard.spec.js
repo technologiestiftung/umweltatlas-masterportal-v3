@@ -643,6 +643,38 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
             });
+            it("should call andFilter if given regions are all regions and more than one region level is defined and not parent regions have all selected", () => {
+                const regions = ["foo", "bar"],
+                    dates = ["01.01.1999", "01.01.2000"],
+                    wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
+
+                wrapper.vm.dates = ["01.01.1999"];
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        },
+                        timeAttribute: {
+                            attrName: "date"
+                        }
+                    }
+                });
+                wrapper.vm.setFlattenedRegions([
+                    {attrName: "foo", selectedValues: ["foo"], values: ["foo"], child: "foo"},
+                    {attrName: "bar", selectedValues: [{label: "bar"}], values: ["bar", "baz"], child: "foo"},
+                    {attrName: "baz", selectedValues: [{label: "modules.statisticDashboard.button.all"}], values: ["bar", "baz"]}
+                ]);
+
+                wrapper.vm.getFilter(regions, dates);
+                expect(getFilterForListSpy.getCall(0).args).to.deep.equal([dates, "date"]);
+                expect(getFilterForListSpy.getCall(1).args).to.deep.equal([["bar"], "bar"]);
+                sinon.restore();
+            });
         });
         describe("getFilterForList", () => {
             it("should return undefined if given list is not an array", () => {

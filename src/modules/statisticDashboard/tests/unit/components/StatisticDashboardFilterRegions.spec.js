@@ -434,5 +434,119 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                 expect(stubSetSelectedValuesToRegion.calledWith([{value: "Mordor"}, {value: "test1"}, {value: "test2"}], region)).to.be.true;
             });
         });
+        describe("requestScheme", () => {
+            it("should return false if the first param is not an object", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme([])).to.be.false;
+                expect(wrapper.vm.requestScheme(null)).to.be.false;
+                expect(wrapper.vm.requestScheme(true)).to.be.false;
+                expect(wrapper.vm.requestScheme(false)).to.be.false;
+                expect(wrapper.vm.requestScheme("1234")).to.be.false;
+                expect(wrapper.vm.requestScheme(1234)).to.be.false;
+                expect(wrapper.vm.requestScheme(undefined)).to.be.false;
+            });
+            it("should return false if the second param is false", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({}, false)).to.be.false;
+            });
+            it("should return true if given region has all selected and parent snippets aswell", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.true;
+            });
+            it("should return true if given region has all selected and parent snippets aswell", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: [
+                                {
+                                    attrName: "atlantis",
+                                    name: "Atlantis",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                },
+                                {
+                                    attrName: "auenland",
+                                    name: "Auenland",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                }
+                            ]
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.true;
+            });
+            it("should return false if given region has all selected and one parent snippet doesnt", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: [
+                                {
+                                    attrName: "atlantis",
+                                    name: "Atlantis",
+                                    values: ["foo", "bar"],
+                                    selectedValues: ["foo"]
+                                },
+                                {
+                                    attrName: "auenland",
+                                    name: "Auenland",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                }
+                            ]
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.false;
+            });
+        });
     });
 });

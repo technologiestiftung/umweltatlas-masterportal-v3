@@ -12,6 +12,7 @@ import {
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import WFS from "ol/format/WFS";
 import sortBy from "../../../shared/js/utils/sortBy";
+import isObject from "../../../shared/js/utils/isObject";
 
 export default {
     name: "StatisticDashboardFilterRegions",
@@ -60,7 +61,7 @@ export default {
             }
             const notSelectedRegions = sortBy(regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)), "label");
 
-            if (selectedRegions.some(region => region.label === i18next.t("common:modules.statisticDashboard.button.all"))) {
+            if (this.containsAllTag(selectedRegions)) {
                 return [...selectedRegions, ...notSelectedRegions];
             }
 
@@ -85,7 +86,7 @@ export default {
                 this.setSelectedValuesToRegion([], region.child);
             }
             else {
-                const uniqueValues = await this.getValuesFromLayer(this.selectedLevel.layerId, region, schemeRequest || value.some(val => val.label === i18next.t("common:modules.statisticDashboard.button.all")));
+                const uniqueValues = await this.getValuesFromLayer(this.selectedLevel.layerId, region, schemeRequest || this.requestScheme(region, this.containsAllTag(value)));
 
                 region.child.values = Object.keys(uniqueValues[region.child.attrName]).map(key => {
                     return {label: key, value: key};
@@ -117,7 +118,7 @@ export default {
                     uniqueValues = await getOAFFeature.getUniqueValuesByScheme(url, collection, [region.child.attrName]);
                 }
                 else {
-                    const filter = this.getFilterOAF(region.attrName, region.selectedValues),
+                    const filter = this.getFilterOAF(region.attrName, this.containsAllTag(region.selectedValues) ? region.values : region.selectedValues),
                         features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
                         fetchedProperties = features.map(feature => feature?.properties);
 
@@ -257,82 +258,121 @@ export default {
                 }
             });
             this.setSelectedValuesToRegion(region.selectedValues, region, true);
+        },
+        /**
+         * Returns wether the scheme should be requested or not.
+         * @param {Object} region The region.
+         * @param {Boolean} allSelected true if the given region has "all" in selected values.
+         * @returns {Boolean} true if the scheme should be requested for given region, false if not.
+         */
+        requestScheme (region, allSelected) {
+            if (!isObject(region) || allSelected === false) {
+                return false;
+            }
+
+            const tmpRegions = [...this.regions].reverse(),
+                position = tmpRegions.findIndex(regionsRegion => regionsRegion.attrName === region.attrName);
+
+            if (position === -1) {
+                return true;
+            }
+
+            for (let i = position; i < tmpRegions.length; i++) {
+                const nextRegion = tmpRegions[i];
+
+                if (nextRegion.selectedValues.length !== nextRegion.values.length
+                    && !this.containsAllTag(nextRegion.selectedValues)) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        /**
+         * Checks if the given list contains the "all" tag.
+         * @param {Object[]} values The list.
+         * @returns {Boolean} true if all tag was found, false otherwise.
+         */
+        containsAllTag (values) {
+            return values.some(val => val.label === i18next.t("common:modules.statisticDashboard.button.all"));
         }
     }
 };
 </script>
 
 <template>
-    <div
-        v-for="(region, index) in regions"
-        :key="region.attrName"
-        class="region-filter"
-    >
+    <div>
         <div
-            v-if="hasRegionChild(region) && index === 0"
-            class="col-sm-12 mb-2"
+            v-for="(region, index) in regions"
+            :key="region.attrName"
+            class="region-filter"
         >
-            <label
-                class="col-form-label-sm mb-1"
-                :for="'top-region-filter-' + index"
+            <div
+                v-if="hasRegionChild(region) && index === 0"
+                class="col-sm-12 mb-2"
             >
-                {{ region.name }}
-            </label>
-            <br>
-            <button
-                v-if="region?.values.length"
-                class="btn btn-sm btn-outline-secondary rounded-pill lh-1 me-2 mb-2 p-2"
-                @click="selectAll(region)"
+                <label
+                    class="col-form-label-sm mb-1"
+                    :for="'top-region-filter-' + index"
+                >
+                    {{ region.name }}
+                </label>
+                <br>
+                <button
+                    v-if="region?.values.length"
+                    class="btn btn-sm btn-outline-secondary rounded-pill lh-1 me-2 mb-2 p-2"
+                    @click="selectAll(region)"
+                >
+                    <i class="bi bi-toggles" />
+                    {{ $t("common:modules.statisticDashboard.button.all") }}
+                </button>
+                <button
+                    v-for="(value, idx) in region.values"
+                    :id="'top-region-filter' + index"
+                    :key="idx"
+                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 p-2"
+                    :class="toggleButtonActive(value, region.selectedValues)"
+                    @click="updatesTopLevelRegionSelectedValues(value, region)"
+                >
+                    {{ value.label }}
+                </button>
+            </div>
+            <div
+                v-else
+                class="col-sm-12 mb-2"
             >
-                <i class="bi bi-toggles" />
-                {{ $t("common:modules.statisticDashboard.button.all") }}
-            </button>
-            <button
-                v-for="(value, idx) in region.values"
-                :id="'top-region-filter' + index"
-                :key="idx"
-                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 p-2"
-                :class="toggleButtonActive(value, region.selectedValues)"
-                @click="updatesTopLevelRegionSelectedValues(value, region)"
-            >
-                {{ value.label }}
-            </button>
-        </div>
-        <div
-            v-else
-            class="col-sm-12 mb-2"
-        >
-            <label
-                class="col-form-label-sm mb-1"
-                :for="'region-filter-' + index"
-            >
-                {{ region.name }}
-            </label>
-            <Multiselect
-                :id="'region-filter' + index"
-                :model-value="region.selectedValues"
-                :multiple="true"
-                :options="getRegionsSorted(region.values, region.selectedValues)"
-                :searchable="true"
-                :close-on-select="false"
-                :clear-on-select="false"
-                :show-labels="false"
-                :limit="3"
-                :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                :allow-empty="true"
-                :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                :loading="region.loadingDataCounter > 0"
-                :disabled="region.loadingDataCounter > 0"
-                label="label"
-                track-by="label"
-                @update:model-value="setSelectedValuesToRegion($event, region)"
-            >
-                <template #clear>
-                    <div class="multiselect__clear">
-                        <i class="bi bi-search" />
-                    </div>
-                </template>
-            </Multiselect>
+                <label
+                    class="col-form-label-sm mb-1"
+                    :for="'region-filter-' + index"
+                >
+                    {{ region.name }}
+                </label>
+                <Multiselect
+                    :id="'region-filter' + index"
+                    :model-value="region.selectedValues"
+                    :multiple="true"
+                    :options="getRegionsSorted(region.values, region.selectedValues)"
+                    :searchable="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :limit="3"
+                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                    :allow-empty="true"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    :loading="region.loadingDataCounter > 0"
+                    :disabled="region.loadingDataCounter > 0"
+                    label="label"
+                    track-by="label"
+                    @update:model-value="setSelectedValuesToRegion($event, region)"
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
+            </div>
         </div>
     </div>
 </template>

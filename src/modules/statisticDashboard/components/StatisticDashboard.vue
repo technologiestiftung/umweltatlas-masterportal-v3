@@ -1089,13 +1089,23 @@ export default {
             }
             const regionAttrName = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute)?.attrName,
                 dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName,
+                tmpFlattenedRegions = [...this.flattenedRegions].reverse(),
                 allRegions = this.flattenedRegions.find(region => !Object.prototype.hasOwnProperty.call(region, "child"))?.values;
 
             if (regions.length === allRegions.length) {
                 if (dates.length === this.dates.length) {
                     return undefined;
                 }
-                return this.getFilterForList(dates, dateAttrName);
+                if (tmpFlattenedRegions.length <= 1) {
+                    return this.getFilterForList(dates, dateAttrName);
+                }
+                for (let i = 0; i < tmpFlattenedRegions.length; i++) {
+                    const nextRegion = tmpFlattenedRegions[i];
+
+                    if (!nextRegion.selectedValues.some(selectedValue => selectedValue.label === i18next.t("common:modules.statisticDashboard.button.all"))) {
+                        return andFilter(this.getFilterForList(dates, dateAttrName), this.getFilterForList(nextRegion.selectedValues.map(selectedValue => selectedValue.label), nextRegion.attrName));
+                    }
+                }
             }
             else if (dates.length === this.dates.length) {
                 return this.getFilterForList(regions, regionAttrName);
