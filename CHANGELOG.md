@@ -8,6 +8,7 @@
 
 ### Added
 - WFST: Added buttons names for confirm and stop.
+- Alerting: Examples for the configuration of messages have been added to the alerting documentation.
 
 ### Changed
 - LayerSelection

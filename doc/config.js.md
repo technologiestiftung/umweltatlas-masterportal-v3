@@ -34,9 +34,28 @@ Overrides the alert module's default values.
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|fetchBroadcastUrl|no|String|`false`|The alerting module will initially use a linked configuration file from this URL, if set.|
-|initialAlerts|no|**[initialAlerts](#markdown-header-alertinginitialAlerts)**||Alerts that are displayed when the portal is started|
+|fetchBroadcastUrl|no|String|`false`|The alerting module will initially use a linked configuration file from this URL, if set. For more information see **[Alerting](./vueComponents/Alerting.md)**|
+|initialAlerts|no|**[initialAlerts](#markdown-header-alertinginitialAlerts)**/**[initialAlerts](#markdown-header-alertinginitialAlerts)**[]||Alerts that are displayed when the portal is started|
 |localStorageDisplayedAlertsKey|no|String|`"displayedAlerts"`|Arbitrary key used to store information regarding the alerting module in the browser's local storage.|
+
+**Example:**
+
+```js
+{
+    alerting: {
+        fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json",
+        initialAlerts: {
+            qs-release: {
+                category: "Portal zur Abnahme!",
+                content: "Dieses Geoportal dient der Qualitätskontrolle durch den Kunden.<br>Es ist aufgrund von möglichen Fehlern <b>nicht</b> zur Nutzung für alltägliche oder berufliche Aufgaben geeignet!<br><br>",
+                creationDate: "01/09/22",
+                mustBeConfirmed: true,
+                once: true
+            }
+        }
+    }
+}
+```
 
 ***
 
@@ -56,6 +75,66 @@ Alerts that are displayed when the portal is started.
 |onceInSession|no|Boolean|false|If `false`, this alert may be shown on each visit. If `true`, it's only shown once in the current session.|
 |reConfirmText|no|String|"show this message again"|Text for showing the alert again.|
 |title|no|String|""|Title of an alert.|
+
+**Example as Object:**
+
+```js
+{
+    alerting: {
+        initialAlerts: {
+            example1: {
+                content: "Here is the first example message!"
+            },
+            example2: {
+                category: "info",
+                title: "Welcome",
+                content: "Here is the second example message!"
+            },
+            example3: {
+                category: "custom category",
+                title: "Welcome2",
+                content: "Here is the third example message!2",
+                creationDate: "26.08.2024",
+                displayFrom: "2024-08-26 06:00",
+                displayUntil: "2025-12-31 23:59",
+                confirmText: "Example confirm text",
+                mustBeConfirmed: true,
+                once: false
+            }
+        }
+    }
+}
+```
+
+**Example as Array:**
+
+```js
+{
+    alerting: {
+        initialAlerts: [
+            {
+                content: "Here is the first example message!"
+            },
+            {
+                category: "info",
+                title: "Welcome",
+                content: "Here is the second example message!"
+            },
+            {
+                category: "custom category",
+                title: "Welcome2",
+                content: "Here is the third example message!2",
+                creationDate: "26.08.2024",
+                displayFrom: "2024-08-26 06:00",
+                displayUntil: "2025-12-31 23:59",
+                confirmText: "Example confirm text",
+                mustBeConfirmed: true,
+                once: false
+            }
+        ]
+    }
+}
+```
 
 ***
 
