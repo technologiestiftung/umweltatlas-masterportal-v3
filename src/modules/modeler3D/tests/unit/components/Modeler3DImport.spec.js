@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
-import {mount, shallowMount, config} from "@vue/test-utils";
+import {mount, config} from "@vue/test-utils";
 import Modeler3DImportComponent from "../../../components/Modeler3DImport.vue";
 import Modeler3DModule from "../../../store/indexModeler3D";
 import {JSDOM} from "jsdom";
@@ -192,7 +192,7 @@ describe("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
             fromDegrees: sinon.stub().returns({x: 10, y: 20, z: 30})
         };
 
-        wrapper = shallowMount(Modeler3DImportComponent, {global: {
+        wrapper = mount(Modeler3DImportComponent, {global: {
             plugins: [store]
         }});
         wrapper.vm.handleGeoJsonFile(fileContent);

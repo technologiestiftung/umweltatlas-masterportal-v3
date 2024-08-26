@@ -229,6 +229,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         store.commit("Modules/Modeler3D/setCurrentView", "modeler-draw");
         store.commit("Modules/Modeler3D/setCylinderId", "FloatingPointId");
         store.commit("Modules/Modeler3D/setIsDrawing", false);
+        store.commit("Modules/Modeler3D/setSelectedDrawType", "");
     });
 
     afterEach(() => {
