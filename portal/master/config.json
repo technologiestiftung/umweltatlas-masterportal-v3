@@ -937,8 +937,6 @@
       "elements": [
         {
           "id": "1935",
-          "visibility": true,
-          "showInLayerTree": true,
           "styles": [
             "geofox_Faehre",
             "geofox-bahn",
@@ -960,7 +958,6 @@
         },
         {
           "id": "1933",
-          "showInLayerTree": true,
           "styles": [
             "geofox_stations"
           ],
@@ -975,7 +972,7 @@
           "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
-          "visibility": false,
+          "visibility": true,
           "showInLayerTree": true
         },
         {
@@ -1245,7 +1242,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": false,
+          "visibility": true,
           "gfiTheme": "schulinfo"
         },
         {
