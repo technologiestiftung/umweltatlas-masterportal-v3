@@ -7,7 +7,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import {convertColor} from "../../../shared/js/utils/convertColor";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
-import {calculatePolygonArea} from "../utils/draw";
+import {calculatePolygonArea} from "../js/draw";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 /**
  * The entity model component for the 3D modeler.

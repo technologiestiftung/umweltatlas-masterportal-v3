@@ -10,7 +10,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import crs from "@masterportal/masterportalapi/src/crs";
 import getGfiFeatures from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
-import {adaptCylinderUnclamped} from "../utils/draw";
+import {adaptCylinderUnclamped} from "../js/draw";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import initProjections from "../../../shared/js/utils/initProjections";
 

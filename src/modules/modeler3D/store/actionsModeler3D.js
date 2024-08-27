@@ -1,7 +1,7 @@
 import crs from "@masterportal/masterportalapi/src/crs";
-import {adaptCylinderToGround, adaptCylinderToEntity, calculateRotatedPointCoordinates} from "../utils/draw";
+import {adaptCylinderToGround, adaptCylinderToEntity, calculateRotatedPointCoordinates} from "../js/draw";
 import {convertColor} from "../../../shared/js/utils/convertColor";
-import blobHandler from "../utils/blob";
+import blobHandler from "../js/blob";
 import {nextTick} from "vue";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 

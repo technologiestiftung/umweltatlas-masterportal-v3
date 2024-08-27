@@ -8,7 +8,7 @@ import EntityModel from "./Modeler3DEntityModel.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 
 import crs from "@masterportal/masterportalapi/src/crs";
-import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../utils/draw";
+import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../js/draw";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
 /**

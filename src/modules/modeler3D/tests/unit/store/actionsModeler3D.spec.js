@@ -3,7 +3,7 @@ import sinon from "sinon";
 import actions from "../../../store/actionsModeler3D";
 import store from "../../../../../app-store";
 import proj4 from "proj4";
-import blobHandler from "../../../utils/blob";
+import blobHandler from "../../../js/blob";
 import {nextTick} from "vue";
 
 describe("Actions", () => {
