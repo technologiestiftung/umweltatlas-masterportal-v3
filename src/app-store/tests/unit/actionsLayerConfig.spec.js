@@ -1,6 +1,7 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import sinon from "sinon";
 import {expect} from "chai";
+import {resetZIndex} from "../../js/getAndMergeRawLayer.js";
 import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
 import actions from "../../actionsLayerConfig";
 import buildTreeStructure from "../../js/buildTreeStructure";
@@ -1010,6 +1011,174 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("Landesbetrieb Straßen, Brücken und Gewässer");
             expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(layerConfig[treeBaselayersKey].elements);
             expect(buildSpy.calledOnce).to.be.true;
+        });
+    });
+    describe("updateLayerConfigs", () => {
+        beforeEach(() => {
+            resetZIndex();
+        });
+
+        it("updateLayerConfigs without layerIDsToStyle", () => {
+            const layer1 = {
+                    id: "1132",
+                    name: "100 Jahre Stadtgruen POIs",
+                    visibility: true
+                },
+                layer2 = {
+                    id: "10220"
+                },
+                expected1 = Object.assign(layerList[2], layer1, {
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 1
+                }),
+                expected2 = Object.assign(layerList[3], layer2, {
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 2
+                });
+
+            getters = {
+                showLayerAddButton: true,
+                layerConfigById: (id) => {
+                    if (id === "1132") {
+                        return layer1;
+                    }
+
+                    return layer2;
+
+                }
+            };
+            actions.updateLayerConfigs({dispatch, getters, state}, layerConfig[treeSubjectsKey].elements);
+
+            expect(dispatch.callCount).to.equals(2);
+            expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerConfigs: [{layer: expected1, id: "1132"}]});
+            expect(dispatch.secondCall.args[0]).to.equals("replaceByIdInLayerConfig");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({layerConfigs: [{layer: expected2, id: "10220"}]});
+
+        });
+
+        it("updateLayerConfigs with layerIDsToStyle", () => {
+            const layer1 = {
+                    id: "1935",
+                    typ: "WMS",
+                    visibility: true,
+                    styles: [
+                        "geofox_Faehre",
+                        "geofox-bahn",
+                        "geofox-bus",
+                        "geofox_BusName"
+                    ],
+                    name: [
+                        "Fährverbindungen",
+                        "Bahnlinien",
+                        "Buslinien",
+                        "Busliniennummern"
+                    ],
+                    legendURL: [
+                        "https://legendURL/hvv-faehre.png",
+                        "https://legendURL/hvv-bahn.png",
+                        "https://legendURL/hvv-bus.png",
+                        "https://legendURL/hvv-bus.png"
+                    ]
+                },
+                expected1 = Object.assign({}, layer1, {
+                    id: layer1.id + layer1.styles[0],
+                    name: layer1.name[0],
+                    style: layer1.styles[0],
+                    styles: layer1.styles[0],
+                    legendURL: layer1.legendURL[0],
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 1
+                }),
+                expected2 = Object.assign({}, layer1, {
+                    id: layer1.id + layer1.styles[1],
+                    name: layer1.name[1],
+                    style: layer1.styles[1],
+                    styles: layer1.styles[1],
+                    legendURL: layer1.legendURL[1],
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 2
+                }),
+                expected3 = Object.assign({}, layer1, {
+                    id: layer1.id + layer1.styles[2],
+                    name: layer1.name[2],
+                    style: layer1.styles[2],
+                    styles: layer1.styles[2],
+                    legendURL: layer1.legendURL[2],
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 3
+                }),
+                expected4 = Object.assign({}, layer1, {
+                    id: layer1.id + layer1.styles[3],
+                    name: layer1.name[3],
+                    style: layer1.styles[3],
+                    styles: layer1.styles[3],
+                    legendURL: layer1.legendURL[3],
+                    is3DLayer: false,
+                    showInLayerTree: true,
+                    type: "layer",
+                    zIndex: 4
+                });
+
+            state.portalConfig = {
+                tree: {
+                    layerIDsToStyle: [
+                        {
+                            id: "1935",
+                            styles: [
+                                "geofox_Faehre",
+                                "geofox-bahn",
+                                "geofox-bus",
+                                "geofox_BusName"
+                            ],
+                            name: [
+                                "Fährverbindungen",
+                                "Bahnlinien",
+                                "Buslinien",
+                                "Busliniennummern"
+                            ],
+                            legendURL: [
+                                "https://legendURL/hvv-faehre.png",
+                                "https://legendURL/hvv-bahn.png",
+                                "https://legendURL/hvv-bus.png",
+                                "https://legendURL/hvv-bus.png"
+                            ]
+                        }
+                    ]
+                }
+            };
+            getters = {
+                showLayerAddButton: true,
+                layerConfigById: (id) => {
+                    if (id === "1935") {
+                        return layer1;
+                    }
+                    return null;
+                }
+            };
+            layerConfig[treeSubjectsKey].elements = [layer1];
+            actions.updateLayerConfigs({dispatch, getters, state}, layerConfig[treeSubjectsKey].elements);
+
+            expect(dispatch.callCount).to.equals(4);
+            expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals({layerConfig: expected1, parentKey: treeSubjectsKey});
+            expect(dispatch.secondCall.args[0]).to.equals("addLayerToLayerConfig");
+            expect(dispatch.secondCall.args[1]).to.be.deep.equals({layerConfig: expected2, parentKey: treeSubjectsKey});
+            expect(dispatch.thirdCall.args[0]).to.equals("addLayerToLayerConfig");
+            expect(dispatch.thirdCall.args[1]).to.be.deep.equals({layerConfig: expected3, parentKey: treeSubjectsKey});
+            expect(dispatch.getCall(3).args[0]).to.equals("addLayerToLayerConfig");
+            expect(dispatch.getCall(3).args[1]).to.be.deep.equals({layerConfig: expected4, parentKey: treeSubjectsKey});
+
         });
     });
 

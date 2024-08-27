@@ -313,19 +313,27 @@ export default {
 
     /**
      * Updates the layer configs with raw layer attributes.
+     * If new layers are created during merge they are added.
      * @param {Object} context the vue context
      * @param {Object} context.dispatch the dispatch
      * @param {Object} context.getters the getters
      * @param {Object[]} layerContainer The layer configs.
      * @returns {void}
      */
-    updateLayerConfigs ({dispatch, getters}, layerContainer) {
+    updateLayerConfigs ({dispatch, getters, state}, layerContainer) {
         layerContainer.forEach(layerConf => {
-            const rawLayer = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton);
+            const rawLayers = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton, state.portalConfig?.tree?.layerIDsToStyle);
 
-            if (rawLayer) {
-                dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: rawLayer, id: layerConf.id}]});
-            }
+            rawLayers.forEach(mergedRawLayer => {
+                if (mergedRawLayer) {
+                    if (getters.layerConfigById(mergedRawLayer.id)) {
+                        dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: mergedRawLayer, id: mergedRawLayer.id}]});
+                    }
+                    else {
+                        dispatch("addLayerToLayerConfig", {layerConfig: mergedRawLayer, parentKey: mergedRawLayer.isBaseLayer ? treeBaselayersKey : treeSubjectsKey});
+                    }
+                }
+            });
         });
     }
 };

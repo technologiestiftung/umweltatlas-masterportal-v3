@@ -752,7 +752,36 @@
       },
       "highlightedFeatures": {
         "active": true
-      }
+      },
+      "layerIDsToStyle": [
+        {
+          "id": "1933",
+          "styles": "geofox_stations",
+          "name": "Haltestellen",
+          "legendURL": "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
+        },
+        {
+          "id": "1935",
+          "styles": [
+            "geofox_Faehre",
+            "geofox-bahn",
+            "geofox-bus",
+            "geofox_BusName"
+          ],
+          "name": [
+            "Fährverbindungen",
+            "Bahnlinien",
+            "Buslinien",
+            "Busliniennummern"
+          ],
+          "legendURL": [
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
+          ]
+        }
+      ]
     }
   },
   "layerConfig": {
@@ -907,10 +936,46 @@
     "subjectlayer": {
       "elements": [
         {
+          "id": "1935",
+          "visibility": true,
+          "showInLayerTree": true,
+          "styles": [
+            "geofox_Faehre",
+            "geofox-bahn",
+            "geofox-bus",
+            "geofox_BusName"
+          ],
+          "name": [
+            "Fährverbindungen",
+            "Bahnlinien",
+            "Buslinien",
+            "Busliniennummern"
+          ],
+          "legendURL": [
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png",
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
+          ]
+        },
+        {
+          "id": "1933",
+          "showInLayerTree": true,
+          "styles": [
+            "geofox_stations"
+          ],
+          "name": [
+            "Haltestellen"
+          ],
+          "legendURL": [
+            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
+          ]
+        },
+        {
           "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
-          "visibility": true,
+          "visibility": false,
           "showInLayerTree": true
         },
         {
@@ -1028,18 +1093,6 @@
                 }
               ]
             }
-          ]
-        },
-       {
-          "id": "1933",
-          "typ": "WMS",
-          "visibility": false,
-          "showInLayerTree": true,
-          "styles": [
-            "geofox_stations"
-          ],
-          "name": [
-            "HVV Haltestellen"
           ]
         },
         {
@@ -1192,7 +1245,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": true,
+          "visibility": false,
           "gfiTheme": "schulinfo"
         },
         {

@@ -89,15 +89,17 @@ AlertingItem: Fixed the position of closing button.
     - update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Fixed
-- Filter:
-    - The buttons were always disabled in the accordion of the filter.
-- LayerSelection:
-    - After layer category switch the visible background layer were removed from layer selection.
+- Filter:The buttons were always disabled in the accordion of the filter.
+- LayerSelection:After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
+- UrlParams: 
+        - mapMarker: Fixed map marker set by url parameter.
+        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+- Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
 
 ---
 
