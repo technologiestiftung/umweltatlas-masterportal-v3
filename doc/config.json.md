@@ -1029,6 +1029,7 @@ Here you can configure the menu items for the `mainMenu` (in the desktop view on
 |----|--------|----|-------|-----------|------|
 |currentComponent|no|String|""|Defines a module that is opened initially.|false|
 |expanded|no|Boolean|false|Defines whether the respective menu is expanded or collapsed when the portal is started.|false|
+|width|no|String|"25%"|Sets the initial width of the respective menu as a percentage value.|false|
 |showDescription|no|Boolean||Defines whether a description of the modules should be displayed in the respective menu.|false|
 |searchBar|no|**[searchBar](#markdown-header-portalconfigmenusearchbar)**||The search bar allows requesting information from various search services at once.|false|
 |sections|no|**[sections](#markdown-header-portalconfigmenusections)**[]||Subdivision of modules in the menu.|false|
