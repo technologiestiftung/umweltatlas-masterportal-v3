@@ -115,7 +115,12 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
             };
         });
 
-        it("should return the raw layer attributes", () => {
+        it("should return the raw layer attributes, should not use bbox from datasets", () => {
+            localAttributes.datasets = [
+                {
+                    bbox: "8 53,10 53"
+                }
+            ];
             const oafLayer = new Layer2dVectorOaf(localAttributes);
 
             expect(oafLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
@@ -144,6 +149,30 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
             expect(oafLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 bbox: [9, 5, 1, 7],
                 bboxCrs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                clusterDistance: 10,
+                collection: "collection",
+                crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+                datetime: "time",
+                id: "1234",
+                limit: 10,
+                offset: 10,
+                params: "params",
+                url: "exmpale.url"
+            });
+        });
+        it("should return bbox from datasets", () => {
+            localAttributes.bbox = undefined;
+            localAttributes.datasets = [
+                {
+                    bbox: "8 53,10 53"
+                }
+            ];
+
+            const oafLayer = new Layer2dVectorOaf(localAttributes);
+
+            expect(oafLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
+                bbox: "8 53,10 53",
+                bboxCrs: "EPSG:25832",
                 clusterDistance: 10,
                 collection: "collection",
                 crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
