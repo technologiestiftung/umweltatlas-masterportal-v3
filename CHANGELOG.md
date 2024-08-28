@@ -15,6 +15,9 @@
 - LayerSelection
     - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton.
 - Login: Access Tokens are now revoked after logout
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
 
 ### Deprecated
 
