@@ -2,6 +2,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import testAction from "../../../../../../devtools/tests/VueTestUtils";
 import actions from "../../../store/actionsLayerInformation";
+import getCswRecordById from "../../../../../shared/js/api/getCswRecordById";
 
 const {startLayerInformation, additionalSingleLayerInfo, setMetadataURL} = actions;
 
@@ -267,5 +268,61 @@ describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => 
         });
 
 
+    });
+    describe("getAbstractInfo", () => {
+        it("should show the about module in menu", async () => {
+            const metaInfo = {
+                    metaId: "73A344E9-CDB5-4A17-89C1-05E202989755",
+                    cswUrl: "https://metaver.de/csw"
+                },
+                state = {
+                    metaId: "portalId",
+                    cswUrl: "test.de",
+                    downloadLinks: []
+                },
+                cswReturn = {
+                    getTitle: () => "name",
+                    getAbstract: () => "abstract",
+                    getFrequenzy: () => "123",
+                    getDownloadLinks: () => [],
+                    getPublicationDate: () => "thisIsADate",
+                    getContact: () => "contact",
+                    getPublisher: () => "publisher"
+                };
+
+            sinon.stub(getCswRecordById, "getRecordById").returns(cswReturn);
+
+            await actions.getAbstractInfo({commit, dispatch, state, rootGetters}, metaInfo);
+
+            expect(commit.callCount).to.be.equal(9);
+            expect(commit.firstCall.args[0]).to.equal("setDownloadLinks");
+            expect(commit.firstCall.args[1]).to.be.deep.equals(null);
+            expect(commit.secondCall.args[0]).to.equal("setTitle");
+            expect(commit.secondCall.args[1]).to.be.deep.equals("name");
+            expect(commit.thirdCall.args[0]).to.equal("setAbstractText");
+            expect(commit.thirdCall.args[1]).to.be.deep.equals("abstract");
+            expect(commit.getCall(3).args[0]).to.equal("setPeriodicityKey");
+            expect(commit.getCall(3).args[1]).to.be.deep.equals("123");
+            expect(commit.getCall(4).args[0]).to.equal("setDownloadLinks");
+            expect(commit.getCall(4).args[1]).to.be.deep.equals([]);
+            expect(commit.getCall(5).args[0]).to.equal("setDatePublication");
+            expect(commit.getCall(5).args[1]).to.be.deep.equals("thisIsADate");
+            expect(commit.getCall(6).args[0]).to.equal("setPointOfContact");
+            expect(commit.getCall(6).args[1]).to.be.deep.equals("contact");
+            expect(commit.getCall(7).args[0]).to.equal("setPublisher");
+            expect(commit.getCall(7).args[1]).to.be.deep.equals("publisher");
+            expect(commit.getCall(8).args[0]).to.equal("setDownloadLinks");
+            expect(commit.getCall(8).args[1]).to.be.deep.equals([]);
+        });
+        it("ensures that downloadLinks is set to null", () => {
+            const metaInfo = {},
+                state = {};
+
+            actions.getAbstractInfo({commit, dispatch, state, rootGetters}, metaInfo);
+
+            expect(commit.callCount).to.be.equal(8);
+            expect(commit.firstCall.args[0]).to.equal("setDownloadLinks");
+            expect(commit.firstCall.args[1]).to.be.deep.equals(null);
+        });
     });
 });

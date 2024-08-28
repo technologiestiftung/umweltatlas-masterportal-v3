@@ -79,6 +79,7 @@ export default {
     getAbstractInfo: async function ({commit, dispatch, state, rootGetters}, metaInfo) {
         let metadata;
 
+        commit("setDownloadLinks", null);
         if (metaInfo.cswUrl !== null && typeof metaInfo.metaId !== "undefined") {
             metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
         }
