@@ -591,8 +591,15 @@
         "active": true,
         "searchBar": {
           "active": true,
-          "searchInterfaceInstanceIds": ["elasticSearch", "topicTree"],
-          "searchCategory": "Thema (externe und interne Fachdaten)"
+          "searchInterfaceInstances": [
+            {
+              "id":"elasticSearch",
+              "searchCategory": "Thema (externe Fachdaten)"
+            }, 
+            {
+              "id": "topicTree"
+            }
+          ]         
         }
       },
       "highlightedFeatures": {

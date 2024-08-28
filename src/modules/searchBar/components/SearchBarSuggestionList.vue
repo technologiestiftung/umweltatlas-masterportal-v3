@@ -45,7 +45,7 @@ export default {
             "setCurrentAvailableCategories",
             "setSearchResultsActive",
             "setShowAllResults",
-            "setShowAllResultsSearchInterfaceInstance"
+            "setShowAllResultsSearchInterfaceInstances"
         ]),
         ...mapMutations("Menu", [
             "setNavigationCurrentComponentBySide",
@@ -61,7 +61,7 @@ export default {
         prepareShowAllResults (categoryItem) {
             const side = this.currentSide;
 
-            this.setShowAllResultsSearchInterfaceInstance(this.limitedSortedSearchResults.results.categoryProvider[categoryItem]);
+            this.setShowAllResultsSearchInterfaceInstances(this.limitedSortedSearchResults.results.categoryProvider[categoryItem]);
             if (this.menuBySide(side)) {
                 this.setNavigationCurrentComponentBySide({side: side, newComponent: {props: {name: "common:modules.searchBar.searchResults"}, type: "searchbar"}});
                 this.setCurrentComponentBySide({side: side, type: "searchbar"});

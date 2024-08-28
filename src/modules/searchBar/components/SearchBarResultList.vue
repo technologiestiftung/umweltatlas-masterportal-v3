@@ -35,7 +35,8 @@ export default {
             "searchInterfaceInstances",
             "searchResults",
             "searchResultsActive",
-            "currentSide"
+            "currentSide",
+            "addLayerButtonSearchActive"
         ]),
         ...mapGetters("Menu", [
             "currentComponent"
@@ -67,15 +68,7 @@ export default {
     methods: {
         ...mapMutations("Modules/SearchBar", [
             "setSearchResultsActive"
-        ]),
-        getTitle(){
-          let count = this.limitedSortedSearchResults?.results[this.currentAvailableCategories + "Count"];
-
-          if(count === undefined){
-            return this.currentAvailableCategories + ": " + this.$t("common:modules.searchBar.searchResults")
-          }
-            return this.currentAvailableCategories + ": " + count + "    " + this.$t("common:modules.searchBar.searchResults")
-        }
+        ])
     }
 };
 </script>
@@ -87,6 +80,7 @@ export default {
     >
         <div id="search-bar-result-list">
             <h5
+                v-if="!addLayerButtonSearchActive"
                 id="search-bar-result-heading"
                 class="bold mb-4 mt-4"
                 :title="$t('common:modules.searchBar.searchResultsFrom') + limitedSortedSearchResults?.results.categoryProvider[currentAvailableCategories] + '-' + $t('common:modules.searchBar.search')"
@@ -100,8 +94,7 @@ export default {
                     v-if="!limitedSortedSearchResults?.results[currentAvailableCategories + 'ImgPath']"
                     :class="limitedSortedSearchResults?.results[currentAvailableCategories + 'Icon']"
                 />
-
-                {{ getTitle() }}
+                {{ currentAvailableCategories + ": " + limitedSortedSearchResults?.results[currentAvailableCategories + "Count"] + "    " + $t("common:modules.searchBar.searchResults") }}
             </h5>
             <SearchBarResultListTopicTree
                 v-if="hitTemplate === 'layer'"

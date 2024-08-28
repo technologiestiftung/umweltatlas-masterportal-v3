@@ -4316,7 +4316,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
-|searchBar|nein|**[layerIDsToStyle](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
+|searchBar|nein|**[searchBar](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
 
 **Beispiel**

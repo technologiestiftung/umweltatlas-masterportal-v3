@@ -4321,7 +4321,7 @@ Configuration of the addLayerButton to select layers.
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
-|searchBar|no|String||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
 
 **Beispiel**
