@@ -5,6 +5,8 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- Searchbar config.json configuration: If a search interface is used in topic tree searchbar, new parameter 'searchInterfaceId' must be filled and used in topic tree searchbar configuration.
+- Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' have been removed.
 
 ### Added
 
@@ -104,6 +106,7 @@
     - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
     - Adds a custom styling option for GeoJson/ Json import
 - Export from draw_old tool: update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
+- Searchbar in topic tree: More than one searchinterface is supported. Results are shown under category headers.
 
 ### Fixed
 - Legend: Same legends of group layers are shown only once.

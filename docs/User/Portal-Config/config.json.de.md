@@ -4320,7 +4320,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
-|searchBar|nein|**[searchBar](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
+|searchBar|nein|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
 
 **Beispiel**
@@ -4352,7 +4352,7 @@ Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und Searc
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob die Suche angezeigt wird.|false|
-|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances)**||Liste der search interfaces aus der searchbar, die hier genutzt werden sollen.|true|
+|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []**||Liste der search interfaces aus der searchbar, die hier genutzt werden sollen.|true|
 
 **Beispiel**
 

@@ -1166,6 +1166,7 @@ Elasticsearch service configuration.
 |resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
 |requestType|no|enum["POST", "GET"]|"POST"|Request type|false|
 |responseEntryPath|no|String|""|Response JSON attribute path to found features.|false|
+|searchInterfaceId|no|String|"elasticSearch"|Id, which is used to link to the searchbar in the topic search.|false|
 |searchStringAttribute|no|String|"searchString"|Search string attribute name for `payload` object.|false|
 |serviceId|yes|String||Search service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |type|yes|String|"elasticSearch"|Search interface type. Defines which search interface is configured.|false|
@@ -1177,6 +1178,7 @@ As an additional property, you may add `payload`. It is not required, and matche
 ```json
 {
     "type": "elasticSearch",
+    "searchInterfaceId":"elasticSearch_0",
     "serviceId":"elastic",
     "requestType": "GET",
     "payload": {
@@ -1502,6 +1504,7 @@ Searching all topic selection tree layers.
 |----|--------|----|-------|-----------|------|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
+|searchInterfaceId|no|String|"topicTree"|Id, which is used to link to the searchbar in the topic search.|false|
 |searchType|no|String|""|Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". The default value is unset so the name will be searched.|false|
 |type|yes|String|"topicTree"|Search interface type. Defines which search interface is configured.|false|
 
@@ -1509,7 +1512,8 @@ Searching all topic selection tree layers.
 
 ```json
 {
-    "type": "topicTree"
+    "type": "topicTree",
+    "searchInterfaceId": "topicTree" 
 }
 ```
 
@@ -4321,7 +4325,7 @@ Configuration of the addLayerButton to select layers.
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
-|searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddLayerButtonsearchBar)**/Boolean||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
 
 **Beispiel**
@@ -4334,8 +4338,12 @@ Configuration of the addLayerButton to select layers.
             "buttonTitle": "Add Layers",
             "searchBar": {
                 "active": true,
-                "searchInterfaceInstanceIds": ["elasticSearch_0"],
-                "searchCategory": "Thema (externe Fachdaten)"
+               "searchInterfaceInstances": [
+                {
+                    "id":"elasticSearch_0",
+                    "searchCategory": "Thema (externe Fachdaten)"
+                }
+            ]
         }
     }
 }
@@ -4346,10 +4354,9 @@ Configuration of the addLayerButton to select layers.
 A topic search is enabled within the configured SearchInterface and SearchCategory.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Specifies whether the search is displayed.|false|
-|searchCategory|yes|String||The search category.|false|
-|searchInterfaceInstanceIds|yes|Array||List of search interfaces from the searchbar that are to be used here. The searchInterfaceInstanceId results from the type of the searchInterface. If several interfaces of the same type are configured in the searchbar, followed by an underscore and a counter. The search only works with interfaces that perform a topic search.|true|
+|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []**||List of search interfaces from the searchbar that are to be used here.|true|
 
 **Beispiel**
 
@@ -4357,9 +4364,36 @@ A topic search is enabled within the configured SearchInterface and SearchCatego
 {
    "searchBar": {
         "active": true,
-        "searchInterfaceInstanceIds": ["elasticSearch_0", "topicTree"],
-        "searchCategory": "Topic (external and internal data)"
+        "searchInterfaceInstances": [
+            {
+                "id":"elasticSearch_0",
+                "searchCategory": "Thema (externe Fachdaten)"
+            }
+        ]
     }
+}
+```
+
+***
+#### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances
+List of search interfaces from the searchbar that are to be used here.
+The search only works with interfaces that perform a topic search.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String||Id des Suchinterfaces. Konfiguriert an dem Suchinterface am Parameter 'searchInterfaceId'.|false|
+|searchCategory|yes|String||the search category.|false|
+
+**Beispiel**
+
+```json
+{
+    "searchInterfaceInstances": [
+        {
+            "id":"elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
+        }
+    ]
 }
 ```
 
