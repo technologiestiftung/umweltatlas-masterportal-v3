@@ -208,7 +208,6 @@ export default {
             "addSuggestionItem",
             "setSearchInput",
             "setSearchResultsActive",
-            // "setCurrentAvailableCategories",
             "setSearchSuggestions",
             "setCurrentSide"
         ]),
