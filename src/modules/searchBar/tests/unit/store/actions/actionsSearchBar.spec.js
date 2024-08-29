@@ -117,6 +117,17 @@ describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
     });
     describe("checkLayerSelectionSearchConfig", () => {
         it("it updates searchInterfaceInstanceIds, searchCategory, addLayerButton", () => {
+            const searchInterfaceInstances = [
+                {
+                    id: "elasticSearch_0",
+                    searchCategory: "Thema (externe Fachdaten)"
+                },
+                {
+                    id: "topicTree",
+                    searchCategory: "Thema"
+                }
+            ];
+
             rootGetters = {
                 showLayerAddButton: true
             };
@@ -127,10 +138,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
                             active: true,
                             searchBar: {
                                 active: true,
-                                searchInterfaceInstance: "elasticSeaarch",
-                                searchInterfaceInstanceIds: ["elastic_0"],
-                                searchCategory: "addresses"
-
+                                searchInterfaceInstances
                             }
                         }
                     }
@@ -139,13 +147,11 @@ describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
 
             checkLayerSelectionSearchConfig({commit, rootGetters, rootState});
 
-            expect(commit.calledThrice).to.be.true;
-            expect(commit.firstCall.args[0]).to.eql("setShowAllResultsSearchInterfaceInstance");
-            expect(commit.firstCall.args[1]).to.be.eql("elastic_0");
-            expect(commit.secondCall.args[0]).to.eql("setShowAllResultsSearchCategory");
-            expect(commit.secondCall.args[1]).to.eql("addresses");
-            expect(commit.thirdCall.args[0]).to.eql("setAddLayerButtonSearchActive");
-            expect(commit.thirdCall.args[1]).to.be.true;
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.eql("setShowAllResultsSearchInterfaceInstances");
+            expect(commit.firstCall.args[1]).to.be.deep.equals(searchInterfaceInstances);
+            expect(commit.secondCall.args[0]).to.eql("setAddLayerButtonSearchActive");
+            expect(commit.secondCall.args[1]).to.be.true;
         });
     });
 });

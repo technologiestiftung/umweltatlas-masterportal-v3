@@ -39,7 +39,6 @@ export default {
             "searchResults",
             "showAllResults",
             "suggestionListLength",
-            "showAllResultsSearchCategory",
             "addLayerButtonSearchActive",
             "type",
             "currentSide"
@@ -209,7 +208,7 @@ export default {
             "addSuggestionItem",
             "setSearchInput",
             "setSearchResultsActive",
-            "setCurrentAvailableCategories",
+            // "setCurrentAvailableCategories",
             "setSearchSuggestions",
             "setCurrentSide"
         ]),
@@ -254,14 +253,10 @@ export default {
                 if (this.searchInputValue?.length === 0) {
                     this.navigateBack(this.currentSide);
                     this.startLayerSelectionSearch(this.currentSide);
-                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
-
                     this.startSearch();
                 }
                 if (this.searchInputValue.length >= this.minCharacters) {
                     this.startLayerSelectionSearch(this.currentSide);
-                    this.setCurrentAvailableCategories(this.showAllResultsSearchCategory);
-
                     this.startSearch();
                 }
             }

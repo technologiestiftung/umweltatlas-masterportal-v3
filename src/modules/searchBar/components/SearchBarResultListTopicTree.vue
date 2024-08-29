@@ -6,7 +6,7 @@ import SearchBarResultListTopicTreeItem from "./SearchBarResultListTopicTreeItem
  * Searchbar result list to show search results for topic tree.
  * @module modules/searchBar/components/SearchBarResultListTopicTree
  * @vue-props {Object[]} resultItems - The result items.
- * @vue-data {Array} items - All result items.
+ * @vue-data {Object} items - All result items by category.
  * @vue-data {Boolean} watchFirstTime - is set to true, if watched first time at prop resultItems
  */
 export default {
@@ -22,11 +22,10 @@ export default {
     },
     data: () => {
         return {
-            items: []
+            items: {}
         };
     },
     computed: {
-        ...mapGetters(["portalConfig"]),
         ...mapGetters("Modules/SearchBar", [
             "searchInput",
             "searchResults",
@@ -41,20 +40,30 @@ export default {
              * @returns {void}
              */
             handler (newSearchResult) {
-                newSearchResult.forEach(searchResult => {
-                    if (this.items[searchResult.category] === undefined) {
-                        this.items[searchResult.category] = [];
-                    }
-                    else if (!this.items[searchResult.category].find(result => result.id === searchResult.id)) {
-                        this.items[searchResult.category].push(searchResult);
-                    }
-                });
+                this.sortByCategories(newSearchResult);
             },
             deep: true
         }
     },
     created () {
-        this.items[this.resultItems[0].category] = this.resultItems;
+        this.sortByCategories(this.resultItems);
+    },
+    methods: {
+        /**
+         * Sorts the search results by category and fills items.
+         * @param {Array} searchResults the searchResults
+         * @returns {void}
+         */
+        sortByCategories (searchResults) {
+            searchResults.forEach(searchResult => {
+                if (this.items[searchResult.category] === undefined) {
+                    this.items[searchResult.category] = [searchResult];
+                }
+                else if (!this.items[searchResult.category].find(result => result.id === searchResult.id)) {
+                    this.items[searchResult.category].push(searchResult);
+                }
+            });
+        }
     }
 };
 </script>
@@ -66,18 +75,17 @@ export default {
             :key="category + '-' + index"
         >
             <h5
-                id="search-bar-result-heading"
                 class="bold mb-4 mt-4"
                 :title="$t('common:modules.searchBar.searchResultsFrom') + category + '-' + $t('common:modules.searchBar.search')"
             >
                 <img
-                    v-if="items[category][0].imgPath"
+                    v-if="items[category][0]?.imgPath"
                     alt="search result image"
                     src="items[category][0].imgPath"
                 >
                 <i
-                    v-if="!items[category][0].imgPath"
-                    :class="items[category][0].icon"
+                    v-if="!items[category][0]?.imgPath"
+                    :class="items[category][0]?.icon"
                 />
                 {{ category + ": " + items[category].length + "    " + $t("common:modules.searchBar.searchResults") }}
             </h5>

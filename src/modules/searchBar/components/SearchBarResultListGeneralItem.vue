@@ -49,7 +49,7 @@ export default {
                 @focus="activateActions({searchResult: searchResult, actionType: 'onHover'})"
             >
                 <span class="btn-title">
-                    {{ searchResult.name + " - id:"+searchResult.id }}
+                    {{ searchResult.name }}
                 </span>
             </button>
             <div class="ms-auto mt-1 d-flex">
