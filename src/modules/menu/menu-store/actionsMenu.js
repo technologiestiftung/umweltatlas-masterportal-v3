@@ -183,7 +183,7 @@ export default {
         const currentSearchInput = searchValue;
 
         if (getters.currentComponent(side).type === "layerSelection") {
-            // commit("switchToPreviousComponent", side);
+            // todo wegnehmen? commit("switchToPreviousComponent", side);
             dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
 
             if (rootGetters["Modules/SearchBar/searchInput"] !== "") {

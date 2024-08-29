@@ -1167,6 +1167,7 @@ Konfiguration des Elastic Search Suchdienstes
 |resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
 |requestType|nein|enum["POST", "GET"]|"POST"|Art des Requests.|false|
 |responseEntryPath|nein|String|""|Der Pfad in der response (JSON) zum Attribut, das die gefundenen Features enthält.|false|
+|searchInterfaceId|nein|String|"elasticSearch"|Id, die zur Verknüpfung mit der searchbar in der Themensuche dient.|false|
 |searchStringAttribute|nein|String|"searchString"|Attributname im payload für den searchString.|false|
 |serviceId|ja|String||Id des Suchdienstes. Wird aufgelöst in der **[rest-services.json](../Global-Config/rest-services.json.md)**.|false|
 |type|ja|String|"elasticSearch"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
@@ -1178,6 +1179,7 @@ Als zusätzliches property kann `payload` hinzugefügt werden. Es muss nicht zwi
 ```json
 {
     "type": "elasticSearch",
+    "searchInterfaceId":"elasticSearch_0",
     "serviceId":"elastic",
     "requestType": "GET",
     "payload": {
@@ -1503,6 +1505,7 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 |----|-------------|---|-------|------------|------|
 |hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
 |resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
+|searchInterfaceId|nein|String|"topicTree"|Id, die zur Verknüpfung mit der searchbar in der Themensuche dient.|false|
 |searchType|nein|String|""|Entscheidet, ob die Metadaten oder der Name eines Layers durchsucht werden soll. Möglicher Wert: "metadata". Default ist es nicht gesetzt, sodass der Name durchsucht wird.|false|
 |type|ja|String|"topicTree"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
 
@@ -1510,7 +1513,8 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 
 ```json
 {
-    "type": "topicTree"
+    "type": "topicTree",
+    "searchInterfaceId": "topicTree" 
 }
 ```
 
@@ -4329,8 +4333,12 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
             "buttonTitle": "Layer hinzufügen",
             "searchBar": {
                 "active": true,
-                "searchInterfaceInstanceIds": ["elasticSearch_0"],
-                "searchCategory": "Thema (externe Fachdaten)"
+                "searchInterfaceInstances": [
+                {
+                    "id":"elasticSearch_0",
+                    "searchCategory": "Thema (externe Fachdaten)"
+                }
+            ]
         }
     }
 }
@@ -4344,8 +4352,7 @@ Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und Searc
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob die Suche angezeigt wird.|false|
-|searchCategory|ja|String||Die search category.|false|
-|searchInterfaceInstanceIds|ja|Array||Liste der search interfaces aus der searchbar, die hier genutzt werden sollen. Die searchInterfaceInstanceId ergibt sich aus dem type des searchInterfaces. Falls mehrere interfaces des selben Typs in der searchbar konfiguriert sind, gefolgt von einem Unterstrich und einem Zähler. Die Suche funktioniert nur mit interfaces, die eine Themensuche ausführen. |true|
+|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances)**||Liste der search interfaces aus der searchbar, die hier genutzt werden sollen.|true|
 
 **Beispiel**
 
@@ -4353,9 +4360,36 @@ Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und Searc
 {
     "searchBar": {
         "active": true,
-        "searchInterfaceInstanceIds": ["elasticSearch_0", "topicTree"],
-        "searchCategory": "Thema (externe und interne Fachdaten)"
+        "searchInterfaceInstances": [
+            {
+                "id":"elasticSearch_0",
+                "searchCategory": "Thema (externe Fachdaten)"
+            }
+        ]
     }
+}
+```
+
+***
+#### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances {data-toc-label='Searchinterface Instances'}
+Liste der search interfaces aus der searchbar, die hier genutzt werden sollen.
+Die Suche funktioniert nur mit interfaces, die eine Themensuche ausführen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|id|ja|String||Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|false|
+|searchCategory|ja|String||Die search category.|false|
+
+**Beispiel**
+
+```json
+{
+    "searchInterfaceInstances": [
+        {
+            "id":"elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
+        }
+    ]
 }
 ```
 

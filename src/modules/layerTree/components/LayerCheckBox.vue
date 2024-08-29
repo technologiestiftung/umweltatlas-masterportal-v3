@@ -176,7 +176,7 @@ export default {
             <span
                 v-else
             >
-                {{ $t(conf.name) + " - id:"+conf.id }}
+                {{ $t(conf.name) }}
             </span>
         </span>
     </button>

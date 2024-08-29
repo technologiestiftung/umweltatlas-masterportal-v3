@@ -41,7 +41,14 @@ export default {
              * @returns {void}
              */
             handler (newSearchResult) {
-                this.items[newSearchResult[0].category] = newSearchResult;
+                newSearchResult.forEach(searchResult => {
+                    if (this.items[searchResult.category] === undefined) {
+                        this.items[searchResult.category] = [];
+                    }
+                    else if (!this.items[searchResult.category].find(result => result.id === searchResult.id)) {
+                        this.items[searchResult.category].push(searchResult);
+                    }
+                });
             },
             deep: true
         }

@@ -112,7 +112,7 @@ export default {
                     :aria-label="$t(searchResult.name)"
                 >
                     <span>
-                        {{ $t(searchResult.name)+" - id:" +searchResult.id }}
+                        {{ $t(searchResult.name) }}
                     </span>
                 </span>
             </button>
