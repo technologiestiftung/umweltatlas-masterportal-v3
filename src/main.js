@@ -52,7 +52,6 @@ loadConfigJs.then(() => {
     initiateVueI18Next(app);
     app.use(store);
 
-    // Load MatomoAnalytics if configured
     if (Config.matomo) {
         initiateMatomo(app);
     }
