@@ -1022,6 +1022,7 @@ Hier können die Menüeinträge jeweils für das MainMenu (in der Desktopansicht
 |----|-------------|---|-------|------------|------|
 |currentComponent|nein|String|""|Definiert ein Modul, das initial geöffnet ist.|false|
 |expanded|nein|Boolean|false|Definiert ob das jeweilige Menü beim Starten des Portals aus- oder eingeklappt ist.|false|
+|width|nein|String|"25%"|Setzt die initiale Breite des jeweiligen Menüs als Prozentwert.|false|
 |showDescription|nein|Boolean||Definiert ob eine Beschreibung zu den Modulen im jeweiligen Menü angezeigt werden soll.|false|
 |searchBar|nein|**[searchBar](#portalconfigmenusearchbar)**||Über das Eingabefeld Suche können verschiedene Suchen gleichzeitig angefragt werden.|false|
 |sections|nein|**[sections](#portalconfigmenusections)**[]||Unterteilung von Modulen im Menü.|false|
@@ -4240,6 +4241,10 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |singleBaselayer|nein|Boolean|false|Legt fest, ob nur ein Baselayer gleichzeitig ausgewählt werden kann.|false|
 |type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#layerconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](../Global-Config/services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geo-Online).|false|
 |validLayerTypesAutoTree|nein|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer Typen die bei dem tree.type `auto` verwendet werden sollen.|false|
+|hideBackgroundsHeader|nein|Boolean|false|Auf true setzen, um die Überschrift für Hintergründe auszublenden.|false|
+|backgroundsHeaderText|nein|String||Alternative Überschrift für Hintergründe. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard-i18n-Zeichenfolge/Übersetzung aus.|false|
+|hideDatalayerHeader|nein|Boolean|false|Auf true setzen, um die Überschrift für datalayer auszublenden.|false|
+|datalayerHeaderText|nein|String||Alternative Überschrift für datalayer. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard i18n-Zeichenfolge/ Übersetzung aus.|false|
 
 **Beispiel type auto**
 
@@ -4276,7 +4281,11 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
           "key": "kategorie_organisation",
           "name": "common:modules.layerTree.categoryOrganisation"
         }
-      ]
+      ],
+        "hideBackgroundsHeader": true,
+        "backgroundsHeaderText": "Das sollte nicht in der Ausgabe erscheinen",
+        "hideDatalayerHeader": false,
+        "datalayerHeaderText": "Spezifische Überschrift für datalayers über alle Sprachen hinweg - überschreibt i18n"
     }
 }
 ```

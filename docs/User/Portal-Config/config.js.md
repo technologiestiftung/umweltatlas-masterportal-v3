@@ -30,9 +30,26 @@ Overrides the alert module's default values.
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|fetchBroadcastUrl|no|String|`false`|The alerting module will initially use a linked configuration file from this URL, if set.|
-|initialAlerts|no|**[initialAlerts](#alertinginitialalerts)**||Alerts that are displayed when the portal is started|
+|fetchBroadcastUrl|no|String|`false`|The alerting module will initially use a linked configuration file from this URL, if set. For more information see **[Alerting](../../Dev/vueComponents/Alerting.md)**|
+|initialAlerts|no|**[initialAlerts](#alertinginitialAlerts)**/**[initialAlerts](#alertinginitialAlerts)**||Alerts that are displayed when the portal is started|
 |localStorageDisplayedAlertsKey|no|String|`"displayedAlerts"`|Arbitrary key used to store information regarding the alerting module in the browser's local storage.|
+
+```js title="Example"
+{
+    alerting: {
+        fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json",
+        initialAlerts: {
+            qs-release: {
+                category: "Portal zur Abnahme!",
+                content: "Dieses Geoportal dient der Qualitätskontrolle durch den Kunden.<br>Es ist aufgrund von möglichen Fehlern <b>nicht</b> zur Nutzung für alltägliche oder berufliche Aufgaben geeignet!<br><br>",
+                creationDate: "01/09/22",
+                mustBeConfirmed: true,
+                once: true
+            }
+        }
+    }
+}
+```
 
 ***
 

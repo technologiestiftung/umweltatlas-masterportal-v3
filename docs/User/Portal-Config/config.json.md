@@ -1021,6 +1021,7 @@ Here you can configure the menu items for the `mainMenu` (in the desktop view on
 |----|--------|----|-------|-----------|------|
 |currentComponent|no|String|""|Defines a module that is opened initially.|false|
 |expanded|no|Boolean|false|Defines whether the respective menu is expanded or collapsed when the portal is started.|false|
+|width|no|String|"25%"|Sets the initial width of the respective menu as a percentage value.|false|
 |showDescription|no|Boolean||Defines whether a description of the modules should be displayed in the respective menu.|false|
 |searchBar|no|**[searchBar](#portalconfigmenusearchbar)**||The search bar allows requesting information from various search services at once.|false|
 |sections|no|**[sections](#portalconfigmenusections)**[]||Subdivision of modules in the menu.|false|
@@ -4245,6 +4246,10 @@ Possibility to make settings for the topic selection tree.
 |singleBaselayer|no|Boolean|false|Specifies whether only one base layer may be active at any time.|false|
 |type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#layerconfig)**. If the type `auto` is configured, all layers from the [services.json](../Global-Config/services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
 |validLayerTypesAutoTree|no|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer types to be used with the tree.type `auto`.|false|
+|hideBackgroundsHeader|no|Boolean|false|Set to true to hide the backgrounds headline.|false|
+|backgroundsHeaderText|no|String||Alternativ backgrounds headline. If set, a none empty string is required. An empty string will output the default i18n string/translation.|false|
+|hideDatalayerHeader|no|Boolean|false|Set to true to hide the datalayer headline.|false|
+|datalayerHeaderText|no|String||Alternativ datalayer headline. If set, a none empty string is required. An empty string will output the default i18n string/ translation.|false|
 
 **Example type auto**
 
@@ -4281,7 +4286,11 @@ Possibility to make settings for the topic selection tree.
           "key": "kategorie_organisation",
           "name": "common:modules.layerTree.categoryOrganisation"
         }
-      ]
+      ],
+        "hideBackgroundsHeader": true,
+        "backgroundsHeaderText": "This should not appear on output",
+        "hideDatalayerHeader": false,
+        "datalayerHeaderText": "Specific heading for datalayers across all languages - overwrites i18n"
     }
 }
 ```
