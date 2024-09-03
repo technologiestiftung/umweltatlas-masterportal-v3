@@ -78,8 +78,8 @@ Options to integrate tracking via matomo. Besides following options further opti
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|host|no|String|""|If set, tracking-information will be sent to given matomo host.|
-|siteId|no|String|""|siteId of matomo to be used.|
+|host|true|String|""|If set, tracking-information will be sent to given matomo host.|
+|siteId|true|String|""|siteId of matomo to be used.|
 
 
 ***
