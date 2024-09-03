@@ -4320,6 +4320,7 @@ Configuration of the addLayerButton to select layers.
 |----|-------------|---|-------|------------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
 |searchBar|no|String||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|buttonTitle|no|String||Sets the button title with customized text.|false|
 
 **Beispiel**
 
@@ -4328,6 +4329,7 @@ Configuration of the addLayerButton to select layers.
     "tree": {
         "addLayerButton": {
             "active": true,
+            "buttonTitle": "Add Layers",
             "searchBar": {
             "active": true,
             "searchInterfaceInstanceId": "elasticSearch_0",

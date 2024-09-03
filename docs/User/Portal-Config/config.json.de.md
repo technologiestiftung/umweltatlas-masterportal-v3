@@ -4315,6 +4315,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
 |searchBar|nein|String||Wenn active:true dann wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und SearchCategory ermöglicht.|false|
+|buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
 
 **Beispiel**
 
@@ -4323,6 +4324,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
     "tree": {
         "addLayerButton": {
             "active": true,
+            "buttonTitle": "Layer hinzufügen",
             "searchBar": {
             "active": true,
             "searchInterfaceInstanceId": "elasticSearch_0",
