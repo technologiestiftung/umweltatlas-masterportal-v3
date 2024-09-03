@@ -397,6 +397,7 @@
             "serviceId": "80001",
             "includeSystemInfo": true,
             "fileUpload": true,
+            "infoMessage": "",
             "from": [
               {
                 "email": "lgvgeoportal-hilfe@gv.hamburg.de",
@@ -600,6 +601,9 @@
                 "active": false
               }
             }
+          },
+          {
+            "type": "modeler3D"
           },
           {
             "type": "scaleSwitcher"
@@ -901,8 +905,8 @@
     },
     "subjectlayer": {
       "elements": [
-        { 
-          "id": [ "20501", "20502", "20503", "20504" ], 
+        {
+          "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "styleId": "4515",
           "visibility": true,

@@ -1,7 +1,7 @@
 import {toStringHDMS} from "ol/coordinate.js";
 import proj4 from "proj4";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {convertSexagesimalFromString, convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../js/convertSexagesimalCoordinates";
+import {convertSexagesimalFromString, convertSexagesimalToDecimal, convertSexagesimalFromDecimal} from "../../../shared/js/utils/convertSexagesimalCoordinates";
 import {requestGfi} from "../../../shared/js/api/wmsGetFeatureInfo";
 import layerFactory from "../../../core/layers/js/layerFactory";
 

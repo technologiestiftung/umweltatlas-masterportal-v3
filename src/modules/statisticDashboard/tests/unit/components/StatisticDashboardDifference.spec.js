@@ -5,6 +5,8 @@ import StatisticDashboardDifference from "../../../components/StatisticDashboard
 import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
 import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
+import {rawLayerList} from "@masterportal/masterportalapi";
+import getOAFFeature from "../../../../../shared/js/api/oaf/getOAFFeature";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -173,6 +175,68 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
                 expect(setSelectedReferenceDataStub.called).to.be.true;
 
                 sinon.restore();
+            });
+        });
+        describe("getRegionsOptionsForLastChild", () => {
+            it("should return an empty arry if flattenedRegions is empty", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(await wrapper.vm.getRegionsOptionsForLastChild([])).to.be.an("array").that.is.empty;
+            });
+            it("should return the values of the last child if they are already present", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                sinon.stub(rawLayerList, "getLayerWhere");
+                await wrapper.vm.$nextTick();
+                expect(await wrapper.vm.getRegionsOptionsForLastChild([{values: ["foo"]}])).to.deep.equal(["foo"]);
+            });
+            it("should return an empty array if no layer is found", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                sinon.stub(rawLayerList, "getLayerWhere").returns(undefined);
+                await wrapper.vm.$nextTick();
+                expect(await wrapper.vm.getRegionsOptionsForLastChild([{}])).to.be.an("array").that.is.empty;
+            });
+            it("should return an empty array if no unique object for the last child is given", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                sinon.stub(rawLayerList, "getLayerWhere").returns({});
+                sinon.stub(getOAFFeature, "getUniqueValuesByScheme").resolves({});
+                await wrapper.vm.$nextTick();
+                expect(await wrapper.vm.getRegionsOptionsForLastChild([{}, {attrName: "foo"}])).to.be.an("array").that.is.empty;
+            });
+            it("should return the unique values for the last child", async () => {
+                const wrapper = shallowMount(StatisticDashboardDifference, {
+                    propsData: propsData,
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                sinon.stub(rawLayerList, "getLayerWhere").returns({});
+                sinon.stub(getOAFFeature, "getUniqueValuesByScheme").resolves({foo: {bar: true, fob: true}});
+                await wrapper.vm.$nextTick();
+                expect(await wrapper.vm.getRegionsOptionsForLastChild([{}, {attrName: "foo"}])).to.deep.equal(["bar", "fob"]);
             });
         });
     });

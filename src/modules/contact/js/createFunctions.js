@@ -29,9 +29,10 @@ function createSystemInfo (systemInfo) {
  * @param {String} state.message Message the user wants to be sent.
  * @param {Boolean} state.includeSystemInfo If true, information about the system of the user is included.
  * @param {?ContactSystemInfo} systemInfo Information about the system of the user.
+ * @param {mailOriginHint} Hint to the portal from which the email was generated.
  * @returns {String} The prepared message as HTML.
  */
-function createMessage ({username, mail, phone, message}, systemInfo) {
+function createMessage ({username, mail, phone, message}, systemInfo, mailOriginHint) {
     let msg = "";
 
     msg += `Name: ${username}<br>`;
@@ -39,7 +40,12 @@ function createMessage ({username, mail, phone, message}, systemInfo) {
     msg += `Tel.:: ${phone}<br>`;
     msg += "==================<br>";
     msg += `${message}<br>`;
-    msg += systemInfo ? createSystemInfo(systemInfo) : "";
+    msg += systemInfo ? `${createSystemInfo(systemInfo)}` : "";
+
+    if (mailOriginHint) {
+        msg += "==================<br>";
+        msg += `${mailOriginHint}`;
+    }
 
     return msg;
 }
@@ -52,7 +58,7 @@ function createMessage ({username, mail, phone, message}, systemInfo) {
  * @returns {String} The subject that will be used for the E-Mail.
  */
 function createSubject (ticketId, subject) {
-    return `${ticketId}: ${subject}`;
+    return ticketId ? `${ticketId}: ${subject}` : subject;
 }
 
 /**

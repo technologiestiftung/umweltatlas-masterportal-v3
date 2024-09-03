@@ -905,7 +905,8 @@
           "innerCircle": "",
           "outerCircle": "",
           "strokeColor": "Anahat rengi",
-          "strokeWidth": "Çizgi genişliği"
+          "strokeWidth": "Çizgi genişliği",
+          "extrudedHeight": "Ekstrüde yükseklik"
         },
         "drawSettingsCircle": {
           "interactive": "interaktif",
@@ -929,6 +930,7 @@
           "pen": "",
           "point": "",
           "polygon": "Alan",
+          "dikdörtgen": "dikdörtgen",
           "symbols": "Sembol"
         }
       },

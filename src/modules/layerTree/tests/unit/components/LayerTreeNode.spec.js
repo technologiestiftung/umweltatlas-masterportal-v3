@@ -124,7 +124,9 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                         LayerInformation: {
                             namespaced: true,
                             getters: {
-                                icon: sinon.stub()
+                                icon: sinon.stub(),
+                                pointOfContact: () => "ABC Kontakt",
+                                publisher: () => ""
                             }
                         },
                         LayerTree: {
@@ -154,6 +156,39 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                     namespaced: true,
                     getters: {
                         mode: () => mapMode
+                    }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        mainMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "contact"
+                                        },
+                                        {
+                                            type: "about"
+                                        }
+                                    ]
+                                ]
+                            };
+                        },
+                        secondaryMenu: () => {
+                            return {
+                                sections: [
+                                    [
+                                        {
+                                            type: "section1"
+                                        },
+                                        {
+                                            type: "section2"
+                                        }
+                                    ]
+                                ]
+                            };
+                        }
                     }
                 }
             },

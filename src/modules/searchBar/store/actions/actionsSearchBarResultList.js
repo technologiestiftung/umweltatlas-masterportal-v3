@@ -16,7 +16,8 @@ export default {
         const events = searchResult.events[actionType] || {};
 
         Object.keys(events).forEach(event => {
-            dispatch(event, events[event]);
+            // dispatch from root context if action event contains path
+            dispatch(event, events[event], {root: event.includes("/")});
         });
 
         if (actionType === "onClick") {

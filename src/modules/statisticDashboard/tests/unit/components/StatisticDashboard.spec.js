@@ -254,6 +254,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             store.commit("Modules/StatisticDashboard/setChosenStatisticName", "foo");
             await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
             expect(spyHandleChartData.calledOnce).to.be.true;
             sinon.restore();
         });
@@ -490,7 +491,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 });
 
-                wrapper.vm.setStatisticsByCategories([{name: "alle"}]);
+                wrapper.vm.setStatisticsByCategories([{name: i18next.t("common:modules.statisticDashboard.button.all")}]);
                 expect(wrapper.vm.statisticsByCategory).to.deep.equal([{
                     "beschaeftigte": {
                         "name": "Beschäftigte",
@@ -555,6 +556,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "bar"]
+                }]);
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.be.undefined;
             });
@@ -568,7 +572,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
-                wrapper.vm.regions = regions;
                 wrapper.vm.dates = ["01.01.1999"];
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -577,6 +580,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "bar"]
+                }]);
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(dates, undefined)).to.be.true;
@@ -592,7 +598,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }),
                     getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
 
-                wrapper.vm.regions = ["foo"];
                 wrapper.vm.dates = dates;
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -601,6 +606,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo"]
+                }]);
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.calledWith(regions, "bar")).to.be.true;
@@ -618,7 +626,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     });
 
-                wrapper.vm.regions = [...regions, "faw"];
                 wrapper.vm.dates = [...dates, "01.01.2001"];
                 wrapper.vm.setSelectedLevel({
                     mappingFilter: {
@@ -630,8 +637,43 @@ describe("src/modules/StatisticDashboard.vue", () => {
                         }
                     }
                 });
+                wrapper.vm.setFlattenedRegions([{
+                    values: ["foo", "faw"]
+                }]);
 
                 expect(wrapper.vm.getFilter(regions, dates)).to.deep.equal(expected);
+            });
+            it("should call andFilter if given regions are all regions and more than one region level is defined and not parent regions have all selected", () => {
+                const regions = ["foo", "bar"],
+                    dates = ["01.01.1999", "01.01.2000"],
+                    wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    getFilterForListSpy = sinon.spy(wrapper.vm, "getFilterForList");
+
+                wrapper.vm.dates = ["01.01.1999"];
+                wrapper.vm.setSelectedLevel({
+                    mappingFilter: {
+                        regionNameAttribute: {
+                            attrName: "bar"
+                        },
+                        timeAttribute: {
+                            attrName: "date"
+                        }
+                    }
+                });
+                wrapper.vm.setFlattenedRegions([
+                    {attrName: "foo", selectedValues: ["foo"], values: ["foo"], child: "foo"},
+                    {attrName: "bar", selectedValues: [{label: "bar"}], values: ["bar", "baz"], child: "foo"},
+                    {attrName: "baz", selectedValues: [{label: "modules.statisticDashboard.button.all"}], values: ["bar", "baz"]}
+                ]);
+
+                wrapper.vm.getFilter(regions, dates);
+                expect(getFilterForListSpy.getCall(0).args).to.deep.equal([dates, "date"]);
+                expect(getFilterForListSpy.getCall(1).args).to.deep.equal([["bar"], "bar"]);
+                sinon.restore();
             });
         });
         describe("getFilterForList", () => {
@@ -785,10 +827,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     stubGetStepValue = sinon.stub(FeatureHandler, "getStepValue");
 
                 await wrapper.setData({statisticsData: {}});
-                wrapper.vm.setNumberOfClasses(3);
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(stubGetStepValue.calledWith(undefined, 3, "2022")).to.be.true;
+                expect(stubGetStepValue.calledWith(undefined, 5, "2022")).to.be.true;
 
                 sinon.restore();
             });
@@ -1569,10 +1610,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 });
 
                 wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
-                wrapper.vm.setNumberOfClasses(2);
 
                 expect(wrapper.vm.createColorPalette()).to.deep.equal(
-                    [[127, 127, 127], [0, 0, 0]]
+                    [[204, 204, 204], [153, 153, 153], [102, 102, 102], [51, 51, 51], [0, 0, 0]]
                 );
             });
         });

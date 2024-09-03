@@ -1,7 +1,6 @@
 <script>
 import drawInteraction from "@masterportal/masterportalapi/src/maps/interactions/drawInteraction";
 import {mapActions, mapGetters} from "vuex";
-
 import IconButton from "../../buttons/components/IconButton.vue";
 import {nextTick} from "vue";
 
@@ -20,6 +19,7 @@ import {nextTick} from "vue";
  * @vue-prop {Function} [setSelectedDrawTypeMain=null] - Setter for selected draw type main.
  * @vue-prop {Function} [setSelectedInteraction=null] - Setter for selected interaction.
  * @vue-prop {ol/source/Vector} source - The vector source for drawings.
+ * @vue-prop {Boolean} [shouldEmitEvents =false] - Flag to indicate if in modeler3D mode.
  * @vue-data {ol/interaction/Draw} currentDrawInteraction - The current draw interaction.
  */
 export default {
@@ -108,6 +108,10 @@ export default {
         source: {
             type: Object,
             required: true
+        },
+        shouldEmitEvents: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
@@ -201,6 +205,19 @@ export default {
             }
             else {
                 this.regulateDrawInteraction(drawType);
+            }
+
+            if (this.shouldEmitEvents) {
+                this.$emit("stop-drawing");
+
+                if (this.selectedDrawType !== drawType) {
+                    this.setSelectedDrawType(drawType);
+                }
+
+                this.$emit("start-drawing");
+            }
+            else if (this.selectedDrawType !== drawType) {
+                this.setSelectedDrawType(drawType);
             }
         },
 

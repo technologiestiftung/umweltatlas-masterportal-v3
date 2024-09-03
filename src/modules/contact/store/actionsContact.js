@@ -15,7 +15,7 @@ const actions = {
         const {closeAfterSend, deleteAfterSend, withTicketNo} = state;
         let content = i18next.t("common:modules.contact.successMessage");
 
-        if (withTicketNo) {
+        if (withTicketNo && ticketId) {
             content += "\r\n";
             content += i18next.t("common:modules.contact.successTicket");
             content += ticketId;
@@ -61,15 +61,17 @@ const actions = {
     },
     /**
      * Builds a HTML E-Mail and sends it via the backend mail server.
+     * @params {Object} mailProps if the contact module is openend from another module like layerInformation it can be given props with a different addressee for example
      *
      * @returns {void}
      */
-    send: ({state, dispatch, getters, rootGetters}) => {
-        const {to, from, serviceId, serviceID, includeSystemInfo} = state,
-            id = serviceId || serviceID,
+    send: ({state, dispatch, getters, rootGetters}, mailProps) => {
+        const {to, withTicketNo, includeSystemInfo, subject, mailOriginHint} = mailProps?.noConfigProps ? mailProps : state,
+            id = state.serviceId || state.serviceID,
             systemInfo = getSystemInfo(rootGetters.portalTitle),
             mailServiceUrl = rootGetters.restServiceById(id).url,
-            ticketId = createTicketId(state.locationOfCustomerService);
+            ticketId = withTicketNo ? createTicketId(state.locationOfCustomerService) : "",
+            from = state.from;
 
         // stop sending if form is not valid
         if (!getters.validForm) {
@@ -93,9 +95,9 @@ const actions = {
                 to,
                 subject: createSubject(
                     ticketId,
-                    state.subject || (i18next.t("common:modules.contact.mailSubject") + systemInfo.portalTitle)
+                    subject || (i18next.t("common:modules.contact.mailSubject") + systemInfo.portalTitle)
                 ),
-                text: createMessage(state, includeSystemInfo ? systemInfo : null),
+                text: createMessage(state, includeSystemInfo ? systemInfo : null, mailOriginHint ?? null),
                 attachment: state.fileArray
             },
             () => dispatch("onSendSuccess", ticketId),

@@ -24,6 +24,7 @@
  * @property {Boolean} [showAllResults=false] Flag if all results should be shown.
  * @property {String} [showAllResultsSearchInterfaceInstance=""] Search interface instance while all results are shown (relevant for layerSelection search).
  * @property {String} [showAllResultsSearchCategory=""] Search interface category while all results are shown (relevant for layerSelection search).
+ * @property {Boolean} [showInTree=false] Flag to display the layer selection in the layer tree.
  * @property {Boolean} [searchResultsActive=true] Flag if the search results are active.
  * @property {Object} [iconsByActions= { addLayerToTopicTree: "bi-plus-circle", activateLayerInTopicTree: "bi-eye", highlightFeature: "bi-lightbulb", openGetFeatureInfo: "bi-info-circle", setMarker: "bi-geo-alt-fill", zoomToResult: "bi-zoom-in", startRouting: "bi-signpost-2" }] - contains the icons by action names to display on button
  */
@@ -50,6 +51,7 @@ const state = {
     showAllResults: false,
     showAllResultsSearchInterfaceInstance: "elasticSearch_0",
     showAllResultsSearchCategory: "Thema",
+    showInTree: false,
     searchResultsActive: true,
     addLayerButtonSearchActive: true,
     iconsByActions: {

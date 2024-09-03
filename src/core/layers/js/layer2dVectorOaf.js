@@ -48,7 +48,7 @@ Layer2dVectorOaf.prototype.getRawLayerAttributes = function (attributes) {
     const crs = attributes.crs === false || attributes.crs ? attributes.crs : "http://www.opengis.net/def/crs/EPSG/0/25832";
 
     return {
-        bbox: attributes.bbox || store.getters["Maps/extent"],
+        bbox: attributes.bbox || Array.isArray(attributes.datasets) && attributes.datasets[0]?.bbox || store.getters["Maps/extent"],
         bboxCrs: attributes.bboxCrs || crs,
         clusterDistance: attributes.clusterDistance,
         collection: attributes.collection,

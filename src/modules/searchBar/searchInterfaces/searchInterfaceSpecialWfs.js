@@ -30,13 +30,17 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
  * @returns {void}
  */
 export default function SearchInterfaceSpecialWfs ({definitions, hitTemplate, icon, geometryName, maxFeatures, namespaces, resultEvents, searchInterfaceId} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "specialWfs",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["highlightFeature", "setMarker", "zoomToResult"],
             onHover: ["highlightFeature", "setMarker"]
         },
+        resultEventsSupported = ["highlightFeature", "setMarker", "zoomToResult"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "specialWfs",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

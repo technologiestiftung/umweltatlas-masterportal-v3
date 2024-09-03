@@ -1,12 +1,15 @@
 import {expect} from "chai";
+import sinon from "sinon";
 import SearchInterface from "../../../searchInterfaces/searchInterface.js";
 import SearchInterfaceTopicTree from "../../../searchInterfaces/searchInterfaceTopicTree.js";
 import store from "../../../../../app-store";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", () => {
-    let SearchInterface1 = null;
+    let SearchInterface1 = null,
+        checkConfigSpy;
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceTopicTree();
 
         i18next.init({
@@ -17,11 +20,14 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
 
     afterEach(() => {
         SearchInterface1.clearSearchResults();
+        sinon.restore();
     });
 
     describe("prototype", () => {
         it("SearchInterfaceTopicTree should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["activateLayerInTopicTree", "showInTree", "showLayerInfo"]);
         });
     });
 

@@ -10,6 +10,7 @@ import SliderItem from "../../slider/components/SliderItem.vue";
  * @vue-prop {String} selectedDrawType - The selected draw type.
  * @vue-prop {Function} setCurrentLayout - Setter for current layout.
  * @vue-prop {Number[]} [strokeRange=[1, 32]] - The stroke range in the unit pixel.
+ * @vue-prop {Boolean} [hasExtrudedHeight=false] - Whether the layout includes extruded height.
  * @vue-data {String} activeLayoutKey - The currently activated layout.
  * @vue-data {Object} mappingLayout - The mapping object for layout.
  */
@@ -42,29 +43,42 @@ export default {
             default () {
                 return [1, 32];
             }
+        },
+        hasExtrudedHeight: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
+        const mappingLayout = {
+            fillColor: {
+                drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
+                icon: "bi-paint-bucket"
+            },
+            strokeColor: {
+                drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
+                icon: "bi-pencil-fill"
+            },
+            strokeWidth: {
+                drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon", "rectangle"],
+                icon: "bi-border-width"
+            },
+            fillTransparency: {
+                drawTypes: ["box", "circle", "doubleCircle", "point", "polygon", "rectangle"],
+                icon: "bi-droplet-half"
+            }
+        };
+
+        if (this.hasExtrudedHeight) {
+            mappingLayout.extrudedHeight = {
+                drawTypes: ["polygon", "rectangle"],
+                icon: "bi-box-arrow-up"
+            };
+        }
+
         return {
             activeLayoutKey: "",
-            mappingLayout: {
-                fillColor: {
-                    drawTypes: ["box", "circle", "doubleCircle", "point", "polygon"],
-                    icon: "bi-paint-bucket"
-                },
-                strokeColor: {
-                    drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon"],
-                    icon: "bi-pencil-fill"
-                },
-                strokeWidth: {
-                    drawTypes: ["box", "circle", "doubleCircle", "line", "pen", "point", "polygon"],
-                    icon: "bi-border-width"
-                },
-                fillTransparency: {
-                    drawTypes: ["box", "circle", "doubleCircle", "point", "polygon"],
-                    icon: "bi-droplet-half"
-                }
-            }
+            mappingLayout
         };
     },
     computed: {
@@ -102,7 +116,7 @@ export default {
         },
 
         /**
-         * Update tzhe current layout.
+         * Update the current layout.
          * @param {String} layoutKey The key of layout element.
          * @param {String} value The value to be set.
          * @returns {void}
@@ -114,10 +128,11 @@ export default {
                 currentLayout[layoutKey] = convertColor(value, "rgb");
             }
             else {
-                currentLayout[layoutKey] = value;
+                currentLayout[layoutKey] = parseFloat(value);
             }
 
             this.setCurrentLayout(currentLayout);
+            this.$emit("update-current-layout", currentLayout);
         }
     }
 };
@@ -175,14 +190,7 @@ export default {
                         :class="mappingLayout[layoutKey].icon"
                         role="img"
                     />
-                    <input
-                        :id="'text-fill-transparency-' + circleType + '-' + layoutKey"
-                        type="text"
-                        :title="`${currentLayout[layoutKey]}%`"
-                        :value="`${currentLayout[layoutKey]}%`"
-                        disabled="true"
-                        @click="showTransparency = !showTransparency"
-                    >
+                    <span>{{ currentLayout[layoutKey]+"%" }}</span>
                 </label>
                 <label
                     v-else-if="layoutKey === 'strokeWidth'"
@@ -192,14 +200,17 @@ export default {
                         :class="mappingLayout[layoutKey].icon"
                         role="img"
                     />
-                    <input
-                        :id="'text-stroke-width-' + circleType + '-' + layoutKey"
-                        type="text"
-                        :title="`${currentLayout[layoutKey]}px`"
-                        :value="`${currentLayout[layoutKey]}px`"
-                        disabled="true"
-                        @click="showStrokeWidth = !showStrokeWidth"
-                    >
+                    <span>{{ currentLayout[layoutKey]+"px" }}</span>
+                </label>
+                <label
+                    v-else-if="layoutKey === 'extrudedHeight' && hasExtrudedHeight"
+                    :for="'text-extruded-height-' + circleType + '-' + layoutKey"
+                >
+                    <i
+                        :class="mappingLayout[layoutKey].icon"
+                        role="img"
+                    />
+                    <span>{{ currentLayout[layoutKey]+"m" }}</span>
                 </label>
             </button>
         </div>
@@ -231,6 +242,21 @@ export default {
                 :value="currentLayout.fillTransparency.toString()"
                 :step="1"
                 :interaction="event => updateCurrentLayout('fillTransparency', event.target.value)"
+            />
+        </div>
+        <div
+            v-else-if="activeLayoutKey === 'extrudedHeight' && hasExtrudedHeight"
+            class="d-flex mt-4"
+        >
+            <SliderItem
+                :id="'slider-extruded-height-' + circleType"
+                :aria="`${currentLayout.extrudedHeight}m`"
+                :label="`${currentLayout.extrudedHeight}m`"
+                :min="'0'"
+                :max="'100'"
+                :value="currentLayout.extrudedHeight.toString()"
+                :step="1"
+                :interaction="event => updateCurrentLayout('extrudedHeight', event.target.value)"
             />
         </div>
     </div>
@@ -270,20 +296,18 @@ export default {
             color: $white;
         }
 
-        input[type="text"] {
-            font-size: $font_size_sm;
-            width: 3rem;
-            text-align: center;
-            padding-top: .3rem;
-            &:disabled {
-                background: none;
-            }
-        }
-
         input[type="color"] {
             height: 0.5rem;
             width: 1.8rem;
             margin-top: .3rem;
+        }
+
+        span {
+            font-size: $font_size_sm;
+            padding-top: .3rem;
+            width: 3rem;
+            text-align: center;
+            padding-top: .3rem;
         }
     }
 }

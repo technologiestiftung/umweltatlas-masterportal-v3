@@ -2,6 +2,8 @@
 import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "../../../shared/js/utils/urlHelper";
+import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -16,11 +18,16 @@ import {isWebLink} from "../../../shared/js/utils/urlHelper";
  * @vue-computed {Boolean} showAttachFile - Shows if file type needs to be attached for download.
  * @vue-computed {String} layerUrl - The layer URL.
  * @vue-computed {String} legendURL - The legend URL.
+ * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
+ * @vue-computed {Boolean} menuIndicator - Returns the menu the LayerInfo module is in.
+ * @vue-computed {String} layerName - Name of the layer.
  */
 export default {
     name: "LayerInformation",
     components: {
-        LegendSingleLayer
+        LegendSingleLayer,
+        AccordionItem,
+        LayerInfoContactButton
     },
     data () {
         return {
@@ -39,10 +46,16 @@ export default {
             "metaURLs",
             "noMetadataLoaded",
             "periodicityKey",
-            "showUrlGlobal"
+            "showUrlGlobal",
+            "pointOfContact",
+            "publisher"
         ]),
         ...mapGetters("Modules/Legend", [
             "layerInfoLegend"
+        ]),
+        ...mapGetters("Menu", [
+            "mainMenu",
+            "secondaryMenu"
         ]),
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
@@ -73,6 +86,19 @@ export default {
         },
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
+        },
+        contact () {
+            return this.pointOfContact || this.publisher || null;
+        },
+        menuIndicator () {
+            return this.mainMenu.currentComponent === "layerInformation"
+                ? "mainMenu"
+                : "secondaryMenu";
+        },
+        layerName () {
+            return this.menuIndicator === "mainMenu"
+                ? this.mainMenu.navigation.currentComponent.props.name
+                : this.secondaryMenu.navigation.currentComponent.props.name;
         }
     },
 
@@ -99,6 +125,7 @@ export default {
         ...mapActions("Modules/Legend", ["createLegendForLayerInfo"]),
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
+        ...mapActions("Menu", ["changeCurrentComponent"]),
         isWebLink,
 
         /**
@@ -156,6 +183,39 @@ export default {
             v-html="abstractText"
         />
         <br>
+        <AccordionItem
+            v-if="contact"
+            id="layer-info-contact"
+            :title="$t('common:modules.layerInformation.pointOfContact')"
+            :is-open="false"
+            :font-size="'font-size-base'"
+            :coloured-header="false"
+        >
+            <p>
+                {{ contact.name }}
+            </p>
+            <p
+                v-for="(positionName) in contact.positionName"
+                :key="positionName"
+            >
+                {{ positionName }}
+            </p>
+            <p>
+                {{ contact.street + "  " + contact.postalCode }}
+            </p>
+            <p>
+                {{ contact.city }}
+            </p>
+            <a
+                :href="'mailto:' + contact.email"
+            >
+                {{ contact.email }}
+            </a>
+        </AccordionItem>
+        <LayerInfoContactButton
+            :layer-name="layerName"
+            previous-component="layerInformation"
+        />
         <div v-if="showAdditionalMetaData">
             <p
                 v-for="url in metaURLs"

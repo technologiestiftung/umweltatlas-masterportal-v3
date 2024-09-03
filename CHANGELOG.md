@@ -7,6 +7,43 @@
 ### __Breaking Changes__
 
 ### Added
+- WFST: Added buttons names for confirm and stop.
+- Alerting: Examples for the configuration of messages have been added to the alerting documentation.
+- Modeler3D: Modeler3D was added
+- LayerTree:
+    - In SubMenu added button to open contact form with layer specific parameters to be used in email.
+
+### Changed
+- LayerSelection
+    - Switches layer categories selection from <select.. to <radio.. using a collapsed list open/close within a IconButton.
+    - Adds handling for parameters in `config.json`/`portalConfig.tree`:
+        - `hideBackgroundsHeader` to hide the headline for backgrounds
+        - `backgroundsHeaderText` custom headline for the backgrounds (to overwrite the default translation)
+        - `hideDatalayerHeader` to hide the headline for datalayers
+        - `datalayerHeaderText` custom headline for the datalayers (to overwrite the default translation)
+- Login: Access Tokens are now revoked after logout
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Filter:
+    - The buttons were always disabled in the accordion of the filter.
+- LayerSelection:
+    - After layer category switch the visible background layer were removed from layer selection.
+- Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
+- GetFeatureInfo: Images are displayed and the size of images was adapted.
+- Login: Access Tokens are now revoked after logout
+- OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
+
+---
+
+## 2024-08-07 v3.1.0
+### Added
 - SearchBar:
     - Added the possibility to zoom to an extent from a search result.
 - StatisticDashboard:
@@ -20,6 +57,7 @@
     - The name of multi selected statistics will be shown in a carousel.
     - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
     - Extended region filter
+    - Button "All" for selecting all the regions and all in dropdown of districts and cities.
 - OAF:
     - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
 - ViewPoint:
@@ -37,30 +75,35 @@
     - Added sales tax identification number.
 - Footer:
     - Added link to open imprint in about module.
+- LayerInfo:
+    - Added contact information
+    -  Added button to open contact form using the address data from the metadata as the addressee (to parameter)
+- ContactFormular:
+    - Posibility to send attached pdf from the contact us section.
+    - Check for the sum of all attachments size.
+    - Check if the same attachment is not already added and don't allow for duplicates.
+    - Added info message at the top of the contact form
+    - Can be opened from other components using props, which allow a different addressee (to) to be used from the one set in config.json
+- Print: Parameter additionalLayer to add layer (e.g. coordinate grid) during print.
 
 ### Changed
 - Eslint: no-undef eslint rule is switched on.
-- The following packages have been updated:
-    - dependencies:
-        - @masterportal/masterportalapi: 2.39.0 to 2.40.0
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Fix migration of login module to Masterportal v3
 - Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
+- Issue #1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.
     - The information text will show under legend when there are more than one statistics selected.
+    - Unit test warnings.
+    - mapGetters and mapMutations in components.
 - LayerPreview for WMTS uses the crs of the service.
 - Legend: changed the name in the legend for group and baselayer.
 - OAF-Layer: bbox and bboxCrs are respected when building url.
 - Auto portal: search in LayerSelection works.
-- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
 - Print:
     - print mask is now visible for group layer
     - zIndex and transparency from the group layer are also adopted in printing
@@ -76,6 +119,14 @@
 - Cesium library is only loaded, if button to switch to 3D is configured.
 - Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
 - Issue #1198: WMS link can contain "?".
+- ContactFormular:
+    - removed attachments are not being send.
+    - uploading attachments separately doesn't remove previously added attachments.
+- Graphical Select: Fixed an issue where the drawn geometry was not correctly displayed after unmounting and remounting the component.
+- Topic tree/Search bar
+    - Scrollbars have been adjusted so that they only appear in the Firefox browser when they are needed.
+    - The results of the `topicTree` search are no longer displayed twice in Firefox.
+    - With the `topicTree` search, you can now access the layerSelection via the folder icon, even if no search is configured in the layerSelection.
 
 ---
 ## 2024-06-27 v3.0.0
@@ -101,20 +152,20 @@ In certain circumstances this means that you have to update your portal files (i
 - 3D: Min- and MaxScale are now available for layers.
 - Print: An option "Improve scaling resolution" is implemented for 3d Layers to supply an improved and better resolution.
 - WfsSearch:
-  - A prop `resetParcelSearch`, so that the wfs search parameter could be resetted from outside component.
-  - A prop `zoomLevelProp`. Can be used to set a zoom level (after search) that is different from the configured one.
+    - A prop `resetParcelSearch`, so that the wfs search parameter could be resetted from outside component.
+    - A prop `zoomLevelProp`. Can be used to set a zoom level (after search) that is different from the configured one.
 - Filter:
-  - A new parameter `closeGfi` to give an option if a gfi window is open, and it could be closed after a new filtering.
-  - A new parameter `universalSearch` in snippet with type "featureInfo" to enable to search the attribute value in webpage.
-  - A new parameter `beautifiedAttrName` in snippet with type "featureInfo" to supply beautified names for attributes.
-  - A new parameter `adjustOnlyFromParent` in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
-  - A new parameter `linkText` to show a url link to the current filter setting at the bottom of the filter component.
-  - A new parameter `allowEmptySelection` in snippet with type "dropdown" to allow all values to be deselected.
-  - A new component `SnippetChart`. SnippetChart can be configured as a one of the filter snippets and renders a chart as a visual representation of the data that result from the current filter settings. Makes use of BarchartItem (LinechartItem and PiechartItem may be added in the future), which uses the chart.js library and its various configuration options.
-  - A new parameter `alternativeTextForEmptyChart` in snippet type "chart" that can be displayed instead of chart.
-  - A new parameter `initialStartupReset` which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
-  - A new parameter `subtitle` in snippet type "chart" which allows to display any combination of text and data as a subtitle.
-  - A new parameter `tooltipUnit` in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
+    - A new parameter `closeGfi` to give an option if a gfi window is open, and it could be closed after a new filtering.
+    - A new parameter `universalSearch` in snippet with type "featureInfo" to enable to search the attribute value in webpage.
+    - A new parameter `beautifiedAttrName` in snippet with type "featureInfo" to supply beautified names for attributes.
+    - A new parameter `adjustOnlyFromParent` in snippet (up to now only for "Dropdown" type) to allow adjust just from parent snippet.
+    - A new parameter `linkText` to show a url link to the current filter setting at the bottom of the filter component.
+    - A new parameter `allowEmptySelection` in snippet with type "dropdown" to allow all values to be deselected.
+    - A new component `SnippetChart`. SnippetChart can be configured as a one of the filter snippets and renders a chart as a visual representation of the data that result from the current filter settings. Makes use of BarchartItem (LinechartItem and PiechartItem may be added in the future), which uses the chart.js library and its various configuration options.
+    - A new parameter `alternativeTextForEmptyChart` in snippet type "chart" that can be displayed instead of chart.
+    - A new parameter `initialStartupReset` which allows to show a reset button and reset the filter back to initial setup. It prevents the adjusting so it should not be used as a reset for filter configurations without a child snippet.
+    - A new parameter `subtitle` in snippet type "chart" which allows to display any combination of text and data as a subtitle.
+    - A new parameter `tooltipUnit` in snippet type "chart" that can be used to add a unit to the numbers shown in tooltip.
 - LayerTree: A paramter `isNeverVisibleInTree` for layer config to supply an option to hide the layer in tree but can be loaded.
 - PoiOrientation:
     - The result window can now be moved.
@@ -129,12 +180,12 @@ In certain circumstances this means that you have to update your portal files (i
 - Map: on touch devices the map can be moved with two fingers, if `twoFingerPan` is true in config.json.
 - FeatureLister: layers of typ OAF are supported.
 - StatisticDashboard:
-  - Can now load data from an OAF Rest API if an OAF layer is configured.
-  - Reset All button.
-  - Validation function in filter form.
-  - Configurable number of classes and base color for choropleth map and legend.
+    - Can now load data from an OAF Rest API if an OAF layer is configured.
+    - Reset All button.
+    - Validation function in filter form.
+    - Configurable number of classes and base color for choropleth map and legend.
 - TableComponent:
-  - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
+    - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:

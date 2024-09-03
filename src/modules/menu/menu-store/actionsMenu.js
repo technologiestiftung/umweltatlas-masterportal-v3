@@ -119,10 +119,17 @@ export default {
      * Closes and resets Menucontainers.
      * @param {Object} param store context
      * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Object} param.state the state
      * @param {String} side secondary or main Menu
      * @returns {void}
      */
-    closeMenu ({commit, dispatch}, side) {
+    closeMenu ({commit, dispatch, getters, state}, side) {
+        if (getters.currentComponent(side).type === state.currentMouseMapInteractionsComponent && getters.currentComponent(side).type !== state.defaultComponent) {
+            dispatch("changeCurrentMouseMapInteractionsComponent", {type: state.defaultComponent, side});
+        }
+
         commit("switchToRoot", side);
         dispatch("toggleMenu", side);
     },
@@ -148,6 +155,7 @@ export default {
             }
             if (rootGetters["Modules/SearchBar/showAllResults"] === false || rootGetters["Modules/SearchBar/currentSide"] !== side) {
                 commit("switchToPreviousComponent", side);
+                commit("Modules/SearchBar/setShowInTree", false, {root: true});
             }
             if (getters.currentComponent(side).type === "searchbar") {
                 dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});

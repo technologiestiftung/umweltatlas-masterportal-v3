@@ -24,7 +24,8 @@ export default {
         return {
             sendIcon: "bi-send",
             fileUploaded: false,
-            uploadedImages: []
+            allAttachmentsToSend: [],
+            sumFileSize: 0
         };
     },
     computed: {
@@ -46,8 +47,36 @@ export default {
             "fileUpload",
             "fileArray",
             "maxFileSize",
-            "configuredFileExtensions"
-        ])
+            "maxSumFileSize",
+            "configuredFileExtensions",
+            "infoMessage"
+        ]),
+        ...mapGetters("Menu", [
+            "mainMenu",
+            "secondaryMenu"
+        ]),
+        menuIndicator () {
+            return this.mainMenu.currentComponent === "contact"
+                ? "mainMenu"
+                : "secondaryMenu";
+        },
+        mailProps () {
+            return this.menuIndicator === "mainMenu"
+                ? this.mainMenu.navigation.currentComponent.props
+                : this.secondaryMenu.navigation.currentComponent.props;
+        },
+        useInfoMessage () {
+            if (this.mailProps?.noConfigProps) {
+                return this.mailProps?.infoMessage;
+            }
+
+            return this.checkStringContent(this.infoMessage) || this.$t("common:modules.contact.infoMessage");
+        }
+    },
+    mounted () {
+        if (this.mailProps && this.mailProps?.previousComponent === "layerInformation") {
+            this.setNavigationHistoryBySide({side: this.menuIndicator, newHistory: [{type: "root", props: []}, {type: "layerInformation", props: {name: this.mailProps.layerName}}, {type: "layerInformation", props: {name: this.mailProps.layerName}}]});
+        }
     },
     methods: {
         ...mapMutations("Modules/Contact", [
@@ -60,6 +89,9 @@ export default {
         ]),
         ...mapActions("Modules/Contact", ["send", "importFile"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
+        ...mapMutations("Menu", [
+            "setNavigationHistoryBySide"
+        ]),
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
                 this.$refs["upload-input-file"].click();
@@ -77,30 +109,13 @@ export default {
             }
         },
         addFile (files) {
-            const allFiles = [];
-
             Array.from(files).forEach(file => {
-                if (this.checkValid(file)) {
+                if (this.checkValid(file) && this.checkNoDuplicates(file)) {
+                    this.sumFileSize = this.sumFileSize + file.size;
                     const reader = new FileReader();
 
                     reader.addEventListener("load", () => {
-                        const fileNameSplit = file.name.split("."),
-                            fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
-
-                        if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
-                            this.fileUploaded = true;
-                            const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
-
-                            this.uploadedImages.push({src: src, name: file.name});
-                            allFiles.push({imgString: reader.result, name: file.name, fileExtension: fileExtension});
-                        }
-                        else {
-                            this.addSingleAlert({
-                                category: "error",
-                                content: this.$t("common:modules.contact.fileFormatMessage")
-                            });
-                        }
-
+                        this.loadCorrectFileFormat(file, reader);
                     }, false);
 
                     if (file) {
@@ -109,26 +124,51 @@ export default {
                     }
                 }
             });
-            this.setFileArray(allFiles);
+            this.setFileArray(this.allAttachmentsToSend);
+        },
+        /**
+         * Adds new attachment in the correct file format to allAttachmentsToSend.
+         * @param {Object} file The new attachment file, which user wants to add to the email.
+         * @param {Object} reader FileReader.
+         */
+        loadCorrectFileFormat (file, reader) {
+            const fileNameSplit = file.name.split("."),
+                fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+
+            if (fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || this.configuredFileExtensions.includes(fileExtension)) {
+                this.fileUploaded = true;
+                const src = file.type.includes("image") ? reader.result : URL.createObjectURL(file);
+
+                this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
+            }
+            else if (fileExtension === "pdf") {
+                this.fileUploaded = true;
+                const src = file.type.includes("application/pdf") ? reader.result : URL.createObjectURL(file);
+
+                this.allAttachmentsToSend.push({imgString: reader.result, name: file.name, fileExtension: fileExtension, fileSize: file.size, src: src});
+            }
+            else {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileFormatMessage")
+                });
+            }
         },
         removeAttachment (target) {
-            this.fileArray.forEach(image => {
-                if (image.imgString === target) {
-                    const index = this.fileArray[image];
-
-                    this.fileArray.splice(index, 1);
+            this.allAttachmentsToSend.forEach((el, idx) => {
+                if (el.imgString === target.src && el.name === target.name) {
+                    this.allAttachmentsToSend.splice(idx, 1);
+                    this.sumFileSize = this.sumFileSize - el.fileSize;
                 }
             });
-            this.uploadedImages.forEach(image => {
-                if (image === target) {
-                    const index = this.uploadedImages[image];
-
-                    this.uploadedImages.splice(index, 1);
+            this.fileArray.forEach((el, idx) => {
+                if (el.imgString === target.src && el.name === target.name) {
+                    this.fileArray.splice(idx, 1);
                 }
             });
         },
         checkValid (file) {
-            if (!file.type.includes("image") && this.configuredFileExtensions.length === 0) {
+            if (!file.type.includes("image") && !file.type.includes("application/pdf") && this.configuredFileExtensions.length === 0) {
                 this.addSingleAlert({
                     category: "error",
                     content: this.$t("common:modules.contact.fileFormatMessage")
@@ -140,12 +180,61 @@ export default {
             if (file.size > this.maxFileSize) {
                 this.addSingleAlert({
                     category: "error",
-                    content: this.$t("common:modules.contact.fileSizeMessage")
+                    content: this.$t("common:modules.contact.fileSizeMessage") + file.name
+                });
+                return false;
+            }
+            // Check if the maximum total size of all files exceeds configured size
+            // Default 6MB
+            if (this.sumFileSize > this.maxSumFileSize) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileSizeSumMessage")
                 });
                 return false;
             }
 
             return true;
+        },
+        /**
+         * Checks if there are no duplicates in already existing attachments
+         * @param {Object} file The new attachment file, which user wants to add.
+         * @returns {Boolean} If it found duplicated attachement or not.
+         */
+        checkNoDuplicates (file) {
+            let notDuplicated = true;
+
+            this.allAttachmentsToSend.forEach(el => {
+                if (el.fileSize === file.size && el.name === file.name) {
+                    notDuplicated = false;
+                }
+            });
+            if (!notDuplicated) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.contact.fileDuplicatedMessage") + file.name
+                });
+            }
+            return notDuplicated;
+        },
+        /**
+         * Checks if a variable is a string and not empty.
+         * @returns {String} Returns the input string if it is typeof string and it is not empty.
+         */
+        checkStringContent (inputString) {
+            return typeof inputString === "string" && inputString.length ? inputString : null;
+        },
+        /**
+         * Sends the email using props if given when the contact form was opened by another module
+         * @returns {void}
+         */
+        sendMessage () {
+            if (this.mailProps?.noConfigProps) {
+                this.send(this.mailProps);
+            }
+            else {
+                this.send();
+            }
         }
     }
 };
@@ -160,8 +249,13 @@ export default {
         >
             {{ contactInfo }}
         </div>
+        <p
+            id="contact-info-message"
+        >
+            {{ useInfoMessage }}
+        </p>
         <form
-            @submit.prevent="send"
+            @submit.prevent="sendMessage"
         >
             <ContactFormularInput
                 :change-function="setUsername"
@@ -233,7 +327,7 @@ export default {
                                 aria-expanded="false"
                                 aria-controls="collapse-contact"
                             >
-                                <i class="bi-image me-2" />
+                                <i class="bi-paperclip me-2" />
                                 {{ $t('common:modules.contact.addFileButton') }}
                             </button>
                         </h2>
@@ -252,13 +346,13 @@ export default {
                                 >
                                     <div v-if="fileUploaded">
                                         <div
-                                            v-for="image in uploadedImages"
+                                            v-for="image in allAttachmentsToSend"
                                             :key="image"
                                             class="row d-flex mb-1"
                                         >
                                             <embed
                                                 :src="image.src"
-                                                height="30"
+                                                height="42"
                                                 class="col-2"
                                             >
                                             <span class="d-flex align-items-center col">

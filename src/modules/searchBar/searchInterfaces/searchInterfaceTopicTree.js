@@ -16,13 +16,18 @@ import layerFactory from "../../../core/layers/js/layerFactory";
  * @returns {void}
  */
 export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId, searchType} = {}) {
-    SearchInterface.call(this,
-        "client",
-        searchInterfaceId || "topicTree",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["activateLayerInTopicTree"],
             buttons: ["showInTree", "showLayerInfo"]
         },
+        resultEventsSupported = ["activateLayerInTopicTree", "showInTree", "showLayerInfo"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+    SearchInterface.call(this,
+        "client",
+        searchInterfaceId || "topicTree",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 
@@ -158,17 +163,8 @@ SearchInterfaceTopicTree.prototype.searchInFolder = function (folder, folders) {
  * @returns {Object} The normalized folder search result.
  */
 SearchInterfaceTopicTree.prototype.normalizeFolderResult = function (folder) {
-    const folderResultEvents = {...this.resultEvents},
-        activateLayerIndex = folderResultEvents.onClick.indexOf("activateLayerInTopicTree"),
-        showInTreeIndex = folderResultEvents.buttons.indexOf("showInTree"),
-        showLayerInfoIndex = folderResultEvents.buttons.indexOf("showLayerInfo");
-
-    delete folderResultEvents.onClick[activateLayerIndex];
-    delete folderResultEvents.buttons[showInTreeIndex];
-    delete folderResultEvents.buttons[showLayerInfoIndex];
-
     return {
-        events: this.normalizeResultEvents(folderResultEvents, folder),
+        events: this.normalizeResultEvents({...this.resultEvents}, folder),
         category: i18next.t("common:modules.searchBar.type.folder"),
         icon: "bi-folder",
         id: folder.id,

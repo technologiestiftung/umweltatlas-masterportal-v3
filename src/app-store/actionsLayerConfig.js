@@ -304,7 +304,7 @@ export default {
         dispatch("Modules/LayerSelection/navigateForward", {
             lastFolderName: "root",
             subjectDataLayerConfs: layersStructured.elements,
-            baselayerConfs: rootGetters.invisibleBaselayerConfigs
+            baselayerConfs: rootGetters.allLayerConfigsStructured(treeBaselayersKey)
         }, {root: true});
     },
 

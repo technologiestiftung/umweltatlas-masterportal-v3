@@ -1,9 +1,11 @@
 import {expect} from "chai";
+import sinon from "sinon";
 import SearchInterface from "../../../searchInterfaces/searchInterface.js";
 import SearchInterfaceSpecialWfs from "../../../searchInterfaces/searchInterfaceSpecialWfs.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", () => {
-    let SearchInterface1 = null;
+    let SearchInterface1 = null,
+        checkConfigSpy;
     const searchResults = [
         {
             geometry: ["565931.982", "5935196.323", "565869.067", "5935016.323"],
@@ -14,6 +16,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
         }];
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceSpecialWfs();
 
         i18next.init({
@@ -24,11 +27,14 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
 
     afterEach(() => {
         SearchInterface1.clearSearchResults();
+        sinon.restore();
     });
 
     describe("prototype", () => {
         it("SearchInterfaceSpecialWfs should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["highlightFeature", "setMarker", "zoomToResult"]);
         });
     });
 

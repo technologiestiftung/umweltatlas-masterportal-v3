@@ -241,11 +241,13 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             });
             expect(dispatch.getCall(3).args[0]).to.equals("Menu/navigateBack");
             expect(dispatch.getCall(3).args[1]).to.equals("mainMenu");
-            expect(commit.callCount).to.be.equals(2);
-            expect(commit.firstCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
-            expect(commit.firstCall.args[1]).to.be.deep.equals(payload);
-            expect(commit.secondCall.args[0]).to.equals("setSearchInput");
-            expect(commit.secondCall.args[1]).to.be.equals("");
+            expect(commit.callCount).to.be.equals(3);
+            expect(commit.firstCall.args[0]).to.equals("setShowInTree");
+            expect(commit.firstCall.args[1]).to.be.equals(true);
+            expect(commit.secondCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(commit.thirdCall.args[0]).to.equals("setSearchInput");
+            expect(commit.thirdCall.args[1]).to.be.equals("");
         });
 
         it("should call showLayer for a folder", async () => {

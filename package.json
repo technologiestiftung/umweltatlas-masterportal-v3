@@ -6,7 +6,7 @@
     "url": "https://www.masterportal.org"
   },
   "bugs": "https://bitbucket.org/geowerkstatt-hamburg/masterportal/issues",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "MIT",
   "description": "The MasterPortal as OpenSource Geoportal",
   "repository": {
@@ -27,13 +27,14 @@
     "buildJsDoc": "node devtools/tasks/buildJsDoc.js",
     "createSSLCert": "openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout devtools/certificate/localhost.key -out devtools/certificate/localhost.pem -config devtools/certificate/req.cnf -sha256",
     "versionHotfix": "npm version patch && npm run versionLatest && git push --tags -f",
-    "versionMinor": "npm version minor && npm run versionLatest && git push --tags -f",
+    "versionMinor": "npm version minor && git push --tags -f",
     "versionMajor": "npm version major && npm run versionLatest && git push --tags -f",
     "versionLatest": "git tag latest -f",
     "versionHotfix:all": "npm run versionHotfix && cd addons && npm run versionHotfix && cd .. && cd portalconfigs && npm run versionHotfix && cd ..",
     "versionMinor:all": "npm run versionMinor && cd addons && npm run versionMinor && cd .. && cd portalconfigs && npm run versionMinor && cd ..",
     "versionMajor:all": "npm run versionMajor && cd addons && npm run versionMajor && cd .. && cd portalconfigs && npm run versionMajor && cd ..",
-    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config.json.md ./doc/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
+    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js docs/User/Portal-Config/config.json.md docs/User/Portal-Config/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
+    "validateDocs": "node devtools/docsValidation/validateDocs.js",
     "prepare": "husky install"
   },
   "@comment dependencies and devDependencies": [
@@ -73,6 +74,7 @@
     "mqtt": "^4.3.7",
     "object-hash": "^3.0.0",
     "qrcode": "^1.5.3",
+    "three": "^0.165.0",
     "vue": "^3.3.4",
     "vue-datepicker-next": "^1.0.3",
     "vue-multiselect": "3.0.0",
