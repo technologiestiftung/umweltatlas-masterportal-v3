@@ -47,7 +47,8 @@ function getMetadata (json) {
         getDownloadLinks: () => parseDownloadLinks(json),
         getOwner: () => parseContactByRole(json, "owner"),
         getContact: () => parseContactByRole(json, "pointOfContact"),
-        getConstraints: (parseLinks = false) => parseConstraints(json, parseLinks)
+        getConstraints: (parseLinks = false) => parseConstraints(json, parseLinks),
+        getPublisher: () => parseContactByRole(json, "publisher")
     };
 }
 

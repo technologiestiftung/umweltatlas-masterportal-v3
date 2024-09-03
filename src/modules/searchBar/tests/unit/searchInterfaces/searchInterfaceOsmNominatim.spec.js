@@ -9,9 +9,11 @@ import store from "../../../../../app-store";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
     let SearchInterface1 = null,
-        searchResults;
+        searchResults,
+        checkConfigSpy;
 
     before(() => {
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceOsmNominatim();
 
         store.getters = {
@@ -84,6 +86,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js"
     describe("prototype", () => {
         it("SearchInterfaceOsmNominatim should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
         });
     });
 

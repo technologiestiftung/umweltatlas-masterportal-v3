@@ -946,14 +946,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
 
     describe("changeCategory", () => {
         const
-            invisibleBaselayer = [
-                {
-                    id: "baselayer1",
-                    isBaselayer: true
-                }
-            ],
             rootGetters = {
-                invisibleBaselayerConfigs: invisibleBaselayer
+                allLayerConfigsStructured: (key) => layerConfig[key].elements
             },
             categories = [
                 {
@@ -996,7 +990,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
             expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Gebäude");
             expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("kein INSPIRE-Thema");
-            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
+            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(layerConfig[treeBaselayersKey].elements);
             expect(buildSpy.calledOnce).to.be.true;
         });
 
@@ -1014,7 +1008,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.firstCall.args[1].lastFolderName).to.equals("root");
             expect(dispatch.firstCall.args[1].subjectDataLayerConfs[0].name).to.equals("Landesbetrieb Geoinformation und Vermessung");
             expect(dispatch.firstCall.args[1].subjectDataLayerConfs[1].name).to.equals("Landesbetrieb Straßen, Brücken und Gewässer");
-            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(invisibleBaselayer);
+            expect(dispatch.firstCall.args[1].baselayerConfs).to.deep.equals(layerConfig[treeBaselayersKey].elements);
             expect(buildSpy.calledOnce).to.be.true;
         });
     });

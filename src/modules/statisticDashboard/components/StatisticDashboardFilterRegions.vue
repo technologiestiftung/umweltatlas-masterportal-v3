@@ -12,6 +12,7 @@ import {
 import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
 import WFS from "ol/format/WFS";
 import sortBy from "../../../shared/js/utils/sortBy";
+import isObject from "../../../shared/js/utils/isObject";
 
 export default {
     name: "StatisticDashboardFilterRegions",
@@ -58,57 +59,34 @@ export default {
             if (!regions?.length || !Array.isArray(selectedRegions)) {
                 return [];
             }
-            const notSelectedRegions = regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)),
-                sortedRegions = sortBy([...selectedRegions, ...notSelectedRegions], "value");
+            const notSelectedRegions = sortBy(regions.filter(region => !selectedRegions.some(selectedRegion => selectedRegion.label === region.label)), "label");
 
-            return sortedRegions;
+            if (this.containsAllTag(selectedRegions)) {
+                return [...selectedRegions, ...notSelectedRegions];
+            }
+
+            return [...selectedRegions, {label: i18next.t("common:modules.statisticDashboard.button.all")}, ...notSelectedRegions];
         },
 
         /**
          * Sets the selected value(s) to the region and updates the values of its child under certain conditions.
          * @param {Object[]} value - The value to select.
          * @param {Object} region - The region.
+         * @param {Boolean} schemeRequest - Flag to decide wether the scheme schould be requested or not. Only for OAF.
          * @returns {void}
          */
-        async setSelectedValuesToRegion (value, region) {
+        async setSelectedValuesToRegion (value, region, schemeRequest = false) {
             region.selectedValues = value;
 
             if (!this.hasRegionChild(region)) {
                 this.setSelectedRegions(region.selectedValues);
             }
-            else if (this.hasRegionChild(region) && !region.selectedValues.length) {
+            else if (!region.selectedValues.length) {
                 region.child.values = [];
                 this.setSelectedValuesToRegion([], region.child);
             }
             else {
-                const {url, collection, typ, featureType, featureNS} = rawLayerList.getLayerWhere({id: this.selectedLevel.layerId});
-                let uniqueValues;
-
-                region.child.loadingDataCounter++;
-                if (typ === "OAF") {
-                    const filter = this.getFilterOAF(region.attrName, region.selectedValues),
-                        features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
-                        fetchedProperties = features.map(feature => feature?.properties);
-
-                    uniqueValues = getUniqueValuesFromOAF(fetchedProperties, [region.child.attrName], true);
-                }
-                else {
-                    const payload = {
-                            featureTypes: [featureType],
-                            featureNS: featureNS,
-                            srsName: this.projection.getCode(),
-                            propertyNames: [region.child.attrName],
-                            filter: this.getFilterWFS(region.attrName, region.selectedValues)
-                        },
-                        features = await getFeaturePOST(url, payload, error => {
-                            console.error(error);
-                        }),
-                        olFeatures = new WFS().readFeatures(features),
-                        attributesWithType = await FetchDataHandler.getAttributesWithType(url, [region.child.attrName], featureType);
-
-                    uniqueValues = FetchDataHandler.getUniqueValuesFromFeatures(olFeatures, attributesWithType);
-                }
-                region.child.loadingDataCounter--;
+                const uniqueValues = await this.getValuesFromLayer(this.selectedLevel.layerId, region, schemeRequest || this.requestScheme(region, this.containsAllTag(value)));
 
                 region.child.values = Object.keys(uniqueValues[region.child.attrName]).map(key => {
                     return {label: key, value: key};
@@ -121,6 +99,50 @@ export default {
                 }
 
             }
+        },
+
+        /**
+         * Gets values from the layer. This function decides wether to get the values by oaf or wfs based on the given layerId.
+         * @param {String} layerId The layer id.
+         * @param {Object} region The region object.
+         * @param {Boolean} schemeRequest Flag to decide if the data for the given region field should be requested via scheme oaf scheme.
+         * @returns {Object} the values unified.
+         */
+        async getValuesFromLayer (layerId, region, schemeRequest = false) {
+            const {url, collection, typ, featureType, featureNS} = rawLayerList.getLayerWhere({id: layerId});
+            let uniqueValues = {};
+
+            region.child.loadingDataCounter++;
+            if (typ === "OAF") {
+                if (schemeRequest) {
+                    uniqueValues = await getOAFFeature.getUniqueValuesByScheme(url, collection, [region.child.attrName]);
+                }
+                else {
+                    const filter = this.getFilterOAF(region.attrName, this.containsAllTag(region.selectedValues) ? region.values : region.selectedValues),
+                        features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
+                        fetchedProperties = features.map(feature => feature?.properties);
+
+                    uniqueValues = getUniqueValuesFromOAF(fetchedProperties, [region.child.attrName], true);
+                }
+            }
+            else {
+                const payload = {
+                        featureTypes: [featureType],
+                        featureNS: featureNS,
+                        srsName: this.projection.getCode(),
+                        propertyNames: [region.child.attrName],
+                        filter: this.getFilterWFS(region.attrName, region.selectedValues)
+                    },
+                    features = await getFeaturePOST(url, payload, error => {
+                        console.error(error);
+                    }),
+                    olFeatures = new WFS().readFeatures(features),
+                    attributesWithType = await FetchDataHandler.getAttributesWithType(url, [region.child.attrName], featureType);
+
+                uniqueValues = FetchDataHandler.getUniqueValuesFromFeatures(olFeatures, attributesWithType);
+            }
+            region.child.loadingDataCounter--;
+            return uniqueValues;
         },
 
         /**
@@ -160,6 +182,7 @@ export default {
             else {
                 selectedValues.push(value);
             }
+
             this.setSelectedValuesToRegion(selectedValues, region);
         },
 
@@ -209,74 +232,147 @@ export default {
                 return "active-button";
             }
             return "";
+        },
+
+        /**
+         * Select all the regions.
+         * @param {Object} region - The top level region.
+         * @returns {void}
+         */
+        selectAll (region) {
+            if (!Array.isArray(region?.values)) {
+                return;
+            }
+
+            if (region?.selectedValues.length === region?.values.length) {
+                this.setSelectedValuesToRegion([], region);
+                return;
+            }
+
+            region.values.forEach((value) => {
+                const selectedValues = region?.selectedValues,
+                    indexOfValue = selectedValues.map(selectedValue => selectedValue?.value).indexOf(value?.value);
+
+                if (indexOfValue === -1) {
+                    selectedValues.push(value);
+                }
+            });
+            this.setSelectedValuesToRegion(region.selectedValues, region, true);
+        },
+        /**
+         * Returns wether the scheme should be requested or not.
+         * @param {Object} region The region.
+         * @param {Boolean} allSelected true if the given region has "all" in selected values.
+         * @returns {Boolean} true if the scheme should be requested for given region, false if not.
+         */
+        requestScheme (region, allSelected) {
+            if (!isObject(region) || allSelected === false) {
+                return false;
+            }
+
+            const tmpRegions = [...this.regions].reverse(),
+                position = tmpRegions.findIndex(regionsRegion => regionsRegion.attrName === region.attrName);
+
+            if (position === -1) {
+                return true;
+            }
+
+            for (let i = position; i < tmpRegions.length; i++) {
+                const nextRegion = tmpRegions[i];
+
+                if (nextRegion.selectedValues.length !== nextRegion.values.length
+                    && !this.containsAllTag(nextRegion.selectedValues)) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        /**
+         * Checks if the given list contains the "all" tag.
+         * @param {Object[]} values The list.
+         * @returns {Boolean} true if all tag was found, false otherwise.
+         */
+        containsAllTag (values) {
+            return values.some(val => val.label === i18next.t("common:modules.statisticDashboard.button.all"));
         }
     }
 };
 </script>
 
 <template>
-    <div
-        v-for="(region, index) in regions"
-        :key="region.attrName"
-        class="region-filter"
-    >
+    <div>
         <div
-            v-if="hasRegionChild(region) && index === 0"
-            class="col-sm-12 mb-2"
+            v-for="(region, index) in regions"
+            :key="region.attrName"
+            class="region-filter"
         >
-            <label
-                class="col-form-label-sm mb-1"
-                :for="'top-region-filter-' + index"
+            <div
+                v-if="hasRegionChild(region) && index === 0"
+                class="col-sm-12 mb-2"
             >
-                {{ region.name }}
-            </label>
-            <br>
-            <button
-                v-for="(value, idx) in region.values"
-                :id="'top-region-filter' + index"
-                :key="idx"
-                class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 p-2"
-                :class="toggleButtonActive(value, region.selectedValues)"
-                @click="updatesTopLevelRegionSelectedValues(value, region)"
+                <label
+                    class="col-form-label-sm mb-1"
+                    :for="'top-region-filter-' + index"
+                >
+                    {{ region.name }}
+                </label>
+                <br>
+                <button
+                    v-if="region?.values.length"
+                    class="btn btn-sm btn-outline-secondary rounded-pill lh-1 me-2 mb-2 p-2"
+                    @click="selectAll(region)"
+                >
+                    <i class="bi bi-toggles" />
+                    {{ $t("common:modules.statisticDashboard.button.all") }}
+                </button>
+                <button
+                    v-for="(value, idx) in region.values"
+                    :id="'top-region-filter' + index"
+                    :key="idx"
+                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 p-2"
+                    :class="toggleButtonActive(value, region.selectedValues)"
+                    @click="updatesTopLevelRegionSelectedValues(value, region)"
+                >
+                    {{ value.label }}
+                </button>
+            </div>
+            <div
+                v-else
+                class="col-sm-12 mb-2"
             >
-                {{ value.label }}
-            </button>
-        </div>
-        <div
-            v-else
-            class="col-sm-12 mb-2"
-        >
-            <label
-                class="col-form-label-sm mb-1"
-                :for="'region-filter-' + index"
-            >
-                {{ region.name }}
-            </label>
-            <Multiselect
-                :id="'region-filter' + index"
-                :model-value="region.selectedValues"
-                :multiple="true"
-                :options="getRegionsSorted(region.values, region.selectedValues)"
-                :searchable="false"
-                :close-on-select="false"
-                :clear-on-select="false"
-                :show-labels="false"
-                :limit="3"
-                :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                :allow-empty="true"
-                :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                :loading="region.loadingDataCounter > 0"
-                :disabled="region.loadingDataCounter > 0"
-                label="label"
-                track-by="label"
-                @update:model-value="setSelectedValuesToRegion($event, region)"
-            >
-                <template #clear>
-                    <div class="multiselect__clear">
-                        <i class="bi bi-search" />
-                    </div>
-                </template>
-            </Multiselect>
+                <label
+                    class="col-form-label-sm mb-1"
+                    :for="'region-filter-' + index"
+                >
+                    {{ region.name }}
+                </label>
+                <Multiselect
+                    :id="'region-filter' + index"
+                    :model-value="region.selectedValues"
+                    :multiple="true"
+                    :options="getRegionsSorted(region.values, region.selectedValues)"
+                    :searchable="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :limit="3"
+                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                    :allow-empty="true"
+                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                    :loading="region.loadingDataCounter > 0"
+                    :disabled="region.loadingDataCounter > 0"
+                    label="label"
+                    track-by="label"
+                    @update:model-value="setSelectedValuesToRegion($event, region)"
+                >
+                    <template #clear>
+                        <div class="multiselect__clear">
+                            <i class="bi bi-search" />
+                        </div>
+                    </template>
+                </Multiselect>
+            </div>
         </div>
     </div>
 </template>

@@ -85,7 +85,7 @@ export default {
         this.checkOptions();
         this.setDefaultSelection(this.selectedOptionData);
     },
-    unMounted () {
+    unmounted () {
         this.setActive(false);
         this.resetView();
     },
@@ -162,17 +162,29 @@ export default {
         },
 
         /**
-         * Used to hide Geometry and Textoverlays if request was unsuccessful for any reason
-         * @todo Replace if removeOverlay is available in vue
+         * Reset the map view by clearing geometries and removing overlays and interactions.
+         * This method clears the vector source, removes the layer from the map,
+         * removes the draw interaction, and clears the content of the overlays.
          * @returns {void}
          */
-        resetView: async function () {
-            this.layer.getSource().clear();
-            this.removeInteraction(this.draw);
-            this.circleOverlay.element.innerHTML = "";
+        async resetView () {
+            const map = mapCollection.getMap("2D");
 
-            mapCollection.getMap("2D").removeOverlay(this.circleOverlay);
-            mapCollection.getMap("2D").removeOverlay(this.tooltipOverlay);
+            if (this.layer) {
+                this.layer.getSource().clear();
+                map.removeLayer(this.layer);
+            }
+
+            if (this.draw) {
+                this.removeInteraction(this.draw);
+            }
+
+            if (this.circleOverlay && this.circleOverlay.element) {
+                this.circleOverlay.element.innerHTML = "";
+            }
+
+            map.removeOverlay(this.circleOverlay);
+            map.removeOverlay(this.tooltipOverlay);
         },
 
         /**

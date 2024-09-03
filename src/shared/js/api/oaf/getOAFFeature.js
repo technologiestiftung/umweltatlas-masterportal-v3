@@ -10,7 +10,7 @@ import {getUniqueValuesFromFetchedFeatures} from "../../../../modules/filter/uti
  * @param {Number} limit The limit of features per request.
  * @param {String} [filter] The filter. See https://ogcapi.ogc.org/features/ for more information.
  * @param {String} [filterCrs] The filter crs. Needs to be set if a filter is used.
- * @param {String} [crs] The crs for the geometry of the features.
+ * @param {String} [crs] The coordinate reference system of the response geometries.
  * @param {String[]} [propertyNames] The property names to narrow the request.
  * @returns {Promise} An promise which resolves an array of oaf features.
  */
@@ -88,14 +88,14 @@ function readAllOAFToGeoJSON (features, options = {}) {
         return features;
     }
     const geoJSONParser = new GeoJSON(options),
-        geojson = geoJSONParser.readFeatures(
+        olFeatures = geoJSONParser.readFeatures(
             {
                 type: "FeatureCollection",
                 features
             }
         );
 
-    return geojson;
+    return olFeatures;
 }
 
 /**
@@ -180,11 +180,40 @@ async function getUniqueValuesByScheme (baseUrl, collection, propertiesToGetValu
     return result;
 }
 
+/**
+ * Gets an oaf geometry filter.
+ * @param {ol/geom/Geometry} geometry - The Geometry.
+ * @param {String} geometryName - The geometry-valued property.
+ * @param {String} filterType - Possible types are intersects | within.
+ * @returns {String|undefined} a string which represents the oaf geometry filter.
+ */
+function getOAFGeometryFilter (geometry, geometryName, filterType) {
+    if (typeof filterType !== "string" || filterType !== "intersects" && filterType !== "within") {
+        return undefined;
+    }
+
+    const flattenCoordinates = Array.isArray(geometry?.flatCoordinates) && geometry?.flatCoordinates[2] === 0 ? geometry.flatCoordinates.filter((coordinate, index) => (index + 1) % 3) : geometry.flatCoordinates,
+        result = [],
+        operation = filterType === "intersects" ? "S_INTERSECTS" : "S_WITHIN";
+
+    for (let i = 0; i < flattenCoordinates.length; i += 2) {
+        const chunk = flattenCoordinates.slice(i, i + 2);
+
+        result.push(chunk.join(" "));
+    }
+
+    if (geometry?.getType() === "Point") {
+        return `${operation}(${geometryName}, POINT(${result.join(", ")}))`;
+    }
+    return `${operation}(${geometryName}, POLYGON((${result.join(", ")})))`;
+}
+
 export default {
     getOAFFeatureGet,
     readAllOAFToGeoJSON,
     oafRecursionHelper,
     getNextLinkFromFeatureCollection,
     getUniqueValuesFromCollection,
-    getUniqueValuesByScheme
+    getUniqueValuesByScheme,
+    getOAFGeometryFilter
 };

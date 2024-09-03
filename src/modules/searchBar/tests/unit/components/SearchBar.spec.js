@@ -394,6 +394,24 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
             wrapper.vm.zoomToAndMarkSearchResult("Staatliche Schulen Hamburg");
             expect(activateActionsSpy.called).not.to.be.true;
         });
+
     });
 
+    describe("startSearch", () => {
+        it("The method 'startSearch' should trigger only from watch, if input is changed", async () => {
+            wrapper = shallowMount(SearchBarComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            const startSearchSpy = sinon.spy(wrapper.vm, "startSearch");
+
+            await wrapper.find("#searchInput").setValue("new Input");
+            expect(startSearchSpy.notCalled).to.be.true;
+
+            wrapper.vm.$options.watch.searchInputValue.handler.call(wrapper.vm);
+            expect(startSearchSpy.calledOnce).to.be.true;
+        });
+    });
 });

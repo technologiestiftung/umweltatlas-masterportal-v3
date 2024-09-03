@@ -4,7 +4,6 @@ import TableComponent from "../../../shared/modules/table/components/TableCompon
 import isObject from "../../../shared/js/utils/isObject";
 import getters from "../store/gettersStatisticDashboard";
 import GridComponent from "./StatisticGridComponent.vue";
-import mutations from "../store/mutationsStatisticDashboard";
 import Controls from "./StatisticDashboardControls.vue";
 import StatisticFilter from "./StatisticDashboardFilter.vue";
 import LegendComponent from "./StatisticDashboardLegend.vue";
@@ -89,9 +88,38 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/StatisticDashboard", Object.keys(getters)),
+        ...mapGetters("Modules/StatisticDashboard", [
+            "selectedRegions",
+            "selectedDates",
+            "selectedStatistics",
+            "selectedCategories",
+            "data",
+            "chartTableToggle",
+            "chosenStatisticName",
+            "selectedRegionsValues",
+            "selectedReferenceData",
+            "flattenedRegions",
+            "selectedDatesValues",
+            "numberOfClasses",
+            "allowPositiveNegativeClasses",
+            "classificationMode",
+            "stepValues",
+            "legendData",
+            "selectedLevel",
+            "minNumberOfClasses",
+            "maxNumberOfClasses",
+            "selectableColorPalettes",
+            "selectedColorPaletteIndex",
+            "colorPalette",
+            "opacity",
+            "colorScheme",
+            "lineLimit",
+            "barLimit",
+            "levelTitle",
+            "subtitle",
+            "addTotalCount"
+        ]),
         ...mapGetters("Maps", ["projection"]),
-
 
         /**
          * Gets the names of the selected filters.
@@ -165,7 +193,7 @@ export default {
     watch: {
         selectedReferenceData () {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
-                this.checkFilterSettings(getters.selectedRegionsValues(null, {selectedRegions: this.selectedRegions}), getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
+                this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
             }
         },
         selectedDatesValues () {
@@ -183,14 +211,16 @@ export default {
             }
         },
         chosenStatisticName (val) {
-            this.chosenTableData = this.getTableData(this.statisticsData, val);
-            this.handleChartData(
-                this.statisticNameOfChart,
-                this.selectedRegionsValues,
-                this.selectedDatesValues,
-                this.statisticsData,
-                this.selectedReferenceData?.type
-            );
+            this.$nextTick(() => {
+                this.chosenTableData = this.getTableData(this.statisticsData, val);
+                this.handleChartData(
+                    this.statisticNameOfChart,
+                    this.selectedRegionsValues,
+                    this.selectedDatesValues,
+                    this.statisticsData,
+                    this.selectedReferenceData?.type
+                );
+            });
         },
         selectedStatisticsNames (val, oldVal) {
             if (Array.isArray(oldVal) && oldVal.length > 1 && Array.isArray(val) && val.length === 1 && !val.includes(this.chosenStatisticName)) {
@@ -332,7 +362,28 @@ export default {
         document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
     },
     methods: {
-        ...mapMutations("Modules/StatisticDashboard", Object.keys(mutations)),
+        ...mapMutations("Modules/StatisticDashboard", [
+            "setLegendData",
+            "setDescriptionsOfSelectedStatistics",
+            "setChosenStatisticName",
+            "setStepValues",
+            "setColorPalette",
+            "setSelectedLevel",
+            "setMinNumberOfClasses",
+            "setMaxNumberOfClasses",
+            "setNumberOfClasses",
+            "setSelectedReferenceValueTag",
+            "setChartTableToggle",
+            "setLevelTitle",
+            "setStatisticsByCategories",
+            "setFlattenedRegions",
+            "setSelectedCategories",
+            "setSelectedRegions",
+            "setSelectedDates",
+            "setSelectedReferenceData",
+            "setSelectedStatistics",
+            "setSelectableColorPalettes"
+        ]),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
 
@@ -496,7 +547,7 @@ export default {
         setStatisticsByCategories (categories) {
             const statistics = [];
 
-            if (categories.some(category => category.name === "alle")) {
+            if (categories.some(category => category.name === i18next.t("common:modules.statisticDashboard.button.all"))) {
                 this.categories.forEach(category => {
                     statistics.push(StatisticsHandler.getStatisticsByCategory(category.name, this.getSelectedLevelStatisticsAttributes(this.selectedLevel)));
                 });
@@ -657,7 +708,7 @@ export default {
             if (this.classificationMode === "custom") {
                 this.noDataInColumn =
                     FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.selectedStatisticsNames[0]], this.selectedColumn).length === 0;
-                this.updateFeatureStyle(value, typeof this.selectedReferenceData !== "undefined", this.selectedReferenceData);
+                this.updateAfterLegendChange();
                 return;
             }
 
@@ -811,6 +862,11 @@ export default {
                 });
             }
             this.showNoLegendData = this.selectedStatisticsNames.length !== 1;
+            if (this.selectedColumn) {
+                this.$nextTick(() => {
+                    this.updateReferenceTag(this.selectedColumn, this.selectedLevel, this.referenceFeatures);
+                });
+            }
         },
 
         /**
@@ -1032,13 +1088,24 @@ export default {
                 return undefined;
             }
             const regionAttrName = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute)?.attrName,
-                dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName;
+                dateAttrName = this.getSelectedLevelDateAttribute(this.selectedLevel)?.attrName,
+                tmpFlattenedRegions = [...this.flattenedRegions].reverse(),
+                allRegions = this.flattenedRegions.find(region => !Object.prototype.hasOwnProperty.call(region, "child"))?.values;
 
-            if (regions.length === this.regions.length) {
+            if (regions.length === allRegions.length) {
                 if (dates.length === this.dates.length) {
                     return undefined;
                 }
-                return this.getFilterForList(dates, dateAttrName);
+                if (tmpFlattenedRegions.length <= 1) {
+                    return this.getFilterForList(dates, dateAttrName);
+                }
+                for (let i = 0; i < tmpFlattenedRegions.length; i++) {
+                    const nextRegion = tmpFlattenedRegions[i];
+
+                    if (!nextRegion.selectedValues.some(selectedValue => selectedValue.label === i18next.t("common:modules.statisticDashboard.button.all"))) {
+                        return andFilter(this.getFilterForList(dates, dateAttrName), this.getFilterForList(nextRegion.selectedValues.map(selectedValue => selectedValue.label), nextRegion.attrName));
+                    }
+                }
             }
             else if (dates.length === this.dates.length) {
                 return this.getFilterForList(regions, regionAttrName);
@@ -1166,7 +1233,7 @@ export default {
                 value = NaN;
 
             if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
-                return Number(parseFloat(foundFeature?.get(statisticKey)).toFixed(2)) || "-";
+                return parseFloat(foundFeature?.get(statisticKey)) || "-";
             }
 
             if (differenceMode === "date") {
@@ -1508,6 +1575,8 @@ export default {
             this.setSelectedDates([]);
             this.setSelectedReferenceData(undefined);
             this.setSelectedStatistics({});
+            this.setFlattenedRegions([]);
+            this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
             this.handleReset();
         }
     }

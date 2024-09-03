@@ -18,6 +18,16 @@ export function isWebLink (value) {
 
     return regExp.test(value);
 }
+/**
+ * Checks if the value has an image suffix.
+ * @param {String} value the string to check
+ * @returns {Boolean}  true if the input is recognized as image
+ */
+export function isImage (value) {
+    const regExp = new RegExp(/\.jpe?g|\.png|\.gif|\.bmp/i);
+
+    return regExp.test(value);
+}
 
 /**
  * converts urls in text to html links
@@ -33,4 +43,4 @@ export function setWebLinks (text) {
     return convertedText;
 }
 
-export default {isUrl, isWebLink, setWebLinks};
+export default {isImage, isUrl, isWebLink, setWebLinks};

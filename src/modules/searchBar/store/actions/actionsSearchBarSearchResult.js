@@ -207,6 +207,7 @@ export default {
             commit("Modules/LayerSelection/setHighlightLayerId", null, {root: true});
         }
         else if (layerConfig) {
+            commit("setShowInTree", true);
             commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection, typeLayerSelection]}, {root: true});
             dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {}}, {root: true});
             dispatch("Modules/LayerSelection/showLayer", {layerId}, {root: true});

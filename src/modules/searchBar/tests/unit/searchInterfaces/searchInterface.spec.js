@@ -190,4 +190,88 @@ describe("src/modules/searchBar/searchInterfaces/searchInterface.js", () => {
             });
         });
     });
+
+    describe("normalizeResultEvents", () => {
+        let resultEventsToObjectSpy,
+            createPossibleActionsSpy,
+            resultEvents,
+            resultEventsAsObject,
+            actions;
+
+        beforeEach(() => {
+            resultEvents = {
+                onClick: ["setMarker", "zoomToResult"]
+            };
+            resultEventsAsObject = {
+                onClick: {
+                    setMarker: {coordinates: [1, 2]},
+                    zoomToResult: {coordinates: [1, 2]}
+                }
+            };
+            actions = {
+                setMarker: {coordinates: [1, 2]},
+                zoomToResult: {coordinates: [1, 2]}
+            };
+            resultEventsToObjectSpy = sinon.stub(SearchInterface.prototype, "resultEventsToObject").returns(resultEventsAsObject);
+            createPossibleActionsSpy = sinon.stub(SearchInterface.prototype, "createPossibleActions").returns(actions);
+        });
+
+        it("all available", () => {
+            expect(SearchInterface1.normalizeResultEvents(resultEvents)).to.deep.equals({
+                onClick: {
+                    setMarker: {coordinates: [1, 2]},
+                    zoomToResult: {coordinates: [1, 2]}
+                }
+            });
+            expect(resultEventsToObjectSpy.calledOnce).to.be.true;
+            expect(createPossibleActionsSpy.calledOnce).to.be.true;
+        });
+        it("one action not available", () => {
+            delete actions.setMarker;
+            expect(SearchInterface1.normalizeResultEvents(resultEvents)).to.deep.equals({
+                onClick: {
+                    zoomToResult: {coordinates: [1, 2]}
+                }
+            });
+            expect(resultEventsToObjectSpy.calledOnce).to.be.true;
+            expect(createPossibleActionsSpy.calledOnce).to.be.true;
+        });
+    });
+
+    describe("checkConfig", () => {
+        let resultEventsSupported,
+            resultEvents,
+            searchInterfaceId,
+            warnSpy;
+
+        beforeEach(() => {
+            resultEvents = {
+                onClick: ["setMarker", "zoomToResult"],
+                onHover: ["setMarker"]
+            };
+            resultEventsSupported = ["setMarker", "zoomToResult"];
+            searchInterfaceId = "SearchInterface1";
+            warnSpy = sinon.spy();
+            sinon.stub(console, "warn").callsFake(warnSpy);
+        });
+
+        it("correct config", () => {
+            SearchInterface1.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+            expect(warnSpy.notCalled).to.be.true;
+        });
+        it("incorrect config - not supported action", () => {
+            resultEvents.onClick.push("notSupportedAction");
+            SearchInterface1.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+        it("incorrect config - not supported actions", () => {
+            resultEvents.onClick.push("notSupportedAction");
+            resultEvents.onClick.push("notSupportedAction2");
+            SearchInterface1.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+            expect(warnSpy.calledTwice).to.be.true;
+        });
+    });
 });

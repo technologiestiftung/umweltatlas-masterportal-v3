@@ -262,6 +262,27 @@ describe("src/shared/modules/draw/components/DrawTypes.vue", () => {
             });
             expect(addInteractionSpy.calledOnce).to.be.true;
         });
+
+        it("should emit start-drawing events", async () => {
+            const drawType = "circle";
+
+            wrapper = shallowMount(DrawTypesComponent, {
+                propsData: {
+                    currentLayout,
+                    setSelectedDrawType,
+                    source,
+                    shouldEmitEvents: true
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.regulateInteraction(drawType);
+
+            expect(wrapper.emitted("stop-drawing")).to.be.ok;
+            expect(wrapper.emitted("start-drawing")).to.be.ok;
+        });
     });
 
     describe("regulateStaticCircleInteraction", () => {

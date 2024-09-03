@@ -1,6 +1,7 @@
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 import isObject from "../../../shared/js/utils/isObject";
 import initialState from "./stateStatisticDashboard";
+import sortBy from "../../../shared/js/utils/sortBy";
 
 const getters = {
     ...generateSimpleGetters(initialState),
@@ -41,7 +42,16 @@ const getters = {
         if (!Array.isArray(selectedRegions)) {
             return [];
         }
-        const mappedRegionsValues = selectedRegions.map(region => region.value),
+
+        let regions = selectedRegions;
+
+        if (selectedRegions.some(val => val.label === i18next.t("common:modules.statisticDashboard.button.all")) && typeof state?.flattenedRegions !== "undefined") {
+            regions = sortBy(state?.flattenedRegions.find(region => {
+                return !Object.prototype.hasOwnProperty.call(region, "child");
+            }).values, "label");
+        }
+
+        const mappedRegionsValues = regions.map(region => region.value),
             allRegions = mappedRegionsValues.find(region => Array.isArray(region));
 
         return typeof allRegions !== "undefined" ? allRegions : mappedRegionsValues;

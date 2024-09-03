@@ -672,6 +672,17 @@ export default {
          */
         getClassForSelectedColumn (columnIdx) {
             return isObject(this.visibleHeaders[columnIdx]) && this.selectedColumn === this.visibleHeaders[columnIdx].name ? "selected" : "";
+        },
+
+        /**
+         * Parses given number to match the max decimal places.
+         * @param {Number|String} value The value to parse.
+         */
+        parseDecimalPlaces (value) {
+            if (typeof this.maxDecimalPlaces !== "number" || isNaN(value)) {
+                return value;
+            }
+            return Number(parseFloat(value).toFixed(this.maxDecimalPlaces));
         }
     }
 };
@@ -886,7 +897,7 @@ export default {
                         :key="columnIdx"
                         :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
-                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(item[entry.name], getSeparator('group'), getSeparator('decimal')) : item[entry.name] }}
+                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) : parseDecimalPlaces(item[entry.name]) }}
                     </td>
                 </tr>
                 <template v-if="showTotalData">

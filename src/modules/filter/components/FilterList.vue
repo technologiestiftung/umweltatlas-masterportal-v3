@@ -150,7 +150,7 @@ export default {
             class="panel panel-default"
         >
             <button
-                :disabled="disabled"
+                :disabled="disabled(filter.filterId)"
                 data-toggle="collapse"
                 data-parent="#accordion"
                 class="d-flex justify-content-between w-100 btn-transparent"

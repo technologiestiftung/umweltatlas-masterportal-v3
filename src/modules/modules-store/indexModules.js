@@ -27,6 +27,7 @@ import LayerTree from "../layerTree/store/indexLayerTree";
 import Legend from "../legend/store/indexLegend";
 import Login from "../login/store/indexLogin";
 import Measure from "../measure/store/indexMeasure";
+import Modeler3D from "../modeler3D/store/indexModeler3D";
 import MouseHover from "../mouseHover/store/indexMouseHover";
 import News from "../news/store/indexNewsView";
 import OpenConfig from "../openConfig/store/indexOpenConfig";
@@ -76,6 +77,7 @@ export default {
         Legend: {...Legend},
         Login: {...Login},
         Measure: {...Measure},
+        Modeler3D: {...Modeler3D},
         MouseHover: {...MouseHover},
         News: {...News},
         OpenConfig: {...OpenConfig},

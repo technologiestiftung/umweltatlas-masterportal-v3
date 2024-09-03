@@ -36,6 +36,26 @@ const mutations = {
     setAutoAdjustScale: (state, checkValue) => {
         state.autoAdjustScale = checkValue;
         state.isScaleSelectedManually = false;
+    },
+
+    /**
+     * Sets an additional Print-Layer to active, to be added to the print
+     * @param {Object} state Context object.
+     * @param {String} layerId the layer to activate.
+     * @returns {void}
+     */
+    setAdditionalLayerActive (state, layerId) {
+        state.additionalLayers.find(layer => layer.id === layerId).active = true;
+    },
+
+    /**
+     * Sets an additional Print-Layer to inactive, so it is not be added to the print
+     * @param {Object} state Context object.
+     * @param {String} layerId the layer to deactivate.
+     * @returns {void}
+     */
+    setAdditionalLayerInactive (state, layerId) {
+        state.additionalLayers.find(layer => layer.id === layerId).active = false;
     }
 };
 

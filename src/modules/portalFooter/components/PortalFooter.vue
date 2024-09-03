@@ -40,7 +40,7 @@ export default {
         },
         /**
          * Returns the menu where the about module is configured in.
-          * @returns {String, null} The menu where the about module is in.
+          * @returns {String|null} The menu where the about module is in.
          */
         aboutModuleSide () {
             if (this.mainMenu.sections[0].find(m => {

@@ -45,7 +45,7 @@ export default {
 
 <style lang="scss" scoped>
 .results-topic-tree-container {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 </style>

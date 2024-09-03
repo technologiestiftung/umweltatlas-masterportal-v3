@@ -8,7 +8,8 @@ import SearchInterfaceElasticSearch from "../../../searchInterfaces/searchInterf
 import store from "../../../../../app-store";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js", () => {
-    let SearchInterface1 = null;
+    let SearchInterface1 = null,
+        checkConfigSpy;
 
 
     before(() => {
@@ -19,7 +20,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                 };
             }
         };
-
+        checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceElasticSearch({
             hitMap: {
                 name: "_source.name",
@@ -52,6 +53,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
     describe("prototype", () => {
         it("SearchInterfaceElasticSearch should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
+            expect(checkConfigSpy.calledOnce).to.be.true;
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult"]);
         });
     });
 
@@ -234,10 +237,13 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
     });
 
     describe("normalizeResults", () => {
-        it("should normalize an search result", () => {
-            const searchResults = [
+        let searchResults,
+            result;
+
+        beforeEach(() => {
+            searchResults = [
                 {
-                    _id: "100",
+                    _id: 100,
                     _source: {
                         id: "123",
                         name: "Test abc",
@@ -248,8 +254,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                         ]
                     }
                 }];
-
-            expect(SearchInterface1.normalizeResults(searchResults)).to.deep.equals([
+            result = [
                 {
                     events: {
                         onClick: {
@@ -299,13 +304,28 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                     name: "Test abc",
                     toolTip: "Test abc - md name"
                 }
-            ]);
+            ];
+        });
+
+        it("should normalize an search result", () => {
+            expect(SearchInterface1.normalizeResults(searchResults)).to.deep.equals(result);
+        });
+
+        it("should normalize an search result with id of type number, besides in source", () => {
+            searchResults[0]._source.id = 123;
+            result[0].events.onClick.addLayerToTopicTree.source.id = 123;
+            result[0].events.buttons.showInTree.source.id = 123;
+            result[0].events.buttons.showLayerInfo.source.id = 123;
+            expect(SearchInterface1.normalizeResults(searchResults)).to.deep.equals(result);
         });
     });
 
     describe("createPossibleActions", () => {
-        it("should create possible events from search result", () => {
-            const searchResult = {
+        let searchResult,
+            result;
+
+        beforeEach(() => {
+            searchResult = {
                 _id: "100",
                 _source: {
                     id: "123",
@@ -316,33 +336,37 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                     }
                 }
             };
-
-            expect(SearchInterface1.createPossibleActions(searchResult)).to.deep.equals(
-                {
-                    addLayerToTopicTree: {
-                        layerId: searchResult._source.id,
-                        source: searchResult._source
-                    },
-                    setMarker: {
-                        coordinates: [10, 20]
-                    },
-                    zoomToResult: {
-                        coordinates: [10, 20]
-                    },
-                    startRouting: {
-                        coordinates: [10, 20],
-                        name: searchResult._source.name
-                    },
-                    showInTree: {
-                        layerId: searchResult._source.id,
-                        source: searchResult._source
-                    },
-                    showLayerInfo: {
-                        layerId: searchResult._source.id,
-                        source: searchResult._source
-                    }
+            result = {
+                addLayerToTopicTree: {
+                    layerId: searchResult._source.id,
+                    source: searchResult._source
+                },
+                setMarker: {
+                    coordinates: [10, 20]
+                },
+                zoomToResult: {
+                    coordinates: [10, 20]
+                },
+                startRouting: {
+                    coordinates: [10, 20],
+                    name: searchResult._source.name
+                },
+                showInTree: {
+                    layerId: searchResult._source.id,
+                    source: searchResult._source
+                },
+                showLayerInfo: {
+                    layerId: searchResult._source.id,
+                    source: searchResult._source
                 }
-            );
+            };
+        });
+        it("should create possible events from search result", () => {
+            expect(SearchInterface1.createPossibleActions(searchResult)).to.deep.equals(result);
+        });
+        it("should create possible events from search result, id as number", () => {
+            searchResult._source.id = 123;
+            expect(SearchInterface1.createPossibleActions(searchResult)).to.deep.equals(result);
         });
     });
 

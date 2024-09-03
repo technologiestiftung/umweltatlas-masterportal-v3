@@ -216,6 +216,21 @@ describe("src/modules/Print/components/PrintMap.vue", () => {
             await wrapper.vm.$nextTick();
             expect(wrapper.find("#printBetterQuality").exists()).to.be.true;
         });
+
+        it("should have a legend checkbox", async () => {
+            store.commit("Modules/Print/setIsLegendAvailable", true);
+
+            await wrapper.vm.$nextTick();
+            expect(store.state.Modules.Print.isLegendAvailable).to.be.equals(true);
+            expect(wrapper.find("#printLegend").exists()).to.be.true;
+        });
+
+        it("should have a additional layer checkbox", async () => {
+            store.commit("Modules/Print/setAdditionalLayers", [{"id": "additional_layer", "label": "Additional Layer"}]);
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.find("#printLayer_additional_layer").exists()).to.be.true;
+        });
     });
 
     describe("returnScale", () => {

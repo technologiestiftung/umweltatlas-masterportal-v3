@@ -907,7 +907,8 @@
           "innerCircle": "",
           "outerCircle": "",
           "strokeColor": "Цвет контура",
-          "strokeWidth": "Толщина линии"
+          "strokeWidth": "Толщина линии",
+          "extrudedHeight": "Высота экструдирования"
         },
         "drawSettingsCircle": {
           "interactive": "интерактивный",
@@ -931,6 +932,7 @@
           "pen": "",
           "point": "",
           "polygon": "Площадь",
+          "прямоугольник": "прямоугольник",
           "symbols": "Символ"
         }
       },

@@ -26,6 +26,11 @@ export default {
      * @return {void}
      */
     logout ({commit}) {
+        const token = Cookie.get("token"),
+            refreshToken = Cookie.get("refresh_token"),
+            oidcClientId = Config?.login?.oidcClientId,
+            oidcRevocationEndpoint = Config?.login?.oidcRevocationEndpoint;
+
         OIDC.eraseCookies();
 
         commit("setLoggedIn", false);
@@ -34,6 +39,13 @@ export default {
         commit("setScreenName", undefined);
         commit("setUsername", undefined);
         commit("setEmail", undefined);
+
+        if (oidcRevocationEndpoint && token) {
+            OIDC.revokeToken(oidcRevocationEndpoint, oidcClientId, token);
+        }
+        if (oidcRevocationEndpoint && refreshToken) {
+            OIDC.revokeToken(oidcRevocationEndpoint, oidcClientId, refreshToken);
+        }
     },
 
     /**

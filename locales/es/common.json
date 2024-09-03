@@ -889,7 +889,8 @@
           "innerCircle": "círculo interior:",
           "outerCircle": "Círculo exterior:",
           "strokeColor": "Color del contorno",
-          "strokeWidth": "Ancho de línea"
+          "strokeWidth": "Ancho de línea",
+          "extrudedHeight": "Altura extruida"
         },
         "drawSettingsCircle": {
           "interactive": "Interactivo",
@@ -913,6 +914,7 @@
           "pen": "",
           "point": "",
           "polygon": "Área",
+          "rectángulo": "rectángulo",
           "symbols": "Simbolo"
         }
       },

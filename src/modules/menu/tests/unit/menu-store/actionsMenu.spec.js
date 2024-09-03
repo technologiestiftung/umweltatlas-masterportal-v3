@@ -302,9 +302,11 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledOnce).to.be.true;
+                expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
+                expect(commit.secondCall.args[1]).to.equal(false);
 
                 expect(dispatch.calledTwice).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
@@ -322,9 +324,12 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledOnce).to.be.true;
+                expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
+                expect(commit.secondCall.args[1]).to.equal(false);
+
                 expect(dispatch.calledTwice).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
@@ -344,9 +349,12 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledOnce).to.be.true;
+                expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
+                expect(commit.secondCall.args[1]).to.equal(false);
+
                 expect(dispatch.calledTwice).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
@@ -485,7 +493,7 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
         const side = "mainMenu";
 
         it("should close and reset MenuContainer", async () => {
-            actions.closeMenu({commit, dispatch}, side);
+            actions.closeMenu({commit, dispatch, getters, state}, side);
 
             await nextTick(() => {
                 expect(commit.calledOnce).to.be.true;

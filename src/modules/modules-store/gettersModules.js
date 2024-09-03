@@ -27,6 +27,7 @@ import LayerTree from "../layerTree/components/LayerTree.vue";
 import Legend from "../legend/components/LegendContainer.vue";
 import LoginComponent from "../login/components/LoginComponent.vue";
 import Measure from "../measure/components/MeasureInMap.vue";
+import Modeler3D from "../modeler3D/components/Modeler3D.vue";
 import MouseHover from "../mouseHover/components/MouseHover.vue";
 import NewsView from "../news/components/NewsView.vue";
 import OpenConfig from "../openConfig/components/OpenConfig.vue";
@@ -77,6 +78,7 @@ const getters = {
             legend: Legend,
             login: LoginComponent,
             measure: Measure,
+            modeler3D: Modeler3D,
             mouseHover: MouseHover,
             news: NewsView,
             openConfig: OpenConfig,

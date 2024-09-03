@@ -133,9 +133,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                 });
 
             expect(wrapper.findAllComponents(Multiselect)).to.be.an("array").with.lengthOf(1);
-            expect(wrapper.findAll("button")).to.be.an("array").with.lengthOf(2);
-            expect(wrapper.findAll("button").at(0).text()).to.be.equal("Hamen");
-            expect(wrapper.findAll("button").at(1).text()).to.be.equal("Bremburg");
+            expect(wrapper.findAll("button")).to.be.an("array").with.lengthOf(3);
+            expect(wrapper.findAll("button").at(1).text()).to.be.equal("Hamen");
+            expect(wrapper.findAll("button").at(2).text()).to.be.equal("Bremburg");
         });
     });
     describe("methods", () => {
@@ -183,8 +183,15 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
             });
             it("should return the array with all regions as given", () => {
                 const regions = [
-                        {value: "Harburg", label: "Harburg"},
                         {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                        {value: "Harburg", label: "Harburg"},
+                        {value: "Lübeck", label: "Lübeck"},
+                        {value: "Schwerin", label: "Schwerin"}
+                    ],
+                    expectedRegions = [
+                        {label: "modules.statisticDashboard.button.all"},
+                        {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                        {value: "Harburg", label: "Harburg"},
                         {value: "Lübeck", label: "Lübeck"},
                         {value: "Schwerin", label: "Schwerin"}
                     ],
@@ -198,7 +205,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                         }
                     });
 
-                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(regions);
+                expect(wrapper.vm.getRegionsSorted(regions, [])).to.deep.equal(expectedRegions);
             });
             it("should return the array with the selected entries at first", () => {
                 const regions = [
@@ -218,8 +225,9 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     });
 
                 expect(wrapper.vm.getRegionsSorted(regions, [{value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"}])).to.deep.equal([
-                    {value: "Harburg", label: "Harburg"},
                     {value: ["Harburg", "Lübeck", "Schwerin"], label: "Alle Gebiete"},
+                    {label: "modules.statisticDashboard.button.all"},
+                    {value: "Harburg", label: "Harburg"},
                     {value: "Lübeck", label: "Lübeck"},
                     {value: "Schwerin", label: "Schwerin"}
                 ]);
@@ -238,13 +246,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     }),
                     stubSetSelectedRegions = sinon.stub(wrapper.vm, "setSelectedRegions");
 
-                wrapper.vm.setSelectedValuesToRegion([], {child: {}});
+                wrapper.vm.setSelectedValuesToRegion([], {});
 
                 expect(stubSetSelectedRegions.calledOnce).to.be.true;
                 expect(stubSetSelectedRegions.calledWith([])).to.be.true;
             });
 
-            it("should call 'setSelectedRegions' if given region has no child", () => {
+            it("should call 'setSelectedRegions' if given region has child", () => {
                 const store = factory.createVuexStore(),
                     wrapper = shallowMount(StatisticDashboardFilterRegions, {
                         propsData: {
@@ -260,6 +268,23 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
 
                 expect(stubSetSelectedRegions.calledOnce).to.be.true;
                 expect(stubSetSelectedRegions.calledWith([])).to.be.true;
+            });
+
+            it("should call 'getValuesFromLayer' if given value is not empty array", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    stubGetValuesFromLayer = sinon.stub(wrapper.vm, "getValuesFromLayer");
+
+                wrapper.vm.setSelectedValuesToRegion(["value"], {child: {}});
+
+                expect(stubGetValuesFromLayer.calledOnce).to.be.true;
             });
         });
         describe("updatesRegionSelectedValues", () => {
@@ -385,6 +410,142 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilterReg
                     classString = wrapper.vm.toggleButtonActive({value: "Mordor"}, [{value: "Manhatten"}]);
 
                 expect(classString).to.be.equal("");
+            });
+        });
+        describe("selectAll", () => {
+            it("should call 'setSelectedValuesToRegion' with the correct parameter", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    stubSetSelectedValuesToRegion = sinon.stub(wrapper.vm, "setSelectedValuesToRegion"),
+                    region = {
+                        values: [{value: "test1"}, {value: "test2"}],
+                        selectedValues: [{value: "Mordor"}]
+                    };
+
+                wrapper.vm.selectAll(region);
+
+                expect(stubSetSelectedValuesToRegion.calledWith([{value: "Mordor"}, {value: "test1"}, {value: "test2"}], region)).to.be.true;
+            });
+        });
+        describe("requestScheme", () => {
+            it("should return false if the first param is not an object", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme([])).to.be.false;
+                expect(wrapper.vm.requestScheme(null)).to.be.false;
+                expect(wrapper.vm.requestScheme(true)).to.be.false;
+                expect(wrapper.vm.requestScheme(false)).to.be.false;
+                expect(wrapper.vm.requestScheme("1234")).to.be.false;
+                expect(wrapper.vm.requestScheme(1234)).to.be.false;
+                expect(wrapper.vm.requestScheme(undefined)).to.be.false;
+            });
+            it("should return false if the second param is false", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({}, false)).to.be.false;
+            });
+            it("should return true if given region has all selected and parent snippets aswell", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: []
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.true;
+            });
+            it("should return true if given region has all selected and parent snippets aswell", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: [
+                                {
+                                    attrName: "atlantis",
+                                    name: "Atlantis",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                },
+                                {
+                                    attrName: "auenland",
+                                    name: "Auenland",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                }
+                            ]
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.true;
+            });
+            it("should return false if given region has all selected and one parent snippet doesnt", () => {
+                const store = factory.createVuexStore(),
+                    wrapper = shallowMount(StatisticDashboardFilterRegions, {
+                        propsData: {
+                            regions: [
+                                {
+                                    attrName: "atlantis",
+                                    name: "Atlantis",
+                                    values: ["foo", "bar"],
+                                    selectedValues: ["foo"]
+                                },
+                                {
+                                    attrName: "auenland",
+                                    name: "Auenland",
+                                    values: ["foo"],
+                                    selectedValues: ["foo"]
+                                }
+                            ]
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                expect(wrapper.vm.requestScheme({
+                    attrName: "auenland",
+                    name: "Auenland",
+                    values: ["foo"],
+                    selectedValues: ["foo"]
+                }, true)).to.be.false;
             });
         });
     });

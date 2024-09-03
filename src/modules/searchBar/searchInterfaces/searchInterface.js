@@ -105,7 +105,12 @@ SearchInterface.prototype.normalizeResultEvents = function (resultEvents, search
 
     Object.keys(resultEventsAsObject).forEach(event => {
         Object.keys(resultEventsAsObject[event]).forEach(action => {
-            resultEventsAsObject[event][action] = possibleActions[action];
+            if (possibleActions[action]) {
+                resultEventsAsObject[event][action] = possibleActions[action];
+            }
+            else {
+                delete resultEventsAsObject[event][action];
+            }
         });
     });
 
@@ -226,3 +231,32 @@ SearchInterface.prototype.resultEventsToObject = function (resultEvents) {
 
     return resultEventsAsObject;
 };
+/**
+ * Checks the configured resultEvents.
+ * @param {Object} resultEvents configured resultEvents
+ * @param {*} resultEventsSupported supported resultEvents
+ * @param {*} searchInterfaceId id of the searchinterface
+ * @returns {void}
+ */
+SearchInterface.prototype.checkConfig = async function (resultEvents, resultEventsSupported, searchInterfaceId) {
+    if (resultEvents) {
+        const appendix = "' . Wrong configuration of searchinterface " + searchInterfaceId + " in config.json. Supported actions:" + resultEventsSupported.join(",");
+
+        resultEvents.onClick?.forEach(action => {
+            if (!resultEventsSupported.includes(action)) {
+                console.warn("unknown resultEvents.onClick-action '", action, appendix);
+            }
+        });
+        resultEvents.onHover?.forEach(action => {
+            if (!resultEventsSupported.includes(action)) {
+                console.warn("unknown resultEvents.onHover-action '", action, appendix);
+            }
+        });
+        resultEvents.buttons?.forEach(action => {
+            if (!resultEventsSupported.includes(action)) {
+                console.warn("unknown resultEvents.button-action '", action, appendix);
+            }
+        });
+    }
+};
+

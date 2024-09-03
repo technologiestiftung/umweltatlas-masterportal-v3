@@ -7,6 +7,7 @@ import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
 import InputText from "../../../shared/modules/inputs/components/InputText.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import {Toast} from "bootstrap";
+import initProjections from "../../../shared/js/utils/initProjections";
 
 /**
  * Toolkit to access coordinates on the map or search for coordinates.
@@ -119,7 +120,7 @@ export default {
         });
     },
     mounted () {
-        this.initProjections();
+        this.initProjectionsInCoordToolkit(crs, this.projections, this.namedProjections, this.currentProjection);
         this.setExample();
         this.setMode("supply");
         this.setSupplyCoordActive();
@@ -170,87 +171,16 @@ export default {
          * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.
          * @returns {void}
          */
-        initProjections () {
-            const pr = crs.getProjections(),
-                epsg8395 = [],
-                wgs84Proj = [];
+        initProjectionsInCoordToolkit () {
+            const projectionsObj = initProjections(crs, this.projections, this.namedProjections, this.currentProjection);
 
-            // id is set to the name and in case of decimal "-DG" is appended to name later on
-            // for use in select-box
-            pr.forEach(proj => {
-                proj.id = proj.name;
-                if (proj.name === "EPSG:4326" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#4326") {
-                    wgs84Proj.push(proj);
-                }
-                if (proj.name === "EPSG:8395" || proj.name === "http://www.opengis.net/gml/srs/epsg.xml#8395") {
-                    epsg8395.push(proj);
-                }
-                if (proj.name.indexOf("#") > -1) { // e.g. "http://www.opengis.net/gml/srs/epsg.xml#25832"
-                    const code = proj.name.substring(proj.name.indexOf("#") + 1, proj.name.length);
-
-                    proj.epsg = "EPSG:" + code;
-                }
-                else {
-                    proj.title = proj.name;
-                }
-                if (proj.id === this.currentProjection.id) {
-                    this.setCurrentProjection(proj);
-                }
-            });
-            if (wgs84Proj.length > 0) {
-                this.addWGS84Decimal(pr, wgs84Proj);
-            }
-            this.namedProjections.find((el) => {
-                if (el[1].includes("ETRS89_3GK3") && epsg8395.length > 0) {
-                    this.addETRS893GK3(pr, el, epsg8395);
-                    return true;
-                }
-                return false;
-            });
-
-            this.setProjections(pr);
-        },
-        /**
-         * Adds EPSG:8395 in decimal-degree to list of projections.
-         * @param {Array} projections list of all available projections
-         * @param {Object} elementETRS89_3GK3 the WGS84 projection contained in list of projections
-         * @param {Object} epsg8395 the WGS84 projection contained in list of projections
-         * @returns {void}
-         */
-        addETRS893GK3 (projections, elementETRS89_3GK3, epsg8395) {
-            const index = projections.findIndex(proj => proj.name === "EPSG:8395"),
-                etrs89_3GK3Proj = {};
-
-            for (const key in epsg8395[0]) {
-                etrs89_3GK3Proj[key] = epsg8395[0][key];
-            }
-            etrs89_3GK3Proj.name = "ETRS893GK3";
-            etrs89_3GK3Proj.epsg = "EPSG:8395";
-            etrs89_3GK3Proj.id = "http://www.opengis.net/gml/srs/epsg.xml#ETRS893GK3";
-            etrs89_3GK3Proj.title = elementETRS89_3GK3[1].substring(elementETRS89_3GK3[1].lastIndexOf("ETRS"), elementETRS89_3GK3[1].indexOf(" +proj="));
-            etrs89_3GK3Proj.getCode = () => "noEPSGCode";
-            projections.splice(index + 1, 0, etrs89_3GK3Proj);
-        },
-        /**
-         * Adds EPSG:4326 in decimal-degree to list of projections.
-         * @param {Array} projections list of all available projections
-         * @param {Object} wgs84Proj the WGS84 projection contained in list of projections
-         * @returns {void}
-         */
-        addWGS84Decimal (projections, wgs84Proj) {
-            const index = projections.findIndex(proj => proj.name === "EPSG:4326"),
-                wgs84ProjDez = {};
-
-            for (const key in wgs84Proj[0]) {
-                wgs84ProjDez[key] = wgs84Proj[0][key];
+            if (projectionsObj?.currentProjection) {
+                this.setCurrentProjection(projectionsObj.currentProjection);
             }
 
-            wgs84ProjDez.name = "EPSG:4326-DG";
-            wgs84ProjDez.epsg = "EPSG:4326";
-            wgs84ProjDez.id = "http://www.opengis.net/gml/srs/epsg.xml#4326-DG";
-            wgs84ProjDez.title = "WGS84_Lat-Lon (Grad, Dezimal), EPSG 4326";
-            wgs84ProjDez.getCode = () => "EPSG:4326-DG";
-            projections.splice(index + 1, 0, wgs84ProjDez);
+            if (projectionsObj?.projections) {
+                this.setProjections(projectionsObj.projections);
+            }
         },
         /**
          * Removes pointer-move-handler and interaction from map.

@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "../../../components/LayerSelection.vue";
@@ -8,23 +8,25 @@ import LayerSelection from "../../../store/indexLayerSelection";
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
-    let store,
-        wrapper,
+    let addLayerButtonSearchActive,
         categories,
+        changeCategorySpy,
+        lastFolderNames,
         layerBG_1,
         layerBG_2,
         layerBG_3,
         layer2D_1,
         layer2D_2,
         layer2D_3,
-        subjectDataLayers,
-        layersWithFolder,
         layersBG,
-        changeCategorySpy,
+        layersWithFolder,
         mapMode,
-        showAllResults,
         searchInput,
-        lastFolderNames;
+        showAllResults,
+        showInTree,
+        store,
+        subjectDataLayers,
+        wrapper;
 
     beforeEach(() => {
         lastFolderNames = [];
@@ -112,6 +114,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                 ]
             }];
         subjectDataLayers = layersWithFolder;
+        addLayerButtonSearchActive = true;
+        showInTree = false;
         LayerSelection.actions.navigateForward = sinon.spy();
         LayerSelection.actions.navigateBack = sinon.spy();
         LayerSelection.actions.changeVisibility = sinon.spy();
@@ -129,7 +133,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                                 searchInput: () => searchInput,
                                 searchInterfaceInstances: () => [],
                                 searchResults: () => [],
-                                addLayerButtonSearchActive: () => true,
+                                addLayerButtonSearchActive: () => addLayerButtonSearchActive,
                                 showAllResults: () => showAllResults,
                                 searchResultsActive: () => true,
                                 currentSide: () => {
@@ -138,6 +142,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                                 minCharacters: () => 3,
                                 placeholder: () => "",
                                 configPaths: () => "",
+                                showInTree: () => showInTree,
                                 type: () => ""
 
                             },
@@ -174,7 +179,11 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                     return {
                         tree: {
                             addLayerButton: {active: false},
-                            categories: categories
+                            categories: categories,
+                            hideBackgroundsHeader: false,
+                            backgroundsHeaderText: "custom backgrounds header text in test",
+                            hideDatalayerHeader: false,
+                            datalayerHeaderText: "custom datalayers text in test"
                         }
                     };
                 }
@@ -242,7 +251,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         expect(wrapper.findAll("option").length).to.be.equals(0);
     });
 
-    it("renders the LayerSelection - check categories select", () => {
+    it("renders the LayerSelection - check categories list", () => {
         showAllResults = false;
         LayerSelection.state.lastFolderNames = ["root"];
         wrapper = shallowMount(LayerSelectionComponent, {
@@ -251,11 +260,88 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             }});
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
-        expect(wrapper.find("#select_category").exists()).to.be.true;
-        expect(wrapper.findAll("option").length).to.be.equals(3);
-        expect(wrapper.findAll("option").at(0).text()).to.be.equals("common:modules.layerTree.categoryOpendata");
-        expect(wrapper.findAll("option").at(1).text()).to.be.equals("common:modules.layerTree.categoryInspire");
-        expect(wrapper.findAll("option").at(2).text()).to.be.equals("common:modules.layerTree.categoryOrganisation");
+        expect(wrapper.find("div.layer-selection-category-list").exists()).to.be.true;
+        expect(wrapper.find("#layer-selection-category-btn").exists()).to.be.true;
+        expect(wrapper.findAll("div.layer-selection-category-list div").length).to.be.equals(3);
+
+        const listResult = wrapper.findAll("div.layer-selection-category-list div");
+
+        expect(listResult.at(0).text()).to.be.equals("common:modules.layerTree.categoryOpendata");
+        expect(listResult.at(1).text()).to.be.equals("common:modules.layerTree.categoryInspire");
+        expect(listResult.at(2).text()).to.be.equals("common:modules.layerTree.categoryOrganisation");
+    });
+
+
+    it("checks for custom headlines for LayerSelection", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        const listResult = wrapper.findAll("h5");
+
+        expect(listResult.length).to.be.equals(2);
+        expect(listResult.at(0).text()).to.be.equals("custom backgrounds header text in test");
+        expect(listResult.at(1).text()).to.be.equals("custom datalayers text in test");
+    });
+
+
+    it("checks for default headlines for LayerSelection", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+
+        store.getters.portalConfig.tree.backgroundsHeaderText = null;
+        store.getters.portalConfig.tree.datalayerHeaderText = "";
+
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        const listResult = wrapper.findAll("h5");
+
+        expect(listResult.length).to.be.equals(2);
+        expect(listResult.at(0).text()).to.be.equals("common:modules.layerSelection.backgrounds");
+        expect(listResult.at(1).text()).to.be.equals("common:modules.layerSelection.datalayer");
+    });
+
+
+    it("checks for a disabled headline for backgrounds", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+        store.getters.portalConfig.tree.hideBackgroundsHeader = true;
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        const listResult = wrapper.findAll("h5");
+
+        expect(listResult.length).to.be.equals(1);
+        // the other one of two h5 elem. exists:
+        expect(listResult.at(0).text()).to.be.equals("custom datalayers text in test");
+    });
+
+
+    it("checks for a disabled headline for datalayer", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+        store.getters.portalConfig.tree.hideDatalayerHeader = true;
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        const listResult = wrapper.findAll("h5");
+
+        expect(listResult.length).to.be.equals(1);
+        // the other one of two h5 elem. exists:
+        expect(listResult.at(0).text()).to.be.equals("custom backgrounds header text in test");
     });
 
 
@@ -320,6 +406,68 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         await wrapper.vm.$nextTick();
         expect(navigateStepsBackSpy.calledOnce).to.be.true;
         expect(navigateStepsBackSpy.firstCall.args[0]).to.equals(0);
+    });
+
+    describe("render SearchBar", () => {
+        it("render the SearchBar, if showInTree = true and addLayerButtonSearchActive = false", () => {
+            showInTree = true;
+            addLayerButtonSearchActive = false;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("render the SearchBar, if showInTree = false and addLayerButtonSearchActive = true", () => {
+            showInTree = false;
+            addLayerButtonSearchActive = true;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("render the SearchBar, if showInTree = true and addLayerButtonSearchActive = true", () => {
+            showInTree = true;
+            addLayerButtonSearchActive = true;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.true;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+
+        it("don't render the SearchBar, if showInTree = false and addLayerButtonSearchActive = false", () => {
+            showInTree = false;
+            addLayerButtonSearchActive = false;
+
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(wrapper.find("#layer-selection").exists()).to.be.true;
+            expect(wrapper.find("#search-bar").exists()).to.be.false;
+            expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
+            expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
     });
 
     describe("methods", () => {

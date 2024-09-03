@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isUrl, isWebLink, setWebLinks} from "../../urlHelper";
+import {isImage, isUrl, isWebLink, setWebLinks} from "../../urlHelper";
 
 describe("src/shared/js/utils/urlHelper.js", () => {
     it("detects an URL in an incoming string", () => {
@@ -64,6 +64,41 @@ describe("src/shared/js/utils/urlHelper.js", () => {
         });
         it("should respond to a string beginning with // with boolean true", () => {
             expect(isWebLink("//")).to.be.true;
+        });
+    });
+
+    describe("isImage", () => {
+        it("should return a boolean false no matter what kind of input is given (except for links)", () => {
+            expect(isImage(undefined)).to.be.false;
+            expect(isImage(null)).to.be.false;
+            expect(isImage(1234)).to.be.false;
+            expect(isImage("string")).to.be.false;
+            expect(isImage({})).to.be.false;
+            expect(isImage([])).to.be.false;
+            expect(isImage(false)).to.be.false;
+            expect(isImage(true)).to.be.false;
+        });
+
+        it("should respond to a string with png with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.png")).to.be.true;
+        });
+        it("should respond to a string with PNG with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.PNG")).to.be.true;
+        });
+        it("should respond to a string with jpg with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.jpg?width=200&height=150&keepRatio=true")).to.be.true;
+        });
+        it("should respond to a string with JPG with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.JPG")).to.be.true;
+        });
+        it("should respond to a string with jpeg with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.jpeg")).to.be.true;
+        });
+        it("should respond to a string with gif with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.gif")).to.be.true;
+        });
+        it("should respond to a string with bmp with boolean true", () => {
+            expect(isWebLink("http://porta.de/thema/Bilder/Bile.bmp")).to.be.true;
         });
     });
 

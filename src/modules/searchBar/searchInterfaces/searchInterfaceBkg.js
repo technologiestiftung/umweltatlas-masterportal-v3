@@ -25,14 +25,19 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
  * @returns {void}
  */
 export default function SearchInterfaceBkg ({geoSearchServiceId, epsg, extent, hitTemplate, minScore, resultEvents, searchInterfaceId, resultCount} = {}) {
-    SearchInterface.call(this,
-        "request",
-        searchInterfaceId || "bkg",
-        resultEvents || {
+    const resultEventsDefault = {
             onClick: ["setMarker", "zoomToResult"],
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+
+    this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
+
+    SearchInterface.call(this,
+        "request",
+        searchInterfaceId || "bkg",
+        resultEvents || resultEventsDefault,
         hitTemplate
     );
 

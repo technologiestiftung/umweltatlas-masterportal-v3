@@ -16,6 +16,7 @@
  * @property {String} printAppId the identifier of one of the available mapfish print configurations
  * @property {String} printAppCapabilities URL for the page in the print service where the informations of layouts etc are,
  * @property {Array} layoutList the identifier of one of the available mapfish print configurations
+ * @property {Array} additionalLayers list of Layers that can be added in the print
  * @property {Object} currentLayout the current layout
  * @property {String} currentLayoutName the current layout's name
  * @property {Array} formatList available formats of the specified print configuration
@@ -61,6 +62,7 @@ const state = {
     supportedMapModes: ["2D", "3D"],
     title: "PrintResult",
     type: "print",
+    additionalLayers: [],
     autoAdjustScale: true,
     currentFormat: "pdf",
     capabilitiesFilter: {},

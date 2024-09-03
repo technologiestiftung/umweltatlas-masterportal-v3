@@ -18,6 +18,8 @@
  * @property {String} [title=""] the layer Title
  * @property {String} [type="layerInformation"] the type of layer information
  * @property {Boolean} [legendAvailable=true] true, if legend is available
+ * @property {String} [pointOfContact=""] point of contact information from metadata
+ * @property {String} [publisher=""] publisher information from metadata
  */
 export default {
     abstractText: "",
@@ -35,5 +37,7 @@ export default {
     showUrlGlobal: null,
     title: "",
     type: "layerInformation",
-    legendAvailable: true
+    legendAvailable: true,
+    pointOfContact: "",
+    publisher: ""
 };

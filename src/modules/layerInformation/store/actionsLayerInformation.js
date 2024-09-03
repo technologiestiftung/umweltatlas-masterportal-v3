@@ -79,6 +79,7 @@ export default {
     getAbstractInfo: async function ({commit, dispatch, state, rootGetters}, metaInfo) {
         let metadata;
 
+        commit("setDownloadLinks", null);
         if (metaInfo.cswUrl !== null && typeof metaInfo.metaId !== "undefined") {
             metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
         }
@@ -113,6 +114,8 @@ export default {
             commit("setDatePublication", "");
             commit("setAbstractText", i18next.t("common:modules.layerInformation.noMetadataLoaded"));
             commit("setNoMetadataLoaded", i18next.t("common:modules.layerInformation.noMetadataLoaded"));
+            commit("setPointOfContact", "");
+            commit("setPublisher", "");
         }
         else {
             commit("setTitle", metadata?.getTitle());
@@ -120,6 +123,8 @@ export default {
             commit("setPeriodicityKey", metadata?.getFrequenzy());
             commit("setDownloadLinks", metadata?.getDownloadLinks());
             commit("setDatePublication", metadata?.getPublicationDate() || metadata?.getCreationDate());
+            commit("setPointOfContact", metadata?.getContact());
+            commit("setPublisher", metadata?.getPublisher());
         }
 
         if (state.downloadLinks) {

@@ -25,7 +25,16 @@ function fillFields ({nameInput, mailInput, phoneInput, messageInput}) {
 }
 
 describe("src/modules/contact/components/ContactFormular.vue", () => {
-    let store, wrapper;
+    let store,
+        wrapper,
+        mainMenu = {
+            currentComponent: "contact",
+            navigation: {
+                currentComponent: {
+                    type: "contact"
+                }
+            }
+        };
 
     beforeEach(() => {
         ContactModule.actions.send = sinon.spy();
@@ -36,11 +45,29 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
         store = createStore({
             namespaces: true,
             modules: {
+                namespaced: true,
                 Modules: {
                     namespaced: true,
                     modules: {
                         namespaced: true,
                         Contact: ContactModule
+                    }
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: {
+                        addSingleAlert: sinon.spy()
+                    }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        mainMenu: () => mainMenu,
+                        secondaryMenu: () => {
+                            return {
+                                currentComponent: "draw"
+                            };
+                        }
                     }
                 }
             },
@@ -59,7 +86,6 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
             global: {
                 plugins: [store]
             }});
-
 
         const sendButton = wrapper.find("#module-contact-send-message");
 
@@ -90,7 +116,6 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
     });
 
     it("keeps the send button disabled if any field is missing", async () => {
-
         wrapper = mount(ContactComponent, {
             global: {
                 plugins: [store]
@@ -159,5 +184,251 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
 
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#module-contact-username-input").element).to.equal(document.activeElement);
+    });
+
+    it("has an info message standard text", async () => {
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#contact-info-message").exists()).to.be.true;
+        expect(wrapper.find("#contact-info-message").text()).to.equals("common:modules.contact.infoMessage");
+    });
+
+    it("has an info message text from props", async () => {
+        mainMenu = {
+            currentComponent: "contact",
+            navigation: {
+                currentComponent: {
+                    type: "contact",
+                    props: {
+                        name: "Kontakt aufnehmen",
+                        to: [
+                            {
+                                email: "abc@gv.hamburg.de",
+                                name: "Behörde für XYZ"
+                            }
+                        ],
+                        infoMessage: "Schreiben sie dem Ansprechpartner des Themas Schulstammdaten und Schülerzahlen der Hamburger Schulen",
+                        includeSystemInfo: false,
+                        subject: "Anfrage zum Datensatz Schulstammdaten und Schülerzahlen der Hamburger Schulen",
+                        withTicketNo: false,
+                        noConfigProps: true
+                    }
+                }
+            }
+        };
+
+        wrapper = mount(ContactComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#contact-info-message").exists()).to.be.true;
+        expect(wrapper.find("#contact-info-message").text()).to.equals("Schreiben sie dem Ansprechpartner des Themas Schulstammdaten und Schülerzahlen der Hamburger Schulen");
+    });
+
+    describe("Methods", () => {
+        let attachmentPdf, attachmentPng, attachmentBig, attachmentWrongFormat,
+            checkNoDuplicatesSpy, addSingleAlertSpy, checkValidSpy;
+
+        beforeEach(() => {
+            attachmentPdf = {
+                imgString: "data:application/pdf;base64,JVBERvQ",
+                name: "Attachment1.pdf",
+                fileExtension: "pdf",
+                fileSize: 150,
+                size: 150,
+                src: "data:application/pdf;base64,JVBERvQ",
+                type: "application/pdf"
+            };
+            attachmentPng = {
+                imgString: "data:image;base64,JVBERi0x",
+                name: "Attachment2.png",
+                fileExtension: "png",
+                fileSize: 100,
+                size: 100,
+                src: "",
+                type: "image"
+            };
+            attachmentBig = {
+                imgString: "",
+                name: "Attachment2.png",
+                fileExtension: "png",
+                fileSize: 2 * 1024 * 1024,
+                size: 2 * 1024 * 1024,
+                src: "",
+                type: "image"
+            };
+            attachmentWrongFormat = {
+                imgString: "",
+                name: "AttachmentX.xxx",
+                fileExtension: "xxx",
+                fileSize: 150,
+                size: 150,
+                src: "",
+                type: "xxx"
+            };
+            wrapper = mount(ContactComponent, {
+                global: {
+                    plugins: [store]
+                }});
+            checkNoDuplicatesSpy = sinon.spy(wrapper.vm, "checkNoDuplicates");
+            addSingleAlertSpy = sinon.spy(wrapper.vm, "addSingleAlert");
+            checkValidSpy = sinon.spy(wrapper.vm, "checkValid");
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
+        describe("removeAttachment", () => {
+            const target = {
+                name: "Attachment1.pdf",
+                fileExtension: "pdf",
+                fileSize: 162276,
+                src: "data:application/pdf;base64,JVBERvQ"
+            };
+
+            it("removed file should be removed from the list to send", async () => {
+                await wrapper.setData({allAttachmentsToSend: [attachmentPdf]});
+                const removeAttachmentSpy = sinon.spy(wrapper.vm, "removeAttachment");
+
+                wrapper.vm.removeAttachment(target);
+
+                expect(removeAttachmentSpy.calledOnce).to.be.true;
+                expect(wrapper.vm.allAttachmentsToSend).to.be.empty;
+            });
+        });
+        describe("checkNoDuplicates", () => {
+            it("the error message is displayed in case of adding a duplicated file", async () => {
+                await wrapper.setData({allAttachmentsToSend: [attachmentPdf]});
+                const duplicatedFile = {
+                        size: attachmentPdf.fileSize,
+                        name: attachmentPdf.name
+                    },
+                    result = wrapper.vm.checkNoDuplicates(duplicatedFile);
+
+                expect(checkNoDuplicatesSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledWithMatch({
+                    category: "error",
+                    content: sinon.match((value) => value.includes(wrapper.vm.$t("common:modules.contact.fileDuplicatedMessage")))
+                })).to.be.true;
+                expect(result).to.be.false;
+            });
+            it("no error message is displayed in case of adding not duplicated file", async () => {
+                await wrapper.setData({allAttachmentsToSend: [attachmentPdf]});
+                const notDuplicatedFile = {
+                        size: "400",
+                        name: "Attachment2"
+                    },
+                    result = wrapper.vm.checkNoDuplicates(notDuplicatedFile);
+
+                expect(checkNoDuplicatesSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.false;
+                expect(result).to.be.true;
+            });
+        });
+        describe("checkValid", () => {
+            it("the error message is displayed in case of adding to big file", async () => {
+                await wrapper.setData({maxFileSize: 1 * 1024 * 1024, sumFileSize: 0, configuredFileExtensions: ""});
+                const result = wrapper.vm.checkValid(attachmentBig);
+
+                expect(checkValidSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledWithMatch({
+                    category: "error",
+                    content: sinon.match((value) => value.includes(wrapper.vm.$t("common:modules.contact.fileSizeMessage")))
+                })).to.be.true;
+                expect(result).to.be.false;
+            });
+            it("the error message is displayed in case when sum of files sizes is to big", async () => {
+                await wrapper.setData({maxSumFileSize: 6 * 1024 * 1024, configuredFileExtensions: "", sumFileSize: 8 * 1024 * 1024, maxFileSize: 1 * 1024 * 1024});
+                const result = wrapper.vm.checkValid(attachmentPng);
+
+                expect(checkValidSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledWith({
+                    category: "error",
+                    content: wrapper.vm.$t("common:modules.contact.fileSizeSumMessage")
+                })).to.be.true;
+                expect(result).to.be.false;
+            });
+            it("the error message is displayed in case of adding wrong format file", async () => {
+                await wrapper.setData({maxSumFileSize: 6 * 1024 * 1024, configuredFileExtensions: "", sumFileSize: 0, maxFileSize: 1 * 1024 * 1024});
+                const result = wrapper.vm.checkValid(attachmentWrongFormat);
+
+                expect(checkValidSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledWith({
+                    category: "error",
+                    content: wrapper.vm.$t("common:modules.contact.fileFormatMessage")
+                })).to.be.true;
+                expect(result).to.be.false;
+            });
+            it("no error message is displayed in case of adding correct size, correct format file and sum of files sizes", async () => {
+                await wrapper.setData({maxSumFileSize: 6 * 1024 * 1024, configuredFileExtensions: "", sumFileSize: 0, maxFileSize: 1 * 1024 * 1024});
+                const result = wrapper.vm.checkValid(attachmentPdf);
+
+                expect(checkValidSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledOnce).to.be.false;
+                expect(result).to.be.true;
+            });
+        });
+        describe("addFile", () => {
+            it("added file with png extension is in the list of files to send", async () => {
+                await wrapper.setData({allAttachmentsToSend: [], configuredFileExtensions: [], maxFileSize: 2 * 1024 * 1024});
+
+                const loadCorrectFileFormatSpy = sinon.spy(wrapper.vm, "loadCorrectFileFormat"),
+                    reader = {readyState: 2, result: "data:image;base64,JVBERi0x"};
+
+                wrapper.vm.loadCorrectFileFormat(attachmentPng, reader);
+
+                expect(loadCorrectFileFormatSpy.calledOnce).to.be.true;
+                expect(wrapper.vm.allAttachmentsToSend.length).to.equal(1);
+                expect(wrapper.vm.allAttachmentsToSend[0]).to.include({
+                    name: "Attachment2.png",
+                    fileExtension: "png",
+                    fileSize: 100
+                });
+                expect(wrapper.vm.allAttachmentsToSend[0].src).to.be.a("string");
+                expect(addSingleAlertSpy.calledOnce).to.be.false;
+            });
+            it("added file with pdf extension is in the list of files to send", async () => {
+                await wrapper.setData({allAttachmentsToSend: [], configuredFileExtensions: [], maxFileSize: 2 * 1024 * 1024});
+
+                const loadCorrectFileFormatSpy = sinon.spy(wrapper.vm, "loadCorrectFileFormat"),
+                    reader = {readyState: 2, result: "data:application/pdf;base64,JVBERvQ"};
+
+                wrapper.vm.loadCorrectFileFormat(attachmentPdf, reader);
+
+                expect(loadCorrectFileFormatSpy.calledOnce).to.be.true;
+                expect(wrapper.vm.allAttachmentsToSend.length).to.equal(1);
+                expect(wrapper.vm.allAttachmentsToSend[0]).to.include({
+                    name: "Attachment1.pdf",
+                    fileExtension: "pdf",
+                    fileSize: 150
+                });
+                expect(wrapper.vm.allAttachmentsToSend[0].src).to.be.a("string");
+                expect(addSingleAlertSpy.calledOnce).to.be.false;
+            });
+            it("the error message is displayed in case of adding wrong extension file", async () => {
+                await wrapper.setData({allAttachmentsToSend: [], configuredFileExtensions: [], maxFileSize: 2 * 1024 * 1024});
+
+                const loadCorrectFileFormatSpy = sinon.spy(wrapper.vm, "loadCorrectFileFormat"),
+                    reader = {readyState: 2, result: "data:application/pdf;base64,JVBERvQ"};
+
+                wrapper.vm.loadCorrectFileFormat(attachmentWrongFormat, reader);
+
+                expect(loadCorrectFileFormatSpy.calledOnce).to.be.true;
+                expect(wrapper.vm.allAttachmentsToSend.length).to.equal(0);
+                expect(addSingleAlertSpy.calledOnce).to.be.true;
+                expect(addSingleAlertSpy.calledWith({
+                    category: "error",
+                    content: wrapper.vm.$t("common:modules.contact.fileFormatMessage")
+                })).to.be.true;
+            });
+        });
     });
 });
