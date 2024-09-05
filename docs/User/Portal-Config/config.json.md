@@ -4240,7 +4240,7 @@ Possibility to make settings for the topic selection tree.
 |categories|no|**[categories](#portalconfigtreecategories)**||Configuration of the categories from the metadata. Only for the tree.type `auto`.|false|
 |highlightedFeatures|no|**[highlightedFeatures](#portalconfigtreehighlightedfeatures)**||Configuration in addition to highlighting features.|false|
 |layerIDsToIgnore|no|String[]||List of `services.json` layer ids that should not be displayed in the tree and map. Only for the tree.type `auto`.|false|
-|layerIDsToStyle|no|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID. Only for the tree.type `auto`.|true|
+|layerIDsToStyle|no|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID.|true|
 |metaIDsToIgnore|no|String[]||All layers found in `services.json` that match these meta IDs will not be displayed in the tree and map. Only for the tree.type `auto`.|false|
 |metaIDsToMerge|no|String[]||All layers found in `services.json` that match these meta-IDs will be merged into a single layer in the tree. Only for the tree.type `auto`.|true|
 |showFolderPath|no|Boolean|false|Determines whether the folder structure of visible layers is displayed in 'Show more functions'.|false|

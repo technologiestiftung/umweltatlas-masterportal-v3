@@ -936,37 +936,10 @@
     "subjectlayer": {
       "elements": [
         {
-          "id": "1935",
-          "styles": [
-            "geofox_Faehre",
-            "geofox-bahn",
-            "geofox-bus",
-            "geofox_BusName"
-          ],
-          "name": [
-            "Fährverbindungen",
-            "Bahnlinien",
-            "Buslinien",
-            "Busliniennummern"
-          ],
-          "legendURL": [
-            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png",
-            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png",
-            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png",
-            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
-          ]
+          "id": "1935"
         },
         {
-          "id": "1933",
-          "styles": [
-            "geofox_stations"
-          ],
-          "name": [
-            "Haltestellen"
-          ],
-          "legendURL": [
-            "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
-          ]
+          "id": "1933"
         },
         {
           "id": [ "20501", "20502", "20503", "20504" ],
