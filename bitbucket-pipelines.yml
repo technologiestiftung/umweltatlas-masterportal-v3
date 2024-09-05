@@ -29,29 +29,33 @@ pipelines:
                             curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads" --form files=@"$zipFilePath" --verbose;
                             done
             -   step:
-                    name: publish docs
+                    name: create mkdocs
+                    image: python:3.8
                     caches:
-                        - node
-                    artifacts:
-                        - docHtml/**
+                        - pip
                     script:
-                        - npm install
-                        - npm run buildMdDoc
-                        - apt-get update
-            -   step:
-                    name: deploy files
-                    caches:
-                        - node
-                    script:
-                        - echo 'deploy files with tag '$BITBUCKET_TAG
-                        - apt-get update && apt-get install -y curl wput jq
-                        # create folder to store the last files with the tag from server
-                        - mkdir $BITBUCKET_TAG && cd $BITBUCKET_TAG
-                        - wget --user $MKDOCS_FTP_NAME --password $MKDOCS_FTP_PW --no-parent -r $MKDOCS_FTP_SERVER/doc/Latest
-                        - cd ..
-                        # find tag and docHtml folder , push the files to the masterportal.org folder
-                        - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/$BITBUCKET_TAG/" --verbose \;
-                        # - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
+                        - apt-get update && apt-get install zip && apt-get install -y curl wput jq  && apt-get install zip
+                        - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - mike deploy $BITBUCKET_TAG
+                        - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
+                        -   pipe: atlassian/ftp-deploy:0.7.0
+                            variables:
+                                USER: $MKDOCS_FTP_NAME
+                                PASSWORD: $MKDOCS_FTP_PW
+                                SERVER: $MKDOCS_FTP_SERVER
+                                REMOTE_PATH: '/doc/'
+                                LOCAL_PATH: $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
+                                DEBUG: 'true'
+                        # TODO: enable, if version 3 shall be Latest
+                        # - mv $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG $BITBUCKET_CLONE_DIR/Latest
+                        # -   pipe: atlassian/ftp-deploy:0.7.0
+                        #     variables:
+                        #         USER: $MKDOCS_FTP_NAME
+                        #         PASSWORD: $MKDOCS_FTP_PW
+                        #         SERVER: $MKDOCS_FTP_SERVER
+                        #         REMOTE_PATH: '/doc/'
+                        #         LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
+                        #         DEBUG: 'true'
             -   step:
                     name: deploy on openCode
                     script:
@@ -119,46 +123,19 @@ pipelines:
                                 USER: $MKDOCS_FTP_NAME
                                 PASSWORD: $MKDOCS_FTP_PW
                                 SERVER: $MKDOCS_FTP_SERVER
-                                REMOTE_PATH: '/mkdocs/' # TODO: change REMOTE_PATH to /doc/
+                                REMOTE_PATH: '/doc/'
                                 LOCAL_PATH: $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
                                 DEBUG: 'true'
-                        - mv $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG $BITBUCKET_CLONE_DIR/Latest
-                        -   pipe: atlassian/ftp-deploy:0.7.0
-                            variables:
-                                USER: $MKDOCS_FTP_NAME
-                                PASSWORD: $MKDOCS_FTP_PW
-                                SERVER: $MKDOCS_FTP_SERVER
-                                REMOTE_PATH: '/mkdocs/' # TODO: change REMOTE_PATH to /doc/
-                                LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
-                                DEBUG: 'true'
-        publish html doc:
-            - variables:
-                - name: BITBUCKET_TAG
-                  description: tag to publish docs for, e.g. v3.1.0
-            - step:
-                name: publish docs
-                caches:
-                    - node
-                artifacts:
-                    - docHtml/**
-                script:
-                    - npm install
-                    - npm run buildMdDoc
-                    - apt-get update
-            - step:
-                name: deploy files
-                caches:
-                    - node
-                script:
-                    - echo 'deploy files with tag '$BITBUCKET_TAG
-                    - apt-get update && apt-get install -y curl wput jq
-                    # create folder to store the last files with the tag from server
-                    - mkdir $BITBUCKET_TAG && cd $BITBUCKET_TAG
-                    - wget --user $MKDOCS_FTP_NAME --password $MKDOCS_FTP_PW --no-parent -r $MKDOCS_FTP_SERVER/doc/Latest
-                    - cd ..
-                    # find tag and docHtml folder , push the files to the masterportal.org folder
-                    - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/$BITBUCKET_TAG/" --verbose \;
-                    # - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
+                        # TODO: enable, if version 3 shall be Latest
+                        # - mv $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG $BITBUCKET_CLONE_DIR/Latest
+                        # -   pipe: atlassian/ftp-deploy:0.7.0
+                        #     variables:
+                        #         USER: $MKDOCS_FTP_NAME
+                        #         PASSWORD: $MKDOCS_FTP_PW
+                        #         SERVER: $MKDOCS_FTP_SERVER
+                        #         REMOTE_PATH: '/doc/'
+                        #         LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
+                        #         DEBUG: 'true'
         validate mkdocs:
             -   step:
                     name: validate mkdocs
