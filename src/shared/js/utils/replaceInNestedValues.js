@@ -1,4 +1,3 @@
-
 /**
  * Replaces all entries for a key of an object with the replacement if condition is true at object to replace.
  * - returns a simple array as a list of the replaced objects
@@ -10,10 +9,11 @@
  * @param {Object} condition to compare with
  * @param {String} condition.key to compare with
  * @param {String} condition.value to compare with
+ * @param {String} condition.replaceObject if filled with condition.value, the element ist totally replaced by replacement
  * @param {Number} [maxDepth=200] maximum number of self calls, default: 200
  * @returns {Array} the replaced objects
  */
-export default function replaceInNestedValues (obj, searchKey, replacement, condition, maxDepth = 200) {
+function replaceInNestedValues (obj, searchKey, replacement, condition, maxDepth = 200) {
     if (typeof obj !== "object" || obj === null) {
         return [];
     }
@@ -34,6 +34,7 @@ export default function replaceInNestedValues (obj, searchKey, replacement, cond
  * @param {Object} condition to compare with
  * @param {String} condition.key to compare with
  * @param {String} condition.value to compare with
+ * @param {String} condition.replaceObject if filled with condition.value, the element ist totally replaced by replacement
  * @returns {void}
  */
 function replaceInNestedValuesHelper (obj, searchKey, maxDepth, result, depth, replacement, condition) {
@@ -48,10 +49,16 @@ function replaceInNestedValuesHelper (obj, searchKey, maxDepth, result, depth, r
                 result.push(replacement);
             }
             else if (Array.isArray(obj[key])) {
-                obj[key].forEach(element => {
+                obj[key].forEach((element, index) => {
                     if (element[condition.key] === condition.value && element !== replacement) {
-                        Object.assign(element, replacement);
-                        result.push(element);
+                        if (condition.replaceObject === element[condition.key]) {
+                            obj[key].splice(index, 1, ...replacement);
+                            result.push(...replacement);
+                        }
+                        else {
+                            Object.assign(element, replacement);
+                            result.push(element);
+                        }
                     }
                     else if (Array.isArray(element[searchKey])) {
                         replaceInNestedValuesHelper(element, searchKey, maxDepth, result, depth + 1, replacement, condition);
@@ -64,3 +71,5 @@ function replaceInNestedValuesHelper (obj, searchKey, maxDepth, result, depth, r
         }
     });
 }
+
+export default {replaceInNestedValues};
