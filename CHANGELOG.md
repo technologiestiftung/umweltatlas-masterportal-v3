@@ -41,6 +41,7 @@
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
+- UrlParams: Fixed map marker set by url parameter.
 
 ---
 
