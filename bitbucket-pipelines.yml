@@ -51,7 +51,7 @@ pipelines:
                         - cd ..
                         # find tag and docHtml folder , push the files to the masterportal.org folder
                         - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/$BITBUCKET_TAG/" --verbose \;
-                        - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
+                        # - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
             -   step:
                     name: deploy on openCode
                     script:
@@ -158,7 +158,7 @@ pipelines:
                     - cd ..
                     # find tag and docHtml folder , push the files to the masterportal.org folder
                     - find $BITBUCKET_TAG -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/$BITBUCKET_TAG/" --verbose \;
-                    - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
+                    # - find docHtml -type f -exec curl --insecure --user "$MKDOCS_FTP_NAME:$MKDOCS_FTP_PW" --ftp-create-dirs -T {} "$MKDOCS_FTP_SERVER/doc/Latest" --verbose \;
         validate mkdocs:
             -   step:
                     name: validate mkdocs
