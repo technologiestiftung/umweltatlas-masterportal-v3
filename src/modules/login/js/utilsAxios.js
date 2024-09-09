@@ -10,7 +10,9 @@ import axios from "axios";
 function addInterceptor (token, interceptorUrlRegex) {
     axios.interceptors.request.use(
         config => {
-            if (!config.url?.startsWith("http") || (interceptorUrlRegex && config.url?.match(interceptorUrlRegex))) {
+            const configUrl = typeof config.url === "object" ? config.url.origin : config.url;
+
+            if (!configUrl?.startsWith("http") || (interceptorUrlRegex && configUrl?.match(interceptorUrlRegex))) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
             return config;

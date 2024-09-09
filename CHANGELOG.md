@@ -22,7 +22,9 @@
         - `backgroundsHeaderText` custom headline for the backgrounds (to overwrite the default translation)
         - `hideDatalayerHeader` to hide the headline for datalayers
         - `datalayerHeaderText` custom headline for the datalayers (to overwrite the default translation)
-- Login: Access Tokens are now revoked after logout
+- Login:
+    - Access Tokens are now revoked after logout.
+    - The WMS-Time layer are now available after you have logged in with the login module.
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.39.0 to 2.40.0
