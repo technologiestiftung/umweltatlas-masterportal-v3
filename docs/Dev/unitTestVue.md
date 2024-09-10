@@ -43,89 +43,99 @@ The following sub-chapters contain example test files that may be used as guidel
 
 ```js
 // modules/tools/scaleSwitcher/components/ScaleSwitcher.vue
-import Vuex from "vuex";
-import {config, shallowMount, createLocalVue} from "@vue/test-utils";
-import ScaleSwitcherComponent from "../../../components/ScaleSwitcher.vue";
-import ScaleSwitcher from "../../../store/indexScaleSwitcher";
 import {expect} from "chai";
 import sinon from "sinon";
+import {config, shallowMount} from "@vue/test-utils";
+import {createStore} from "vuex";
 
-const localVue = createLocalVue();
+import ScaleSwitcherComponent from "../../../components/ScaleSwitcher.vue";
 
-localVue.use(Vuex);
-config.mocks.$t = key => key;
+config.global.mocks.$t = key => key;
 
-describe("src/modules/tools/scaleSwitcher/components/ScaleSwitcher.vue", () => {
-    const scales = ["1000", "5000", "10000"],
-        mockMapGetters = {
-            scales: () => scales,
-            scale: sinon.stub(),
-            getView: sinon.stub()
-        },
-        mockMapActions = {
-            setResolutionByIndex: sinon.stub()
-        },
-        mockMapMutations = {
-            setScale: sinon.stub()
-        },
-        mockConfigJson = {
-            Portalconfig: {
-                menu: {
-                    tools: {
-                        children: {
-                            scaleSwitcher:
-                            {
-                                "name": "translate#common:menu.tools.scaleSwitcher",
-                                "icon": "bi-arrows-angle-contract",
-                                "renderToWindow": true
-                            }
-                        }
-                    }
-                }
-            }
-        };
-    let store;
+describe("src/modules/scaleSwitcher/components/ScaleSwitcher.vue", () => {
+    const scales = ["1000", "5000", "10000"];
+    let store,
+        wrapper;
 
     beforeEach(() => {
-        store = new Vuex.Store({
-            namespaced: true,
+        mapCollection.clear();
+
+        store = createStore({
+            namespaces: true,
             modules: {
-                Tools: {
+                Maps: {
                     namespaced: true,
-                    modules: {
-                        ScaleSwitcher
-                    }
-                },
-                Map: {
-                    namespaced: true,
-                    getters: mockMapGetters,
-                    mutations: mockMapMutations,
-                    actions: mockMapActions
+                    getters: {
+                        scale: sinon.stub()
+                    },
+                    mutations: {
+                        setScale: sinon.stub()
+                    },
+                    state: {
+                        scale: scales[0]
+                    },
+                    actions: {}
                 }
-            },
-            state: {
-                configJson: mockConfigJson
             }
         });
-        store.dispatch("Tools/ScaleSwitcher/setActive", true);
+
+        const map = {
+            id: "ol",
+            mode: "2D",
+            getView: () => {
+                return {
+                    extent: [510000.0, 5850000.0, 625000.4, 6000000.0],
+                    center: [565874, 5934140],
+                    zoom: 2,
+                    options: [
+                        {resolution: 0.2645831904584105, scale: 1000, zoomLevel: 8},
+                        {resolution: 1.3229159522920524, scale: 5000, zoomLevel: 6},
+                        {resolution: 26.458319045841044, scale: 10000, zoomLevel: 1}
+                    ],
+                    resolution: 15.874991427504629,
+                    resolutions: [66.14579761460263, 26.458319045841044, 15.874991427504629, 10.583327618336419, 5.2916638091682096, 2.6458319045841048, 1.3229159522920524, 0.6614579761460262, 0.2645831904584105, 0.13229159522920522],
+                    get: () => [
+                        {
+                            scale: "1000"
+                        },
+                        {
+                            scale: "5000"
+                        },
+                        {
+                            scale: "10000"
+                        }
+                    ],
+                    getResolutions: () => [
+                        1.1111,
+                        2.2222
+                    ],
+                    setResolution: () => sinon.stub()
+                };
+            }
+        };
+
+        mapCollection.addMap(map, "2D");
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the scaleSwitcher", () => {
-        const wrapper = shallowMount(ScaleSwitcherComponent, {store, localVue});
+        wrapper = shallowMount(ScaleSwitcherComponent, {
+            global: {
+                plugins: [store]
+            }});
 
         expect(wrapper.find("#scale-switcher").exists()).to.be.true;
     });
 
-    it("do not render the scaleSwitchers select if not active", () => {
-        store.dispatch("Tools/ScaleSwitcher/setActive", false);
-        const wrapper = shallowMount(ScaleSwitcherComponent, {store, localVue});
-
-        expect(wrapper.find("#scale-switcher").exists()).to.be.false;
-    });
-
     it("has initially set all scales to select", () => {
-        const wrapper = shallowMount(ScaleSwitcherComponent, {store, localVue}),
-            options = wrapper.findAll("option");
+        wrapper = shallowMount(ScaleSwitcherComponent, {
+            global: {
+                plugins: [store]
+            }});
+        const options = wrapper.findAll("option");
 
         expect(options.length).to.equal(scales.length);
         scales.forEach((scale, index) => {
@@ -133,38 +143,46 @@ describe("src/modules/tools/scaleSwitcher/components/ScaleSwitcher.vue", () => {
         });
     });
 
-    it("select another scale changes scale in map", async () => {
-        const wrapper = shallowMount(ScaleSwitcherComponent, {store, localVue}),
-            options = wrapper.findAll("option");
+    it("has initially selected scale", async () => {
+        wrapper = shallowMount(ScaleSwitcherComponent, {
+            global: {
+                plugins: [store]
+            }});
+        const select = wrapper.find("select");
 
-        options.at(1).trigger("change");
-        await wrapper.vm.$nextTick();
-        expect(options.at(1).attributes().selected).to.equals("true");
-        expect(options.at(0).attributes().selected).to.be.undefined;
-        expect(options.at(2).attributes().selected).to.be.undefined;
-        // maps scale change should be called
-        expect(mockMapActions.setResolutionByIndex.calledOnce).to.equal(true);
-
-        options.at(2).trigger("change");
-        await wrapper.vm.$nextTick();
-        expect(options.at(2).attributes().selected).to.equals("true");
-        // maps scale change should be called
-        expect(mockMapActions.setResolutionByIndex.calledTwice).to.equal(true);
+        expect(select.element.value).to.equals("1000");
     });
 
-    it("method selectionChanged shall change currentScale", async () => {
-        const wrapper = shallowMount(ScaleSwitcherComponent, {store, localVue}),
-            event = {
-                target: {
-                    value: scales[1],
-                    selectedIndex: 1
-                }
-            };
+    it("renders the correct value when select is changed", async () => {
+        wrapper = shallowMount(ScaleSwitcherComponent, {
+            global: {
+                plugins: [store]
+            }});
+        const select = wrapper.find("select"),
+            options = wrapper.findAll("option");
 
-        wrapper.vm.selectionChanged(event);
+        select.setValue(options.at(1).element.value);
         await wrapper.vm.$nextTick();
+        expect(wrapper.find("select").element.value).to.equals("5000");
+        select.setValue(options.at(2).element.value);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find("select").element.value).to.equals("10000");
+    });
 
-        expect(store.state.Tools.ScaleSwitcher.currentScale).to.equals(scales[1]);
+    it("sets focus to first input control", async () => {
+        const elem = document.createElement("div");
+
+        if (document.body) {
+            document.body.appendChild(elem);
+        }
+        wrapper = shallowMount(ScaleSwitcherComponent, {
+            attachTo: elem,
+            global: {
+                plugins: [store]
+            }});
+        wrapper.vm.setFocusToFirstControl();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.find("#scale-switcher-select").element).to.equal(document.activeElement);
     });
 });
 ```
@@ -177,89 +195,37 @@ import {expect} from "chai";
 import getters from "../../../store/gettersScaleSwitcher";
 import stateScaleSwitcher from "../../../store/stateScaleSwitcher";
 
-const {currentScale} = getters;
+const {
+    icon,
+    name,
+    type,
+    hasMouseMapInteractions,
+    supportedDevices,
+    supportedMapModes
+} = getters;
 
-describe("src/modules/tools/scaleSwitcher/store/gettersScaleSwitcher.js", () => {
-    describe("getCurrentScale", () => {
-        it("returns the scale from state", () => {
-            const state = {
-                currentScale: "1000"
-            };
-
-            expect(currentScale(state)).to.equals("1000");
+describe("src/modules/scaleSwitcher/store/gettersScaleSwitcher.js", () => {
+    describe("ScaleSwitcher getters", () => {
+        it("returns the icon from state", () => {
+            expect(icon(stateScaleSwitcher)).to.equals("bi-arrows-angle-contract");
+        });
+        it("returns the name from state", () => {
+            expect(name(stateScaleSwitcher)).to.be.equals("common:modules.scaleSwitcher.name");
+        });
+        it("returns the supportedDevices default value from state", () => {
+            expect(supportedDevices(stateScaleSwitcher)).to.be.deep.equals(["Desktop", "Mobile", "Table"]);
+        });
+        it("returns the supportedMapModes default value from state", () => {
+            expect(supportedMapModes(stateScaleSwitcher)).to.be.deep.equals(["2D", "3D"]);
+        });
+        it("returns the type from state", () => {
+            expect(type(stateScaleSwitcher)).to.equals("scaleSwitcher");
         });
     });
+
     describe("testing default values", () => {
-        it("returns the name default value from state", () => {
-            expect(name(stateScaleSwitcher)).to.be.equals("common:menu.tools.scaleSwitcher");
-        });
-        // (...) - test further default values
-    });
-});
-```
-
-### Store/actions test
-
-Note the use of the `testAction` function imported from `test/unittests/VueTestUtils`. This tool shortens the code required and provides a sound action test base.
-
-```js
-// modules/tools/scaleSwitcher/store/actionsScaleSwitcher.js
-import testAction from "../../../../../../../test/unittests/VueTestUtils";
-import actions from "../../../store/actionsScaleSwitcher";
-
-const {setActive} = actions;
-
-describe("src/modules/tools/scaleSwitcher/store/actionsScaleSwitcher.js", () => {
-    describe("setActive", () => {
-        const rootState = {
-            Map: {
-                scale: "60033.65329850641"
-            }
-        };
-
-        it("setActive(true) should set rounded currentScale", done => {
-            const payload = true,
-                mutationActivePayload = true,
-                mutationScalePayload = 60000;
-
-            testAction(setActive, payload, {}, rootState, [
-                {type: "setActive", payload: mutationActivePayload},
-                {type: "setCurrentScale", payload: mutationScalePayload}
-            ], {}, done);
-
-        });
-        it("setActive(false) should not set currentScale", done => {
-            const payload = false,
-                mutationActivePayload = false;
-
-            testAction(setActive, payload, {}, rootState, [
-                {type: "setActive", payload: mutationActivePayload}
-            ], {}, done);
-
-        });
-    });
-});
-```
-
-### Store/mutations test
-
-```js
-// modules/tools/scaleSwitcher/store/mutationsScaleSwitcher.js
-import {expect} from "chai";
-import mutations from "../../../store/mutationsScaleSwitcher";
-
-const {setCurrentScale} = mutations;
-
-describe("src/modules/tools/scaleSwitcher/store/mutationsScaleSwitcher.js", () => {
-    describe("setCurrentScale", () => {
-        it("sets the scale to state", () => {
-            const state = {
-                currentScale: null
-            },
-            payload = "1000";
-
-            setCurrentScale(state, payload)
-            expect(state.currentScale).to.equals("1000");
+        it("returns the hasMouseMapInteractions default value from state", () => {
+            expect(hasMouseMapInteractions(stateScaleSwitcher)).to.be.false;
         });
     });
 });
