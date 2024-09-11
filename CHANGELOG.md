@@ -30,7 +30,7 @@
 
 ## 2024-09-12 v3.2.1
 ### Fixed
-- UrlParams: 
+- UrlParams:
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 
@@ -91,6 +91,7 @@
 - Export from draw_old tool: update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Fixed
+- Legend: Same legends of group layers are shown only once.
 - Filter: The buttons were always disabled in the accordion of the filter.
 - LayerSelection: After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
@@ -246,7 +247,7 @@ In certain circumstances this means that you have to update your portal files (i
 - TableComponent: New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
-    - dependencies: 
+    - dependencies:
         - globals: 15.4.0
     - devDependencies:
         - @eslint/js: 9.3.3
@@ -339,7 +340,7 @@ In certain circumstances this means that you have to update your portal files (i
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
-- The following packages have been removed: 
+- The following packages have been removed:
     - devDependencies:
         - eslint: 8.51.0
         - eslint-plugin-chai-friendly: 0.7.2
@@ -430,7 +431,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
-- The following packages have been added: 
+- The following packages have been added:
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
@@ -665,7 +666,7 @@ In certain circumstances this means that you have to update your portal files (i
 
 ## 2023-03-01 v3.0.0 - alpha1
 ### Added
-- The following NPM packages are added: 
+- The following NPM packages are added:
     - devDependencies:
         - @babel/plugin-transform-modules-commonjs
         - @vue/devtools-api
