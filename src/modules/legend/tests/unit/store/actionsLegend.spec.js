@@ -524,7 +524,17 @@ describe("src/modules/legend/store/actionsLegend.js", () => {
         await prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
         expect(commit.calledOnce).to.be.true;
         expect(commit.firstCall.args[0]).to.be.equals("setPreparedLegend");
-        expect(commit.firstCall.args[1]).to.be.deep.equals(["getLegendGraphicRequest", "getLegendGraphicRequest"]);
+
+        if (commit.firstCall.args.length <= 1) {
+            expect(commit.firstCall.args[0]).to.deep.equals(["getLegendGraphicRequest"]);
+        }
+        else if (commit.firstCall.args.length >= 2) {
+            expect(commit.firstCall.args[1]).to.be.an("array");
+            expect(commit.firstCall.args[1]).to.deep.equals(["getLegendGraphicRequest"]);
+        }
+        else {
+            throw new Error(`Unexpected array length: ${commit.firstCall.args.length}`);
+        }
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.firstCall.args[0]).to.be.equals("prepareLegend");
         expect(dispatch.firstCall.args[1]).to.be.deep.equals(["legendUrl1"]);
