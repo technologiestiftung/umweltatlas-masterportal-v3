@@ -17,16 +17,15 @@ const actions = {
 
         allLayers.forEach(layerHolder => {
             const layer = layerHolder.layer;
-            console.log(layer);
+
             if (typeof layer.layerSource?.getFeatures === "function" && layer.getLayerSource().getFeatures().length === 0) {
                 const layerSource = layer.getLayerSource() instanceof Cluster ? layer.getLayerSource().getSource() : layer.getLayerSource();
-                console.log("123");
+
                 layerSource.on("featuresloadend", () => {
                     dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
                 });
             }
             else {
-                console.log("321");
                 dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
             }
         });
@@ -41,11 +40,10 @@ const actions = {
      */
     addLegend ({state, commit}, legendObj) {
         const legends = state.legends;
-        console.log(legendObj);
+
         if (!legends.find(layer => layer.name === legendObj.name)) {
             legends.push(legendObj);
             commit("setLegends", legends);
-            console.log("addLegend");
         }
     },
 
@@ -74,7 +72,7 @@ const actions = {
         const legends = state.legends.filter((legendObj) => {
             return legendObj.id !== id;
         });
-        console.log("remove Legend");
+
         commit("setLegends", legends);
     },
 
@@ -87,13 +85,12 @@ const actions = {
     async toggleLayerInLegend ({dispatch}, {layer, visibility}) {
         const layerId = layer.get("id"),
             layerTyp = layer.get("typ");
-        console.log("Id", layerId);
-        console.log("LayerTyp", layer.get("typ"));
+
         if (visibility === false) {
             dispatch("removeLegend", layerId);
         }
         else {
-            if (layerTyp) {
+            if (layerTyp === "GROUP") {
                 dispatch("prepareLegendForGroupLayer", layer.getLayerSource());
             }
             else {
@@ -185,11 +182,7 @@ const actions = {
 
         if (layer) {
             let preparedLegend = null;
-            console.log("Typ: ", layer.get("typ"));
-            if (preparedLegend === preparedLegend) {
-                preparedLegend = dispatch("prepareLegendForDuplicateLayer", layer.getLayerSource());
 
-            }
             if (layer.get("typ") === "GROUP") {
                 preparedLegend = dispatch("prepareLegendForGroupLayer", layer.getLayerSource());
             }
@@ -217,9 +210,6 @@ const actions = {
      */
     prepareLegend ({commit}, legendInfos) {
         let preparedLegend = [];
-        // let allLegend = [];
-        const allEqual = arr => arr.every(v => v === arr[0]);
-
 
         if (Array.isArray(legendInfos) && legendInfos.every(value => typeof value === "string") && legendInfos.length > 0) {
             preparedLegend = legendInfos;
@@ -250,8 +240,6 @@ const actions = {
                 }
             });
         }
-        allLegend.push(preparedLegend);
-        console.log("setPreparedLegend", allLegend);
 
         commit("setPreparedLegend", preparedLegend);
 
@@ -268,22 +256,14 @@ const actions = {
      */
     async prepareLegendForGroupLayer ({commit, dispatch, getters}, layerSource) {
         let legends = [];
-        console.log("layerSource", layerSource);
-        if (this.allEqual === true) {
-            const layer = layerSource[0];
+
+        for (let i = 0; i < layerSource.length; i++) {
+            const layer = layerSource[i];
 
             dispatch("prepareLegend", await layer.createLegend());
             legends.push(await getters.preparedLegend);
         }
-        else {
-            for (let i = 0; i < layerSource.length; i++) {
-                const layer = layerSource[i];
 
-                dispatch("prepareLegend", await layer.createLegend());
-                legends.push(await getters.preparedLegend);
-            }
-
-        }
 
         legends = [].concat(...legends);
         commit("setPreparedLegend", legends);
