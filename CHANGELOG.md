@@ -43,6 +43,32 @@ AlertingItem: Fixed the position of closing button.
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.39.0 to 2.40.0
+        - axios: 1.7.1 to 1.7.7
+        - chart.js: 4.4.3 to 4.4.4
+        - i18next: 23.11.5 to 23.15.1
+        - i18next-http-backend: 2.5.2 to 2.6.1
+        - qrcode: 1.5.3 to 1.5.4
+        - three: 0.165.0 to 0.168.0
+        - three: 0.165.0 to 0.168.0
+    - devDependencies:
+        - @eslint/js: 9.3.3 to 9.10.0
+        - @geoblocks/print: 0.7.8 to 0.7.9
+        - @sinonjs/fake-timers: 11.2.2 to 13.0.1
+        - @stylistic/eslint-plugin-js: 2.2.1 to 2.8.0
+        - @vue/compiler-sfc: 3.3.4 to 3.5.4
+        - @vue/devtools-api: 6.5.0 to 6.6.4
+        - @vue/test-utils: 2.4.1 to 2.4.6
+        - chai: 4.4.1 to 5.1.1
+        - eslint-plugin-jsdoc: 48.2.7 to 50.2.2
+        - eslint-plugin-mocha: 10.4.3 to 10.5.0
+        - eslint-plugin-n: 17.9.0 to 17.10.2
+        - eslint-plugin-vue: 9.25.0 to 9.28.0
+        - eslint-plugin-vuejs-accessibility: 2.3.0 to 2.4.1
+        - globals: 15.4.0 to 15.9.0
+        - mocha: 10.4.0 to 10.7.3
+        - sinon-chai: 3.7.0 to 4.0.0
+        - vue-loader: 17.3.0 to 17.4.2
+        - zip-a-folder: 3.1.6 to 3.1.7
 - Import GeoJson
     - GFI attributes are added in the import of a standard GeoJson
     - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
