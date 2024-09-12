@@ -16,12 +16,24 @@
 
 ### Fixed
 AlertingItem: Fixed the position of closing button.
-3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
+
 ---
 
-## 04-09-2024 v3.2.0
-### __Breaking Changes__
+## 2024-09-19 v3.2.2
+### Fixed
+3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
 
+---
+
+## 2024-09-12 v3.2.1
+### Fixed
+- UrlParams: 
+        - mapMarker: Fixed map marker set by url parameter.
+        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+
+---
+
+## 2024-09-04 v3.2.0
 ### Added
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
@@ -76,10 +88,6 @@ AlertingItem: Fixed the position of closing button.
 - Export from draw_old tool
     - update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Filter:
     - The buttons were always disabled in the accordion of the filter.
@@ -90,9 +98,6 @@ AlertingItem: Fixed the position of closing button.
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
-- UrlParams: 
-        - mapMarker: Fixed map marker set by url parameter.
-        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 
 ---
 
