@@ -76,16 +76,17 @@ pipelines:
                         - npm install
                         - npm audit --json
         deploy last tag on openCode:
+            - variables:
+                - name: BITBUCKET_TAG
+                  description: tag to publish docs for, e.g. v3.1.0
             -   step:
                     name: deploy last tag on openCode
                     script:
                         - apt-get update && apt-get install -y curl wput jq
                         - git fetch --all --tags
-                        # Get taglist sorted by date, take the penultimate tag name and remove quotation marks
-                        - lastTag=$(curl --request GET --user "$bbapi_name:$bbapi_key" --url "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/refs/tags?sort=-target.date" --header "Accept:application/json" | jq .values[1].name | tr -d '"')
-                        - echo 'deply to opencode:'$lastTag
-                        - git checkout tags/$lastTag
-                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $lastTag
+                        - echo 'deply to opencode:'$BITBUCKET_TAG
+                        - git checkout tags/$BITBUCKET_TAG
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git $BITBUCKET_TAG
                         - git clone --single-branch --branch dev_vue https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                         - cd masterportal
                         - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
@@ -132,4 +133,3 @@ pipelines:
                         - source .venv/bin/activate
                         - pip install -r devtools/docsValidation/python-dependencies.txt
                         - devtools/docsValidation/docsValidation.sh
-
