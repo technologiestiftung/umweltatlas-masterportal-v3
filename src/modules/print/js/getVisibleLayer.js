@@ -28,12 +28,43 @@ function getVisibleLayer (printMapMarker = false) {
         groupedLayers.forEach(groupedLayer => {
             groupedLayer.getLayers().forEach(gLayer => {
                 gLayer.setZIndex(groupedLayer.getZIndex());
+                // layer opacity is only set for printing and later it is reverted
                 gLayer.setOpacity(groupedLayer.getOpacity());
                 visibleLayerList.push(gLayer);
             });
         });
     }
     checkLayersInResolution(visibleLayerList);
+}
+
+/**
+ * Layer opacity is reverted after closing print map tab
+ * @param {*} printMapMarker
+ */
+function revertLayerOpacity (printMapMarker = false) {
+    const layers = mapCollection.getMap("2D").getLayers();
+
+    let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
+            return layer.getVisible() === true &&
+                (
+                    layer.get("name") !== "markerPoint" || printMapMarker
+                );
+        }),
+        groupedLayers = null;
+
+    groupedLayers = visibleLayerList.filter(layer => {
+        return layer instanceof LayerGroup;
+    });
+    if (groupedLayers.length > 0) {
+        visibleLayerList = visibleLayerList.filter(layer => {
+            return !(layer instanceof LayerGroup);
+        });
+        groupedLayers.forEach(groupedLayer => {
+            groupedLayer.getLayers().forEach(gLayer => {
+                gLayer.setOpacity(1);
+            });
+        });
+    }
 }
 
 /**
@@ -80,4 +111,4 @@ function sortVisibleLayerListByZindex (visibleLayerList) {
     store.dispatch("Modules/Print/setVisibleLayerList", [].concat(...visibleLayerListWithoutZIndex));
 }
 
-export default {getVisibleLayer};
+export default {getVisibleLayer, revertLayerOpacity};
