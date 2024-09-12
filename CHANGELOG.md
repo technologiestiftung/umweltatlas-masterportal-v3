@@ -23,6 +23,7 @@
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
 - Corrected link for geodata infrastructure information pdf by GDI-DE. 
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
+- Print: Fixed opacity for wfs group layers
 
 ---
 
@@ -43,10 +44,10 @@
 - Searchbar: mapMarker or polygonMarker stays visible on close of search results.
 
 ### Fixed
-- AlertingItem: Fixed the position of closing button.
 - Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
 - Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
 - LayerInfoContactButton: no warning in console, if at layer `md_name` ist not available in `datasets`.
+- AlertingItem: Fixed the position of closing button.
 - LayerSelection: `tree.type: auto`: change of category creates correct folders.
 - Draw_old: import KML file works correctly.
 - GroupLayer: Layer of the type group consider now min and max scale of the single layer in 2D.
