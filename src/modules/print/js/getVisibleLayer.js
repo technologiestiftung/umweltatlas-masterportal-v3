@@ -39,26 +39,22 @@ function getVisibleLayer (printMapMarker = false) {
 
 /**
  * Layer opacity is reverted after closing print map tab
- * @param {*} printMapMarker
+ * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
  */
 function revertLayerOpacity (printMapMarker = false) {
-    const layers = mapCollection.getMap("2D").getLayers();
-
-    let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
+    const layers = mapCollection.getMap("2D").getLayers(),
+        visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
             return layer.getVisible() === true &&
                 (
                     layer.get("name") !== "markerPoint" || printMapMarker
                 );
-        }),
-        groupedLayers = null;
+        });
+    let groupedLayers = null;
 
     groupedLayers = visibleLayerList.filter(layer => {
         return layer instanceof LayerGroup;
     });
     if (groupedLayers.length > 0) {
-        visibleLayerList = visibleLayerList.filter(layer => {
-            return !(layer instanceof LayerGroup);
-        });
         groupedLayers.forEach(groupedLayer => {
             groupedLayer.getLayers().forEach(gLayer => {
                 gLayer.setOpacity(1);
