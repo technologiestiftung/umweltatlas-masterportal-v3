@@ -256,6 +256,8 @@ export default {
                                         aria-label="Close"
                                         @click="removeAlert(singleAlert.hash);"
                                     />
+                                </div>
+                                <div class="d-flex justify-content-end bd-highlight mb-3">
                                     <span :class="selectCategoryClass(singleAlert.category) + ' badge-pill'">
                                         {{ $t(singleAlert.displayCategory) }}
                                     </span>

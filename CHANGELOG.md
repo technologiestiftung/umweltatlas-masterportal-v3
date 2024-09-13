@@ -15,7 +15,7 @@
 ### Removed
 
 ### Fixed
-
+AlertingItem: Fixed the position of closing button.
 ---
 
 ## 04-09-2024 v3.2.0
