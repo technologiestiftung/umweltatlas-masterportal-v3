@@ -49,7 +49,6 @@ AlertingItem: Fixed the position of closing button.
         - i18next-http-backend: 2.5.2 to 2.6.1
         - qrcode: 1.5.3 to 1.5.4
         - three: 0.165.0 to 0.168.0
-        - three: 0.165.0 to 0.168.0
     - devDependencies:
         - @eslint/js: 9.3.3 to 9.10.0
         - @geoblocks/print: 0.7.8 to 0.7.9
