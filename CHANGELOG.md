@@ -99,17 +99,13 @@
 - UrlParams: 
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
-<<<<<<< HEAD
 - Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
-=======
->>>>>>> c972bf4ddb (updated CHANGELOG.md)
 
 ---
 
 ## 2024-08-07 v3.1.0
 ### Added
-- SearchBar:
-    - Added the possibility to zoom to an extent from a search result.
+- SearchBar: Added the possibility to zoom to an extent from a search result.
 - StatisticDashboard:
     - Updated UI of the filter to match the MP 3.0 Design.
     - Dropdowns now sort the selected entries always at the top.
@@ -122,14 +118,11 @@
     - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
     - Extended region filter
     - Button "All" for selecting all the regions and all in dropdown of districts and cities.
-- OAF:
-    - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
-- ViewPoint:
-    - Migrated from dev to dev_vue.
+- OAF: Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
+- ViewPoint: Migrated from dev to dev_vue.
 - Matomo: Added Support for analytics via matomo.
 - Migrator: supports ids with suffix.
-- InputText:
-    - Added change event handler property and disabled property.
+- InputText: Added change event handler property and disabled property.
 - BaseLayerSwitcher: Added Config-Parameter singleBaseLayer to hide previous selected BaseLayer
 - Shareview: If the portal is not running on HTTPS, a message is displayed because the URL cannot then be copied to the clipboard.
 - AboutModule:
@@ -138,8 +131,7 @@
     - Added imprint title.
     - Added contact button to open contact module.
     - Added sales tax identification number.
-- Footer:
-    - Added link to open imprint in about module.
+- Footer: Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
     -  Added button to open contact form using the address data from the metadata as the addressee (to parameter)
@@ -249,12 +241,10 @@ In certain circumstances this means that you have to update your portal files (i
     - Reset All button.
     - Validation function in filter form.
     - Configurable number of classes and base color for choropleth map and legend.
-- TableComponent:
-    - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
+- TableComponent: New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
-    - dependencies:
-        - globals: 15.4.0
+    - dependencies: globals: 15.4.0
     - devDependencies:
         - @eslint/js: 9.3.3
         - eslint-plugin-jsdoc: 48.2.7,
@@ -346,10 +336,9 @@ In certain circumstances this means that you have to update your portal files (i
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
-- The following packages have been removed:
-    - devDependencies:
-        - eslint: 8.51.0
-        - eslint-plugin-chai-friendly: 0.7.2
+- The following packages have been removed: devDependencies:
+    - eslint: 8.51.0
+    - eslint-plugin-chai-friendly: 0.7.2
 - QuickHelp: removed module `quickHelp`
 - Search interface BKG: removed property `zoomToResultOnHover` and `zoomToResultOnClick`, configure `resultEvents` instead.
 
@@ -437,9 +426,8 @@ In certain circumstances this means that you have to update your portal files (i
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
-- The following packages have been added:
-    - devDependencies:
-        - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
+- The following packages have been added: devDependencies:
+    - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
 - Configurable searchbar for the layerSelection.
 - Add layerParam `gfiThemeSetting`.
@@ -672,12 +660,11 @@ In certain circumstances this means that you have to update your portal files (i
 
 ## 2023-03-01 v3.0.0 - alpha1
 ### Added
-- The following NPM packages are added:
-    - devDependencies:
-        - @babel/plugin-transform-modules-commonjs
-        - @vue/devtools-api
-        - @vue/compiler-sfc
-        - i18next-vue
+- The following NPM packages are added: devDependencies:
+    - @babel/plugin-transform-modules-commonjs
+    - @vue/devtools-api
+    - @vue/compiler-sfc
+    - i18next-vue
 - A new module `OpenConfig` has been implemented, which can be used to load a new configuration file (config.json) at runtime.
 - A new module `News` has been implemented, it displays the recent alerts.
 - A new module in menu `CustomMenuElement` has been implemented. It can open a link, display html from config.json or from external file or dispatch an action.
