@@ -27,7 +27,7 @@ Our further Roadmap is to work further on Masterportal Version 3. We will suppor
 * 04.10.2023: Release MP 3.0 beta 1
 * 18.12.2023: Release MP 3.0 beta 2
 * 28.06.2024: Release MP 3.0 stable
-* 02.10.2024: Release MP 3.0 LTS
+* 02.10.2024: Release MP 3.0 LTS (3.3.0)
 ### Masterportal Releases
 #### Monthly Releases
 We release a minor version on the first Wednesday of every month.
@@ -38,7 +38,7 @@ Current LTS Version: 3.3.0
 
 ### Masterportal Release Schedule
 <p align="center">
-  <img src="./docs/_media/Masterportal-TimeSchedule.svg" alt="Sublime's custom image"/>
+  <img src="./docs/_media/Masterportal-TimeSchedule.svg" alt="Release plan"/>
 </p>
 
 ### Support for MP 2.x and MP 3.x
