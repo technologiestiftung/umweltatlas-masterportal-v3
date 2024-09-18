@@ -336,10 +336,9 @@ In certain circumstances this means that you have to update your portal files (i
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
-- The following packages have been removed:
-    - devDependencies:
-        - eslint: 8.51.0
-        - eslint-plugin-chai-friendly: 0.7.2
+- The following packages have been removed: devDependencies:
+    - eslint: 8.51.0
+    - eslint-plugin-chai-friendly: 0.7.2
 - QuickHelp: removed module `quickHelp`
 - Search interface BKG: removed property `zoomToResultOnHover` and `zoomToResultOnClick`, configure `resultEvents` instead.
 
