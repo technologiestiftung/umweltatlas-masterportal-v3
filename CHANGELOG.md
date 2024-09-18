@@ -16,6 +16,7 @@
 
 ### Fixed
 AlertingItem: Fixed the position of closing button.
+3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
 ---
 
 ## 04-09-2024 v3.2.0
