@@ -9,6 +9,8 @@ import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInp
  * @module modules/AlertingItem
  * @vue-data {Boolean} availableLocalStorage - Shows if localStorage is available.
  * @vue-data {String} currentUrl - Current url.
+ * @vue-data {Function|null} subscribtion handler to unsubsribe event listining (https://vuex.vuejs.org/api/#subscribeaction).
+ * @vue-data {String} sortedAlertsSwitch - Switch for data to be used.
  */
 export default {
     name: "AlertingItem",
@@ -16,7 +18,9 @@ export default {
     data () {
         return {
             availableLocalStorage: false,
-            currentUrl: document.URL.replace(/#.*$/, "").replace(/\/*\?.*$/, "/").replace(/\bwww.\b/, "")
+            currentUrl: document.URL.replace(/#.*$/, "").replace(/\/*\?.*$/, "/").replace(/\bwww.\b/, ""),
+            unsubscribeAction: null,
+            sortedAlertsSwitch: "initial"
         };
     },
     computed: {
@@ -31,7 +35,8 @@ export default {
             "localStorageDisplayedAlertsKey",
             "showTheModal",
             "sortedAlerts",
-            "type"
+            "type",
+            "displayOnEventList"
         ]),
         /**
          * Console mapping to be able to debug in template.
@@ -53,6 +58,11 @@ export default {
             this.availableLocalStorage = false;
             console.error("Spelling localestorage is not available in this application. Please allow third party cookies in your browser!");
         }
+
+        /* Hint: store.subscribeAction(): https://vuex.vuejs.org/api/#subscribeaction */
+        this.unsubscribeAction = this.$store.subscribeAction((action) => {
+            this.checkForEventAlerts(action);
+        });
     },
     /**
      * Mounted hook: Initially fetches BroadcastConfig.
@@ -67,14 +77,19 @@ export default {
 
         this.addAlertsFromConfig(this.initialAlerts);
     },
-
+    unmounted () {
+        if (this.unsubscribeAction) {
+            this.unsubscribeAction();
+        }
+    },
     methods: {
         ...mapActions(["initializeModule"]),
         ...mapActions("Alerting", [
             "addAlertsFromConfig",
             "addSingleAlert",
             "alertHasBeenRead",
-            "cleanup"
+            "cleanup",
+            "activateDisplayOnEventAlerts"
         ]),
         ...mapMutations("Alerting", [
             "removeFromAlerts",
@@ -196,6 +211,33 @@ export default {
                 return "badge rounded-pill bg-danger";
             }
             return "badge rounded-pill bg-info";
+        },
+        /**
+         * Event handler for alerts on events
+         * @param {String} action Current event of the masterportal
+         * @returns {void}
+         */
+        checkForEventAlerts: function (action) {
+            if (this.displayOnEventList?.length > 0 && this.displayOnEventList.some((element) => {
+                if (element.type === action.type) {
+                    if (typeof element.value === "string" && element.value === action.payload) {
+
+                        return true;
+                    }
+                    else if (typeof element.value === "object" &&
+                        Object.entries(element.value).every(([key, value]) => action.payload[key] === value)
+                    ) {
+
+                        return true;
+                    }
+                    return false;
+                }
+
+                return false;
+            })) {
+                this.sortedAlertsSwitch = "onEvent";
+                this.activateDisplayOnEventAlerts(action);
+            }
         }
     }
 };
@@ -203,7 +245,7 @@ export default {
 
 <template>
     <div
-        v-if="showTheModal && alerts.length>0"
+        v-if="showTheModal && sortedAlerts(sortedAlertsSwitch).length>0"
         id="alertModal"
         class="modal"
         tabindex="-1"
@@ -228,7 +270,7 @@ export default {
                     class="modal-body"
                 >
                     <div
-                        v-for="(alertCategory, categoryIndex) in sortedAlerts"
+                        v-for="(alertCategory, categoryIndex) in sortedAlerts(sortedAlertsSwitch)"
                         :key="alertCategory.category"
                         class="alertCategoryContainer"
                     >
@@ -250,7 +292,7 @@ export default {
                                         {{ singleAlert.title }}
                                     </h3>
                                     <button
-                                        v-if="alerts.length >1"
+                                        v-if="sortedAlerts(sortedAlertsSwitch).length >1"
                                         type="button"
                                         class="btn btn-close btn-sm col-1"
                                         aria-label="Close"

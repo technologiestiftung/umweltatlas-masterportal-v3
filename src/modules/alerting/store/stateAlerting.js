@@ -27,6 +27,8 @@
  * @property {String} localStorageDisplayedAlertsKey key name for localStorage
  * @property {Boolean} showTheModal flag to control if modal is shown or not
  * @property {String} type The type of the alerting component.
+ * @property {Object[]} displayOnEventList All events that shall be used to display an alert.
+ * @property {Object[]} alertsOnEvent All alerts that shall be displayed on a specific event.
 */
 export default {
     configPaths: ["configJs.alerting"],
@@ -54,5 +56,7 @@ export default {
     availableCategories: ["news", "success", "warning", "error", "info"],
     localStorageDisplayedAlertsKey: "displayedAlerts",
     showTheModal: false,
-    type: "alerting"
+    type: "alerting",
+    displayOnEventList: [],
+    alertsOnEvent: []
 };

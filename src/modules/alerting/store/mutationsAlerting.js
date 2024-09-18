@@ -57,5 +57,14 @@ export default {
      */
     addToDisplayedAlerts (state, newAlert) {
         state.displayedAlerts = {...state.displayedAlerts, [newAlert.hash]: dayjs().format()};
+    },
+    /**
+     * Adds an event to the state's list, which shall trigger an alert.
+     * @param {Object} state state
+     * @param {Object} newEvent object with information on an event that shall trigger an alert
+     * @returns {void}
+     */
+    addToDisplayOnEventList (state, newEvent) {
+        state.displayOnEventList.push(newEvent);
     }
 };

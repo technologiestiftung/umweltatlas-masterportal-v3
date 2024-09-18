@@ -7,14 +7,25 @@ export default {
      * This returns the alerts queue array grouped by the alerts' category property.
      * And show error-warning-success -Alerts before info and news
      * @param {Object} state state
+     * @param {string} which identifyer, if the "alertOnEvent"-events shall be sortet or the "initial" events
      * @returns {Object[]} sortedAlerts
      */
-    sortedAlerts: (state) => {
+    sortedAlerts: (state) => (which) => {
         const
             resultByCategory = {},
             results = [];
 
-        state.alerts.forEach(singleAlert => {
+        let alertsToSort = state.alerts;
+
+        if (which === "onEvent") {
+            alertsToSort = state.alertsOnEvent;
+        }
+
+        alertsToSort.forEach(singleAlert => {
+            if (which === "initial" && Object.hasOwn(singleAlert, "displayOnEvent")) {
+                return;
+            }
+
             if (resultByCategory[singleAlert.category] === undefined) {
                 resultByCategory[singleAlert.category] = [];
             }

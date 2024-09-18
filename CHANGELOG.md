@@ -598,6 +598,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Possibility to use urlParams including searching within searchInterfaces.
 - Printing functions for vector styling and legend has been added.
 - New draw module (still in development) has been added to the code structure parallel to the refactored draw within the module folder.
+- Adds `displayOnEvent` functionality for the Alerting module.
 
 ### Changed
 - The following NPM packages have been updated:

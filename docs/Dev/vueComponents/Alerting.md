@@ -35,6 +35,7 @@ store.dispatch("Alerting/addSingleAlert", {
 });
 ```
 
+
 ## Parameters for alert creation
 
 |Name|Required|Type|Default|Description|
@@ -50,6 +51,8 @@ store.dispatch("Alerting/addSingleAlert", {
 |multipleAlert|no|Boolean|false|Flag indicating whether the alert should be added to the current alert list (true) or is shown as a single alert (false)|
 |once|no|Boolean|false|If `false`, this alert may be shown on each visit. If `true`, it's only shown once.|
 |onceInSession|no|Boolean|false|If `false`, this alert may be shown on each visit. If `true`, it's only shown once in the current session.|
+|displayOnEvent|no|Object|undefined|Optional. If given the following object is required: {type: string, value: string|object} where (in simple) `type` is the address of the action and the `value` the action value. See [alerts on events](#alerts-on-events) for details.|
+
 
 ## Initially loading an *Alerting* configuration
 
@@ -121,4 +124,86 @@ Configuration of alerts within config.json example:
     }
     },
     "mapView": {
+```
+
+
+## Alerts on events
+
+Alerts are possible for almost any event.
+
+For example: You want to inform the user with additional information when clicking
+a specific button. E.g, a change from 2D to 3D mode. You can configure an alert
+event for these actions.
+
+The identifier is a `displayOnEvent` key of an alert item. Containing an object
+with a `type` for the action (event address) and with two possible cases for the
+`value` property as follow (It depends on the events themself):
+
+```json
+    // Event when click on the button for 3D mode
+    displayOnEvent: {
+        "type": "Maps/changeMapMode",
+        "value": "3D" // Use "2D" for an alert of the 2D event
+    }
+
+    // Event when click on the component for "Print Card"
+    "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": {
+          "type": "print"
+        }
+      }
+```
+
+Alert example for the 3D Mode
+
+```json
+"alerts": {
+    "eventAlert3dMode": {
+        "category": "warning",
+        "title": "Alert title"
+        "content": "You get the warning if you click on the configured action.",
+        "mustBeConfirmed": false,
+        "once": false,
+        "displayOnEvent": {
+            "type": "Maps/changeMapMode",
+            "value": "3D"
+        }
+    },
+    // ... further alerts.
+```
+
+
+Then make sure the event is for your portal or in global:
+
+```json
+"restrictedAlerts": {
+    "<https://your-masterportal.com/>": ["AlertId1", "AlertId2", "eventAlert3dMode"],
+```
+
+
+### Strange side effects for layer events
+
+... which can be used but: NOT supported.
+
+ALL of them are not 100% unique. The click events for the layers currently have
+no id to handle them without side effects.
+
+How you can configure the activation/ deactivation of a layer as an event in the
+alerts.
+
+Also: It is better not to use the legend variant. You can switch these off for
+individual layers and then (presumably) these `Modules/Legend/createLegendForLayerInfo`/
+`Modules/Legend/removeLegend` events will not be found at all.
+
+```json
+  ...
+  "displayOnEvent": {
+      "type": "showLayerAttributions",
+      "value": {
+        "id": "453",
+        "visibility": false
+      }
+  }
+  ...
 ```
