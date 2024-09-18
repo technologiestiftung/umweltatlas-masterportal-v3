@@ -22,12 +22,24 @@ Please be aware of the following:
 **We appreciate hints, feedback and communication of bugs! Please use the Issuetracker and tag your issue with "v3.0.0"**
 
 ## Roadmap
-Our further Roadmap is to work further on 3.0.0 and to release monthly minor releases. We will release a LTS version during the third quarter of 2024. We will support and fix bugs for V2.x until end of 2024.
+Our further Roadmap is to work further on Masterportal Version 3. We will support and fix bugs for V2.x until end of 2024.
 ### Masterportal 3.x
 * 04.10.2023: Release MP 3.0 beta 1
 * 18.12.2023: Release MP 3.0 beta 2
 * 28.06.2024: Release MP 3.0 stable
-* During the third quarter of 2024: Release MP 3.0 LTS
+* 02.10.2024: Release MP 3.0 LTS
+### Masterportal Releases
+#### Monthly Releases
+We release a minor version on the first Wednesday of every month.
+##### LTS
+LTS release status is "long-term support", which typically guarantees that critical bugs will be fixed for a total of 12 months.
+LTS versions are released annually on the first Wednesday in October.
+Current LTS Version: 3.3.0
+
+### Masterportal Release Schedule
+<p align="center">
+  <img src="./docs/_media/Masterportal-TimeSchedule.svg" alt="Sublime's custom image"/>
+</p>
 
 ### Support for MP 2.x and MP 3.x
 * Pull requests for function enhancements in core modules in version 2 are going to be reviewed from product maintenance until 30.06.2024. (The deadline is indicative for now and should be understood as a guideline)
