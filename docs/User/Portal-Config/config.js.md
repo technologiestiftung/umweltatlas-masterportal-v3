@@ -12,7 +12,7 @@ In the following, all configuration options are described. For all configuration
 |cswId|no|String|`"3"`|Reference to a CSW interface used to retrieve layer information. The ID will be resolved to a service defined in the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|`"my CSW-ID"`|
 |ignoredKeys|no|String[]|`["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH","GEOM"]`|List of attribute names to be ignored for attribute information lists of all layer types. Only used with "gfiAttributes": "showAll".|`["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH","GEOM"]`|
 |layerConf|yes|String||Path to the **[services.json](../Global-Config/services.json.md)** file containing all available WMS layers and WFS feature types. The path is relative to *js/main.js*.|`https://geodienste.hamburg.de/lgv-config/services-internet.json"`||
-|matomo|no|**[matomo](#markdown-header-matomo)**||Options to integrate tracking via matomo.||
+|matomo|no|**[matomo](#matomo)**||Options to integrate tracking via matomo.||
 |metaDataCatalogueId|no|String|`"2"`|URL to the metadata catalog linked to in the layer information window. The ID is resolved to a service of the **[rest-services.json](../Global-Config/rest-services.json.md)** file. Note: This attribute is only necessary, when no "show_doc_url" is configured in the metadata dataset in the **[services.json](../Global-Config/services.json.md)**. The url can either be set globally (**[config.js](config.js.md)**) or layer-specific(**[services.json](../Global-Config/services.json.md)**).|`"MetaDataCatalogueUrl"`|
 |namedProjections|yes|String[]||Definition of the usable coordinate systems. See **[syntax definition](http://proj4js.org/#named-projections)** for details..|`[["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"]]`|
 |portalConf|no|String|`"config.json"`|Path to the portal's `config.json` file. You may also enter a node; in that case the taken path is controlled by the urlParameter `config`.|Direct path: "../masterDefault/config.json"; Node: "../../portal/master/". In the node scenario, a query parameter like `config=config.json` must exist in the URL.|
@@ -32,7 +32,7 @@ Overrides the alert module's default values.
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
 |fetchBroadcastUrl|no|String|`false`|The alerting module will initially use a linked configuration file from this URL, if set. For more information see **[Alerting](../../Dev/vueComponents/Alerting.md)**|
-|initialAlerts|no|**[initialAlerts](#alertinginitialAlerts)**/**[initialAlerts](#alertinginitialAlerts)**||Alerts that are displayed when the portal is started|
+|initialAlerts|no|**[initialAlerts](#alertinginitialalerts)**||Alerts that are displayed when the portal is started|
 |localStorageDisplayedAlertsKey|no|String|`"displayedAlerts"`|Arbitrary key used to store information regarding the alerting module in the browser's local storage.|
 
 ```js title="Example"
