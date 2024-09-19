@@ -99,7 +99,10 @@
 - UrlParams: 
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+<<<<<<< HEAD
 - Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
+=======
+>>>>>>> c972bf4ddb (updated CHANGELOG.md)
 
 ---
 
