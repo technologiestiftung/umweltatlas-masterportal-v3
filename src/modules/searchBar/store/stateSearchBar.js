@@ -22,6 +22,8 @@
  * @property {Object[]} [searchResults=[]] The results of the configured searchInterfaces.
  * @property {Object[]} [selectedSearchResults=[]] The selected single results by the user in the "show all" view.
  * @property {Boolean} [showAllResults=false] Flag if all results should be shown.
+ * @property {String} [showAllResultsSearchInterfaceInstance=""] Deprecated - Search interface instance while all results are shown (relevant for layerSelection search).
+ * @property {String} [showAllResultsSearchCategory=""] Deprecated - Search interface category while all results are shown (relevant for layerSelection search).
  * @property {Array} [showAllResultsSearchInterfaceInstances=["elasticSearch", "topicTree"] Search interface instance while all results are shown (relevant for layerSelection search).
  * @property {Boolean} [showInTree=false] Flag to display the layer selection in the layer tree.
  * @property {Boolean} [searchResultsActive=true] Flag if the search results are active.
@@ -48,6 +50,16 @@ const state = {
     searchResults: [],
     selectedSearchResults: [],
     showAllResults: false,
+    /**
+     * @deprecated in the next major-release!
+     * showAllResultsSearchInterfaceInstance
+     */
+    showAllResultsSearchInterfaceInstance: "elasticSearch_0",
+    /**
+     * @deprecated in the next major-release!
+     * showAllResultsSearchCategory
+     */
+    showAllResultsSearchCategory: "Thema",
     showAllResultsSearchInterfaceInstances: ["elasticSearch", "topicTree"],
     showInTree: false,
     searchResultsActive: true,

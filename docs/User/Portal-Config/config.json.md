@@ -4327,6 +4327,8 @@ Configuration of the addLayerButton to select layers.
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
 |searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
+|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
+|searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. The category of the search.|true|
 
 **Beispiel**
 
@@ -4342,8 +4344,26 @@ Configuration of the addLayerButton to select layers.
                 {
                     "id":"elasticSearch_0",
                     "searchCategory": "Thema (externe Fachdaten)"
+                }, 
+                {
+                    "id": "topicTree",
+                    "searchCategory": "Thema"
                 }
             ]
+        }
+    }
+}
+```
+```json
+{
+    "tree": {
+        "addLayerButton": {
+            "active": true,
+            "buttonTitle": "Layer hinzufügen",
+            "searchBar": {
+            "active": true,
+            "searchInterfaceInstanceId": "elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
         }
     }
 }
@@ -4368,6 +4388,10 @@ A topic search is enabled within the configured SearchInterface and SearchCatego
             {
                 "id":"elasticSearch_0",
                 "searchCategory": "Thema (externe Fachdaten)"
+            },
+            {
+                "id": "topicTree",
+                "searchCategory": "Thema"
             }
         ]
     }
@@ -4392,6 +4416,10 @@ The search only works with interfaces that perform a topic search.
         {
             "id":"elasticSearch_0",
             "searchCategory": "Thema (externe Fachdaten)"
+        },
+        {
+            "id": "topicTree",
+            "searchCategory": "Thema"
         }
     ]
 }

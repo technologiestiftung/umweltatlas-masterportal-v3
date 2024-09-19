@@ -91,6 +91,24 @@ export default {
                 });
                 commit("setShowAllResultsSearchInterfaceInstances", searchInterfaceInstances);
             }
+            /**
+             * @deprecated in the next major-release!
+             * showAllResultsSearchInterfaceInstance
+             * showAllResultsSearchCategory
+             */
+            else if (searchBar.searchInterfaceInstanceId || searchBar.searchCategory) {
+                if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
+                    const instance = {
+                        "id": searchBar.searchInterfaceInstanceId,
+                        "searchCategory": searchBar.searchCategory
+                    };
+
+                    commit("setShowAllResultsSearchInterfaceInstances", [instance]);
+                }
+                else {
+                    console.warn("Please check the searchBar configuration at tree.addLayerButton");
+                }
+            }
             if (typeof searchBar.active === "boolean") {
                 commit("setAddLayerButtonSearchActive", searchBar.active);
             }

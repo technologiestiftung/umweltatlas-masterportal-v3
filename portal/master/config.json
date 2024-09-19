@@ -932,16 +932,6 @@
               "url": "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_gry.json"
             }
           ]
-        },
-        {
-          "id": "WMTS",
-          "name": "EOC Basemap",
-          "typ": "WMTS",
-          "visibility": false,
-          "transparency": 20,
-          "capabilitiesUrl": "https://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
-          "layers": "eoc:basemap",
-          "optionsFromCapabilities": true
         }
       ]
     },

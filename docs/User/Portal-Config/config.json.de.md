@@ -2100,7 +2100,7 @@ Punkt Objekt, bestehend aus der Beschriftung, dem Typ und dem Wert.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |id|ja|String||Die Beschriftung des Symbols, welche im Auswahlmenü dargestellt wird. Diese muss in der Sprachdatei (meistens `common`) angelegt werden unter dem Punkt `modules.draw.iconList`, wobei der darauffolgende Parameter standardmäßig mit `icon` beginnen und eine repräsentative Beschreibung darstellen sollte. Wird dieser Schlüssel in der Übersetzungesdatei nicht gefunden, dann wird die `id` in der Oberfläche angezeigt.|false|
-|caption|nein|String||Deprecated in 3.0.0 Die Beschriftung des Symbols, welche im Auswahlmenü dargestellt wird. Ggü. der id muss hier nicht die id aus der Sprachdatei sondern der gesamte Pfad (`modules.draw.iconList` + id) angegeben werden.|false|
+|caption|nein|String||Die Beschriftung des Symbols, welche im Auswahlmenü dargestellt wird. Ggü. der id muss hier nicht die id aus der Sprachdatei sondern der gesamte Pfad (`modules.draw.iconList` + id) angegeben werden.|false|
 |type|ja|enum["image", "simple_point"]||Typ des zu zeichnenden Objektes.Bei `image` wird ein Bild gezeichnet, welches dem PNG-Bild oder der svg-Datei des Pfades aus `value` entspricht. Diese Bilder werden standardmäßig im Verzeichnis `/img/draw/` abgelegt und sollten eine Seitenlänge von 96px für eine korrekte Skalierung aufweisen, alternativ kann ein scale-Faktor angegeben werden. Bei `simple_point` wird ein normaler Punkt gezeichnet.|false|
 |scale|nein|number||Skalierungsfaktor|false|
 |value|ja|String||Wert, des zu zeichnenden Objektes. Wenn ohne Pfad oder Url, dann wird der Eintrag aus der config.js - `wfsImgPath` als Dateiort angenommen.|false|
@@ -4322,6 +4322,8 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
 |searchBar|nein|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
+|searchInterfaceInstanceId|ja|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|true|
+|searchCategory|ja|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Die Kategorie der Suche.|true|
 
 **Beispiel**
 
@@ -4337,8 +4339,26 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
                 {
                     "id":"elasticSearch_0",
                     "searchCategory": "Thema (externe Fachdaten)"
+                }, 
+                {
+                    "id": "topicTree",
+                    "searchCategory": "Thema"
                 }
             ]
+        }
+    }
+}
+```
+```json
+{
+    "tree": {
+        "addLayerButton": {
+            "active": true,
+            "buttonTitle": "Layer hinzufügen",
+            "searchBar": {
+            "active": true,
+            "searchInterfaceInstanceId": "elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
         }
     }
 }
@@ -4364,6 +4384,10 @@ Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und Searc
             {
                 "id":"elasticSearch_0",
                 "searchCategory": "Thema (externe Fachdaten)"
+            },
+            {
+                "id": "topicTree",
+                "searchCategory": "Thema"
             }
         ]
     }
@@ -4388,6 +4412,10 @@ Die Suche funktioniert nur mit interfaces, die eine Themensuche ausführen.
         {
             "id":"elasticSearch_0",
             "searchCategory": "Thema (externe Fachdaten)"
+        },
+        {
+            "id": "topicTree",
+            "searchCategory": "Thema"
         }
     ]
 }
