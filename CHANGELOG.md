@@ -89,8 +89,8 @@ AlertingItem: Fixed the position of closing button.
     - update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Fixed
-- Filter:The buttons were always disabled in the accordion of the filter.
-- LayerSelection:After layer category switch the visible background layer were removed from layer selection.
+- Filter: The buttons were always disabled in the accordion of the filter.
+- LayerSelection: After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
 - Login: Access Tokens are now revoked after logout
