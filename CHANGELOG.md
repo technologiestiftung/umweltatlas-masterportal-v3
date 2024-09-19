@@ -17,6 +17,8 @@
 ### Fixed
 - AlertingItem: Fixed the position of closing button.
 - Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
+- Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
+
 ---
 
 ## 2024-09-19 v3.2.2

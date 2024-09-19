@@ -349,7 +349,8 @@ export default {
             headers: {
                 "Content-Type": "raw"
             },
-            timeout: layer?.timeout
+            timeout: layer?.timeout,
+            withCredentials: layer.isSecured
         })
             .then(response => {
                 this.handleGetFeatureResponse(dispatch, rootGetters, response, layer);
