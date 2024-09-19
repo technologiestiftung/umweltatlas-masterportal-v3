@@ -18,6 +18,7 @@
  * @property {Object}   gfiAttributes - All attributes that should be shown in the GFI.
  * @property {Object}   customAttributeStyles - All custom styles set by the user.
  * @property {Number}   geojsonFeatureId - Id of the last added feeature of a GeoJson.
+ * @property {Boolean}  showConfirmation - If true, a confirmation window will be shown.
  */
 
 export default {
@@ -54,5 +55,6 @@ export default {
     type: "fileImport",
     gfiAttributes: {},
     customAttributeStyles: {},
-    geojsonFeatureId: 0
+    geojsonFeatureId: 0,
+    showConfirmation: true
 };

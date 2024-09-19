@@ -2428,6 +2428,7 @@ Import "*.kml", "*.geojson" and "*.gpx" files with this module.
 |name|no|String|"common:modules.fileImport.name"|Name of the module in the menu.|false|
 |type|no|String|"fileImport"|The type of the module. Defines which module is configured.|false|
 |customStylingOption|no|Boolean|false|To decide if a custom styling option for a GeoJson is offered.|false|
+|showConfirmation|no|Boolean|true|To decide if a confirmation window is shown after a successful import.|false|
 
 **Example**
 

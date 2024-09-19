@@ -184,6 +184,29 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
             }], {}, done);
         });
 
+        it("should not show a confirmation message", () => {
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        kml: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
+                            rgx: /\.kml$/i
+                        }
+                    },
+                    showConfirmation: false
+                };
+
+            importFile({state, dispatch, rootGetters, commit}, payload);
+            expect(dispatch.firstCall.args[0]).to.equal("addImportedFilename");
+            expect(dispatch.firstCall.args[1]).to.equal("beispielText.kml");
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Beispieltext");
+        });
+
         it("adds a text style from the kml file", () => {
             const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
                 state = {
@@ -196,7 +219,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: true
                 };
 
             importFile({state, dispatch, rootGetters, commit}, payload);
@@ -223,7 +247,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: true
                 },
                 recomendedFillColor = [
                     255,
@@ -247,7 +272,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
         it("second imported kml should not overwrite first imported features", () => {
             let payload = {layer: layer, raw: test1KML, filename: "test1.kml"};
             const state = {
-                selectedFiletype: "kml"
+                selectedFiletype: "kml",
+                showConfirmation: true
             };
 
             importFile({state, dispatch, rootGetters}, payload);
@@ -278,7 +304,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: true
                 };
 
             importFile({state, dispatch, rootGetters}, payload);
@@ -320,7 +347,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                         }
                     },
                     gfiAttributes: {},
-                    customAttributeStyles: {}
+                    customAttributeStyles: {},
+                    showConfirmation: true
                 };
 
             importGeoJSON({state, dispatch, rootGetters, commit}, payload);

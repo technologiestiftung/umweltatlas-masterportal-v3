@@ -8,6 +8,7 @@
 
 ### Added
 - Release Schedule and release information to readme.md
+- FileImport: Added the possibility to configure the confirmation window to show or not.
 
 ### Changed
 
@@ -100,7 +101,7 @@
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
-- UrlParams:
+- UrlParams: 
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 - Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.

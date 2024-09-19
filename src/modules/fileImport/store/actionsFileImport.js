@@ -403,11 +403,13 @@ export default {
                 content: i18next.t("common:modules.fileImport.alertingMessages.success", {filename: fileName})
             };
         }
-        dispatch("Alerting/addSingleAlert", {
-            category: alertingMessage.category,
-            content: alertingMessage.content
-        }, {root: true});
 
+        if (state.showConfirmation) {
+            dispatch("Alerting/addSingleAlert", {
+                category: alertingMessage.category,
+                content: alertingMessage.content
+            }, {root: true});
+        }
         dispatch("addImportedFilename", fileName);
 
         if (state.enableZoomToExtend && features.length) {
@@ -727,7 +729,9 @@ export default {
             content: i18next.t("common:modules.fileImport.alertingMessages.success", {filename: fileName})
         };
 
-        dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+        if (state.showConfirmation) {
+            dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+        }
         dispatch("addImportedFilename", fileName);
 
         if (state.enableZoomToExtend && features.length) {
