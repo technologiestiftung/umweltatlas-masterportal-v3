@@ -15,13 +15,13 @@
 ### Removed
 
 ### Fixed
-AlertingItem: Fixed the position of closing button.
-
+- AlertingItem: Fixed the position of closing button.
+- Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
 ---
 
 ## 2024-09-19 v3.2.2
 ### Fixed
-3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
+- 3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
 
 ---
 
