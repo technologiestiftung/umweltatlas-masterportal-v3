@@ -1,10 +1,9 @@
 import Cluster from "ol/source/Cluster";
-
 import layerCollection from "../../../core/layers/js/layerCollection";
 import validator from "../js/validator";
 import legendDraw from "../js/legendDraw";
 import layerCollector from "../js/layerCollector";
-import isObject from "../../../shared/js/utils/isObject";
+import cleaner from "../js/cleaner";
 
 const actions = {
     /**
@@ -281,19 +280,7 @@ const actions = {
 
 
         legends = [].concat(...legends);
-        const allEqualLegendURLs = legends.every(
-                (layer, _, arr) => layer === arr[0]
-            ),
-            allEqualLegendObjects = legends.every((layer, _, arr) => isObject(layer) && layer.graphic === arr[0].graphic);
-
-
-        if (allEqualLegendURLs) {
-            legends.length = 1;
-        }
-
-        if (allEqualLegendObjects) {
-            legends.length = 1;
-        }
+        legends = cleaner.cleanUpLegend(legends);
         commit("setPreparedLegend", legends);
         return legends;
     }
