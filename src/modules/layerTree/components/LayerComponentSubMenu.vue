@@ -51,7 +51,7 @@ export default {
          * @returns {String} Name of the layer.
          */
         layerName () {
-            return this.layerConf?.datasets?.length > 0 ? this.layerConf.datasets[0].md_name : this.layerConf.name;
+            return this.layerConf?.datasets?.length > 0 && this.layerConf.datasets[0].md_name ? this.layerConf.datasets[0].md_name : this.layerConf.name;
         },
         /**
          * Returns the metadata id

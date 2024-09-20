@@ -112,36 +112,6 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                         changeCurrentComponent: sinon.stub(),
                         setMenuBackAndActivateItem: sinon.stub()
                     },
-                    getters: {
-                        mainMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "contact"
-                                        },
-                                        {
-                                            type: "about"
-                                        }
-                                    ]
-                                ]
-                            };
-                        },
-                        secondaryMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "section1"
-                                        },
-                                        {
-                                            type: "section2"
-                                        }
-                                    ]
-                                ]
-                            };
-                        }
-                    },
                     modules: {
                         Navigation: {
                             namespaced: true,
@@ -179,11 +149,19 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                             actions: {
                                 navigateForward: sinon.stub()
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 }
             },
             getters: {
+                isModuleAvailable: () => () => true,
                 allLayerConfigsStructured: () => () =>{
                     return layersBG.concat(subjectDataLayers);
                 },

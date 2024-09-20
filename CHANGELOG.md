@@ -19,6 +19,7 @@
 - AlertingItem: Fixed the position of closing button.
 - Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
 - Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
+- LayerInfoContactButton: no warning in console, if at layer `md_name` ist not available in `datasets`.
 
 ---
 
@@ -30,9 +31,9 @@
 
 ## 2024-09-12 v3.2.1
 ### Fixed
-- UrlParams:
-        - mapMarker: Fixed map marker set by url parameter.
-        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+- UrlParams: 
+    - mapMarker: Fixed map marker set by url parameter.
+    - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 
 ---
 
