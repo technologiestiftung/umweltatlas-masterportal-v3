@@ -263,22 +263,6 @@ const actions = {
             legends.push(await getters.preparedLegend);
         }
 
-
-        legends = [].concat(...legends);
-        commit("setPreparedLegend", legends);
-        return legends;
-    },
-    async prepareLegendForDuplicateLayer ({commit, dispatch, getters}, layerSource) {
-        let legends = [];
-
-        console.log("prepareLegendForBigLayer");
-        const layer = layerSource[0];
-
-        console.log(layerSource.length);
-        dispatch("prepareLegend", await layer.createLegend());
-        legends.push(await getters.preparedLegend);
-
-
         legends = [].concat(...legends);
         legends = cleaner.cleanUpLegend(legends);
         commit("setPreparedLegend", legends);
