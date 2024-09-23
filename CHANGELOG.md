@@ -20,6 +20,7 @@
 ### Fixed
 - Reduced loading requests for layers defined as array of Ids (not of typ GROUP).
 - Print: Fix printing bug considering minScale and maxScale with layers defined as array of ids.
+- LayerInformation: Resolved an issue where the tab appeared due to layerInfo.url being undefined instead of null in the layerInformation component.
 
 ---
 
