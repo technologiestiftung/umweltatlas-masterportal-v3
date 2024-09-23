@@ -8,18 +8,8 @@ import store from "../../../app-store";
  * @returns {void}
  */
 function getVisibleLayer (printMapMarker = false) {
-    const layers = mapCollection.getMap("2D").getLayers();
-    let visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
-            return layer.getVisible() === true &&
-                (
-                    layer.get("name") !== "markerPoint" || printMapMarker
-                );
-        }),
-        groupedLayers = null;
-
-    groupedLayers = visibleLayerList.filter(layer => {
-        return layer instanceof LayerGroup;
-    });
+    const groupedLayers = getGroupedLayers(printMapMarker);
+    let visibleLayerList;
 
     if (groupedLayers.length > 0) {
         visibleLayerList = visibleLayerList.filter(layer => {
@@ -38,10 +28,11 @@ function getVisibleLayer (printMapMarker = false) {
 }
 
 /**
- * Layer opacity is reverted after closing print map tab
+ * Gets grouped layers.
  * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
+ * @returns {Object} groupedLayers
  */
-function revertLayerOpacity (printMapMarker = false) {
+function getGroupedLayers (printMapMarker = false) {
     const layers = mapCollection.getMap("2D").getLayers(),
         visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
             return layer.getVisible() === true &&
@@ -54,6 +45,18 @@ function revertLayerOpacity (printMapMarker = false) {
     groupedLayers = visibleLayerList.filter(layer => {
         return layer instanceof LayerGroup;
     });
+
+    return groupedLayers;
+}
+
+/**
+ * Layer opacity is reverted after closing print map tab
+ * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
+ * @returns {void}
+ */
+function revertLayerOpacity (printMapMarker = false) {
+    const groupedLayers = getGroupedLayers(printMapMarker);
+
     if (groupedLayers.length > 0) {
         groupedLayers.forEach(groupedLayer => {
             groupedLayer.getLayers().forEach(gLayer => {
