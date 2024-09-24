@@ -1292,7 +1292,7 @@ const BuildSpecModel = {
         if (isLegendSelected && legends.length > 0) {
             legendObject.layers = [];
             legends.forEach(legendObj => {
-                if (layerCollection.getLayerById(legendObj.id).get("children")?.length > 0) {
+                if (layerCollection.getLayerById(legendObj.id)?.get("children")?.length > 0) {
                     legendObj.id = layerCollection.getLayerById(legendObj.id).get("children")[0].id;
                 }
 
