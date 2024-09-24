@@ -3,8 +3,8 @@ import isObject from "../../../shared/js/utils/isObject";
 export default {
     /**
      * Checks if the given legend is duplicated and cuts all duplicated legends.
-     * @param {Array} legends The legends to use.
-     * @returns {String or Array or Object} - Depends on the outcome of the if statement.
+     * @param {Array} legends The legend object to be checked.
+     * @returns {Array} the legends to use
      */
     cleanUpLegend: (legends) => {
         const allEqualLegendURLs = legends.every(
