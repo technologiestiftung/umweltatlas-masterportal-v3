@@ -8,13 +8,16 @@ let zIndex = 1;
  * Returns the extended raw layer to the id contained in the layer configuration.
  * If id contains an array of ids, the rawlayer is merged.
  * Grouped layers children are filled with the rawlayers.
+ * Config Paramter layerIDsToStyle is evaluated.
  * @module app-store/js/getAndMergeRawLayer
  * @param {Object} layerConf configuration of layer like in the config.json
  * @param {Object} [showAllLayerInTree="false"] if true, all layers get the attribute showInLayerTree=true
+ * @param {Object} [layerIDsToStyle = undefined] config Parameter, if filled, properties are assigned to dedicated layers.
  * @returns {Object} the extended and merged raw layer
  */
-export function getAndMergeRawLayer (layerConf, showAllLayerInTree = false) {
-    const rawLayer = mergeRawLayer(layerConf, rawLayerList.getLayerWhere({id: splitId(layerConf?.id)}));
+export function getAndMergeRawLayer (layerConf, showAllLayerInTree = false, layerIDsToStyle = undefined) {
+    const rawLayer = mergeRawLayer(layerConf, rawLayerList.getLayerWhere({id: splitId(layerConf?.id)})),
+        layers = [];
 
     if (!rawLayer && layerConf) {
         if (layerConf.name === undefined) {
@@ -24,9 +27,19 @@ export function getAndMergeRawLayer (layerConf, showAllLayerInTree = false) {
             layerConf.name = `WARN: ${text} `;
         }
     }
+    if (layerIDsToStyle) {
+        const styledLayers = [];
 
-    // use layerConf, if layer is not available in rawLayerList (services.json)
-    return addAdditional(rawLayer || layerConf, showAllLayerInTree);
+        styleAndMergeLayers(layerIDsToStyle, rawLayer || layerConf, styledLayers);
+        styledLayers.forEach(styledLayer => {
+            layers.push(addAdditional(styledLayer, showAllLayerInTree));
+        });
+    }
+    else if (layerConf) {
+        layers.push(addAdditional(rawLayer || layerConf, showAllLayerInTree));
+    }
+
+    return layers;
 }
 
 /**
@@ -256,7 +269,7 @@ function styleAndMergeLayers (layerIDsToStyle, layer, layerList) {
             cloneObj.legendURL = rawLayer.legendURL[index];
             cloneObj.name = rawLayer.name[index];
             cloneObj.id = rawLayer.id + rawLayer.styles[index];
-            cloneObj.styles = rawLayer.styles[index];
+            cloneObj.styles = style;
             layerList.push(cloneObj);
         });
     }

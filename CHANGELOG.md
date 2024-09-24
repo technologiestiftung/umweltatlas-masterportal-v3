@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Release Schedule and release information to readme.md
 
 ### Changed
 
@@ -15,12 +16,27 @@
 ### Removed
 
 ### Fixed
-AlertingItem: Fixed the position of closing button.
+- AlertingItem: Fixed the position of closing button.
+- Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
+- Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
+
 ---
 
-## 04-09-2024 v3.2.0
-### __Breaking Changes__
+## 2024-09-19 v3.2.2
+### Fixed
+- 3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
 
+---
+
+## 2024-09-12 v3.2.1
+### Fixed
+- UrlParams: 
+        - mapMarker: Fixed map marker set by url parameter.
+        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+
+---
+
+## 2024-09-04 v3.2.0
 ### Added
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
@@ -72,33 +88,26 @@ AlertingItem: Fixed the position of closing button.
     - GFI attributes are added in the import of a standard GeoJson
     - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
     - Adds a custom styling option for GeoJson/ Json import
-- Export from draw_old tool
-    - update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
-
-### Deprecated
-
-### Removed
+- Export from draw_old tool: update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Fixed
-- Filter:
-    - The buttons were always disabled in the accordion of the filter.
-- LayerSelection:
-    - After layer category switch the visible background layer were removed from layer selection.
+- Filter: The buttons were always disabled in the accordion of the filter.
+- LayerSelection: After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
-- UrlParams: 
+- UrlParams:
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+- Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
 
 ---
 
 ## 2024-08-07 v3.1.0
 ### Added
-- SearchBar:
-    - Added the possibility to zoom to an extent from a search result.
+- SearchBar: Added the possibility to zoom to an extent from a search result.
 - StatisticDashboard:
     - Updated UI of the filter to match the MP 3.0 Design.
     - Dropdowns now sort the selected entries always at the top.
@@ -111,14 +120,11 @@ AlertingItem: Fixed the position of closing button.
     - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
     - Extended region filter
     - Button "All" for selecting all the regions and all in dropdown of districts and cities.
-- OAF:
-    - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
-- ViewPoint:
-    - Migrated from dev to dev_vue.
+- OAF: Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
+- ViewPoint: Migrated from dev to dev_vue.
 - Matomo: Added Support for analytics via matomo.
 - Migrator: supports ids with suffix.
-- InputText:
-    - Added change event handler property and disabled property.
+- InputText: Added change event handler property and disabled property.
 - BaseLayerSwitcher: Added Config-Parameter singleBaseLayer to hide previous selected BaseLayer
 - Shareview: If the portal is not running on HTTPS, a message is displayed because the URL cannot then be copied to the clipboard.
 - AboutModule:
@@ -127,8 +133,7 @@ AlertingItem: Fixed the position of closing button.
     - Added imprint title.
     - Added contact button to open contact module.
     - Added sales tax identification number.
-- Footer:
-    - Added link to open imprint in about module.
+- Footer: Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
     -  Added button to open contact form using the address data from the metadata as the addressee (to parameter)
@@ -238,11 +243,10 @@ In certain circumstances this means that you have to update your portal files (i
     - Reset All button.
     - Validation function in filter form.
     - Configurable number of classes and base color for choropleth map and legend.
-- TableComponent:
-    - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
+- TableComponent: New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
-    - dependencies:
+    - dependencies: 
         - globals: 15.4.0
     - devDependencies:
         - @eslint/js: 9.3.3
@@ -335,7 +339,7 @@ In certain circumstances this means that you have to update your portal files (i
 ### Removed
 - RoutingLoadingSpinner: Was replaced with share component SpinnerItem.
 - ModalItem in WFSSearch. Results are displayed as table now.
-- The following packages have been removed:
+- The following packages have been removed: 
     - devDependencies:
         - eslint: 8.51.0
         - eslint-plugin-chai-friendly: 0.7.2
@@ -426,7 +430,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
-- The following packages have been added:
+- The following packages have been added: 
     - devDependencies:
         - webpack-bundle-analyzer: 4.9.1 (For usage comment in "webpack-bundle-analyzer"-code in webpack.dev.js)
 - shared\js\utils\convertColor: added an option to convert an rgba array into a hex color with alpha value.
@@ -661,7 +665,7 @@ In certain circumstances this means that you have to update your portal files (i
 
 ## 2023-03-01 v3.0.0 - alpha1
 ### Added
-- The following NPM packages are added:
+- The following NPM packages are added: 
     - devDependencies:
         - @babel/plugin-transform-modules-commonjs
         - @vue/devtools-api
