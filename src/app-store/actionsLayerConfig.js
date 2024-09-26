@@ -295,10 +295,10 @@ export default {
      * @param {Object} category the category to change to
      * @returns {void}
      */
-    changeCategory ({commit, dispatch, getters, rootGetters, state}, category) {
+    async changeCategory ({commit, dispatch, getters, rootGetters, state}, category) {
         const layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity),
             rawlayers = getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton),
-            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, category, layerContainer);
+            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, category, layerContainer, true);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
         commit("Modules/LayerSelection/clearLayerSelection", {root: true});
