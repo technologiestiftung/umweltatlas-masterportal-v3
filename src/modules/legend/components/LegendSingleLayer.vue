@@ -119,9 +119,9 @@ export default {
         <template
             v-else
         >
-            <span>
+            <p class="mt-3">
                 {{ $t("common:modules.legend.noLegendForLayerInfo") }}
-            </span>
+            </p>
         </template>
     </div>
 </template>
