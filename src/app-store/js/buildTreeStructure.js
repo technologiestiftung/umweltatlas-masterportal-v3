@@ -71,8 +71,8 @@ function build (layerList, layerConfig, category, shownLayerConfs = [], category
     }
 
     for (let i = 0; i < layerList.length; i++) {
-        const id = rawLayer.id;
         let rawLayer = layerList[i],
+            id = null,
             subFolder;
 
         if (bgLayerIds.indexOf(rawLayer.id) > -1) {
@@ -92,6 +92,7 @@ function build (layerList, layerConfig, category, shownLayerConfs = [], category
             });
             const groupNames = getGroupNames(rawLayer, categoryKey);
 
+            id = rawLayer.id;
             for (let j = 0; j < groupNames.length; j++) {
                 const groupName = groupNames[j],
                     mdName = rawLayer.datasets[0].md_name;
