@@ -8,8 +8,8 @@ import store from "../../../app-store";
  * @returns {void}
  */
 function getVisibleLayer (printMapMarker = false) {
-    const groupedLayers = getGroupedLayers(printMapMarker);
-    let visibleLayerList;
+    let visibleLayerList = getVisibleLayerList(printMapMarker);
+    const groupedLayers = getGroupedLayers(visibleLayerList);
 
     if (groupedLayers.length > 0) {
         visibleLayerList = visibleLayerList.filter(layer => {
@@ -29,17 +29,10 @@ function getVisibleLayer (printMapMarker = false) {
 
 /**
  * Gets grouped layers.
- * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
- * @returns {Object} groupedLayers
+ * @param {Object} visibleLayerList The list of visible layers from the "2D" map.
+ * @returns {Object} {groupedLayers} layers that are instances of `LayerGroup`
  */
-function getGroupedLayers (printMapMarker = false) {
-    const layers = mapCollection.getMap("2D").getLayers(),
-        visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
-            return layer.getVisible() === true &&
-                (
-                    layer.get("name") !== "markerPoint" || printMapMarker
-                );
-        });
+function getGroupedLayers (visibleLayerList) {
     let groupedLayers = null;
 
     groupedLayers = visibleLayerList.filter(layer => {
@@ -50,12 +43,30 @@ function getGroupedLayers (printMapMarker = false) {
 }
 
 /**
- * Layer opacity is reverted after closing print map tab
+ * Gets visible layer list.
+ * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
+ * @returns {Object} {visibleLayerList} The list of visible layers from the "2D" map.
+ */
+function getVisibleLayerList (printMapMarker = false) {
+    const layers = mapCollection.getMap("2D").getLayers(),
+        visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
+            return layer.getVisible() === true &&
+                (
+                    layer.get("name") !== "markerPoint" || printMapMarker
+                );
+        });
+
+    return visibleLayerList;
+}
+
+/**
+ * Layer opacity is reverted after closing print map tab.
  * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out
  * @returns {void}
  */
 function revertLayerOpacity (printMapMarker = false) {
-    const groupedLayers = getGroupedLayers(printMapMarker);
+    const visibleLayerList = getVisibleLayerList(printMapMarker),
+        groupedLayers = getGroupedLayers(visibleLayerList);
 
     if (groupedLayers.length > 0) {
         groupedLayers.forEach(groupedLayer => {
