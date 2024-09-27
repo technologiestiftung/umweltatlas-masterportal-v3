@@ -24,7 +24,7 @@ describe("src/modules/routing/components/RoutingDownload.vue", () => {
         activeRoutingToolOption = "DIRECTIONS";
         downloadFileName = "";
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

@@ -118,7 +118,7 @@ describe("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
         Modeler3D.actions.updatePositionUI = sinon.spy();
         entity.wasDrawn = false;
 
-         store = createStore({
+        store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

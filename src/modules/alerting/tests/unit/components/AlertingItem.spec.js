@@ -147,7 +147,7 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
             }
         ];
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Alerting: {
                     namespaced: true,

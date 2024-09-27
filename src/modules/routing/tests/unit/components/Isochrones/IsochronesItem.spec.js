@@ -39,7 +39,7 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
         batchProcessingActive = false;
         batchProcessingEnabled = false;
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

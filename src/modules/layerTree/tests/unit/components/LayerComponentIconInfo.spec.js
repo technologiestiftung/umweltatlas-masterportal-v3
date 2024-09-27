@@ -39,7 +39,7 @@ describe("src/modules/layerTree/components/LayerComponentIconInfo.vue", () => {
         startLayerInformationSpy = sinon.spy();
         setLayerInfoVisibleSpy = sinon.spy;
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

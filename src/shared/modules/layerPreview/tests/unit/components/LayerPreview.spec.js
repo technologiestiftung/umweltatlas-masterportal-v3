@@ -100,7 +100,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
 
         mapCollection.addMap(map, "2D");
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

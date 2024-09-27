@@ -13,7 +13,7 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
         winWidth;
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

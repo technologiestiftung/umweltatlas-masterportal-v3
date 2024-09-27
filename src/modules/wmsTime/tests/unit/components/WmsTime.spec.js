@@ -15,7 +15,7 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
         winWidth;
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

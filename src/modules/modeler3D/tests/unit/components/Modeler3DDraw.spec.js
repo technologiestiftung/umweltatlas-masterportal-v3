@@ -204,7 +204,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             NONE: 0
         };
 
-         store = createStore({
+        store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

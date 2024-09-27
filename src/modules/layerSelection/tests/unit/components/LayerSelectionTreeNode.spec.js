@@ -27,7 +27,7 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
             showSelectAllCheckBox: false,
             selectAllConfigs: []
         };
-         store = createStore({
+        store = createStore({
             modules: {
                 Maps: {
                     namespaced: true,

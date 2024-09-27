@@ -22,7 +22,7 @@ describe("src/modules/measure/components/MeasureInMapTooltip.vue", () => {
      * @returns {void}
      */
     function createTestStore (isBeingDrawnLine = true, isBeingDrawnPoly = false, featureId = "lineId", selectedGeometry = "LineString") {
-         store = createStore({
+        store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

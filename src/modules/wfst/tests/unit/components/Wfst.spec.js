@@ -96,7 +96,7 @@ describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
                 required: false
             }
         ]);
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

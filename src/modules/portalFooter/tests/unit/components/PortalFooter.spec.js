@@ -19,7 +19,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
     beforeEach(() => {
         isMobile = false;
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

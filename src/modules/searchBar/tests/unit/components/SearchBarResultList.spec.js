@@ -87,7 +87,7 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
         addLayerButtonSearchActive = false;
         currentAvailableCategories = "Adresse";
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

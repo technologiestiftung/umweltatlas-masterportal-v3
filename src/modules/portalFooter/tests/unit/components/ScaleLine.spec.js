@@ -11,7 +11,7 @@ describe("src/modules/portalFooter/components/ScaleLine.vue", () => {
         wrapper;
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

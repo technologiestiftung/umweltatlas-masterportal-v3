@@ -27,7 +27,7 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         collapseMenuesSpy = sinon.spy();
         isMobile = false;
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

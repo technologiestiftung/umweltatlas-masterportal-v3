@@ -49,7 +49,7 @@ describe("src/modules/shadowTool/components/ShadowTool.vue", () => {
     });
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

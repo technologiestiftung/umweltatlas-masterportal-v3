@@ -57,7 +57,7 @@ describe("src/modules/searchBar/components/SearchBarResultListGeneral.vue", () =
         resultItems = searchResults;
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

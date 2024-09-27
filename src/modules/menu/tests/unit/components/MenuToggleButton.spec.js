@@ -15,7 +15,7 @@ describe("src/modules/menu/MenuToggleButton.vue", () => {
     beforeEach(() => {
         side = "mainMenu";
         toggleMenuSpy = sinon.spy();
-         store = createStore({
+        store = createStore({
             modules: {
                 Menu: {
                     namespaced: true,

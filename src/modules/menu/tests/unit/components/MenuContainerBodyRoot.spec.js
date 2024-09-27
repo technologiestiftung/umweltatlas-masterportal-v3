@@ -46,7 +46,7 @@ describe("src/modules/menu/MenuContainerBodyRoot.vue", () => {
             idAppendix: "secondaryMenu",
             text: "MasterSecond"
         };
-         store = createStore({
+        store = createStore({
             modules: {
                 Menu: {
                     namespaced: true,

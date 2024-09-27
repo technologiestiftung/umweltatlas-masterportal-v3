@@ -61,7 +61,7 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
         setNavigationHistoryBySideSpy = sinon.spy();
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

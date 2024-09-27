@@ -17,7 +17,7 @@ describe("src/modules/openConfig/components/OpenConfig.vue", () => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
 
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

@@ -16,7 +16,7 @@ describe("src/modules/routing/components/RoutingCoordinateInput.vue", () => {
         props;
 
     beforeEach(() => {
-         store = createStore({
+        store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,
