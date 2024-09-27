@@ -12,8 +12,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         componentData;
 
     beforeEach(() => {
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

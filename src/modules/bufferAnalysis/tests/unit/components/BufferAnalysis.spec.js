@@ -37,8 +37,7 @@ describe("src/modules/bufferAnalysis/components/BufferAnalysis.vue", () => {
         initJSTSParserSpy = sinon.spy();
         applySelectedSourceLayerSpy = sinon.spy();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

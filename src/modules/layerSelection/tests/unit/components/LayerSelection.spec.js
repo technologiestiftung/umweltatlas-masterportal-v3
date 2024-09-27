@@ -119,8 +119,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         LayerSelection.actions.navigateForward = sinon.spy();
         LayerSelection.actions.navigateBack = sinon.spy();
         LayerSelection.actions.changeVisibility = sinon.spy();
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

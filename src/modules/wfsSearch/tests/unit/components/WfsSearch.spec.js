@@ -62,8 +62,7 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
         };
         resetResultOrig = WfsSearchModule.actions.resetResult;
         WfsSearchModule.actions.resetResult = resetResultSpy;
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

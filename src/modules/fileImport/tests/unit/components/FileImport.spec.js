@@ -13,8 +13,7 @@ describe("src/modules/fileImport/components/FileImport.vue", () => {
     beforeEach(() => {
         mapCollection.clear();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {
@@ -63,8 +62,7 @@ describe("src/modules/fileImport/components/FileImport.vue", () => {
     it("modifies the imported file names", () => {
         const fileNames = ["file1", "file3"];
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

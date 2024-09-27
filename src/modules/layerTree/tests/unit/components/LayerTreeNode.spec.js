@@ -113,8 +113,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                 ]
             }];
         subjectDataLayers = layers2D;
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

@@ -13,8 +13,7 @@ describe("src/modules/layerSlider/components/LayerSliderPlayer.vue", () => {
         wrapper;
 
     beforeEach(() => {
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

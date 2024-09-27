@@ -40,8 +40,7 @@ describe("src/modules/legend/components/LegendContainer.vue", () => {
 
         Legend.actions.createLegend = sinon.spy();
         Legend.actions.toggleLayerInLegend = sinon.spy();
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

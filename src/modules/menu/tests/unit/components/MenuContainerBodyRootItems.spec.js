@@ -20,8 +20,7 @@ describe("src/modules/menu/MenuContainerBodyRootItems.vue", () => {
         ];
         pathMainMenu = ["mainMenu", "sections", 0];
         pathSecondaryMenu = ["secondaryMenu", "sections", 0];
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Menu: {
                     namespaced: true,

@@ -86,8 +86,7 @@ describe("src/modules/searchBar/components/SearchBarResultListTopicTreeItem.vue"
         addLayerToTopicTreeSpy = sinon.spy();
         removeLayerFromTopicTreeSpy = sinon.spy();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

@@ -46,8 +46,7 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
         removeLayerSpy = sinon.spy();
         updateTransparencySpy = sinon.spy();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

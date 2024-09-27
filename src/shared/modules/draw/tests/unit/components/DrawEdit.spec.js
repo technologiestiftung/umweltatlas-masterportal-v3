@@ -33,8 +33,7 @@ describe("src/shared/modules/draw/components/DrawEdit.vue", () => {
         removeInteractionSpy = sinon.spy();
 
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Maps: {
                     namespaced: true,

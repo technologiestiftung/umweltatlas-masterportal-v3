@@ -60,8 +60,7 @@ describe("src/modules/scaleSwitcher/components/ScaleSwitcher.vue", () => {
     beforeEach(() => {
         mapCollection.clear();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Maps: {
                     namespaced: true,

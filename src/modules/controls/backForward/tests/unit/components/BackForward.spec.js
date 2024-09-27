@@ -40,8 +40,7 @@ describe("src/modules/controls/backForward/components/BackForward.vue", () => {
         zoom = null;
         center = null;
         counter = 0;
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Controls: {
                     namespaced: true,

@@ -16,8 +16,7 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
     };
 
     beforeEach(() => {
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,

@@ -18,8 +18,7 @@ describe("src/modules/layerClusterToggler/components/LayerClusterToggler.vue", (
             "Xyz"
         ];
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

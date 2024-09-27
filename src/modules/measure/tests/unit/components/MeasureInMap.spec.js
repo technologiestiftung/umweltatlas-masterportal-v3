@@ -39,8 +39,7 @@ describe("src/modules/measure/components/MeasureInMap.vue", () => {
         MeasureModule.mutations.setSelectedLineStringUnit = sinon.spy();
         MeasureModule.mutations.setSelectedPolygonUnit = sinon.spy();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 namespaced: true,
                 Modules: {

@@ -69,8 +69,7 @@ describe("src/modules/searchBar/components/SearchBarResultListTopicTree.vue", ()
         activateActionsSpy = sinon.spy();
         setSelectedSearchResultsSpy = sinon.spy();
 
-        store = createStore({
-            namespaces: true,
+         store = createStore({
             modules: {
                 Modules: {
                     namespaced: true,
