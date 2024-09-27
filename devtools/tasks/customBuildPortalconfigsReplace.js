@@ -16,8 +16,8 @@ module.exports = function (destination, stableVersionNumber) {
     });
     replacements.push({
         "files": destination + "/js/masterportal.js",
-        "from": /\/img\/tools\/draw\/circle_/g,
-        "to": "/Mastercode/" + stableVersionNumber + "/img/tools/draw/circle_"
+        "from": /\/src\/assets\/img\/tools\/draw\/circle_/g,
+        "to": "/Mastercode/" + stableVersionNumber + "/src/assets/img/tools/draw/circle_"
     });
 
 
