@@ -18,8 +18,8 @@ const {
 
 describe("src/core/maps/store/actionsMapsMarker.js", () => {
     let dispatch,
-    commit,
-    rootGetters,
+        commit,
+        rootGetters,
         state;
 
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
             "Menu/currentComponent": () =>{
                 return {
                     type: "searchbar"
-                }
+                };
             },
             "Modules/SearchBar/searchInput": ""
         };
@@ -116,7 +116,7 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                 "Menu/currentComponent": () =>{
                     return {
                         type: "NOTsearchbar"
-                    }
+                    };
                 },
                 "Modules/SearchBar/searchInput": "strasse"
             };
@@ -272,10 +272,7 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
             };
 
         it("rotatePointMarkerIn3D with angle 0", () => {
-            const rootGetters = {
-                    "Maps/clickPixel": [0, 0]
-                },
-                position = {
+            const position = {
                     rotation: 0
                 },
                 rotation = 0,
@@ -284,16 +281,17 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                     y: -25
                 };
 
+            rootGetters = {
+                "Maps/clickPixel": [0, 0]
+            };
+
             mapCollection.addMap(map3D, "3D");
             rotatePointMarkerIn3D({rootGetters}, position);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.rotation).to.equal(rotation);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.pixelOffset).to.deep.equal(pixelOffset);
         });
         it("rotatePointMarkerIn3D with angle 90", () => {
-            const rootGetters = {
-                    "Maps/clickPixel": [0, 0]
-                },
-                position = {
+            const position = {
                     rotation: 90
                 },
                 rotation = -1.5707963267948966,
@@ -302,16 +300,17 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                     y: 25
                 };
 
+            rootGetters = {
+                "Maps/clickPixel": [0, 0]
+            };
+
             mapCollection.addMap(map3D, "3D");
             rotatePointMarkerIn3D({rootGetters}, position);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.rotation).to.equal(rotation);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.pixelOffset).to.deep.equal(pixelOffset);
         });
         it("rotatePointMarkerIn3D with angle 180", () => {
-            const rootGetters = {
-                    "Maps/clickPixel": [0, 0]
-                },
-                position = {
+            const position = {
                     rotation: 180
                 },
                 rotation = -3.141592653589793,
@@ -320,16 +319,17 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                     y: 25
                 };
 
+            rootGetters = {
+                "Maps/clickPixel": [0, 0]
+            };
+
             mapCollection.addMap(map3D, "3D");
             rotatePointMarkerIn3D({rootGetters}, position);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.rotation).to.equal(rotation);
             expect(mapCollection.getMap("3D").getCesiumScene().drillPick()[0].primitive.pixelOffset).to.deep.equal(pixelOffset);
         });
         it("rotatePointMarkerIn3D with angle 270", () => {
-            const rootGetters = {
-                    "Maps/clickPixel": [0, 0]
-                },
-                position = {
+            const position = {
                     rotation: 270
                 },
                 rotation = -4.71238898038469,
@@ -337,6 +337,10 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                     x: -25,
                     y: 25
                 };
+
+            rootGetters = {
+                "Maps/clickPixel": [0, 0]
+            };
 
             mapCollection.addMap(map3D, "3D");
             rotatePointMarkerIn3D({rootGetters}, position);
