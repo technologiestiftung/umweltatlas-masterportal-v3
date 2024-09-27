@@ -40,6 +40,7 @@ export default {
     },
     computed: {
         ...mapGetters("Maps", ["clickCoordinate"]),
+        ...mapGetters("Modules/SearchBar", ["searchInput"]),
         ...mapGetters("Modules/GetFeatureInfo", [
             "centerMapToClickPoint",
             "currentFeature",
@@ -83,8 +84,10 @@ export default {
         }
     },
     beforeUnmount: function () {
-        this.removePointMarker();
-        this.removeHighlighting();
+        if (this.searchInput === "") {
+            this.removePointMarker();
+            this.removeHighlighting();
+        }
     },
     methods: {
         ...mapMutations("Modules/GetFeatureInfo", ["setShowMarker"]),

@@ -18,13 +18,24 @@ const {
 
 describe("src/core/maps/store/actionsMapsMarker.js", () => {
     let dispatch,
+    commit,
+    rootGetters,
         state;
 
     beforeEach(() => {
         dispatch = sinon.spy();
+        commit = sinon.spy();
 
         state = {
             mode: "2D"
+        };
+        rootGetters = {
+            "Menu/currentComponent": () =>{
+                return {
+                    type: "searchbar"
+                }
+            },
+            "Modules/SearchBar/searchInput": ""
         };
 
         sinon.stub(mapMarker, "addFeatureToMapMarkerLayer");
@@ -54,10 +65,11 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
         it("place a point marker, if position is an array", () => {
             const position = [10, 10];
 
-            placingPointMarker({dispatch}, position);
+            placingPointMarker({commit, dispatch, rootGetters}, position);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("removePointMarker");
+            expect(commit.notCalled).to.be.true;
 
             expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
             expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_point_layer");
@@ -69,7 +81,7 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                 coordinates: [10, 10]
             };
 
-            placingPointMarker({dispatch}, position);
+            placingPointMarker({commit, dispatch, rootGetters}, position);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("removePointMarker");
@@ -85,12 +97,39 @@ describe("src/core/maps/store/actionsMapsMarker.js", () => {
                 rotation: 199.123
             };
 
-            placingPointMarker({dispatch}, position);
+            placingPointMarker({commit, dispatch, rootGetters}, position);
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("removePointMarker");
             expect(dispatch.secondCall.args[0]).to.equals("rotatePointMarker");
             expect(dispatch.secondCall.args[1]).to.deep.include({position});
+
+            expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_point_layer");
+            expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[1] instanceof Feature).to.be.true;
+        });
+
+        it("place a point marker and clear search input", () => {
+            const position = [10, 10];
+
+            rootGetters = {
+                "Menu/currentComponent": () =>{
+                    return {
+                        type: "NOTsearchbar"
+                    }
+                },
+                "Modules/SearchBar/searchInput": "strasse"
+            };
+
+            placingPointMarker({commit, dispatch, rootGetters}, position);
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equals("removePointMarker");
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("Modules/SearchBar/setSearchInput");
+            expect(commit.firstCall.args[1]).to.equals("");
+            expect(commit.secondCall.args[0]).to.equals("Modules/SearchBar/setCurrentSearchInputValue");
+            expect(commit.secondCall.args[1]).to.equals("");
 
             expect(mapMarker.addFeatureToMapMarkerLayer.calledOnce).to.be.true;
             expect(mapMarker.addFeatureToMapMarkerLayer.firstCall.args[0]).to.equals("marker_point_layer");

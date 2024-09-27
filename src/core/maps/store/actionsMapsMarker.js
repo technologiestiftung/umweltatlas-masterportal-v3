@@ -26,7 +26,7 @@ export default {
      * @param {Number} [position.rotation] The rotation in degree.
      * @returns {void}
      */
-    placingPointMarker ({dispatch}, position) {
+    placingPointMarker ({commit, dispatch, rootGetters}, position) {
         const coordinates = Array.isArray(position) ? position : position?.coordinates;
 
         dispatch("removePointMarker");
@@ -36,6 +36,11 @@ export default {
                 feature = new Feature({
                     geometry: new Point(coordinates)
                 });
+
+            if (rootGetters["Menu/currentComponent"]("mainMenu").type !== "searchbar" && rootGetters["Modules/SearchBar/searchInput"] !== "") {
+                commit("Modules/SearchBar/setSearchInput", "", {root: true});
+                commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
+            }
 
             mapMarker.addFeatureToMapMarkerLayer(layerId, feature);
 

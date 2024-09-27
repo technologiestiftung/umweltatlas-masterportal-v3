@@ -9,6 +9,7 @@
 ### Added
 - Release Schedule and release information to readme.md
 - FileImport: Added the possibility to configure the confirmation window to show or not.
+- Searchbar: mapMarker or polygonMarker stays visible on close of search results.
 
 ### Changed
 

@@ -531,7 +531,8 @@
             "printAppId": "master",
             "filename": "Ausdruck",
             "title": "Mein Titel",
-            "currentLayoutName": "A4 Hochformat"
+            "currentLayoutName": "A4 Hochformat",
+            "printMapMarker": true
           },
           {
             "type": "featureLister",
