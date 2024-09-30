@@ -793,6 +793,9 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 ***
 
 #### portalConfig.map.mapView {data-toc-label='Map View'}
+
+[type:Coordinate]: # (Datatypes.Coordinate)
+
 Defines the initial map view and a background shown when no layer or map is selected.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -802,7 +805,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 |extent|no|**[Extent](#datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
 |mapInteractions|nein|**[mapInteractions](#portalconfigmapmapviewmapinteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.|false|
 |options|no|**[option](#portalconfigmapmapviewoption)**[]|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Available scale levels and their resolutions.|false|
-|startCenter|nein|Number[]|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
+|startCenter|no|**[Coordinate](#datatypescoordinate)**|[565874, 5934140]|The initial center coordinate.|false|
 |startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
 |startZoomLevel|no|Integer||The initial map zoom level from the `options` element. If `resolutions` is set, this is ignored.|false|
 
@@ -1927,11 +1930,10 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 ###### portalConfig.menu.sections.modules.coordToolkit.coordInfo {data-toc-label='Coord Info'}
 
 [inherits]: # (portalConfig.menu.sections.modules.coordToolkit)
-[type:Explanations]: # (Datatypes.Explanations)
 
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
-|explanations|no|**[explanations](#datatypesexplanations)**[]||Array of declarations from which a list is created.|false|
+|explanations|no|[]||Array of declarations from which a list is created.|false|
 |title|no|string||Heading for the explanations of the coordinate reference systems.|false|
 
 ***
@@ -5260,6 +5262,24 @@ Entities3D entities typical attributes are listed here.
 
 ## Datatypes
 
+### Datatypes.Coordinate {data-toc-label='Coordinate'}
+
+A coordinate is an array of two numbers. The first represents the easting, the second the northing.
+
+**Example integer coordinate**
+
+```json
+[561210, 5932600]
+```
+
+**Example float coordinate**
+
+```json
+[561210.1458, 5932600.12358]
+```
+
+***
+
 The following datatypes can be used in the configuration.
 
 ### Datatypes.Extent {data-toc-label='Extent'}
@@ -5706,6 +5726,32 @@ Only the selection in one of the child snippets (example: "blue whale") finally 
 In case of using parent-child relationships, we recommend setting `snippetTags` to `false`.
 Multi-dimensional nesting (grandparent, parent, child) is not currently provided.
 
+|Name|Required|Typ|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
+|attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
+|autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
+|delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
+|display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
+|hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
+|info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
+|type|no|String||The type of this snippet. Can be one of the following: `dropdown`. Will be indentified automatically if left away, following a data type rule: string becomes `dropdown`.|false|
+|localeCompareParams|no|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
+|multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
+|operator|no|String||The operator to connect the set value to the value in the database. Can be one of the following - depending if it makes sense for the type and is available for the used interface: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. If left away, defaults are: boolean becomes `EQ`, string becomes `EQ`, number becomes `BETWEEN`, unknown becomes `EQ`.|false|
+|operatorForAttrName|no|String|"AND"|By setting this parameter to `OR` in conjunction with attrName as an array, it is possible to filter over various attrNames with a logical OR.|false|
+|optionsLimit|no|Number|20000|For type `dropdown` only: Adds a limit of options in dropdown list.|false|
+|placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
+|prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
+|renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
+|service|no|**[Service](#markdown-header-datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
+|title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
+|value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
+|visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
+|adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
+|allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
+
 **Example**
 
 Example of a dropdown snippet with parent-child relationship. The `cityA` and `cityB` dropdowns are initially not filled. Only when a `district` is selected do they fill with the cities of the selected district, but no filtering takes place on the map. Only the selection of a city finally initiates the filtering by the city name.
@@ -5807,6 +5853,13 @@ The configuration depends on the type of service.
 #### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|data|yes|Object||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
+|options|yes|Object||Options for creating the diagram.|false|
+|plugins|yes|Array||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
+|type|yes|String||Chart type determines the main type of the chart.|false|
 
 **Example**
 
@@ -6499,11 +6552,5 @@ Configuration for the suggestions of the user input.
 |----|--------|----|-------|-----------|------|
 |featureType|no|String||If given, the query will be sent with this featureType instead of the one configured for the service itself. Only usable if the layer was defined in the **[services.json](../Global-Config/services.json.md)**.|false|
 |length|no|Number|3|The query is triggered when the length of the input is at least as long as this parameter.|false|
-
-***
-
-## Datatypes.Explanations {data-toc-label='Explanations'}
-
-Can contain an array with explanations of the coordinate reference systems from which a list is created.
 
 ***

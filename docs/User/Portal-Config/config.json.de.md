@@ -794,6 +794,9 @@ Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, 
 ***
 
 #### portalConfig.map.mapView {data-toc-label='Map View'}
+
+[type:Coordinate]: # (Datatypes.Coordinate)
+
 Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und der Hintergrund festgelegt, der erscheint wenn keine Karte geladen ist.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -803,7 +806,7 @@ Mit verschiedenen Parametern wird die Startansicht der Karte konfiguriert und de
 |extent|nein|**[Extent](#datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Der Map-Extent.|false|
 |mapInteractions|nein|**[mapInteractions](#portalconfigmapmapviewmapinteractions)**||Überschreibt die ol map Interaktionen. Bietet weitere Konfigurationsmöglichkeiten für Steuerungsverhalten und keyboardEventTarget.|false|
 |options|nein|**[option](#portalconfigmapmapviewoption)**[]|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Die initialen Maßstabsstufen und deren Auflösungen.|false|
-|startCenter|nein|Number[]|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
+|startCenter|nein|**[Coordinate](#datatypescoordinate)**|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
 |startResolution|nein|Float|15.874991427504629|Die initiale Auflösung der Karte aus options. Vorzug vor startZoomLevel.|false|
 |startZoomLevel|nein|Integer||Der initiale ZoomLevel aus Options. Nachrangig zu resolution.|false|
 
@@ -1929,11 +1932,10 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 ###### portalConfig.menu.sections.modules.coordToolkit.coordInfo {data-toc-label='Coord Info'}
 
 [inherits]: # (portalConfig.menu.sections.modules.coordToolkit)
-[type:Explanations]: # (Datatypes.Explanations)
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|explanations|nein|**[Explanations](#datatypesexplanations)**[]||Array mit Erklärungen, aus denen eine Liste erstellt wird.|false|
+|explanations|nein|[]||Array mit Erklärungen, aus denen eine Liste erstellt wird.|false|
 |title|nein|string||Überschrift für die Erläuterungen zu den Koordinatenreferenzsystemen.|false|
 
 ***
@@ -5254,6 +5256,23 @@ Hier werden Entities3D Einheiten typische Attribute aufgelistet.
 
 Die folgenden Datentypen können in der Config verwendet werden.
 
+### Datatypes.Coordinate {data-toc-label='Coordinate'}
+Eine Koordinate besteht aus einem Array bestehend aus zwei Zahlen. Die erste repräsentiert den Rechtswert, die zweite den Hochwert.
+
+**Beispiel Koordinate bestehend aus Ganzzahlen(Integer)**
+
+```json
+[561210, 5932600]
+```
+
+**Beispiel Koordinate bestehend aus Gleitkommazahlen(Float)**
+
+```json
+[561210.1458, 5932600.12358]
+```
+
+***
+
 ### Datatypes.Extent {data-toc-label='Extent'}
 
 Ein Extent besteht aus einem Array bestehend aus vier Zahlen. Ein Extent beschreibt einen rechteckigen Gültigkeitsbereich. Dabei wird ein Rechteck aufgespannt, das durch die "linke untere" und die "rechte obere" Ecke definiert wird. Das Schema lautet [Hochwert-Links-Unten, Rechtswert-Links-Unten, Hochwert-Rechts-Oben, Rechtswert-Rechts-Oben] oder [minx, miny, maxx, maxy].
@@ -5700,6 +5719,31 @@ Erst die Auswahl in einem der Kind-Snippets (Beispiel: "Blauwal") führt die Fil
 Im Falle der Verwendung von Eltern-Kind-Beziehungen empfehlen wir `snippetTags` auf `false` zu stellen.
 Eine mehrdimensionale Verschachtelung (Großeltern, Eltern, Kind) ist derzeit nicht vorgesehen.
 
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|addSelectAll|nein|Boolean|false|Nur für Snippet-Typ `dropdown` mit `multiselect: true`: Ein zusätzlicher Eintrag zum Selektieren/Deselektieren aller Werte wird angeboten.|false|
+|attrName|ja|String||Der Name des Attributes auf dem dieses Snippet filtern soll. Kann ein Array sein, wenn `dateRange`, `sliderRange` oder `featureInfo` verwendet wird (siehe Beispiele).|false|
+|autoInit|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Schaltet, wenn auf `false` gestellt, die automatischen Ermittlungen von Inhalts-, Min- und Max-Werten ab.|false|
+|delimiter|nein|String||Nur für Snippet-Typ `dropdown`: Sollte das Attribut eines Features ein String sein, dessen Wert mit einem Separator als Quasi-Array gedacht ist, kann durch Angabe des separierenden Zeichens (des Delimiters) die Verarbeitung des Strings als Array erzwungen werden.|false|
+|display|nein|String|"default"|Wenn Snippet-Typ `dropdown`: Wenn auf `list` eingestellt, wird anstelle einer Dropdown-Box eine Liste angezeigt. Wenn Snippet-Typ `dateRange`: Wenn auf `datepicker` eingestellt, wird nur die Auswahl über Kalender angezeigt, wenn auf `slider` eingestellt, wird nur der Slider angezeigt, wenn auf `all` eingestellt, werden Datepicker und Slider angezeigt.|false|
+|hideSelected|nein|Boolean|true|Standardmäßig ist beim Dropdown der ausgewählte Eintrag beim nächsten Ausklappen weg. Kann auf false gesetzt werden, um den vorher ausgewählten Eintrag sichtbar und farblich abgesetzt anzuzeigen.|false|
+|info|nein|String||Info-Text zu diesem Snippet oder ein Übersetzungs-Key. Wenn eingestellt, dann wird rechts vom Snippet ein Info-Symbol angezeigt, das bei Klick den Text darstellt. Kann auch einfach auf `true` gestellt werden, wenn ein Standard-Text ausreichend ist.|false|
+|localeCompareParams|nein|**[LocaleCompareParams](#datatypessnippetslocalecompareparams)**||Nur für Snippet-Typ `dropdown`: Die Sortierung der Dropdown-Boxen kann über diesen Parameter nach eigenen Wünschen angepasst werden.|false|
+|multiselect|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Gleichzeitige Auswahl vieler Werte. Auf `false` stellen um auf Einzelauswahl umzustellen.|false|
+|operator|nein|String||Der logische Operator wie der eingestellte Wert mit dem Wert in der Datenbank verglichen wird. Abhängig davon ob es Sinn macht können dies folgende Werte sein: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. Wenn weggelassen, gilt der Default: boolean wird zu `EQ`, string wird zu `EQ`, number wird zu `BETWEEN`, unbekannt wird zu `EQ`.|false|
+|operatorForAttrName|nein|String|"AND"|Durch das setzen dieses Parameters auf `OR` in Verbindung mit einem Array als attrName, wird es ermöglicht über diverse attrNames mit einem logischem OR zu filtern.|false|
+|optionsLimit|nein|Number|20000|Nur für Snippet-Typ `dropdown`: Einer Parameter für Anzahl der Optionen in der Dropdown-List.|false|
+|placeholder|nein|String|""|Nur für Snippet-Typ `dropdown`: Der Platzhalter bei Nicht-Einstellung der Dropdown. Kann ein Übersetzungs-Key sein.|false|
+|prechecked|nein|String[]/String||Initial aktiv eingestellte Werte. Für `dropdown`, `sliderRange` und `dateRange` ist dies ein Array, für checkbox ein boolean, für slider eine number, für text ein string und für date ein string der über das `format` spezifiziert werden muss. Für `dropdown` mit `multiselect`: Wird `prechecked` auf `all` eingestellt, werden initial alle verfügbaren Werte ausgewählt.|false|
+|renderIcons|nein|String|"none"|Nur für Snippet-Typ `dropdown` mit `display: "list"`: Wenn auf den String `fromLegend` eingestellt, werden Icons aus der Legende bezogen und links neben den Werten angezeigt. Wird hier ein Objekt angegeben, werden die Key-Namen als Wert und der Value als Bild-Pfad verwendet: {attrName: imagePath} (siehe Beispiele).|false|
+|service|nein|**[Service](#datatypessnippetsservice)**||Für das initiale Befüllen eines Snippets (`dropdown`, `date`, `slider`) kann ein alternativer Service genutzt werden. Das kann unter Umständen die Performanz beim initialen Laden erhöhen. Standard ist der Service des konfigurierten **[filterLayer](#portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|showAllValues|nein|Boolean||Nur für Snippet-Typ `dropdown`: Verhindert wenn auf `true` gestellt das Verstecken der nicht ausgewählten Werte. Kann nur in Verbindung mit `prechecked: "all"` genutzt werden.|false|
+|title|nein|String||Der Titel des Snippets. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, wird der Titel aus den `gfiAttributes` genommen und wenn diese nicht vorhanden sind, dann wird der `attrName` verwendet. Kann auf `false` gesetzt werden um die Anzeige eines Titels zu unterbinden. Kann auf `true` gesetzt werden um die Anzeige des `attrName` zu erzwingen.|false|
+|value|nein|String[]||Wenn weggelassen, werden Werte automatisch ermittelt. Wenn für `dropdown` eingestellt: Die Werte, die in der Liste auswählbar sein sollen. Wenn für `checkbox` eingestellt: Statt Boolean-Werten sollen die angegebenen Werte für die Zustände `true` und `false` genommen werden (z.B. ["Ja", "Nein"]). Für `dateRange`: Anfangs- und End-Datum für Datepicker und/oder Slider. Für `sliderRange`: Anfangs- und End-Werte.|false|
+|visible|nein|Boolean|true|Das Snippet wird angezeigt. Auf `false` stellen um das Snippet zu verbergen: Dadurch können mithilfe von `prechecked` Werte im versteckten Snippet fest eingestellt werden, die dann bei jeder Filterung gelten.|false|
+|adjustOnlyFromParent|nein|Boolean|false|Nur für Snippet-Typ `dropdown`: Wenn true, wird es nur vom Parent-Snippet nachjustiert.|false|
+|allowEmptySelection|nein|Boolean|true|Nur für Snippet-Typ `dropdown`: Wird `true` gesetzt, können alle ausgewählten Werte im Dropdown wieder abgewählt werden. Auf `false` setzen, wenn immer ein Wert ausgewählt bleiben soll.|false|
+
 **Beispiel**
 
 Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `cityB`-Dropdowns sind zunächst nicht gefüllt. Erst bei Auswahl eines `District` füllen sie sich mit den Städten des gewählten Bezirkes, es findet aber keine Filterung auf der Map statt. Erst die Auswahl einer Stadt initiiert schließlich die Filterung nach dem Stadtnamen.
@@ -5732,7 +5776,7 @@ Beispiel für ein Dropdown-Snippet mit Eltern-Kind-Beziehung. Die `cityA`- und `
 Mit der Anpassung von Timeouts kann die User Experience verbessert werden.
 Dies betrifft besonders Filter die mit `strategy`: `active` arbeiten.
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |input|nein|Number|1400|Nur für Snippet-Typ `sliderRange` und `slider`: Die Zeit in Millisekunden die vergehen soll, bevor nach Eingabe von Zahlen und Zeichen ins Input-Feld eine Filterung ausgelöst werden soll.|false|
 |slider|nein|Number|800|Nur für Snippet-Typ `sliderRange`, `slider` und `dateRange`: Die Zeit in Millisekunden die vergehen soll, bevor nach der letzten Änderung des Sliders eine Filterung ausgelöst werden soll.|false|
@@ -5800,6 +5844,13 @@ Die Konfiguration hängt vom Typ des Services ab.
 #### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
 Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
+
+|Name|Required|Typ|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|data|ja|Object||Die Daten. Für weitere Informationen klicken Sie **[hier](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
+|options|ja|Object||Optionen für die Erstellung des Diagramms.|false|
+|plugins|ja|Array||Inline-Plugins können in dieses Array aufgenommen werden. Dies ist ein alternativer Weg, um Plugins für einzelne Diagramme hinzuzufügen (im Gegensatz zur globalen Registrierung des Plugins). Mehr über Plugins in der **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
+|type|ja|String||Der Diagrammtyp bestimmt den Haupttyp des Diagramms.|false|
 
 **Beispiel**
 
@@ -6491,11 +6542,5 @@ Konfiguration für die Vorschläge von Nutzereingaben.
 |----|-------------|---|-------|------------|------|
 |featureType|nein|String||Wenn gegeben, wird die Anfrage mit diesem featureType statt dem aus der Definition des Services ausgeführt. Nur verwendbar, wenn der Dienst in der **[services.json](../Global-Config/services.json.md)** definiert wurde.|false|
 |length|nein|Number|3|Die Anfrage wird dann ausgelöst, wenn die Inputlänge mindestens so lang ist wie der Wert dieses Parameters.|false|
-
-***
-
-### Datatypes.Explanations {data-toc-label='Explanations'}
-
-Kann ein Array von Erläuterungen zu den Koordinatenreferenzsystemen enthalten, aus denen eine Liste erstellt wird.
 
 ***
