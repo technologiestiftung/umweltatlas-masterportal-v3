@@ -1716,6 +1716,7 @@ This module displays specific portal information like description, Masterportal 
 [inherits]: # (portalConfig.menu.sections.modules)
 
 The module allows for adding additional WMS layers via a provided URL. To ensure adding the WMS layers works smoothly, it is recommended to set a CORS header for the service. This follows the [the recommendation of GDI-DE for Cross-Origin Resource Sharing (CORS)](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf), chapter 4.7.1.
+A URL for a WMS layer might look something like this: "https://dienste.com/mapserver/wms?{parameters}". 
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
