@@ -1715,8 +1715,8 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-Mit diesem Modul lassen sich zusätzliche WMS Layer über eine angegebene URL laden. Um sicherzustellen, dass das Hinzufügen der WMS Layer reibungslos funktioniert, wird empfohlen, einen CORS-Header für den Dienst zu setzen. Dies folgt der [Empfehlung des GDI-DE zum Cross-Origin Resource Sharing (CORS)](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf), Kapitel 4.7.1.
-Eine URL für eine WMS Layer kann so in der Art aussehen: "https://dienste.com/mapserver/wms?{parameters}". 
+Mit diesem Modul lassen sich zusätzliche WMS Layer über eine angegebene URL laden. Von der [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) wird empfohlen einen CORS-Header einzurichten, siehe Kapitel 4.7.1.  
+Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`. 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
