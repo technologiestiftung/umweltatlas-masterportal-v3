@@ -45,7 +45,7 @@ export function getProxyUrl (url, proxyHost = getters.proxyHost()) {
     hostname = hostname.replaceAll(".", "_");
     console.warn(`Please set up a CORS header for the service with the URL: ${url}`
     + " This is recommended by the GDI-DE"
-    + " (https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile)"
+    + " (https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf)"
     + " in chapter 4.7.1.!");
 
     return proxyHost + "/" + result.replace(resultHostname, hostname);

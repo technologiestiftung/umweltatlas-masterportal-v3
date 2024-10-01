@@ -9,6 +9,7 @@
 - Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' have been removed.
 
 ### Added
+- AddWMS: Added Information about CORS header to doc and changed error message.
 
 ### Changed
 
@@ -19,6 +20,7 @@
 
 ### Fixed
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
+- Corrected link for geodata infrastructure information pdf by GDI-DE. 
 
 ---
 
