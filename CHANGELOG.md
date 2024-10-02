@@ -24,6 +24,7 @@
 - LayerInfoContactButton: no warning in console, if at layer `md_name` ist not available in `datasets`.
 - LayerSelection: `tree.type: auto`: change of category creates correct folders.
 - Draw_old: import KML file works correctly.
+- GroupLayer: Layer of the type group consider now min and max scale of the single layer in 2D.
 
 ---
 
@@ -35,7 +36,7 @@
 
 ## 2024-09-12 v3.2.1
 ### Fixed
-- UrlParams: 
+- UrlParams:
     - mapMarker: Fixed map marker set by url parameter.
     - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 
@@ -104,7 +105,7 @@
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
 - Print: Fixed error messages when zooming after map printing is closed
-- UrlParams: 
+- UrlParams:
         - mapMarker: Fixed map marker set by url parameter.
         - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
 - Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
