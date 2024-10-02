@@ -3,19 +3,13 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2024-10-02 v3.3.0 (LTS)
 ### __Breaking Changes__
 
 ### Added
-- Release Schedule and release information to readme.md
+- Release Schedule and release information to readme.md.
 - FileImport: Added the possibility to configure the confirmation window to show or not.
 - Searchbar: mapMarker or polygonMarker stays visible on close of search results.
-
-### Changed
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - AlertingItem: Fixed the position of closing button.
