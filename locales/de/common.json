@@ -1092,7 +1092,10 @@
       "shareLink": "Aktuelle Ansicht als Link kopieren",
       "shareQR": "Aktuelle Ansicht als QRCode erstellen",
       "shareTwitter": "Twitter",
-      "linkCopied": "Link wurde in die Zwischenablage kopiert."
+      "linkCopied": "Link wurde in die Zwischenablage kopiert.",
+      "qrError": "Beim Generieren des QR-Codes ist ein Fehler aufgetreten.",
+      "qrErrorDataTooLarge": "Die Daten, die Sie teilen möchten, sind zu groß. Bitte reduzieren Sie die Anzahl der Optionen auf der Karte, um die Datenmenge zu verkleinern."
+      }
     },
     "styleVT": {
       "chooseTheme": "Bitte aktives Thema auswählen",
@@ -1187,7 +1190,6 @@
           },
           "inputRangeLabel": "Einen Zeitpunkt auswählen"
       }
-  }
   },
   "shared": {
     "js": {

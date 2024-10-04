@@ -1089,7 +1089,9 @@
       "shareLink": "Copy current view as link",
       "shareQR": "Generate current view as QRCode",
       "shareTwitter": "Twitter",
-      "linkCopied": "Link was copied to clipboard."
+      "linkCopied": "Link was copied to clipboard.",
+      "qrError": "An error occurred while generating the QR code.",
+      "qrErrorDataTooLarge": "The data you want to share is too large. Please reduce the number of options on the map to decrease the data size."
     },
     "styleVT": {
       "chooseTheme": "Please choose active theme",
