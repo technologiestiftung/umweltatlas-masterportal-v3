@@ -10,6 +10,7 @@
 
 ### Added
 - AddWMS: Added Information about CORS header to doc and changed error message.
+- ShareView: Added the logic in generateQRCodeDataURL method to handle specific error cases when QR Code generation fails.
 
 ### Changed
 
