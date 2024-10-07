@@ -112,36 +112,6 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                         changeCurrentComponent: sinon.stub(),
                         setMenuBackAndActivateItem: sinon.stub()
                     },
-                    getters: {
-                        mainMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "contact"
-                                        },
-                                        {
-                                            type: "about"
-                                        }
-                                    ]
-                                ]
-                            };
-                        },
-                        secondaryMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "section1"
-                                        },
-                                        {
-                                            type: "section2"
-                                        }
-                                    ]
-                                ]
-                            };
-                        }
-                    },
                     modules: {
                         Navigation: {
                             namespaced: true,
@@ -179,11 +149,19 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                             actions: {
                                 navigateForward: sinon.stub()
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 }
             },
             getters: {
+                isModuleAvailable: () => () => true,
                 allLayerConfigsStructured: () => () =>{
                     return layersBG.concat(subjectDataLayers);
                 },
@@ -305,4 +283,32 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         expect(spy.calledOnce).to.be.true;
     });
 
+    it("with layer button - shows the default title", () => {
+        subjectDataLayers = [];
+        layersBG = [];
+        addLayerButton = {
+            active: true
+        };
+        wrapper = shallowMount(LayerTreeComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#add-layer-btn").attributes().text).to.be.equals("common:modules.layerTree.addLayer");
+    });
+
+    it("with layer button - shows the configurable title", () => {
+        subjectDataLayers = [];
+        layersBG = [];
+        addLayerButton = {
+            active: true,
+            "buttonTitle": "test"
+        };
+        wrapper = shallowMount(LayerTreeComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("#add-layer-btn").attributes().text).to.be.equals("test");
+    });
 });

@@ -2,13 +2,11 @@ site_name: Masterportal Docs
 site_author: Masterportal Open Source Community
 repo_name: BitBucket
 repo_url: https://bitbucket.org/geowerkstatt-hamburg/masterportal/
-edit_uri_template: src/dev_vue/docs/{path}?mode=edit
 docs_dir: docs
 
 theme:
     name: material
     features:
-        - content.action.edit
         - content.code.annotate
         - content.code.copy
         - content.tabs.link

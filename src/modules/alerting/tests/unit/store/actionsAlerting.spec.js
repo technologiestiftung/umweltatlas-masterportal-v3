@@ -157,4 +157,78 @@ describe("src/modules/alerting/store/actionsAlerting.js", () => {
         expect(dispatch.secondCall.args[0]).to.equals("addSingleAlert");
         expect(dispatch.secondCall.args[1].title).to.equals("testAlert2");
     });
+
+    describe("activateDisplayOnEventAlerts() init", () => {
+        const state = {
+            alerts: [{
+                content: "test alert simple",
+                displayOnEvent: {
+                    "type": "test",
+                    "value": "teststring"
+                },
+                onceInSession: true,
+                once: false
+            },
+            {
+                content: "test alert layer",
+                displayOnEvent: {
+                    "type": "showLayerAttributions",
+                    "value": {
+                        "id": "453",
+                        "visibility": false
+                    }
+                },
+                onceInSession: true,
+                once: false
+            },
+            {
+                content: "Second alerts for the same event",
+                displayOnEvent: {
+                    "type": "showLayerAttributions",
+                    "value": {
+                        "id": "453",
+                        "visibility": false
+                    }
+                },
+                onceInSession: true,
+                once: false
+            },
+            {
+                content: "default alert",
+                onceInSession: true,
+                once: false
+            }]
+        };
+
+        it("event alert - event type A", () => {
+            const action = {
+                type: "test",
+                payload: "teststring"
+            };
+
+            actions.activateDisplayOnEventAlerts({state, commit}, action);
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.eql("setReadyToShow");
+            expect(commit.firstCall.args[1]).to.eql(true);
+            expect(state.alertsOnEvent.length).to.eql(1);
+        });
+
+        it("event alert - event type B - two alerts", () => {
+            const action = {
+                "type": "showLayerAttributions",
+                "payload": {
+                    "id": "453",
+                    "visibility": false
+                }
+            };
+
+            actions.activateDisplayOnEventAlerts({state, commit}, action);
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.eql("setReadyToShow");
+            expect(commit.firstCall.args[1]).to.eql(true);
+            expect(state.alertsOnEvent.length).to.eql(2);
+        });
+    });
 });

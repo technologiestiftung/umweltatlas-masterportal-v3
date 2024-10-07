@@ -132,13 +132,14 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
                 feature: {
                     set: sinon.spy(),
                     get: (key) => {
-                        if (key === "drawState") {
-                            return drawState;
-                        }
-                        else if (key === "isVisible") {
-                            return isVisible;
+                        if (key === "masterportal_attributes") {
+                            return {
+                                drawState: drawState,
+                                isVisible: isVisible
+                            };
                         }
                         return "";
+
                     },
                     setStyle: sinon.spy(),
                     getGeometry: () => {
@@ -159,10 +160,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
             expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(createStyleStub.calledOnce).to.be.true;
             expect(createStyleStub.firstCall.args[0]).to.be.deep.equal(drawState);
@@ -180,10 +181,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
             expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(commit.calledOnce).to.be.true;
             expect(createStyleStub.calledOnce).to.be.true;
@@ -206,10 +207,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[1].content).to.be.equal("modules.draw_old.undefinedRadius");
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(state.outerBorderColor).to.be.undefined;
@@ -232,10 +233,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[1].content).to.be.equal("modules.draw_old.undefinedTwoCircles");
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(state.outerBorderColor).to.equal(errorBorder);
@@ -259,10 +260,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[1].content).to.be.equal("modules.draw_old.undefinedInnerCircle");
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(state.outerBorderColor).to.equal("");
@@ -287,10 +288,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.secondCall.args[1].content).to.be.equal("modules.draw_old.undefinedOuterCircle");
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(state.outerBorderColor).to.equal(errorBorder);
@@ -313,10 +314,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
             expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.notCalled).to.be.true;
             expect(state.outerBorderColor).to.equal(undefined);
@@ -344,10 +345,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
             expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.notCalled).to.be.true;
             expect(state.outerBorderColor).to.equal(undefined);
@@ -375,10 +376,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
             expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
             expect(event.feature.set.calledTwice).to.be.true;
-            expect(event.feature.set.firstCall.args[0]).to.equal("fromDrawTool");
-            expect(event.feature.set.firstCall.args[1]).to.be.true;
-            expect(event.feature.set.secondCall.args[0]).to.equal("invisibleStyle");
-            expect(event.feature.set.secondCall.args[1]).to.be.deep.equal(createdStyle);
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1]).to.deep.include({"invisibleStyle": createdStyle});
             expect(event.feature.setStyle.calledOnce).to.be.true;
             expect(removeFeatureSpy.notCalled).to.be.true;
             expect(state.outerBorderColor).to.equal("");
@@ -404,11 +405,11 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
                 feature = {
                     set: sinon.spy(),
                     get: (key) => {
-                        if (key === "drawState") {
-                            return drawState;
-                        }
-                        else if (key === "isVisible") {
-                            return true;
+                        if (key === "masterportal_attributes") {
+                            return {
+                                drawState: drawState,
+                                isVisible: true
+                            };
                         }
                         return "";
                     },

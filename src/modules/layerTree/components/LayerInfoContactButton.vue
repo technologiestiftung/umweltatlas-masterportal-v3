@@ -24,16 +24,14 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["isModuleAvailable"]),
         ...mapGetters("Modules/LayerInformation", [
             "layerInfo",
             "pointOfContact",
             "publisher"
         ]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
-        ...mapGetters("Menu", [
-            "mainMenu",
-            "secondaryMenu"
-        ]),
+        ...mapGetters("Modules/Contact", {contactType: "type", contactName: "name"}),
         ...mapGetters("Modules/BaselayerSwitcher", [
             "topBaselayerId"
         ]),
@@ -49,12 +47,7 @@ export default {
          * @returns {Boolean} True if contact module is configured.
          */
         contactConfigured () {
-            return this.mainMenu.sections[0].find(m => {
-                return m.type === "contact";
-            })
-            || this.secondaryMenu.sections[0].find(m => {
-                return m.type === "contact";
-            });
+            return this.isModuleAvailable(this.contactType);
         },
         /**
          * Returns info message to be given to the contact module.
@@ -88,7 +81,7 @@ export default {
          */
         openContactModule () {
             const props = {
-                name: this.$t("common:modules.contact.name"),
+                name: this.$t(this.contactName),
                 to: [
                     {
                         email: this.contact.email,
@@ -105,7 +98,7 @@ export default {
                 layerName: this.layerName
             };
 
-            this.changeCurrentComponent({type: "contact", side: this.menuSide, props: props});
+            this.changeCurrentComponent({type: this.contactType, side: this.menuSide, props: props});
         }
     }
 };

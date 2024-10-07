@@ -28,7 +28,7 @@ const defaultFont = "16px Arial",
                     rotation: 0,
                     scale: 1,
                     size: [16, 16],
-                    src: `${window.location.origin}/img/tools/draw/circle_blue.svg`
+                    src: `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg`
                 }),
                 text: new Text({
                     fill: new Fill({
@@ -137,10 +137,11 @@ function checkIsVisibleSetting (features) {
 
     resFeatures.forEach(feature => {
         // in case File doesn't have the isVisible setting
-        if (Object.prototype.hasOwnProperty.call(feature, "values_")) {
-            if (!Object.prototype.hasOwnProperty.call(feature.values_, "isVisible")) {
-                feature.values_.isVisible = true;
-            }
+        if (!Object.prototype.hasOwnProperty.call(feature.getProperties(), "masterportal_attributes")) {
+            feature.set("masterportal_attributes", {isVisible: true});
+        }
+        else if (!Object.prototype.hasOwnProperty.call(feature.get("masterportal_attributes"), "isVisible")) {
+            feature.get("masterportal_attributes").isVisible = true;
         }
     });
 
@@ -202,13 +203,12 @@ export default {
      * @param {Object} datasrc data source to import, with properties filename, layer and raw.
      * @returns {void}
      */
-    importFile ({state, dispatch, rootGetters}, datasrc) {
+    importFile ({state, dispatch, rootGetters, commit}, datasrc) {
         const
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
             format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            crsPropName = getCrsPropertyName(datasrc.raw),
-            customAttributes = {};
+            crsPropName = getCrsPropertyName(datasrc.raw);
 
         let
             featureError = false,
@@ -283,24 +283,48 @@ export default {
         }
 
         features.forEach(feature => {
-            const featureAttributes = getParsedCustomAttributes(feature);
+            const featureAttributes = getParsedCustomAttributes(feature),
+                masterportal_attributes = {};
             let geometries;
 
-            feature.set("attributes", featureAttributes);
             feature.setProperties(featureAttributes);
             Object.keys(featureAttributes).forEach(key => {
-                if (!Object.prototype.hasOwnProperty.call(customAttributes, key)) {
-                    customAttributes[key] = key;
+                if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
+                    commit("setGFIAttribute", {key});
+                }
+                feature.unset("custom-attribute____" + key);
+            });
+
+            Object.keys(feature.getProperties()).forEach((key) => {
+                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+
+                    if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle" && key !== "masterportal_attributes") {
+                        // transform "true" or "false" from KML to Boolean
+                        let valueToSetForMasterportal = feature.get(key);
+
+                        if (valueToSetForMasterportal === "true") {
+                            valueToSetForMasterportal = true;
+                        }
+                        else if (valueToSetForMasterportal === "false") {
+                            valueToSetForMasterportal = false;
+                        }
+
+                        masterportal_attributes[key] = valueToSetForMasterportal;
+                    }
+
+                    feature.unset(key);
                 }
             });
 
-            if (feature.get("isGeoCircle")) {
-                const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
-                    circleRadius = parseFloat(feature.get("geoCircleRadius"));
+            feature.set("masterportal_attributes", masterportal_attributes);
+
+            if (feature.get("masterportal_attributes").isGeoCircle) {
+                const circleCenter = feature.get("masterportal_attributes").geoCircleCenter.split(",").map(parseFloat),
+                    circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
-            if ((/true/).test(feature.get("fromDrawTool")) && feature.get("name") && feature.getGeometry().getType() === "Point") {
+            if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
 
                 feature.setStyle(new Style({
@@ -314,11 +338,11 @@ export default {
                         textBaseline: "bottom"
                     })
                 }));
-                feature.set("drawState", {
+                feature.get("masterportal_attributes").drawState = {
                     fontSize: parseInt(defaultFont.split("px")[0], 10) * style.getText().getScale(),
                     text: style.getText().getText(),
                     color: style.getText().getFill().getColor()
-                });
+                };
             }
             if (feature.getGeometry() === null) {
                 featureError = true;
@@ -357,15 +381,15 @@ export default {
                     feature.set("source", fileName);
                 });
             }
-            if (typeof feature.get === "function" && typeof feature.get("styleId") === "undefined") {
-                feature.set("styleId", uniqueId(""));
+            if (typeof feature.get === "function" && typeof feature.get("masterportal_attributes").styleId === "undefined") {
+                feature.get("masterportal_attributes").styleId = uniqueId("");
             }
         });
 
         features = checkIsVisibleSetting(features);
 
         vectorLayer.getSource().addFeatures(features);
-        vectorLayer.set("gfiAttributes", customAttributes);
+        vectorLayer.set("gfiAttributes", state.gfiAttributes);
 
         if (featureError) {
             alertingMessage = {
@@ -379,11 +403,13 @@ export default {
                 content: i18next.t("common:modules.fileImport.alertingMessages.success", {filename: fileName})
             };
         }
-        dispatch("Alerting/addSingleAlert", {
-            category: alertingMessage.category,
-            content: alertingMessage.content
-        }, {root: true});
 
+        if (state.showConfirmation) {
+            dispatch("Alerting/addSingleAlert", {
+                category: alertingMessage.category,
+                content: alertingMessage.content
+            }, {root: true});
+        }
         dispatch("addImportedFilename", fileName);
 
         if (state.enableZoomToExtend && features.length) {
@@ -399,11 +425,11 @@ export default {
      * @param {Object} datasrc data source to import, with properties filename, layer and raw.
      * @returns {void}
      */
-    importGeoJSON ({state, dispatch, rootGetters}, datasrc) {
+    importGeoJSON ({state, dispatch, rootGetters, commit}, datasrc) {
         const vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
             format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
-            gfiAttributes = {};
+            fileDataProjection = getCrsPropertyName(datasrc.raw);
 
         let
             alertingMessage,
@@ -424,7 +450,7 @@ export default {
 
         try {
             features = format.readFeatures(datasrc.raw, {
-                dataProjection: getCrsPropertyName(datasrc.raw),
+                dataProjection: fileDataProjection,
                 featureProjection: rootGetters["Maps/projectionCode"]
             });
         }
@@ -450,10 +476,11 @@ export default {
         }
 
         vectorLayer.setStyle((feature) => {
-            const drawState = feature.getProperties().drawState;
+            const drawState = feature.getProperties()?.masterportal_attributes?.drawState,
+                customStyles = state.customAttributeStyles[fileName];
             let style;
 
-            if (!drawState) {
+            if (!drawState && !customStyles) {
                 const defaultColor = [226, 26, 28, 0.9],
                     defaultFillColor = [228, 26, 28, 0.5],
                     defaultPointSize = 16,
@@ -504,7 +531,7 @@ export default {
                 return style.clone();
             }
 
-            if (drawState.drawType.geometry === "Point") {
+            if (drawState?.drawType.geometry === "Point") {
                 if (drawState.text) {
                     style = new Style({
                         image: new CircleStyle({
@@ -518,7 +545,7 @@ export default {
                         })
                     });
                 }
-                else if (drawState.symbol.value !== "simple_point") {
+                else if (drawState?.symbol.value !== "simple_point") {
                     style = new Style({
                         image: new Icon({
                             crossOrigin: "anonymous",
@@ -528,10 +555,10 @@ export default {
                     });
                 }
                 else {
-                    style = createDrawStyle(drawState.color, drawState.color, drawState.drawType.geometry, drawState.pointSize, 1, drawState.zIndex);
+                    style = createDrawStyle(drawState?.color, drawState?.color, drawState?.drawType.geometry, drawState?.pointSize, 1, drawState?.zIndex);
                 }
             }
-            else if (drawState.drawType.geometry === "LineString" || drawState.drawType.geometry === "MultiLineString") {
+            else if (drawState?.drawType.geometry === "LineString" || drawState?.drawType.geometry === "MultiLineString") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -539,7 +566,7 @@ export default {
                     })
                 });
             }
-            else if (drawState.drawType.geometry === "Polygon" || drawState.drawType.geometry === "MultiPolygon") {
+            else if (drawState?.drawType.geometry === "Polygon" || drawState?.drawType.geometry === "MultiPolygon") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -550,7 +577,7 @@ export default {
                     })
                 });
             }
-            else if (drawState.drawType.geometry === "Circle") {
+            else if (drawState?.drawType.geometry === "Circle") {
                 style = new Style({
                     stroke: new Stroke({
                         color: drawState.colorContour,
@@ -565,6 +592,55 @@ export default {
                     outerColorContour: drawState.outerColorContour
                 });
             }
+            else if (!drawState && customStyles) {
+                const geometryType = feature ? feature.getGeometry().getType() : "Cesium",
+                    featureAttribute = feature.get(customStyles[0].attribute),
+                    featureColor = customStyles.find(attribute => {
+                        return attribute.attributeValue === featureAttribute || attribute.attributeValue === "none";
+                    }).attributeColor,
+                    defaultPointSize = 16,
+                    defaultStrokeWidth = 2,
+                    defaultCircleRadius = 300,
+                    defaultStrokeColor = [169, 159, 163, 0.9];
+
+                if (geometryType === "Point" || geometryType === "MultiPoint") {
+                    style = createDrawStyle(featureColor, featureColor, geometryType, defaultPointSize, 1, 1);
+                }
+                else if (geometryType === "LineString" || geometryType === "MultiLineString") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: featureColor,
+                            width: defaultStrokeWidth
+                        })
+                    });
+                }
+                else if (geometryType === "Polygon" || geometryType === "MultiPolygon") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        })
+                    });
+                }
+                else if (geometryType === "Circle") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        }),
+                        circleRadius: defaultCircleRadius,
+                        colorContour: featureColor
+                    });
+                }
+
+                feature.set("styleId", featureAttribute);
+            }
             else {
                 console.warn("Geometry type not implemented: " + drawState.drawType.geometry);
                 style = new Style();
@@ -573,35 +649,77 @@ export default {
             return style.clone();
         });
 
-        features = checkIsVisibleSetting(features);
-
         features.forEach(feature => {
-            if (isObject(feature.get("attributes"))) {
-                Object.keys(feature.get("attributes")).forEach(key => {
-                    gfiAttributes[key] = key;
+            if (feature.get("fromDrawTool") && !feature.get("masterportal_attributes")) {
+                // move old styling properties which were set in the export from the draw tool to a neu structure
+                // within masterportal_attributes in accordance to the new structure set by the draw tool
+                const attributes = {},
+                    masterportal_attributes = {};
+
+                masterportal_attributes.drawState = feature.getProperties().drawState;
+                masterportal_attributes.invisibleStyle = feature.getProperties().invisibleStyle;
+
+                Object.keys(feature.getProperties()).forEach((key) => {
+                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+
+                        if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle") {
+                            masterportal_attributes[key] = feature.get(key);
+                        }
+
+                        feature.unset(key);
+                    }
                 });
+
+                attributes.masterportal_attributes = masterportal_attributes;
+                feature.setProperties(attributes);
+            }
+
+            if (isObject(feature.getProperties())) {
+                Object.keys(feature.getProperties()).forEach(key => {
+                    if (key !== "geometry" && key !== "isVisible" && key !== "masterportal_attributes") {
+                        if (!Object.prototype.hasOwnProperty.call(state.gfiAttributes, key)) {
+                            commit("setGFIAttribute", {key});
+                        }
+                    }
+                });
+
+                // check if "isVisible"-Property is set in masterportal_attributes
+                if (!Object.prototype.hasOwnProperty.call(feature.getProperties(), "masterportal_attributes")) {
+                    feature.set("masterportal_attributes", {isVisible: true});
+                }
+                else if (!Object.prototype.hasOwnProperty.call(feature.get("masterportal_attributes"), "isVisible")) {
+                    feature.get("masterportal_attributes").isVisible = true;
+                }
             }
 
             if (vectorLayer.getStyleFunction()(feature) !== undefined) {
                 feature.setStyle(vectorLayer.getStyleFunction()(feature));
             }
 
-            if (feature.get("isGeoCircle")) {
-                const circleCenter = feature.get("geoCircleCenter").split(",").map(parseFloat),
-                    circleRadius = parseFloat(feature.get("geoCircleRadius"));
+            if (isObject(feature.get("masterportal_attributes")) && feature.get("masterportal_attributes").isGeoCircle) {
+                const circleCenter = feature.get("masterportal_attributes").geoCircleCenter.split(",").map(parseFloat),
+                    circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
+
+                // Transformation here is necessary because all other geometries have already been transformed within "format.readFeatures(..."
+                feature.getGeometry().transform(fileDataProjection, rootGetters["Maps/projectionCode"]);
             }
 
             feature.set("source", fileName);
+            // set a feature id just in case the feature has an id that is already set on a previously imported feature
+            feature.setId(state.geojsonFeatureId);
+            commit("setGeojsonFeatureId");
             vectorLayer.getSource().addFeature(feature);
         });
 
-        if (!vectorLayer.get("gfiAttributes")) {
+        if (Object.keys(state.gfiAttributes).length > 0) {
+            vectorLayer.set("gfiAttributes", state.gfiAttributes);
+
             dispatch("replaceByIdInLayerConfig", {
                 layerConfigs: [{
                     id: state.layerId,
-                    layer: {gfiAttributes}
+                    layer: state.gfiAttributes
                 }]
             }, {root: true});
         }
@@ -611,7 +729,9 @@ export default {
             content: i18next.t("common:modules.fileImport.alertingMessages.success", {filename: fileName})
         };
 
-        dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+        if (state.showConfirmation) {
+            dispatch("Alerting/addSingleAlert", alertingMessage, {root: true});
+        }
         dispatch("addImportedFilename", fileName);
 
         if (state.enableZoomToExtend && features.length) {

@@ -149,6 +149,13 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                             getters: {
                                 highlightLayerId: sinon.stub()
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 },
@@ -157,42 +164,10 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                     getters: {
                         mode: () => mapMode
                     }
-                },
-                Menu: {
-                    namespaced: true,
-                    getters: {
-                        mainMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "contact"
-                                        },
-                                        {
-                                            type: "about"
-                                        }
-                                    ]
-                                ]
-                            };
-                        },
-                        secondaryMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "section1"
-                                        },
-                                        {
-                                            type: "section2"
-                                        }
-                                    ]
-                                ]
-                            };
-                        }
-                    }
                 }
             },
             getters: {
+                isModuleAvailable: () => () => true,
                 allLayerConfigs: () => layersBG.concat(subjectDataLayers),
                 layerConfig: () => {
                     return {

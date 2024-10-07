@@ -5,7 +5,6 @@ import {treeBaselayersKey, treeSubjectsKey} from "../../shared/js/utils/constant
 import {uniqueId} from "../../shared/js/utils/uniqueId.js";
 import layerFactory from "../../core/layers/js/layerFactory";
 
-
 /**
  * Returns all layer from services.json to add to states layerConfig for treetype 'auto', besides background-layers.
  * The layers are sorted and grouped by metadata-name. All folders and elements get ids and parentIds.
@@ -13,17 +12,19 @@ import layerFactory from "../../core/layers/js/layerFactory";
  * @param  {Object[]} layerList - the filtered raw layer list
  * @param  {Object} layerConfig configuration of layer like in the config.json, to get background-layer from
  * @param  {String} category the category to get the tree for
- * @param  {Object} shownLayerConfs configuration of layer to show on first level of tree, configured in config.json
+ * @param  {Object} [shownLayerConfs=[]] configuration of layer to show on first level of tree, configured in config.json
+ * @param  {Boolean} [categoryChanged=false] if true, category has changed
  * @returns {Object} tree structure as json object
  */
-function build (layerList, layerConfig, category, shownLayerConfs = []) {
+function build (layerList, layerConfig, category, shownLayerConfs = [], categoryChanged = false) {
     const categoryKey = category?.key,
         groups = {},
         folder = {},
         layersByMdName = {};
     let bgLayers = [],
         bgLayerIds = [],
-        subjectDataLayers = [];
+        subjectDataLayers = [],
+        layers3D = [];
 
     if (!category) {
         return layerList;
@@ -35,16 +36,43 @@ function build (layerList, layerConfig, category, shownLayerConfs = []) {
 
         if (layerConfig[treeSubjectsKey]) {
             subjectDataLayers = getNestedValues(layerConfig[treeSubjectsKey], "elements", true).flat(Infinity);
-            if (containsOnly3DLayer(subjectDataLayers)) {
+            layers3D = get3DLayers(subjectDataLayers);
+            if (categoryChanged) {
+                subjectDataLayers = layers3D;
+                layerConfig[treeSubjectsKey].elements = [];
+            }
+
+            if (layers3D.length > 0 && layers3D.length === subjectDataLayers.length) {
                 folder.elements = layerConfig[treeSubjectsKey].elements ? layerConfig[treeSubjectsKey].elements : layerConfig[treeSubjectsKey];
+            }
+            else if (!categoryChanged && layers3D.length > 0) {
+                layerConfig[treeSubjectsKey].elements.forEach(element => {
+                    const nestedLayers = getNestedValues(element, "elements", true).flat(Infinity);
+
+                    if (element.type === "folder" && containsOnly3DLayer(nestedLayers)) {
+                        folder.elements.push(element);
+                    }
+                    else {
+                        const config = layerList.find(layer => layer.id === element.id);
+
+                        if (config) {
+                            const index = subjectDataLayers.findIndex(layer => layer.id === config.id);
+
+                            layerList.splice(layerList.indexOf(config), 1, Object.assign(element, config));
+                            subjectDataLayers.splice(index, 1);
+                        }
+                    }
+                });
             }
             else {
                 subjectDataLayers = [];
             }
         }
     }
+
     for (let i = 0; i < layerList.length; i++) {
         let rawLayer = layerList[i],
+            id = null,
             subFolder;
 
         if (bgLayerIds.indexOf(rawLayer.id) > -1) {
@@ -53,43 +81,56 @@ function build (layerList, layerConfig, category, shownLayerConfs = []) {
         if (subjectDataLayers.find(conf => conf.id === rawLayer.id) !== undefined) {
             continue;
         }
-        if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey]) {
+        if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey] === "") {
+            rawLayer.datasets[0][categoryKey] = "ohne Kategorie";
+        }
+        if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey] !== undefined) {
             shownLayerConfs.forEach(layerConf => {
                 if (layerConf.id === rawLayer.id) {
                     rawLayer = Object.assign(rawLayer, layerConf);
                 }
             });
-            const mdName = rawLayer.datasets[0].md_name,
-                groupName = getGroupName(rawLayer, categoryKey),
+            const groupNames = getGroupNames(rawLayer, categoryKey);
+
+            id = rawLayer.id;
+            for (let j = 0; j < groupNames.length; j++) {
+                const groupName = groupNames[j],
+                    mdName = rawLayer.datasets[0].md_name;
+                let isFirstLayer = true;
+
+                if (layersByMdName[mdName] && layersByMdName[mdName].find(aLayer => aLayer.id === id)) {
+                    continue;
+                }
                 isFirstLayer = isFirstLayerWithMdName(layersByMdName, rawLayer, mdName);
 
-            if (!Object.keys(groups).find((key) => key === groupName)) {
-                addGroup(folder, groups, groupName);
-            }
-            subFolder = folder.elements.find((obj) => obj.name === groupName);
-            if (subFolder.id === undefined) {
-                subFolder.id = getId();
-            }
+                if (!Object.keys(groups).find((key) => key === groupName)) {
+                    addGroup(folder, groups, groupName);
+                }
+                subFolder = folder.elements.find((obj) => obj.name === groupName);
+                if (subFolder.id === undefined) {
+                    subFolder.id = getId();
+                }
 
-            if (!Object.keys(groups[groupName]).find((key) => key === mdName)) {
-                groups[groupName][mdName] = [];
-                if (isFirstLayer) {
-                    addSingleLayer(subFolder, rawLayer, mdName);
+                if (!Object.keys(groups[groupName]).find((key) => key === mdName)) {
+                    groups[groupName][mdName] = [];
+                    if (isFirstLayer) {
+                        addSingleLayer(subFolder, rawLayer, mdName);
+                    }
+                    else {
+                        addSubGroup(subFolder, groups, groupName, mdName);
+                    }
                 }
-                else {
-                    addSubGroup(subFolder, groups, groupName, mdName);
-                }
-            }
-            if (!isFirstLayer) {
-                const mdNameFolder = subFolder.elements.find((obj) => obj.name === mdName);
-                let parentId = mdNameFolder ? mdNameFolder.id : subFolder.id;
+                if (!isFirstLayer) {
+                    const mdNameFolder = subFolder.elements.find((obj) => obj.name === mdName);
+                    let parentId = mdNameFolder ? mdNameFolder.id : subFolder.id;
 
-                if (layersByMdName[mdName].length === 2) {
-                    parentId = moveFirstLayerToFolder(subFolder, groups, layersByMdName, groupName, mdName);
+                    if (layersByMdName[mdName].length === 2) {
+                        parentId = moveFirstLayerToFolder(subFolder, groups, layersByMdName, groupName, mdName);
+                    }
+                    rawLayer.parentId = parentId;
+                    groups[groupName][mdName].push(rawLayer);
+                    sortObjects(groups[groupName][mdName], "name");
                 }
-                rawLayer.parentId = parentId;
-                groups[groupName][mdName].push(rawLayer);
-                sortObjects(groups[groupName][mdName], "name");
             }
         }
     }
@@ -139,6 +180,14 @@ function getId () {
  */
 function containsOnly3DLayer (layers) {
     return layers.every(conf => layerFactory.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
+}
+/**
+ * Returns all 3D-layers with typ contained in layerFactory.getLayerTypes3d().
+ * @param {Array} layers containing layer configurations
+ * @returns {Array} all 3D-layers
+ */
+function get3DLayers (layers) {
+    return layers.filter(conf => layerFactory.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
 }
 
 /**
@@ -259,16 +308,16 @@ function getIdsOfLayers (layers) {
 }
 
 /**
- * Returns the name of the category for the given categoryKey in layers first dataset.
+ * Returns the names of the categories for the given categoryKey in layers first dataset.
  * @param {Object} layer the layer, must have attribute datasets with one entry with key 'md_name'
  * @param {String} categoryKey key of the category to read the name of
- * @returns {String} the name of the category for the given categoryKey
+ * @returns {Array} the names of the categories for the given categoryKey
  */
-function getGroupName (layer, categoryKey) {
+function getGroupNames (layer, categoryKey) {
     if (Array.isArray(layer.datasets[0][categoryKey])) {
-        return layer.datasets[0][categoryKey][0];
+        return layer.datasets[0][categoryKey];
     }
-    return layer.datasets[0][categoryKey];
+    return [layer.datasets[0][categoryKey]];
 }
 
 /**
@@ -280,7 +329,10 @@ function getGroupName (layer, categoryKey) {
  */
 function isFirstLayerWithMdName (layersByMdName, layer, mdName) {
     if (Object.keys(layersByMdName).find((key) => key === mdName)) {
-        layersByMdName[mdName].push(layer);
+
+        if (!layersByMdName[mdName].find(aLayer => aLayer.id === layer.id)) {
+            layersByMdName[mdName].push(layer);
+        }
         return false;
     }
     layersByMdName[mdName] = [layer];

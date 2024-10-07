@@ -69,6 +69,10 @@ export default {
         ]),
         ...mapGetters("Maps", ["mode", "scale"]),
         ...mapGetters("Modules/GetFeatureInfo", ["currentFeature"]),
+        ...mapGetters("Menu", [
+            "mainMenu",
+            "secondaryMenu"
+        ]),
 
         currentScale: {
             get () {
@@ -238,9 +242,11 @@ export default {
                     }
 
                     layerSource.once("featuresloadend", () => {
-                        layerProvider.getVisibleLayer(this.printMapMarker);
-                        this.updateCanvasLayer();
-                        this.togglePostrenderListener();
+                        if (this.mainMenu.currentComponent === "print" || this.secondaryMenu.currentComponent === "print") {
+                            layerProvider.getVisibleLayer(this.printMapMarker);
+                            this.updateCanvasLayer();
+                            this.togglePostrenderListener();
+                        }
                     });
                 }
             });

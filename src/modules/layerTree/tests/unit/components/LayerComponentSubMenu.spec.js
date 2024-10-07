@@ -66,6 +66,13 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
                                 pointOfContact: () => "Contact XYZ",
                                 publisher: () => ""
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 },
@@ -74,40 +81,11 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
                     actions: {
                         changeCurrentComponent: sinon.stub(),
                         setMenuBackAndActivateItem: sinon.stub()
-                    },
-                    getters: {
-                        mainMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "contact"
-                                        },
-                                        {
-                                            type: "about"
-                                        }
-                                    ]
-                                ]
-                            };
-                        },
-                        secondaryMenu: () => {
-                            return {
-                                sections: [
-                                    [
-                                        {
-                                            type: "section1"
-                                        },
-                                        {
-                                            type: "section2"
-                                        }
-                                    ]
-                                ]
-                            };
-                        }
                     }
                 }
             },
             getters: {
+                isModuleAvailable: () => () => true,
                 showFolderPath: () => showFolderPath,
                 folderById: () => (id) => {
                     if (id === "folder-1") {

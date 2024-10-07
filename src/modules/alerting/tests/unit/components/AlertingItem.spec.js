@@ -48,6 +48,17 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
                 mustBeConfirmed: true,
                 multipleAlert: true,
                 once: true
+            },
+            {
+                category: "Expired item",
+                title: "Expired item",
+                displayClass: "info",
+                displayCategory: "Expired item",
+                content: "Expired item\n\nExpired item",
+                displayFrom: "2024-07-17 14:30",
+                displayUntil: "2024-08-17 14:30",
+                mustBeConfirmed: true,
+                once: true
             }
         ],
         alertingData = [
@@ -145,17 +156,31 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
                         addSingleAlert: sinon.spy(),
                         cleanup: sinon.stub(),
                         addAlertsFromConfig: sinon.stub(),
-                        alertHasBeenRead: sinon.stub()
+                        alertHasBeenRead: sinon.stub(),
+                        activateDisplayOnEventAlerts: sinon.stub()
                     },
                     getters: {
                         alerts: () => alerts,
                         alertWindowTitle: () => "common:modules.alerting.alertWindowTitle",
                         configPaths: () => ["configJs.alerting"],
                         fetchBroadcastUrl: () => false,
+                        fetchBroadcastStrapiUrl: () => false,
                         showTheModal: () => true,
-                        sortedAlerts: () => sortedAlerts,
+                        sortedAlerts: () => () => sortedAlerts,
                         type: () => "alerting",
-                        initialAlerts: () => []
+                        initialAlerts: () => [],
+                        displayOnEventList: () => [
+                            {
+                                "type": "Test/displayOnEventsAction",
+                                "value": "testDisplayOnEventsValueA"
+                            },
+                            {
+                                "type": "Test/displayOnEventsAction",
+                                "value": {
+                                    "type": "testDisplayOnEventsValueB"
+                                }
+                            }
+                        ]
                     },
                     mutations: {
                         setInitialClosed: sinon.stub(),
@@ -268,7 +293,6 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
                 expect(categoryContainers[2].find("h3").exists()).to.be.true;
                 expect(categoryContainers[2].find("h3").text()).to.equal("Portal zur Abnahme!2");
             });
-
         });
 
         describe("Now checking if 2nd alert's confirmation switch exists", () => {
@@ -286,7 +310,38 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
                 expect(wrapper.findAll(".singleAlertWrapper").length).to.equal(0);
             });
         });
+
+        describe("Alerts onEvents check handler", () => {
+            it("Checks unsubscribeAction not to be null", () => {
+                expect(wrapper.vm.unsubscribeAction).not.to.be.null;
+            });
+
+            it("Checks event handling", async () => {
+                let action = {
+                    type: "Test/displayOnEventsAction",
+                    payload: "testDisplayOnEventsValueA"
+                };
+
+                expect(wrapper.vm.sortedAlertsSwitch).to.equal("initial");
+                wrapper.vm.checkForEventAlerts(action);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.sortedAlertsSwitch).to.equal("onEvent");
+
+                action = {
+                    type: "Test/displayOnEventsAction",
+                    payload: {
+                        type: "testDisplayOnEventsValueB"
+                    }
+                };
+
+                wrapper.vm.sortedAlertsSwitch = "initial";
+                wrapper.vm.checkForEventAlerts(action);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.sortedAlertsSwitch).to.equal("onEvent");
+            });
+        });
     });
+
 
     describe("Add some alerts", () => {
         let settings;
@@ -367,6 +422,19 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
             expect(wrapper.findAll(".singleAlertContainer").length).to.equal(1);
         });
 
+        it("Verifies that an expired alert from config does not exist on output", () => {
+            let alertWrappers = [];
+
+            wrapper = shallowMount(AlertingItemComponent, settings);
+
+            alertWrappers = wrapper.findAll(".singleAlertContainer");
+
+            // check the item does not exist
+            expect(wrapper.text().indexOf("Expired item")).to.equal(-1);
+            // we have N alerts in config (see above), one is outdated. generic test
+            expect(alertWrappers.length).to.equal(wrapper.vm.alerts.length - 1);
+        });
+
         it("Adding an alert from the future does nothing", () => {
             alerts = [{
                 category: "info",
@@ -403,6 +471,30 @@ describe("src/modules/alerting/components/AlertingItem.vue", () => {
 
             expect(wrapper.find(".singleAlertContainer").html().indexOf("with creation date")).not.to.equal(-1);
             expect(wrapper.find(".creation-date").exists()).to.be.true;
+        });
+
+        it("Add an onEvent alert", () => {
+            alerts = [{
+                category: "info",
+                title: "Alert Test B",
+                content: "Content: Alert Test B",
+                mustBeConfirmed: false,
+                once: false,
+                displayOnEvent: {
+                    type: "Test/displayOnEventsAction",
+                    payload: {
+                        type: "testDisplayOnEventsValueB"
+                    }
+                }
+            }];
+
+            sortedAlerts = [{
+                category: "info",
+                content: alerts
+            }];
+
+            wrapper = shallowMount(AlertingItemComponent, settings);
+            expect(wrapper.find(".singleAlertContainer").html().indexOf("Alert Test B")).not.to.equal(-1);
         });
     });
 

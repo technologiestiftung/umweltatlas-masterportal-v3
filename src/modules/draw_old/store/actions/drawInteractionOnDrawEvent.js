@@ -39,12 +39,12 @@ export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
         styleSettings = JSON.parse(JSON.stringify(state[stateKey])),
         circleMethod = styleSettings.circleMethod;
 
-    event.feature.set("fromDrawTool", true);
+    event.feature.set("masterportal_attributes", Object.assign(event.feature.get("masterportal_attributes") ?? {}, {"fromDrawTool": true}));
     dispatch("updateUndoArray", {remove: false, feature: event.feature});
     if (circleMethod === "defined" && drawType.geometry === "Circle") {
         const innerRadius = !isNaN(styleSettings.circleRadius) ? parseFloat(styleSettings.circleRadius) : null,
             outerRadius = !isNaN(styleSettings.circleOuterRadius) ? parseFloat(styleSettings.circleOuterRadius) : null,
-            circleRadius = event.feature.get("isOuterCircle") ? outerRadius : innerRadius,
+            circleRadius = event.feature.get("masterportal_attributes").isOuterCircle ? outerRadius : innerRadius,
             circleCenter = event.feature.getGeometry().getCenter();
 
         if (innerRadius === null || innerRadius === 0) {
@@ -114,11 +114,11 @@ export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
         }
     }
 
-    if (event.feature.get("isOuterCircle")) {
+    if (event.feature.get("masterportal_attributes").isOuterCircle) {
         styleSettings.colorContour = styleSettings.outerColorContour;
     }
-    event.feature.setStyle(featureStyle(styleSettings, event.feature.get("isOuterCircle")));
-    event.feature.set("invisibleStyle", createStyleModule.createStyle(event.feature.get("drawState"), styleSettings));
+    event.feature.setStyle(featureStyle(styleSettings, event.feature.get("masterportal_attributes").isOuterCircle));
+    event.feature.set("masterportal_attributes", Object.assign(event.feature.get("masterportal_attributes") ?? {}, {"invisibleStyle": createStyleModule.createStyle(event.feature.get("masterportal_attributes").drawState, styleSettings)}));
     commit("setZIndex", state.zIndex + 1);
 }
 
@@ -130,18 +130,18 @@ export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
  */
 export function featureStyle (styleSettings, isOuterCircle) {
     return (feature) => {
-        if (feature.get("isVisible")) {
+        if (feature.get("masterportal_attributes").isVisible) {
             let settings;
 
             // NOTICE: change settings for outerCircle, else outerColor is same as innerColor (BG-5394)
             // NOTICE: do this only for outerCircle to stay the old behaviour for all other stylings
             if (!isOuterCircle) {
-                settings = Object.assign({}, styleSettings, feature.get("drawState"));
+                settings = Object.assign({}, styleSettings, feature.get("masterportal_attributes").drawState);
             }
             else {
-                settings = Object.assign({}, feature.get("drawState"), styleSettings);
+                settings = Object.assign({}, feature.get("masterportal_attributes").drawState, styleSettings);
             }
-            return createStyleModule.createStyle(feature.get("drawState"), settings);
+            return createStyleModule.createStyle(feature.get("masterportal_attributes").drawState, settings);
         }
         return undefined;
     };

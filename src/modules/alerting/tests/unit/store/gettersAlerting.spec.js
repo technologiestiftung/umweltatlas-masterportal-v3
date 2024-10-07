@@ -3,6 +3,8 @@ import {expect} from "chai";
 
 describe("src/modules/alerting/store/gettersAlerting.js", () => {
 
+    const expectedAlertOrder = ["error", "warning", "success", "info"];
+
     it("fetchBroadcastUrl", async function () {
         const state = {
                 fetchBroadcastUrl: "https://fetchBroadcastUrl"
@@ -52,12 +54,25 @@ describe("src/modules/alerting/store/gettersAlerting.js", () => {
         const state = {
                 alerts: [{category: "info"}, {category: "warning"}, {category: "success"}, {category: "error"}]
             },
-            checkValue = getters.sortedAlerts(state);
+            checkValue = getters.sortedAlerts(state)("initial");
 
-        expect(checkValue[0].category).to.eql("error");
-        expect(checkValue[1].category).to.eql("warning");
-        expect(checkValue[2].category).to.eql("success");
-        expect(checkValue[3].category).to.eql("info");
+        expectedAlertOrder.forEach((errName, idx) => {
+            expect(checkValue[idx].category).to.eql(errName);
+        });
+
+        expect(checkValue[4]).to.eql(undefined);
+    });
+
+    it("sortedAlerts for alertsOnEvent - 1.error2.warning3.success4.other", async function () {
+        const state = {
+                alertsOnEvent: [{category: "info"}, {category: "success"}, {category: "warning"}, {category: "error"}]
+            },
+            checkValue = getters.sortedAlerts(state)("onEvent");
+
+        expectedAlertOrder.forEach((errName, idx) => {
+            expect(checkValue[idx].category).to.eql(errName);
+        });
+
         expect(checkValue[4]).to.eql(undefined);
     });
 });

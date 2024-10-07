@@ -73,6 +73,11 @@ export default {
                 feature.setStyle(clonedStyle);
             }
         }
+        else if (highlightObject.layer.id === "importDrawLayer") {
+            const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
+
+            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
+        }
         else {
             dispatch("Maps/placingPolygonMarker", feature, {root: true});
         }
@@ -88,7 +93,7 @@ export default {
      * @param {Object} highlightObject.feature - The line feature to be highlighted.
      * @returns {void}
      */
-    async highlightLine ({commit, dispatch}, highlightObject) {
+    async highlightLine ({dispatch}, highlightObject) {
         const newStyle = highlightObject.highlightStyle,
             feature = highlightObject.feature,
             styleObjectPayload = {highlightObject, feature},
@@ -97,11 +102,12 @@ export default {
         if (originalStyle) {
             const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
 
-            commit("Maps/addHighlightedFeature", feature, {root: true});
-            commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
+            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
+        }
+        else if (highlightObject.layer.id === "importDrawLayer") {
+            const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
 
-            applyStyleProperties(clonedStyle, newStyle);
-            feature.setStyle(clonedStyle);
+            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
         }
         else {
             dispatch("Maps/placingPolygonMarker", feature, {root: true});
@@ -241,6 +247,25 @@ export default {
 
         console.warn(`Style not found for styleId: ${styleId}`);
         return null;
+    },
+
+    /**
+     * Sets the highlight style to a feature
+     * @param {Object} context - The Vuex action context, which provides access to Vuex `commit` method.
+     * @param {Object} payload - The payload containing the feature, the cloned and the new style.
+     * @param {ol/feature} payload.feature - OpenLayers feature to highlight.
+     * @param {ol/style} payload.clonedStyle - the "normal" style for the feature (if there is one).
+     * @param {ol/style} payload.newStyle - the new hightlight style for the feature.
+     * @returns {void}
+     */
+    async setHighlightStyleToFeature ({commit}, {feature, clonedStyle, newStyle}) {
+        commit("Maps/addHighlightedFeature", feature, {root: true});
+        commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
+
+        if (clonedStyle) {
+            applyStyleProperties(clonedStyle, newStyle);
+            feature.setStyle(clonedStyle);
+        }
     }
 };
 

@@ -21,29 +21,35 @@ describe("src/modules/draw/components/DrawItemFeaturesFilter.vue", () => {
     beforeEach(function () {
         testFeatures = [
             new Feature({
-                isVisible: false,
-                fromDrawTool: false,
-                drawState: {
-                    drawType: {
-                        id: "drawSymbol"
+                masterportal_attributes: {
+                    isVisible: false,
+                    fromDrawTool: false,
+                    drawState: {
+                        drawType: {
+                            id: "drawSymbol"
+                        }
                     }
                 }
             }),
             new Feature({
-                isVisible: false,
-                fromDrawTool: false,
-                drawState: {
-                    drawType: {
-                        id: "drawArea"
+                masterportal_attributes: {
+                    isVisible: false,
+                    fromDrawTool: false,
+                    drawState: {
+                        drawType: {
+                            id: "drawArea"
+                        }
                     }
                 }
             }),
             new Feature({
-                isVisible: false,
-                fromDrawTool: false,
-                drawState: {
-                    drawType: {
-                        id: "drawCircle"
+                masterportal_attributes: {
+                    isVisible: false,
+                    fromDrawTool: false,
+                    drawState: {
+                        drawType: {
+                            id: "drawCircle"
+                        }
                     }
                 }
             })
@@ -124,8 +130,8 @@ describe("src/modules/draw/components/DrawItemFeaturesFilter.vue", () => {
 
         it("should have only checked checkboxes", () => {
             testFeatures.forEach(feature => {
-                feature.set("isVisible", true);
-                feature.set("fromDrawTool", true);
+                feature.get("masterportal_attributes").isVisible = true;
+                feature.get("masterportal_attributes").fromDrawTool = true;
             });
             const props = {filterList: filterListConfig, features: testFeatures},
                 wrapper = factory.getShallowMount(props);
@@ -136,8 +142,8 @@ describe("src/modules/draw/components/DrawItemFeaturesFilter.vue", () => {
         });
 
         it("should have one checked and one unchecked checkbox", () => {
-            testFeatures[0].set("isVisible", true);
-            testFeatures[0].set("fromDrawTool", true);
+            testFeatures[0].get("masterportal_attributes").isVisible = true;
+            testFeatures[0].get("masterportal_attributes").fromDrawTool = true;
             const props = {filterList: filterListConfig, features: testFeatures},
                 wrapper = factory.getShallowMount(props),
                 inputElements = wrapper.findAll("input");

@@ -30,7 +30,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/SearchBar", ["searchInput", "addLayerButtonSearchActive", "currentSide", "showAllResults", "showInTree"]),
+        ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showInTree"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),

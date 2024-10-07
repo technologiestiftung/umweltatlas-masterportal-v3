@@ -4,32 +4,90 @@ import isObject from "../../../shared/js/utils/isObject";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import AttributeStyler from "./AttributeStyler.vue";
 
 /**
  * File Import
  * @module modules/FileImport
  * @vue-data {Boolean} fileUploaded - Shows if a file was uploaded.
  * @vue-data {Array} uploadedFiles - List of importet files.
+ * @vue-data {String} fileExtension - Extension of the currently loaded file.
+ * @vue-data {Object} lastLoadedGeoJson - Data of the last loaded GeoJSON file.
+ * @vue-data {String} currentFileName - File name of the currently loaded file.
  * @vue-computed {String} dropZoneAdditionalClass - Class for the dropzone.
+ * @vue-computed {Array} geoJsonFeatureAttributes - An array of properties of all features.
+ * @vue-computed {Boolean} showAttributeStyler - Indicates if the custom styling section should be shown.
  */
 export default {
     name: "FileImport",
     components: {
         FlatButton,
         FileUpload,
-        IconButton
+        IconButton,
+        AttributeStyler
     },
     data () {
         return {
             fileUploaded: false,
-            uploadedFiles: []
+            uploadedFiles: [],
+            fileExtension: undefined,
+            lastLoadedGeoJson: undefined,
+            currentFileName: undefined
         };
     },
     computed: {
-        ...mapGetters("Modules/FileImport", ["importedFileNames", "enableZoomToExtend", "featureExtents"]),
+        ...mapGetters("Modules/FileImport", ["importedFileNames", "enableZoomToExtend", "featureExtents", "customStylingOption"]),
 
         dropZoneAdditionalClass: function () {
             return this.dzIsDropHovering ? "dzReady" : "";
+        },
+        /**
+         * Returns an array of properties of all features
+         * @returns {Array} featureProperties of the layer config.
+         */
+        geoJsonFeatureAttributes () {
+            const featureProperties = [];
+
+            this.lastLoadedGeoJson.features.forEach(feature => {
+                if (isObject(feature.properties)) {
+                    Object.keys(feature.properties).forEach(key => {
+                        if (["masterportal_attributes", "isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) < 0) {
+                            if (!featureProperties.includes(key)) {
+                                featureProperties.push(key);
+                            }
+                        }
+                    });
+                }
+            });
+
+            return featureProperties;
+        },
+        /**
+         * Returns if the custom styling section should be shown
+         * @returns {Boolean} true if the uploaded file is a json or geojson and the file does contain styling set by the draw tool
+         */
+        showAttributeStyler () {
+            return (this.fileExtension === "json" || this.fileExtension === "geojson")
+                && this.customStylingOption
+                && this.lastLoadedGeoJson?.features.length > 0
+                && !this.lastLoadedGeoJson.features[0].properties?.masterportal_attributes?.drawState
+                && !this.lastLoadedGeoJson.features[0].properties?.drawState;
+        }
+    },
+    watch: {
+        uploadedFiles: {
+            handler: function (newValue) {
+                if (newValue.length > 0 && (this.fileExtension === "json" || this.fileExtension === "geojson")) {
+                    const reader = new FileReader();
+
+                    reader.onload = f => {
+                        this.lastLoadedGeoJson = JSON.parse(f.target.result);
+                    };
+
+                    reader.readAsText(newValue[newValue.length - 1]);
+                }
+            },
+            deep: true
         }
     },
     mounted () {
@@ -46,7 +104,7 @@ export default {
         ]),
         ...mapActions("Maps", ["zoomToExtent"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
-        ...mapMutations("Modules/FileImport", ["setFeatureExtents"]),
+        ...mapMutations("Modules/FileImport", ["setFeatureExtents", "setCustomAttributeStyles"]),
 
         /**
          * Sets the focus to the first control
@@ -62,10 +120,7 @@ export default {
         onInputChange (e) {
             if (e.target.files !== undefined) {
                 Array.from(e.target.files).forEach(file => {
-                    if (this.checkValid(file)) {
-                        this.uploadedFiles.push(file);
-                        this.fileUploaded = true;
-                    }
+                    this.checkFileAndSplitFileName(file);
                 });
                 e.target.value = null;
             }
@@ -73,11 +128,20 @@ export default {
         onDrop (e) {
             if (e.dataTransfer.files !== undefined) {
                 Array.from(e.dataTransfer.files).forEach(file => {
-                    if (this.checkValid(file)) {
-                        this.uploadedFiles.push(file);
-                        this.fileUploaded = true;
-                    }
+                    this.checkFileAndSplitFileName(file);
                 });
+            }
+        },
+        checkFileAndSplitFileName (file) {
+            if (this.checkValid(file)) {
+                this.uploadedFiles.push(file);
+                this.fileUploaded = true;
+
+                const fileNameSplit = file.name.split("."),
+                    fileExtension = fileNameSplit.length > 0 ? fileNameSplit[fileNameSplit.length - 1].toLowerCase() : "";
+
+                this.fileExtension = fileExtension;
+                this.currentFileName = file.name;
             }
         },
         checkValid (file) {
@@ -180,6 +244,19 @@ export default {
             });
 
             this.setFeatureExtents(modifiedFeatureExtents);
+        },
+        /**
+         * Sets custom styles by attribute
+         * @param {Object} mappedAttributesStyles containing attribute values and their mapped colors
+         * @returns {void}
+         */
+        setAttributeStyles (mappedAttributesStyles) {
+            const attributeStyles = {};
+
+            attributeStyles.filename = this.currentFileName;
+            attributeStyles.customAttributeStyles = mappedAttributesStyles;
+
+            this.setCustomAttributeStyles(attributeStyles);
         }
     }
 };
@@ -222,6 +299,13 @@ export default {
                 </div>
             </div>
         </FileUpload>
+
+        <AttributeStyler
+            v-if="showAttributeStyler"
+            :features="lastLoadedGeoJson?.features"
+            :attributes="geoJsonFeatureAttributes"
+            @setAttributeStyles="setAttributeStyles"
+        />
 
         <div class="d-flex justify-content-center">
             <FlatButton

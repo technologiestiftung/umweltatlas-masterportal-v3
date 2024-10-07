@@ -26,17 +26,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                         name: "abc"
                     }
                 }
-            },
-            sections: [
-                [
-                    {
-                        type: "layerInformation"
-                    },
-                    {
-                        type: "contact"
-                    }
-                ]
-            ]
+            }
         };
         store = createStore({
             namespaced: true,
@@ -79,6 +69,13 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                             actions: {
                                 createLegendForLayerInfo: sinon.stub()
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 },
@@ -104,6 +101,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                 }
             },
             getters: {
+                isModuleAvailable: () => () => true,
                 configJs: () => sinon.stub()
             }
         });
