@@ -9,6 +9,7 @@ import omit from "../../../shared/js/utils/omit";
 import changeCase from "../../../shared/js/utils/changeCase";
 import {takeScreenshot} from "olcs/lib/olcs/print/takeCesiumScreenshot.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
+import {trackMatomo} from "../../../plugins/matomo";
 
 const actions = {
     ...actionsPrintInitialization,
@@ -349,6 +350,13 @@ const actions = {
         else {
             response.data.index = printJob.index;
             dispatch("waitForPrintJob", response.data);
+        }
+
+        if (printJob.payload.attributes.is3dMode) {
+            trackMatomo("Print", "3D printjob created ", "Layout: " + printJob.payload.layout);
+        }
+        else {
+            trackMatomo("Print", "2D printjob created ", "Layout: " + printJob.payload.layout);
         }
     },
 

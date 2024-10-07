@@ -17,7 +17,9 @@ import {
     convertToRgbArrayString,
     convertToRgbaArrayString,
     convertToRgbString,
-    convertToRgbaString
+    convertToRgbaString,
+    convertHexToHSL,
+    convertHslToHex
 } from "../../convertColor.js";
 
 describe("src/shared/js/utils/convertColor.js", () => {
@@ -359,6 +361,22 @@ describe("src/shared/js/utils/convertColor.js", () => {
             expect(convertColor("[255, 255, 255, 1]", "rgbaString")).to.deep.equal("rgba(255, 255, 255, 1)");
             expect(convertColor("rgb(255, 255, 255)", "rgbaString")).to.deep.equal("rgba(255, 255, 255, 1)");
             expect(convertColor("rgba(255, 255, 255, 1)", "rgbaString")).to.deep.equal("rgba(255, 255, 255, 1)");
+        });
+        it("should return false if no Hex value is given", () => {
+            expect(convertHexToHSL("123")).to.equal(false);
+            expect(convertHexToHSL([100, 255, 200])).to.equal(false);
+        });
+        it("should convert a Hex value to HSL", () => {
+            expect(convertHexToHSL("#33ced1")).to.be.an("object");
+            expect(convertHexToHSL("#33ced1")).to.deep.equal({h: 181.13924050632912, s: 63.2, l: 50.98039215686274});
+        });
+        it("should return false if no number values for h,s,l are given", () => {
+            expect(convertHslToHex("123")).to.equal(false);
+            expect(convertHslToHex([100, 255, 200])).to.equal(false);
+        });
+        it("should convert a HSL value to Hex", () => {
+            expect(convertHslToHex(288, 80.82191780821917, 42.94117647058824)).to.be.an("string");
+            expect(convertHslToHex(288, 80.82191780821917, 42.94117647058824)).to.deep.equal("#a315c6");
         });
     });
 });

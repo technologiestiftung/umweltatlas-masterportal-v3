@@ -2425,6 +2425,8 @@ Angabe der Füll-Farbe und -Strichstärke für das Hervorheben von Polygonen sow
 |icon|nein|String|"bi-box-arrow-in-down"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.fileImport.name"|Name des Moduls im Menü.|false|
 |type|nein|String|"fileImport"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|customStylingOption|nein|Boolean|false|Legt fest, ob eine Stylingoption für GeoJson angezeigt wird.|false|
+|showConfirmation|nein|Boolean|true|Legt fest, ob ein Bestätigungsfenster, nach einem Upload, angezeigt wird.|false|
 
 **Beispiel**
 
@@ -4234,7 +4236,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |categories|nein|**[categories](#portalconfigtreecategories)**||Konfiguration der Kategorien aus den Metadaten. Nur für den tree.type `auto`.|false|
 |highlightedFeatures|nein|**[highlightedFeatures](#portalconfigtreehighlightedfeatures)**||Konfiguration zusätzlich zum Highlighting von Features.|false|
 |layerIDsToIgnore|nein|String[]||Liste von `services.json`-Layer-Ids, die nicht im Baum und in der Karte angezeigt werden sollen. Nur für den tree.type `auto`.|false|
-|layerIDsToStyle|nein|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Spezielle Implementierung für einen HVV-Dienst (Hamburger Verkehrsbetriebe). Enthält Objekte zur Abfrage verschiedener Stile einer Layer-ID. Nur für den tree.type `auto`.|true|
+|layerIDsToStyle|nein|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Spezielle Implementierung für einen HVV-Dienst (Hamburger Verkehrsbetriebe). Enthält Objekte zur Abfrage verschiedener Stile einer Layer-ID.|true|
 |metaIDsToIgnore|nein|String[]||Alle in der `services.json` gefundenen Layer, die diesen Meta-IDs entsprechen, werden nicht im Baum und in der Karte angezeigt. Nur für den tree.type `auto`.|false|
 |metaIDsToMerge|nein|String[]||Alle in der `services.json` gefundenen Layer, die diesen Meta-IDs entsprechen, werden zu einer einzigen Layer im Baum zusammengeführt. Nur für den tree.type `auto`.|true|
 |showFolderPath|nein|Boolean|false|Legt fest, ob die Ordnerstruktur von sichtbaren Layern unter 'weitere Funktionen' angezeigt wird.|false|
@@ -4315,6 +4317,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
 |searchBar|nein|String||Wenn active:true dann wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und SearchCategory ermöglicht.|false|
+|buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
 
 **Beispiel**
 
@@ -4323,6 +4326,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
     "tree": {
         "addLayerButton": {
             "active": true,
+            "buttonTitle": "Layer hinzufügen",
             "searchBar": {
             "active": true,
             "searchInterfaceInstanceId": "elasticSearch_0",

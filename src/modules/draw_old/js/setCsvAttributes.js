@@ -18,17 +18,17 @@ export function setCsvAttributes (features, code) {
         if (feature instanceof Feature) {
             const wktGeometry = wktParser.writeGeometry(feature.getGeometry());
 
-            if (!isObject(feature.get("attributes"))) {
-                feature.set("attributes", {});
+            if (!isObject(feature.get("csv_attributes"))) {
+                feature.set("csv_attributes", {});
             }
-            feature.get("attributes").geometry = wktGeometry;
+            feature.get("csv_attributes").geometry = wktGeometry;
+            feature.get("csv_attributes").epsg = code;
 
-            if (feature.get("isGeoCircle")) {
-                feature.get("attributes").epsg = "EPSG:4326";
-            }
-            else {
-                feature.get("attributes").epsg = code;
-            }
+            Object.keys(feature.getProperties()).forEach(key => {
+                if (!["masterportal_attributes", "geometry", "csv_attributes"].includes(key)) {
+                    feature.get("csv_attributes")[key] = feature.get(key);
+                }
+            });
         }
     });
 

@@ -179,8 +179,12 @@ export default {
             commit("setClickPixel", evt.pixel);
         }
         else if (getters.mode === "3D" && evt) {
-            commit("setClickCoordinate", evt.pickedPosition);
-            commit("setClickPixel", [evt.position.x, evt.position.y]);
+            if (evt.pickedPosition) {
+                commit("setClickCoordinate", evt.pickedPosition);
+            }
+            if (evt.position?.x && evt.position?.y) {
+                commit("setClickPixel", [evt.position.x, evt.position.y]);
+            }
         }
     },
 

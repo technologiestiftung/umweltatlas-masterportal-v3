@@ -751,6 +751,9 @@ describe("src/modules/print/js/buildSpec", function () {
                         }
                         return undefined;
                     },
+                    getProperties: () => {
+                        return {};
+                    },
                     set: () => sinon.stub()
                 };
 

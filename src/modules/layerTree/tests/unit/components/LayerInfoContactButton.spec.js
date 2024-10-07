@@ -9,7 +9,7 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
     let store,
         pointOfContact,
         publisher,
-        mainMenu;
+        isModuleAvailable;
 
     const propsData = {
         layerName: "Layer XYZ",
@@ -17,19 +17,7 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
     };
 
     beforeEach(() => {
-        mainMenu = {
-            currentComponent: "layerInformation",
-            sections: [
-                [
-                    {
-                        type: "layerInformation"
-                    },
-                    {
-                        type: "contact"
-                    }
-                ]
-            ]
-        };
+        isModuleAvailable = true;
         store = createStore({
             namespaced: true,
             modules: {
@@ -45,13 +33,19 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
                                 pointOfContact: () => pointOfContact,
                                 publisher: () => publisher
                             }
+                        },
+                        Contact: {
+                            namespaced: true,
+                            getters: {
+                                name: () => "Contactname",
+                                type: () => "contact"
+                            }
                         }
                     }
                 },
                 Menu: {
                     namespaced: true,
                     getters: {
-                        mainMenu: () => mainMenu,
                         secondaryMenu: () => {
                             return {
                                 sections: [
@@ -68,6 +62,9 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
                         }
                     }
                 }
+            },
+            getters: {
+                isModuleAvailable: () => () => isModuleAvailable
             }
         });
     });
@@ -122,28 +119,7 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
             "country": "DEU"
         };
         publisher = "";
-
-        mainMenu = {
-            currentComponent: "layerInformation",
-            navigation: {
-                currentComponent: {
-                    type: "layerInformation",
-                    props: {
-                        name: "abc"
-                    }
-                }
-            },
-            sections: [
-                [
-                    {
-                        type: "layerInformation"
-                    },
-                    {
-                        type: "about"
-                    }
-                ]
-            ]
-        };
+        isModuleAvailable = false;
 
         const wrapper = mount(LayerInfoContactButton, {
             global: {

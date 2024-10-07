@@ -108,9 +108,12 @@ export default {
          * @returns {void}
          */
         unifyAttributeToFeature (feature, keyList) {
-            const attributes = feature.get("attributes"),
+            const attributes = Object.assign({}, feature.getProperties()),
                 newAttr = {},
                 gfiAttributes = {};
+
+            delete attributes.masterportal_attributes;
+            delete attributes.geometries;
 
             if (isObject(attributes)) {
                 keyList.forEach(key => {
@@ -130,7 +133,7 @@ export default {
                 });
             }
 
-            feature.set("attributes", newAttr);
+            feature.setProperties(newAttr);
 
             if (Object.keys(newAttr).length) {
                 if (Object.prototype.hasOwnProperty.call(newAttr, "geometry")) {
@@ -150,8 +153,13 @@ export default {
         initAttributesKeyList () {
             if (this.layer && this.layer.getSource().getFeatures().length) {
                 for (const feature of this.layer.getSource().getFeatures().reverse()) {
-                    if (typeof feature.get("attributes") !== "undefined" && Object.keys(feature.get("attributes")).length) {
-                        this.$emit("updateAttributesKeyList", Object.keys(feature.get("attributes")));
+                    const attributes = Object.assign({}, feature.getProperties());
+
+                    delete attributes.masterportal_attributes;
+                    delete attributes.geometry;
+
+                    if (Object.keys(attributes).length) {
+                        this.$emit("updateAttributesKeyList", Object.keys(attributes));
                         break;
                     }
                 }
@@ -166,13 +174,14 @@ export default {
                 return;
             }
             this.attributes = [];
-            const attributes = this.selectedFeature.get("attributes");
+            const attributes = Object.assign({}, this.selectedFeature.getProperties());
+
 
             if (isObject(attributes)) {
                 Object.entries(attributes).forEach(([key, value]) => {
                     const attr = {key, value};
 
-                    if (key !== "geometry") {
+                    if (key !== "geometry" && key !== "masterportal_attributes") {
                         this.attributes.push(attr);
                     }
                 });
@@ -205,10 +214,7 @@ export default {
                 return;
             }
 
-            if (!isObject(this.selectedFeature.get("attributes"))) {
-                this.selectedFeature.set("attributes", {});
-            }
-            this.selectedFeature.get("attributes")[this.attributeKey] = this.attributeValue;
+            this.selectedFeature.set(this.attributeKey, this.attributeValue);
             const attr = {key: this.attributeKey, value: this.attributeValue};
 
             this.attributes.push(attr);
@@ -229,7 +235,6 @@ export default {
             }
             const key = this.attributes[idx].key;
 
-            delete this.selectedFeature.get("attributes")[key];
             this.selectedFeature.unset(key);
             this.attributes.splice(idx, 1);
             this.setDownloadFeatures();
@@ -257,7 +262,7 @@ export default {
             });
 
             if (Object.keys(attributes).length) {
-                selectedFeature.set("attributes", attributes);
+                selectedFeature.setProperties(attributes);
             }
         },
         /**

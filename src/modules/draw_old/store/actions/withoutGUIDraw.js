@@ -64,7 +64,7 @@ function downloadFeaturesWithoutGUI ({rootState}, payload) {
     if (main.getApp().config.globalProperties.$layer !== undefined && main.getApp().config.globalProperties.$layer !== null) {
         features = main.getApp().config.globalProperties.$layer.getSource().getFeatures();
 
-        if (payload?.currentFeature !== undefined && features.every(feature => feature.get("styleId") !== payload?.currentFeature.get("styleId"))) {
+        if (payload?.currentFeature !== undefined && features.every(feature => feature.get("masterportal_attributes").styleId !== payload?.currentFeature.get("masterportal_attributes").styleId)) {
             features.push(payload.currentFeature);
         }
         if (payload?.prmObject?.geomType === "multiGeometry") {

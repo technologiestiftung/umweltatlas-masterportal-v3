@@ -1,11 +1,12 @@
 import buildTreeStructure from "./js/buildTreeStructure";
 import getNestedValues from "../shared/js/utils/getNestedValues";
-import replaceInNestedValues from "../shared/js/utils/replaceInNestedValues";
+import replacer from "../shared/js/utils/replaceInNestedValues";
 import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer";
 import {sortObjects} from "../shared/js/utils/sortObjects";
 import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
 import layerCollection from "../core/layers/js/layerCollection";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import {trackMatomo} from "../plugins/matomo";
 
 /**
  * The root actions for layer configurations.
@@ -87,7 +88,7 @@ export default {
             if (existingLayer?.zIndex === undefined && config.zIndex === undefined && replacement.visibility) {
                 replacement.zIndex = getters.determineZIndex(id);
             }
-            assigned = replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
+            assigned = replacer.replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
 
             if (assigned.length > 1) {
                 console.warn(`Replaced ${assigned.length} layers in state.layerConfig with id: ${id}. Layer was found ${assigned.length} times. You have to correct your config!`);
@@ -294,10 +295,10 @@ export default {
      * @param {Object} category the category to change to
      * @returns {void}
      */
-    changeCategory ({commit, dispatch, getters, rootGetters, state}, category) {
+    async changeCategory ({commit, dispatch, getters, rootGetters, state}, category) {
         const layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity),
             rawlayers = getAndMergeAllRawLayers(state.portalConfig?.tree, getters.showLayerAddButton),
-            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, category, layerContainer);
+            layersStructured = buildTreeStructure.build(rawlayers, state.layerConfig, category, layerContainer, true);
 
         commit("setLayerConfigByParentKey", {layerConfigs: layersStructured, parentKey: treeSubjectsKey});
         commit("Modules/LayerSelection/clearLayerSelection", {root: true});
@@ -306,23 +307,33 @@ export default {
             subjectDataLayerConfs: layersStructured.elements,
             baselayerConfs: rootGetters.allLayerConfigsStructured(treeBaselayersKey)
         }, {root: true});
+
+        trackMatomo("Layer", "Layertree category switched", i18next.t(category.name));
     },
 
     /**
      * Updates the layer configs with raw layer attributes.
+     * If new layers are created during merge the original layer is replaced by them.
      * @param {Object} context the vue context
      * @param {Object} context.dispatch the dispatch
      * @param {Object} context.getters the getters
      * @param {Object[]} layerContainer The layer configs.
      * @returns {void}
      */
-    updateLayerConfigs ({dispatch, getters}, layerContainer) {
+    updateLayerConfigs ({dispatch, getters, state}, layerContainer) {
         layerContainer.forEach(layerConf => {
-            const rawLayer = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton);
+            const rawLayers = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton, state.portalConfig?.tree?.layerIDsToStyle);
 
-            if (rawLayer) {
-                dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: rawLayer, id: layerConf.id}]});
+            if (rawLayers.length > 1) {
+                // this is the case if config parameter tree.layerIDsToStyle results in new created layers (layerIDsToStyle.styles contains more than one entry)
+                replacer.replaceInNestedValues(state.layerConfig, "elements", rawLayers, {key: "id", value: layerConf.id, replaceObject: layerConf.id});
             }
+
+            rawLayers.forEach(mergedRawLayer => {
+                if (mergedRawLayer) {
+                    dispatch("replaceByIdInLayerConfig", {layerConfigs: [{layer: mergedRawLayer, id: mergedRawLayer.id}]});
+                }
+            });
         });
     }
 };

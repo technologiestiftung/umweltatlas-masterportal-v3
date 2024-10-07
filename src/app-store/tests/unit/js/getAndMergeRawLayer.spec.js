@@ -11,7 +11,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
     before(() => {
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
-        resetZIndex();
     });
 
     beforeEach(() => {
@@ -25,13 +24,14 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
     describe("getAndMergeRawLayer", () => {
         it("should return undefined if no param is given", () => {
-            expect(getAndMergeRawLayer()).to.be.undefined;
+            expect(Array.isArray(getAndMergeRawLayer())).to.be.true;
+            expect(getAndMergeRawLayer().length).to.be.equals(0);
         });
         it("layer not in services.json and without name", () => {
             sinon.stub(rawLayerList, "getLayerWhere").callsFake(function () {
                 return undefined;
             });
-            const layer = getAndMergeRawLayer({id: "notExisting"}),
+            const layers = getAndMergeRawLayer({id: "notExisting"}),
                 expected = {
                     id: "notExisting",
                     name: "WARN: Layer with id notExisting was not found in services.json and has no name! ",
@@ -40,7 +40,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                     is3DLayer: false
                 };
 
-            expect(layer).to.be.deep.equals(expected);
+            expect(layers[0]).to.be.deep.equals(expected);
             expect(warnSpy.calledOnce).to.be.true;
         });
         it("should return a simple raw layer", () => {
@@ -82,10 +82,11 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
             result = getAndMergeRawLayer(layerConfig[treeBaselayersKey].elements[0]);
 
-            expect(result).not.to.be.null;
-            expect(result.id).to.be.equals("453");
-            expect(result.name).to.be.equals("layer453");
-            expect(result.visibility).to.be.true;
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            expect(result[0].id).to.be.equals("453");
+            expect(result[0].name).to.be.equals("layer453");
+            expect(result[0].visibility).to.be.true;
             expect(warnSpy.notCalled).to.be.true;
         });
 
@@ -142,13 +143,152 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
             result = getAndMergeRawLayer(layerConfig[treeBaselayersKey].elements[0]);
 
-            expect(result).not.to.be.null;
-            expect(result.id).to.be.equals("717-718-719");
-            expect(result.name).to.be.equals("Geobasiskarten (farbig)");
-            expect(result.layers).to.be.equals("layer717,layer718,layer719");
-            expect(result.maxScale).to.be.equals(30000);
-            expect(result.minScale).to.be.equals(10);
-            expect(result.visibility).to.be.true;
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            expect(result[0].id).to.be.equals("717-718-719");
+            expect(result[0].name).to.be.equals("Geobasiskarten (farbig)");
+            expect(result[0].layers).to.be.equals("layer717,layer718,layer719");
+            expect(result[0].maxScale).to.be.equals(30000);
+            expect(result[0].minScale).to.be.equals(10);
+            expect(result[0].visibility).to.be.true;
+        });
+
+        it("should respect layerIDsToStyle with more than one style", () => {
+            const simpleLayerList = [
+                    {
+                        id: "1935",
+                        name: "Normalfahrplan1935",
+                        layers: "geofox_workspace:geofoxdb_strecken_normal"
+                    }
+                ],
+                layerIDsToStyle = [
+                    {
+                        id: "1935",
+                        styles: [
+                            "geofox_Faehre",
+                            "geofox-bahn",
+                            "geofox-bus",
+                            "geofox_BusName"
+                        ],
+                        name: [
+                            "Fährverbindungen",
+                            "Bahnlinien",
+                            "Buslinien",
+                            "Busliniennummern"
+                        ],
+                        legendURL: [
+                            "https://legendURL/hvv-faehre.png",
+                            "https://legendURL/hvv-bahn.png",
+                            "https://legendURL/hvv-bus.png",
+                            "https://legendURL/hvv-bus.png"
+                        ]
+                    }
+                ],
+                layers = [
+                    {
+                        id: "1935",
+                        typ: "WMS",
+                        visibility: true,
+                        styles: [
+                            "geofox_Faehre",
+                            "geofox-bahn",
+                            "geofox-bus",
+                            "geofox_BusName"
+                        ],
+                        name: [
+                            "Fährverbindungen",
+                            "Bahnlinien",
+                            "Buslinien",
+                            "Busliniennummern"
+                        ],
+                        legendURL: [
+                            "https://legendURL/hvv-faehre.png",
+                            "https://legendURL/hvv-bahn.png",
+                            "https://legendURL/hvv-bus.png",
+                            "https://legendURL/hvv-bus.png"
+                        ]
+                    }
+                ];
+            let result = null;
+
+            layerConfig = {
+                [treeSubjectsKey]: {
+                    elements: layers
+                }
+            };
+            sinon.stub(rawLayerList, "getLayerWhere").callsFake(function (searchAttributes) {
+                return simpleLayerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
+            });
+            sinon.stub(rawLayerList, "getLayerList").returns(simpleLayerList);
+            result = getAndMergeRawLayer(layerConfig[treeSubjectsKey].elements[0], true, layerIDsToStyle);
+
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(4);
+            for (let i = 0; i < result.length; i++) {
+                const layer = result[i];
+
+                expect(layer.id).to.be.equals(layers[0].id + layers[0].styles[i]);
+                expect(layer.name).to.be.equals(layers[0].name[i]);
+                expect(layer.style).to.be.equals(layers[0].styles[i]);
+                expect(layer.styles).to.be.equals(layers[0].styles[i]);
+                expect(layer.legendURL).to.be.equals(layers[0].legendURL[i]);
+            }
+        });
+        it("should respect layerIDsToStyle with one style", () => {
+            const simpleLayerList = [
+                    {
+                        id: "1933",
+                        name: "Haltestellen1933",
+                        layers: "geofox_workspace:geofoxdb_stations"
+                    }
+                ],
+                layerIDsToStyle = [
+                    {
+                        id: "1933",
+                        styles: "geofox_stations",
+                        name: "Haltestellen",
+                        legendURL: "https://legendURL/hvv-bus.png"
+                    }
+                ],
+                layers = [
+                    {
+                        id: "1933",
+                        typ: "WMS",
+                        showInLayerTree: true,
+                        styles: [
+                            "geofox_stations"
+                        ],
+                        name: [
+                            "Haltestellen"
+                        ],
+                        legendURL: [
+                            "https://legendURL/hvv-bus.png"
+                        ]
+                    }
+                ];
+            let result = null;
+
+            layerConfig = {
+                [treeSubjectsKey]: {
+                    elements: layers
+                }
+            };
+            sinon.stub(rawLayerList, "getLayerWhere").callsFake(function (searchAttributes) {
+                return simpleLayerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
+            });
+            sinon.stub(rawLayerList, "getLayerList").returns(simpleLayerList);
+            result = getAndMergeRawLayer(layerConfig[treeSubjectsKey].elements[0], true, layerIDsToStyle);
+
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            for (let i = 0; i < result.length; i++) {
+                const layer = result[i];
+
+                expect(layer.id).to.be.equals(layers[0].id);
+                expect(layer.name).to.be.equals(layers[0].name[i]);
+                expect(layer.styles).to.be.equals(layers[0].styles[i]);
+                expect(layer.legendURL).to.be.equals(layers[0].legendURL[i]);
+            }
         });
 
         it("should return a merged raw layer, if layer is grouped", () => {
@@ -193,26 +333,31 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
             result = getAndMergeRawLayer(layerConfig[treeSubjectsKey].elements[0].elements[0]);
 
-            expect(result).not.to.be.null;
-            expect(result.id).to.be.equals("682-1731");
-            expect(result.name).to.be.equals("Kita und Krankenhäuser");
-            expect(result.typ).to.be.equals("GROUP");
-            expect(result.maxScale).to.be.equals(20000);
-            expect(result.minScale).to.be.equals(100);
-            expect(result.layers).to.be.equals("layerA,layerB,layer1731");
-            expect(result.children).to.be.an("array");
-            expect(result.children.length).to.be.equals(2);
-            expect(result.children[0].id).to.be.equals("682");
-            expect(result.children[0].name).to.be.equals("name682");
-            expect(result.children[0].styleId).to.be.equals("styleId");
-            expect(result.children[1].id).to.be.equals("1731");
-            expect(result.children[1].name).to.be.equals("name1731");
-            expect(result.children[1].styleId).to.be.equals("styleId");
-            expect(result.children[1].layers).to.be.equals("layer1731");
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            expect(result[0].id).to.be.equals("682-1731");
+            expect(result[0].name).to.be.equals("Kita und Krankenhäuser");
+            expect(result[0].typ).to.be.equals("GROUP");
+            expect(result[0].maxScale).to.be.equals(20000);
+            expect(result[0].minScale).to.be.equals(100);
+            expect(result[0].layers).to.be.equals("layerA,layerB,layer1731");
+            expect(result[0].children).to.be.an("array");
+            expect(result[0].children.length).to.be.equals(2);
+            expect(result[0].children[0].id).to.be.equals("682");
+            expect(result[0].children[0].name).to.be.equals("name682");
+            expect(result[0].children[0].styleId).to.be.equals("styleId");
+            expect(result[0].children[1].id).to.be.equals("1731");
+            expect(result[0].children[1].name).to.be.equals("name1731");
+            expect(result[0].children[1].styleId).to.be.equals("styleId");
+            expect(result[0].children[1].layers).to.be.equals("layer1731");
         });
     });
 
     describe("addAdditional", () => {
+        before(() => {
+            resetZIndex();
+        });
+
         it("should set showInLayerTree to true, if showAllLayerInTree is true", () => {
             const rawLayer = {
                     id: "1"
@@ -223,7 +368,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 id: "1",
                 showInLayerTree: true,
                 type: "layer",
-                zIndex: 3,
+                zIndex: 1,
                 is3DLayer: false
             });
         });
@@ -254,7 +399,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 4,
+                zIndex: 2,
                 is3DLayer: false
             });
         });
@@ -271,7 +416,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 5,
+                zIndex: 3,
                 is3DLayer: false
             });
         });
@@ -290,7 +435,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: false,
                 type: "layer",
-                zIndex: 6,
+                zIndex: 4,
                 is3DLayer: false
             });
         });
@@ -310,7 +455,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 7,
+                zIndex: 5,
                 typ: "WMS",
                 is3DLayer: false
             });
@@ -330,7 +475,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 8,
+                zIndex: 6,
                 typ: "terrain3D",
                 is3DLayer: true
             });
@@ -617,14 +762,14 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 return layerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
             });
             sinon.stub(rawLayerList, "getLayerList").returns(layerList);
-            const legendUrls = ["https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png", "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png", "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png", "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"],
+            const legendUrls = ["https://legendURL/hvv-faehre.png", "https://legendURL/hvv-bahn.png", "https://legendURL/hvv-bus.png", "https://legendURL/hvv-bus.png"],
                 names = ["Fährverbindungen", "Bahnlinien", "Buslinien", "Busliniennummern"],
                 styles = ["geofox_Faehre", "geofox-bahn", "geofox-bus", "geofox_BusName"],
                 layerIDsToStyle = [{
                     id: "10220",
                     styles: "geofox_stations",
                     name: "Haltestellen",
-                    legendURL: "https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png"
+                    legendURL: "https://legendURL/hvv-bus.png"
                 },
                 {
                     id: "452",
@@ -650,7 +795,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             }
 
             expect(result[result.length - 1].id).to.be.equals("10220");
-            expect(result[result.length - 1].legendURL).to.be.equals("https://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png");
+            expect(result[result.length - 1].legendURL).to.be.equals("https://legendURL/hvv-bus.png");
             expect(result[result.length - 1].name).to.be.equals("Haltestellen");
             expect(result[result.length - 1].styles).to.be.equals("geofox_stations");
         });

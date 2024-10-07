@@ -7,7 +7,7 @@ import Feature from "ol/Feature";
  * @param {module:ol/Feature} [feature] The feature to remove from the highlighted features. If none is given, all highlighted features will be removed.
  * @returns {void}
  */
-async function removeHighlightFeature ({commit, state}, feature) {
+async function removeHighlightFeature ({commit, state, dispatch}, feature) {
     if (feature && feature instanceof Feature) {
         const index = state.highlightedFeatures.indexOf(feature);
 
@@ -17,6 +17,24 @@ async function removeHighlightFeature ({commit, state}, feature) {
             state.highlightedFeatures[index].setStyle(highlightedFeatureStyle);
             commit("setHighlightedFeatureStyles", state.highlightedFeatureStyles.filter((style, i) => i !== index));
             commit("setHighlightedFeatures", state.highlightedFeatures.filter((feat, i) => i !== index));
+        }
+        else {
+            switch (feature.getGeometry()?.getType()) {
+                case "Point":
+                {
+                    dispatch("removePointMarker");
+                    break;
+                }
+                case "Polygon":
+                case "MultiPolygon":
+                case "LineString":
+                {
+                    dispatch("removePolygonMarker");
+                    break;
+                }
+                default:
+                    break;
+            }
         }
     }
     else {

@@ -271,7 +271,7 @@ export default async function convertFeaturesToKml (features) {
 
             if (hasIconUrl[i] === false && pointColors[i]) {
                 // Please be aware of devtools/tasks/replace.js and devtools/tasks/customBuildPortalconfigsReplace.js if you change the path of the SVG
-                const iconUrl = `${window.location.origin}/img/tools/draw/circle_${getIconColor(pointColors[i])}.svg`,
+                const iconUrl = `${window.location.origin}/src/assets/img/tools/draw/circle_${getIconColor(pointColors[i])}.svg`,
                     iconStyle = createKmlIconStyle(iconUrl, pointScales[i]);
 
                 style.innerHTML += iconStyle;
@@ -287,7 +287,7 @@ export default async function convertFeaturesToKml (features) {
         if (placemark.getElementsByTagName("Point").length > 0 && skip[i] === true && !isNaN(textFontSize[i])) {
             const scale = textFontSize[i] / 16,
                 style = placemark.getElementsByTagName("Style")[0],
-                iconUrl = `${window.location.origin}/img/tools/draw/circle_blue.svg`,
+                iconUrl = `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg`,
                 maskIcon = new DOMParser().parseFromString("<IconStyle><scale>0</scale><Icon><href>" + iconUrl + "</href></Icon></IconStyle>", "text/xml"),
                 maskScale = new DOMParser().parseFromString("<scale>" + scale + "</scale>", "text/xml");
 

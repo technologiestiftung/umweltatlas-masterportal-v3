@@ -29,7 +29,8 @@ const
     });
 let dispatch,
     test1KML,
-    test2KML;
+    test2KML,
+    commit;
 
 before(() => {
     crs.registerProjections(namedProjections);
@@ -50,6 +51,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
         resetUniqueId();
         dispatch = sinon.spy();
         layer.getSource().getFeatures().forEach(feature => layer.getSource().removeFeature(feature));
+        commit = sinon.spy();
     });
 
     afterEach(sinon.restore);
@@ -182,8 +184,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
             }], {}, done);
         });
 
-        it("adds a text style from the kml file", () => {
-            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
+        it("should not show a confirmation message", () => {
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/src/assets/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
                 state = {
                     selectedFiletype: "auto",
                     supportedFiletypes: {
@@ -194,10 +196,34 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: false
                 };
 
-            importFile({state, dispatch, rootGetters}, payload);
+            importFile({state, dispatch, rootGetters, commit}, payload);
+            expect(dispatch.firstCall.args[0]).to.equal("addImportedFilename");
+            expect(dispatch.firstCall.args[1]).to.equal("beispielText.kml");
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Beispieltext");
+        });
+
+        it("adds a text style from the kml file", () => {
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Beispieltext</name><Style><LabelStyle><color>ffb87e37</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://localhost:9001/src/assets/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>10.003468073834911,53.56393658023316</coordinates></Point></Placemark></kml>", filename: "beispielText.kml"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        kml: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
+                            rgx: /\.kml$/i
+                        }
+                    },
+                    showConfirmation: true
+                };
+
+            importFile({state, dispatch, rootGetters, commit}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -221,7 +247,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: true
                 },
                 recomendedFillColor = [
                     255,
@@ -245,7 +272,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
         it("second imported kml should not overwrite first imported features", () => {
             let payload = {layer: layer, raw: test1KML, filename: "test1.kml"};
             const state = {
-                selectedFiletype: "kml"
+                selectedFiletype: "kml",
+                showConfirmation: true
             };
 
             importFile({state, dispatch, rootGetters}, payload);
@@ -265,7 +293,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
         });
 
         it("should set label style with color and font style", () => {
-            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Jungfernstieg</name><Style><LabelStyle><color>ff1c1ae4</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://geoportal-hamburg.de/mastercode/2_7_0/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>9.993521373625377,53.55359159312988</coordinates></Point></Placemark></kml>", filename: "TestFile1.kml"},
+            const payload = {layer: layer, raw: "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\"><Placemark><name>Jungfernstieg</name><Style><LabelStyle><color>ff1c1ae4</color><scale xmlns=\"\">2</scale></LabelStyle><IconStyle xmlns=\"\"><scale>0</scale><Icon><href>https://geoportal-hamburg.de/mastercode/2_7_0/src/assets/img/tools/draw/circle_blue.svg</href></Icon></IconStyle></Style><ExtendedData><Data name=\"drawState\"/><Data name=\"fromDrawTool\"><value>true</value></Data><Data name=\"invisibleStyle\"/><Data name=\"isOuterCircle\"><value>false</value></Data><Data name=\"isVisible\"><value>true</value></Data><Data name=\"styleId\"><value>1</value></Data></ExtendedData><Point><coordinates>9.993521373625377,53.55359159312988</coordinates></Point></Placemark></kml>", filename: "TestFile1.kml"},
                 state = {
                     selectedFiletype: "auto",
                     supportedFiletypes: {
@@ -276,7 +304,8 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.kml",
                             rgx: /\.kml$/i
                         }
-                    }
+                    },
+                    showConfirmation: true
                 };
 
             importFile({state, dispatch, rootGetters}, payload);
@@ -296,7 +325,7 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equals("Jungfernstieg");
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextAlign()).to.equals("left");
             expect(layer.getSource().getFeatures()[0].getStyle().getText().getTextBaseline()).to.equals("bottom");
-            expect(layer.getSource().getFeatures()[0].get("drawState")).to.deep.equals({
+            expect(layer.getSource().getFeatures()[0].get("masterportal_attributes").drawState).to.deep.equals({
                 fontSize: 32,
                 text: "Jungfernstieg",
                 color: [228, 26, 28, 1]
@@ -316,10 +345,13 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                             caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
                             rgx: /\.(geo)?json$/i
                         }
-                    }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {},
+                    showConfirmation: true
                 };
 
-            importGeoJSON({state, dispatch, rootGetters}, payload);
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1]).to.eql({
                 category: "success",
@@ -353,6 +385,157 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
                 type: "setFeatureExtents",
                 payload: {"file1": [100, 100, 100, 100], "file2": [10, 10, 10, 10]}
             }], {}, done);
+        });
+
+        it("adds a geojson file with gfiAttributes from draw old export structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"isOuterCircle\":false,\"isVisible\":true,\"drawState\":{\"opacity\":1,\"font\":\"Arial\",\"fontSize\":16,\"text\":\"Mein Schatzzzz\",\"drawType\":{\"id\":\"writeText\",\"geometry\":\"Point\"},\"symbol\":{\"id\":\"iconPoint\",\"type\":\"simple_point\",\"value\":\"simple_point\"},\"zIndex\":0,\"imgPath\":\"https://geodienste.hamburg.de/lgv-config/img/\",\"pointSize\":16,\"color\":[77,175,74,1]},\"fromDrawTool\":true,\"invisibleStyle\":{\"geometry_\":null,\"fill_\":null,\"image_\":null,\"renderer_\":null,\"hitDetectionRenderer_\":null,\"stroke_\":null,\"text_\":{\"font_\":\"16px Arial\",\"scaleArray_\":[1,1],\"text_\":\"Mein Schatzzzz\",\"textAlign_\":\"left\",\"textBaseline_\":\"bottom\",\"fill_\":{\"color_\":[77,175,74,1]},\"maxAngle_\":0.7853981633974483,\"placement_\":\"point\",\"overflow_\":false,\"stroke_\":null,\"offsetX_\":0,\"offsetY_\":0,\"backgroundFill_\":null,\"backgroundStroke_\":null,\"padding_\":null},\"zIndex_\":9999},\"styleId\":\"1\",\"attributes\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"},\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "Attribut1"});
+        });
+
+        it("adds a geojson file with gfiAttributes from draw new export structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"masterportal_attributes\":{\"isOuterCircle\":false,\"isVisible\":true,\"drawState\":{\"opacity\":1,\"font\":\"Arial\",\"fontSize\":16,\"text\":\"Mein Schatzzzz\",\"drawType\":{\"id\":\"writeText\",\"geometry\":\"Point\"},\"symbol\":{\"id\":\"iconPoint\",\"type\":\"simple_point\",\"value\":\"simple_point\"},\"zIndex\":0,\"imgPath\":\"https://geodienste.hamburg.de/lgv-config/img/\",\"pointSize\":16,\"color\":[77,175,74,1]},\"fromDrawTool\":true,\"invisibleStyle\":{\"geometry_\":null,\"fill_\":null,\"image_\":null,\"renderer_\":null,\"hitDetectionRenderer_\":null,\"stroke_\":null,\"text_\":{\"font_\":\"16px Arial\",\"scaleArray_\":[1,1],\"text_\":\"Mein Schatzzzz\",\"textAlign_\":\"left\",\"textBaseline_\":\"bottom\",\"fill_\":{\"color_\":[77,175,74,1]},\"maxAngle_\":0.7853981633974483,\"placement_\":\"point\",\"overflow_\":false,\"stroke_\":null,\"offsetX_\":0,\"offsetY_\":0,\"backgroundFill_\":null,\"backgroundStroke_\":null,\"padding_\":null},\"zIndex_\":9999},\"styleId\":\"1\"},\"attributes\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"},\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(layer.getSource().getFeatures()[0].getStyle().getText().getText()).to.equal("Mein Schatzzzz");
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "attributes"});
+        });
+
+        it("adds a geojson file with gfiAttributes from standard geojson structure", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {}
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            expect(layer.getSource().getFeatures().length).to.equal(1);
+            expect(commit.firstCall.args[0]).to.equal("setGFIAttribute");
+            expect(commit.firstCall.args[1]).to.be.deep.equals({"key": "Attribut1"});
+        });
+
+        it("adds a geojson file with custom styling with different colors", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}, {\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.899147727017332,53.57029963338006]},\"properties\":{\"Attribut1\":\"xyz\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {
+                        "beispielText.geojson": [
+                            {
+                                "attribute": "Attribut1",
+                                "attributeValue": "abc",
+                                "attributeColor": "#00c4f5"
+                            },
+                            {
+                                "attribute": "Attribut1",
+                                "attributeValue": "xyz",
+                                "attributeColor": "#00f531"
+                            }
+                        ]
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            /* eslint-disable one-var */
+            const feature1 = layer.getSource().getFeatures()[0],
+                feature2 = layer.getSource().getFeatures()[1];
+
+            expect(layer.getSource().getFeatures().length).to.equal(2);
+            expect(feature1.getStyle().getFill().getColor()).to.equal("#00c4f5");
+            expect(feature2.getStyle().getFill().getColor()).to.equal("#00f531");
+        });
+
+        it("adds a geojson file with custom styling with one color for all features", () => {
+            const payload = {layer: layer, raw: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.999147727017332,53.56029963338006]},\"properties\":{\"Attribut1\":\"abc\",\"Attribut2\":\"xyz\"}}, {\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[9.899147727017332,53.57029963338006]},\"properties\":{\"Attribut1\":\"xyz\",\"Attribut2\":\"xyz\"}}]}", filename: "beispielText.geojson"},
+                state = {
+                    selectedFiletype: "auto",
+                    supportedFiletypes: {
+                        auto: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.auto"
+                        },
+                        geojson: {
+                            caption: "common:modules.fileImport.captions.supportedFiletypes.geojson",
+                            rgx: /\.(geo)?json$/i
+                        }
+                    },
+                    gfiAttributes: {},
+                    customAttributeStyles: {
+                        "beispielText.geojson": [
+                            {
+                                "attribute": "All",
+                                "attributeValue": "none",
+                                "attributeColor": "#00c4f5"
+                            }
+                        ]
+                    }
+                };
+
+            importGeoJSON({state, dispatch, rootGetters, commit}, payload);
+
+            /* eslint-disable one-var */
+            const feature1 = layer.getSource().getFeatures()[0],
+                feature2 = layer.getSource().getFeatures()[1];
+
+            expect(layer.getSource().getFeatures().length).to.equal(2);
+            expect(feature1.getStyle().getFill().getColor()).to.equal("#00c4f5");
+            expect(feature2.getStyle().getFill().getColor()).to.equal("#00c4f5");
         });
     });
 

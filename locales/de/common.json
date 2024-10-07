@@ -385,7 +385,10 @@
       "name": "Datei-Import",
       "removeAttachment": "Datei entfernen",
       "successfullyImportedLabel": "Erfolgreich importiert:",
-      "zoom": "Zoomen"
+      "zoom": "Zoomen",
+      "colorPerAttributes": "Farbe nach Attributen",
+      "stylingAttributeDescription": "Wählen Sie ein Attribut aus nach dem der Layer gestylt werden soll.",
+      "stylingColorDescription": "Bei Auswahl einer Farbe wird automatisch eine Farbskala erstellt. Bei numerischen (quantitativen) Werten wird eine Farbskala von hell nach dunkel generiert. Dabei wird dem höchsten Wert in den Daten die ausgewählte Farbe zugeordnet. Bei qualitativen Daten wird eine Farbskala mit verschiedenen Farbtönen ausgehend der ausgewählten Farbe erstellt."
     },
     "filter": {
       "alertingMessages": {

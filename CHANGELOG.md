@@ -7,11 +7,58 @@
 ### __Breaking Changes__
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+
+## 2024-10-02 v3.3.0 (LTS)
+### __Breaking Changes__
+
+### Added
+- Release Schedule and release information to readme.md.
+- FileImport: Added the possibility to configure the confirmation window to show or not.
+- Searchbar: mapMarker or polygonMarker stays visible on close of search results.
+
+### Fixed
+- AlertingItem: Fixed the position of closing button.
+- Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
+- Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
+- LayerInfoContactButton: no warning in console, if at layer `md_name` ist not available in `datasets`.
+- LayerSelection: `tree.type: auto`: change of category creates correct folders.
+- Draw_old: import KML file works correctly.
+- GroupLayer: Layer of the type group consider now min and max scale of the single layer in 2D.
+
+---
+
+## 2024-09-19 v3.2.2
+### Fixed
+- 3D: `tree.type: auto` 3D layers can also be selected in the subject tree if additional layers are configured in config.json under `subjectlayer`.
+
+---
+
+## 2024-09-12 v3.2.1
+### Fixed
+- UrlParams:
+    - mapMarker: Fixed map marker set by url parameter.
+    - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+
+---
+
+## 2024-09-04 v3.2.0
+### Added
 - WFST: Added buttons names for confirm and stop.
 - Alerting: Examples for the configuration of messages have been added to the alerting documentation.
 - Modeler3D: Modeler3D was added
 - LayerTree:
     - In SubMenu added button to open contact form with layer specific parameters to be used in email.
+    - Adds parameter buttonTitle in addLayerButton to enable to configure the button title.
 
 ### Changed
 - LayerSelection
@@ -21,31 +68,62 @@
         - `backgroundsHeaderText` custom headline for the backgrounds (to overwrite the default translation)
         - `hideDatalayerHeader` to hide the headline for datalayers
         - `datalayerHeaderText` custom headline for the datalayers (to overwrite the default translation)
-- Login: Access Tokens are now revoked after logout
+- Login:
+    - Access Tokens are now revoked after logout.
+    - The WMS-Time layer are now available after you have logged in with the login module.
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.39.0 to 2.40.0
-
-### Deprecated
-
-### Removed
+        - axios: 1.7.1 to 1.7.7
+        - chart.js: 4.4.3 to 4.4.4
+        - i18next: 23.11.5 to 23.15.1
+        - i18next-http-backend: 2.5.2 to 2.6.1
+        - qrcode: 1.5.3 to 1.5.4
+        - three: 0.165.0 to 0.168.0
+    - devDependencies:
+        - @eslint/js: 9.3.3 to 9.10.0
+        - @geoblocks/print: 0.7.8 to 0.7.9
+        - @sinonjs/fake-timers: 11.2.2 to 13.0.1
+        - @stylistic/eslint-plugin-js: 2.2.1 to 2.8.0
+        - @vue/compiler-sfc: 3.3.4 to 3.5.4
+        - @vue/devtools-api: 6.5.0 to 6.6.4
+        - @vue/test-utils: 2.4.1 to 2.4.6
+        - chai: 4.4.1 to 5.1.1
+        - eslint-plugin-jsdoc: 48.2.7 to 50.2.2
+        - eslint-plugin-mocha: 10.4.3 to 10.5.0
+        - eslint-plugin-n: 17.9.0 to 17.10.2
+        - eslint-plugin-vue: 9.25.0 to 9.28.0
+        - eslint-plugin-vuejs-accessibility: 2.3.0 to 2.4.1
+        - globals: 15.4.0 to 15.9.0
+        - mocha: 10.4.0 to 10.7.3
+        - sinon-chai: 3.7.0 to 4.0.0
+        - vue-loader: 17.3.0 to 17.4.2
+        - zip-a-folder: 3.1.6 to 3.1.7
+- Import GeoJson
+    - GFI attributes are added in the import of a standard GeoJson
+    - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
+    - Adds a custom styling option for GeoJson/ Json import
+- Export from draw_old tool: update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
 
 ### Fixed
-- Filter:
-    - The buttons were always disabled in the accordion of the filter.
-- LayerSelection:
-    - After layer category switch the visible background layer were removed from layer selection.
+- Legend: Same legends of group layers are shown only once.
+- Filter: The buttons were always disabled in the accordion of the filter.
+- LayerSelection: After layer category switch the visible background layer were removed from layer selection.
 - Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
+- Print: Fixed error messages when zooming after map printing is closed
+- UrlParams:
+        - mapMarker: Fixed map marker set by url parameter.
+        - layerIds: if a layerId in params is part of a baselayer group, the group is loaded.
+- Styling: the config.json parameter `tree.layerIDsToStyle` is taken into account for all tree-types.
 
 ---
 
 ## 2024-08-07 v3.1.0
 ### Added
-- SearchBar:
-    - Added the possibility to zoom to an extent from a search result.
+- SearchBar: Added the possibility to zoom to an extent from a search result.
 - StatisticDashboard:
     - Updated UI of the filter to match the MP 3.0 Design.
     - Dropdowns now sort the selected entries always at the top.
@@ -58,13 +136,11 @@
     - Coordinate reference system and epsg code for OAF services are now configurable with parameter oafRequestCRS and oafDataProjectionCode.
     - Extended region filter
     - Button "All" for selecting all the regions and all in dropdown of districts and cities.
-- OAF:
-    - Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
-- ViewPoint:
-    - Migrated from dev to dev_vue.
+- OAF: Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
+- ViewPoint: Migrated from dev to dev_vue.
+- Matomo: Added Support for analytics via matomo.
 - Migrator: supports ids with suffix.
-- InputText:
-    - Added change event handler property and disabled property.
+- InputText: Added change event handler property and disabled property.
 - BaseLayerSwitcher: Added Config-Parameter singleBaseLayer to hide previous selected BaseLayer
 - Shareview: If the portal is not running on HTTPS, a message is displayed because the URL cannot then be copied to the clipboard.
 - AboutModule:
@@ -73,8 +149,7 @@
     - Added imprint title.
     - Added contact button to open contact module.
     - Added sales tax identification number.
-- Footer:
-    - Added link to open imprint in about module.
+- Footer: Added link to open imprint in about module.
 - LayerInfo:
     - Added contact information
     -  Added button to open contact form using the address data from the metadata as the addressee (to parameter)
@@ -184,8 +259,7 @@ In certain circumstances this means that you have to update your portal files (i
     - Reset All button.
     - Validation function in filter form.
     - Configurable number of classes and base color for choropleth map and legend.
-- TableComponent:
-    - New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
+- TableComponent: New prop `sortByNumericValue`: Optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. (By default, they are sorted by their string value.)
 - Search for address via URL-Parameter.
 - The following packages have been added:
     - dependencies:
@@ -537,6 +611,7 @@ In certain circumstances this means that you have to update your portal files (i
 - Possibility to use urlParams including searching within searchInterfaces.
 - Printing functions for vector styling and legend has been added.
 - New draw module (still in development) has been added to the code structure parallel to the refactored draw within the module folder.
+- Adds `displayOnEvent` functionality for the Alerting module.
 
 ### Changed
 - The following NPM packages have been updated:

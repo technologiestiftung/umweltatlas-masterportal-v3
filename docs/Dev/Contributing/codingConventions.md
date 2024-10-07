@@ -90,6 +90,7 @@ For each module a test file exists with file extension `.spec.js` under tests/un
 * A.8.3 Changes regarding UI, interfaces, or configuration are recorded in the changelog.
 * A.8.4 Entries are assigned to one of the following categories: Added, Changed, Deprecated, Removed, Fixed.
 * A.8.5 Entries are to be written in simple language. Avoid jargon. The changelog is read by users and developers alike.
+* A.8.6 Hyphens are only used for multiple entries, single entries are written in the same line with a colon.
 
 ---
 

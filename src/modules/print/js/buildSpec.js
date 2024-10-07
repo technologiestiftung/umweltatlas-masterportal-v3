@@ -221,7 +221,7 @@ const BuildSpecModel = {
                 }
                 return 0;
             }),
-            visibleFeatures = features.filter(feature => feature.get("isVisible"));
+            visibleFeatures = features.filter(feature => feature.get("isVisible") ?? feature.get("masterportal_attributes").isVisible);
 
         if (visibleFeatures.length > 0) {
             return this.buildVector(layer, visibleFeatures, extent);
@@ -727,9 +727,15 @@ const BuildSpecModel = {
      * @returns {String} an ECQL Expression
      */
     getStylingRules: function (layer, feature, styleAttributes, style, styleIndex) {
-        const styleAttr = feature.get("styleId") ? "styleId" : styleAttributes,
-            styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId")),
+        const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId")),
             styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+        let styleAttr = "";
+
+        if (Object.prototype.hasOwnProperty.call(feature.getProperties(), "masterportal_attributes") && feature.get("masterportal_attributes").styleId) {
+            feature.set("styleId", feature.get("masterportal_attributes").styleId);
+        }
+
+        styleAttr = feature.get("styleId") ? "styleId" : styleAttributes;
 
         if (styleAttr.length === 1 && styleAttr[0] === "") {
             if (feature.get("features") && feature.get("features").length === 1) {
@@ -869,6 +875,13 @@ const BuildSpecModel = {
             labelText = style.getText()?.getText() || "";
         let convertedFeature;
 
+        // masterportal_attributes have been set by the draw tool in this property but shall be sent to the print service
+        // if they remain in the masterportal_attributes-property they will be removed in the next step or cause a mapfish-error
+        if (Object.prototype.hasOwnProperty.call(clonedFeature.getProperties(), "masterportal_attributes")) {
+            Object.keys(clonedFeature.get("masterportal_attributes")).forEach(key => {
+                clonedFeature.set(key, clonedFeature.get("masterportal_attributes")[key]);
+            });
+        }
         // remove all object and array properties except geometry. Otherwise mapfish runs into an error
         Object.keys(clonedFeature.getProperties()).forEach(property => {
             if (isObject(clonedFeature.get(property)) && !(clonedFeature.get(property) instanceof Geometry) || Array.isArray(clonedFeature.get(property))) {
@@ -957,8 +970,14 @@ const BuildSpecModel = {
             fillColor = [0, 0, 0, 0];
         }
 
-        obj.fillColor = convertColor(fillColor, "hex");
-        obj.fillOpacity = fillColor[3];
+        if (fillColor[0] === "#") {
+            obj.fillColor = fillColor;
+            obj.fillOpacity = 1;
+        }
+        else {
+            obj.fillColor = convertColor(fillColor, "hex");
+            obj.fillOpacity = fillColor[3];
+        }
 
         return obj;
     },
@@ -1273,7 +1292,7 @@ const BuildSpecModel = {
         if (isLegendSelected && legends.length > 0) {
             legendObject.layers = [];
             legends.forEach(legendObj => {
-                if (layerCollection.getLayerById(legendObj.id).get("children")?.length > 0) {
+                if (layerCollection.getLayerById(legendObj.id)?.get("children")?.length > 0) {
                     legendObj.id = layerCollection.getLayerById(legendObj.id).get("children")[0].id;
                 }
 

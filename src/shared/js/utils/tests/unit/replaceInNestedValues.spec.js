@@ -1,5 +1,5 @@
 import {treeBaselayersKey, treeSubjectsKey} from "../../../../../shared/js/utils/constants";
-import replaceInNestedValues from "../../replaceInNestedValues.js";
+import replacer from "../../replaceInNestedValues.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/replaceInNestedValues.js", () => {
@@ -50,7 +50,7 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
 
 
     it("should return an empty array if only one param is given", () => {
-        expect(replaceInNestedValues({})).to.be.empty;
+        expect(replacer.replaceInNestedValues({})).to.be.empty;
     });
 
     it("should replace one element", () => {
@@ -60,7 +60,7 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
                 name: "name",
                 list: [{a: 1, b: 2}, {c: 3}]
             },
-            result = replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id});
+            result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id});
 
         expect(result).to.be.an("array");
         expect(result.length).to.be.equals(1);
@@ -82,7 +82,7 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
             };
 
         layerConfig[treeBaselayersKey].elements.push(layer);
-        result = replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id});
+        result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id});
 
         expect(result).to.be.an("array");
         expect(result.length).to.be.equals(2);
@@ -101,11 +101,34 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
                 name: "name",
                 list: [{a: 1, b: 2}, {c: 3}]
             },
-            result = replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: "abc"});
+            result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: "abc"});
 
         expect(result).to.be.an("array");
         expect(result.length).to.be.equals(0);
         expect(layerConfig).to.be.deep.equals(layerConfigCopy.layerConfig);
+
+    });
+
+    it("should replace the whole element, not only the content - condition: replaceObject", () => {
+        const replacement = [{
+                id: "453_1",
+                visibility: true,
+                name: "name_1",
+                list: [{a: 1, b: 2}, {c: 3}]
+            },
+            {
+                id: "453_2",
+                visibility: true,
+                name: "name_2"
+            }
+            ],
+            result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: "453", replaceObject: "453"});
+
+        expect(result).to.be.an("array");
+        expect(result.length).to.be.equals(2);
+        expect(layerConfig[treeBaselayersKey].elements[0]).to.be.deep.equals(replacement[0]);
+        expect(layerConfig[treeBaselayersKey].elements[1]).to.be.deep.equals(replacement[1]);
+        expect(layerConfig[treeBaselayersKey].elements[2]).to.be.deep.equals(backGroundLayer);
 
     });
 
@@ -164,7 +187,7 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
             }
         };
 
-        result = replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: "1103"}, "elements");
+        result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: "1103"}, "elements");
         expect(result).to.be.an("array");
         expect(result.length).to.be.equals(1);
         expect(result[0]).to.be.deep.equals(Object.assign(replacement, {visibility: true}));
@@ -175,7 +198,7 @@ describe("src/shared/js/utils/replaceInNestedValues.js", () => {
                 id: "10220",
                 visibility: true
             },
-            result = replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id}),
+            result = replacer.replaceInNestedValues(layerConfig, "elements", replacement, {key: "id", value: replacement.id}),
             newResult = {
                 id: "10220",
                 name: "Dauerzählstellen (Rad) Hamburg",

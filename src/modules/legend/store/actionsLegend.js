@@ -1,9 +1,9 @@
 import Cluster from "ol/source/Cluster";
-
 import layerCollection from "../../../core/layers/js/layerCollection";
 import validator from "../js/validator";
 import legendDraw from "../js/legendDraw";
 import layerCollector from "../js/layerCollector";
+import cleaner from "../js/cleaner";
 
 const actions = {
     /**
@@ -264,6 +264,7 @@ const actions = {
         }
 
         legends = [].concat(...legends);
+        legends = cleaner.cleanUpLegend(legends);
         commit("setPreparedLegend", legends);
         return legends;
     }

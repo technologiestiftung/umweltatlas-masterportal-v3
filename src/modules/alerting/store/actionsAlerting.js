@@ -169,6 +169,10 @@ export default {
             commit("Modules/News/addNews", alertProtoClone, {root: true});
         }
 
+        if (typeof alertProtoClone.displayOnEvent === "object") {
+            commit("addToDisplayOnEventList", alertProtoClone.displayOnEvent);
+        }
+
         displayAlert = isUnique && isInTime && isNotRestricted;
         if (displayAlert) {
             if ((newAlert.multipleAlert !== true && !newAlert.initial && state.initialClosed === true) || (newAlert.multipleAlert === true && hasInitAlert === true && state.initialClosed === true)) {
@@ -207,5 +211,35 @@ export default {
             value.initialConfirmed = value.mustBeConfirmed;
             dispatch("addSingleAlert", value);
         });
+    },
+    /**
+     * Check if a current event has alert items and activate them.
+     * @param {Object} state state
+     * @param {Object} action Event type and value to check for alertsOnEvent items
+     * @returns {void}
+     */
+    activateDisplayOnEventAlerts ({state, commit}, action) {
+        state.alertsOnEvent = [];
+
+        state.alerts.forEach((alert) => {
+            let displayProps;
+
+            if (Object.hasOwn(alert, "displayOnEvent")) {
+                displayProps = alert.displayOnEvent;
+
+                if (action.type === displayProps.type) {
+                    if (typeof displayProps.value === "string" && displayProps.value === action.payload) {
+                        state.alertsOnEvent.push(alert);
+                    }
+                    else if (typeof displayProps.value === "object" &&
+                        Object.entries(displayProps.value).every(([key, value]) => action.payload[key] === value)
+                    ) {
+                        state.alertsOnEvent.push(alert);
+                    }
+                }
+            }
+        });
+
+        commit("setReadyToShow", true);
     }
 };

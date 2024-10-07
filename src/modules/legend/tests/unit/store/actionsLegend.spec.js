@@ -524,12 +524,11 @@ describe("src/modules/legend/store/actionsLegend.js", () => {
         await prepareLegendForGroupLayer({commit, dispatch, getters}, layerSource);
         expect(commit.calledOnce).to.be.true;
         expect(commit.firstCall.args[0]).to.be.equals("setPreparedLegend");
-        expect(commit.firstCall.args[1]).to.be.deep.equals(["getLegendGraphicRequest", "getLegendGraphicRequest"]);
+        expect(commit.firstCall.args[1]).to.be.deep.equals(["getLegendGraphicRequest"]);
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.firstCall.args[0]).to.be.equals("prepareLegend");
         expect(dispatch.firstCall.args[1]).to.be.deep.equals(["legendUrl1"]);
         expect(dispatch.secondCall.args[0]).to.be.equals("prepareLegend");
         expect(dispatch.secondCall.args[1]).to.be.deep.equals(["legendUrl2"]);
     });
-
 });

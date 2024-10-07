@@ -264,7 +264,12 @@ describe("src/modules/draw/store/actionsDraw.js", () => {
             });
 
             Config.inputMap = {targetprojection: "mock"};
-            definedFunctions.drawend[0]({feature: {set}});
+            definedFunctions.drawend[0]({feature: {set, get: (key) => {
+                if (key === "masterportal_attributes") {
+                    return false;
+                }
+                return false;
+            }}});
             delete Config.inputMap;
 
             expect(dispatch.callCount).to.be.equal(2);
@@ -275,6 +280,12 @@ describe("src/modules/draw/store/actionsDraw.js", () => {
                 event = {
                     feature: {
                         set: () => {
+                            return false;
+                        },
+                        get: (key) => {
+                            if (key === "masterportal_attributes") {
+                                return false;
+                            }
                             return false;
                         }
                     }

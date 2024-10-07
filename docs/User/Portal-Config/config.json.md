@@ -2097,7 +2097,7 @@ Dot object consisting of text, type, and value.
 |----|--------|----|-------|-----------|------|
 |id|yes|String||Symbol text displayed in the select menu. The id has to be defined in the locale file (usually `common`) as `modules.draw.iconList` child. The following entry should begin with `icon` and contain a representative description. If the key is not found, the `id` will appear as string on the user interface.|false|
 |caption|no|String||_Deprecated in 3.0.0._ Symbol text displayed in the select menu. Unlike `id`, not only the id itself, but the whole path (`modules.draw.iconList` + id) has to be given.|false|
-|type|yes|enum["image", "simple_point"]||Object type to be drawn. If `image` is chosen, the PNG or SVG file from the `value` path is drawn. By default, images are to be placed in the `/img/tools/draw/` directory and should have a height and width of 96px to scale correctly. Alternatively, a working `scale` factor must be defined. The key `simple_point` will draw a simple point.|false|
+|type|yes|enum["image", "simple_point"]||Object type to be drawn. If `image` is chosen, the PNG or SVG file from the `value` path is drawn. By default, images are to be placed in the `/src/assets/img/tools/draw/` directory and should have a height and width of 96px to scale correctly. Alternatively, a working `scale` factor must be defined. The key `simple_point` will draw a simple point.|false|
 |scale|no|number||Scale factor for images.|false|
 |value|yes|String||Value of the object to be drawn. If no path or URL is set, a file name is expected, and the *config.js* entry `wfsImgPath` is expected to be the file's location.|false|
 
@@ -2427,6 +2427,8 @@ Import "*.kml", "*.geojson" and "*.gpx" files with this module.
 |icon|no|String|"bi-box-arrow-in-down"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.fileImport.name"|Name of the module in the menu.|false|
 |type|no|String|"fileImport"|The type of the module. Defines which module is configured.|false|
+|customStylingOption|no|Boolean|false|To decide if a custom styling option for a GeoJson is offered.|false|
+|showConfirmation|no|Boolean|true|To decide if a confirmation window is shown after a successful import.|false|
 
 **Example**
 
@@ -4239,7 +4241,7 @@ Possibility to make settings for the topic selection tree.
 |categories|no|**[categories](#portalconfigtreecategories)**||Configuration of the categories from the metadata. Only for the tree.type `auto`.|false|
 |highlightedFeatures|no|**[highlightedFeatures](#portalconfigtreehighlightedfeatures)**||Configuration in addition to highlighting features.|false|
 |layerIDsToIgnore|no|String[]||List of `services.json` layer ids that should not be displayed in the tree and map. Only for the tree.type `auto`.|false|
-|layerIDsToStyle|no|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID. Only for the tree.type `auto`.|true|
+|layerIDsToStyle|no|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID.|true|
 |metaIDsToIgnore|no|String[]||All layers found in `services.json` that match these meta IDs will not be displayed in the tree and map. Only for the tree.type `auto`.|false|
 |metaIDsToMerge|no|String[]||All layers found in `services.json` that match these meta-IDs will be merged into a single layer in the tree. Only for the tree.type `auto`.|true|
 |showFolderPath|no|Boolean|false|Determines whether the folder structure of visible layers is displayed in 'Show more functions'.|false|
@@ -4320,6 +4322,7 @@ Configuration of the addLayerButton to select layers.
 |----|-------------|---|-------|------------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
 |searchBar|no|String||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|buttonTitle|no|String||Sets the button title with customized text.|false|
 
 **Beispiel**
 
@@ -4328,6 +4331,7 @@ Configuration of the addLayerButton to select layers.
     "tree": {
         "addLayerButton": {
             "active": true,
+            "buttonTitle": "Add Layers",
             "searchBar": {
             "active": true,
             "searchInterfaceInstanceId": "elasticSearch_0",
