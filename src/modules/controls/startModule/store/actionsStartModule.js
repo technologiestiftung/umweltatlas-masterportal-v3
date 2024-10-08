@@ -15,11 +15,18 @@ const actions = {
     setConfiguredModuleStates ({commit, dispatch, rootState}, {menuModels, menuSide}) {
         menuModels.forEach(module => {
             if (module?.type) {
-                dispatch("extendModuleState", {module, menuSide});
-                commit("addConfiguredModel", {
-                    menuSide: menuSide,
-                    state: rootState.Modules[changeCase.upperFirst(module.type)]
-                });
+                const moduleKey = changeCase.upperFirst(module.type),
+                    existingModuleState = rootState.Modules[moduleKey];
+
+                // Check if module has already been added for this menu side
+                if (!existingModuleState || existingModuleState.menuSide !== menuSide) {
+                    // Only extend and commit the module if it hasn't already been added
+                    dispatch("extendModuleState", {module, menuSide});
+                    commit("addConfiguredModel", {
+                        menuSide: menuSide,
+                        state: rootState.Modules[moduleKey]
+                    });
+                }
             }
         });
     },
