@@ -114,9 +114,19 @@ export default {
             type: [Number, Boolean],
             required: false,
             default: false
+        },
+        removable: {
+            type: [Number, Boolean],
+            required: false,
+            default: false
+        },
+        functionToRemoveElement: {
+            type: [Number, Boolean],
+            required: false,
+            default: false
         }
     },
-    emits: ["columnSelected", "rowSelected", "setSortedRows"],
+    emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],
     data () {
         return {
             currentSorting: {
@@ -266,8 +276,11 @@ export default {
          * @returns {void}
          */
         setupTableData () {
-            this.visibleHeaders = this.data?.headers;
-            this.draggableHeader = this.data?.headers;
+            //  headers which are set up as not visible are not displayed
+            const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
+
+            this.visibleHeaders = visibleHeaders;
+            this.draggableHeader = visibleHeaders;
             if (typeof this.fixedColumn !== "undefined") {
                 this.fixedColumn = undefined;
             }
@@ -474,11 +487,13 @@ export default {
          * @returns {void}
          */
         resetAll () {
+            const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
+
             this.visibleHeadersIndices = [];
-            this.data.headers?.forEach(header => {
+            visibleHeaders.forEach(header => {
                 this.visibleHeadersIndices.push(header.index);
             });
-            this.draggableHeader = this.data?.headers;
+            this.draggableHeader = visibleHeaders;
             this.currentSorting.order = "origin";
 
             if (this.fixedColumn) {
@@ -673,6 +688,9 @@ export default {
         getClassForSelectedColumn (columnIdx) {
             return isObject(this.visibleHeaders[columnIdx]) && this.selectedColumn === this.visibleHeaders[columnIdx].name ? "selected" : "";
         },
+        remove (idFeature, idLayer) {
+            this.$emit("removeItem", idFeature, idLayer);
+        },
 
         /**
          * Parses given number to match the max decimal places.
@@ -832,6 +850,10 @@ export default {
             <thead>
                 <tr v-if="showHeader">
                     <th
+                        v-if="removable"
+                        class="p-0"
+                    />
+                    <th
                         v-for="(column, idx) in editedTable.headers"
                         :key="idx"
                         class="filter-select-box-wrapper"
@@ -892,6 +914,21 @@ export default {
                     v-for="(item, idx) in editedTable.items"
                     :key="idx"
                 >
+                    <td
+                        v-if="removable"
+                        :key="columnIdx+1"
+                        :class="['p-2', selectMode === 'column' && columnIdx+1 > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx+1), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', 'pull-left']"
+                    >
+                        <button
+                            class="remove-row"
+                            type="button"
+                            :title="$t('common:modules.compareFeatures.removeFromList')"
+                            @click="remove(item.id, item.idLayer)"
+                            @keydown.enter="remove(item.id, item.idLayer)"
+                        >
+                            <i class="bi-x-lg" />
+                        </button>
+                    </td>
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
                         :key="columnIdx"
@@ -1002,6 +1039,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     td {
+        word-wrap: break-word;
+        white-space: normal;
         &.total:not(.selected) {
             background: $light_blue;
             font-family: "MasterPortalFont Bold";
@@ -1027,6 +1066,7 @@ table {
         &:first-child {
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
+            width: 3rem;
         }
         &:last-child {
             border-top-right-radius: 5px;
@@ -1159,5 +1199,10 @@ table {
     .multiselect__select {
         transition: transform .2s ease;
     }
+}
+.remove-row {
+        padding: 0;
+        border: none;
+        background: none;
 }
 </style>

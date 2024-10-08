@@ -202,6 +202,30 @@
         "zoomOut": "Herauszoomen"
       }
     },
+    "compareFeatures": {
+      "title": "Vergleichsliste",
+      "topicsSelection": "Themen Auswahl",
+      "exportAsPdf": "Export als PDF",
+      "removeFromList": "Von Liste entfernen",
+      "noFeatures": {
+          "nothingSelected": "Es sind keine {{objects}} für die Vergleichsliste ausgewählt.",
+          "objectName": "Objekte",
+          "info": "Klicken Sie auf ein Objekt in der Karte. Es öffnet sich ein Fenster mit den jeweiligen Sachinformationen. In der rechten oberen Ecke befindet sich ein Sternsymbol {{iconEmptyStar}}. Klicken Sie auf dieses Symbol, um das Objekt zur Vergleichsliste hinzuzufügen. Das Sternsymbol wird gelb eingefärbt {{iconYellowStar}}. Ein erneuter Klick auf das Sternsymbol entfernt das Objekt wieder von der Vergleichsliste."
+      },
+      "feedback": {
+          "added": "Das Feature wurde zur Vergleichsliste hinzugefügt",
+          "addedWithName": "{{currentFeatureName}} wurde zur Vergleichsliste hinzugefügt",
+          "notAdded": "Das Feature konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "notAddedWithName": "{{currentFeatureName}} konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
+          "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
+          "goToComparisonlist": "Zur Vergleichsliste"
+      },
+      "trueFalse": {
+          "true": "Ja",
+          "false": "Nein"
+      }
+    },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "East-Wert / Rechtswert",
@@ -536,6 +560,62 @@
       },
       "title": "Objekt Information"
     },
+    "gfi": {
+      "errorMessage": "Bei der Informationsabfrage (GetFeatureInfo) ist ein Fehler aufgetreten.<br>Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut. Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes.",
+      "favoriteIcons": {
+          "compareFeatureIcon": {
+              "toCompareList": "Auf die Vergleichsliste",
+              "fromCompareList": "Von der Vergleichsliste entfernen"
+          }
+      },
+      "themes": {
+          "default": {
+              "imgAlt": "Es konnte kein Bild geladen werden.",
+              "noAttributeAvailable": "Kein Attribut vorhanden!"
+          },
+          "sensor": {
+              "sensor": {
+                  "dataName": "Daten",
+                  "header": {
+                      "name": "Name",
+                      "description": "Beschreibung",
+                      "ownerThing": "Eigentümer"
+                  }
+              },
+              "sensorBarChart": {
+                  "clock": "{{value}} Uhr",
+                  "chartTitleAverage": "Mittelwert aus",
+                  "month_one": "{{count}} Monat",
+                  "month_other": "{{count}} Monaten",
+                  "year_one": "{{count}} Jahr",
+                  "year_other": "{{count}} Jahren",
+                  "previousWeekday": "Vorheriger Wochentag",
+                  "nextWeekday": "Nächster Wochentag",
+                  "noticeTextAvailable": "(Es werden ausschließlich Daten mit dem Wert available / verfügbar berücksichtigt)",
+                  "noticeTextCharging": "(Es werden ausschließlich Daten mit dem Wert charging / ladend berücksichtigt)",
+                  "noticeTextOutoforder": "(Es werden ausschließlich Daten mit dem Wert outoforder / Außer Betrieb berücksichtigt)",
+                  "noticeTextFaulted": "(Es werden ausschließlich Daten mit dem Wert faulted / Fehlerzustand berücksichtigt)"
+              },
+              "sensorData": {
+                  "firstColumnHeaderName": "Eigenschaften"
+              },
+              "chargingStations": {
+                  "available": "Verfügbarkeit",
+                  "charging": "Auslastung",
+                  "outoforder": "Außer Betrieb",
+                  "faulted": "Fehlerzustand"
+              }
+          }
+      },
+      "boolean": {
+          "true": "Ja",
+          "yes": "Ja",
+          "1": "Ja",
+          "false": "Nein",
+          "no": "Nein",
+          "0": "Nein"
+      }
+  },
     "gfiThemes": {
       "dataTable": {
         "sort": "Werte sortieren"
@@ -1303,6 +1383,7 @@
     "modules": {
       "buttons": {
         "download": "Herunterladen",
+        "downloadPdf": "PDF Herunterladen",
         "error": {
           "download": "Beim Herunterladen der gewünschten Daten ist ein Fehler aufgetreten."
         }
@@ -1383,6 +1464,7 @@
       "table": {
         "fixColumnAriaLabel": "Hier klicken um diese Spalte zu fixieren",
         "download": "Herunterladen",
+        "downloadPdf": "PDF Herunterladen",
         "reset": "Zurücksetzen",
         "settings": "Einstellungen",
         "total": "Gesamt",

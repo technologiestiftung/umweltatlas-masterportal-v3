@@ -1593,6 +1593,7 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:about]: # (portalConfig.menu.sections.modules)
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
@@ -1628,6 +1629,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |about|nein|**[about](#portalconfigmenusectionsmodulesabout)**||Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. Beschreibungstext, Masterportalversion, Metadaten.|true|
 |addWMS|nein|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||Mit diesem Modul lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und im Themenbaum angezeigt.|true|
 |bufferAnalysis|nein|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
+|compareFeatures|nein|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**|| Bietet eine Vergleichsmöglichkeit von Vektor-Features. In der getFeatureInfo lassen sich Features über das Stern-Symbol auf die Vergleichliste setzen. Funktioniert in Verbindung mit dem GFI-Theme **Default**!|false|
 |contact|nein|**[contact](#portalconfigmenusectionsmodulescontact)**||Das Kontaktformular bietet dem Benutzer die Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet und Screenshots können beigefügt werden.|false|
 |compareMaps|nein|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||Dieses Tool ermöglicht es Benutzern, zwei Layer nebeneinander mit einem Layer-Swiper zu vergleichen.|false|
 |coordToolkit|nein|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
@@ -2986,7 +2988,50 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 
 ***
 
-###### portalConfig.menu.sections.modules.print.capabilitiesFilter {data-toc-label='Capabilities Filter'}
+###### portalConfig.menu.sections.modules.print.additionalLayers
+Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|active|nein|Boolean|false|Definiert ob der Layer aktiv ist.|false|
+|id|ja|String||Service-ID des zu druckenden Layers.|false|
+|label|ja|String||Beschriftung der Checkbox zu aktivieren des Layers im Druckdialog.|false|
+
+**Beispiel additionalLayers:**
+
+```json
+"additionalLayers": [{
+  "id": "wms_koordinatennetze_25832",
+  "label": "Koordinatennetz UTM32N - ETRS89"
+}]
+```
+
+***
+#### Portalconfig.menu.sections.modules.compareFeatures
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|numberOfFeaturesToShow|nein|Integer|3|Anzahl der Features die maximal miteinander verglichen werden können.|false|
+|numberOfAttributesToShow|nein|Integer|12|Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.|false|
+
+**Beispiel**
+
+```json
+"compareFeatures": {
+    "name": "Vergleichsliste",
+    "icon": "bi-list-ul",
+    "numberOfFeaturesToShow": 5,
+    "numberOfAttributesToShow": 10
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.print.capabilitiesFilter
 Liste von Layouts und Formaten, welche die Antwort vom Druckdienst in der jeweiligen Kategorie filtert.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|

@@ -152,6 +152,30 @@
         "stepBackward": "Last view",
         "stepForward": "Next view"
       },
+      "compareFeatures": {
+        "title": "Comparison list",
+        "topicsSelection": "Topics selection",
+        "exportAsPdf": "Export as PDF",
+        "removeFromList": "Remove from list",
+        "noFeatures": {
+            "nothingSelected": "There are no {{objects}} selected for the comparison list.",
+            "objectName": "objects",
+            "info": "Click on an object on the map. A window opens with the respective factual information. In the upper right corner there is a star symbol {{iconEmptyStar}}. Click on this icon to add the object to the comparison list. The star icon will be colored yellow {{iconYellowStar}}. Click the star icon again to remove the object from the comparison list."
+        },
+        "feedback": {
+            "added": "The feature was added to the comparison list",
+            "addedWithName": "{{currentFeatureName}} was added to the comparison list",
+            "notAdded": "The feature could not be added to the comparison list",
+            "notAddedWithName": "{{currentFeatureName}} could not be added to the comparison list",
+            "limitReached": "The maximum number of objects in the comparison list has been reached.",
+            "removeObjects": "Please remove at least one object before proceeding.",
+            "goToComparisonlist": "To the comparison list"
+        },
+        "trueFalse": {
+            "true": "Yes",
+            "false": "No"
+        }
+    },
       "button3d": {
         "buttonTitle2d": "2D",
         "buttonTitle3d": "3D"
@@ -1300,6 +1324,7 @@
     "modules": {
       "buttons": {
         "download": "Download",
+        "downloadPdf": "Download PDF",
         "error": {
           "download": "An error occured on trying to download the data."
         }
@@ -1380,6 +1405,7 @@
       "table": {
         "fixColumnAriaLabel": "Click here to pin this column",
         "download": "Download",
+        "downloadPdf": "Download PDF",
         "reset": "Reset",
         "settings": "Settings",
         "total": "Total",
