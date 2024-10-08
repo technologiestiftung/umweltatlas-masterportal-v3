@@ -131,7 +131,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                 ]},
                 hasMultipleLayers: false,
                 preparedList: {
-                    2426: [
+                    "2426": [
                         {
                             "row-1": "Bezirk",
                             "APP_BEZIRKE_1422": "1",
@@ -155,8 +155,8 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                     ]
                 },
                 preparedListDisplayTable: {
-                    2426: {
-                        headers: [
+                    "2426": {
+                        "headers": [
                             {
                                 "name": "Bezirk",
                                 "order": "origin",
@@ -182,7 +182,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                                 "visible": false
                             }
                         ],
-                        items: [
+                        "items": [
                             {
                                 "Bezirk": "1",
                                 "Bezirksname": "Hamburg-Mitte",
@@ -228,7 +228,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                     8123: [{layerId: "8123", featureId: "APP_KITA_1426", properties: {name: "Schule-1", strasse: "Strasse1", id: "APP_KITA_1426", idLayer: "8123"}}]},
                 hasMultipleLayers: true,
                 preparedList: {
-                    2426: [
+                    "2426": [
                         {
                             "row-1": "Bezirk",
                             "APP_BEZIRKE_1422": "3"
@@ -246,7 +246,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                             "APP_BEZIRKE_1422": "2426"
                         }
                     ],
-                    8123: [
+                    "8123": [
                         {
                             "row-1": "name",
                             "APP_KITA_1426": "Schule-1"
@@ -266,8 +266,8 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                     ]
                 },
                 preparedListDisplayTable: {
-                    2426: {
-                        headers: [
+                    "2426": {
+                        "headers": [
                             {
                                 "name": "Bezirk",
                                 "order": "origin",
@@ -293,7 +293,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                                 "visible": false
                             }
                         ],
-                        items: [
+                        "items": [
                             {
                                 "Bezirk": "3",
                                 "Bezirksname": "Hamburg-Mitte",
@@ -302,8 +302,8 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                             }
                         ]
                     },
-                    8123: {
-                        headers: [
+                    "8123": {
+                        "headers": [
                             {
                                 "name": "name",
                                 "order": "origin",
@@ -329,7 +329,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                                 "visible": false
                             }
                         ],
-                        items: [
+                        "items": [
                             {
                                 "name": "Schule-1",
                                 "strasse": "Strasse1",

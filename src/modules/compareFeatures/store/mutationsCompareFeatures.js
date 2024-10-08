@@ -64,18 +64,17 @@ const mutations = {
 
             for (const feature of state.layerFeatures[firstLayerKey]) {
                 if (feature.featureId === featureId) {
-                    const index = features.indexOf(feature);
+                    const index = state.layerFeatures[feature.layerId].indexOf(feature);
 
-                    state.layerFeatures[firstLayerKey].splice(index, 1);
-                    // state.preparedList = {
-                    //     ...state.preparedList,
-                    //     [firstLayerKey]: state.layerFeatures[firstLayerKey].map(f => (
-                    //         Object.keys(f.properties).map(key => ({
-                    //             "row-1": key,
-                    //             [f.featureId]: f.properties[key]
-                    //         }))
-                    //     )).flat()
-                    // };
+                    state.layerFeatures[feature.layerId].splice(index, 1);
+                    state.preparedList = {
+                        ...state.preparedList,
+                        [firstLayerKey]: state.layerFeatures[firstLayerKey].map(f => Object.keys(f.properties).map(key => ({
+                            "row-1": key,
+                            [f.featureId]: f.properties[key]
+                        }))
+                        ).flat()
+                    };
                     if (state.layerFeatures[firstLayerKey].length === 0) {
                         delete state.preparedList[firstLayerKey];
                         delete state.layerFeatures[firstLayerKey];
@@ -90,10 +89,10 @@ const mutations = {
 
                     state.layerFeatures[selectedLayer].splice(index, 1);
                     // Necessary to trigger a rerendering of the UI, otherwise the feature gets deleted in the state but the UI won´t change.
-                    // state.preparedList = {
-                    //     ...state.preparedList,
-                    //     [selectedLayer]: [...features]
-                    // };
+                    state.preparedList = {
+                        ...state.preparedList,
+                        [selectedLayer]: [...features]
+                    };
                 }
                 if (state.layerFeatures[selectedLayer].length === 0) {
                     delete state.preparedList[selectedLayer];
