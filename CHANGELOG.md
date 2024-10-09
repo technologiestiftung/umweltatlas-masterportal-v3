@@ -25,7 +25,6 @@
 ---
 
 ## 2024-10-02 v3.3.0 (LTS)
-### __Breaking Changes__
 
 ### Added
 - Release Schedule and release information to readme.md.
