@@ -155,7 +155,6 @@
       "compareFeatures": {
         "title": "Comparison list",
         "topicsSelection": "Topics selection",
-        "exportAsPdf": "Export as PDF",
         "removeFromList": "Remove from list",
         "noFeatures": {
             "nothingSelected": "There are no {{objects}} selected for the comparison list.",
@@ -1324,7 +1323,6 @@
     "modules": {
       "buttons": {
         "download": "Download",
-        "downloadPdf": "Download PDF",
         "error": {
           "download": "An error occured on trying to download the data."
         }
@@ -1405,7 +1403,6 @@
       "table": {
         "fixColumnAriaLabel": "Click here to pin this column",
         "download": "Download",
-        "downloadPdf": "Download PDF",
         "reset": "Reset",
         "settings": "Settings",
         "total": "Total",

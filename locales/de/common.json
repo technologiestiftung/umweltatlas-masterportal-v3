@@ -205,7 +205,6 @@
     "compareFeatures": {
       "title": "Vergleichsliste",
       "topicsSelection": "Themen Auswahl",
-      "exportAsPdf": "Export als PDF",
       "removeFromList": "Von Liste entfernen",
       "noFeatures": {
           "nothingSelected": "Es sind keine {{objects}} für die Vergleichsliste ausgewählt.",
@@ -1383,7 +1382,6 @@
     "modules": {
       "buttons": {
         "download": "Herunterladen",
-        "downloadPdf": "PDF Herunterladen",
         "error": {
           "download": "Beim Herunterladen der gewünschten Daten ist ein Fehler aufgetreten."
         }
@@ -1464,7 +1462,6 @@
       "table": {
         "fixColumnAriaLabel": "Hier klicken um diese Spalte zu fixieren",
         "download": "Herunterladen",
-        "downloadPdf": "PDF Herunterladen",
         "reset": "Zurücksetzen",
         "settings": "Einstellungen",
         "total": "Gesamt",
