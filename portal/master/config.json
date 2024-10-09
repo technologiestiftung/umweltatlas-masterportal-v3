@@ -832,7 +832,6 @@
           ],
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
-          "typ": "SIMPLEGROUP",
           "visibility": false
         },
         {
