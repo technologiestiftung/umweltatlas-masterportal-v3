@@ -53,7 +53,7 @@ The configuration options listed in the following table exist:
 Configuration of the map and elements placed on it.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |baselayerSwitcher|no|**[baselayerSwitcher](#portalconfigmapbaselayerswitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |controls|no|**[controls](#portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
 |featureViaURL|no|**[featureViaURL](#portalconfigmapfeatureviaurl)**||Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](../Misc/urlParameter.md)** for details.|false|
@@ -326,7 +326,7 @@ The startModule attribute must be of type Object. A button is displayed for each
 Here you can configure the modules for which a button is to be displayed. These are displayed in the `mainMenu` when opened.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |type|no|String||Type of the module that is to be displayed as a control and opened in the mainMenu when clicked.|false|
 
 **Example**
@@ -345,7 +345,7 @@ Here you can configure the modules for which a button is to be displayed. These 
 Here you can configure the modules for which a button is to be displayed. These are displayed in the `secondaryMenu` when opened.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |type|no|String||Type of the module that is to be displayed as a control and opened in the secondaryMenu when clicked.|false|
 
 **Example**
@@ -589,7 +589,7 @@ If e.g. a building is selected by left mouse click, it will be highlighted in th
 For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
 
 |Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|-----------|
+|----|--------|----|-------|-----------|------|
 |color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
 |enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
 
@@ -653,7 +653,7 @@ Configuration to make settings for LayerPills.
 Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |active|no|Boolean|false|Indicates whether LayerPills are active.|false|
 |mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
 
@@ -1656,7 +1656,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 ##### portalConfig.menu.sections.modules {data-toc-label='Modules'}
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |description|no|String||The description that should be shown in the button in the right menu.|false|
 |icon|no|String||Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String||Name of the module in the menu.|false|
@@ -1932,7 +1932,7 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 [inherits]: # (portalConfig.menu.sections.modules.coordToolkit)
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |explanations|no|[]||Array of declarations from which a list is created.|false|
 |title|no|string||Heading for the explanations of the coordinate reference systems.|false|
 
@@ -4218,8 +4218,8 @@ Possibility to configure the content of the portal footer.
 
 A Url can be defined in various ways.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |alias|yes|String||Displayed name of the link in desktop-view.|false|
 |alias_mobil|no|String||Displayed name of the link in mobile-view. If this is not specified, the link will not be displayed in mobile-view.|false|
 |bezeichnung|no|String||Displayed description next to the link.|false|
@@ -4325,7 +4325,7 @@ Possibility to make settings for the topic selection tree.
 Configuration of the addLayerButton to select layers.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
 |searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
@@ -5330,7 +5330,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 
 ### Datatypes.Stroke {data-toc-label='Stroke'}
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |width|no|Integer||Possible setting: width|false|
 |color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
 
@@ -5726,8 +5726,8 @@ Only the selection in one of the child snippets (example: "blue whale") finally 
 In case of using parent-child relationships, we recommend setting `snippetTags` to `false`.
 Multi-dimensional nesting (grandparent, parent, child) is not currently provided.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
 |attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
@@ -5784,8 +5784,8 @@ Example of a dropdown snippet with parent-child relationship. The `cityA` and `c
 User experience can be improved with the adjustment of timeouts.
 This is especially true for filters that work with `strategy`: `active`.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |input|no|Number|1400|For snippet typ `sliderRange` and `slider` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
 |slider|no|Number|800|For snippet typ `sliderRange`, `slider` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
 
@@ -5813,8 +5813,8 @@ An object that describes a service for a snippet. All service types that the fil
 The configuration depends on the type of service.
 
 **WFS**
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |collection|yes|String||The collection that will be loaded. Only for OAF|false|
 |type|yes|String||The type of service.|false|
 |typename|yes|String||The feature type that will be loaded. Only for WFS|false|
@@ -5854,8 +5854,8 @@ The configuration depends on the type of service.
 
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |data|yes|Object||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
 |options|yes|Object||Options for creating the diagram.|false|
 |plugins|yes|Array||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
@@ -5890,8 +5890,8 @@ A string or object that supply the parameters for util function localeCompare.
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |locale|no|String||The locale code according ISO 3166|false|
 |options|no|**[Options](#datatypessnippetslocalecompareparamsoptions)**||The custom options for sorting in localeCompare|false|
 
@@ -5911,8 +5911,8 @@ A string or object that supply the parameters for util function localeCompare.
 ##### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |ignorePunctuation|no|Boolean|false|Determines whether punctuation will be ignored.|false|
 |numeric|no|Boolean|false|Determines whether numeric collation will be used|false|
 |sensitivity|no|String|"variant"|Determines whether string collation will be used.|false|
@@ -5933,8 +5933,8 @@ An object for configuring a universal search of value
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |attrName|yes|String||The attribute Name|false|
 |prefix|yes|String||The Website as Prefix for searching|false|
 
@@ -5955,8 +5955,8 @@ An object for configuring beautified names for attributes in stack
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |attrName|yes|String||The attribute Name|false|
 
 **Example**
@@ -6011,7 +6011,7 @@ Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |speedProfile|no|String[]||Which preferences should be available for the speedProfile.|false|
 
 **Example**
