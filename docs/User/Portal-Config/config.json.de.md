@@ -5881,7 +5881,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 **Object**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|---|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
 |options|nein|**[Options](#datatypessnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
 
@@ -5902,7 +5902,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|---|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |ignorePunctuation|nein|Boolean|false|Kann auf `true` eingestellt werden um Interpunktion zu ignorieren.|false|
 |numeric|nein|Boolean|false|Kann auf `true` gestellt werden, wenn Zahlen numerisch sortiert werden sollen. z.B. true: “2” < “10” bzw. false: “2” > “10”|false|
 |sensitivity|nein|String|"variant"|Einstellung zur Berücksichtigung der Zeichen-Basis (z.B. ä → ae, somit wird ä in a einsortiert).|false|
@@ -5924,7 +5924,7 @@ Ein Objekt zur Suche der Werte im Web
 **Object**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|---|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |attrName|ja|String||Der Attribute Name|false|
 |prefix|ja|String||Die Website als Prefix für die Suche|false|
 
@@ -5946,7 +5946,7 @@ Ein object zur Konfiguration des Attribute-Name
 **Object**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|---|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |attrName|ja|String||Der Attribute-Name|false|
 
 **Beispiel**
