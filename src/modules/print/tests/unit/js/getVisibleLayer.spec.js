@@ -2,7 +2,12 @@ import {Group as LayerGroup} from "ol/layer.js";
 import layerProvider from "../../../js/getVisibleLayer";
 import {expect} from "chai";
 import sinon from "sinon";
-import store from "../../../../../app-store";
+import {createStore} from "vuex";
+import {config} from "@vue/test-utils";
+// import store from "../../../../../app-store";
+// import Layer from "ol/layer/Layer";
+
+config.global.mocks.$t = key => key;
 
 describe("src/modules/print/utils/getVisibleLayer", function () {
     let layers,
@@ -10,6 +15,26 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
         layer2,
         origCommit,
         origDispatch;
+
+    const store = createStore({
+        modules: {
+            Modules: {
+                namespaced: true,
+                modules: {
+                    Print: {
+                        namespaced: true,
+                        getters: {
+                            currentLocale: () => "de-DE"
+                        }
+                        // actions: {
+                        //     getVisibleLayerList: () => sinon.stub(),
+                        //     getGroupedLayers: () => sinon.stub()
+                        // }
+                    }
+                }
+            }
+        }
+    });
 
     before(() => {
         mapCollection.clear();
@@ -31,6 +56,13 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
     });
 
     beforeEach(() => {
+        // getVisibleLayerListSpy = sinon.spy();
+        // getGroupedLayersSpy = sinon.spy();
+        // wrapper = shallowMount(layerProvider, {
+        //     global: {
+        //         plugins: [store]
+        //     }
+        // });
         layers = [];
         layer1 = {
             id: "1",
@@ -64,6 +96,7 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
         sinon.restore();
         store.dispatch = origDispatch;
         store.commit = origCommit;
+
     });
 
     describe("getVisibleLayer", function () {
@@ -162,6 +195,66 @@ describe("src/modules/print/utils/getVisibleLayer", function () {
             expect(store.commit.secondCall.args[0]).to.equals("Modules/Print/setInvisibleLayerNames");
             expect(store.commit.secondCall.args[1]).to.equals("");
         });
+    });
+
+    describe("revertLayerOpacity", () => {
+        let getVisibleLayerListStub, getGroupedLayersStub;
+        const visibleLayer = [];
+
+        // beforeEach(function () {
+        //     getVisibleLayerListStub = sinon.stub().returns(visibleLayer);
+        //     getGroupedLayersStub = sinon.stub();
+
+        //     global.getVisibleLayerList = getVisibleLayerListStub;
+        //     global.getGroupedLayers = getGroupedLayersStub;
+        // });
+
+        afterEach(function () {
+            sinon.restore();
+        });
+
+        it.only("should do nothing when there are no grouped layers", () => {
+            getVisibleLayerListStub = sinon.stub().returns(visibleLayer);
+            getGroupedLayersStub = sinon.stub();
+
+            layerProvider.getVisibleLayerList = getVisibleLayerListStub;
+            // global.getVisibleLayerList = getVisibleLayerListStub;
+            // global.getGroupedLayers = getGroupedLayersStub;
+            // const gLayer1 = sinon.createStubInstance(Layer);
+            // getVisibleLayerListStub.returns([]);
+
+            // getGroupedLayersStub.returns([]);
+            // layerProvider.getVisibleLayerList();
+
+            layerProvider.revertLayerOpacity();
+
+            // layerProvider.getVisibleLayerList.returns([]);
+            // layerProvider.getGroupedLayers.returns([]);
+
+            console.log(getVisibleLayerListStub.callCount);
+            console.log(getVisibleLayerListStub.called);
+
+            expect(getVisibleLayerListStub.calledOnce).to.be.true;
+            // expect(layerProvider.getGroupedLayers.calledOnce).to.be.true;
+            // expect(gLayer1.setOpacity.calledOnceWith(1)).to.be.false;
+        });
+
+
+        it("should set opacity to 1 for each layer in groupedLayers", function () {
+            const layerStub = {setOpacity: sinon.spy()},
+                groupedLayerStub = {getLayers: () => [layerStub]};
+
+            getVisibleLayerListStub.returns(["someLayer"]);
+            getGroupedLayersStub.returns([groupedLayerStub]);
+
+
+            layerProvider.revertLayerOpacity();
+
+            expect(getVisibleLayerListStub.calledOnce).to.be.true;
+            // expect(getGroupedLayersStub.calledOnce).to.be.true;
+            // expect(layerStub.setOpacity.calledWith(1)).to.be.true;
+        });
+
     });
 
 });

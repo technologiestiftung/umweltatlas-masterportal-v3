@@ -48,6 +48,7 @@ function getGroupedLayers (visibleLayerList) {
  * @returns {Object} {visibleLayerList} The list of visible layers from the "2D" map.
  */
 function getVisibleLayerList (printMapMarker = false) {
+    console.log("Calling getVisibleLayerList");
     const layers = mapCollection.getMap("2D").getLayers(),
         visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
             return layer.getVisible() === true &&
@@ -121,4 +122,4 @@ function sortVisibleLayerListByZindex (visibleLayerList) {
     store.dispatch("Modules/Print/setVisibleLayerList", [].concat(...visibleLayerListWithoutZIndex));
 }
 
-export default {getVisibleLayer, revertLayerOpacity};
+export default {getVisibleLayer, getGroupedLayers, getVisibleLayerList, revertLayerOpacity};
