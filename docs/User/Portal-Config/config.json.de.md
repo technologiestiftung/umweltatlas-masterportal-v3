@@ -1870,7 +1870,7 @@ Email Objekt bestehend aus der Email-Adresse und dem angezeigten Namen.
 Dieses Tool ermöglicht es Benutzern, zwei Layer nebeneinander mit einem Layer-Swiper zu vergleichen. Benutzer wählen Layer aus den aktiven, sichtbaren Layern aus, und der Swiper teilt die Karte, um jeden Layer in separaten Abschnitten anzuzeigen. Das Tool unterstützt WMS- und WFS-Layer und stellt sicher, dass die Layer vollständig aktualisiert werden, bevor der Swiper bewegt wird, um einen genauen Vergleich zu ermöglichen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |type|nein|String|"compareMaps"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Example**
@@ -2322,7 +2322,7 @@ Objekt zum Ändern des konfigurierten Default-Wertes für einen Text im Zeichen-
 Objekt zum Ändern des voreingestellten Formats beim Herunterladen einer Zeichnung. Das ist eins von "KML", "GPX", "GEOJSON".
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |preSelectedFormat|nein|enum["KML","GEOJSON","GPX"]|"KML"|Die voreingestellte pre-selected form.|false|
 
 **Example**
@@ -4845,7 +4845,7 @@ Mit StaticImage lassen sich Bilder als Layer laden und georeferenziert auf der K
 Hier werden WMS typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Tpy String[] konfiguriert werden.|false|
 |extent|nein|**[Extent](#datatypesextent)**|[454591, 5809000, 700000, 6075769]|Ausdehnung des Layers. Wenn nicht angegeben, wird er Extent der MapView verwendet.|false|
 |featureCount|nein|Number|1|Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
@@ -4915,7 +4915,7 @@ Stellen Sie in einem solchen Fall *gfiAsNewWindow* wie oben beschrieben manuell 
 Hier werden Vector typische Attribute aufgelistet. Vector Layer sind vom Typ **[WFS](#layerconfigelementslayersvectorwfs)**, GeoJSON (nur in EPSG:4326), **[SensorLayer](../../Dev/sensorThings.md)** und OAF.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |additionalInfoField|nein|String|"name"|Attributname des Features für die Hitlist in der Searchbar. Ist das Attribut nicht vorhanden, wird der Layername angegeben.|false|
 |clusterDistance|nein|Integer||Pixelradius. Innerhalb dieses Radius werden alle Features zu einem Feature "geclustered". ⚠️ clusterDistance bei WFS-Layern mit Polygon- oder Linien-Geometry führt dazu, dass die Features nicht angezeigt werden.|false|
 |hitTolerance|nein|String||Clicktoleranz bei der ein Treffer für die GetFeatureInfo-Abfrage ausgelöst wird.|false|
@@ -4975,7 +4975,7 @@ Beispiel-Aufrufe:
 ```
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |escapeChar|ja|String||Das Zeichen für den escapeChar WFS parameter - z.Bsp. \||true|
 |featurePrefix|ja|String||Suchprefix für den typename bei der WFS Suche - z.Bsp. app:.|true|
 |singleChar|ja|String||Das Zeichen für den singleChar WFS parameter - z.Bsp. #|true|
@@ -5005,7 +5005,7 @@ Beispiel-Aufrufe:
 Hier werden VectorTile typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |useMpFonts|nein|Boolean|true|Schalter um die Schriftarten/Fontstacks aus externen Style-Definitionen durch die Standard-Schriftart des Masterportals zu ersetzen, um sicherzustellen dass alle Labels dargestellt werden können. Wenn auf false gesetzt, müssen die benötigten fonts ggf. separat z.B. via '<link rel=stylesheet ...>' in index.html eingebunden werden.|false|
 |vtStyles|nein|**[vtStyle](#layerconfigelementslayersvectortilevtstyle)**[]||Auswählbare externe Style-Definition.|false|
 
@@ -5081,7 +5081,7 @@ Style-Definition; nur für Vector Tile Layer.
 Hier werden Tileset typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |hiddenFeatures|nein|String[]|[]|Liste mit IDs, die in der Ebene versteckt werden sollen|true|
 |**[cesium3DTilesetOption](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)**|nein|**[cesium3DTilesetOption](#layerconfigelementslayerstilesetcesium3dtilesetoption)**||Cesium 3D Tileset Options, werden direkt an das Cesium Tileset Objekt durchgereicht. maximumScreenSpaceError ist z.B. für die Sichtweite relevant.|true|
 
@@ -5108,7 +5108,7 @@ Hier werden Tileset typische Attribute aufgelistet.
 Cesium 3D Tileset, die direkt an das *Cesium tileset object* weitergeleitet werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |maximumScreenSpaceError|nein|Number||Der maximale Bildschirmplatzfehler, der für die Verfeinerung des Detailgrads verwendet wird. Dieser Wert trägt dazu bei, zu bestimmen, wann eine Kachel zu ihren Nachfolgern verfeinert wird, und spielt daher eine wichtige Rolle bei der Abwägung zwischen Leistung und visueller Qualität.|true|
 
 **Beispiel**
@@ -5128,7 +5128,7 @@ Cesium 3D Tileset, die direkt an das *Cesium tileset object* weitergeleitet werd
 Hier werden Terrain typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |**[cesiumTerrainProviderOption](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)**|nein|**[cesiumTerrainProviderOption](#layerconfigelementslayersterraincesiumterrainprovideroption)**[]||Cesium TerrainProvider Options, werden direkt an den Cesium TerrainProvider durchgereicht. requestVertexNormals ist z.B. für das Shading auf der Oberfläche relevant.|true|
 
 **Beispiel**
@@ -5154,7 +5154,7 @@ Initialisierungsoptionen für den CesiumTerrainProvider-Konstruktor.
 [cesiumTerrainProviderOptions]: https://cesium.com/learn/cesiumjs/ref-doc/CesiumTerrainProvider.html
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |requestVertexNormals|nein|Boolean||Kennzeichen, das angibt, ob der Client zusätzliche Beleuchtungsinformationen vom Server anfordern soll, und zwar in Form von Normalen pro Scheitelpunkt, falls verfügbar.|true|
 
 **Beispiel**
@@ -5845,7 +5845,7 @@ Die Konfiguration hängt vom Typ des Services ab.
 
 Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |data|ja|Object||Die Daten. Für weitere Informationen klicken Sie **[hier](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
 |options|ja|Object||Optionen für die Erstellung des Diagramms.|false|
@@ -5880,7 +5880,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|---|-------|-----------|------|
 |locale|nein|String||Der zu verwendende Ländercode nach ISO 3166|false|
 |options|nein|**[Options](#datatypessnippetslocalecompareparamsoptions)**||Optionen für die Sortierung per localeCompare.|false|
@@ -5901,7 +5901,7 @@ Ein String oder Objekt zur Steuerung der Sortierung von Dropdown-Boxen.
 ##### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 Ein Objekt zur benutzerdefinierten Steuerung der verwendeten localeCompare-Funktion zur Sortierung von Dropdown-Boxen, wie sie u.a. hier dokumentiert sind: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|---|-------|-----------|------|
 |ignorePunctuation|nein|Boolean|false|Kann auf `true` eingestellt werden um Interpunktion zu ignorieren.|false|
 |numeric|nein|Boolean|false|Kann auf `true` gestellt werden, wenn Zahlen numerisch sortiert werden sollen. z.B. true: “2” < “10” bzw. false: “2” > “10”|false|
@@ -5923,7 +5923,7 @@ Ein Objekt zur Suche der Werte im Web
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|---|-------|-----------|------|
 |attrName|ja|String||Der Attribute Name|false|
 |prefix|ja|String||Die Website als Prefix für die Suche|false|
@@ -5945,7 +5945,7 @@ Ein object zur Konfiguration des Attribute-Name
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|---|-------|-----------|------|
 |attrName|ja|String||Der Attribute-Name|false|
 
