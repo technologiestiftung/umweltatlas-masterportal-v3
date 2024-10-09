@@ -48,7 +48,6 @@ function getGroupedLayers (visibleLayerList) {
  * @returns {Object} {visibleLayerList} The list of visible layers from the "2D" map.
  */
 function getVisibleLayerList (printMapMarker = false) {
-    console.log("Calling getVisibleLayerList");
     const layers = mapCollection.getMap("2D").getLayers(),
         visibleLayerList = typeof layers?.getArray !== "function" ? [] : layers.getArray().filter(layer => {
             return layer.getVisible() === true &&
@@ -66,8 +65,8 @@ function getVisibleLayerList (printMapMarker = false) {
  * @returns {void}
  */
 function revertLayerOpacity (printMapMarker = false) {
-    const visibleLayerList = getVisibleLayerList(printMapMarker),
-        groupedLayers = getGroupedLayers(visibleLayerList);
+    const visibleLayerList = this.getVisibleLayerList(printMapMarker),
+        groupedLayers = this.getGroupedLayers(visibleLayerList);
 
     if (groupedLayers.length > 0) {
         groupedLayers.forEach(groupedLayer => {
