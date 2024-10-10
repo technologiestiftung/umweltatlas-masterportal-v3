@@ -1593,8 +1593,8 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:about]: # (portalConfig.menu.sections.modules)
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
-[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
@@ -2988,50 +2988,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 
 ***
 
-###### portalConfig.menu.sections.modules.print.additionalLayers
-Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|active|nein|Boolean|false|Definiert ob der Layer aktiv ist.|false|
-|id|ja|String||Service-ID des zu druckenden Layers.|false|
-|label|ja|String||Beschriftung der Checkbox zu aktivieren des Layers im Druckdialog.|false|
-
-**Beispiel additionalLayers:**
-
-```json
-"additionalLayers": [{
-  "id": "wms_koordinatennetze_25832",
-  "label": "Koordinatennetz UTM32N - ETRS89"
-}]
-```
-
-***
-#### Portalconfig.menu.sections.modules.compareFeatures
-
-[inherits]: # (Portalconfig.menu.tool)
-
-Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
-
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
-|numberOfFeaturesToShow|nein|Integer|3|Anzahl der Features die maximal miteinander verglichen werden können.|false|
-|numberOfAttributesToShow|nein|Integer|12|Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.|false|
-
-**Beispiel**
-
-```json
-"compareFeatures": {
-    "name": "Vergleichsliste",
-    "icon": "bi-list-ul",
-    "numberOfFeaturesToShow": 5,
-    "numberOfAttributesToShow": 10
-}
-```
-
-***
-
-###### portalConfig.menu.sections.modules.print.capabilitiesFilter
+###### portalConfig.menu.sections.modules.print.capabilitiesFilter {data-toc-label='Capabilities Filter'}
 Liste von Layouts und Formaten, welche die Antwort vom Druckdienst in der jeweiligen Kategorie filtert.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -3064,6 +3021,29 @@ Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
   "id": "wms_koordinatennetze_25832",
   "label": "Koordinatennetz UTM32N - ETRS89"
 }]
+```
+
+***
+#### Portalconfig.menu.sections.modules.compareFeatures
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|numberOfFeaturesToShow|nein|Integer|3|Anzahl der Features die maximal miteinander verglichen werden können.|false|
+|numberOfAttributesToShow|nein|Integer|12|Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.|false|
+
+**Beispiel**
+
+```json
+"compareFeatures": {
+    "name": "Vergleichsliste",
+    "icon": "bi-list-ul",
+    "numberOfFeaturesToShow": 5,
+    "numberOfAttributesToShow": 10
+}
 ```
 
 ***
@@ -5792,7 +5772,7 @@ Beispiel für ein Chart Snippet. Fragt die Features aus dem konfigurierten "serv
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
+    "tooltipUnit": "%",
     "chartConfig": {
         "type": "bar",
         "data": {

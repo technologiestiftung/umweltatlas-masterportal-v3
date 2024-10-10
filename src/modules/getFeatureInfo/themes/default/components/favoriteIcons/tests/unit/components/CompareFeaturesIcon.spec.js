@@ -6,7 +6,7 @@ import CompareFeatureIcon from "../../../components/CompareFeatureIcon.vue";
 config.global.mocks.$t = key => key;
 
 describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/components/CompareFeatureIcon.vue", () => {
-    describe("featureIsOnCompareList = false and componentExists = true", () => {
+    describe("featureIsOnCompareList = false", () => {
         let wrapper;
 
         beforeEach(() => {
@@ -20,15 +20,11 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                         getMappedProperties: () => "TestProperties"
                     }
                 },
-                // methods: {
-                //     componentExists: () => sinon.fake.returns(true)
-                // },
                 computed: {
                     featureIsOnCompareList: sinon.fake.returns(false),
                     mode: sinon.fake.returns("2D")
                 }
             });
-            // const spyComponentExists = sinon.spy(MyComponent.methods, 'myMethod');
         });
         afterEach(sinon.restore);
 
@@ -42,7 +38,7 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
         });
     });
 
-    describe("featureIsOnCompareList = true  and componentExists = true", () => {
+    describe("featureIsOnCompareList = true", () => {
         let wrapper;
 
         beforeEach(() => {
@@ -55,9 +51,6 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                         getAttributesToShow: () => "TestAttributes",
                         getMappedProperties: () => "TestProperties"
                     }
-                },
-                methods: {
-                    componentExists: () => true
                 },
                 computed: {
                     featureIsOnCompareList: sinon.fake.returns(true),
@@ -74,33 +67,4 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
         });
     });
 
-    describe("featureIsOnCompareList = true  and componentExists = false", () => {
-        let wrapper;
-
-        beforeEach(() => {
-            wrapper = shallowMount(CompareFeatureIcon, {
-                propsData: {
-                    feature: {
-                        getId: () => "feature1",
-                        getLayerId: () => "1234",
-                        getTitle: () => "TestTitle",
-                        getAttributesToShow: () => "TestAttributes",
-                        getMappedProperties: () => "TestProperties"
-                    }
-                },
-                methods: {
-                    componentExists: () => false
-                },
-                computed: {
-                    featureIsOnCompareList: sinon.fake.returns(false),
-                    mapMode: sinon.fake.returns("2D")
-                }
-            });
-        });
-        afterEach(sinon.restore);
-
-        it("should not draw a star if compareFeatures is not configured", () => {
-            expect(wrapper.find("span").exists()).to.be.false;
-        });
-    });
 });
