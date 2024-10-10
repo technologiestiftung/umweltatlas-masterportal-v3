@@ -60,7 +60,7 @@ export default {
                         :key="i"
                         :value="layer.layerId"
                     >
-                        {{ layer.layerName }}  {{ layer.layerId }}
+                        {{ layer.layerName }}
                     </option>
                 </select>
                 <label

@@ -529,6 +529,12 @@
             "type": "populationRequest"
           },
           {
+            "icon": "bi-star",
+            "numberOfFeaturesToShow": 3,
+            "numberOfAttributesToShow": 12,
+            "type": "compareFeatures"
+          },
+          {
             "type": "print",
             "printServiceId": "mapfish",
             "printAppId": "master",

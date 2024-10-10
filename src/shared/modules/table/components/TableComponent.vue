@@ -119,11 +119,6 @@ export default {
             type: [Number, Boolean],
             required: false,
             default: false
-        },
-        functionToRemoveElement: {
-            type: [Number, Boolean],
-            required: false,
-            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],

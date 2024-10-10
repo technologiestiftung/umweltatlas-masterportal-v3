@@ -1592,8 +1592,8 @@ The following events exist. Which events can be configured can be found in the d
 [type:about]: # (portalConfig.menu.sections.modules)
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
-[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
@@ -1625,35 +1625,36 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|about|no|**[about](#markdown-header-portalconfigmenusectionsmodulesabout)**||This module displays specific portal information like description, Masterportal version, Metadata.|true|
-|addWMS|no|**[addWMS](#markdown-header-portalconfigmenusectionsmodulesaddWMS)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
-|bufferAnalysis|no|**[bufferAnalysis](#markdown-header-portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
+|about|no|**[about](#portalconfigmenusectionsmodulesabout)**||This module displays specific portal information like description, Masterportal version, Metadata.|true|
+|addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
+|bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
+|contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
 |compareFeatures|no|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**||Offers a comparison option for vector features. The getFeatureInfo (GFI) window will offer a clickable star symbol to put elements on the comparison list. Works when used together with the GFI theme **Default**.|false|
-|contact|no|**[contact](#markdown-header-portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
-|coordToolkit|no|**[coordToolkit](#markdown-header-portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
-|copyrightConstraints|nein|**[copyrightConstraints](#markdown-header-portalconfigmenusectionsmodulescopyrightconstraints)**||Dieses Modul lädt die Nutzungshinweise über eine CSW Schnittstelle und listed diese je eise für den Layer vorhanden, wird alternativ ein Kontakt angezeigt, bei dem man die Nutzungsbedingungen erfragen kann.|false|
-|customMenuElement|no|**[customMenuElement](#markdown-header-portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
-|draw|no|**[draw](#markdown-header-portalconfigmenusectionsmodulesdraw)**||**!Attention: the new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old"!** The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
-|featureLister|no|**[featureLister](#markdown-header-portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
-|fileImport|no|**[fileImport](#markdown-header-portalconfigmenusectionsmodulesfileImport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
-|filter|no|**[filter](#markdown-header-portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
-|language|no|**[language](#markdown-header-portalconfigmenusectionsmoduleslanguage)**||In this module the language of the portal can be switched.|false|
-|layerClusterToggler|no|**[layerClusterToggler](#markdown-header-portalconfigmenusectionsmoduleslayerClusterToggler)**||This module allows a cluster layers to be active and deactive together.|false|
-|layerSlider|no|**[layerSlider](#markdown-header-portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
-|login|no|**[login](#markdown-header-portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
-|measure|no|**[measure](#markdown-header-portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
-|news|no|**[news](#markdown-header-portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
-|openConfig|no|**[openConfig](#markdown-header-portalconfigmenusectionsmodulesopenConfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
-|print|no|**[print](#markdown-header-portalconfigmenusectionsmodulesprint)**||Printing module that can be used to export the map's current view as PDF.|false|
-|routing|no|**[routing](#markdown-header-portalconfigmenusectionsmodulesrouting)**||Routing module to create routes and isochrones.|false|
-|scaleSwitcher|no|**[scaleSwitcher](#markdown-header-portalconfigmenusectionsmodulesSwitcher)**||Module that allows changing the map's current scale.|false|
-|selectFeatures|no|**[selectFeatures](#markdown-header-portalconfigmenusectionsmodulesselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
-|shadow|no|**[shadow](#markdown-header-portalconfigmenusectionsmodulesshadow)**||Configuration object for the 3D mode shadow time.|false|
-|statisticDashboard|no|**[statisticDashboard](#markdown-header-portalconfigmenusectionsmodulesstatisticDashboard)**||Displaying statistical data.|false|
-|shareView|no|**[shareView](#markdown-header-portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
-|styleVT|no|**[styleVT](#markdown-header-portalconfigmenusectionsmodulesstyleVT)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
-|wfsSearch|no|**[wfsSearch](#markdown-header-portalconfigmenusectionsmoduleswfssearch)**||Makes it possible to create a form to query WFS layers using filters. It is possible to either use a stored query (WFS@2.0.0) or define the query using the defined parameters (WFS@1.1.0).|false|
-|wfst|no|**[wfst](#markdown-header-portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
+|compareMaps|no|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||This tool allows users to compare two map layers side by side using a layer swiper. |false|
+|coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
+|copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
+|customMenuElement|no|**[customMenuElement](#portalconfigmenusectionsmodulescustommenuelement)**||This module can open a link, display HTML from config.json or an external file, or perform an action. This module can be configured several times in config.json.|false|
+|draw|no|**[draw](#portalconfigmenusectionsmodulesdraw)**||**!Attention: The new draw module is currently within refactoring process you can use the draw module from Masterportal Version 2 with type "draw_old")!** The draw tool allows painting points, lines, polygons, circles, double circles, and texts to the map. You may download these drawing as KML, GeoJSON, or GPX.|false|
+|featureLister|no|**[featureLister](#portalconfigmenusectionsmodulesfeaturelister)**||Lists all features of a vector layer and highlights a feature by mouse over.|false|
+|fileImport|no|**[fileImport](#portalconfigmenusectionsmodulesfileimport)**||Import KML, GeoJSON, and GPX files with this modules.|false|
+|filter|no|**[filter](#portalconfigmenusectionsmodulesfilter)**||Configuration for an advanced filter for vector layers.|false|
+|language|no|**[language](#portalconfigmenusectionsmoduleslanguage)**||In this module the language of the portal can be switched.|false|
+|layerClusterToggler|no|**[layerClusterToggler](#portalconfigmenusectionsmoduleslayerclustertoggler)**||This module allows a cluster layers to be active and deactive together.|false|
+|layerSlider|no|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
+|login|no|**[login](#portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
+|measure|no|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
+|news|no|**[news](#portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
+|openConfig|no|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
+|print|no|**[print](#portalconfigmenusectionsmodulesprint)**||Printing module that can be used to export the map's current view as PDF.|false|
+|routing|no|**[routing](#portalconfigmenusectionsmodulesrouting)**||Routing module to create routes and isochrones.|false|
+|scaleSwitcher|no|**[scaleSwitcher](#portalconfigmenusectionsmodulesscaleswitcher)**||Module that allows changing the map's current scale.|false|
+|selectFeatures|no|**[selectFeatures](#portalconfigmenusectionsmodulesselectfeatures)**||Allows selecting a set of vector features by letting the user draw a box on the map. Features in that box will be displayed with GFI information.|false|
+|shadow|no|**[shadow](#portalconfigmenusectionsmodulesshadow)**||Configuration object for the 3D mode shadow time.|false|
+|statisticDashboard|no|**[statisticDashboard](#portalconfigmenusectionsmodulesstatisticdashboard)**||Displaying statistical data.|false|
+|shareView|no|**[shareView](#portalconfigmenusectionsmodulesshareview)**||Module to share a link to the current map view.|false|
+|styleVT|no|**[styleVT](#portalconfigmenusectionsmodulesstylevt)**||Style selection for VT services. Allows switching between styles of a Vector Tile Layer that provides multiple stylings via the `services.json` file.|false|
+|wfsSearch|no|**[wfsSearch](#portalconfigmenusectionsmoduleswfssearch)**||Makes it possible to create a form to query WFS layers using filters. It is possible to either use a stored query (WFS@2.0.0) or define the query using the defined parameters (WFS@1.1.0).|false|
+|wfst|no|**[wfst](#portalconfigmenusectionsmoduleswfst)**||WFS-T module to visualize, create, update and delete features.|false|
 
 ***
 
@@ -3053,7 +3054,8 @@ This tool allows comparing vector features which are provided by WFS(❗) servic
 ```
 
 ***
-##### portalConfig.menu.sections.modules.routing
+
+##### portalConfig.menu.sections.modules.routing {data-toc-label='Routing'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
@@ -5780,7 +5782,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
+    "tooltipUnit": "%",
     "chartConfig": {
         "type": "bar",
         "data": {
