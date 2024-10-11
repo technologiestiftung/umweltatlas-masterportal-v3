@@ -31,8 +31,6 @@ const state = {
     resizableWindow: true,
     isVisibleInMenu: true,
     deactivateGFI: false,
-    numberOfAttributesToShow: 12,
-    numberOfFeaturesToShow: 3,
     // compareFeatures state
     active: true,
     id: "compareFeatures",

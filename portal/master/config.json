@@ -530,8 +530,6 @@
           },
           {
             "icon": "bi-star",
-            "numberOfFeaturesToShow": 3,
-            "numberOfAttributesToShow": 12,
             "type": "compareFeatures"
           },
           {

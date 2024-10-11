@@ -16,7 +16,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "active", "numberOfAttributesToShow", "selectedLayer", "preparedListDisplayTable", "selectableLayers"]),
+        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "active", "selectedLayer", "preparedListDisplayTable", "selectableLayers"]),
         selected: {
             get () {
                 return this.$store.state.Modules.CompareFeatures.selectedLayer;

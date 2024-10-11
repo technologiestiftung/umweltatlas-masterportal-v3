@@ -31,8 +31,7 @@ describe("src/modules/compareFeatures/store/actionsCompareFeatures.js", () => {
         it("adds feature", () => {
             const state = {
                 gfiFeature: {featureId: "feature2", layerId: "1711", properties: {Name: "Beispielschule"}},
-                layerFeatures: {"1711": [{featureId: "feature1", layerId: "1711"}]},
-                numberOfFeaturesToShow: 3
+                layerFeatures: {"1711": [{featureId: "feature1", layerId: "1711"}]}
             };
 
             isFeatureOnCompareList({state, dispatch, commit, getters}, state.gfiFeature);

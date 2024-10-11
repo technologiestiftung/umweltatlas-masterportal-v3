@@ -3043,9 +3043,7 @@ Hier können Vector Features miteinander verglichen werden. Dazu werden vektorba
 ```json
 "compareFeatures": {
     "name": "Vergleichsliste",
-    "icon": "bi-list-ul",
-    "numberOfFeaturesToShow": 5,
-    "numberOfAttributesToShow": 10
+    "icon": "bi-list-ul"
 }
 ```
 

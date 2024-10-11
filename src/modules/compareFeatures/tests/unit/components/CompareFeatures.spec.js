@@ -12,7 +12,6 @@ describe("CompareFeatures.vue", () => {
             hasFeatures: () => hasFeaturesValue,
             hasMultipleLayers: () => hasMultipleLayersValue,
             active: () => true,
-            numberOfAttributesToShow: () => 5,
             selectedLayer: () => "layer1",
             preparedListDisplayTable: () => ({
                 layer1: [{id: 1, name: "Feature 1"}]

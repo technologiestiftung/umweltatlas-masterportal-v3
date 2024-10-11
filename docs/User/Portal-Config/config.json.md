@@ -3049,9 +3049,7 @@ This tool allows comparing vector features which are provided by WFS(❗) servic
 {
     "compareFeatures": {
         "name": "Vergleichsliste",
-        "icon": "bi-list-ul",
-        "numberOfFeaturesToShow": 5,
-        "numberOfAttributesToShow": 10
+        "icon": "bi-list-ul"
     }
 }
 ```
