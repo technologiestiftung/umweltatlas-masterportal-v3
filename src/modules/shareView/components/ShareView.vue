@@ -9,7 +9,6 @@ import {Toast} from "bootstrap";
  * Tool to share a view via link to twitter, facebook, qrCode or copy the link as well as any other app on mobile.
  * @module modules/ShareView
  * @vue-data {String} qrDataUrl - The qr code url.
- * @vue-data {String} qrErrorMessage - Message to display in case of QR code generation error.
  * @vue-computed {String} facebook - The facebook url.
  * @vue-computed {String} twitter - The twitter url.
  */
@@ -18,8 +17,7 @@ export default {
     components: {FlatButton},
     data () {
         return {
-            qrDataUrl: null,
-            qrErrorMessage: null
+            qrDataUrl: null
         };
     },
     computed: {
@@ -58,7 +56,7 @@ export default {
         /**
          * Generates a qrCode for the given url.
          * If successful, sets the generated QR code URL to `qrDataUrl`.
-         * If an error occurs, updates `qrErrorMessage` based on the type of error.
+         * If an error occurs, alert error based on the type of error.
          * @returns {void}
          */
         generateQRCodeDataURL () {
@@ -66,14 +64,19 @@ export default {
 
             QRCode.toDataURL(url).then((qrDataUrl) => {
                 this.qrDataUrl = qrDataUrl;
-                this.qrErrorMessage = null;
             }).catch((err) => {
                 console.error("QR Code generation error:", err);
                 if (err.message.includes("data is too big")) {
-                    this.qrErrorMessage = this.$t("common:modules.shareView.qrErrorDataTooLarge");
+                    this.addSingleAlert({
+                        category: "error",
+                        content: this.$t("common:modules.shareView.qrErrorDataTooLarge")
+                    });
                 }
                 else {
-                    this.qrErrorMessage = this.$t("common:modules.shareView.qrError");
+                    this.addSingleAlert({
+                        category: "error",
+                        content: this.$t("common:modules.shareView.qrError")
+                    });
                 }
                 this.qrDataUrl = null;
             });
@@ -186,11 +189,6 @@ export default {
                     :text="$t('common:modules.shareView.downloadQR')"
                     :icon="'bi-download'"
                 />
-            </div>
-            <div v-else-if="qrErrorMessage">
-                <p class="text-danger">
-                    {{ qrErrorMessage }}
-                </p>
             </div>
         </div>
     </div>
