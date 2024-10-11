@@ -485,7 +485,7 @@ export default {
             const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
 
             this.visibleHeadersIndices = [];
-            visibleHeaders.forEach(header => {
+            visibleHeaders?.forEach(header => {
                 this.visibleHeadersIndices.push(header.index);
             });
             this.draggableHeader = visibleHeaders;

@@ -785,26 +785,26 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
         });
         describe("resetAll", () => {
-            // it("should set sorted data to origin order", async () => {
-            //     const wrapper = shallowMount(TableComponent, {
-            //         props: {
-            //             data: {}
-            //         }
-            //     });
+            it("should set sorted data to origin order", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    }
+                });
 
-            //     await wrapper.vm.$nextTick();
-            //     await wrapper.setData({
-            //         currentSorting: {
-            //             columnName: "foo",
-            //             order: "asc"
-            //         },
-            //         visibleHeaders: [{
-            //             name: "foo"
-            //         }]
-            //     });
-            //     wrapper.vm.resetAll();
-            //     expect(wrapper.vm.currentSorting.order).to.be.equal("origin");
-            // });
+                await wrapper.vm.$nextTick();
+                await wrapper.setData({
+                    currentSorting: {
+                        columnName: "foo",
+                        order: "asc"
+                    },
+                    visibleHeaders: [{
+                        name: "foo"
+                    }]
+                });
+                wrapper.vm.resetAll();
+                expect(wrapper.vm.currentSorting.order).to.be.equal("origin");
+            });
             it("should set all headers to origin order", async () => {
                 const wrapper = shallowMount(TableComponent, {
                     props: {
