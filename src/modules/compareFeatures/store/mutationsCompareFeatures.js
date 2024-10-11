@@ -30,23 +30,13 @@ const mutations = {
         }
     },
     /**
-     * Removes feature from comparison list by clicking its X icon and also
-     * removes it from the layerFeatures array so the star icon will be deselected.
+     * Removes feature from displayed table comparison list.
      * @param {Object} state context object.
-     * @param {Object} payload - current layer and its objects
+     * @param {Object} selectedLayer - selected layer to remove
+     * @param {Object} fetureId - id of the feature
      * @returns {void}
      */
-    removeFeatureFromLists: function (state, payload) {
-        const {featureId} = payload,
-            {features} = payload,
-            {selectedLayer} = payload;
-
-        for (const feature of features) {
-            if (Object.keys(feature).includes(featureId)) {
-                delete feature[featureId];
-            }
-        }
-        // remove from the display list
+    removeFeatureFromDisplayList (state, selectedLayer, featureId) {
         for (let i = 0; i < state.preparedListDisplayTable[selectedLayer]?.items?.length; i++) {
             const item = state.preparedListDisplayTable[selectedLayer].items[i];
 
@@ -59,47 +49,89 @@ const mutations = {
                 break;
             }
         }
-        if (!state.hasMultipleLayers) {
-            const firstLayerKey = Object.keys(state.layerFeatures)[0];
+    },
+    /**
+     * Removes feature from comparison list, so that start gets unselected,
+     * this is the case for single layer.
+     * @param {Object} state context object.
+     * @param {Object} fetureId - id of the feature
+     * @returns {void}
+     */
+    removeFeatureFromListSingleLayer (state, featureId) {
+        const firstLayerKey = Object.keys(state.layerFeatures)[0];
 
-            for (const feature of state.layerFeatures[firstLayerKey]) {
-                if (feature.featureId === featureId) {
-                    const index = state.layerFeatures[feature.layerId].indexOf(feature);
+        for (const feature of state.layerFeatures[firstLayerKey]) {
+            if (feature.featureId === featureId) {
+                const index = state.layerFeatures[feature.layerId].indexOf(feature);
 
-                    state.layerFeatures[feature.layerId].splice(index, 1);
-                    state.preparedList = {
-                        ...state.preparedList,
-                        [firstLayerKey]: state.layerFeatures[firstLayerKey].map(f => Object.keys(f.properties).map(key => ({
-                            "row-1": key,
-                            [f.featureId]: f.properties[key]
-                        }))
-                        ).flat()
-                    };
-                    if (state.layerFeatures[firstLayerKey].length === 0) {
-                        delete state.preparedList[firstLayerKey];
-                        delete state.layerFeatures[firstLayerKey];
-                    }
+                state.layerFeatures[feature.layerId].splice(index, 1);
+                state.preparedList = {
+                    ...state.preparedList,
+                    [firstLayerKey]: state.layerFeatures[firstLayerKey].map(f => Object.keys(f.properties).map(key => ({
+                        "row-1": key,
+                        [f.featureId]: f.properties[key]
+                    }))
+                    ).flat()
+                };
+                if (state.layerFeatures[firstLayerKey].length === 0) {
+                    delete state.preparedList[firstLayerKey];
+                    delete state.layerFeatures[firstLayerKey];
                 }
             }
         }
-        else {
-            for (const feature of state.layerFeatures[selectedLayer]) {
-                if (feature.featureId === featureId) {
-                    const index = state.layerFeatures[selectedLayer].indexOf(feature);
+    },
+    /**
+     * Removes feature from comparison list, so that star gets unselected,
+     * this is the case for multiple layers.
+     * @param {Object} state context object.
+     * @param {Object} selectedLayer - selected layer to remove
+     * @param {Object} fetureId - id of the feature
+     * @returns {void}
+     */
+    removeFeatureFromListMultipleLayers (state, selectedLayer, featureId, features) {
+        for (const feature of state.layerFeatures[selectedLayer]) {
+            if (feature.featureId === featureId) {
+                const index = state.layerFeatures[selectedLayer].indexOf(feature);
 
-                    state.layerFeatures[selectedLayer].splice(index, 1);
-                    // Necessary to trigger a rerendering of the UI, otherwise the feature gets deleted in the state but the UI won´t change.
-                    state.preparedList = {
-                        ...state.preparedList,
-                        [selectedLayer]: [...features]
-                    };
-                }
-                if (state.layerFeatures[selectedLayer].length === 0) {
-                    delete state.preparedList[selectedLayer];
-                    delete state.layerFeatures[selectedLayer];
-                    state.selectedLayer = Object.keys(state.layerFeatures)[0];
-                }
+                state.layerFeatures[selectedLayer].splice(index, 1);
+                // Necessary to trigger a rerendering of the UI, otherwise the feature gets deleted in the state but the UI won´t change.
+                state.preparedList = {
+                    ...state.preparedList,
+                    [selectedLayer]: [...features]
+                };
             }
+            if (state.layerFeatures[selectedLayer].length === 0) {
+                delete state.preparedList[selectedLayer];
+                delete state.layerFeatures[selectedLayer];
+                state.selectedLayer = Object.keys(state.layerFeatures)[0];
+            }
+        }
+    },
+    /**
+     * Removes feature from comparison list by clicking its X icon and also
+     * removes it from the layerFeatures array so the star icon will be deselected.
+     * @param {Object} state context object.
+     * @param {Object} payload - current layer and its objects
+     * @returns {void}
+     */
+    removeFeatureFromLists (state, payload) {
+        const {featureId} = payload,
+            {features} = payload,
+            {selectedLayer} = payload;
+
+        for (const feature of features) {
+            if (Object.keys(feature).includes(featureId)) {
+                delete feature[featureId];
+            }
+        }
+
+        mutations.removeFeatureFromDisplayList(state, selectedLayer, featureId);
+
+        if (!state.hasMultipleLayers) {
+            mutations.removeFeatureFromListSingleLayer(state, featureId);
+        }
+        else {
+            mutations.removeFeatureFromListMultipleLayers(state, selectedLayer, featureId, features);
         }
         if (Object.keys(state.layerFeatures).length <= 1) {
             state.hasMultipleLayers = false;
