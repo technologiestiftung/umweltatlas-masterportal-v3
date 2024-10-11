@@ -875,7 +875,7 @@
         },
         "deleteRestrictedAreas": "Sperrflächen löschen",
         "editRestrictedAreas": "Sperrflächen zeichnen/bearbeiten",
-        "keepRoutesAfterClose": "Die Route nach dem Schließen des Tools beibehalten",
+        "keepRoutesAfterClose": "Die Route nach dem Schließen beibehalten",
         "preference": {
           "RECOMMENDED": "Empfohlene Route",
           "SHORTEST": "Kürzeste Route",
