@@ -85,6 +85,9 @@ export default {
             <p
                 v-html="$t('common:modules.compareFeatures.noFeatures.info', {iconEmptyStar, iconYellowStar, interpolation: {escapeValue: false}})"
             />
+            <p
+                v-html="$t('common:modules.compareFeatures.noFeatures.info2')"
+            />
         </div>
 
         <TableComponent
