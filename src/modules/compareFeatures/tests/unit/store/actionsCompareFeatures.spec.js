@@ -9,35 +9,26 @@ const {
 } = actions;
 
 describe("src/modules/compareFeatures/store/actionsCompareFeatures.js", () => {
-    let commit, dispatch, getters;
+    let commit, dispatch;
 
     beforeEach(() => {
         commit = sinon.spy();
         dispatch = sinon.spy();
-        getters = {
-        };
     });
 
     afterEach(sinon.restore);
 
     describe("isFeatureOnCompareList", () => {
-        const isFeatureSelected = sinon.fake.returns(false);
-
-        beforeEach(() => {
-            getters = {
-                isFeatureSelected
-            };
-        });
         it("adds feature", () => {
             const state = {
                 gfiFeature: {featureId: "feature2", layerId: "1711", properties: {Name: "Beispielschule"}},
                 layerFeatures: {"1711": [{featureId: "feature1", layerId: "1711"}]}
             };
 
-            isFeatureOnCompareList({state, dispatch, commit, getters}, state.gfiFeature);
-            expect(commit.firstCall.args[0]).to.equal("setListFull");
-            expect(commit.firstCall.args[1]).to.equal(false);
-            expect(commit.secondCall.args[0]).to.equal("addFeatureToLayer");
+            isFeatureOnCompareList({state, dispatch, commit}, state.gfiFeature);
+
+            expect(commit.firstCall.args[0]).to.equal("addFeatureToLayer");
+            expect(commit.secondCall.args[0]).to.equal("setCurrentFeatureName");
             expect(dispatch.firstCall.args[0]).to.equal("prepareFeatureListToShow");
         });
     });

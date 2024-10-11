@@ -4,26 +4,14 @@ export default {
      * @param {Object} gfiFeature - feature
      * @returns {void}
      */
-    isFeatureOnCompareList: function ({state, commit, dispatch, getters}, gfiFeature) {
+    isFeatureOnCompareList: function ({state, commit, dispatch}, gfiFeature) {
         const {layerId} = gfiFeature;
 
-        commit("setListFull", false);
-        if (!getters.isFeatureSelected(gfiFeature) && state.layerFeatures[layerId] === undefined) {
-            commit("addFeatureToLayer", gfiFeature);
-            commit("setCurrentFeatureName", gfiFeature.properties.Name || gfiFeature.properties.name);
-            commit("setSelectedLayer", gfiFeature.layerId);
-            for (const feature of state.layerFeatures[layerId]) {
-                dispatch("prepareFeatureListToShow", feature);
-            }
-        }
-        else {
-            const alertingListFull = {
-                "category": "info",
-                "content": i18next.t("common:modules.compareFeatures.feedback.limitReached")
-            };
-
-            dispatch("Alerting/addSingleAlert", alertingListFull, {root: true});
-            commit("setListFull", true);
+        commit("addFeatureToLayer", gfiFeature);
+        commit("setCurrentFeatureName", gfiFeature.properties.Name || gfiFeature.properties.name);
+        commit("setSelectedLayer", gfiFeature.layerId);
+        for (const feature of state.layerFeatures[layerId]) {
+            dispatch("prepareFeatureListToShow", feature);
         }
     },
     /**
