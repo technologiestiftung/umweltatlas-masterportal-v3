@@ -20,7 +20,6 @@ const actions = {
 
                 // Check if module has already been added for this menu side
                 if (!existingModuleState || existingModuleState.menuSide !== menuSide) {
-                    // Only extend and commit the module if it hasn't already been added
                     dispatch("extendModuleState", {module, menuSide});
                     commit("addConfiguredModel", {
                         menuSide: menuSide,
