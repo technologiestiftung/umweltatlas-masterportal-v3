@@ -268,10 +268,10 @@ export default {
 
         /**
          * Setups the table data. Call it to set fresh and new table.
+         * Headers which are set up as not visible are not displayed.
          * @returns {void}
          */
         setupTableData () {
-            //  headers which are set up as not visible are not displayed
             const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
 
             this.visibleHeaders = visibleHeaders;

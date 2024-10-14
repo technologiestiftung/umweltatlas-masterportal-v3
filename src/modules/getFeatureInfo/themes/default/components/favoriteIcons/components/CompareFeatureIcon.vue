@@ -29,14 +29,6 @@ export default {
          */
         featureIsOnCompareList () {
             return this.isFeatureSelected(this.gfiFeature);
-        },
-
-        /**
-         * Returns the correct title, depending on whether the feature is on the comparelist or not.
-         * @returns {String} Title for the comparelist.
-         */
-        titleCompareList: function () {
-            return this.featureIsOnCompareList ? this.$t("modules.gfi.favoriteIcons.compareFeatureIcon.fromCompareList") : this.$t("modules.gfi.favoriteIcons.compareFeatureIcon.toCompareList");
         }
     },
     watch: {
@@ -78,8 +70,8 @@ export default {
 <template>
     <span
         v-if="mode === '2D'"
-        :class="'bootstrap-icon'"
-        :title="titleCompareList"
+        class="bootstrap-icon"
+        :title="featureIsOnCompareList ? $t('modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.fromCompareList') : $t('modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.toCompareList')"
         role="button"
         tabindex="0"
         @click="toogleFeatureToCompareList"

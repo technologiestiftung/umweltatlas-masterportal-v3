@@ -529,7 +529,6 @@
             "type": "populationRequest"
           },
           {
-            "icon": "bi-star",
             "type": "compareFeatures"
           },
           {

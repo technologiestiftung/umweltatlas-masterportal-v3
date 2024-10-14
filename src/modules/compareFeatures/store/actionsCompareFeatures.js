@@ -91,9 +91,9 @@ export default {
         };
 
         payload = {
-            a: layerId,
-            b: list,
-            c: tableData
+            layerId,
+            list,
+            tableData
         };
         commit("setHasFeatures", true);
         commit("setList", payload);

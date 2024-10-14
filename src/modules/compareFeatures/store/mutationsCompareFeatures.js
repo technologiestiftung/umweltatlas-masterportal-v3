@@ -115,9 +115,7 @@ const mutations = {
      * @returns {void}
      */
     removeFeatureFromLists (state, payload) {
-        const {featureId} = payload,
-            {features} = payload,
-            {selectedLayer} = payload;
+        const {featureId, features, selectedLayer} = payload;
 
         for (const feature of features) {
             if (Object.keys(feature).includes(featureId)) {
@@ -168,9 +166,9 @@ const mutations = {
      * @returns {void}
      */
     setList: (state, payload) => {
-        const layerId = payload.a,
-            list = payload.b,
-            listDisplay = payload.c;
+        const layerId = payload.layerId,
+            list = payload.list,
+            listDisplay = payload.tableData;
 
         state.preparedList[layerId] = list;
         state.preparedListDisplayTable[layerId] = listDisplay;

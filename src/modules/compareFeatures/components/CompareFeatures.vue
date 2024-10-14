@@ -16,7 +16,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "active", "selectedLayer", "preparedListDisplayTable", "selectableLayers"]),
+        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "selectedLayer", "preparedListDisplayTable", "selectableLayers"]),
         selected: {
             get () {
                 return this.$store.state.Modules.CompareFeatures.selectedLayer;
@@ -37,21 +37,18 @@ export default {
 };
 </script>
 
-<template
-    lang="html"
-    class="template"
->
+<template>
     <div
         id="compare-features"
     >
         <div
             v-if="hasMultipleLayers"
-            id="tool-compareFeatures-select-container"
+            id="module-compareFeatures-select-container"
         >
             <hr>
             <div class="form-floating mb-3">
                 <select
-                    id="tool-compareFeatures-select"
+                    id="module-compareFeatures-select"
                     v-model="selected"
                     class="form-select"
                 >
@@ -64,7 +61,7 @@ export default {
                     </option>
                 </select>
                 <label
-                    for="tool-compareFeatures-select"
+                    for="module-compareFeatures-select"
                 >
                     {{ $t("common:modules.compareFeatures.topicsSelection") }}
                 </label>
@@ -74,7 +71,7 @@ export default {
     <div>
         <div
             v-if="!hasFeatures"
-            id="tool-compareFeatures-no-features"
+            id="module-compareFeatures-no-features"
         >
             <hr>
             <p class="bold">
@@ -92,7 +89,7 @@ export default {
 
         <TableComponent
             v-if="hasFeatures && !hasMultipleLayers"
-            id="tool-compareFeatures-comparisonListSingleLayer"
+            id="module-compareFeatures-comparisonListSingleLayer"
             :data="preparedListDisplayTable[Object.keys(preparedListDisplayTable)[0]]"
             :sortable="true"
             :filterable="true"
@@ -102,8 +99,8 @@ export default {
             @removeItem="removeItem"
         />
         <TableComponent
-            v-if="active && hasMultipleLayers"
-            id="tool-compareFeatures-comparisonListMultipleLayers"
+            v-if="hasMultipleLayers"
+            id="module-compareFeatures-comparisonListMultipleLayers"
             :data="preparedListDisplayTable[selectedLayer]"
             :sortable="true"
             :filterable="true"
@@ -119,7 +116,7 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-#tool-compareFeatures-no-features {
+#module-compareFeatures-no-features {
     padding: 15px;
     padding-top: 0;
 

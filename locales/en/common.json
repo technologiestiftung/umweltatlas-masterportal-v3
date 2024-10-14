@@ -519,6 +519,12 @@
       "buttonBack": "Show previous information",
       "buttonForward": "Show further information",
       "errorMessage": "An error has occurred  during the information request (GetFeatureInfo).<br>Please try again later. If the problem persists, please contact the operator of the service.",
+      "favoriteIcons": {
+        "compareFeatureIcon": {
+            "toCompareList": "Add to compare list",
+            "fromCompareList": "Remove from compare list"
+        }
+      },
       "name": "Retrieve information",
       "themes": {
         "default": {

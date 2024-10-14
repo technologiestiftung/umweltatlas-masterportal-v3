@@ -27,12 +27,7 @@ const state = {
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     type: "compareFeatures",
-    renderToWindow: true,
-    resizableWindow: true,
-    isVisibleInMenu: true,
-    deactivateGFI: false,
     // compareFeatures state
-    active: true,
     id: "compareFeatures",
     layerFeatures: {},
     selectedLayer: "",

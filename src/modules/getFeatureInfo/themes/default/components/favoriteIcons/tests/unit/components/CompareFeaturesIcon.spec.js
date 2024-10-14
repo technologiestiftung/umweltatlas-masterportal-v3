@@ -34,7 +34,9 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
         it("should render empty star button if feature is already on compare list", () => {
             expect(wrapper.find("span > i").classes("bi-star")).to.be.true;
             expect(wrapper.find("span > i").classes("bi-star-fill")).to.be.false;
-            // expect(wrapper.find("span").attributes().title).equals("modules.gfi.favoriteIcons.compareFeatureIcon.toCompareList");
+            const span = wrapper.find("span");
+
+            expect(span.attributes("title")).to.equal("modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.toCompareList");
         });
     });
 
@@ -63,7 +65,9 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
         it("should render star button if feature is already on compare list", () => {
             expect(wrapper.find("span > i").classes("bi-star")).to.be.false;
             expect(wrapper.find("span > i").classes("bi-star-fill")).to.be.true;
-            // expect(wrapper.find("span").attributes().title).equals("modules.gfi.favoriteIcons.compareFeatureIcon.fromCompareList");
+            const span = wrapper.find("span");
+
+            expect(span.attributes("title")).to.equal("modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.fromCompareList");
         });
     });
 

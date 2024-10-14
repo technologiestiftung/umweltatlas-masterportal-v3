@@ -62,7 +62,7 @@ describe("CompareFeatures.vue", () => {
         hasMultipleLayersValue = true;
 
         const wrapper = shallowMount(CompareFeaturesComponent, {global: {plugins: [store]}}),
-            selectContainer = wrapper.find("#tool-compareFeatures-select-container");
+            selectContainer = wrapper.find("#module-compareFeatures-select-container");
 
         expect(selectContainer.exists()).to.be.true;
     });
@@ -70,7 +70,7 @@ describe("CompareFeatures.vue", () => {
         hasMultipleLayersValue = false;
 
         const wrapper = shallowMount(CompareFeaturesComponent, {global: {plugins: [store]}}),
-            selectContainer = wrapper.find("#tool-compareFeatures-select-container");
+            selectContainer = wrapper.find("#module-compareFeatures-select-container");
 
         expect(selectContainer.exists()).to.be.false;
     });
@@ -80,7 +80,7 @@ describe("CompareFeatures.vue", () => {
 
         const wrapper = shallowMount(CompareFeaturesComponent, {global: {plugins: [store]}}),
 
-            noFeaturesElement = wrapper.find("#tool-compareFeatures-no-features");
+            noFeaturesElement = wrapper.find("#module-compareFeatures-no-features");
 
         expect(noFeaturesElement.exists()).to.be.true;
     });
