@@ -9,9 +9,7 @@
 - Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' have been removed.
 
 ### Added
-- Release Schedule and release information to readme.md
-- FileImport: Added the possibility to configure the confirmation window to show or not.
-- Searchbar: mapMarker or polygonMarker stays visible on close of search results.
+- AddWMS: Added Information about CORS header to doc and changed error message.
 - ShareView: Error handling when sharing via QR code has been improved.
 
 ### Changed
