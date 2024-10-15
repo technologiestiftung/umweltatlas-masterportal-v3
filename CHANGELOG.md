@@ -11,6 +11,7 @@
 ### Added
 - AddWMS: Added Information about CORS header to doc and changed error message.
 - ShareView: Error handling when sharing via QR code has been improved.
+- Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
 
 ### Changed
 
