@@ -1,5 +1,6 @@
 import axios from "axios";
 import state from "./../../store/stateRouting";
+import stateDirections from "./../../store/directions/stateDirections";
 import store from "../../../../app-store";
 import {RoutingDirections} from "../classes/routing-directions";
 import {RoutingDirectionsStep} from "../classes/routing-directions-step";
@@ -64,7 +65,8 @@ async function fetchRoutingOrsDirections ({
         response = null;
 
     try {
-        response = await axios.post(url, {
+
+        const postParams = {
             coordinates: coordinates,
             language: language,
             options: {
@@ -76,7 +78,21 @@ async function fetchRoutingOrsDirections ({
             geometry: true,
             instructions: instructions,
             elevation: elevation
-        });
+        };
+
+        if (speedProfile === "HGV") {
+            postParams.options.profile_params = {};
+            postParams.options.profile_params.restrictions = {
+                length: stateDirections.routingRestrictionsInputData.length,
+                width: stateDirections.routingRestrictionsInputData.width,
+                height: stateDirections.routingRestrictionsInputData.height,
+                weight: stateDirections.routingRestrictionsInputData.weight,
+                axleload: stateDirections.routingRestrictionsInputData.axleload,
+                hazmat: stateDirections.routingRestrictionsInputData.hazmat
+            };
+        }
+
+        response = await axios.post(url, postParams);
     }
     catch (e) {
         if (e.response?.status === 404) {

@@ -11,6 +11,7 @@ import IsochronesItemBatchProcessing from "./IsochronesItemBatchProcessing.vue";
 import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
 
 /**
  * DirectionsItemBatchProcessing
@@ -30,7 +31,8 @@ export default {
         IsochronesItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput
     },
     data () {
         return {
@@ -284,6 +286,10 @@ export default {
         />
 
         <hr>
+
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput :module-name="'Isochrones'" />
+        </div>
 
         <RoutingAvoidFeatures
             :settings="settings"

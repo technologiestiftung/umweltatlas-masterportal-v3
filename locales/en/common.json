@@ -929,6 +929,20 @@
       "moveWaypointUp": "Move waypoint up",
       "name": "Route planner",
       "resetSettings": "Reset settings",
+      "restrictions": {
+        "header": "HGV Parameter",
+        "length": "Length",
+        "lengthTooltip": "Truck length. Accepted values: 0 to 30 meters",
+        "width": "Width",
+        "widthTooltip": "Truck width. Accepted values: 0 to 3.5 meters",
+        "height": "Height",
+        "heightTooltip": "Truck height. Accepted values: 0 to 5 meters",
+        "weight": "Weight",
+        "weightTooltip": "Truck weight. Accepted values: 0 to 65 tons",
+        "axleload": "Axleload",
+        "axleloadTooltip": "Truck axle load. Accepted values: 0 to 19 tons",
+        "hazmat": "Hazardous materials"
+      },
       "speedprofiles": {
         "CAR": "Car",
         "CYCLING": "Bike",

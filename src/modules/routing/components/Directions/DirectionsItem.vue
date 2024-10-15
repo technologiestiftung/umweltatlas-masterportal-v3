@@ -9,6 +9,7 @@ import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vu
 import RoutingDownload from "../RoutingDownload.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
 import RoutingElevationProfile from "../RoutingElevationProfile.vue";
 import * as constants from "../../store/directions/constantsDirections";
 import * as constantsRouting from "../../store/constantsRouting";
@@ -34,6 +35,7 @@ export default {
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
         RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput,
         RoutingElevationProfile
     },
     data () {
@@ -50,6 +52,7 @@ export default {
             "isInputDisabled",
             "mapInteractionMode",
             "routingAvoidFeaturesOptions",
+            "routingRestrictionsInputData",
             "routingDirections",
             "settings",
             "waypoints"
@@ -154,6 +157,15 @@ export default {
             this.directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
             this.setRoutingDirections(null);
             this.directionsAvoidSource.clear();
+
+            if (this.settings.speedProfile === "HGV") {
+                this.routingRestrictionsInputData.length = 10.0;
+                this.routingRestrictionsInputData.width = 2.4;
+                this.routingRestrictionsInputData.height = 2.8;
+                this.routingRestrictionsInputData.weight = 18;
+                this.routingRestrictionsInputData.axleload = 6;
+                this.routingRestrictionsInputData.hazmat = false;
+            }
         },
         /**
          * Adds a new option to avoid when requesting directions afterwards
@@ -422,6 +434,10 @@ export default {
         </select>
 
         <hr>
+
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput :module-name="'Directions'" />
+        </div>
 
         <RoutingAvoidFeatures
             :settings="settings"

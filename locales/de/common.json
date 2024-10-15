@@ -932,6 +932,20 @@
       "moveWaypointUp": "Wegpunkt nach oben verschieben",
       "name": "Routing",
       "resetSettings": "Einstellungen zurücksetzen",
+      "restrictions": {
+        "header": "LKW-Parameter",
+        "length": "Länge",
+        "lengthTooltip": "Länge des LKW. Akzeptierte Werte: 0 bis 30 Meter",
+        "width": "Breite",
+        "widthTooltip": "Breite des LKW. Akzeptierte Werte: 0 bis 3,5 Meter",
+        "height": "Höhe",
+        "heightTooltip": "Höhe des LKW. Akzeptierte Werte: 0 bis 5 Meter",
+        "weight": "Gewicht",
+        "weightTooltip": "Gewicht des LKW. Akzeptierte Werte: 0 bis 65 Tonnen",
+        "axleload": "Achslast",
+        "axleloadTooltip": "Achslast des LKW. Akzeptierte Werte: 0 bis 19 Tonnen",
+        "hazmat": "Gefahrgut"
+      },
       "speedprofiles": {
         "CAR": "PKW",
         "CYCLING": "Fahrrad",
