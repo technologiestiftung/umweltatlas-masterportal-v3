@@ -565,7 +565,7 @@
       "toggle": "Sichtbarkeit der Layer umschalten"
     },
     "layerInformation": {
-      "additionalMetadata": "weitere Informationen...",
+      "additionalMetadata": "weitere Metadaten",
       "addressSuffix": "Adresse",
       "addressSuffixes": "Layer-Adressen",
       "attachFileMessage": "ggf. Datei-Typ beim Download anhängen",
