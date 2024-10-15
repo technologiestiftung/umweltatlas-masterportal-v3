@@ -25,6 +25,7 @@
 - Corrected link for geodata infrastructure information pdf by GDI-DE. 
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Print: Fixed opacity for wfs group layers
+- `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 
 ---
 
