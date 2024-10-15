@@ -61,6 +61,7 @@ const state = {
         serviceId: null,
         speedProfile: "CAR",
         preference: "RECOMMENDED",
+        elevation: false,
         styleRoute: {
             fillColor: [255, 44, 0, 1],
             width: 6,
@@ -86,6 +87,12 @@ const state = {
             opacity: 0.3,
             pointRadius: 8,
             pointLineWidth: 4
+        },
+        styleElevationProfile: {
+            profileColor: "#fe2c00",
+            profileFillColor: "#fccac0",
+            elevationPointLineColor: [0, 0, 0, 1.0],
+            elevationPointFillColor: [125, 125, 125, 1.0]
         },
         batchProcessing: {
             enabled: false,

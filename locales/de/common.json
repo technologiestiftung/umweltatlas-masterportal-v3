@@ -891,6 +891,14 @@
         "saveResult": "Ergebnis speichern"
       },
       "endpoint": "Zielpunkt",
+      "elevationProfile": {
+        "titleCollapse": "Höhenprofil",
+        "titleChart": "Höhenprofil entlang der Route",
+        "yAxis": "Höhe in Metern",
+        "xAxis": "Strecke in km",
+        "titleTooltipMeters": "Höhe nach {{distance}} Metern",
+        "titleTooltipKilometers": "Höhe nach {{distance}} Kilometern"
+      },
       "errors": {
         "avoidAreaBig": "Die angegebenen Sperrflächen sind zu groß. Bitte korrigieren Sie Ihre Eingabe.",
         "errorIsochronesFetch": "Fehler bei Abfrage der Erreichbarkeit",

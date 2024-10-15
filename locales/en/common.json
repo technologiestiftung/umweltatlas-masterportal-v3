@@ -888,6 +888,14 @@
         "saveResult": "Save Result"
       },
       "endpoint": "Endpoint",
+      "elevationProfile": {
+        "titleCollapse": "Elevation Profile",
+        "titleChart": "Elevation Profile along the route",
+        "yAxis": "Height in m",
+        "xAxis": "Distance in km",
+        "titleTooltipMeters": "Height after {{distance}} meters",
+        "titleTooltipKilometers": "Height after {{distance}} kilometers"
+      },
       "errors": {
         "avoidAreaBig": "The barrier areas specified are too large. Please correct your input.",
         "errorIsochronesFetch": "Error while calculating reachability",

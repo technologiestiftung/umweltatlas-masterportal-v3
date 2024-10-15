@@ -9,6 +9,7 @@ import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vu
 import RoutingDownload from "../RoutingDownload.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingElevationProfile from "../RoutingElevationProfile.vue";
 import * as constants from "../../store/directions/constantsDirections";
 import * as constantsRouting from "../../store/constantsRouting";
 
@@ -32,7 +33,8 @@ export default {
         DirectionsItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingElevationProfile
     },
     data () {
         return {
@@ -564,7 +566,13 @@ export default {
                     <b class="ms-2">{{ waypoints[waypoints.length - 1].getDisplayName() }}</b>
                 </button>
 
-                <hr class="mt-0">
+                <hr>
+
+                <div v-if="directionsSettings.elevation && routingDirections">
+                    <RoutingElevationProfile />
+                    <hr>
+                </div>
+
 
                 <RoutingDownload />
             </div>

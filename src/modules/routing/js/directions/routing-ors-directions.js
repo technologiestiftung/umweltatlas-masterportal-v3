@@ -6,6 +6,8 @@ import {RoutingDirectionsStep} from "../classes/routing-directions-step";
 import {RoutingDirectionsSegment} from "../classes/routing-directions-segment";
 import routingOrsSpeedProfile from "../speedprofiles/routing-ors-speedprofiles";
 import routingOrsAvoidOption from "../avoidoptions/routing-ors-avoidoptions";
+import LineString from "ol/geom/LineString";
+import {getLength} from "ol/sphere.js";
 
 /**
  * Translates the Preference in the corresponding value for the service
@@ -47,7 +49,8 @@ async function fetchRoutingOrsDirections ({
     avoidSpeedProfileOptions,
     preference,
     avoidPolygons,
-    instructions
+    instructions,
+    elevation
 }) {
     const url = getRoutingDirectionsSettingsUrl(speedProfile);
     let result = null,
@@ -55,6 +58,8 @@ async function fetchRoutingOrsDirections ({
         first = null,
         second = null,
         localCoordinates = null,
+        elevationProfile = null,
+        currentDistance = null,
         direction = null,
         response = null;
 
@@ -69,7 +74,8 @@ async function fetchRoutingOrsDirections ({
             preference: routingOrsPreference(preference, speedProfile),
             units: "m",
             geometry: true,
-            instructions: instructions
+            instructions: instructions,
+            elevation: elevation
         });
     }
     catch (e) {
@@ -99,12 +105,39 @@ async function fetchRoutingOrsDirections ({
     for (const coords of feature.geometry.coordinates) {
         localCoordinates.push(await transformCoordinatesToLocal(coords));
     }
+
+    if (elevation) {
+        elevationProfile = {
+            data: [],
+            ascent: feature.properties.ascent,
+            descent: feature.properties.descent
+        };
+        currentDistance = 0;
+        localCoordinates.forEach((coord, i) => {
+
+            // elevation profile of starting point(at distance 0 m)
+            if (i === 0) {
+                elevationProfile.data.push([currentDistance, coord[2]]);
+            }
+            // elevation for the remaining points
+            else {
+                const previousCoord = [localCoordinates[i - 1][0], localCoordinates[i - 1][1]],
+                    currentCoord = [localCoordinates[i][0], localCoordinates[i][1]];
+
+                // get distance between previous and current point
+                currentDistance = currentDistance + getLength(new LineString([previousCoord, currentCoord]));
+                elevationProfile.data.push([currentDistance, coord[2]]);
+            }
+        });
+    }
+
     direction = new RoutingDirections({
         bbox: [first[0], first[1], second[0], second[1]],
         lineString: localCoordinates,
         distance: feature.properties.summary.distance,
         duration: feature.properties.summary.duration,
-        lineStringWaypointIndex: feature.properties.way_points
+        lineStringWaypointIndex: feature.properties.way_points,
+        elevationProfile: elevationProfile
     });
 
     if (feature.properties.segments) {

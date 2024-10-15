@@ -237,12 +237,14 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
         state.directionsRouteLayer = true;
         state.directionsWaypointsLayer = true;
         state.directionsAvoidLayer = true;
+        state.directionsElevationLayer = true;
         await actionsDirections.initDirections({state, getters, commit, dispatch, rootState});
         expect(dispatchSpy.args).to.deep.equal([
             ["initWaypoints"],
             ["createDirectionsWaypointsModifyInteractionListener"],
             ["createDirectionsAvoidModifyInteractionListener"],
             ["createDirectionsRouteModifyInteractionListener"],
+            ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],
@@ -259,11 +261,13 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
         state.directionsRouteLayer = true;
         state.directionsWaypointsLayer = true;
         state.directionsAvoidLayer = true;
+        state.directionsElevationLayer = true;
 
         await actionsDirections.initDirections({state, getters, commit, dispatch, rootState});
 
         expect(dispatchSpy.args).to.deep.equal([
             ["initWaypoints"],
+            ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],
             ["Maps/addLayer", true, {root: true}],

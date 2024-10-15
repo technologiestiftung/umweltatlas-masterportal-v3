@@ -16,6 +16,9 @@ import directionsAvoidSnapInteraction from "../../js/map/directions/avoid/direct
 import directionsAvoidDrawInteraction from "../../js/map/directions/avoid/directionsAvoidDraw";
 import directionsAvoidSelectInteraction from "../../js/map/directions/avoid/directionsAvoidSelect";
 
+import directionsElevationSource from "../../js/map/directions/elevation/directionsElevationSource";
+import directionsElevationLayer from "../../js/map/directions/elevation/directionsElevationLayer";
+
 import stateRouting from "../stateRouting";
 
 export default {
@@ -28,6 +31,10 @@ export default {
 
     directionsAvoidSource,
     directionsAvoidLayer,
+
+    directionsElevationSource,
+    directionsElevationLayer,
+
     // Draw Parameter
     directionsWaypointsModifyInteraction,
     directionsWaypointsSnapInteraction,
