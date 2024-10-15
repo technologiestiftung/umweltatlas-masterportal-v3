@@ -28,7 +28,7 @@
 ## 2024-10-09 v3.3.1 (LTS)
 
 ### Fixed
-- Issue #1276: Duplicate Icons StartModule in Expandable ControlBar
+- Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 
 ---
 
