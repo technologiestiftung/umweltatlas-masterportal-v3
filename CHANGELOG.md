@@ -28,6 +28,7 @@
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Print: Fixed opacity for wfs group layers
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
+- Fixed issue with German translation not displaying in styleVT and wfsSearch modules
 
 ---
 
