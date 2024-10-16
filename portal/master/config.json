@@ -1285,7 +1285,8 @@
           "legend": [
             "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Tag.png",
             "https://geodienste.hamburg.de/lgv-config/img/Legende_Laermberechnung_Nacht.png"
-          ]
+          ],
+          "crs": "EPSG:25832"
         },
         {
           "id": "2928",

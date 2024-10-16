@@ -298,7 +298,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             }
         });
 
-        it("should return a merged raw layer, if layer is grouped", () => {
+        it("should return a merged raw layer, if layer is grouped without children", () => {
             layerConfig = {
                 [treeSubjectsKey]: {
                     elements: [
@@ -321,14 +321,12 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 {
                     id: "682",
                     name: "name682",
-                    layers: "layerA,layerB",
                     maxScale: "10000",
                     minScale: "100"
                 },
                 {
                     id: "1731",
                     name: "name1731",
-                    layers: "layer1731",
                     maxScale: "20000"
                 }
             ];
@@ -356,7 +354,74 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             expect(result[0].children[1].id).to.be.equals("1731");
             expect(result[0].children[1].name).to.be.equals("name1731");
             expect(result[0].children[1].styleId).to.be.equals("styleId");
-            expect(result[0].children[1].layers).to.be.equals("layer1731");
+        });
+
+        it("should return a merged raw layer, if layer is grouped with children", () => {
+            layerConfig = {
+                [treeSubjectsKey]: {
+                    elements: [
+                        {
+                            name: "Gruppenlayer",
+                            type: "folder",
+                            elements: [
+                                {
+                                    id: ["682", "1731"],
+                                    typ: "GROUP",
+                                    name: "Gruppe",
+                                    "children": [
+                                        {
+                                            "id": "682",
+                                            "styleId": "682"
+                                        },
+                                        {
+                                            "id": "1731",
+                                            "styleId": "1731"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+            const simpleLayerList = [
+                {
+                    id: "682",
+                    name: "name682",
+                    maxScale: "10000",
+                    minScale: "100"
+                },
+                {
+                    id: "1731",
+                    name: "name1731",
+                    maxScale: "20000"
+                }
+            ];
+            let result = null;
+
+            sinon.stub(rawLayerList, "getLayerWhere").callsFake(function (searchAttributes) {
+                return simpleLayerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
+            });
+            sinon.stub(rawLayerList, "getLayerList").returns(simpleLayerList);
+
+            result = getAndMergeRawLayer(layerConfig[treeSubjectsKey].elements[0].elements[0]);
+
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            expect(result[0].id).to.be.equals("682-1731");
+            expect(result[0].name).to.be.equals("Gruppe");
+            expect(result[0].typ).to.be.equals("GROUP");
+            expect(result[0].children).to.be.an("array");
+            expect(result[0].children.length).to.be.equals(2);
+            expect(result[0].children[0].id).to.be.equals("682");
+            expect(result[0].children[0].name).to.be.equals("name682");
+            expect(result[0].children[0].styleId).to.be.equals("682");
+            expect(result[0].children[0].maxScale).to.be.equals("10000");
+            expect(result[0].children[0].minScale).to.be.equals("100");
+            expect(result[0].children[1].id).to.be.equals("1731");
+            expect(result[0].children[1].name).to.be.equals("name1731");
+            expect(result[0].children[1].styleId).to.be.equals("1731");
+            expect(result[0].children[1].maxScale).to.be.equals("20000");
         });
     });
 

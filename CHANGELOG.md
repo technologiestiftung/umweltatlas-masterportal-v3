@@ -14,6 +14,7 @@
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
 - Routing: Added checkbox to determine if routes stay visible after closing the routing tool
 - Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
+- Issue #1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/groupedLayers.md).
 
 ### Changed
 
@@ -29,6 +30,7 @@
 - Print: Fixed opacity for wfs group layers
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 - Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
+- Print: group layers of different `typ` are printed.
 
 ---
 
