@@ -2,7 +2,10 @@ import changeCase from "../../../../shared/js/utils/changeCase";
 
 const actions = {
     /**
-     * Gets the module state.
+     * Sets the state for the configured modules based on the provided menu models and side.
+     *
+     * This function iterates over each module in the `menuModels` array and checks if the module has a `type` defined.
+     * If so, it checks whether the module has already been added to the store for the given `menuSide`.
      * @param {Object} param store context
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
@@ -18,7 +21,6 @@ const actions = {
                 const moduleKey = changeCase.upperFirst(module.type),
                     existingModuleState = rootState.Modules[moduleKey];
 
-                // Check if module has already been added for this menu side
                 if (!existingModuleState || existingModuleState.menuSide !== menuSide) {
                     dispatch("extendModuleState", {module, menuSide});
                     commit("addConfiguredModel", {
