@@ -34,7 +34,9 @@ const mutations = {
      * @returns {void}
      */
     addToLayerSelection (state, {lastFolderName, subjectDataLayerConfs, baselayerConfs}) {
-        state.lastFolderNames.push(lastFolderName);
+        if (lastFolderName !== "") {
+            state.lastFolderNames.push(lastFolderName);
+        }
         state.lastSubjectDataLayerConfs.push(subjectDataLayerConfs);
         state.lastBaselayerConfs.push(baselayerConfs);
     }

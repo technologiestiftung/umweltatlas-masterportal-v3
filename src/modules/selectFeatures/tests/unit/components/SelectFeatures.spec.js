@@ -40,7 +40,6 @@ describe("src/modules/selectFeatures/components/SelectFeatures.vue", () => {
             }
         };
         store = createStore({
-            namespaces: true,
             modules: {
                 Maps: {
                     namespaced: true,

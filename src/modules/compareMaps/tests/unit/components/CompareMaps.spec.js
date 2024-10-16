@@ -26,7 +26,6 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
         rootCommitSpy = sinon.spy();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

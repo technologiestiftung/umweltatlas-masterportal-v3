@@ -10,7 +10,8 @@ config.global.mocks.$t = key => key;
 describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
     let currentAvailableCategories,
         store,
-        wrapper;
+        wrapper,
+        addLayerButtonSearchActive;
 
     const searchResults = [
             {
@@ -83,10 +84,10 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
 
 
     beforeEach(() => {
+        addLayerButtonSearchActive = false;
         currentAvailableCategories = "Adresse";
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,
@@ -104,7 +105,8 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
                                 },
                                 searchResultsActive: () => {
                                     return true;
-                                }
+                                },
+                                addLayerButtonSearchActive: () => addLayerButtonSearchActive
                             },
                             mutations: {
                                 setSearchResultsActive: sinon.stub()
@@ -153,6 +155,7 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
             });
 
             expect(wrapper.find("search-bar-result-list-general-stub").exists()).to.be.true;
+            expect(wrapper.find("#search-bar-result-heading").exists()).to.be.true;
         });
 
         it("should render the result list topic tree", async () => {
@@ -168,6 +171,21 @@ describe("src/modules/searchBar/components/SearchBarResultList.vue", () => {
             });
 
             expect(wrapper.find("search-bar-result-list-topic-tree-stub").exists()).to.be.true;
+            expect(wrapper.find("#search-bar-result-heading").exists()).to.be.true;
+        });
+        it("should render category header, if not addLayerButtonSearchActive", async () => {
+            addLayerButtonSearchActive = true;
+            wrapper = await shallowMount(SearchBarResultListComponent, {
+                props: {
+                    limitedSortedSearchResults
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find("search-bar-result-list-general-stub").exists()).to.be.true;
+            expect(wrapper.find("#search-bar-result-heading").exists()).to.be.false;
         });
     });
 

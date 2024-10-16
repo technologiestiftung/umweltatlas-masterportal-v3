@@ -5,21 +5,36 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- Searchbar config.json configuration: If a search interface is used in topic tree searchbar, new parameter 'searchInterfaceId' must be filled and used in topic tree searchbar configuration.
+- Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' have been removed.
 
 ### Added
+- AddWMS: Added Information about CORS header to doc and changed error message.
+- ShareView: Error handling when sharing via QR code has been improved.
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+- Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
 
 ### Fixed
+- Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
+- Corrected link for geodata infrastructure information pdf by GDI-DE. 
+
+---
+
+## 2024-10-09 v3.3.1 (LTS)
+
+### Fixed
+- Reduced loading requests for layers defined as array of Ids (not of typ GROUP).
+- Print: Fix printing bug considering minScale and maxScale with layers defined as array of ids.
+- LayerInformation: Resolved an issue where the tab appeared due to layerInfo.url being undefined instead of null in the layerInformation component.
 
 ---
 
 ## 2024-10-02 v3.3.0 (LTS)
-### __Breaking Changes__
 
 ### Added
 - Release Schedule and release information to readme.md.
@@ -104,6 +119,7 @@
     - Supports a new structure of the draw style properties which are set in the export of the draw tool as well as the old ones
     - Adds a custom styling option for GeoJson/ Json import
 - Export from draw_old tool: update GeoJSON export from draw_old tool to encapsulate all draw specific properties in a masterportal_attributes property; printing, file import and exporting other formats than GeoJSON were adapted accordingly
+- Searchbar in topic tree: More than one searchinterface is supported. Results are shown under category headers.
 
 ### Fixed
 - Legend: Same legends of group layers are shown only once.

@@ -209,7 +209,6 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
         Modeler3D.actions.updatePositionUI = sinon.spy();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

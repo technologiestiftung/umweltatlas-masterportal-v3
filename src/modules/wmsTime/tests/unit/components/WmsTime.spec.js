@@ -16,7 +16,6 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

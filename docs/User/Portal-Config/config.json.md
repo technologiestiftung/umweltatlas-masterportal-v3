@@ -53,7 +53,7 @@ The configuration options listed in the following table exist:
 Configuration of the map and elements placed on it.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |baselayerSwitcher|no|**[baselayerSwitcher](#portalconfigmapbaselayerswitcher)**||The baselayerSwitcher allows you to easily change or select a background map.|false|
 |controls|no|**[controls](#portalconfigmapcontrols)**||Allows setting which interactions are active in the map.|false|
 |featureViaURL|no|**[featureViaURL](#portalconfigmapfeatureviaurl)**||Optional configuration for the URL parameter `featureViaURL`. See **[urlParameter](../Misc/urlParameter.md)** for details.|false|
@@ -326,7 +326,7 @@ The startModule attribute must be of type Object. A button is displayed for each
 Here you can configure the modules for which a button is to be displayed. These are displayed in the `mainMenu` when opened.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |type|no|String||Type of the module that is to be displayed as a control and opened in the mainMenu when clicked.|false|
 
 **Example**
@@ -345,7 +345,7 @@ Here you can configure the modules for which a button is to be displayed. These 
 Here you can configure the modules for which a button is to be displayed. These are displayed in the `secondaryMenu` when opened.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |type|no|String||Type of the module that is to be displayed as a control and opened in the secondaryMenu when clicked.|false|
 
 **Example**
@@ -589,7 +589,7 @@ If e.g. a building is selected by left mouse click, it will be highlighted in th
 For color configuration see **[Color-documentation](https://cesium.com/learn/cesiumjs/ref-doc/Color.html)**
 
 |Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|-----------|
+|----|--------|----|-------|-----------|------|
 |color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
 |enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
 
@@ -653,7 +653,7 @@ Configuration to make settings for LayerPills.
 Layerpills are buttons on top of the map that show the selected layers. When clicking on a LayerPill, the corresponding layer information is displayed in the menu. The close button deselects the layer. The LayerPills attribute is specified as an object and contains the following attributes:
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |active|no|Boolean|false|Indicates whether LayerPills are active.|false|
 |mobileOnly|no|Boolean|false|Defines whether LayerPills should only be active in the mobile version.|false|
 
@@ -793,6 +793,9 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 ***
 
 #### portalConfig.map.mapView {data-toc-label='Map View'}
+
+[type:Coordinate]: # (Datatypes.Coordinate)
+
 Defines the initial map view and a background shown when no layer or map is selected.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -802,7 +805,7 @@ Defines the initial map view and a background shown when no layer or map is sele
 |extent|no|**[Extent](#datatypesextent)**|[510000.0, 5850000.0, 625000.4, 6000000.0]|Map extent - map may not be moved outside these boundaries.|false|
 |mapInteractions|nein|**[mapInteractions](#portalconfigmapmapviewmapinteractions)**||Overrides the ol map interactions. Provides further configuration possibilities for control behaviour and keyboardEventTarget.|false|
 |options|no|**[option](#portalconfigmapmapviewoption)**[]|[{"resolution":66.14579761460263,"scale":250000,"zoomLevel":0}, {"resolution":26.458319045841044,"scale":100000,"zoomLevel":1}, {"resolution":15.874991427504629,"scale":60000,"zoomLevel":2}, {"resolution": 10.583327618336419,"scale":40000,"zoomLevel":3}, {"resolution":5.2916638091682096,"scale":20000,"zoomLevel":4}, {"resolution":2.6458319045841048,"scale":10000,"zoomLevel":5}, {"resolution":1.3229159522920524,"scale":5000,"zoomLevel":6}, {"resolution":0.6614579761460262,"scale":2500,"zoomLevel":7}, {"resolution":0.2645831904584105,"scale": 1000,"zoomLevel":8}, {"resolution":0.13229159522920521,"scale":500,"zoomLevel":9}]|Available scale levels and their resolutions.|false|
-|startCenter|nein|Number[]|[565874, 5934140]|Die initiale Zentrumskoordinate.|false|
+|startCenter|no|**[Coordinate](#datatypescoordinate)**|[565874, 5934140]|The initial center coordinate.|false|
 |startResolution|no|Float|15.874991427504629|The initial map resolution from the `options` element. Used in preference to `startZoomLevel`.|false|
 |startZoomLevel|no|Integer||The initial map zoom level from the `options` element. If `resolutions` is set, this is ignored.|false|
 
@@ -1166,6 +1169,7 @@ Elasticsearch service configuration.
 |resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
 |requestType|no|enum["POST", "GET"]|"POST"|Request type|false|
 |responseEntryPath|no|String|""|Response JSON attribute path to found features.|false|
+|searchInterfaceId|no|String|"elasticSearch"|Id, which is used to link to the searchbar in the topic search.|false|
 |searchStringAttribute|no|String|"searchString"|Search string attribute name for `payload` object.|false|
 |serviceId|yes|String||Search service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |type|yes|String|"elasticSearch"|Search interface type. Defines which search interface is configured.|false|
@@ -1177,6 +1181,7 @@ As an additional property, you may add `payload`. It is not required, and matche
 ```json
 {
     "type": "elasticSearch",
+    "searchInterfaceId":"elasticSearch_0",
     "serviceId":"elastic",
     "requestType": "GET",
     "payload": {
@@ -1502,6 +1507,7 @@ Searching all topic selection tree layers.
 |----|--------|----|-------|-----------|------|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
+|searchInterfaceId|no|String|"topicTree"|Id, which is used to link to the searchbar in the topic search.|false|
 |searchType|no|String|""|Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". The default value is unset so the name will be searched.|false|
 |type|yes|String|"topicTree"|Search interface type. Defines which search interface is configured.|false|
 
@@ -1509,7 +1515,8 @@ Searching all topic selection tree layers.
 
 ```json
 {
-    "type": "topicTree"
+    "type": "topicTree",
+    "searchInterfaceId": "topicTree" 
 }
 ```
 
@@ -1649,7 +1656,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 ##### portalConfig.menu.sections.modules {data-toc-label='Modules'}
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |description|no|String||The description that should be shown in the button in the right menu.|false|
 |icon|no|String||Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String||Name of the module in the menu.|false|
@@ -1708,7 +1715,8 @@ This module displays specific portal information like description, Masterportal 
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-The module allows for adding additional WMS layers via a provided URL.
+The module allows for adding additional WMS layers via a provided URL. The [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) recommends setting up a CORS header, see chapter 4.7.1.   
+Schema for a WMS layer URL: `www.diensteurl/wmsdienste`. 
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -1923,11 +1931,10 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 ###### portalConfig.menu.sections.modules.coordToolkit.coordInfo {data-toc-label='Coord Info'}
 
 [inherits]: # (portalConfig.menu.sections.modules.coordToolkit)
-[type:Explanations]: # (Datatypes.Explanations)
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
-|explanations|no|**[explanations](#datatypesexplanations)**[]||Array of declarations from which a list is created.|false|
+|----|--------|----|-------|-----------|------|
+|explanations|no|[]||Array of declarations from which a list is created.|false|
 |title|no|string||Heading for the explanations of the coordinate reference systems.|false|
 
 ***
@@ -4212,8 +4219,8 @@ Possibility to configure the content of the portal footer.
 
 A Url can be defined in various ways.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |alias|yes|String||Displayed name of the link in desktop-view.|false|
 |alias_mobil|no|String||Displayed name of the link in mobile-view. If this is not specified, the link will not be displayed in mobile-view.|false|
 |bezeichnung|no|String||Displayed description next to the link.|false|
@@ -4319,10 +4326,12 @@ Possibility to make settings for the topic selection tree.
 Configuration of the addLayerButton to select layers.
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
-|searchBar|no|String||If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
+|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
+|searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. The category of the search.|true|
 
 **Beispiel**
 
@@ -4333,11 +4342,89 @@ Configuration of the addLayerButton to select layers.
             "active": true,
             "buttonTitle": "Add Layers",
             "searchBar": {
+                "active": true,
+               "searchInterfaceInstances": [
+                {
+                    "id":"elasticSearch_0",
+                    "searchCategory": "Thema (externe Fachdaten)"
+                }, 
+                {
+                    "id": "topicTree",
+                    "searchCategory": "Thema"
+                }
+            ]
+        }
+    }
+}
+```
+```json
+{
+    "tree": {
+        "addLayerButton": {
+            "active": true,
+            "buttonTitle": "Layer hinzufügen",
+            "searchBar": {
             "active": true,
             "searchInterfaceInstanceId": "elasticSearch_0",
             "searchCategory": "Thema (externe Fachdaten)"
         }
     }
+}
+```
+
+***
+#### portalConfig.tree.addLayerButton.searchBar
+A topic search is enabled within the configured SearchInterface and SearchCategory.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|active|yes|Boolean||Specifies whether the search is displayed.|false|
+|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []**||List of search interfaces from the searchbar that are to be used here.|true|
+
+**Beispiel**
+
+```json
+{
+   "searchBar": {
+        "active": true,
+        "searchInterfaceInstances": [
+            {
+                "id":"elasticSearch_0",
+                "searchCategory": "Thema (externe Fachdaten)"
+            },
+            {
+                "id": "topicTree",
+                "searchCategory": "Thema"
+            }
+        ]
+    }
+}
+```
+
+***
+#### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances
+List of search interfaces from the searchbar that are to be used here.
+The search only works with interfaces that perform a topic search.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|id|yes|String||Id des Suchinterfaces. Konfiguriert an dem Suchinterface am Parameter 'searchInterfaceId'.|false|
+|searchCategory|yes|String||the search category.|false|
+
+**Beispiel**
+
+```json
+{
+    "searchInterfaceInstances": [
+        {
+            "id":"elasticSearch_0",
+            "searchCategory": "Thema (externe Fachdaten)"
+        },
+        {
+            "id": "topicTree",
+            "searchCategory": "Thema"
+        }
+    ]
 }
 ```
 
@@ -4586,7 +4673,7 @@ Besides these attributes, there are also type-specific attributes for the differ
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
 |capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false
 |fitCapabilitiesExtent|no|Boolean|false|**[services.json](../Global-Config/services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
-|id|yes|String/String[]||Layer ID(s). Resolved using the **[services.json](../Global-Config/services.json.md)** file. Please mind that the given IDs **MUST** refer to the same URL, that is, use the same service. When configuring an array of IDs, setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
+|id|yes|String/String[]||Id of the layer. The ids are resolved in **[services.json](../Global-Config/services.json.md)** and the necessary information is used. When configuring an array of Ids, a layer is created that contains the LAYERS parameter in the request with a comma-separated list of the contents of the `layers` attribute of the individual layers. Setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. It is important here that the specified ids address the same URL, i.e. use the same service and are of same typ. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
 |name|no|String||Layer name.|false|
 |preview|no|**[preview](#layerconfigelementslayerspreview)**||Preview for baselayers of type WMS, WMTS and VectorTile. WMS and WMTS: if not specified, a centered map section is loaded.|false|
@@ -4621,6 +4708,39 @@ Besides these attributes, there are also type-specific attributes for the differ
         {
             "id": ["123", "456", "789"],
             "name": "My test layer"
+        }
+    ]
+}
+```
+
+**Example layerId 8712 with suffix**
+
+```json
+{
+"elements": [
+        {
+          "id": "8712.1",
+          "styleId": "8712.1",
+          "name": "Grundschulen",
+          "wfsFilter": "resources/xml/schulstandort.staatlich.5.grundschulen.xml"
+        },
+        {
+          "id": "8712.2",
+          "styleId": "8712.2",
+          "name": "Stadtteilschulen",
+          "wfsFilter": "resources/xml/schulstandort.staatlich.5.stadtteilschulen.xml",
+        },
+        {
+          "id": "8712.3",
+          "styleId": "8712.3",
+          "name": "Gymnasien",
+          "wfsFilter": "resources/xml/schulstandort.staatlich.5.gymnasien.xml"
+        },
+        {
+          "id": "8712.4",
+          "styleId": "8712.4",
+          "name": "Sonderschulen",
+          "wfsFilter": "resources/xml/schulstandort.staatlich.5.sonderschulen.xml"
         }
     ]
 }
@@ -4670,8 +4790,6 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 [inherits]: # (layerConfig.elements.layers)
 
 A group layer is created that contains all layers of the specified ids.
-The values for minScale and maxScale are determined from all group layers.
-Baselayer: It is important here that the specified ids address the same URL, i.e. use the same service.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4684,6 +4802,7 @@ Baselayer: It is important here that the specified ids address the same URL, i.e
 ```json
  {
     "id": [ "20501", "20502", "20503", "20504" ],
+    "typ": "GROUP",
     "name": "Gruppe Freizeitrouten und Radfernwege",
     "styleId": "4515"
 }
@@ -5144,6 +5263,24 @@ Entities3D entities typical attributes are listed here.
 
 ## Datatypes
 
+### Datatypes.Coordinate {data-toc-label='Coordinate'}
+
+A coordinate is an array of two numbers. The first represents the easting, the second the northing.
+
+**Example integer coordinate**
+
+```json
+[561210, 5932600]
+```
+
+**Example float coordinate**
+
+```json
+[561210.1458, 5932600.12358]
+```
+
+***
+
 The following datatypes can be used in the configuration.
 
 ### Datatypes.Extent {data-toc-label='Extent'}
@@ -5194,7 +5331,7 @@ CustomMenuElement Module `execute` from `payload`. The appropriate payload for t
 
 ### Datatypes.Stroke {data-toc-label='Stroke'}
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |width|no|Integer||Possible setting: width|false|
 |color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
 
@@ -5590,6 +5727,32 @@ Only the selection in one of the child snippets (example: "blue whale") finally 
 In case of using parent-child relationships, we recommend setting `snippetTags` to `false`.
 Multi-dimensional nesting (grandparent, parent, child) is not currently provided.
 
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
+|attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
+|autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
+|delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
+|display|no|String|"default"|If snippet type `dropdown`: If set to `list`, a list is displayed instead of a dropdown box. If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
+|hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
+|info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
+|type|no|String||The type of this snippet. Can be one of the following: `dropdown`. Will be indentified automatically if left away, following a data type rule: string becomes `dropdown`.|false|
+|localeCompareParams|no|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
+|multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
+|operator|no|String||The operator to connect the set value to the value in the database. Can be one of the following - depending if it makes sense for the type and is available for the used interface: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. If left away, defaults are: boolean becomes `EQ`, string becomes `EQ`, number becomes `BETWEEN`, unknown becomes `EQ`.|false|
+|operatorForAttrName|no|String|"AND"|By setting this parameter to `OR` in conjunction with attrName as an array, it is possible to filter over various attrNames with a logical OR.|false|
+|optionsLimit|no|Number|20000|For type `dropdown` only: Adds a limit of options in dropdown list.|false|
+|placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
+|prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
+|renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
+|service|no|**[Service](#markdown-header-datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
+|title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
+|value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
+|visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
+|adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
+|allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
+
 **Example**
 
 Example of a dropdown snippet with parent-child relationship. The `cityA` and `cityB` dropdowns are initially not filled. Only when a `district` is selected do they fill with the cities of the selected district, but no filtering takes place on the map. Only the selection of a city finally initiates the filtering by the city name.
@@ -5622,8 +5785,8 @@ Example of a dropdown snippet with parent-child relationship. The `cityA` and `c
 User experience can be improved with the adjustment of timeouts.
 This is especially true for filters that work with `strategy`: `active`.
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |input|no|Number|1400|For snippet typ `sliderRange` and `slider` only: The time in milliseconds that should elapse before filtering is triggered after entering numbers and characters into the input field.|false|
 |slider|no|Number|800|For snippet typ `sliderRange`, `slider` and `dateRange` only: The time in milliseconds that should elapse before filtering is triggered after the last change of the slider.|false|
 
@@ -5651,8 +5814,8 @@ An object that describes a service for a snippet. All service types that the fil
 The configuration depends on the type of service.
 
 **WFS**
-|Name|Required|Typ|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |collection|yes|String||The collection that will be loaded. Only for OAF|false|
 |type|yes|String||The type of service.|false|
 |typename|yes|String||The feature type that will be loaded. Only for WFS|false|
@@ -5692,6 +5855,13 @@ The configuration depends on the type of service.
 
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|data|yes|Object||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
+|options|yes|Object||Options for creating the diagram.|false|
+|plugins|yes|Array||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
+|type|yes|String||Chart type determines the main type of the chart.|false|
+
 **Example**
 
 The top level structure of Chart.js configuration:
@@ -5721,8 +5891,8 @@ A string or object that supply the parameters for util function localeCompare.
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |locale|no|String||The locale code according ISO 3166|false|
 |options|no|**[Options](#datatypessnippetslocalecompareparamsoptions)**||The custom options for sorting in localeCompare|false|
 
@@ -5742,8 +5912,8 @@ A string or object that supply the parameters for util function localeCompare.
 ##### Datatypes.Snippets.LocaleCompareParams.Options {data-toc-label='Options'}
 An object for custom control of the localeCompare function used to sort dropdown boxes, the documentation is: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |ignorePunctuation|no|Boolean|false|Determines whether punctuation will be ignored.|false|
 |numeric|no|Boolean|false|Determines whether numeric collation will be used|false|
 |sensitivity|no|String|"variant"|Determines whether string collation will be used.|false|
@@ -5764,8 +5934,8 @@ An object for configuring a universal search of value
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |attrName|yes|String||The attribute Name|false|
 |prefix|yes|String||The Website as Prefix for searching|false|
 
@@ -5786,8 +5956,8 @@ An object for configuring beautified names for attributes in stack
 
 **Object**
 
-|Name|Required|Typ|Default|Description|Expert|
-|----|--------|---|-------|-----------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |attrName|yes|String||The attribute Name|false|
 
 **Example**
@@ -5842,7 +6012,7 @@ Routing-tool directions route customPreferences.
 Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)
 
 |Name|Required|Type|Default|Description|Expert|
-|----|-------------|---|-------|------------|------|
+|----|--------|----|-------|-----------|------|
 |speedProfile|no|String[]||Which preferences should be available for the speedProfile.|false|
 
 **Example**
@@ -6383,11 +6553,5 @@ Configuration for the suggestions of the user input.
 |----|--------|----|-------|-----------|------|
 |featureType|no|String||If given, the query will be sent with this featureType instead of the one configured for the service itself. Only usable if the layer was defined in the **[services.json](../Global-Config/services.json.md)**.|false|
 |length|no|Number|3|The query is triggered when the length of the input is at least as long as this parameter.|false|
-
-***
-
-## Datatypes.Explanations {data-toc-label='Explanations'}
-
-Can contain an array with explanations of the coordinate reference systems from which a list is created.
 
 ***

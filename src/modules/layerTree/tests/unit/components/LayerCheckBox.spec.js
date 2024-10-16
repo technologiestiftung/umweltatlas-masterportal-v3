@@ -45,7 +45,6 @@ describe("src/modules/layerTree/components/LayerCheckBox.vue", () => {
         baselayerHandlerSpy = sinon.spy(baselayerHandler, "checkAndAdd");
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

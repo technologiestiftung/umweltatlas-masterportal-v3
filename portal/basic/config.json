@@ -33,14 +33,6 @@
       ]
     },
     "tree": {
-      "addLayerButton": {
-        "active": false,
-        "searchBar": {
-          "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
-        }
-      },
       "highlightedFeatures": {
         "active": true
       }
@@ -243,6 +235,7 @@
         { 
           "id": [ "3302", "4561"], 
           "name": "WMS-Gruppe Trinkwasser und Eventlotse (min-/maxScale 1:1.000 - 1:10.000)",
+          "typ": "GROUP",
           "visibility": true,
           "showInLayerTree": true
         },

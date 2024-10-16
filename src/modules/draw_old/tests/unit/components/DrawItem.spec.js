@@ -47,7 +47,6 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
         };
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Maps: {
                     namespaced: true,

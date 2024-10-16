@@ -135,7 +135,7 @@ function migrateGFI (data) {
  * @returns {Object} the migrated tree
  */
 function migrateTree (data, configJS) {
-    console.info("tree");
+    console.info("layer selection");
     const oldTree = data[PORTALCONFIG_OLD].tree,
         newTree = {};
 
@@ -151,6 +151,7 @@ function migrateTree (data, configJS) {
     }
     newTree.addLayerButton = {};
     newTree.addLayerButton.active = true;
+    console.info("   --- HINT: Configure to search in topics by adding \"searchBar\" configuration to  \"addLayerButton\".\n");
 
     if (data[PORTALCONFIG_OLD].treeType === "default") {
         if (configJS.tree) {

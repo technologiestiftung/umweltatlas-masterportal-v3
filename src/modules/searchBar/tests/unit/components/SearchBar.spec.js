@@ -71,8 +71,7 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
             setShowAllResults: sinon.stub(),
             setCurrentSide: sinon.stub(),
             setSearchResultsActive: sinon.stub(),
-            setSearchSuggestions: sinon.stub(),
-            setCurrentAvailableCategories: sinon.stub()
+            setSearchSuggestions: sinon.stub()
         };
 
         searchInputValue = "abc-straße";
@@ -89,7 +88,6 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
                             getters: {
                                 configPaths: () => [],
                                 currentSide: () => "mainMenu",
-                                showAllResultsSearchCategory: () => "",
                                 minCharacters: () => 3,
                                 placeholder: () => "ABC",
                                 searchInput: () => searchInputValue,
@@ -308,7 +306,6 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
             expect(startSearchSpy.called).to.be.true;
             expect(menuActionsSpy.navigateBack.called).to.be.true;
             expect(searchBarActionsSpy.startLayerSelectionSearch.called).to.be.true;
-            expect(searchBarMutationsSpy.setCurrentAvailableCategories.called).to.be.true;
         });
     });
 

@@ -32,7 +32,7 @@ export default {
         const type = rootGetters["Menu/currentComponent"](side).type;
 
         if (getters.showAllResults === true && side === getters.currentSide && getters.currentActionEvent === "") {
-            if (type !== "searchbar" && type !== "layerselection") {
+            if (type !== "searchbar") {
                 commit("setShowAllResults", false);
                 commit("Menu/switchToPreviousComponent", side, {root: true});
             }
@@ -45,8 +45,6 @@ export default {
         if (side !== getters.currentSide) {
             commit("Menu/switchToPreviousComponent", side, {root: true});
         }
-
-
         if (getters.currentSearchInputValue !== "" && getters.currentActionEvent !== "") {
             commit("Modules/SearchBar/setShowAllResults", true, {root: true});
             commit("Modules/SearchBar/setSearchInput", getters.currentSearchInputValue, {root: true});
@@ -83,16 +81,34 @@ export default {
         const searchBar = rootState.portalConfig?.tree?.addLayerButton?.searchBar;
 
         if (rootGetters.showLayerAddButton === true && searchBar && searchBar?.active !== undefined) {
-            if (searchBar.searchInterfaceInstanceId || searchBar.searchCategory) {
+            if (searchBar.searchInterfaceInstances) {
+                const searchInterfaceInstances = [];
+
+                searchBar.searchInterfaceInstances.forEach(searchInterfaceInstance => {
+                    if (searchInterfaceInstance.searchCategory) {
+                        searchInterfaceInstances.push(searchInterfaceInstance);
+                    }
+                });
+                commit("setShowAllResultsSearchInterfaceInstances", searchInterfaceInstances);
+            }
+            /**
+             * @deprecated in the next major-release!
+             * showAllResultsSearchInterfaceInstance
+             * showAllResultsSearchCategory
+             */
+            else if (searchBar.searchInterfaceInstanceId || searchBar.searchCategory) {
                 if (searchBar.searchCategory && searchBar?.searchInterfaceInstanceId) {
-                    commit("setShowAllResultsSearchInterfaceInstance", searchBar.searchInterfaceInstanceId);
-                    commit("setShowAllResultsSearchCategory", searchBar.searchCategory);
+                    const instance = {
+                        "id": searchBar.searchInterfaceInstanceId,
+                        "searchCategory": searchBar.searchCategory
+                    };
+
+                    commit("setShowAllResultsSearchInterfaceInstances", [instance]);
                 }
                 else {
                     console.warn("Please check the searchBar configuration at tree.addLayerButton");
                 }
             }
-
             if (typeof searchBar.active === "boolean") {
                 commit("setAddLayerButtonSearchActive", searchBar.active);
             }

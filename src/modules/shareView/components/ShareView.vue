@@ -55,6 +55,8 @@ export default {
         },
         /**
          * Generates a qrCode for the given url.
+         * If successful, sets the generated QR code URL to `qrDataUrl`.
+         * If an error occurs, alert error based on the type of error.
          * @returns {void}
          */
         generateQRCodeDataURL () {
@@ -62,6 +64,21 @@ export default {
 
             QRCode.toDataURL(url).then((qrDataUrl) => {
                 this.qrDataUrl = qrDataUrl;
+            }).catch((err) => {
+                console.error("QR Code generation error:", err);
+                if (err.message.includes("data is too big")) {
+                    this.addSingleAlert({
+                        category: "error",
+                        content: this.$t("common:modules.shareView.qrErrorDataTooLarge")
+                    });
+                }
+                else {
+                    this.addSingleAlert({
+                        category: "error",
+                        content: this.$t("common:modules.shareView.qrError")
+                    });
+                }
+                this.qrDataUrl = null;
             });
         },
         /**
@@ -104,6 +121,7 @@ export default {
 <template lang="html">
     <div id="share-view">
         <h4>{{ $t("common:modules.shareView.shareHeadline") }}</h4>
+
         <div v-if="isMobile">
             <button
                 aria-label="$t('common:modules.shareView.share')"
@@ -114,9 +132,8 @@ export default {
                 {{ $t("common:modules.shareView.share") }}
             </button>
         </div>
-        <div
-            v-else
-        >
+
+        <div v-else>
             <div
                 v-if="facebookShare"
                 class="col-12 mt-3"
@@ -133,6 +150,7 @@ export default {
                     {{ $t("common:modules.shareView.shareFacebook") }}
                 </a>
             </div>
+
             <div
                 v-if="copyShare"
                 class="col-12"
@@ -145,6 +163,7 @@ export default {
                     :icon="'bi-link'"
                 />
             </div>
+
             <div
                 v-if="qrShare"
                 class="col-12"
@@ -157,9 +176,8 @@ export default {
                     :icon="'bi-qr-code'"
                 />
             </div>
-            <div
-                v-if="qrDataUrl"
-            >
+
+            <div v-if="qrDataUrl">
                 <img
                     id="qrCodeImg"
                     alt="qr Code"
@@ -174,25 +192,26 @@ export default {
                 />
             </div>
         </div>
-    </div>
-    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
-        <div
-            ref="copyToast"
-            class="toast align-items-center"
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-        >
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ $t("common:modules.shareView.linkCopied") }}
+
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+            <div
+                ref="copyToast"
+                class="toast align-items-center"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+            >
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $t("common:modules.shareView.linkCopied") }}
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close me-2 m-auto"
+                        data-bs-dismiss="toast"
+                        aria-label="Close"
+                    />
                 </div>
-                <button
-                    type="button"
-                    class="btn-close me-2 m-auto"
-                    data-bs-dismiss="toast"
-                    aria-label="Close"
-                />
             </div>
         </div>
     </div>

@@ -26,7 +26,6 @@ describe("src/modules/menu/components/CustomMenuElement.vue", () => {
             props: currentComponentProps
         };
         store = createStore({
-            namespaces: true,
             modules: {
                 Menu: {
                     namespaced: true,

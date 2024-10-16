@@ -119,7 +119,6 @@ describe("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
         entity.wasDrawn = false;
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

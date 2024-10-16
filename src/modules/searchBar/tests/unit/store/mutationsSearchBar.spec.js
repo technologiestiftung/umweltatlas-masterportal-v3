@@ -35,6 +35,32 @@ describe("src/modules/searchBar/store/mutationsSearchBar.spec.js", () => {
                 }
             ]);
         });
+        it("should add unique ids for duplicate searchInterfaces, but not if searchInterfaceId is set", () => {
+            const state = {
+                searchInterfaces: [
+                    {
+                        type: "komootPhoton"
+                    },
+                    {
+                        type: "komootPhoton",
+                        searchInterfaceId: "customID"
+                    }
+                ]
+            };
+
+            addMultipleSearchInterfaceIds(state);
+
+            expect(state.searchInterfaces).to.deep.equals([
+                {
+                    type: "komootPhoton",
+                    searchInterfaceId: "komootPhoton_0"
+                },
+                {
+                    type: "komootPhoton",
+                    searchInterfaceId: "customID"
+                }
+            ]);
+        });
     });
 
     describe("addSearchInterfaceInstances", () => {

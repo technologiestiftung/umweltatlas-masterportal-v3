@@ -17,7 +17,6 @@ describe("src/modules/menu/MenuFolder.vue", () => {
         side = "mainMenu";
         currentFolderPath = [side, "sections", 0, 13];
         store = createStore({
-            namespaces: true,
             modules: {
                 Menu: {
                     namespaced: true,

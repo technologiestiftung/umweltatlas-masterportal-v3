@@ -35,7 +35,8 @@ export default {
             "searchInterfaceInstances",
             "searchResults",
             "searchResultsActive",
-            "currentSide"
+            "currentSide",
+            "addLayerButtonSearchActive"
         ]),
         ...mapGetters("Menu", [
             "currentComponent"
@@ -79,6 +80,7 @@ export default {
     >
         <div id="search-bar-result-list">
             <h5
+                v-if="!addLayerButtonSearchActive"
                 id="search-bar-result-heading"
                 class="bold mb-4 mt-4"
                 :title="$t('common:modules.searchBar.searchResultsFrom') + limitedSortedSearchResults?.results.categoryProvider[currentAvailableCategories] + '-' + $t('common:modules.searchBar.search')"
@@ -92,7 +94,6 @@ export default {
                     v-if="!limitedSortedSearchResults?.results[currentAvailableCategories + 'ImgPath']"
                     :class="limitedSortedSearchResults?.results[currentAvailableCategories + 'Icon']"
                 />
-
                 {{ currentAvailableCategories + ": " + limitedSortedSearchResults?.results[currentAvailableCategories + "Count"] + "    " + $t("common:modules.searchBar.searchResults") }}
             </h5>
             <SearchBarResultListTopicTree

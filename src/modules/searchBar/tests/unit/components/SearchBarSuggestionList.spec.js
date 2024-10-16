@@ -62,7 +62,6 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,
@@ -83,7 +82,7 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
                                 showAllResults: () => showAllResults
                             },
                             mutations: {
-                                setShowAllResultsSearchInterfaceInstance: sinon.stub(),
+                                setShowAllResultsSearchInterfaceInstances: sinon.stub(),
                                 setCurrentAvailableCategories: sinon.stub(),
                                 setSearchResultsActive: sinon.stub(),
                                 setShowAllResults: sinon.stub()

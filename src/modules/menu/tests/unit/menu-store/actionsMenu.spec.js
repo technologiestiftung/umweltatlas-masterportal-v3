@@ -400,7 +400,7 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             });
         });
         it("should update searchbar navigation from layerSelection", async () => {
-            rootGetters = {"Modules/SearchBar/Modules/SearchBar/searchInput": "Neue",
+            rootGetters = {
                 "Modules/SearchBar/searchInput": "Neue"
             };
             getters = {
@@ -425,7 +425,6 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(commit.firstCall.args[1]).to.equal("");
                 expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setCurrentSearchInputValue");
                 expect(commit.secondCall.args[1]).to.equal("");
-
                 expect(dispatch.calledTwice).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
                 expect(dispatch.firstCall.args[1]).to.equal(side);

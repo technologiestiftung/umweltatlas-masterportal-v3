@@ -30,8 +30,16 @@
         "active" :true,
         "searchBar": {
           "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
+          "searchInterfaceInstances": [
+            {
+              "id":"topicTree",
+              "searchCategory": "Thema"
+            },
+            {
+              "id":"elasticSearch_0",
+              "searchCategory": "Thema (externe Fachdaten)"
+            }
+          ]
         }
       },
       "validLayerTypesAutoTree": [
@@ -147,6 +155,7 @@
         "searchInterfaces": [
           {
             "type": "topicTree",
+            "searchInterfaceId":"topicTree",
             "hitTemplate": "layer"
           },
           {
@@ -173,6 +182,7 @@
           },
           {
             "type": "elasticSearch",
+            "searchInterfaceId":"elasticSearch_1",
             "serviceId": "elastic_address",
             "requestType": "POST",
             "epsg": "EPSG:4326",
@@ -207,6 +217,7 @@
           },
           {
             "type": "elasticSearch",
+            "searchInterfaceId":"elasticSearch_0",
             "serviceId": "elastic_prod",
             "requestType": "GET",
             "hitTemplate": "layer",

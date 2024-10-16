@@ -21,7 +21,9 @@ export default {
         duplicates.forEach(duplicate => {
             state.searchInterfaces.forEach(searchInterface => {
                 if (searchInterface.type === duplicate) {
-                    searchInterface.searchInterfaceId = searchInterface.type + "_" + count++;
+                    if (searchInterface.searchInterfaceId === undefined) {
+                        searchInterface.searchInterfaceId = searchInterface.type + "_" + count++;
+                    }
                 }
             });
         });

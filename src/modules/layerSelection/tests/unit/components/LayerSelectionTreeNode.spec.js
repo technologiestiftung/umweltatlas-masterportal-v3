@@ -28,7 +28,6 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
             selectAllConfigs: []
         };
         store = createStore({
-            namespaces: true,
             modules: {
                 Maps: {
                     namespaced: true,
