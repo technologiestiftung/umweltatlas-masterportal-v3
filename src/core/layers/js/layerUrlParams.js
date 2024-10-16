@@ -43,6 +43,8 @@ function setLayers (params) {
     addLayerToLayerTree(layers);
 }
 
+let currentMdidLayerIds = [];
+
 /**
  * Sets the layer ids.
  * If an id of a grouped baselayer is contained, the id is replaced by id of the group.
@@ -72,7 +74,9 @@ function setLayerIds (params) {
         };
     });
 
-    removeCurrentLayerFromLayerTree();
+    if (currentMdidLayerIds.length === 0) {
+        removeCurrentLayerFromLayerTree();
+    }
     addLayerToLayerTree(layers);
 }
 
@@ -86,6 +90,7 @@ function setLayersByMetadataId (params) {
         baselayer = store.getters.layerConfigsByAttributes({baselayer: true})?.at(-1),
         layers = [{
             id: baselayer.id
+
         }];
 
     store.getters.allLayerConfigs.forEach(layerConfig => {
@@ -98,8 +103,10 @@ function setLayersByMetadataId (params) {
         });
     });
 
+
     removeCurrentLayerFromLayerTree();
     addLayerToLayerTree(layers);
+    currentMdidLayerIds = layers.map(layer => layer.id);
 }
 
 /**
@@ -111,16 +118,18 @@ function removeCurrentLayerFromLayerTree () {
         currentLayerIds = currentLayerConfigs.map(layer => layer.id);
 
     currentLayerIds.forEach(layerId => {
-        store.dispatch("replaceByIdInLayerConfig", {
-            layerConfigs: [{
-                id: layerId,
-                layer: {
+        if (!currentMdidLayerIds.includes(layerId)) {
+            store.dispatch("replaceByIdInLayerConfig", {
+                layerConfigs: [{
                     id: layerId,
-                    showInLayerTree: false,
-                    visibility: false
-                }
-            }]
-        });
+                    layer: {
+                        id: layerId,
+                        showInLayerTree: false,
+                        visibility: false
+                    }
+                }]
+            });
+        }
     });
 }
 
