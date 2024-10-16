@@ -15,6 +15,7 @@
 - Filter supports secure WFS request.
 - ShareView: Added hashtag to shared link to help Outlook recognize our links correctly. 
 - LayerInformation: Added last revision date to Layer Information. 
+- Issue #1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/groupedLayers.md).
 
 ### Changed
 
