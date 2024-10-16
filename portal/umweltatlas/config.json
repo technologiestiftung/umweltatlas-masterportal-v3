@@ -54,14 +54,13 @@
       "searchBar": {
         "searchInterfaces": [
           {
-            "type": "komootPhoton",
-            "minChars": 3,
-            "serviceId": "11",
-            "limit": 10,
-            "lang": "de",
-            "lat": 13.38,
-            "lon": 52.51,
-            "bbox": "13.05,52.34,13.78,52.68"
+            "geoSearchServiceId": "1",
+            "extent": [369097,5799298,416865,5838236],
+            "resultCount": 10,
+            "epsg": "EPSG:25833",
+            "minScore": 0.6,
+            "type": "bkg",
+            "minChars": 3
           },
           {
             "type": "visibleVector"
@@ -246,7 +245,7 @@
           "visibility": false
         },
         {
-          "id": "truedop_2024:truedop_2024",
+          "id": "truedop_2024:truedop_2024:GDIBE:25833",
           "shortname": "Luftbild WMS",
           "visibility": false,
           "preview": {
