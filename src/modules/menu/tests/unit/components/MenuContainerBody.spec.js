@@ -24,7 +24,6 @@ describe("src/modules/menu/MenuContainerBody.vue", () => {
 
         };
         store = createStore({
-            namespaces: true,
             modules: {
                 Menu: {
                     namespaced: true,

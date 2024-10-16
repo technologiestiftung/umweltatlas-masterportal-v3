@@ -34,7 +34,6 @@ describe("src/modules/draw/components/DrawModule.vue", () => {
         selectedDrawTypeMain = "";
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

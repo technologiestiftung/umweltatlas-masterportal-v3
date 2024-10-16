@@ -163,7 +163,6 @@ describe("src/modules/filter/components/SnippetCheckbox.vue", () => {
     describe("resetSnippet", () => {
         it("should reset the snippet value and call the given onsuccess handler", async () => {
             const store = createStore({
-                    namespaces: true,
                     modules: {
                         Modules: {
                             namespaced: true,

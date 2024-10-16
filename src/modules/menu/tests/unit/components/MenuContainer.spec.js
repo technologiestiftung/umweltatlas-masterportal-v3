@@ -28,7 +28,6 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         isMobile = false;
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

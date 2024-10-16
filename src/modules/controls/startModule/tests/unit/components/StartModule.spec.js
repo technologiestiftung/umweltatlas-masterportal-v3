@@ -14,7 +14,6 @@ describe("src/modules/controls/startModule/components/StartModule.vue", () => {
         setActiveSpy = sinon.spy();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Controls: {
                     namespaced: true,

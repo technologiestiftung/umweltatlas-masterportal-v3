@@ -47,7 +47,6 @@ describe("src/modules/menu/MenuContainerBodyRoot.vue", () => {
             text: "MasterSecond"
         };
         store = createStore({
-            namespaces: true,
             modules: {
                 Menu: {
                     namespaced: true,

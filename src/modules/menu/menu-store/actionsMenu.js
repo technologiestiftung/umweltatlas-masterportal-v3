@@ -185,7 +185,6 @@ export default {
         if (getters.currentComponent(side).type === "layerSelection") {
             dispatch("Modules/SearchBar/updateSearchNavigation", side, {root: true});
 
-
             if (rootGetters["Modules/SearchBar/searchInput"] !== "") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
                 commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
@@ -194,7 +193,6 @@ export default {
         }
 
         if (getters.currentComponent(side).type === "layerInformation") {
-
             commit("switchToPreviousComponent", side);
         }
         if (getters.navigationHistory(side)[1]?.type === "searchBar" && getters.navigationHistory(side)[2]?.type === "searchBar") {

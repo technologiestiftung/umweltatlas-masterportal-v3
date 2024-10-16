@@ -70,6 +70,24 @@ describe("src/modules/layerSelection/store/mutationsLayerSelection", function ()
             expect(state.lastBaselayerConfs.length).to.be.equals(1);
             expect(state.lastBaselayerConfs[0]).to.be.deep.equals(baselayerConfs);
         });
+
+        it("addToLayerSelection with empty lastFolderName: do not add to state.lastFolderNames", function () {
+            const state = {
+                    lastFolderNames: [],
+                    lastSubjectDataLayerConfs: [],
+                    lastBaselayerConfs: []
+                },
+                lastFolderName = "",
+                subjectDataLayerConfs = [{id: "1"}, {id: "2"}],
+                baselayerConfs = [{id: "bg1"}, {id: "bg2"}];
+
+            addToLayerSelection(state, {lastFolderName, subjectDataLayerConfs, baselayerConfs});
+            expect(state.lastFolderNames.length).to.be.equals(0);
+            expect(state.lastSubjectDataLayerConfs.length).to.be.equals(1);
+            expect(state.lastSubjectDataLayerConfs[0]).to.be.deep.equals(subjectDataLayerConfs);
+            expect(state.lastBaselayerConfs.length).to.be.equals(1);
+            expect(state.lastBaselayerConfs[0]).to.be.deep.equals(baselayerConfs);
+        });
     });
 
 

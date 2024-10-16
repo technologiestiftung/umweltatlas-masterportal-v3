@@ -40,7 +40,6 @@ describe("src/shared/modules/draw/components/DrawTypes.vue", () => {
 
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Maps: {
                     namespaced: true,

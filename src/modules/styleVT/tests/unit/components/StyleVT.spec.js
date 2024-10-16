@@ -16,7 +16,6 @@ describe("src/modules/styleVT/components/StyleVT.vue", () => {
         vectorTileLayerList = [];
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

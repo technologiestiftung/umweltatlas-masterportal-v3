@@ -47,7 +47,6 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
         mapCollection.addMap(map, "2D");
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

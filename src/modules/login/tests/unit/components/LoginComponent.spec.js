@@ -23,7 +23,6 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

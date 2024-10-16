@@ -12,7 +12,6 @@ describe("src/modules/modeler3D/components/EntityList.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

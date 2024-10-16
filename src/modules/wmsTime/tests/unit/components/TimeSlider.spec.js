@@ -14,7 +14,6 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

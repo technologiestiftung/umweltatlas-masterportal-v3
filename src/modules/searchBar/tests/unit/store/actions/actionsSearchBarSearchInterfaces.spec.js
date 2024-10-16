@@ -99,14 +99,96 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.j
                         search: async (searchInput) => [searchInput]
                     }]
                 },
-                getters = {showAllResults: () => false},
-                searchInput = "Test",
-                searchType = "result";
+                getters = {
+                    showAllResults: false
+                },
+                searchInput = "Test";
 
-            await search({getters, commit, dispatch, state}, {searchInput, searchType});
+            await search({getters, commit, dispatch, state}, {searchInput});
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).equals("addSearchResults");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).equals("cleanSearchResults");
+        });
+        it("should search in configured search instances for topic tree search with one interface", async () => {
+            const state = {
+                    searchInterfaceInstances: [
+                        {
+                            clearSearchResults: sinon.spy(),
+                            searchInterfaceId: "elasticSearch_0",
+                            search: async (searchInput) => [searchInput + "elasticSearch_0"]
+                        },
+                        {
+                            clearSearchResults: sinon.spy(),
+                            searchInterfaceId: "elasticSearch_1",
+                            search: async (searchInput) => [searchInput + "elasticSearch_1"]
+                        }
+                    ]
+                },
+                getters = {
+                    showAllResults: true,
+                    showAllResultsSearchInterfaceInstances:
+                         [{
+                             id: "elasticSearch_0",
+                             searchCategory: "Thema (externe Fachdaten)"
+                         }]
+
+                },
+                searchInput = "Test";
+
+            await search({getters, commit, dispatch, state}, {searchInput});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).equals("addSearchResults");
+            expect(commit.firstCall.args[1]).deep.equals({searchResults: [searchInput + "elasticSearch_0"]});
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).equals("cleanSearchResults");
+        });
+        it("should search in configured search instances for topic tree search with 2 interfaces", async () => {
+            const state = {
+                    searchInterfaceInstances: [
+                        {
+                            clearSearchResults: sinon.spy(),
+                            searchInterfaceId: "elasticSearch_0",
+                            search: async (searchInput) => [searchInput + "_elasticSearch_0"]
+                        },
+                        {
+                            clearSearchResults: sinon.spy(),
+                            searchInterfaceId: "elasticSearch_1",
+                            search: async (searchInput) => [searchInput]
+                        },
+                        {
+                            clearSearchResults: sinon.spy(),
+                            searchInterfaceId: "topicTree",
+                            search: async (searchInput) => [searchInput + "_topicTree"]
+                        }
+                    ]
+                },
+                getters = {
+                    showAllResults: true,
+                    showAllResultsSearchInterfaceInstances:
+                         [
+                             {
+                                 id: "elasticSearch_0",
+                                 searchCategory: "Thema (externe Fachdaten)"
+                             },
+                             {
+                                 id: "topicTree",
+                                 searchCategory: "Thema"
+                             }
+                         ]
+
+                },
+                searchInput = "Test";
+
+            await search({getters, commit, dispatch, state}, {searchInput});
+
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).equals("addSearchResults");
+            expect(commit.firstCall.args[1]).deep.equals({searchResults: [searchInput + "_elasticSearch_0"]});
+            expect(commit.secondCall.args[0]).equals("addSearchResults");
+            expect(commit.secondCall.args[1]).deep.equals({searchResults: [searchInput + "_topicTree"]});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).equals("cleanSearchResults");
         });
@@ -115,7 +197,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.j
                     searchInterfaceInstances: [{
                         searchInterfaceId: "MatchID",
                         clearSearchResults: sinon.spy(),
-                        search: async (searchInput) => [searchInput]
+                        search: async (searchInput) => [searchInput + "MatchID"]
                     },
                     {
                         searchInterfaceId: "MatchNotID",
@@ -125,7 +207,14 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.j
                 },
                 getters = {
                     showAllResults: () => true,
-                    showAllResultsSearchInterfaceInstance: "MatchID"
+                    showAllResultsSearchInterfaceInstances:
+                    [
+                        {
+                            id: "MatchID",
+                            searchCategory: "Thema MatchID"
+                        }
+                    ]
+
                 },
                 searchInput = "Test",
                 searchType = "result";
@@ -134,6 +223,7 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.j
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).equals("addSearchResults");
+            expect(commit.firstCall.args[1]).deep.equals({searchResults: [searchInput + "MatchID"]});
         });
     });
 

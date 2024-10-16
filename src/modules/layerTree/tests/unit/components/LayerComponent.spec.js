@@ -35,7 +35,6 @@ describe("src/modules/layerTree/components/LayerComponent.vue", () => {
         replaceByIdInLayerConfigSpy = sinon.spy();
         sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,
@@ -289,7 +288,6 @@ describe("src/modules/layerTree/components/LayerComponent.vue", () => {
         });
         it("test method scaleIsOutOfRange, isLayerTree = true, conf.maxScale is set, is mapMode = 3D, is layer visible, is not in scale", () => {
             store = createStore({
-                namespaces: true,
                 modules: {
                     Modules: {
                         namespaced: true,

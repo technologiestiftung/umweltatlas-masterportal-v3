@@ -13,7 +13,6 @@ describe("src/modules/wfsSearch/components/WfsSearchLiteral.vue", () => {
 
     beforeEach(() => {
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

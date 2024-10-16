@@ -27,7 +27,6 @@ describe("src/core/menu/navigation/components/MenuNavigation.vue", () => {
         navigateBackSpy = sinon.spy();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Menu: {
                     namespaced: true,

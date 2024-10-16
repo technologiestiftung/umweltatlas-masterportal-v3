@@ -166,6 +166,7 @@
         "searchInterfaces": [
           {
             "type": "elasticSearch",
+            "searchInterfaceId":"elasticSearch_0",
             "serviceId": "elastic_prod",
             "requestType": "GET",
             "hitTemplate": "layer",
@@ -204,6 +205,7 @@
           },
           {
             "type": "elasticSearch",
+            "searchInterfaceId":"elasticSearch_1",
             "serviceId": "elastic_address",
             "requestType": "POST",
             "epsg": "EPSG:4326",
@@ -290,6 +292,7 @@
           },
           {
             "type": "topicTree",
+            "searchInterfaceId":"topicTree",
             "hitTemplate": "layer"
           },
           {
@@ -747,8 +750,16 @@
         "active": true,
         "searchBar": {
           "active": true,
-          "searchInterfaceInstanceId": "elasticSearch_0",
-          "searchCategory": "Thema (externe Fachdaten)"
+          "searchInterfaceInstances": [
+            {
+              "id":"elasticSearch_0",
+              "searchCategory": "Thema (externe Fachdaten)"
+            }, 
+            {
+              "id": "topicTree",
+              "searchCategory": "Thema"
+            }
+          ]         
         }
       },
       "highlightedFeatures": {
@@ -821,7 +832,6 @@
           ],
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
-          "typ": "GROUP",
           "visibility": false
         },
         {
@@ -921,16 +931,6 @@
               "url": "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_gry.json"
             }
           ]
-        },
-        {
-          "id": "WMTS",
-          "name": "EOC Basemap",
-          "typ": "WMTS",
-          "visibility": false,
-          "transparency": 20,
-          "capabilitiesUrl": "https://tiles.geoservice.dlr.de/service/wmts?SERVICE=WMTS&REQUEST=GetCapabilities",
-          "layers": "eoc:basemap",
-          "optionsFromCapabilities": true
         }
       ]
     },
@@ -945,6 +945,7 @@
         {
           "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
+          "typ": "GROUP",
           "styleId": "4515",
           "visibility": true,
           "showInLayerTree": true

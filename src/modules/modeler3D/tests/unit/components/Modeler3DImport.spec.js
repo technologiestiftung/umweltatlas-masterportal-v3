@@ -108,7 +108,6 @@ describe("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
         };
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

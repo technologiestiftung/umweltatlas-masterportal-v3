@@ -39,7 +39,6 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
         mapCollection.clear();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

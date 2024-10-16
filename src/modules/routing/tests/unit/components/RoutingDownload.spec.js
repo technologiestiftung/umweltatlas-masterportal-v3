@@ -25,7 +25,6 @@ describe("src/modules/routing/components/RoutingDownload.vue", () => {
         downloadFileName = "";
 
         store = createStore({
-            namespaces: true,
             modules: {
                 Modules: {
                     namespaced: true,

@@ -14,7 +14,6 @@ describe("src/modules/fileImport/components/FileImport.vue", () => {
         mapCollection.clear();
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {
@@ -64,7 +63,6 @@ describe("src/modules/fileImport/components/FileImport.vue", () => {
         const fileNames = ["file1", "file3"];
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {

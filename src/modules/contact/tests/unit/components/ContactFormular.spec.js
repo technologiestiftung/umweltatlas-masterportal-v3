@@ -43,7 +43,6 @@ describe("src/modules/contact/components/ContactFormular.vue", () => {
         ContactModule.state.serviceId = undefined;
 
         store = createStore({
-            namespaces: true,
             modules: {
                 namespaced: true,
                 Modules: {
