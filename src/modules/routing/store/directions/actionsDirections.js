@@ -270,11 +270,6 @@ export default {
 
         dispatch("initWaypoints");
 
-        directionsRouteLayer.set("id", directionsRouteLayer.get("name") || "directions_route_layer");
-        directionsWaypointsLayer.set("id", directionsWaypointsLayer.get("name") || "directions_waypoints_layer");
-        directionsAvoidLayer.set("id", directionsAvoidLayer.get("name") || "directions_avoid_layer");
-
-
         if (!mapListenerAdded) {
             directionsWaypointsDrawInteraction.on("drawend", event => dispatch("onDirectionsWaypointsDrawEnd", event));
             directionsAvoidDrawInteraction.on("drawend", event => dispatch("onDirectionsAvoidDrawEnd", event));
