@@ -235,12 +235,12 @@
           "visibility": false
         },
         {
-          "id": "webatlas_wms_farb",
+          "id": "k5_farbe:k5_farbe:gdi_be_25833",
           "shortname": "WebAtlas halbton",
           "visibility": false
         },
         {
-          "id": "webatlas_wms_grau",
+          "id": "k5_farbe:k5_sw:gdi_be_25833",
           "shortname": "WebAtlas Grau",
           "visibility": false
         },
@@ -249,8 +249,8 @@
           "shortname": "Luftbild WMS",
           "visibility": false,
           "preview": {
-            "zoomLevel": 12,
-            "center": "390879.11,5819448.81",
+            "zoomLevel": 13,
+            "center": [390879.11,5819448.81],
             "radius": 1000
           }
         }
