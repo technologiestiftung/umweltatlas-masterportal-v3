@@ -71,6 +71,7 @@
 - Corrected link for geodata infrastructure information pdf by GDI-DE.
 - Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
 - Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/Dev/groupedLayers.md).
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened. 
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Issue #1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
 - Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
