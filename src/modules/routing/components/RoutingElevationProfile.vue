@@ -1,5 +1,15 @@
 <script>
-import getters from "../store/directions/gettersDirections";
+/**
+ * RoutingElevationProfile
+ * @module modules/RoutingElevationProfile
+ * @vue-data {Boolean} collapseProfile - shows if profile is collapsed.
+ * @vue-data {Array} distances - distances data (x-axis).
+ * @vue-data {Array} elevations - elevation data (y-axis).
+ * @vue-data {String} ascent - ascent values.
+ * @vue-data {String} descent - descent values.
+ */
+import gettersDirections from "../store/directions/gettersDirections";
+import gettersTSR from "../store/tsr/gettersTSR";
 import {mapGetters} from "vuex";
 import {Chart} from "chart.js";
 import {toRaw} from "vue";
@@ -16,20 +26,41 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", Object.keys(getters)),
-        ...mapGetters("Modules/Routing", ["directionsSettings"])
+        ...mapGetters("Modules/Routing/Directions", Object.keys(gettersDirections)),
+        ...mapGetters("Modules/Routing/TSR", Object.keys(gettersTSR)),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption", "directionsSettings", "tsrSettings"]),
+
+        /**
+         * get directions according to the active routing tool option
+         * @returns {*} - routing Directions
+         */
+        directions () {
+            if (this.activeRoutingToolOption === "TSR") {
+                return this.tsrDirections;
+            }
+            return this.routingDirections;
+        },
+        /**
+         *  get layer source according to the active routing tool option
+         * @returns {*} - layer source
+         */
+        layerSource () {
+            if (this.activeRoutingToolOption === "TSR") {
+                return toRaw(this.tsrElevationSource);
+            }
+            return toRaw(this.directionsElevationSource);
+        }
     },
     mounted () {
         // extract distances data (x-axis)
-        this.distances = this.routingDirections.elevationProfile.data.map((x) => x[0]);
+        this.distances = this.directions.elevationProfile.data.map((x) => x[0]);
 
         // extract elevation data (y-axis)
-        this.elevations = this.routingDirections.elevationProfile.data.map((x) => x[1]);
+        this.elevations = this.directions.elevationProfile.data.map((x) => x[1]);
 
         // extract ascent and descent vaulues of elevation profile
-        this.ascent = Math.round(this.routingDirections.elevationProfile.ascent).toLocaleString();
-        this.descent = Math.round(this.routingDirections.elevationProfile.descent).toLocaleString();
-
+        this.ascent = Math.round(this.directions.elevationProfile.ascent).toLocaleString();
+        this.descent = Math.round(this.directions.elevationProfile.descent).toLocaleString();
 
         const canvas = document.getElementById("elevation-profile");
 
@@ -37,7 +68,7 @@ export default {
 
         // add event listener - if leaving elevation profile with mouse, remove point on map
         canvas.addEventListener("mouseleave", () => {
-            const source = toRaw(this.directionsElevationSource);
+            const source = this.layerSource;
 
             source.getFeatures()[0].getGeometry().setCoordinates([]);
         });
@@ -50,6 +81,17 @@ export default {
          */
         drawChart (canvas) {
             // create chart for elevation profile
+            let borderColor = "",
+                backgroundColor = "";
+
+            if (this.activeRoutingToolOption === "DIRECTIONS") {
+                borderColor = this.directionsSettings.styleElevationProfile.profileColor;
+                backgroundColor = this.directionsSettings.styleElevationProfile.profileFillColor;
+            }
+            else if (this.activeRoutingToolOption === "TSR") {
+                borderColor = this.tsrSettings.styleElevationProfile.profileColor;
+                backgroundColor = this.tsrSettings.styleElevationProfile.profileFillColor;
+            }
             new Chart(canvas, {
                 type: "line",
                 data: {
@@ -57,8 +99,8 @@ export default {
                     datasets: [{
                         data: this.elevations,
                         borderWidth: 2,
-                        borderColor: this.directionsSettings.styleElevationProfile.profileColor,
-                        backgroundColor: this.directionsSettings.styleElevationProfile.profileFillColor,
+                        borderColor: borderColor,
+                        backgroundColor: backgroundColor,
                         pointStyle: false,
                         fill: true,
                         cubicInterpolationMode: "monotone"
@@ -108,7 +150,6 @@ export default {
                 }]
             });
         },
-
         /**
          * Returns the height for the tooltip
          * @param {Object} context of the mouseover
@@ -117,7 +158,6 @@ export default {
         labelToolTip (context) {
             return `${context.parsed.y} m`;
         },
-
         /**
          * Returns the distance for the tooltip
          * @param {Object} context of the mouseover
@@ -132,7 +172,6 @@ export default {
 
             return this.$t("common:modules.routing.elevationProfile.titleTooltipKilometers", {distance: (currentDistance / 1000).toFixed(2)});
         },
-
         /**
          * Shows current point on map while hovering over elevation profile
          * @param {Object} e chart event
@@ -140,23 +179,30 @@ export default {
          * @returns {void}
          */
         onHover (e, hoverData) {
-            const source = toRaw(this.directionsElevationSource);
+            const source = this.layerSource;
 
             // add current elevation point in route while hovering over corresponding data
             if (hoverData.length) {
                 const index = hoverData[0].index,
-                    point = toRaw(this.routingDirections.lineString[index]);
+                    point = this.directions.lineString[index];
 
                 source.getFeatures()[0].getGeometry().setCoordinates(point);
             }
         },
-
         /**
          * Draws a vertical line in chart on cursor position
          * @param {Object} chart chart object
          * @returns {void}
          */
         drawVerticalLine (chart) {
+            let strokeColor = "";
+
+            if (this.activeRoutingToolOption === "DIRECTIONS") {
+                strokeColor = this.directionsSettings.styleElevationProfile.elevationPointLineColor;
+            }
+            else if (this.activeRoutingToolOption === "TSR") {
+                strokeColor = this.tsrSettings.styleElevationProfile.elevationPointLineColor;
+            }
             if (chart.tooltip?._active?.length) {
                 const x = chart.tooltip._active[0].element.x,
                     yAxis = chart.scales.y,
@@ -167,7 +213,7 @@ export default {
                 ctx.moveTo(x, yAxis.top);
                 ctx.lineTo(x, yAxis.bottom);
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = this.directionsSettings.styleElevationProfile.elevationPointLineColor;
+                ctx.strokeStyle = strokeColor;
                 ctx.stroke();
                 ctx.restore();
             }

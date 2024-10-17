@@ -5,12 +5,14 @@ import state from "./stateRouting";
 
 import Directions from "./directions/indexDirections";
 import Isochrones from "./isochrones/indexIsochrones";
+import TSR from "./tsr/indexTSR";
 
 export default {
     namespaced: true,
     modules: {
         Directions,
-        Isochrones
+        Isochrones,
+        TSR
     },
     state,
     mutations,

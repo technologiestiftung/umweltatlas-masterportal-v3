@@ -930,6 +930,8 @@
       },
       "moveWaypointDown": "Wegpunkt nach unten verschieben",
       "moveWaypointUp": "Wegpunkt nach oben verschieben",
+      "startIndex": "S",
+      "endIndex": "Z",
       "name": "Routing",
       "resetSettings": "Einstellungen zurücksetzen",
       "restrictions": {
@@ -956,7 +958,54 @@
       "startpoint": "Startpunkt",
       "tabs": {
         "DIRECTIONS": "Routenplanung",
-        "ISOCHRONES": "Erreichbarkeit"
+        "ISOCHRONES": "Erreichbarkeit",
+        "TSR": "Travelling Salesman"
+      },
+      "tsr": {
+        "header": "Routenoptionen ändern",
+        "calculate": "TSR Route berechnen",
+        "upload": {
+          "header": "Wegpunkte hochladen",
+          "description": "Wählen Sie eine csv Datei aus, die eigene Wegpunkte für das TSR beinhaltet. \n Dabei ist folgendes Format einzuhalten:",
+          "csvHeaders": "Datei enthält Kopfzeile",
+          "help": "Hilfe",
+          "divider": "oder",
+          "failTitle": "Die Datei konnte nicht hochgeladen werden.",
+          "successTitle": "Die Datei wurde erfolgreich hochgeladen.",
+          "successInfo": "Die hochgeladenen Wegpunkte stehen Ihnen nun in der Liste zur Verfügung."
+        },
+        "backToTSR": "Routing",
+        "modifyWaypointsTSR": "Wegpunkte bearbeiten",
+        "outputHeaderTSR": "Schnellste Route",
+        "downloadOutputTSR": "TSR Route herunterladen",
+        "downloadCsv": {
+          "header": "*** Travelling Salesman Routing ***",
+          "descriptionRoundTrip": "Startpunkt: {{start}} nach: Rundtrip",
+          "descriptionNoRoundTrip": "Startpunkt: {{start}} nach: {{end}}",
+          "optimalOrder": "optimale {{profile}}-Zielreihenfolge:",
+          "waypoint" : "{{pos}}) {{displayName}};{{lon}};{{lat}}"
+        },
+        "selectedPoints": "Ausgewählte Wegpunkte",
+        "structure":"ID;lon;lat",
+        "tsrEndpoint": "Falls nicht definiert: Rundtrip",
+        "tsrDuration": "Gesamtdauer: ",
+        "tsrDistance": "Gesamtstrecke: ",
+        "errors": {
+          "wrongFileType": "Falsches Dateiformat. Bitte laden Sie eine CSV-Datei hoch.",
+          "errorNoEntries": "Keine Einträge in der CSV",
+          "errorToManyEntriesInFile": "Maximale Anzahl an TSR Punkten überschritten ({{limit}}).",
+          "wrongNEntriesInRow": "Falsche Anzahl von Attributen in Zeile {{row}}. Überprüfen Sie das Format der Daten (ID;lon;lat) und das Trennzeichen (Semikolon).",
+          "rowContainsEntriesNoNumber": "Koordinaten in Zeile {{row}} enthalten keine Zahlen.",
+          "emptyRow": "Datei enthält mindestens eine leere Zeile.",
+          "emptyEntriesInRow": "Fehlende Daten in Zeile {{row}}. Überprüfen Sie die Daten und das Trennzeichen (Semikolon).",
+          "invalidCoordinateRange": "Koordinaten haben ungültige Werte in Zeile {{row}}. Gültige Werte sind -180 - 180 (Longitude) und -90 - 90 (Latitude).",
+          "attributeTooLong": "Attribute in Zeile {{row}} enthalten mehr als 25 Zeichen.",
+          "errorCalculation": "Die Berechnung konnte nicht gestartet werden.",
+          "notEnoughPoints": "Bitte geben Sie den Startpunkt und mindestens zwei weitere Punkte an.",
+          "emptyPoint": "Mindestens ein Punkt ist leer. Bitte überprüfen Sie die Punkte in der Liste.",
+          "duplicatePoints": "Die hochgeladenen Wegpunkte stehen Ihnen nun in der Liste zur Verfügung. Duplikate wurden ignoriert.",
+          "unreachablePoint": "Leider konnte mit mindestens einem der gewählten Punkte keine Route berechnet werden."
+        }
       },
       "waypoint": "Wegpunkt"
     },

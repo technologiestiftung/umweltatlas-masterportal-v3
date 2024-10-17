@@ -14,6 +14,7 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  * @vue-data {Array} searchResults - The list of search results.
  * @vue-data {Boolean} ignoreNextSearchChange - Shows if the next change of the search should be ignored.
  * @vue-data {Boolean} isFocused - Shows if input is focused.
+ * @vue-data {Number} selectedIndex - index of selected search result.
  *
  * @vue-computed {String} waypointDisplayName - The waypoint display name.
  *
@@ -21,6 +22,7 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  * @vue-event {String} moveWaypointUp - Emits function to move waypoint up.
  * @vue-event {String} searchResultSelected - Emits function to select search result.
  * @vue-event {Boolean} removeWaypoint - Emits function to remove waypoint.
+ * @vue-event {Boolean} addStartEnd - Emits function to add start or endpoint if input field is focused.
  */
 export default {
     name: "RoutingCoordinateInput",
@@ -39,7 +41,8 @@ export default {
         "moveWaypointDown",
         "moveWaypointUp",
         "searchResultSelected",
-        "removeWaypoint"
+        "removeWaypoint",
+        "addStartEnd"
     ],
     data () {
         return {
@@ -49,11 +52,14 @@ export default {
             awaitingSearch: false,
             searchResults: [],
             ignoreNextSearchChange: false,
-            isFocused: false
+            isFocused: false,
+            selectedIndex: -1
         };
     },
     computed: {
         ...mapGetters("Modules/Routing/Directions", ["waypoints"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
+
         /**
          * Computed value for the waypoint display name to watch for changes
          * @returns {String} the display name for the waypoint
@@ -118,10 +124,14 @@ export default {
                         this.searchResults = await this.fetchCoordinatesByText({
                             search: this.search
                         });
+                        this.selectedIndex = -1;
                     }
                 }, 1000);
             }
             this.awaitingSearch = true;
+        },
+        isFocused: function () {
+            this.addStartEnd();
         }
     },
     methods: {
@@ -129,6 +139,15 @@ export default {
             "fetchCoordinatesByText",
             "transformCoordinatesWgs84ToLocalProjection"
         ]),
+        /**
+         * Emits function to add start or endpoint if input field is focused.
+         * @returns {void}
+         */
+        addStartEnd () {
+            if (this.isFocused) {
+                this.$emit("addStartEnd");
+            }
+        },
         /**
          * Selects a result from the external service provider.
          * @param {RoutingGeosearchResult} searchResult which was selected by the user
@@ -142,6 +161,7 @@ export default {
             this.ignoreNextSearchChange = true;
             this.search = searchResult.getDisplayName();
             this.searchResults = [];
+            this.selectedIndex = -1;
             this.$emit("searchResultSelected");
         },
         /**
@@ -207,8 +227,11 @@ export default {
             if (this.waypoint.index === 0) {
                 return this.$t("common:modules.routing.startpoint");
             }
-            else if (this.waypoint.index === this.countWaypoints - 1) {
+            else if (this.activeRoutingToolOption !== "TSR" && this.waypoint.index === this.countWaypoints - 1) {
                 return this.$t("common:modules.routing.endpoint");
+            }
+            else if (this.activeRoutingToolOption === "TSR" && this.waypoint.index === this.countWaypoints - 1) {
+                return this.$t("common:modules.routing.tsr.tsrEndpoint");
             }
             return this.$t("common:modules.routing.waypoint");
         }
@@ -246,7 +269,7 @@ export default {
             <div class="d-flex">
                 <div class="justify-content-between">
                     <div
-                        v-show="waypoint.index !== 0"
+                        v-show="activeRoutingToolOption !== 'TSR' ? waypoint.index !== 0 : false"
                         class="h-50"
                     >
                         <IconButton
@@ -258,7 +281,7 @@ export default {
                         />
                     </div>
                     <div
-                        v-show="waypoint.index !== countWaypoints - 1"
+                        v-show="activeRoutingToolOption !== 'TSR' ? waypoint.index !== countWaypoints - 1 : false"
                         class="h-50"
                     >
                         <IconButton
@@ -287,6 +310,7 @@ export default {
                 v-for="(searchResult, index) of searchResults"
                 :key="index"
                 class="list-group-item"
+                :class="{ 'active': index === selectedIndex }"
             >
                 <button
                     class="btn-icon search-result-button"
@@ -305,11 +329,13 @@ export default {
 .btn-up-down {
     margin-left: 5px;
 }
+
 .btn-icon {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     padding: 5px 0 0 10px;
 }
+
 .input-icon {
     margin-left: -37px;
 }
@@ -319,7 +345,7 @@ label {
     margin-bottom: 0;
 }
 
-li:hover {
+li:hover, li.active {
     cursor: pointer;
     background: $light-grey;
     font-size: $font-size-base;

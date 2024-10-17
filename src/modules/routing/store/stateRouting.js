@@ -134,6 +134,36 @@ const state = {
             limit: 1000,
             maximumConcurrentRequests: 3
         }
+    },
+    tsrSettings: {
+        type: null,
+        serviceId: null,
+        speedProfile: "CAR",
+        preference: "RECOMMENDED",
+        elevation: false,
+        tsrPointLimit: 50,
+        styleRoute: {
+            fillColor: [255, 44, 0],
+            width: 6,
+            highlightColor: [255, 255, 255],
+            highlightWidth: 9
+        },
+        styleWaypoint: {
+            lineColor: [255, 127, 0],
+            lineWidth: 4,
+            fillColor: [255, 127, 0],
+            textFillColor: "#000",
+            textLineColor: "#fff",
+            textLineWidth: 3,
+            opacity: 0.3,
+            radius: 8
+        },
+        styleElevationProfile: {
+            profileColor: "#32a9e8",
+            profileFillColor: "#8cc7e6",
+            elevationPointLineColor: [0, 0, 0, 1.0],
+            elevationPointFillColor: [125, 125, 125, 1.0]
+        }
     }
 };
 
