@@ -911,8 +911,7 @@ export default {
                 >
                     <td
                         v-if="removable"
-                        :key="columnIdx+1"
-                        :class="['p-2', selectMode === 'column' && columnIdx+1 > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx+1), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', 'pull-left']"
+                        :class="['p-2', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', 'pull-left']"
                     >
                         <button
                             class="remove-row"

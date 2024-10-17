@@ -75,8 +75,6 @@ export default {
                 </label>
             </div>
         </div>
-    </div>
-    <div>
         <div
             v-if="!hasFeatures"
             id="module-compareFeatures-no-features"
