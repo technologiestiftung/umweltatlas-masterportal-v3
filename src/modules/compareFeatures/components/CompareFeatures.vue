@@ -16,10 +16,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "selectedLayer", "preparedListDisplayTable", "selectableLayers"]),
+        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "selectedLayerId", "preparedListDisplayTable", "selectableLayers"]),
         selected: {
             get () {
-                return this.$store.state.Modules.CompareFeatures.selectedLayer;
+                return this.$store.state.Modules.CompareFeatures.selectedLayerId;
             },
             set (newValue) {
                 this.selectLayerWithFeatures(newValue);
@@ -27,11 +27,11 @@ export default {
         }
     },
     methods: {
-        ...mapActions("Modules/CompareFeatures", ["removeFeatureFromTable"]),
+        ...mapActions("Modules/CompareFeatures", ["removeFeature"]),
         ...mapMutations("Modules/CompareFeatures", ["selectLayerWithFeatures"]),
 
         removeItem (idFeature, idLayer) {
-            this.removeFeatureFromTable({idFeature, idLayer});
+            this.removeFeature({idFeature, idLayer});
         }
     }
 };
@@ -101,7 +101,7 @@ export default {
         <TableComponent
             v-if="hasMultipleLayers"
             id="module-compareFeatures-comparisonListMultipleLayers"
-            :data="preparedListDisplayTable[selectedLayer]"
+            :data="preparedListDisplayTable[selectedLayerId]"
             :sortable="true"
             :filterable="true"
             :show-header="true"

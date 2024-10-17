@@ -5,8 +5,9 @@ const getters = {
     ...generateSimpleGetters(compareFeaturesState),
     /**
      * Checks if a feature is selected.
-     * @param {Object} state context object.
-     * @param {Object} gfiFeature - feature
+     * @param {Object} state - the state.
+     * @param {Object} featureId - feature id.
+     * @param {Object} layerId - layer id.
      * @returns {void}
      */
     isFeatureSelected: state => ({featureId, layerId}) => {
@@ -21,7 +22,7 @@ const getters = {
     },
     /**
      * Gets the currently available layers.
-     * @param {Object} state context object.
+     * @param {Object} state - the state.
      * @returns {void}
      */
     selectableLayers: state => {

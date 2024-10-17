@@ -36,16 +36,18 @@ describe("src/modules/compareFeatures/store/actionsCompareFeatures.js", () => {
     describe("removeFeature", () => {
         it("removes the feature from the layer", () => {
             const state = {
-                gfiFeature: {layerId: "1711", featureId: "1234"},
-                preparedList: {"1711": [{featureId: "feature1", layerId: "1711"}]}
-            };
+                    gfiFeature: {layerId: "1711", featureId: "1234"},
+                    preparedList: {"1711": [{featureId: "1234", layerId: "1711"}]}
+                },
+                idFeature = state.gfiFeature.featureId,
+                idLayer = state.gfiFeature.layerId;
 
-            removeFeature({state, commit}, state.gfiFeature);
+            removeFeature({state, commit}, {idFeature, idLayer});
             expect(commit.firstCall.args[0]).to.equal("removeFeatureFromLists");
             expect(commit.firstCall.args[1]).to.eql({
-                features: [{featureId: "feature1", layerId: "1711"}],
+                features: [{featureId: "1234", layerId: "1711"}],
                 featureId: "1234",
-                selectedLayer: "1711"
+                selectedLayerId: "1711"
             });
         });
     });

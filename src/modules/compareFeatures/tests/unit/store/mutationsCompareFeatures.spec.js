@@ -21,18 +21,18 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
         });
     });
     describe("selectLayerWithFeatures", () => {
-        it("selects the chosen layer and sets selectedLayer in state", () => {
+        it("selects the chosen layer and sets selectedLayerId in state", () => {
             const state = {
                 layerWithFeaturesToShow: [],
                 layerFeatures: {1711: [{properties: {name: "abcd", id: "1234"}}]}
             };
 
             selectLayerWithFeatures(state, 1711);
-            expect(state.selectedLayer).to.equal(1711);
+            expect(state.selectedLayerId).to.equal(1711);
         });
     });
     describe("addFeatureToLayer", () => {
-        it("selects the chosen layer and sets selectedLayer in state", () => {
+        it("selects the chosen layer and sets selectedLayerId in state", () => {
             const state = {
                 layerFeatures: {},
                 feature: {featureId: "feature1", layerId: "1711"}
@@ -115,7 +115,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                         }
                     ],
                     featureId: "APP_BEZIRKE_1422",
-                    selectedLayer: "2426"
+                    selectedLayerId: "2426"
                 }
             };
 
@@ -208,14 +208,14 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                         }
                     ],
                     featureId: "APP_BEZIRKE_1422",
-                    selectedLayer: "2426"
+                    selectedLayerId: "2426"
                 }
             };
 
             removeFeatureFromLists(state, state.payload);
 
-            expect(state.preparedListDisplayTable[state.payload.selectedLayer].items.length).to.eql(1);
-            expect(state.layerFeatures[state.payload.selectedLayer].length).to.eql(1);
+            expect(state.preparedListDisplayTable[state.payload.selectedLayerId].items.length).to.eql(1);
+            expect(state.layerFeatures[state.payload.selectedLayerId].length).to.eql(1);
             expect(state.layerFeatures).to.eql({2426: [
                 {
                     layerId: "2426", featureId: "APP_BEZIRKE_1425", properties: {Bezirk: "4", Bezirksname: "Hamburg-Nord", id: "APP_BEZIRKE_1425", idLayer: "2426"}
@@ -349,7 +349,7 @@ describe("src/modules/compareFeatures/store/mutationsCompareFeatures.js", () => 
                         }
                     ],
                     featureId: "APP_KITA_1426",
-                    selectedLayer: "8123"
+                    selectedLayerId: "8123"
                 }
             };
 

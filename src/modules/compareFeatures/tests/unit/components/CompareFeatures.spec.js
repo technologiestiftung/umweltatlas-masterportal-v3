@@ -12,7 +12,7 @@ describe("CompareFeatures.vue", () => {
             hasFeatures: () => hasFeaturesValue,
             hasMultipleLayers: () => hasMultipleLayersValue,
             active: () => true,
-            selectedLayer: () => "layer1",
+            selectedLayerId: () => "layer1",
             preparedListDisplayTable: () => ({
                 layer1: [{id: 1, name: "Feature 1"}]
             }),
@@ -27,7 +27,7 @@ describe("CompareFeatures.vue", () => {
         },
 
         actions = {
-            removeFeatureFromTable: sinon.stub()
+            removeFeature: sinon.stub()
         };
 
     beforeEach(() => {
@@ -107,15 +107,15 @@ describe("CompareFeatures.vue", () => {
         expect(tableComponent.props("data")).to.deep.equal([{id: 1, name: "Feature 1"}]);
     });
 
-    it("calls removeFeatureFromTable when removeItem is triggered", async () => {
+    it("calls removeFeature when removeItem is triggered", async () => {
         const wrapper = shallowMount(CompareFeaturesComponent, {global: {plugins: [store]}}),
 
             tableComponent = wrapper.findComponent(TableComponent);
 
         await tableComponent.vm.$emit("removeItem", 1, "layer1");
 
-        expect(actions.removeFeatureFromTable.calledOnce).to.be.true;
-        expect(actions.removeFeatureFromTable.calledWithMatch({}, {idFeature: 1, idLayer: "layer1"})).to.be.true;
+        expect(actions.removeFeature.calledOnce).to.be.true;
+        expect(actions.removeFeature.calledWithMatch({}, {idFeature: 1, idLayer: "layer1"})).to.be.true;
     });
 
     it("updates the selected layer when changed", async () => {

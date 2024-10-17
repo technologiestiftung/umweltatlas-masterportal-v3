@@ -60,7 +60,10 @@ export default {
                 this.isFeatureOnCompareList(this.gfiFeature);
             }
             else {
-                this.removeFeature(this.gfiFeature);
+                const idLayer = this.gfiFeature.layerId,
+                    idFeature = this.gfiFeature.featureId;
+
+                this.removeFeature({idFeature, idLayer});
             }
         }
     }

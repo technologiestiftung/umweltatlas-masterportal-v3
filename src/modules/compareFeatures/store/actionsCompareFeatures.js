@@ -1,6 +1,9 @@
 export default {
     /**
      * Checks if feature is on compare list and adds it to the list when star icon gets clicked.
+     * @param {Object} state - the state.
+     * @param {Object} commit - the commit.
+     * @param {Object} dispatch - the dispatch.
      * @param {Object} gfiFeature - feature
      * @returns {void}
      */
@@ -9,36 +12,31 @@ export default {
 
         commit("addFeatureToLayer", gfiFeature);
         commit("setCurrentFeatureName", gfiFeature.properties.Name || gfiFeature.properties.name);
-        commit("setSelectedLayer", gfiFeature.layerId);
+        commit("setSelectedLayerId", gfiFeature.layerId);
         for (const feature of state.layerFeatures[layerId]) {
             dispatch("prepareFeatureListToShow", feature);
         }
     },
-    /**
-     * Removes the feature if star icon is clicked.
-     * @param {Object} gfiFeature - feature
-     * @returns {void}
-     */
-    removeFeature: function ({state, commit}, gfiFeature) {
-        const features = state.hasMultipleLayers ? state.preparedList[gfiFeature.layerId] : state.preparedList[Object.keys(state.preparedList)[0]];
 
-        commit("removeFeatureFromLists", {features: features, featureId: gfiFeature.featureId, selectedLayer: gfiFeature.layerId});
-    },
     /**
-     * Removes the feature if element in the table is clicked to remove.
+     * Removes the feature if element in the table is clicked to remove or if star icon is clicked.
+     * @param {Object} state - the state.
+     * @param {Object} commit - the commit.
      * @param {Object} idFeature - Feature id.
      * @param {Object} idLayer - Layer id.
      * @returns {void}
      */
-    removeFeatureFromTable: function ({state, commit}, {idFeature, idLayer}) {
+    removeFeature: function ({state, commit}, {idFeature, idLayer}) {
         const features = state.hasMultipleLayers ? state.preparedList[idLayer] : state.preparedList[Object.keys(state.preparedList)[0]];
 
-        commit("removeFeatureFromLists", {features: features, featureId: idFeature, selectedLayer: idLayer});
+        commit("removeFeatureFromLists", {features: features, featureId: idFeature, selectedLayerId: idLayer});
     },
     /**
      * prepares the list for rendering using the 'gfiAttributes'
      * one object attribute is created for each feature (column)
      * the feature with the most attributes dictates the number of infos that are shown.
+     * @param {Object} state context object.
+     * @param {Object} commit context object.
      * @param {object} gfiAttributes -
      * @returns {object[]} list - one object per row
      */
