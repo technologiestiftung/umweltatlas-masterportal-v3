@@ -22,7 +22,7 @@ const state = {
     // defaults for config.json parameters
     name: "common:modules.compareFeatures.title",
     hasMouseMapInteractions: false,
-    description: "common:modules.scaleSwitcher.description",
+    description: "common:modules.compareFeatures.description",
     icon: "bi-star",
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],

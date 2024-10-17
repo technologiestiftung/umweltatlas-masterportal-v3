@@ -204,6 +204,7 @@
     },
     "compareFeatures": {
       "title": "Comparison list",
+      "description": "Compare selected objects in the table.",
       "topicsSelection": "Topics selection",
       "removeFromList": "Remove from list",
       "noFeatures": {

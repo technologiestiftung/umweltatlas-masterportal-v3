@@ -3034,8 +3034,8 @@ Hier können Vector Features miteinander verglichen werden. Dazu werden vektorba
 |----|-------------|---|-------|------------|------|
 |icon|nein|String|"bi-star"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.compareFeatures.name"|Name des Moduls im Menü.|false|
-|numberOfAttributesToShow - deprecated|nein|Integer|12|deprecated (Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.)|false|
-|numberOfFeaturesToShow - deprecated|nein|Integer|3|deprecated (Anzahl der Features die maximal miteinander verglichen werden können.)|false|
+|numberOfAttributesToShow|nein|Integer|12|Deprecated in next major release. Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.|false|
+|numberOfFeaturesToShow|nein|Integer|3|Deprecated in next major release. Anzahl der Features die maximal miteinander verglichen werden können.|false|
 |type|nein|String|"compareFeatures"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 

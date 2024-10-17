@@ -3040,8 +3040,8 @@ This tool allows comparing vector features which are provided by WFS(❗) servic
 |----|--------|----|-------|-----------|------|
 |icon|no|String|"bi-star"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.compareFeatures.name"|Name of the module in the menu.|false|
-|numberOfAttributesToShow - deprecated|no|Integer|12|deprecated (Maximum amount of attributes initially shown. If more attributes are available, they can be shown and hidden by clicking a button.)|false|
-|numberOfFeaturesToShow - deprecated|no|Integer|3|deprecated (Maximum amount of features selectable for comparison.)|false|
+|numberOfAttributesToShow|no|Integer|12|Deprecated in next major release. Maximum amount of attributes initially shown. If more attributes are available, they can be shown and hidden by clicking a button.|false|
+|numberOfFeaturesToShow|no|Integer|3|Deprecated in next major release. Maximum amount of features selectable for comparison.|false|
 |type|no|String|"compareFeatures"|The type of the module. Defines which module is configured.|false|
 
 
