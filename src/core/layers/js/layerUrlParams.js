@@ -88,7 +88,6 @@ function setLayersByMetadataId (params) {
         baselayer = store.getters.layerConfigsByAttributes({baselayer: true})?.at(-1),
         layers = [{
             id: baselayer.id
-
         }];
 
     store.getters.allLayerConfigs.forEach(layerConfig => {
@@ -100,7 +99,6 @@ function setLayersByMetadataId (params) {
             }
         });
     });
-
 
     removeCurrentLayerFromLayerTree();
     addLayerToLayerTree(layers);
