@@ -134,7 +134,6 @@ function mergeGroupedLayer (layerConf) {
         rawLayer = {...layerConf};
         rawLayer.id = ids.join("-");
         if (layerConf.children) {
-            // collectMinMaxScales(layerConf.children, maxScales, minScales);
             layerConf.children.forEach(groupedLayerConf => {
                 const rawGroupedLayerIndex = existingLayers.findIndex(layer => layer.id === groupedLayerConf.id);
 
