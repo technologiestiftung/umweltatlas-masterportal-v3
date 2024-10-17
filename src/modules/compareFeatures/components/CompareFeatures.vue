@@ -1,5 +1,4 @@
 <script>
-import * as constants from "../store/constantsCompareFeatures";
 import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 
@@ -9,9 +8,12 @@ export default {
         TableComponent
     },
     data () {
+        const iconEmptyStar = "<span class=\"bootstrap-icon\" style=\"font-size:22px;\"><i class=\"bi-star\"></i></span>",
+            iconYellowStar = "<span class=\"bootstrap-icon\" style=\"color:#fec44f; font-size:22px;\"><i class=\"bi-star-fill\"></i></span>";
+
         return {
-            iconEmptyStar: constants.iconEmptyStar,
-            iconYellowStar: constants.iconYellowStar,
+            iconEmptyStar,
+            iconYellowStar,
             sortable: true
         };
     },

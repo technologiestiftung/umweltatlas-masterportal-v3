@@ -37,7 +37,7 @@ export default {
      * the feature with the most attributes dictates the number of infos that are shown.
      * @param {Object} state context object.
      * @param {Object} commit context object.
-     * @param {object} gfiAttributes -
+     * @param {object} gfiAttributes - GFI attributes configuration to get layerId.
      * @returns {object[]} list - one object per row
      */
     prepareFeatureListToShow: function ({state, commit}, gfiAttributes) {
