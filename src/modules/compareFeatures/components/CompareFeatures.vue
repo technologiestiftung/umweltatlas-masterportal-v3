@@ -24,6 +24,12 @@ export default {
             set (newValue) {
                 this.selectLayerWithFeatures(newValue);
             }
+        },
+        tableId () {
+            return this.hasMultipleLayers ? "module-compareFeatures-comparisonListMultipleLayers" : "module-compareFeatures-comparisonListSingleLayer";
+        },
+        tableData () {
+            return this.hasMultipleLayers ? this.preparedListDisplayTable[this.selectedLayerId] : this.preparedListDisplayTable[Object.keys(this.preparedListDisplayTable)[0]];
         }
     },
     methods: {
@@ -86,25 +92,12 @@ export default {
                 v-html="$t('common:modules.compareFeatures.noFeatures.info2')"
             />
         </div>
-
         <TableComponent
-            v-if="hasFeatures && !hasMultipleLayers"
-            id="module-compareFeatures-comparisonListSingleLayer"
-            :data="preparedListDisplayTable[Object.keys(preparedListDisplayTable)[0]]"
+            v-if="hasFeatures"
+            :id="tableId"
+            :data="tableData"
             :sortable="true"
             :filterable="true"
-            :downloadable="true"
-            :removable="true"
-            :enable-settings="true"
-            @removeItem="removeItem"
-        />
-        <TableComponent
-            v-if="hasMultipleLayers"
-            id="module-compareFeatures-comparisonListMultipleLayers"
-            :data="preparedListDisplayTable[selectedLayerId]"
-            :sortable="true"
-            :filterable="true"
-            :show-header="true"
             :downloadable="true"
             :removable="true"
             :enable-settings="true"
