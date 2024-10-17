@@ -23,7 +23,7 @@ import {markRaw} from "vue";
 export default {
     name: "DefaultTheme",
     components: {
-        CompareFeatureIcon,
+        CompareFeatureIcon: markRaw(CompareFeatureIcon),
         DefaultThemeSensorChart: markRaw(DefaultThemeSensorChart)
     },
     props: {
