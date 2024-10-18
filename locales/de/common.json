@@ -296,7 +296,7 @@
         "yellow": "Gelb"
       },
       "defined": "definiert",
-      "description": "Erstellen Sie wichtige Markierungen oder kennzeichnen Sie Flächen. Laden Sie diese hier herunter um sie später wieder zu laden",
+      "description": "Erstellen Sie wichtige Markierungen oder kennzeichnen Sie Flächen. Laden Sie diese hier herunter, um sie später wieder zu laden",
       "doubleCirclePlaceholder": "Bitte geben Sie einen Radius ein",
       "download": {
         "enterFilename": "Bitte Dateiname angeben",
