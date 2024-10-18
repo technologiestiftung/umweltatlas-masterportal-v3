@@ -327,38 +327,6 @@ export default {
     },
 
     /**
-     * Tries to find the waypoint index between the given lineStringIndex.
-     * Used to determine where to insert the new waypoint when the route is dragged in the map.
-     * @param {Object} context actions context object.
-     * @param {Object} params with lineStringIndex as number to search
-     * @param {Number} [params.lineStringIndex] at which index in the linestring to search for waypoints
-     * @returns {Number | null} the waypoint index or null if nothing was found
-     */
-    findWaypointBetweenLineStringIndex ({state}, {lineStringIndex}) {
-        const {waypoints} = state;
-
-        for (let i = 0; i < waypoints.length; i++) {
-            const waypoint = waypoints[i],
-                nextWaypoint = waypoints[i + 1];
-
-            if (
-                !nextWaypoint ||
-                waypoint.getIndexDirectionsLineString() === null ||
-                nextWaypoint.getIndexDirectionsLineString() === null
-            ) {
-                break;
-            }
-            if (
-                lineStringIndex >= waypoint.getIndexDirectionsLineString() &&
-                lineStringIndex < nextWaypoint.getIndexDirectionsLineString()
-            ) {
-                return i;
-            }
-        }
-        return null;
-    },
-
-    /**
      * Define whether a startpoint, endpoint, or waypoint is to be added.
      * @param {Object} context actions context object.
      * @param {Number} position new value of addStartEndPoint

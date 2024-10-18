@@ -264,23 +264,6 @@ describe("src/modules/routing/store/directions/actionsTSR.js", () => {
         ]);
     });
 
-    it("should findWaypointBetweenLineStringIndex", async () => {
-        const waypointBetweenLineStringIndex = await actionsTSR.findWaypointBetweenLineStringIndex({state, getters, commit, dispatch, rootState}, {
-            lineStringIndex: 0
-        });
-
-        expect(waypointBetweenLineStringIndex).equal(0);
-    });
-
-    it("should not findWaypointBetweenLineStringIndex", async () => {
-        const waypointBetweenLineStringIndex = await actionsTSR.findWaypointBetweenLineStringIndex({state, getters, commit, dispatch, rootState}, {
-            lineStringIndex: 3
-        });
-
-        expect(waypointBetweenLineStringIndex).equal(null);
-    });
-
-
     describe("should addWaypoint", () => {
         it("without index", async () => {
             state.addStartEndPoint = 1;

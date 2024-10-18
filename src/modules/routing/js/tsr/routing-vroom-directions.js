@@ -271,16 +271,13 @@ function createGeoJSONFromVroomResponse (vroomResponse, includeElevation) {
     };
 
     routes.forEach((route) => {
-        const encodedPolylineCoordinates = route.geometry;
-
-        delete route.geometry;
-        // eslint-disable-next-line one-var
-        const decodedPolylineCoordinates = decodePolyline(encodedPolylineCoordinates, includeElevation);
+        const encodedPolylineCoordinates = route.geometry,
+            decodedPolylineCoordinates = decodePolyline(encodedPolylineCoordinates, includeElevation);
 
         decodedPolylineCoordinates.forEach(function (coordinate) {
             coordinate.reverse();
-        }
-        );
+        });
+
         // Create a geojson feature and store the coordinates and properties
         // eslint-disable-next-line one-var
         const geojsonFeature = {
