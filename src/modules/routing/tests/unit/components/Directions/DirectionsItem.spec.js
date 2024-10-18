@@ -74,7 +74,10 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                                 index: sinon.stub(),
                                                 getDisplayName: () => sinon.stub()
                                             }
-                                        ]
+                                        ],
+                                        keepRoutes: (state) => {
+                                            return state.keepRoutes;
+                                        }
                                     },
                                     mutations: {
                                         setDirectionsAvoidSource: sinon.stub(),

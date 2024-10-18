@@ -55,7 +55,8 @@ export default {
             "routingRestrictionsInputData",
             "routingDirections",
             "settings",
-            "waypoints"
+            "waypoints",
+            "keepRoutes"
         ]),
         ...mapGetters("Modules/Routing", ["directionsSettings"]),
         /**
@@ -83,7 +84,8 @@ export default {
     methods: {
         ...mapMutations("Modules/Routing/Directions", [
             "setRoutingDirections",
-            "setMapInteractionMode"
+            "setMapInteractionMode",
+            "setKeepRoutes"
         ]),
         ...mapActions("Modules/Routing/Directions", [
             "findDirections",
@@ -214,7 +216,15 @@ export default {
         />
 
         <hr>
+        <input
+            id="routing-delete-routes-input"
+            type="checkbox"
+            :checked="keepRoutes"
+            @change="setKeepRoutes($event.target.checked)"
+        >
+        <span class="ms-2">{{ $t('common:modules.routing.directions.keepRoutesAfterClose') }}</span>
 
+        <hr>
         <template v-if="directionsSettings.batchProcessing.enabled">
             <RoutingBatchProcessingCheckbox
                 :batch-processing="directionsSettings.batchProcessing"

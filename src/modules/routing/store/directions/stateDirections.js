@@ -60,6 +60,7 @@ export default {
         hazmat: false
     },
 
+    keepRoutes: true,
     // Routing Directions Result
     routingDirections: null,
     mapListenerAdded: false,
