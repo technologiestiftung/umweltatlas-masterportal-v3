@@ -144,9 +144,7 @@ const state = {
         tsrPointLimit: 50,
         styleRoute: {
             fillColor: [255, 44, 0],
-            width: 6,
-            highlightColor: [255, 255, 255],
-            highlightWidth: 9
+            width: 6
         },
         styleWaypoint: {
             lineColor: [255, 127, 0],

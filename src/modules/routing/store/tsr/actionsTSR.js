@@ -160,7 +160,7 @@ export default {
     getRouteFeature ({state}) {
         const {tsrRouteSource} = state;
 
-        return tsrRouteSource.getFeatures().find(feature => !feature.get("isHighlight"));
+        return tsrRouteSource.getFeatures()[0];
     },
 
     /**

@@ -21,8 +21,7 @@ describe("src/modules/routing/store/directions/actionsTSR.js", () => {
         tsrRouteSource = new VectorSource();
 
         routeFeature = new Feature({
-            geometry: new LineString([[8.1, 51.1], [8.2, 51.2]]),
-            isHighlight: false
+            geometry: new LineString([[8.1, 51.1], [8.2, 51.2]])
         });
 
         startPoint = new RoutingWaypoint({index: 0, source: tsrWaypointSource});

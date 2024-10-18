@@ -5,6 +5,6 @@ import VectorLayer from "ol/layer/Vector.js";
 export default new VectorLayer({
     source: directionsElevationSource,
     style: directionsElevationStyle,
-    name: "directions_Elevation_layer",
+    name: "directions_elevation_layer",
     alwaysOnTop: true
 });

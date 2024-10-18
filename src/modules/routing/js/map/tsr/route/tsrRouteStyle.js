@@ -12,12 +12,6 @@ export default function createtsrRouteStyle () {
     return [
         new Style({
             stroke: new Stroke({
-                color: [...styleSetting.highlightColor, 1.0],
-                width: styleSetting.highlightWidth
-            })
-        }),
-        new Style({
-            stroke: new Stroke({
                 color: [...styleSetting.fillColor, 1.0],
                 width: styleSetting.width
             })

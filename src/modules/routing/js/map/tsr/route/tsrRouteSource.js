@@ -5,12 +5,7 @@ import LineString from "ol/geom/LineString";
 export default new VectorSource({
     features: [
         new Feature({
-            geometry: new LineString([]),
-            isHighlight: false
-        }),
-        new Feature({
-            geometry: new LineString([]),
-            isHighlight: true
+            geometry: new LineString([])
         })
     ]
 });
