@@ -1,6 +1,5 @@
 import {RoutingWaypoint} from "../../js/classes/routing-waypoint";
 import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
 import Point from "ol/geom/Point";
 import {fetchTSRDirections} from "../../js/tsr/routing-vroom-directions.js";
 import {toRaw} from "vue";
@@ -162,75 +161,6 @@ export default {
         const {tsrRouteSource} = state;
 
         return tsrRouteSource.getFeatures().find(feature => !feature.get("isHighlight"));
-    },
-
-    /**
-     * Returns the feature to display the highlight on
-     * @param {Object} context actions context object.
-     * @returns {module:ol/Feature} highlight Feature
-     */
-    getHighlightFeature ({state}) {
-        const {tsrRouteSource} = state;
-
-        return tsrRouteSource.getFeatures().find(feature => feature.get("isHighlight"));
-    },
-
-    /**
-     * Resets the highlighting
-     * @param {Object} context actions context object.
-     * @returns {void}
-     */
-    async unHighlightRoute ({dispatch}) {
-        const highlightFeature = await dispatch("getHighlightFeature");
-
-        highlightFeature.getGeometry().setCoordinates([]);
-    },
-
-    /**
-     * Highlights part of the route.
-     * @param {Object} context actions context object.
-     * @param {Object} params with the starting and ending index
-     * @param {Number} [params.fromWaypointIndex] at which waypoint to start the highlight
-     * @param {Number} [params.toWaypointIndex] at which waypoint to end the highlight
-     * @param {Array<{Number, Number}>} [params.coordsIndex] alternative to select the coordinate index directly
-     * @returns {void}
-     */
-    async highlightRoute ({dispatch, state}, {fromWaypointIndex, toWaypointIndex, coordsIndex}) {
-        const {waypoints} = state,
-            routeFeature = await dispatch("getRouteFeature"),
-            highlightFeature = await dispatch("getHighlightFeature"),
-            lineIndex = coordsIndex ? coordsIndex.slice(0) : [
-                waypoints[fromWaypointIndex].getIndexDirectionsLineString(),
-                waypoints[toWaypointIndex].getIndexDirectionsLineString()
-            ];
-
-        highlightFeature.getGeometry().setCoordinates(
-            routeFeature.getGeometry().getCoordinates().slice(...lineIndex)
-        );
-    },
-
-    /**
-     * Zooms to part of the route
-     * @param {Object} context actions context object.
-     * @param {Object} params with the starting and ending index
-     * @param {Number} [params.fromWaypointIndex] at which waypoint to start the zoom
-     * @param {Number} [params.toWaypointIndex] at which waypoint to end the zoom
-     * @param {Array<{Number, Number}>} [params.coordsIndex] alternative to select the coordinate index directly
-     * @returns {void}
-     */
-    async zoomToRoute ({dispatch, state, rootState}, {fromWaypointIndex, toWaypointIndex, coordsIndex}) {
-        const {waypoints} = state,
-            map = mapCollection.getMap(rootState.Maps.mode),
-            routeFeature = await dispatch("getRouteFeature"),
-            lineIndex = coordsIndex ? coordsIndex.slice(0) : [
-                waypoints[fromWaypointIndex].getIndexDirectionsLineString(),
-                waypoints[toWaypointIndex].getIndexDirectionsLineString()
-            ],
-            linestringFeature = new Feature({
-                geometry: new LineString(routeFeature.getGeometry().getCoordinates().slice(...lineIndex))
-            });
-
-        map.getView().fit(linestringFeature.getGeometry().getExtent());
     },
 
     /**
