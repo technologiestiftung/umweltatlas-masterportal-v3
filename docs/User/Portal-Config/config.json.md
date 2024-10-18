@@ -3031,6 +3031,8 @@ Routing module. Enables user to plan routes between multiple points with multipl
 |geosearchReverse|no|**[geosearchReverse](#portalconfigmenusectionsmodulesroutinggeosearchreverse)**||Geosearchreverseoptions|false|
 |directionsSettings|no|**[directionsSettings](#portalconfigmenusectionsmodulesroutingdirectionssettings)**||Directionsoptions|false|
 |isochronesSettings|no|**[isochronesSettings](#portalconfigmenusectionsmodulesroutingisochronessettings)**||Isochronesoptions|false|
+|tsrSettings|no|**[tsrSettings](#markdown-header-portalconfigmenusectionsmodulesroutingtsrsettings)**||Travelling Salesman Routing options|false|
+
 
 **Example**
 
@@ -3127,6 +3129,16 @@ Routing module. Enables user to plan routes between multiple points with multipl
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
+        }
+    },
+    "tsrSettings": {
+        "type": "TSR",
+        "serviceId": "bkg_tsr",
+        "speedProfile": "CAR",
+        "elevation": true,
+        "tsrPointLimit": 50,
+        "styleRoute": {
+        "fillColor": [50, 169, 232, 1.0]
         }
     }
 }
@@ -3263,6 +3275,7 @@ Routing-tool directions options.
 |serviceId|yes|String||Which service should be used for the request.|false|
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
+|elevation|no|Boolean|false|Possibility to activate the elevation profile of the route.|false|
 |customPreferences|no|**[CustomPreferences](#datatypescustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
 |customAvoidFeatures|no|**[CustomAvoidFeatures](#datatypescustomavoidfeatures)**||Possibility to define own options for avoid traffic routes for the different speed profiles(additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[StyleRoute](#datatypesstyleroute)**||Stylerouteoptions|false|
@@ -3279,6 +3292,7 @@ Routing-tool directions options.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
+        "elevation": true,
         "customPreferences": {
             "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
         },
@@ -3386,6 +3400,40 @@ Routing-tool isochrones options.
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
+        }
+    }
+}
+```
+***
+
+#### portalConfig.menu.sections.modules.routing.tsrSettings
+
+[type:StyleRoute]: # (Datatypes.StyleRoute)
+
+TSR-tool options.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|type|yes|enum["TSR"]||Which type of service should be used for the request.|false|
+|serviceId|yes|String||Which service should be used for the request.|false|
+|speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
+|elevation|no|Boolean|false|Possibility to activate the elevation profile of the route.|false|
+|tsrPointLimit|no|Number|50|Limit of TSR points|false|
+|styleRoute|no|**[StyleRoute](#markdown-header-datatypesstyleroute)**||Stylerouteoptions|false|
+
+
+**Example**
+
+```json
+{
+    "tsrSettings": {
+        "type": "TSR",
+        "serviceId": "bkg_tsr",
+        "speedProfile": "CAR",
+        "elevation": true,
+        "tsrPointLimit": 50,
+        "styleRoute": {
+            "fillColor": [50, 169, 232, 1.0]
         }
     }
 }
