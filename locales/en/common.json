@@ -898,6 +898,7 @@
         "titleTooltipKilometers": "Height after {{distance}} kilometers"
       },
       "errors": {
+        "titleErrorRouteFetch": "Failed to calculate route",
         "avoidAreaBig": "The barrier areas specified are too large. Please correct your input.",
         "errorIsochronesFetch": "Error while calculating reachability",
         "errorRouteFetch": "Error while calculating route",

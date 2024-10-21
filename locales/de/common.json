@@ -901,6 +901,7 @@
         "titleTooltipKilometers": "Höhe nach {{distance}} Kilometern"
       },
       "errors": {
+        "titleErrorRouteFetch": "Die Berechnung der Route ist fehlgeschlagen.",
         "avoidAreaBig": "Die angegebenen Sperrflächen sind zu groß. Bitte korrigieren Sie Ihre Eingabe.",
         "errorIsochronesFetch": "Fehler bei Abfrage der Erreichbarkeit",
         "errorRouteFetch": "Fehler bei Abfrage der Route",

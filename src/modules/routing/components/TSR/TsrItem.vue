@@ -109,19 +109,19 @@ export default {
     <div
         id="routing-tsr"
     >
-        <RoutingSpeedProfileIcon
-            v-for="option in getTSRSpeedProfiles"
-            :key="option"
-            :interaction="() => changeSpeedProfile(option)"
-            :class="['pointer mr-4 ', isInputDisabled ? 'opacity-05' : '']"
-            :speed-profile-id="option"
-            :fill-color="option === settings.speedProfile ? '#0077ff' : '#000000'"
-            :tooltip="$t('common:modules.routing.speedprofiles.' + option)"
-        />
-
-        <hr>
-
         <div v-if="!tsrDirections">
+            <RoutingSpeedProfileIcon
+                v-for="option in getTSRSpeedProfiles"
+                :key="option"
+                :interaction="() => changeSpeedProfile(option)"
+                :class="['pointer mr-4 ', isInputDisabled ? 'opacity-05' : '']"
+                :speed-profile-id="option"
+                :fill-color="option === settings.speedProfile ? '#0077ff' : '#000000'"
+                :tooltip="$t('common:modules.routing.speedprofiles.' + option)"
+            />
+
+            <hr>
+
             <div>
                 <form
                     id="routing-tsr-coordinate-input-form"
