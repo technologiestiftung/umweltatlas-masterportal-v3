@@ -6,7 +6,7 @@ const fs = require("fs-extra"),
 
     replaceStrings = require(path.resolve(rootPath, "devtools/tasks/replace")),
     prependVersionNumber = require(path.resolve(rootPath, "devtools/tasks/prependVersionNumber")),
-    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))(),
+    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().replace(/[\s:]+/g, ""),
 
     distPath = path.resolve(rootPath, "dist/"),
     buildTempPath = path.resolve(distPath, "build/"),
@@ -31,6 +31,7 @@ function buildSinglePortal (allPortalPaths) {
     const appendix = process.env.BITBUCKET_BRANCH && process.env.MASTERPORTAL_DISTRIBUTION_RUN !== "true" ? "_" + process.env.BITBUCKET_BRANCH.replace(/\//g, "_") : "",
         portalName = sourcePortalPath.split(path.sep).pop(),
         distPortalPath = path.resolve(distPath, portalName + appendix).split(path.sep).join("/");
+
 
     fs.remove(distPortalPath).then(() => {
         // console.warn("NOTE: Deleted directory \"" + distPortalPath + "\".");
@@ -86,7 +87,6 @@ module.exports = function buildWebpack (answers) {
 
                     fs.copy(buildTempPath, mastercodeVersionPath).then(() => {
                         // console.warn("NOTE: Copied \"" + buildTempPath + "\" to \"" + mastercodeVersionPath + "\".");
-
                         replaceStrings(mastercodeVersionPath);
                     }).catch(error => console.error(error));
                 }).catch(error => console.error(error));
