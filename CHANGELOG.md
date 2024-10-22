@@ -18,6 +18,7 @@
 - Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
 
 ### Fixed
+- Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
 
 ---
 
