@@ -26,7 +26,7 @@ export default {
         class="layer-legend show"
     >
         <template
-            v-if="legendObj !== undefined"
+            v-if="legendObj && Object.keys(legendObj).length > 0"
         >
             <div
                 v-for="(legendPart, index) in legendObj.legend"
@@ -119,9 +119,9 @@ export default {
         <template
             v-else
         >
-            <span>
+            <p class="mt-3">
                 {{ $t("common:modules.legend.noLegendForLayerInfo") }}
-            </span>
+            </p>
         </template>
     </div>
 </template>

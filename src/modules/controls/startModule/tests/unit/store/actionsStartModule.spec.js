@@ -102,6 +102,25 @@ describe("src/modules/controls/startModule/store/actionsStartModule.js", () => {
                 menuSide: menuSide
             });
         });
+        it("should not dispatch or commit if module state matches the current menu side", () => {
+            const menuModels = [
+                    {
+                        type: "abc"
+                    },
+                    {
+                        type: "xyz"
+                    }
+                ],
+                menuSide = "secondaryMenu";
+
+            rootState.Modules.Abc.menuSide = "secondaryMenu";
+            rootState.Modules.Xyz.menuSide = "secondaryMenu";
+
+            setConfiguredModuleStates({commit, dispatch, rootState}, {menuModels, menuSide});
+
+            expect(dispatch.notCalled).to.be.true;
+            expect(commit.notCalled).to.be.true;
+        });
     });
 
     describe("extendModuleState", () => {

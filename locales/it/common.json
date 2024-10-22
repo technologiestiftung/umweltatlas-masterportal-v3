@@ -40,7 +40,7 @@
       "alreadyAdded": "",
       "completeMessage": "I layer del WMS richiesto sono stati aggiunti all'albero dei livelli alla voce di menu <strong>Dati specialistici esterni</strong>!",
       "errorHttpsMessage": "Il WMS che avete richiesto utilizza HTTP. Il Masterportal può integrare WMS solo utilizzando HTTPS (SSL).",
-      "errorMessage": "Il servizio specificato non ha potuto essere caricato. Si prega di assicurarsi che l'URL sia stato specificato correttamente.<br><br>Se il problema si verifica ancora, si prega di contattare il gestore del servizio con la seguente nota:<br><strong>CORS-Header deve essere obbligatoriamente impostata per il servizio. Questo è raccomandato nel capitolo 4.7.1. da <a target='_blank' href='https://www.gdi-de.org/SharedDocs/Downloads/DE/GDI-DE/Dokumente/Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf?__blob=publicationFile'>GDI-DE</a></strong>",
+      "errorMessage": "Il servizio specificato non ha potuto essere caricato. Si prega di assicurarsi che l'URL sia stato specificato correttamente.<br><br>Se il problema si verifica ancora, si prega di contattare il gestore del servizio con la seguente nota:<br><strong>CORS-Header deve essere obbligatoriamente impostata per il servizio. Questo è raccomandato nel capitolo 4.7.1. da <a target='_blank' href='https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf'>GDI-DE</a></strong>",
       "errorTitle": "",
       "ifInExtent": "I geodati forniti tramite il WMS sono al di fuori dell'area visualizzabile. WMS non aggiunto.",
       "name": "Aggiungi WMS",
@@ -638,6 +638,7 @@
         },
         "deleteRestrictedAreas": "Eliminare le aree di interdizione",
         "editRestrictedAreas": "Disegnare/modificare le aree di mantenimento",
+        "keepRoutesAfterClose": "Conserva il percorso dopo la chiusura dello strumento",
         "preference": {
           "RECOMMENDED": "Percorso consigliato",
           "SHORTEST": "Percorso più breve"

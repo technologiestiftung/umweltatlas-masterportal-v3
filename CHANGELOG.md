@@ -9,6 +9,11 @@
 - Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' have been removed.
 
 ### Added
+- AddWMS: Added Information about CORS header to doc and changed error message.
+- ShareView: Error handling when sharing via QR code has been improved.
+- Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
+- Routing: Added checkbox to determine if routes stay visible after closing the routing tool
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
 
 ### Changed
 
@@ -18,6 +23,11 @@
 - Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
 
 ### Fixed
+- Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
+- Corrected link for geodata infrastructure information pdf by GDI-DE. 
+- Issue #1276: Duplicate icons StartModule in expandable ControlBar.
+- Print: Fixed opacity for wfs group layers
+- `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 - Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
 
 ---
