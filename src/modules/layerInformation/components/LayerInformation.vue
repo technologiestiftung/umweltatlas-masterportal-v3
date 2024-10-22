@@ -40,6 +40,7 @@ export default {
             "abstractText",
             "customText",
             "datePublication",
+            "dateRevision",
             "downloadLinks",
             "layerInfo",
             "legendAvailable",
@@ -66,6 +67,9 @@ export default {
         showPublication () {
             return typeof this.datePublication !== "undefined" && this.datePublication !== null && this.datePublication !== "";
         },
+        showRevision () {
+            return typeof this.dateRevision !== "undefined" && this.dateRevision !== null && this.dateRevision !== "";
+        },
         showPeriodicity () {
             return this.periodicityKey !== "" && this.periodicityKey !== null && this.periodicityKey !== undefined;
         },
@@ -88,7 +92,7 @@ export default {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            return this.publisher || this.pointOfContact || null;
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -234,6 +238,9 @@ export default {
         <br>
         <p v-if="showPublication">
             {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+        </p>
+        <p v-if="showRevision">
+            {{ $t("common:modules.layerInformation.lastModified") }}: {{ dateRevision }}
         </p>
         <p v-if="showPeriodicity">
             {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}

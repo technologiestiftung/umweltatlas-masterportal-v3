@@ -77,6 +77,8 @@ export default {
      * @returns {void}
      */
     getAbstractInfo: async function ({commit, dispatch, state, rootGetters}, metaInfo) {
+        //  const layerInfoConfig = state.configJson?.Portalconfig?.layerInformation;
+
         let metadata;
 
         commit("setDownloadLinks", null);
@@ -111,6 +113,7 @@ export default {
         if (typeof metadata === "undefined") {
             commit("setTitle", "");
             commit("setPeriodicityKey", "");
+            commit("setDateRevision", "");
             commit("setDatePublication", "");
             commit("setAbstractText", i18next.t("common:modules.layerInformation.noMetadataLoaded"));
             commit("setNoMetadataLoaded", i18next.t("common:modules.layerInformation.noMetadataLoaded"));
@@ -121,6 +124,7 @@ export default {
             commit("setTitle", metadata?.getTitle());
             commit("setAbstractText", metadata?.getAbstract());
             commit("setPeriodicityKey", metadata?.getFrequenzy());
+            commit("setDateRevision", metadata?.getRevisionDate());
             commit("setDownloadLinks", metadata?.getDownloadLinks());
             commit("setDatePublication", metadata?.getPublicationDate() || metadata?.getCreationDate());
             commit("setPointOfContact", metadata?.getContact());
