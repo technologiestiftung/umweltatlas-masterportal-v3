@@ -178,6 +178,8 @@ function mergeGroupedLayer (layerConf) {
 /**
  * Returns true, if all layers have same url and typ.
  * @param {Array} layers, list of layers
+ * @param {Array} maxScales, list to fill with maxScales of layers
+ * @param {Array} minScales, list to fill with minScales of layers
  * @returns {Boolean} true, if all layers have same url and typ
  */
 function collectMinMaxScales (layers, maxScales, minScales) {
