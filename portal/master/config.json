@@ -1223,8 +1223,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": true,
-          "gfiTheme": "schulinfo"
+          "visibility": true
         },
         {
           "id": "20625.90024",
