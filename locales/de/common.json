@@ -587,7 +587,7 @@
       "remove": "Layer entfernen"
     },
     "layerSelection": {
-      "addSubject": "Thema hinzufügen",
+      "addSubject": "Umweltdaten hinzufügen",
       "name": "Themenauswahl",
       "backgrounds": "Hintergründe",
       "datalayer": "Fachdaten",
@@ -611,7 +611,7 @@
       "titleNotConfigured": "Titel nicht konfiguriert"
     },
     "layerTree": {
-      "addLayer": "Themen hinzufügen",
+      "addLayer": "Umweltdaten explorieren",
       "categories": "Kategorien",
       "categoryInspire": "Inspire",
       "categoryOpendata": "Opendata",

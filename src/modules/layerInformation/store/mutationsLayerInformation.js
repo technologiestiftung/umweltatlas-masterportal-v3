@@ -58,7 +58,12 @@ export default {
             showDocUrl: showDocUrl,
             typ: layerConf?.typ,
             url: urls,
-            urlIsVisible: layerConf?.urlIsVisible
-        };
+            urlIsVisible: layerConf?.urlIsVisible,
+            uaInfoURL:layerConf?.uaInfoURL,
+            uaDownload:layerConf?.uaDownload,
+            uaContact:layerConf?.uaContact,
+            // uaNameLang - not used so far
+            uaNameLang: layerConf?.name_lang
+        }
     }
 };
