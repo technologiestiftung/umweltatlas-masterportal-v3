@@ -108,6 +108,9 @@ export default {
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
             }
+        },
+        imgLink(){
+            return "./resources/img/person-circle.svg"
         }
     },
 
@@ -258,9 +261,12 @@ export default {
             :header-bold="true"
         >
             <span v-if="contact" class="contact-wrapper">
-                <p class="bold ua-dark-green">Datenhaltende Person</p>
+                <p class="bold ua-dark-green pb-2">Datenhaltende Person</p>
                 <div class="ua-break-parent">
-                    <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i>
+                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
+                    <div>
+                        <img :src=imgLink alt="" class="ua-person-img">
+                    </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
                         <p v-if="contact.name">
                             {{ contact.name }}
@@ -290,9 +296,11 @@ export default {
             </span>
 
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
-                <p class="bold ua-dark-green">Ansprechperson zum ausgewählten Datensatz (Umweltatlas)</p>
+                <p class="bold ua-dark-green pb-2">Ansprechperson zum ausgewählten Datensatz (Umweltatlas)</p>
                 <div class="ua-break-parent">
-                    <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i>
+                    <div>
+                        <img :src=imgLink alt="" class="ua-person-img">
+                    </div>
                     <div class="ua-break-two">
                         <p v-if="uaData.uaContact.name">
                             {{ uaData.uaContact.name }}
@@ -563,6 +571,11 @@ export default {
     .bi-person-circle{
         font-size: 60px;
         color: $dark_green
+    }
+
+    .ua-person-img{
+        padding-right: 12px;
+        width: 60px
     }
 
     hr {
