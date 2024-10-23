@@ -188,6 +188,9 @@ export default {
         id="masterportal-container"
         class="masterportal-container"
     >
+        <div style="position: fixed; z-index: 1000; width: 200px; height: 200px; background-color: red ">
+            Hello World
+        </div>
         <div v-if="allConfigsLoaded && addonsLoaded">
             <Alerting />
         </div>
