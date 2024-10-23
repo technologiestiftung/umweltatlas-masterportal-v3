@@ -87,7 +87,7 @@ $light_grey_outline: #050505;
 * Used for primary buttons like start a search, print etc.
 */
 $dark_blue: #151C27;
-// $primary: #D6E3FF;
+// $primary: #edf8f4;
 $primary: #edf8f4;
 // $secondary: #1a4435;
 $secondary: #1a4435;
@@ -138,12 +138,12 @@ $secondary_table_style: #F2F2F2;  // background for table view style
 // }
 
 .btn-primary {
-  --bs-btn-color: #001B3D;
-  --bs-btn-bg: #D6E3FF;
+  --bs-btn-color: #1a4435;
+  --bs-btn-bg: #edf8f4;
   --bs-btn-border-radius: 16px;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #001B3D;
-  --bs-btn-hover-border-color: #001B3D;
+  --bs-btn-hover-bg: #1a4435;
+  --bs-btn-hover-border-color: #1a4435;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #151C27;
   --bs-btn-focus-color: #fff;
@@ -154,9 +154,9 @@ $secondary_table_style: #F2F2F2;  // background for table view style
   --bs-btn-bg: #1a4435;
   --bs-btn-border-color: #1a4435;
   --bs-btn-border-radius: 50px;
-  --bs-btn-hover-color: #001B3D;
-  --bs-btn-hover-bg: #D6E3FF;
-  --bs-btn-hover-border-color: #D6E3FF;
+  --bs-btn-hover-color: #1a4435;
+  --bs-btn-hover-bg: #edf8f4;
+  --bs-btn-hover-border-color: #edf8f4;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #151C27;
   --bs-btn-focus-color: #fff;
@@ -184,7 +184,7 @@ $secondary_table_style: #F2F2F2;  // background for table view style
  * switches and checkboxes
  */
 
-$form-check-input-checked-bg-color: #001B3D;
+$form-check-input-checked-bg-color: #1a4435;
 $form-check-input-border: 1px solid #75777D;
 $form-check-input-focus-border: 1px solid #75777D;
 

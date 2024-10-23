@@ -225,28 +225,13 @@
     "baselayer": {
       "elements": [
         {
-          "id": "basemap_raster_farbe",
-          "shortname": "Farbe",
-          "visibility": true
-        },
-        {
           "id": "basemap_raster_grau",
           "shortname": "Grau",
           "visibility": false
         },
         {
-          "id": "k5_farbe:k5_farbe:gdi_be_25833",
-          "shortname": "WebAtlas halbton",
-          "visibility": false
-        },
-        {
-          "id": "k5_farbe:k5_sw:gdi_be_25833",
-          "shortname": "WebAtlas Grau",
-          "visibility": false
-        },
-        {
           "id": "truedop_2024:truedop_2024:GDIBE:25833",
-          "shortname": "Luftbild WMS",
+          "shortname": "Luftbild",
           "visibility": false,
           "preview": {
             "zoomLevel": 13,
