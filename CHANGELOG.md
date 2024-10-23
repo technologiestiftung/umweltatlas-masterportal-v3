@@ -11,9 +11,10 @@
 - ShareView: Error handling when sharing via QR code has been improved.
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
 - Routing: Added checkbox to determine if routes stay visible after closing the routing tool
-- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
 - Filter supports secure WFS request.
 - ShareView: Added hashtag to shared link to help Outlook recognize our links correctly. 
+- LayerInformation: Added last revision date to Layer Information. 
 
 ### Changed
 
