@@ -323,7 +323,6 @@ export default {
         </AccordionItem>
 
         <p class="mt-4 p-0" v-if="uaData.uaGdiURL">
-            <!-- <i class="bi-info-circle col-2"></i> -->
             Weiter Metadaten zu diesem Datensatz finden Sie im 
             <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL >Metadatenportal</a>
         </p>
