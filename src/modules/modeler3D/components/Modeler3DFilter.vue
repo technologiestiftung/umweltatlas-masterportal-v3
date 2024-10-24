@@ -128,6 +128,7 @@ export default {
          * Resets the style of all attribute values to white.
          */
         resetStyle () {
+            this.pvoStyleEnabled = false;
             this.attributeValues.forEach(value => {
                 value.color = "#ffffff";
             });
@@ -474,7 +475,7 @@ export default {
                     </button>
                     <button
                         class="btn btn-warning"
-                        @click="resetStyle; pvoStyleEnabled = false"
+                        @click="resetStyle()"
                     >
                         {{ $t('modules.modeler3D.filter.captions.resetStyle') }}
                     </button>
