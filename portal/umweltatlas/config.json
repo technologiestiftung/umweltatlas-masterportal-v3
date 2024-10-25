@@ -95,6 +95,12 @@
           {
             "type": "news"
           }
+        ],
+        [
+          {
+            "type": "shareView",
+            "name":	"Auswahl speichern und teilen"
+          }
         ]
       ]
     },
@@ -117,10 +123,6 @@
           },
           {
             "type": "coordToolkit"
-          },
-          {
-            "type": "shareView",
-            "qrShare": true
           },
           {
             "type": "compareMaps"
