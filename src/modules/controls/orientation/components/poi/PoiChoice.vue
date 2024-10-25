@@ -16,7 +16,7 @@ export default {
         choices () {
             return {
                 "currentPosition": this.$t("common:modules.controls.orientation.poiChoiceCurrentPostion"),
-                "customPosition": this.$t(this.customPosition)
+                "customPosition": this.$t("common:modules.controls.orientation.poiChoiceCustomPostion")
             };
         }
     },
