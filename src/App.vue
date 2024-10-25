@@ -190,7 +190,10 @@ export default {
         id="masterportal-container"
         class="masterportal-container"
     >
-        <LayerStartModal></LayerStartModal>
+        <LayerStartModal
+            v-if="allConfigsLoaded && addonsLoaded"
+            >
+        </LayerStartModal>
         <div v-if="allConfigsLoaded && addonsLoaded">
             <Alerting />
         </div>
