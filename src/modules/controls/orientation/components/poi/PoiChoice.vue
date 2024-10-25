@@ -15,8 +15,8 @@ export default {
         ...mapGetters("Controls/Orientation", ["poiMode", "customPosition"]),
         choices () {
             return {
-                "currentPosition": this.$t("common:modules.controls.orientation.poiChoiceCurrentPostion"),
-                "customPosition": this.$t("common:modules.controls.orientation.poiChoiceCustomPostion")
+                "currentPosition": this.$t("common:modules.controls.orientation.poiChoiceCurrentPosition"),
+                "customPosition": this.$t(this.customPosition)
             };
         }
     },
