@@ -317,25 +317,37 @@ export default {
                             role="tabpanel"
                             :class="['tab-pane fade show', feature.category === activeCategory ? 'active' : '']"
                         >
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        <tr
-                                            v-for="(feat, i) in feature.features"
-                                            :id="feat.getId()"
-                                            :key="'feat' + i"
-                                            @click="zoomFeature"
+                            <ul class="poi-list">
+                                <li
+                                    v-for="(feat, i) in feature.features"
+                                    :key="'poi-item' + i"
+                                    class="poi-item"
+                                >
+                                    <button
+                                        :id="feat.getId()"
+                                        class="poi-button"
+                                        @click="zoomFeature"
+                                    >
+                                        <div
+                                            v-if="imgPathByFeature[feat.getId()].length > 0"
+                                            class="poi-icon"
                                         >
-                                            <td v-if="imgPathByFeature[feat.getId()].indexOf('</svg>') !== -1">
-                                                <span v-html="imgPathByFeature[feat.getId()]" />
-                                            </td>
-                                            <td v-else-if="imgPathByFeature[feat.getId()].length > 0">
-                                                <img
-                                                    :src="imgPathByFeature[feat.getId()]"
-                                                    :alt="$t('common:modules.controls.orientation.imgAlt')"
-                                                >
-                                            </td>
-                                            <td>
+                                            <span
+                                                v-if="imgPathByFeature[feat.getId()].indexOf('</svg>') !== -1"
+                                                v-html="imgPathByFeature[feat.getId()]"
+                                            />
+                                            <img
+                                                v-else
+                                                :src="imgPathByFeature[feat.getId()]"
+                                                :alt="$t('common:modules.controls.orientation.imgAlt')"
+                                            >
+                                        </div>
+
+                                        <div
+                                            class="poi-description"
+                                            :class="{ 'full-width': imgPathByFeature[feat.getId()].length === 0 }"
+                                        >
+                                            <div>
                                                 <p
                                                     v-for="(featNearbyTitleText, iNearby) in feat.nearbyTitleText"
                                                     :key="'featNearbyTitleText' + iNearby"
@@ -343,11 +355,11 @@ export default {
                                                     <strong>{{ featNearbyTitleText }}</strong>
                                                 </p>
                                                 <p>{{ feat.dist2Pos + " " + $t('common:modules.controls.orientation.distanceUnit') }}</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -381,9 +393,15 @@ export default {
     .poi {
         color: $dark_grey;
         font-size: $font_size_big;
+
         .modal-header {
-            padding: 0;
+            justify-content: space-between;
+            padding-bottom: 0;
             border-bottom: 0;
+        }
+        .nav-pills{
+            padding: $padding;
+            padding-top: 0;
         }
         .modal-title {
             padding: 8px;
@@ -400,27 +418,59 @@ export default {
         .modal-dialog {
             z-index: 1051;
         }
-        .tab-content{
+        .tab-content {
             max-height: 78vH;
             overflow: auto;
-            tbody {
-                >tr {
-                    >td {
-                        &:nth-child(odd) {
-                            width: 50px;
-                            height: 50px;
+
+            .poi-list {
+                display: flex;
+                flex-direction: column;
+                list-style: none;
+                padding: 0 $padding;
+                .poi-item {
+                    cursor: pointer;
+                    .poi-button {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        padding: 8px;
+                        cursor: pointer;
+                        background: transparent;
+                        border: none;
+                        border-bottom: $border-width solid $gray-300;
+                        &:hover {
+                            background: $accent_hover;
                         }
-                        &:nth-child(even) {
-                            vertical-align: middle;
+                    }
+
+                    &:last-child {
+                        .poi-button {
+                            border-bottom: none;
                         }
+                    }
+
+                    .poi-icon {
+                        flex: 0 0 50px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
                         img {
                             max-width: 50px;
+                            max-height: 50px;
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .poi-description {
+                        flex: 1;
+                        padding-left: 10px;
+
+                        &.full-width {
+                            padding-left: 0;
                         }
                     }
                 }
-            }
-            tr {
-                cursor: pointer;
             }
         }
     }
