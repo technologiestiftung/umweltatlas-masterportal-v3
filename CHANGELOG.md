@@ -21,6 +21,7 @@
 
 ### Removed
 - Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
+- Renamed versionLatest to versionLatestDisabled in package.json, so that latest tag is not created until renamed back at the end of december. 
 
 ### Fixed
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
