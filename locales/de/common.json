@@ -101,6 +101,7 @@
       "targetSelectLabel": "Ziel-Layer"
     },
     "compareMaps": {
+      "title":"Bitte beachten Sie, dass Datensätze aus verschiedenen Jahren aufgrund unterschiedlicher Methoden nicht immer direkt miteinander vergleichbar sind.",
       "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
       "firstLayer": "Erster Layer",
       "horizontal": "horizontal",

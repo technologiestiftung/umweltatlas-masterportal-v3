@@ -173,7 +173,6 @@ export default {
 <template>
     <div
         id="compare-maps"
-        class="p-3"
     >
         <div
             v-if="spinnerActive"
@@ -186,6 +185,7 @@ export default {
         </div>
 
         <div :class="{ 'blurred': spinnerActive }">
+            <h5 class="mb-4">{{ $t("common:modules.compareMaps.title") }}</h5>
             <div class="toggle-buttons mb-4">
                 <span class="me-2">{{ $t("common:modules.compareMaps.splitDirection") }}</span>
                 <div class="form-check form-check-inline">
@@ -282,7 +282,6 @@ export default {
 
 #compare-maps {
     position: relative;
-    padding: 1rem;
 
     .overlay {
         position: absolute;
