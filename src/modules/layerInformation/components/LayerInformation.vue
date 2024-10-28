@@ -92,7 +92,7 @@ export default {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
-            return this.publisher || this.pointOfContact || null;
+            return this.pointOfContact || this.publisher || null;
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"

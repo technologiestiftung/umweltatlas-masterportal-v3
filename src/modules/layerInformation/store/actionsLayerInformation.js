@@ -77,7 +77,6 @@ export default {
      * @returns {void}
      */
     getAbstractInfo: async function ({commit, dispatch, state, rootGetters}, metaInfo) {
-        //  const layerInfoConfig = state.configJson?.Portalconfig?.layerInformation;
 
         let metadata;
 
