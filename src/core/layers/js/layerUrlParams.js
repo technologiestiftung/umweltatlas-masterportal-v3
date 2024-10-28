@@ -72,7 +72,11 @@ function setLayerIds (params) {
         };
     });
 
-    if (!(params.MDID && params["MAP/LAYERIDS"])) {
+    if (
+        !(
+            (params.MDID || params["MAP/MDID"]) && (params["MAP/LAYERIDS"] || params.LAYERIDS)
+        )
+    ) {
         removeCurrentLayerFromLayerTree();
     }
     addLayerToLayerTree(layers);
