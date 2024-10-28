@@ -33,3 +33,27 @@ npm run start
 if _tileMatrixSet_ is added then preview doesn't work
 if _layerAttribution_ is added, info popup appears every time layer is added
 
+
+
+
+# Interface Texte
+
+## Text ändern
+
+In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich alle Texte des Interfaces. Diese lassen sich hier ändern. Danach die Deite einfach nur speichern.
+
+# Anpassungen
+
+Alle Anpassungen lassen sich über der draft PR einfach überblicken.
+https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
+
+## compareMaps
+Dem Vergleichtool compareMaps wurde ein zusätzlicher Infotext hinzugefügt
+
+## LayerStartModal
+Ein Modal wurde hinzugefügt, das beim Laden der Anwendung erscheint. Über eine Themenauswahl lassen sich die entsprechenden Themen direkt im Themenbaum öffnen. 
+[LayerStartModal](./modules/layerTree/components/LayerStartModal.vue)
+
+## Button-Farbe
+
+Die Buttons 
