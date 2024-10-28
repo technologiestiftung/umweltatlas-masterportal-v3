@@ -316,29 +316,6 @@ export default {
             </a>
         </p>
 
-
-        <!-- 
-        Not needed?
-        <LayerInfoContactButton
-            :layer-name="layerName"
-            previous-component="layerInformation"
-        /> -->
-        <!-- <div v-if="showAdditionalMetaData">
-            <p
-                v-for="url in metaURLs"
-                :key="url"
-                class="float-end"
-            >
-                <a
-                    :href="url"
-                    target="_blank"
-                >
-                    {{ $t("common:modules.layerInformation.additionalMetadata") }}
-                </a>
-            </p>
-        </div>
-        <br>
-        <br> -->
         <template
             v-if="showCustomMetaData"
         >
