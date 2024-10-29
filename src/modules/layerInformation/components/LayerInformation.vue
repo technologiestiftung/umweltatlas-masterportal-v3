@@ -229,9 +229,8 @@ export default {
     <div
         id="modules-layer-information"
     >
-
         <div v-if="fullPath" class="mb-4">
-            <p
+            <span
                 v-for="(key, value) in fullPath"
                 :key="key"
                 class="mb-0"
@@ -239,11 +238,12 @@ export default {
                 <a 
                     @click="openInLayerTree(fullPath[value].id)"
                     href="#" 
+                    class="ua-breadcrumbs"
                 >
                     {{ fullPath[value].name }}
                 </a>
                 <span> / </span>
-            </p>
+            </span>
         </div>
 
         <div
@@ -561,6 +561,14 @@ export default {
 <style lang="scss">
     @import "~variables";
 
+    .ua-breadcrumbs{
+        color: #000; 
+        opacity: 0.7;
+
+        &:hover{
+            opacity: 1; 
+        }
+    }
 
     .ua-link-wrapper {
         position: relative;
