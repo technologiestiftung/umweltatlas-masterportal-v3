@@ -86,6 +86,7 @@ module.exports = function buildWebpack (answers) {
 
                     fs.copy(buildTempPath, mastercodeVersionPath).then(() => {
                         // console.warn("NOTE: Copied \"" + buildTempPath + "\" to \"" + mastercodeVersionPath + "\".");
+
                         replaceStrings(mastercodeVersionPath);
                     }).catch(error => console.error(error));
                 }).catch(error => console.error(error));
