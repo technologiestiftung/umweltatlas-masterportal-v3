@@ -45,6 +45,7 @@ export default {
     },
     beforeUnmount () {
         this.closeTSR();
+        this.removeModalFromBody();
     },
     methods: {
         ...mapMutations("Modules/Routing/TSR", Object.keys(mutations)),
@@ -100,6 +101,13 @@ export default {
          */
         appendModalToBody () {
             document.body.appendChild(document.getElementById("uploadModal"));
+        },
+        /**
+         * Removes modal from body
+         * @returns {void}
+         */
+        removeModalFromBody () {
+            document.body.removeChild(document.getElementById("uploadModal"));
         }
     }
 };
