@@ -40,11 +40,11 @@ if _layerAttribution_ is added, info popup appears every time layer is added
 
 ## Text ändern
 
-In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich alle Texte des Interfaces. Diese lassen sich hier ändern. Danach die Deite einfach nur speichern.
+In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich alle Texte des Interfaces. Diese lassen sich hier ändern. Danach die Seite einfach nur speichern bzw austauschen.
 
 # Anpassungen
 
-Alle Anpassungen lassen sich über der draft PR einfach überblicken.
+Alle Anpassungen lassen sich über folgendem draft PR überblicken.
 https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
 
 ## compareMaps
@@ -54,6 +54,18 @@ Dem Vergleichtool compareMaps wurde ein zusätzlicher Infotext hinzugefügt
 Ein Modal wurde hinzugefügt, das beim Laden der Anwendung erscheint. Über eine Themenauswahl lassen sich die entsprechenden Themen direkt im Themenbaum öffnen. 
 [LayerStartModal](./modules/layerTree/components/LayerStartModal.vue)
 
-## Button-Farbe
+## Texte
 
-Die Buttons 
+Texte wurden in der [common.json](./locales/de/common.json) leicht angepasst und ein neuer Key hinzugefügt (compareMaps.titel) damit eine Zusatztext dort erscheinen kann.
+
+## LayerInformation
+Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/LayerInformation.vue) wurde stark angepasst. 
+
+### feat 1
+
+### feat 2
+
+
+## Button und Link-Farben
+Die [variables.scss](/src/assets/css/variables.scss) wurde entsprechend der Umweltatlas-Farben angepasst. Es handelt sich hauptsächlich um Button- und Linkfarben.
+

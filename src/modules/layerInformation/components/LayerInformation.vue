@@ -196,7 +196,31 @@ export default {
         },
         openInLayerTree (id) {
             this.showInTree({layerId: id});
-        }
+        },
+        copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+            } else {
+                // Fallback method for browsers that don't support navigator.clipboard
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    console.log('Text copied to clipboard (fallback)');
+                } catch (err) {
+                    console.error('Failed to copy text (fallback): ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        },
     }
 };
 </script>
@@ -486,6 +510,7 @@ export default {
                             >
                                 {{ layerInfoUrl }}
                             </a>
+
                         </li>
                     </ul>
                 </div>
@@ -493,16 +518,40 @@ export default {
                     v-else
                     class="pt-5"
                 >
-                    <ul>
-                        <li>
-                            <a
-                                :href="layerUrl"
-                                target="_blank"
+                    <div class="ua-link-wrapper">
+                        <input
+                            type="text"
+                            :value="layerInfo.url"
+                            readonly
+                        />
+                        <div class="input-btns">
+                            <button
+                                class="btn copy-btn input-btn"
+                                @click="copyToClipboard(layerUrl)"
+                                title="Adresse kopieren"
                             >
-                                {{ layerInfo.url }}
+                                <i class="bi-copy"></i>
+                            </button>
+                            <a
+                                target="_blank"
+                                class="input-btn"
+                                :href="layerUrl"
+                                title="Adresse öffnen"
+                            >
+                                <i class="bi-box-arrow-up-right"></i>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                        <!-- <div class="mt-2" style="float:right">
+                            <button c class="btn btn-light w-100 ua-button mt-0" style="margin-right: 2px;" type="button" aria-label="text">
+                                <i class="bi-copy"></i>
+                                kopieren
+                            </button>
+                            <button title="Adresse öffnen" class="btn btn-light w-100 ua-button mt-0" type="button" aria-label="text">
+                                <i class="bi-box-arrow-up-right"></i>
+                                öffnen
+                            </button>
+                        </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -511,6 +560,58 @@ export default {
 
 <style lang="scss">
     @import "~variables";
+
+
+    .ua-link-wrapper {
+        position: relative;
+        margin-bottom: 5px;
+        font-size: 14px;
+        border: 1px solid #000;
+
+        input{
+            width: calc(100% - 55px);
+            padding: 4px;
+            border: none;
+            text-overflow: ellipsis
+        }
+
+        input:active {
+            border-color: $link-color;
+        }
+
+        input:focus {
+            outline: none; /* Removes the default focus outline */
+            border-color: $link-color;
+        }
+
+        .input-btns {
+            border: none;
+            position: absolute;
+            right: 5px;
+            background-color: white;
+            top: 1px;
+            padding-left: 5px;
+
+        }
+
+        .input-btn {
+            color: #cccccc;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+            box-shadow: none;
+
+            i{
+                padding: 0px 2px;
+                font-size: 16px;
+            }
+        }
+
+        .input-btn:hover {
+            color: $link-color;
+        }
+    }
+
 
     .ua-button{
         border: 1px solid #ddd;

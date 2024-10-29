@@ -273,8 +273,6 @@ export default {
             font: inherit;
             border-radius: 0;
             appearance: none; // Just in case we missed anything.
-            border-top: 5px solid black;
-
         }
 
         button:hover {
