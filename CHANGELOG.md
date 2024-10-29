@@ -28,9 +28,15 @@
 ### Fixed
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
 - Corrected link for geodata infrastructure information pdf by GDI-DE. 
+- Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
+- Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/groupedLayers.md).
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
-- Print: Fixed opacity for wfs group layers
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
+- Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
+- Print: 
+    - Group layers of different `typ` are printed.
+    - Fixed opacity for wfs group layers.
+- WFST: The attribute names are now fully visible and no longer overlapped.
 
 ---
 

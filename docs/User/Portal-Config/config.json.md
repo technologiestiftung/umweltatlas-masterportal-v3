@@ -4843,16 +4843,44 @@ A group layer is created that contains all layers of the specified ids.
 |----|--------|----|-------|-----------|------|
 |id|yes|String[]||Ids of the layers to be grouped, these must be contained in the **[services.json](../Global-Config/services.json.md)**. They can have different types (field `typ`).|false|
 |typ|yes|String|"GROUP"|Sets the layer typ to GROUP, which can group layers.|false|
-|styleId|no|String||Id that defines the style. Id is resolved in the **[style.json](../Global-Config/style.json.md)**. If filled, then all grouped layers receive this style.|false|
+|children|no|Object[]||Attributes on the grouped layers can be overwritten in `children`. Exception: `visibility` is not overwritten. All ids in the id array must have an equivalent in the `children`.|false|
 
 
-**Example**
+**Example without children**
 ```json
  {
     "id": [ "20501", "20502", "20503", "20504" ],
     "typ": "GROUP",
-    "name": "Gruppe Freizeitrouten und Radfernwege",
+    "name": "Leisure routes and long-distance cycle routes group",
     "styleId": "4515"
+}
+```
+**Example with children**
+
+```json
+{ 
+    "id": [ "27926", "1711", "18104"], 
+    "typ": "GROUP",
+    "name": "Group OAF, WFS, SensorThings",
+    "visibility": false,
+    "children" :[
+        {
+            "id": "27926",
+            "styleId": "8712",
+            "typ": "OAF",
+            "gfiTheme": "schulinfo"
+        },
+        {
+            "id": "1711",
+            "styleId": "1711",
+            "typ": "WFS"
+        },
+        {
+            "id": "18104",
+            "styleId": "18104",
+            "typ": "SensorThings"
+        }
+    ]
 }
 ```
 

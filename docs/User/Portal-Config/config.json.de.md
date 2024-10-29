@@ -4829,22 +4829,52 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 
 [inherits]: # (layerConfig.elements.layers)
 
-Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält.
+Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält. Siehe auch **[groupedLayers.md](../../Dev/groupedLayers.md)**.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|id|ja|String[]||Ids der zu gruppierenden Layer, diese müssen in der **[services.json](../Global-Config/services.json.md)** enthalten sein. Sie können unterschiedliche Typen haben.|false|
+|id|ja|String[]||Ids der zu gruppierenden Layer, diese müssen in der **[services.json](../Global-Config/services.json.md)** enthalten sein. Sie können unterschiedliche Typen haben (Attribut `typ`).|false|
 |typ|ja|String|"GROUP"|Setzt den Layertypen auf GROUP, welcher Layer gruppieren kann.|false|
-|styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](../Global-Config/style.json.md)** aufgelöst. Wenn gefüllt, dann erhalten alle gruppierten Layer diesen style.|false|
+|children|nein|Object[]||In `children` können Attribute an den gruppierten Layern überschrieben werden. Ausnahme: `visibility` wird nicht überschrieben. Alle ids im id-Array müssen eine Entsprechung in den `children` haben. |true|
 
 
-**Beispiel**
+
+**Beispiel ohne children**
 ```json
  {
     "id": [ "20501", "20502", "20503", "20504" ],
     "typ": "GROUP",
     "name": "Gruppe Freizeitrouten und Radfernwege",
     "styleId": "4515"
+}
+```
+
+**Beispiel mit children**
+
+```json
+{ 
+    "id": [ "27926", "1711", "18104"], 
+    "typ": "GROUP",
+    "name": "Gruppe OAF, WFS, SensorThings",
+    "visibility": false,
+    "children" :[
+        {
+            "id": "27926",
+            "styleId": "8712",
+            "typ": "OAF",
+            "gfiTheme": "schulinfo"
+        },
+        {
+            "id": "1711",
+            "styleId": "1711",
+            "typ": "WFS"
+        },
+        {
+            "id": "18104",
+            "styleId": "18104",
+            "typ": "SensorThings"
+        }
+    ]
 }
 ```
 
