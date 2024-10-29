@@ -147,7 +147,6 @@ export default {
          * @returns {String} profile name
          */
         getProfileName () {
-            // get current profile name according to selected language
             switch (this.settings.speedProfile) {
                 case "CAR":
                     return i18next.t("common:modules.routing.speedprofiles.CAR");

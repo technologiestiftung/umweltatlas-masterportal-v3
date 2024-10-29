@@ -263,7 +263,7 @@ export default {
                     >
                         {{ $t('common:modules.routing.restrictions.hazmat') }}
                     </label>
-                    <div>
+                    <div class="d-flex justify-content-end">
                         <input
                             id="hazmatInput"
                             v-model="inputData().hazmat"

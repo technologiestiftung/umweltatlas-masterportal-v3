@@ -248,12 +248,6 @@ export default {
                             class="modal-title fs-5"
                         >
                             {{ $t('common:modules.routing.tsr.upload.header') }}
-                            <a
-                                href="#"
-                                :aria-label="$t('common:modules.routing.tsr.upload.help')"
-                            >
-                                <i class="bi bi-info-circle" />
-                            </a>
                         </h1>
                         <button
                             type="button"
