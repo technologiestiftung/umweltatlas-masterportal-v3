@@ -32,7 +32,6 @@ function buildSinglePortal (allPortalPaths) {
         portalName = sourcePortalPath.split(path.sep).pop(),
         distPortalPath = path.resolve(distPath, portalName + appendix).split(path.sep).join("/");
 
-
     fs.remove(distPortalPath).then(() => {
         // console.warn("NOTE: Deleted directory \"" + distPortalPath + "\".");
         fs.copy(sourcePortalPath, distPortalPath).then(() => {
