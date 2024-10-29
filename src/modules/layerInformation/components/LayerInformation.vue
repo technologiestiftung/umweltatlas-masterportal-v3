@@ -4,6 +4,8 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "../../../shared/js/utils/urlHelper";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
+import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -32,7 +34,8 @@ export default {
     data () {
         return {
             activeTab: "layerinfo-legend",
-            uaImgLink: "./resources/img/logo-umweltatlas.svg"
+            uaImgLink: "./resources/img/logo-umweltatlas.svg",
+            imgLink: "./resources/img/person-circle.svg"
         };
     },
     computed: {
@@ -58,6 +61,7 @@ export default {
             "mainMenu",
             "secondaryMenu"
         ]),
+        ...mapGetters(["allLayerConfigsStructured"]),
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
@@ -97,11 +101,12 @@ export default {
                 : "secondaryMenu";
         },
         layerName () {
+            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){            
+        uaData(){      
             return {
                 uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
                 uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
@@ -110,8 +115,11 @@ export default {
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
             }
         },
-        imgLink(){
-            return "./resources/img/person-circle.svg"
+        fullPath(){
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+            let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+            fullPath.pop();
+            return fullPath;
         }
     },
 
@@ -139,6 +147,9 @@ export default {
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
+        ...mapActions("Modules/SearchBar", [
+            "showInTree"
+        ]),
         isWebLink,
 
         /**
@@ -182,6 +193,9 @@ export default {
                 urlObject.searchParams.set("REQUEST", "GetCapabilities");
             }
             return urlObject.href;
+        },
+        openInLayerTree (id) {
+            this.showInTree({layerId: id});
         }
     }
 };
@@ -191,6 +205,23 @@ export default {
     <div
         id="modules-layer-information"
     >
+
+        <div v-if="fullPath" class="mb-4">
+            <p
+                v-for="(key, value) in fullPath"
+                :key="key"
+                class="mb-0"
+            >
+                <a 
+                    @click="openInLayerTree(fullPath[value].id)"
+                    href="#" 
+                >
+                    {{ fullPath[value].name }}
+                </a>
+                <span> / </span>
+            </p>
+        </div>
+
         <div
             v-if="abstractText"
             class="mb-2 abstract"
@@ -341,7 +372,9 @@ export default {
                 </p>
             </div>
         </template>
+
         <hr>
+
         <nav role="navigation">
             <ul class="nav nav-tabs">
                 <li
@@ -478,8 +511,6 @@ export default {
 
 <style lang="scss">
     @import "~variables";
-
-    // #edf8f4
 
     .ua-button{
         border: 1px solid #ddd;
