@@ -33,6 +33,7 @@
 - Print: 
     - Group layers of different `typ` are printed.
     - Fixed opacity for wfs group layers.
+- WFST: The attribute names are now fully visible and no longer overlapped.
 
 ---
 
