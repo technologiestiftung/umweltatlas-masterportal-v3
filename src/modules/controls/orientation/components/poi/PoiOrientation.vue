@@ -41,17 +41,27 @@ export default {
     watch: {
         visibleLayerConfigs: {
             handler (newLayerConfigs, oldLayerConfigs) {
-                newLayerConfigs.forEach(newConfig => {
-                    if (!oldLayerConfigs.find(config => config.id === newConfig.id)) {
+                newLayerConfigs.forEach((newConfig) => {
+                    if (
+                        !oldLayerConfigs.find(
+                            (config) => config.id === newConfig.id
+                        )
+                    ) {
                         this.$nextTick(() => {
-                            this.areLayerFeaturesLoaded(newConfig.id).then(() => {
-                                this.getFeatures(newLayerConfigs);
-                            });
+                            this.areLayerFeaturesLoaded(newConfig.id).then(
+                                () => {
+                                    this.getFeatures(newLayerConfigs);
+                                }
+                            );
                         });
                     }
                 });
-                oldLayerConfigs?.forEach(oldConfig => {
-                    if (!newLayerConfigs.find(config => config.id === oldConfig.id)) {
+                oldLayerConfigs?.forEach((oldConfig) => {
+                    if (
+                        !newLayerConfigs.find(
+                            (config) => config.id === oldConfig.id
+                        )
+                    ) {
                         this.getFeatures(newLayerConfigs);
                     }
                 });
@@ -71,7 +81,11 @@ export default {
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
-        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent", "unregisterListener"]),
+        ...mapActions("Maps", [
+            "areLayerFeaturesLoaded",
+            "zoomToExtent",
+            "unregisterListener"
+        ]),
 
         /**
          * Callback when close icon has been clicked.
@@ -79,7 +93,11 @@ export default {
          * @returns {void}
          */
         closeIconTriggered (event) {
-            if (event.type === "click" || event.which === 32 || event.which === 13) {
+            if (
+                event.type === "click" ||
+                event.which === 32 ||
+                event.which === 13
+            ) {
                 this.hidePoi();
             }
         },
@@ -109,7 +127,9 @@ export default {
         hidePoi () {
             this.$emit("hide");
             this.poiFeatures = [];
-            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
+            document
+                .querySelector("#geolocatePOI")
+                .classList.remove("toggleButtonPressed");
         },
 
         /**
@@ -123,17 +143,23 @@ export default {
                 centerPosition = this.position;
             let featInCircle = [];
 
-            poiDistances.forEach(distance => {
-                featInCircle = this.getFeaturesInCircle(layerConfigs, distance, centerPosition);
-                featInCircle.sort((featureA, featureB) => featureA.dist2Pos - featureB.dist2Pos);
+            poiDistances.forEach((distance) => {
+                featInCircle = this.getFeaturesInCircle(
+                    layerConfigs,
+                    distance,
+                    centerPosition
+                );
+                featInCircle.sort(
+                    (featureA, featureB) => featureA.dist2Pos - featureB.dist2Pos
+                );
                 poiFeatures.push({
                     category: distance,
                     features: featInCircle
                 });
             });
 
-            poiFeatures.forEach(category => {
-                category.features.forEach(feat => {
+            poiFeatures.forEach((category) => {
+                category.features.forEach((feat) => {
                     this.fillImagePath(feat);
                     feat.nearbyTitleText = this.getFeatureTitle(feat);
                 });
@@ -147,9 +173,7 @@ export default {
          * @returns {void}
          */
         initActiveCategory () {
-            let poi,
-                first;
-
+            let poi, first;
 
             if (typeof this.activeCategory !== "number") {
                 poi = this.poiFeatures;
@@ -157,7 +181,9 @@ export default {
                     return dist.features.length > 0;
                 });
 
-                this.setActiveCategory(first ? first.category : poi[0].category);
+                this.setActiveCategory(
+                    first ? first.category : poi[0].category
+                );
             }
         },
 
@@ -167,7 +193,10 @@ export default {
          * @return {String[]} the nearbyTitle Text
          */
         getFeatureTitle (feature) {
-            if (!Array.isArray(feature.nearbyTitleText) || !feature.nearbyTitleText.length) {
+            if (
+                !Array.isArray(feature.nearbyTitleText) ||
+                !feature.nearbyTitleText.length
+            ) {
                 if (feature.get("name")) {
                     return [feature.get("name")];
                 }
@@ -177,7 +206,6 @@ export default {
             }
 
             return feature.nearbyTitleText;
-
         },
 
         /**
@@ -189,23 +217,31 @@ export default {
             const id = evt.currentTarget.id,
                 poiFeatures = this.poiFeatures,
                 activeCategory = this.activeCategory,
-                selectedPoiFeatures = poiFeatures.find(poi => {
+                selectedPoiFeatures = poiFeatures.find((poi) => {
                     return poi.category === activeCategory;
                 }),
-                feature = selectedPoiFeatures.features.find(feat => {
+                feature = selectedPoiFeatures.features.find((feat) => {
                     return feat.getId() === id;
                 }),
                 extent = feature.getGeometry().getExtent(),
                 coordinate = extractEventCoordinates(extent),
                 resolutions = mapCollection.getMapView("2D").getResolutions(),
-                index = resolutions.indexOf(0.2645831904584105) === -1 ? resolutions.length : resolutions.indexOf(0.2645831904584105);
+                index =
+                    resolutions.indexOf(0.2645831904584105) === -1
+                        ? resolutions.length
+                        : resolutions.indexOf(0.2645831904584105);
 
-            this.zoomToExtent({extent: coordinate, options: {maxZoom: index}});
+            this.zoomToExtent({
+                extent: coordinate,
+                options: {maxZoom: index}
+            });
             this.$store.dispatch("Maps/removePointMarker");
             this.$emit("hide");
             this.setPoiMode("currentPosition");
             this.setCurrentPositionEnabled(true);
-            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
+            document
+                .querySelector("#geolocatePOI")
+                .classList.remove("toggleButtonPressed");
         },
 
         /**
@@ -229,27 +265,65 @@ export default {
 
             this.imgPathByFeature[feat.getId()] = "";
             if (styleObject) {
-                const featureStyleObject = createStyle.getGeometryStyle(feat, styleObject.rules, false, Config.wfsImgPath),
-                    featureStyle = createStyle.createStyle(styleObject, feat, false, Config.wfsImgPath);
+                const featureStyleObject = createStyle.getGeometryStyle(
+                        feat,
+                        styleObject.rules,
+                        false,
+                        Config.wfsImgPath
+                    ),
+                    featureStyle = createStyle.createStyle(
+                        styleObject,
+                        feat,
+                        false,
+                        Config.wfsImgPath
+                    );
 
                 if (featureStyleObject.attributes?.type === "icon") {
-                    this.imgPathByFeature[feat.getId()] = featureStyle.getImage()?.getSrc() ? featureStyle.getImage()?.getSrc() : "";
+                    this.imgPathByFeature[feat.getId()] = featureStyle
+                        .getImage()
+                        ?.getSrc()
+                        ? featureStyle.getImage()?.getSrc()
+                        : "";
                 }
-
                 else {
-                    createStyle.returnLegendByStyleId(feat.styleId).then(layerLegends => {
-                        layerLegends.legendInformation.forEach(legendInfo => {
-                            if (legendInfo.geometryType === "Point" && legendInfo.styleObject.attributes.type === "circle" && legendInfo.label === feat.legendValue) {
-                                this.imgPathByFeature[feat.getId()] = svgFactory.createCircle(legendInfo.styleObject);
-                            }
-                            else if (legendInfo.geometryType === "LineString" && legendInfo.label === feat.legendValue) {
-                                this.imgPathByFeature[feat.getId()] = svgFactory.createLine(legendInfo.styleObject);
-                            }
-                            else if (legendInfo.geometryType === "Polygon" && legendInfo.label === feat.legendValue) {
-                                this.imgPathByFeature[feat.getId()] = svgFactory.createPolygon(legendInfo.styleObject);
-                            }
+                    createStyle
+                        .returnLegendByStyleId(feat.styleId)
+                        .then((layerLegends) => {
+                            layerLegends.legendInformation.forEach(
+                                (legendInfo) => {
+                                    if (
+                                        legendInfo.geometryType === "Point" &&
+                                        legendInfo.styleObject.attributes
+                                            .type === "circle" &&
+                                        legendInfo.label === feat.legendValue
+                                    ) {
+                                        this.imgPathByFeature[feat.getId()] =
+                                            svgFactory.createCircle(
+                                                legendInfo.styleObject
+                                            );
+                                    }
+                                    else if (
+                                        legendInfo.geometryType ===
+                                            "LineString" &&
+                                        legendInfo.label === feat.legendValue
+                                    ) {
+                                        this.imgPathByFeature[feat.getId()] =
+                                            svgFactory.createLine(
+                                                legendInfo.styleObject
+                                            );
+                                    }
+                                    else if (
+                                        legendInfo.geometryType === "Polygon" &&
+                                        legendInfo.label === feat.legendValue
+                                    ) {
+                                        this.imgPathByFeature[feat.getId()] =
+                                            svgFactory.createPolygon(
+                                                legendInfo.styleObject
+                                            );
+                                    }
+                                }
+                            );
                         });
-                    });
                 }
             }
         }
@@ -294,14 +368,18 @@ export default {
                         >
                             <button
                                 class="nav-link"
-                                :class="feature.category === activeCategory ? 'active' : ''"
+                                :class="
+                                    feature.category === activeCategory
+                                        ? 'active'
+                                        : ''
+                                "
                                 :href="feature.category"
                                 :aria-controls="feature.category"
                                 data-bs-toggle="pill"
                                 @click="changedCategory"
                                 @keydown.enter="changedCategory"
                             >
-                                {{ feature.category + 'm' }}
+                                {{ feature.category + "m" }}
                                 <span
                                     class="badge"
                                     :aria-controls="feature.category"
@@ -315,7 +393,12 @@ export default {
                             :id="feature.category"
                             :key="'list' + index"
                             role="tabpanel"
-                            :class="['tab-pane fade show', feature.category === activeCategory ? 'active' : '']"
+                            :class="[
+                                'tab-pane fade show',
+                                feature.category === activeCategory
+                                    ? 'active'
+                                    : '',
+                            ]"
                         >
                             <ul class="poi-list">
                                 <li
@@ -354,7 +437,7 @@ export default {
                                                 >
                                                     <strong>{{ featNearbyTitleText }}</strong>
                                                 </p>
-                                                <p>{{ feat.dist2Pos + " " + $t('common:modules.controls.orientation.distanceUnit') }}</p>
+                                                <p>{{ feat.dist2Pos + " " + $t("common:modules.controls.orientation.distanceUnit") }}</p>
                                             </div>
                                         </div>
                                     </button>
@@ -383,12 +466,12 @@ export default {
     #surrounding_vectorfeatures {
         background-color: transparent;
     }
-    .modal-backdrop{
+    .modal-backdrop {
         pointer-events: all;
         cursor: default;
     }
     .modal-backdrop:focus {
-       background-color: lighten($dark_grey, 5%);
+        background-color: lighten($dark_grey, 5%);
     }
     .poi {
         color: $dark_grey;
@@ -399,7 +482,7 @@ export default {
             padding-bottom: 0;
             border-bottom: 0;
         }
-        .nav-pills{
+        .nav-pills {
             padding: $padding;
             padding-top: 0;
         }
@@ -419,7 +502,7 @@ export default {
             z-index: 1051;
         }
         .tab-content {
-            max-height: 78vH;
+            max-height: 78vh;
             overflow: auto;
 
             .poi-list {

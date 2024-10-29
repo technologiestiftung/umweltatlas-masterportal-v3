@@ -32,7 +32,7 @@
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
-- Fixed issue with German translation not displaying in styleVT and wfsSearch modules. 
+- Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
 - Print:
     - Group layers of different `typ` are printed.
     - Fixed opacity for wfs group layers.
