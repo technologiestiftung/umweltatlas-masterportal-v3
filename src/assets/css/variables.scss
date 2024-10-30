@@ -180,6 +180,10 @@ $secondary_table_style: #F2F2F2;  // background for table view style
   --bs-btn-box-shadow: none;
 }
 
+.bg-info{
+  background-color: $secondary !important;
+}
+
 /*
  * switches and checkboxes
  */
