@@ -185,7 +185,7 @@ export default {
         </div>
 
         <div :class="{ 'blurred': spinnerActive }">
-            <h5 class="mb-4">{{ $t("common:modules.compareMaps.title") }}</h5>
+            <p class="mb-4">{{ $t("common:modules.compareMaps.title") }}</p>
             <div class="toggle-buttons mb-4">
                 <span class="me-2">{{ $t("common:modules.compareMaps.splitDirection") }}</span>
                 <div class="form-check form-check-inline">

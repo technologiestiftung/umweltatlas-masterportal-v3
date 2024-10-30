@@ -241,7 +241,7 @@ export default {
         <AccordionItem
             v-if="uaData.uaInfoURL"
             id="layer-info-ua"
-            :title="'Umweltatlas'"
+            :title="'Über diesen Datensatz'"
             :is-open="false"
             :font-size="'font-size-base'"
             :coloured-header="true"
@@ -332,7 +332,7 @@ export default {
         </AccordionItem>
 
         <p class="mt-4 p-0" v-if="uaData.uaGdiURL">
-            Weiter Metadaten zu diesem Datensatz finden Sie im 
+            Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedigungen, finden Sie im 
             <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL >Metadatenportal</a>
         </p>
 

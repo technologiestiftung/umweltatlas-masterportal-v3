@@ -36,13 +36,16 @@ if _layerAttribution_ is added, info popup appears every time layer is added
 
 
 
-# Interface Texte
+# Texte ändern
 
-## Text ändern
+## Text des UI ändern
 
 In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich alle Texte des Interfaces. Diese lassen sich hier ändern. Danach die Seite einfach nur speichern bzw austauschen.
 
-# Anpassungen
+## Neuigkeiten updaten
+
+
+# Anpassungen im Code
 
 Alle Anpassungen lassen sich über folgendem draft PR überblicken.
 https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
