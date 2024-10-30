@@ -50,6 +50,8 @@ In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich 
 Alle Anpassungen lassen sich über folgendem draft PR überblicken.
 https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
 
+## spinner und css in index.html
+
 ## compareMaps
 Dem Vergleichtool compareMaps wurde ein zusätzlicher Infotext hinzugefügt
 

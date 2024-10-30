@@ -16,26 +16,27 @@
         <!-- Here you can configure your own fonts as url -->
     </head>
     <style>
+        /* Add a border to menu items right */
         #mp-menu-body-items-secondaryMenu .btn {
             border: 1px solid#ddd;
             margin: 10px 0px;
             border-radius: 5px;
         }
 
-        /* #mp-menu-body-items-mainMenu .btn {
-                border: 1px solid#ddd;
-                margin: 10px 0px;
-            } */
+        /* Remove shadow from #add-layer-btn */
 
         #add-layer-btn {
             box-shadow: none !important;
         }
+
+        /* ?? */
         @media (min-width: 575px) {
             #secondaryMenu-toggle-button .bi-tools {
                 font-size: 20px;
             }
         }
 
+        /* Add a loader */
         @keyframes spin {
             0% {
                 transform: rotateY(0deg);
@@ -52,16 +53,43 @@
             position: fixed;
             text-align: center;
         }
+
         #portal-logo {
             animation: fade 2s infinite, spin 2s infinite;
         }
 
+        /* ?? */
         .layer-selection-subheadline {
             display: none !important;
         }
 
         .layer-selection-navigation-baselayer {
             display: none !important;
+        }
+
+        /* Quick fix: Centers Header and icon and makes header smaller */
+        #mp-subHeader-mainMenu a{
+            align-items: center
+        }
+
+        #mp-subHeader-mainMenu h1{
+            margin-bottom: 0px;
+        }
+
+        @media (max-width: 767px) {
+            #mp-subHeader-mainMenu h1{
+                font-size: 20px !important;
+            }
+        }
+
+        #mp-menu-body-items-mainMenu .btn-title{
+            overflow: visible;
+        }
+
+        /* Quick fix: Hides ' - Luftbild' in Luftbilder Zeitreihe Tool */
+        #module-layer-slider-handle option{
+            height: 35px;
+            overflow: hidden;
         }
     </style>
     <body>

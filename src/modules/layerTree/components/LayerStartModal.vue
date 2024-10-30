@@ -119,7 +119,7 @@ export default {
         <div id="start-modal-content">
 
             <button title="close modal" class="close-button btn btn-light" @click="toggleModal(false)">
-                <span class="bootstrap-icon d-sm-none d-md-inline-block">
+                <span class="bootstrap-icon d-md-inline-block">
                     <i class="bi-x-lg"></i>
                 </span>
             </button>
@@ -195,9 +195,20 @@ export default {
         background-color: white;
         max-height: 80%;
         overflow: auto;
-            overflow-x: auto;
+        overflow-x: auto;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         overflow-x: hidden;
+    }
+
+    @media (max-width: 450px) {
+        #start-modal-content {
+            padding: 20px;
+            max-height: 95%;
+        }
+
+        h2{
+            font-size:20px
+        }
     }
 
     .close-button{
