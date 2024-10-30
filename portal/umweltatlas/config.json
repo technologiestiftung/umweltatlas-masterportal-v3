@@ -229,7 +229,7 @@
         {
           "id": "basemap_raster_grau",
           "shortname": "Grau",
-          "visibility": false
+          "visibility": true
         },
         {
           "id": "truedop_2024:truedop_2024:GDIBE:25833",
