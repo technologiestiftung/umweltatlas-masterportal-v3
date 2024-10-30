@@ -58,7 +58,9 @@ export default {
             const el = document.querySelector("#layer-selection-treenode-" + escapeId(this.highlightLayerId));
 
             if (el) {
-                el.scrollIntoView({block: "nearest", behavior: "smooth"});
+                this.$nextTick(() => {
+                    el.scrollIntoView({block: "nearest", behavior: "smooth"});
+                });
             }
         }
     },
