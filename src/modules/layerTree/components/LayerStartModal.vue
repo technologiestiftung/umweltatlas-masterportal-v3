@@ -137,7 +137,7 @@ export default {
                             <span class="img-wrapper">
                                 <span class="img-text">
                                     <span
-                                        class="bootstrap-icon d-sm-none d-md-inline-block"
+                                        class="bootstrap-icon d-md-inline-block"
                                         ><i class="bi-arrow-right-short"></i
                                     ></span>
                                     {{conf.title}}
@@ -234,7 +234,7 @@ export default {
 
             .img-text {
                 position: absolute;
-                background-color: black;
+                background-color: #E40422;
                 color: white;
                 font-size: 17px;
                 padding: 3px 10px;
@@ -279,6 +279,8 @@ export default {
             border-color: $dark_green;
             .img-text {
                 background-color: $dark_green;
+                background-color: #000;
+
             }
         }
     }
