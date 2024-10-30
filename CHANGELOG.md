@@ -39,6 +39,7 @@
 - WFST: The attribute names are now fully visible and no longer overlapped.
 - BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
 - Searchbar: The action "Show topic in folder" was fixed.
+- i18next: Modified missing key handling to retain namespace prefixes.
 
 ---
 
