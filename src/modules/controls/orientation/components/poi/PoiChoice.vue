@@ -38,11 +38,7 @@ export default {
          * @returns {void}
          */
         closeIconTriggered (event) {
-            if (
-                event.type === "click" ||
-                event.which === 32 ||
-                event.which === 13
-            ) {
+            if (event.type === "click" || event.which === 32 || event.which === 13) {
                 this.hidePoiChoice();
             }
         },
@@ -123,9 +119,7 @@ export default {
             this.setCurrentPositionEnabled(true);
             this.$store.dispatch("Maps/removePointMarker");
             this.hidePoiChoice();
-            document
-                .querySelector("#geolocatePOI")
-                .classList.remove("toggleButtonPressed");
+            document.querySelector("#geolocatePOI").classList.remove("toggleButtonPressed");
         }
     }
 };
