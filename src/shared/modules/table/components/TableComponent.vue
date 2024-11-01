@@ -119,6 +119,10 @@ export default {
             type: [Number, Boolean],
             required: false,
             default: false
+        },
+        maxAttributesToShow: {
+            type: Number,
+            default: 12
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],
@@ -850,12 +854,15 @@ export default {
                     />
                     <th
                         v-for="(column, idx) in editedTable.headers"
+                        v-show="idx < maxAttributesToShow"
                         :key="idx"
                         class="filter-select-box-wrapper"
                         :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         @click="selectColumn(column, idx)"
                     >
-                        <div class="d-flex justify-content-between me-3">
+                        <div
+                            class="d-flex justify-content-between me-3"
+                        >
                             <span
                                 v-if="filterable"
                                 class="multiselect-dropdown w-100"
@@ -925,6 +932,7 @@ export default {
                     </td>
                     <td
                         v-for="(entry, columnIdx) in visibleHeaders"
+                        v-show="columnIdx < maxAttributesToShow"
                         :key="columnIdx"
                         :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
