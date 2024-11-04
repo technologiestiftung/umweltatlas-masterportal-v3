@@ -105,7 +105,7 @@ export default {
             toast.show();
 
             if (window.isSecureContext) {
-                navigator.clipboard.writeText(this.url);
+                navigator.clipboard.writeText(this.url + "#");
             }
             else {
                 this.addSingleAlert({
