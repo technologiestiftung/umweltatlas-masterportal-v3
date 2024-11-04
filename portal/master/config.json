@@ -1219,13 +1219,6 @@
           "urlIsVisible": true
         },
         {
-          "id": "27926",
-          "styleId": "8712",
-          "name": "Schulen (Layertyp OAF)",
-          "typ": "OAF",
-          "visibility": true
-        },
-        {
           "id": "20625.90024",
           "styleId": "200_300_400_600_anzahl_sus_primarstufe",
           "name": "Schüler*innen nach Sozialräumen (1 bis 4)",

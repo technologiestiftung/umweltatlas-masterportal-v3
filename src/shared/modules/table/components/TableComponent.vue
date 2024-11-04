@@ -8,6 +8,10 @@ import IconButton from "../../buttons/components/IconButton.vue";
 import isObject from "../../../js/utils/isObject";
 import Multiselect from "vue-multiselect";
 import thousandsSeparator from "../../../js/utils/thousandsSeparator";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../src/shared/js/utils/isPhoneNumber.js";
+import beautifyKey from "../../../../../src/shared/js/utils/beautifyKey.js";
+import {isWebLink} from "../../../../../src/shared/js/utils/urlHelper.js";
+import {isEmailAddress} from "../../../../../src/shared/js/utils//isEmailAddress.js";
 
 export default {
     name: "TableComponent",
@@ -257,6 +261,14 @@ export default {
         }
     },
     methods: {
+        isPhoneNumber,
+        getPhoneNumberAsWebLink,
+        beautifyKey,
+        isWebLink,
+        isEmailAddress,
+        removeVerticalBar (value) {
+            return value.replaceAll("|", "<br>");
+        },
         thousandsSeparator,
 
         /**
@@ -936,7 +948,45 @@ export default {
                         :key="columnIdx"
                         :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
-                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) : parseDecimalPlaces(item[entry.name]) }}
+                        <p v-if="isWebLink(item[entry.name])">
+                            <a
+                                :href="item[entry.name]"
+                                target="_blank"
+                            >{{ item[entry.name] }}</a>
+                        </p>
+                        <p v-else-if="item[entry.name] && (item[entry.name].toLowerCase() === 'true'|| item[entry.name].toLowerCase() === 'yes')">
+                            <span>{{ $t('common:modules.compareFeatures.trueFalse.true') }}</span>
+                        </p>
+                        <p v-else-if="item[entry.name] && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
+                            <span>{{ $t('common:modules.compareFeatures.trueFalse.false') }}</span>
+                        </p>
+                        <p v-else-if="isEmailAddress(item[entry.name])">
+                            <a :href="`mailto:${item[entry.name]}`">{{ item[entry.name] }}</a>
+                        </p>
+                        <p v-else-if="isPhoneNumber(item[entry.name])">
+                            <a :href="getPhoneNumberAsWebLink(item[entry.name])">{{ item[entry.name] }}</a>
+                        </p>
+                        <p
+                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes(';') && key.includes('SCHULEN')"
+                        >
+                            <span v-html="toBold(item[entry.name], key)" />
+                        </p>
+                        <p
+                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('|')"
+                        >
+                            <span v-html="removeVerticalBar(item[entry.name])" />
+                        </p>
+                        <p
+                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('<br>')"
+                        >
+                            <span v-html="item[entry.name]" />
+                        </p>
+                        <p v-else-if="typeof item[entry.name] === 'number'">
+                            {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
+                        </p>
+                        <p v-else>
+                            {{ parseDecimalPlaces(item[entry.name]) }}
+                        </p>
                     </td>
                 </tr>
                 <template v-if="showTotalData">
