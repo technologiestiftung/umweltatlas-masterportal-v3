@@ -254,7 +254,7 @@ export default {
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Informations- und Datengrundlagen, Methoden sowie relevante Begleitliteratur und einem Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL >Umweltaltas</a> 
+                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
                 </p>
             </span>
         </AccordionItem>
@@ -333,7 +333,7 @@ export default {
 
         <p class="mt-4 p-0" v-if="uaData.uaGdiURL">
             Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedigungen, finden Sie im 
-            <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL >Metadatenportal</a>
+            <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Metadatenportal</a>
         </p>
 
         <p class="mb-4" v-if="uaData.uaDownload">
