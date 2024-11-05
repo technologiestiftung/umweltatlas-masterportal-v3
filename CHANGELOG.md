@@ -159,7 +159,6 @@
 ### Deprecated
 - Searchbar in topic tree config.json configuration: 'searchInterfaceInstances' must contain the search interfaces to use. 'searchInterfaceInstanceIds' and 'searchCategory' are deprecated.
 
-
 ### Fixed
 - Legend: Same legends of group layers are shown only once.
 - Filter: The buttons were always disabled in the accordion of the filter.
