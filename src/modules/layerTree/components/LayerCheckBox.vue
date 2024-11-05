@@ -51,23 +51,6 @@ export default {
          */
         isBold () {
             return this.isLayerVisible || this.highlightLayerId === this.conf.id;
-        },
-        /**
-         * Returns the translated name for the layer if a translation exists; otherwise, returns the original `conf.name`.
-         * This ensures that even if `conf.name` contains special characters like ":", the full name is displayed
-         * without truncation when no translation is available.
-         * @returns {String} Translated layer name or original `conf.name`
-         */
-        displayName () {
-            return i18next.exists(this.conf.name) ? this.$t(this.conf.name) : this.conf.name;
-        },
-        /**
-         * Returns the translated short name if `conf.shortname` is defined and a translation exists.
-         * If not, defaults to `conf.shortname` or `displayName` if undefined, ensuring either a short or full name is shown.
-         * @returns {String} Translated or original `conf.shortname`, or `displayName`
-         */
-        displayShortName () {
-            return i18next.exists(this.conf.shortname) ? this.$t(this.conf.shortname) : this.conf.shortname;
         }
     },
     mounted () {
@@ -146,17 +129,17 @@ export default {
             :class="['pt-4']"
             :for="'layer-tree-layer-preview-' + conf.id"
             tabindex="0"
-            :aria-label="displayName "
+            :aria-label="$t(conf.name)"
         >
             <span
                 v-if="conf.shortname"
             >
-                {{ displayShortName }}
+                {{ $t(conf.shortname) }}
             </span>
             <span
                 v-else
             >
-                {{ displayName }}
+                {{ $t(conf.name) }}
             </span>
         </label>
     </div>
@@ -185,17 +168,17 @@ export default {
             :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'font-bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
-            :aria-label="displayName "
+            :aria-label="$t(conf.name)"
         >
             <span
                 v-if="conf.shortname"
             >
-                {{ displayShortName }}
+                {{ $t(conf.shortname) }}
             </span>
             <span
                 v-else
             >
-                {{ displayName }}
+                {{ $t(conf.name) }}
             </span>
         </span>
     </button>
