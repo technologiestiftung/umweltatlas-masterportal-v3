@@ -7,14 +7,39 @@
 ### __Breaking Changes__
 
 ### Added
-
+- AddWMS: Added Information about CORS header to doc and changed error message.
+- ShareView: Error handling when sharing via QR code has been improved.
+- Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
+- Routing: Added checkbox to determine if routes stay visible after closing the routing tool
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
+- Filter supports secure WFS request.
+- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly. 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+- Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
+- Renamed versionLatest to versionLatestDisabled in package.json, so that latest tag is not created until renamed back at the end of december.
 
 ### Fixed
+- Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
+- Corrected link for geodata infrastructure information pdf by GDI-DE.
+- Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
+- Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/groupedLayers.md).
+- Issue #1276: Duplicate icons StartModule in expandable ControlBar.
+- Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
+- `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
+- Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
+- Print:
+    - Group layers of different `typ` are printed.
+    - Fixed opacity for wfs group layers.
+- WFST: The attribute names are now fully visible and no longer overlapped.
+- BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
+- Searchbar: The action "Show topic in folder" was fixed.
+- i18next: Modified missing key handling to retain namespace prefixes.
+
+---
 
 ## 2024-11-05 v3.3.2 (LTS)
 
