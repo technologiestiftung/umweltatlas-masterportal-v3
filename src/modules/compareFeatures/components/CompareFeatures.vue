@@ -18,7 +18,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "selectedLayerId", "preparedListDisplayTable", "selectableLayers"]),
+        ...mapGetters("Modules/CompareFeatures", ["hasFeatures", "hasMultipleLayers", "selectedLayerId", "preparedListDisplayTable", "selectableLayers", "numberOfAttributesToShow"]),
         selected: {
             get () {
                 return this.$store.state.Modules.CompareFeatures.selectedLayerId;
@@ -101,6 +101,7 @@ export default {
             :downloadable="true"
             :removable="true"
             :enable-settings="true"
+            :max-attributes-to-show="numberOfAttributesToShow"
             @removeItem="removeItem"
         />
     </div>

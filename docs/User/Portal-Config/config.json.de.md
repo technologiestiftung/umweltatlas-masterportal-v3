@@ -3045,6 +3045,8 @@ Hier können Vector Features miteinander verglichen werden. Dazu werden vektorba
 "compareFeatures": {
   "icon": "bi-star",
   "name": "common:modules.compareFeatures.title",
+  "numberOfAttributesToShow": 10,
+  "numberOfFeaturesToShow": 5,
   "type": "compareFeatures"
 }
 ```

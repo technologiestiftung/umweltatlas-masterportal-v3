@@ -8,6 +8,8 @@
  * @property {String} [icon="bi-star"] Icon next to title (config-param).
  * @property {String[]} [supportedDevices=["Desktop", "Mobile", "Table"]] Devices on which the module is displayed.
  * @property {String[]} [supportedMapModes=["2D", "3D"]] Map mode in which this module can be used.
+ * @property {Integer} [numberOfAttributesToShow=3] Maximal number of attributes to show.
+ * @property {Integer} [numberOfFeaturesToShow=3] Maximal number of features to show.
  * @property {String} [type="compareFeatures"] The type of the module.
  * @property {String} [id="compareFeatures"] Id of the CompareFeatures component.
  * @property {Object} [layerFeatures={}] Object with the features of a layer.
@@ -29,6 +31,8 @@ const state = {
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     type: "compareFeatures",
+    numberOfAttributesToShow: 3,
+    numberOfFeaturesToShow: 3,
     // compareFeatures state
     id: "compareFeatures",
     layerFeatures: {},

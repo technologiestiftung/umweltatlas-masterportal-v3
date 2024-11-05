@@ -126,7 +126,7 @@ export default {
         },
         maxAttributesToShow: {
             type: Number,
-            default: 12
+            default: 30
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],

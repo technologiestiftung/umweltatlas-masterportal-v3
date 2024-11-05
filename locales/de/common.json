@@ -218,6 +218,7 @@
           "addedWithName": "{{currentFeatureName}} wurde zur Vergleichsliste hinzugefügt",
           "notAdded": "Das Feature konnte nicht zur Vergleichsliste hinzugefügt werden",
           "notAddedWithName": "{{currentFeatureName}} konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
           "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
           "goToComparisonlist": "Zur Vergleichsliste"
       },

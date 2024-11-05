@@ -3051,6 +3051,8 @@ This tool allows comparing vector features which are provided by WFS(❗) servic
 "compareFeatures": {
     "icon": "bi-star",
     "name": "common:modules.compareFeatures.title",
+    "numberOfAttributesToShow": 10,
+    "numberOfFeaturesToShow": 5,
     "type": "compareFeatures"
 }
 ```

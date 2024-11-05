@@ -4,17 +4,30 @@ export default {
      * @param {Object} state - the state.
      * @param {Object} commit - the commit.
      * @param {Object} dispatch - the dispatch.
+     * @param {Object} getters - getters.
      * @param {Object} gfiFeature - feature
      * @returns {void}
      */
-    isFeatureOnCompareList: function ({state, commit, dispatch}, gfiFeature) {
+    isFeatureOnCompareList: function ({state, commit, dispatch, getters}, gfiFeature) {
         const {layerId} = gfiFeature;
 
-        commit("addFeatureToLayer", gfiFeature);
-        commit("setCurrentFeatureName", gfiFeature.properties.Name || gfiFeature.properties.name);
-        commit("setSelectedLayerId", gfiFeature.layerId);
-        for (const feature of state.layerFeatures[layerId]) {
-            dispatch("prepareFeatureListToShow", feature);
+        commit("setListFull", false);
+        if (!getters.isFeatureSelected(gfiFeature) && state.layerFeatures[layerId] === undefined || state.layerFeatures[layerId].length < state.numberOfFeaturesToShow) {
+            commit("addFeatureToLayer", gfiFeature);
+            commit("setCurrentFeatureName", gfiFeature.properties.Name || gfiFeature.properties.name);
+            commit("setSelectedLayerId", gfiFeature.layerId);
+            for (const feature of state.layerFeatures[layerId]) {
+                dispatch("prepareFeatureListToShow", feature);
+            }
+        }
+        else {
+            const alertingListFull = {
+                "category": "info",
+                "content": i18next.t("common:modules.compareFeatures.feedback.limitReached")
+            };
+
+            dispatch("Alerting/addSingleAlert", alertingListFull, {root: true});
+            commit("setListFull", true);
         }
     },
 
