@@ -17,6 +17,9 @@
 - LayerInformation: Added last revision date to Layer Information. 
 
 ### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.40.0 to 2.41.0
 
 ### Deprecated
 
