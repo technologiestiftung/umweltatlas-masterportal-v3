@@ -105,6 +105,7 @@ export default {
             toast.show();
 
             if (window.isSecureContext) {
+                // Adds a hashtag (#) at the end of the generated url in order to help Outlook interpret our generated links correctly.
                 navigator.clipboard.writeText(this.url + "#");
             }
             else {
