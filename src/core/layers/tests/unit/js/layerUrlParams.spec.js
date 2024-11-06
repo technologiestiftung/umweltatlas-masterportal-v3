@@ -67,7 +67,7 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
         });
     });
 
-    describe("setLayerIds", () =>{
+    describe.only("setLayerIds", () =>{
         it("should replace the layers from the params", () => {
             const params = {
                 "MAP/LAYERIDS": "452,1711",
@@ -131,6 +131,45 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
                 transparency: "0",
                 showInLayerTree: true,
                 zIndex: 1
+            });
+        });
+        it("should set all layers", () => {
+            const params = {
+                "MAP/LAYERIDS": "452,1711",
+                TRANSPARENCY: "50,0",
+                VISIBILITY: "true,false",
+                MDID: "C1AC42B2-C104-45B8-91F9-DA14C3C88A1F"
+            };
+
+            layerUrlParams.setLayerIds(params);
+            layerUrlParams.setLayersByMetadataId(params);
+
+            expect(dispatchCalls.length).to.equals(3);
+            expect(dispatchCalls[0].addOrReplaceLayer).to.deep.equals({
+                layerId: "452",
+                visibility: true,
+                transparency: "50",
+                showInLayerTree: true,
+                zIndex: 0
+            });
+            expect(dispatchCalls[1].addOrReplaceLayer).to.deep.equals({
+                layerId: "1711",
+                visibility: false,
+                transparency: "0",
+                showInLayerTree: true,
+                zIndex: 1
+            });
+            expect(dispatchCalls[2].replaceByIdInLayerConfig).to.deep.equals({
+                layerConfigs: [
+                    {
+                        id: "753",
+                        layer: {
+                            id: "753",
+                            showInLayerTree: true,
+                            visibility: true
+                        }
+                    }
+                ]
             });
         });
     });
