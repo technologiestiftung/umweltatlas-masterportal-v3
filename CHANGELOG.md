@@ -3,8 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## 2024-11-06 v3.4.0
 
 ### Added
 - AddWMS: Added Information about CORS header to doc and changed error message.
@@ -20,8 +19,6 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.40.0 to 2.41.0
-
-### Deprecated
 
 ### Removed
 - Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
