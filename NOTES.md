@@ -34,7 +34,10 @@ if _tileMatrixSet_ is added then preview doesn't work
 if _layerAttribution_ is added, info popup appears every time layer is added
 
 
+# 
 
+npm run build
+dist
 
 # Texte ändern
 

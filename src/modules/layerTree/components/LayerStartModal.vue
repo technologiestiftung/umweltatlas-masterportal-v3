@@ -245,7 +245,7 @@ export default {
 
             .img-text {
                 position: absolute;
-                background-color: #E40422;
+                background-color: $secondary;
                 color: white;
                 font-size: 17px;
                 padding: 3px 10px;
