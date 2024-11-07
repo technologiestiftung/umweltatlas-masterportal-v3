@@ -39,6 +39,7 @@ export default {
     },
     mounted () {
         this.appendModalToBody();
+        this.isStartEndInput(0);
     },
     async created () {
         this.initTSR();
@@ -73,6 +74,7 @@ export default {
             }
             this.tsrRouteSource?.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
             this.setTsrDirections(null);
+            this.isStartEndInput(0);
         },
         /**
          * Resets only tsr directions
@@ -147,7 +149,7 @@ export default {
                         :class="index === 0 ? 'startpoint-input' : 'waypoint-input'"
                         :count-waypoints="waypoints.length"
                         :waypoint="waypoint"
-                        @remove-waypoint="removeWaypoint({index: waypoint.index, reload: true})"
+                        @remove-waypoint="index === 0 ? [removeWaypoint({index: waypoint.index, reload: true}), isStartEndInput(0)]: removeWaypoint({index: waypoint.index, reload: true})"
                         @add-start-end="isStartEndInput(index === 0 ? 0 : 1)"
                         @search-result-selected="isStartEndInput(1)"
                     />
@@ -157,7 +159,7 @@ export default {
                             type="button"
                             class="btn btn-light justify-content-left text-start"
                             :title="$t('common:modules.routing.addWaypoint')"
-                            @click="isStartEndInput(1); addWaypoint({index: waypoints.length -1})"
+                            @click="isStartEndInput(1); addWaypoint({index: waypoints.length -1}); waypoints[0].getCoordinates().length === 0 ? isStartEndInput(0) : null"
                             @keydown.enter="addWaypoint({index: waypoints.length -1})"
                         >
                             <i class="bi-plus-circle" />
@@ -227,18 +229,6 @@ export default {
                 {{ $t('common:modules.routing.tsr.modifyWaypointsTSR') }}
             </button>
             <TsrOutput />
-            <div class="d-flex justify-content-end">
-                <div id="routing-settings">
-                    <IconButton
-                        id="button-settings"
-                        :aria="$t('common:modules.routing.settings.settingsTooltip')"
-                        :class-array="['btn-light']"
-                        :icon="'bi-gear'"
-                        data-bs-toggle="modal"
-                        data-bs-target="#settingsModal"
-                    />
-                </div>
-            </div>
         </div>
         <!-- Modal -->
         <div

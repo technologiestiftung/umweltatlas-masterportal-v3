@@ -36,7 +36,7 @@ export default {
     methods: {
         ...mapMutations("Modules/Routing/TSR", ["IsLoadingTSR"]),
         ...mapMutations("Modules/Routing", ["setTaskHandler"]),
-        ...mapActions("Modules/Routing/TSR", ["fetchTSR", "resetTSRResults", "addWaypoint", "findTSR", "zoomAfterUpload"]),
+        ...mapActions("Modules/Routing/TSR", ["fetchTSR", "resetTSRResults", "addWaypoint", "findTSR", "zoomAfterUpload", "isStartEndInput"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
         ...mapActions("Modules/Routing", ["transformCoordinatesWgs84ToLocalProjection", "fetchTextByCoordinates"]),
 
@@ -111,6 +111,10 @@ export default {
                                         title: this.$t("common:modules.routing.tsr.upload.successTitle"),
                                         content: this.$t("common:modules.routing.tsr.errors.duplicatePoints")
                                     });
+                                }
+
+                                if (this.waypoints[0].getCoordinates().length === 0) {
+                                    this.isStartEndInput(0);
                                 }
 
                                 this.zoomAfterUpload();

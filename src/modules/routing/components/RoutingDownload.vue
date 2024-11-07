@@ -6,6 +6,7 @@ import convertFeaturesToKml from "../../../shared/js/utils/convertFeaturesToKml.
 import directionsRouteStyle from "../js/map/directions/route/directionsRouteStyle";
 import tsrRouteStyle from "../js/map/tsr/route/tsrRouteStyle";
 import Feature from "ol/Feature";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * RoutingDownload
@@ -17,6 +18,9 @@ import Feature from "ol/Feature";
  */
 export default {
     name: "RoutingDownload",
+    components: {
+        FlatButton
+    },
     props: {
         hideGpx: {
             type: Boolean,
@@ -342,7 +346,7 @@ export default {
             <div class="col-md-8">
                 <select
                     id="routing-DownloadFormatOptions"
-                    class="form-select form-select-sm mt-4"
+                    class="form-select form-select-sm"
                     @change="download.format = $event.target.value"
                 >
                     <option
@@ -376,18 +380,16 @@ export default {
         </div>
 
         <div class="form-group form-group-sm">
-            <div class="col-12 d-grid gap-2">
-                <button
-                    class="btn"
-                    type="button"
-                    :disabled="isDisabled"
-                    @click="downloadResult()"
-                >
-                    <span class="bootstrap-icon pointer">
-                        <i class="bi-save-fill" />
-                    </span>
-                    {{ $t('common:modules.routing.download.saveResult') }}
-                </button>
+            <div class="d-flex justify-content-center mt-3">
+                <FlatButton
+                    id="downloadBtn"
+                    :aria-label="$t('common:modules.routing.download.saveResult')"
+                    :interaction="($event) => downloadResult()"
+                    :text="$t('common:modules.routing.download.saveResult')"
+                    :icon="'bi-save'"
+                    :class="{disabled: isDisabled}"
+                    role="button"
+                />
             </div>
         </div>
     </div>

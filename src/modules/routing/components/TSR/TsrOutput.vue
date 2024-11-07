@@ -108,7 +108,6 @@ export default {
         </div>
         <hr>
         <RoutingDownload />
-        <hr>
     </div>
 </template>
 
