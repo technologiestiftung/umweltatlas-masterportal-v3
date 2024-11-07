@@ -8,7 +8,7 @@ Merge main with bitbucket_dev_vue branch
 Merge feat/add-new-portal with bitbucket_dev_vue branch
 Then merge feat/add-new-portal with main
 
-## Used Version
+## Used NPM Version
 
 nvm use v20.12.2
 
@@ -22,7 +22,7 @@ npm run migrateConfig source=old_v2_portal/umweltatlas dest=portal/umweltatlas
 
 ## removed prePushHook because it failed due to missing canvas library
 
-    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config.json.md ./doc/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
+"prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js ./doc/config.json.md ./doc/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
 
 # run dev
 
@@ -30,7 +30,7 @@ npm run start
 
 # preview img basemap
 
-if _tileMatrixSet_ is added then preview doesn't work
+??? if _tileMatrixSet_ is added then preview doesn't work
 if _layerAttribution_ is added, info popup appears every time layer is added
 
 
@@ -53,9 +53,12 @@ Hier können Sie die Neuigkeiten eintragen:
 portal/umweltatlas/resources/newsFeedPortalAlerts.json
 `````
 
+# Services update
 
-## Services updaten
+# config.json
 
+
+# Services automatisch updaten
 
 Mit Node
 
