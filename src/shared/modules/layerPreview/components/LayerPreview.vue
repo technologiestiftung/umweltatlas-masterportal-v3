@@ -149,7 +149,7 @@ export default {
                 params.STYLES = "";
 
                 Object.entries(params).forEach(([key, value]) => {
-                    if (key !== "WIDTH" && key !== "HEIGHT") {
+                    if (key !== "WIDTH" && key !== "HEIGHT" && value !== undefined) {
                         url += `&${key}=${encodeURIComponent(value)}`;
                     }
                 });
