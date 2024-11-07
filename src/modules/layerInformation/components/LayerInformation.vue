@@ -311,6 +311,7 @@ export default {
                         <img :src=imgLink alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
+                        <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
                         <p v-if="uaData.uaContact.name">
                             {{ uaData.uaContact.name }}
                         </p>
