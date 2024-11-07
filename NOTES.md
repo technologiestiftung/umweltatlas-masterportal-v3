@@ -44,16 +44,40 @@ In der Datei [./locales/de/common.json](./locales/de/common.json) befinden sich 
 
 ## Neuigkeiten updaten
 
+Hier können Sie die Neuigkeiten eintragen:
 
-# Anpassungen im Code
+````
+portal/umweltatlas/resources/newsFeedPortalAlerts.json
+`````
+
+
+## Services updaten
+
+
+Mit Node
+
+```` 
+node ./ua_scripts/updateServices
+````
+
+Github Actions: Update Services
+
+
+
+# Anpassungen die am Code 
 
 Alle Anpassungen lassen sich über folgendem draft PR überblicken.
 https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
 
-## spinner und css in index.html
+## Quck fixes in der index.html 
+
+Um den Code wenigst wenig ändern zu müssen, wurden in der index.html CSS Anpassungen vorgenommen die sich auf.
+
+spinner und css in index.html
 
 ## compareMaps
 Dem Vergleichtool compareMaps wurde ein zusätzlicher Infotext hinzugefügt
+Ein Teil der Labels werden durch CSS in der Index.html gekürzt, damit nicht immer  "- Luftbild" angezeigt wird, sondern nur das Jahr. 
 
 ## LayerStartModal
 Ein Modal wurde hinzugefügt, das beim Laden der Anwendung erscheint. Über eine Themenauswahl lassen sich die entsprechenden Themen direkt im Themenbaum öffnen. 
