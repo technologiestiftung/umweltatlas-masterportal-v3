@@ -116,6 +116,10 @@ export function initLanguage (portalLanguageConfig) {
             },
             interpolation: {
                 skipOnVariables: false
+            },
+            appendNamespaceToMissingKey: true,
+            parseMissingKeyHandler: (key) => {
+                return key.replace(/^(common:|additional:)/, "");
             }
         });
 }
