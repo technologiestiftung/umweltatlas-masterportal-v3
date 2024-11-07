@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-const servicesPath = "./portal/ua_scripts/resources/services-internet.json"
+const servicesPath = "./portal/umweltatlas/resources/services-internet.json"
 const servicesLocal = JSON.parse(fs.readFileSync(servicesPath, "utf8"));
 const newServices = []
 
