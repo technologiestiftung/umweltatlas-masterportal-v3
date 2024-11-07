@@ -270,7 +270,7 @@ export default {
             :header-bold="true"
         >
             <span v-if="contact" class="contact-wrapper">
-                <p class="bold ua-dark-green pb-2">Datenhaltende Person</p>
+                <p class="bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
                 <div class="ua-break-parent">
                     <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
                     <div>
@@ -305,7 +305,7 @@ export default {
             </span>
 
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
-                <p class="bold ua-dark-green pb-2">Ansprechperson zum ausgewählten Datensatz (Umweltatlas)</p>
+                <p class="bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
                         <img :src=imgLink alt="" class="ua-person-img">
