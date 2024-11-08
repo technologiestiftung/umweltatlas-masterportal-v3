@@ -321,7 +321,7 @@ export default {
             fixedCoordinates[1] = parseFloat(fixedCoordinates[1].toFixed(2));
             waypoint.setCoordinates(fixedCoordinates);
             waypoint.setDisplayName(
-                geoSearchResult ? geoSearchResult.getDisplayName() : null
+                geoSearchResult ? geoSearchResult.getDisplayName() : fixedCoordinates
             );
         });
     },
