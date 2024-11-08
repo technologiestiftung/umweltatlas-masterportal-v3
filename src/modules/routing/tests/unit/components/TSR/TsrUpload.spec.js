@@ -49,11 +49,13 @@ describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
                                         waypoints: () => [
                                             {
                                                 index: sinon.stub(),
-                                                getDisplayName: () => sinon.stub()
+                                                getDisplayName: () => sinon.stub(),
+                                                getCoordinates: () => sinon.stub()
                                             },
                                             {
                                                 index: sinon.stub(),
-                                                getDisplayName: () => sinon.stub()
+                                                getDisplayName: () => sinon.stub(),
+                                                getCoordinates: () => sinon.stub()
                                             }
                                         ]
                                     },
