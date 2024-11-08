@@ -152,14 +152,15 @@ describe("src/modules/routing/store/directions/actionsTSR.js", () => {
 
     it("should findTSR", async () => {
         const mock = document.createElement("div");
+        let hours = 0,
+            minutes = 0;
 
         sinon.stub(document, "getElementById").withArgs("mp-body-secondaryMenu").returns(mock);
 
         await actionsTSR.findTSR({state, getters, commit, dispatch, rootState});
 
-        // eslint-disable-next-line one-var
-        const hours = Math.floor(routingTSRResult.duration / 3600);
-        let minutes = Math.floor((routingTSRResult.duration / 60) % 60);
+        hours = Math.floor(routingTSRResult.duration / 3600);
+        minutes = Math.floor((routingTSRResult.duration / 60) % 60);
 
         if ((hours || minutes) === 0) {
             minutes = "01";

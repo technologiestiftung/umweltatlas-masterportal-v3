@@ -49,6 +49,8 @@ async function fetchTSRDirections ({
         direction = null,
         response = null,
         responseOrs = null,
+        vroomResponse = null,
+        steps = null,
         coordinatesOrs = null,
         elevationProfile = null,
         currentDistance = null,
@@ -127,9 +129,8 @@ async function fetchTSRDirections ({
         throw new Error(i18next.t("common:modules.routing.errors.errorRouteFetch"));
     }
 
-    // eslint-disable-next-line one-var
-    const vroomResponse = response.data,
-        steps = vroomResponse.routes[0].steps;
+    vroomResponse = response.data;
+    steps = vroomResponse.routes[0].steps;
 
     // geometry
     if (elevation) {
@@ -254,7 +255,8 @@ function decodePolyline (encodedPolyline, includeElevation) {
  */
 function createGeoJSONFromVroomResponse (vroomResponse, includeElevation) {
     // Check if routes are in the vroom response. Else return an empty array
-    let routes = {};
+    let routes = {},
+        geojsonFeature = {};
 
     if ("routes" in vroomResponse) {
         routes = vroomResponse.routes;
@@ -279,8 +281,7 @@ function createGeoJSONFromVroomResponse (vroomResponse, includeElevation) {
         });
 
         // Create a geojson feature and store the coordinates and properties
-        // eslint-disable-next-line one-var
-        const geojsonFeature = {
+        geojsonFeature = {
             "type": "Feature",
             "properties": route,
             "geometry": {
