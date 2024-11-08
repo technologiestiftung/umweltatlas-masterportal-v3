@@ -1,6 +1,5 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import getters from "../../store/tsr/gettersTSR";
 
 /**
  * TsrUpload
@@ -22,7 +21,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/TSR", Object.keys(getters)),
+        ...mapGetters("Modules/Routing/TSR", ["waypoints", "settings"]),
         ...mapGetters("Modules/Routing", ["taskHandler", "tsrSettings"]),
 
         /**
@@ -193,7 +192,7 @@ export default {
                     // add new waypoint with result from geocoder
                     this.addWaypoint({index: this.waypoints.length,
                         coordinates: localCoordinates,
-                        displayName: tsrGeoSearchResult ? tsrGeoSearchResult.getDisplayName() : `${localCoordinates[0]}, ${localCoordinates[1]}`});
+                        displayName: tsrGeoSearchResult ? tsrGeoSearchResult.getDisplayName() : `${localCoordinates[0].toFixed(2)}, ${localCoordinates[1].toFixed(2)}`});
                 }
                 else {
                     csvContainsDuplicate = true;

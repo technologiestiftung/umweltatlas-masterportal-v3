@@ -1,7 +1,5 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
-import getters from "../../store/tsr/gettersTSR";
-import actions from "../../store/tsr/actionsTSR";
 import RoutingDownload from "../RoutingDownload.vue";
 import RoutingElevationProfile from "../RoutingElevationProfile.vue";
 
@@ -20,7 +18,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/TSR", Object.keys(getters)),
+        ...mapGetters("Modules/Routing/TSR", ["waypoints", "tsrDuration", "tsrDistance"]),
         ...mapGetters("Modules/Routing", ["taskHandler", "tsrSettings"])
     },
     beforeMount () {
@@ -30,7 +28,7 @@ export default {
         this.createTSRWaypointsDrawInteraction();
     },
     methods: {
-        ...mapActions("Modules/Routing/TSR", Object.keys(actions))
+        ...mapActions("Modules/Routing/TSR", ["removeTSRWaypointsDrawInteraction", "createTSRWaypointsDrawInteraction"])
     }
 };
 </script>

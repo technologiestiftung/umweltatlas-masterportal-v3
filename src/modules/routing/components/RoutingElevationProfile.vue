@@ -8,8 +8,6 @@
  * @vue-data {String} ascent - ascent values.
  * @vue-data {String} descent - descent values.
  */
-import gettersDirections from "../store/directions/gettersDirections";
-import gettersTSR from "../store/tsr/gettersTSR";
 import {mapGetters} from "vuex";
 import {Chart} from "chart.js";
 import {toRaw} from "vue";
@@ -26,8 +24,8 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", Object.keys(gettersDirections)),
-        ...mapGetters("Modules/Routing/TSR", Object.keys(gettersTSR)),
+        ...mapGetters("Modules/Routing/Directions", ["routingDirections", "directionsElevationSource"]),
+        ...mapGetters("Modules/Routing/TSR", ["tsrDirections", "tsrElevationSource"]),
         ...mapGetters("Modules/Routing", ["activeRoutingToolOption", "directionsSettings", "tsrSettings"]),
 
         /**

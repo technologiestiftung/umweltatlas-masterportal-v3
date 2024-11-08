@@ -1,9 +1,5 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import getters from "../../store/tsr/gettersTSR";
-import actions from "../../store/tsr/actionsTSR";
-import mutations from "../../store/tsr/mutationsTSR";
-import actionsRouting from "../../store/actionsRouting";
 import IconButton from "../../../../shared/modules/buttons/components/IconButton.vue";
 import RoutingCoordinateInput from "../RoutingCoordinateInput.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
@@ -34,12 +30,24 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/TSR", Object.keys(getters)),
-        ...mapGetters("Modules/Routing", ["tsrSettings"])
+        ...mapGetters("Modules/Routing/TSR",
+            ["isInputDisabled",
+                "settings",
+                "tsrRouteSource",
+                "tsrWaypointsLayer",
+                "tsrDirections",
+                "getTSRSpeedProfiles",
+                "waypoints"
+            ]
+        )
     },
+
     mounted () {
         this.appendModalToBody();
-        this.isStartEndInput(0);
+
+        if (this.waypoints[0].getCoordinates().length === 0) {
+            this.isStartEndInput(0);
+        }
     },
     async created () {
         this.initTSR();
@@ -49,9 +57,17 @@ export default {
         this.removeModalFromBody();
     },
     methods: {
-        ...mapMutations("Modules/Routing/TSR", Object.keys(mutations)),
-        ...mapActions("Modules/Routing/TSR", Object.keys(actions)),
-        ...mapActions("Modules/Routing", Object.keys(actionsRouting)),
+        ...mapMutations("Modules/Routing/TSR", ["setTsrDirections"]),
+        ...mapActions("Modules/Routing/TSR",
+            ["removeWaypoint",
+                "isStartEndInput",
+                "addWaypoint",
+                "addFeatToSource",
+                "findTSR",
+                "initTSR",
+                "closeTSR"
+            ]
+        ),
 
         /**
          * Changes the current speed profile and requests directions after

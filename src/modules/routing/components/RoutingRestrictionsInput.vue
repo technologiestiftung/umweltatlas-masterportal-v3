@@ -1,8 +1,5 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
-import gettersDirections from "../store/directions/gettersDirections";
-import gettersIsochrones from "../store/isochrones/gettersIsochrones";
-import actionsDirections from "../store/directions/actionsDirections";
 
 /**
  * RoutingRestrictionsInput
@@ -24,11 +21,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", Object.keys(gettersDirections)),
-        ...mapGetters("Modules/Routing/Isochrones", Object.keys(gettersIsochrones))
+        ...mapGetters("Modules/Routing/Directions", ["routingRestrictionsInputData"]),
+        ...mapGetters("Modules/Routing/Isochrones", ["isochronesRestrictionsInputData"])
     },
     methods: {
-        ...mapActions("Modules/Routing/Directions", Object.keys(actionsDirections)),
+        ...mapActions("Modules/Routing/Directions", ["findDirections"]),
 
         /**
          * Selects correct store dependent on which module is used
