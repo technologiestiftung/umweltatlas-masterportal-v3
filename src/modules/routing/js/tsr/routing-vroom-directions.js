@@ -78,26 +78,10 @@ async function fetchTSRDirections ({
 
         jobs.push(job);
     }
-    // send GET-request for TSR routing
+
     try {
-        response = await axios.post(url,
-            {
-                "vehicles": [
-                    {
-                        "id": 0,
-                        "profile": tsrSpeedProfile,
-                        "start": [start[0], start[1]],
-                        "end": [end[0], end[1]]
-                    }
-                ],
-                "jobs": jobs,
-                "options": {"g": true}
-            },
-            {
-                "content-type": "application/json",
-                "Accept": "application/json"
-            }
-        );
+        // send VROOM request
+        response = await sendRequestVROOM(url, tsrSpeedProfile, start, end, jobs);
 
         // if elevation data should be considered, send ORS request
         if (elevation) {
@@ -105,18 +89,8 @@ async function fetchTSRDirections ({
             // get sorted locations
             coordinatesOrs = response.data.routes[0].steps.map((step) => step.location);
 
-            // get service url
-            const orsUrl = store.getters.restServiceById(state.directionsSettings.serviceId).url +
-                `/v2/directions/${tsrSpeedProfile}/geojson`,
-
-                postParams = {
-                    coordinates: coordinatesOrs,
-                    preference: "recommended",
-                    units: "m",
-                    elevation: true
-                };
-
-            responseOrs = await axios.post(orsUrl, postParams);
+            // send ORS request
+            responseOrs = await sendRequestORS(tsrSpeedProfile, coordinatesOrs);
         }
     }
     catch (e) {
@@ -179,6 +153,61 @@ async function fetchTSRDirections ({
         elevationProfile: elevationProfile
     });
     return direction;
+}
+
+/**
+ * Sends request to VROOM service and returns its response
+ * @param {String} url of VROOM request
+ * @param {String} tsrSpeedProfile selected speed profile
+ * @param {Array} start coordinates of start point
+ * @param {Array<Number>} end coordinates of end point
+ * @param {Array<Object>} jobs jobs of tsr route
+ * @returns {Object} VROOM resoponse
+ */
+async function sendRequestVROOM (url, tsrSpeedProfile, start, end, jobs) {
+    const response = await axios.post(url,
+        {
+            "vehicles": [
+                {
+                    "id": 0,
+                    "profile": tsrSpeedProfile,
+                    "start": [start[0], start[1]],
+                    "end": [end[0], end[1]]
+                }
+            ],
+            "jobs": jobs,
+            "options": {"g": true}
+        },
+        {
+            "content-type": "application/json",
+            "Accept": "application/json"
+        }
+    );
+
+    return response;
+}
+
+/**
+ * Sends request to ORS service and returns its response
+ * @param {String} tsrSpeedProfile selected speed profile
+ * @param {Array} coordinates of points
+ * @returns {Object} ORS response
+ */
+async function sendRequestORS (tsrSpeedProfile, coordinates) {
+    // get service url
+    const url = store.getters.restServiceById(state.directionsSettings.serviceId).url +
+        `/v2/directions/${tsrSpeedProfile}/geojson`,
+
+        postParams = {
+            coordinates: coordinates,
+            preference: "recommended",
+            units: "m",
+            elevation: true
+        },
+
+        response = await axios.post(url, postParams);
+
+    return response;
 }
 
 /**
