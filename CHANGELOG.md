@@ -7,6 +7,20 @@
 ### __Breaking Changes__
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+
+## 2024-11-06 v3.4.0
+
+### Added
 - AddWMS: Added Information about CORS header to doc and changed error message.
 - ShareView: Error handling when sharing via QR code has been improved.
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
@@ -23,8 +37,6 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.40.0 to 2.41.0
-
-### Deprecated
 
 ### Removed
 - Deleted the `namespaces` option, as it is not a valid configuration for `createStore`, and also removed it from the `docs/Dev/unitTestVue.md` tutorial.
