@@ -455,25 +455,18 @@ export default {
                 <div class="">
                     <ul
                         v-if="showDownloadLinks"
-                        class="pt-5 pl-0"
-                        style="padding-left: 0px; padding-bottom: 0px;"
+                        class="pt-5 pl-2"
+                        style="padding-bottom: 0px;"
                     >
                         <li
                              v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
-                            style="list-style: none;"
                             class="mb-4"
                         >
                             <p class="pb-0 pt-0 mt-0 mb-2">{{ downloadLink.linkName }}</p>
                             <UrlInput :layerUrl="downloadLink.link"/>
                         </li>
                     </ul>
-                </div>
-                <div
-                    v-if="(showAttachFile)"
-                    class="col-lg-5 pt-5"
-                >
-                    <span class="bold">{{ $t(("common:modules.layerInformation.attachFileMessage")) }}</span>
                 </div>
             </div>
             <div
