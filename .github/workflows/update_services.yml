@@ -12,11 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: feat/add-new-portal
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
