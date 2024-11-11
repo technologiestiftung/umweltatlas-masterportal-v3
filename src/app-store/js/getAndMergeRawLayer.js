@@ -130,22 +130,39 @@ function mergeGroupedLayer (layerConf) {
     if (existingLayers.length !== ids.length || ids.length === 0) {
         return layerConf;
     }
-    existingLayers.forEach(object => object.maxScale ? maxScales.push(parseInt(object.maxScale, 10)) : null);
-    existingLayers.forEach(object => object.minScale ? minScales.push(parseInt(object.minScale, 10)) : null);
     if (layerConf.typ === "GROUP") {
-        existingLayers.forEach(aLayer => {
-            if (layerConf.styleId) {
-                aLayer.styleId = layerConf.styleId;
-            }
-        });
         rawLayer = {...layerConf};
         rawLayer.id = ids.join("-");
-        // named children, because api needs it for styling groups
+        if (layerConf.children) {
+            layerConf.children.forEach(groupedLayerConf => {
+                const rawGroupedLayerIndex = existingLayers.findIndex(layer => layer.id === groupedLayerConf.id);
+
+                if (rawGroupedLayerIndex > -1) {
+                    const rawGroupedLayer = Object.assign({}, existingLayers[rawGroupedLayerIndex], groupedLayerConf);
+
+                    if (!groupedLayerConf.maxScale && layerConf.maxScale) {
+                        setMinMaxScale(rawGroupedLayer, [layerConf.maxScale], [layerConf.minScale]);
+                    }
+                    existingLayers.splice(rawGroupedLayerIndex, 1, rawGroupedLayer);
+                }
+                else {
+                    console.warn(`Configuration of group layer contains id ${groupedLayerConf.id} in children, that is not contained in group layer ids [${layerConf.id}]. Layer will not be displayed correctly.`);
+                }
+            });
+        }
+        else {
+            existingLayers.forEach(aLayer => {
+                if (layerConf.styleId) {
+                    aLayer.styleId = layerConf.styleId;
+                }
+            });
+            collectMinMaxScales(existingLayers, maxScales, minScales);
+            setMinMaxScale(rawLayer, maxScales, minScales);
+        }
         rawLayer.children = existingLayers;
-        setMinMaxScale(rawLayer, maxScales, minScales);
-        rawLayer.typ = "GROUP";
     }
     else if (sameUrlAndTyp(existingLayers)) {
+        collectMinMaxScales(existingLayers, maxScales, minScales);
         rawLayer = Object.assign({}, existingLayers[0], layerConf);
         rawLayer.id = existingLayers[0].id;
         rawLayer.layers = existingLayers.map(value => value.layers).toString();
@@ -155,8 +172,19 @@ function mergeGroupedLayer (layerConf) {
         console.warn(`Layer '${layerConf.name}' with ids as array: [${layerConf.id}] cannot be created. All layers in the ids-array must habe same 'typ' and same 'url'.`);
     }
     layerConf.id = rawLayer.id;
-
     return rawLayer;
+}
+
+/**
+ * Returns true, if all layers have same url and typ.
+ * @param {Array} layers, list of layers
+ * @param {Array} maxScales, list to fill with maxScales of layers
+ * @param {Array} minScales, list to fill with minScales of layers
+ * @returns {Boolean} true, if all layers have same url and typ
+ */
+function collectMinMaxScales (layers, maxScales, minScales) {
+    layers.forEach(object => object.maxScale ? maxScales.push(parseInt(object.maxScale, 10)) : null);
+    layers.forEach(object => object.minScale ? minScales.push(parseInt(object.minScale, 10)) : null);
 }
 
 /**

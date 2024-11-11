@@ -9,7 +9,8 @@ config.global.mocks.$t = key => key;
 
 describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
     let store,
-        wrapper;
+        wrapper,
+        showInTree;
 
     const searchResults = [
             {
@@ -61,6 +62,7 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
         setNavigationHistoryBySideSpy = sinon.spy();
 
     beforeEach(() => {
+        showInTree = false;
         store = createStore({
             modules: {
                 Modules: {
@@ -79,7 +81,8 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
                                 searchResultsActive: () => {
                                     return true;
                                 },
-                                showAllResults: () => showAllResults
+                                showAllResults: () => showAllResults,
+                                showInTree: () => showInTree
                             },
                             mutations: {
                                 setShowAllResultsSearchInterfaceInstances: sinon.stub(),
@@ -121,6 +124,19 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
                 }
             });
             expect(wrapper.find("#search-bar-suggestion-list").exists()).to.be.true;
+        });
+
+        it("not renders the SearchBarSuggestionList if showInTree is true", async () => {
+            showInTree = true;
+            wrapper = await mount(SearchBarSuggestionListComponent, {
+                props: {
+                    limitedSortedSearchResults
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+            expect(wrapper.find("#search-bar-suggestion-list").exists()).to.be.false;
         });
 
         it("shows the showAll button", async () => {

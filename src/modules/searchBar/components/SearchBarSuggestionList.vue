@@ -27,6 +27,7 @@ export default {
     computed: {
         ...mapGetters("Modules/SearchBar", [
             "minCharacters",
+            "showInTree",
             "searchInput",
             "searchResults",
             "searchResultsActive",
@@ -80,7 +81,7 @@ export default {
 
 <template lang="html">
     <div
-        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0"
+        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0 && !showInTree"
         class="suggestions-container"
     >
         <div

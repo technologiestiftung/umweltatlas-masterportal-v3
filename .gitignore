@@ -52,6 +52,7 @@ npm-debug.log
 !/portal/master
 !/portal/auto
 !/portal/umweltatlas
+!/portal/layer
 
 
 # Ignore mkdocs build dir

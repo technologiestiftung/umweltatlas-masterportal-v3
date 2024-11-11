@@ -46,6 +46,7 @@ export default {
             "abstractText",
             "customText",
             "datePublication",
+            "dateRevision",
             "downloadLinks",
             "layerInfo",
             "legendAvailable",
@@ -72,6 +73,9 @@ export default {
         },
         showPublication () {
             return typeof this.datePublication !== "undefined" && this.datePublication !== null && this.datePublication !== "";
+        },
+        showRevision () {
+            return typeof this.dateRevision !== "undefined" && this.dateRevision !== null && this.dateRevision !== "";
         },
         showPeriodicity () {
             return this.periodicityKey !== "" && this.periodicityKey !== null && this.periodicityKey !== undefined;

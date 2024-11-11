@@ -116,6 +116,7 @@ export default {
             commit("setNoMetadataLoaded", i18next.t("common:modules.layerInformation.noMetadataLoaded"));
             commit("setPointOfContact", "");
             commit("setPublisher", "");
+            commit("setDateRevision", "");
         }
         else {
             commit("setTitle", metadata?.getTitle());
@@ -125,6 +126,7 @@ export default {
             commit("setDatePublication", (metadata?.getPublicationDate() || metadata?.getCreationDate()) + (metadata?.getRevisionDate() ? (" / " + metadata?.getRevisionDate()):""));
             commit("setPointOfContact", metadata?.getContact());
             commit("setPublisher", metadata?.getPublisher());
+            commit("setDateRevision", metadata?.getRevisionDate());
         }
 
         if (state.downloadLinks) {
