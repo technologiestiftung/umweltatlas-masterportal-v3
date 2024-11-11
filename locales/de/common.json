@@ -101,6 +101,7 @@
       "targetSelectLabel": "Ziel-Layer"
     },
     "compareMaps": {
+      "title":"Bitte beachten Sie, dass Datensätze aus verschiedenen Jahren aufgrund unterschiedlicher Methoden nicht immer direkt miteinander vergleichbar sind.",
       "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
       "firstLayer": "Erster Layer",
       "horizontal": "horizontal",
@@ -565,7 +566,7 @@
       "toggle": "Sichtbarkeit der Layer umschalten"
     },
     "layerInformation": {
-      "additionalMetadata": "weitere Informationen...",
+      "additionalMetadata": "weitere Metadaten",
       "addressSuffix": "Adresse",
       "addressSuffixes": "Layer-Adressen",
       "attachFileMessage": "ggf. Datei-Typ beim Download anhängen",
@@ -587,7 +588,7 @@
       "remove": "Layer entfernen"
     },
     "layerSelection": {
-      "addSubject": "Thema hinzufügen",
+      "addSubject": "Umweltdaten hinzufügen",
       "name": "Themenauswahl",
       "backgrounds": "Hintergründe",
       "datalayer": "Fachdaten",
@@ -611,7 +612,7 @@
       "titleNotConfigured": "Titel nicht konfiguriert"
     },
     "layerTree": {
-      "addLayer": "Themen hinzufügen",
+      "addLayer": "Umweltdaten explorieren",
       "categories": "Kategorien",
       "categoryInspire": "Inspire",
       "categoryOpendata": "Opendata",

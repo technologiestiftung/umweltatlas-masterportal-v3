@@ -1,0 +1,24 @@
+{
+  "globalAlerts": ["wartungsarbeiten", "wartungsarbeiten2"],
+  "alerts": {
+    "wartungsarbeiten": {
+      "displayClass": "info",
+      "category": "Aktuelle Informationen",
+      "content": "test Liebe Nutzer,<br><br>am Mittwoch den 23.02.2022 und Donnerstag den 24.02.2022 finden umfangreiche Wartungsarbeiten an unseren Servern durch Dataport statt. Es kann daher jeweils ab 15:00Uhr zu Einschränkungen kommen. Wir bitten um Verständnis und entschuldigen uns für entstehende Unannehmlichkeiten.<br><br>Ihr Team<br>LGV Geodatenanwendungen",
+      "displayFrom": "2022-02-18 13:00",
+      "displayUntil": "2022-02-25 18:00",
+      "mustBeConfirmed": true,
+      "once": true
+    },
+    "wartungsarbeiten2": {
+      "displayClass": "info",
+      "category": "Aktuelle Informationen",
+      "content": "test Liebe Nutzer,<br><br>am Mittwoch den 23.02.2022 und Donnerstag den 24.02.2022 finden umfangreiche Wartungsarbeiten an unseren Servern durch Dataport statt. Es kann daher jeweils ab 15:00Uhr zu Einschränkungen kommen. Wir bitten um Verständnis und entschuldigen uns für entstehende Unannehmlichkeiten.<br><br>Ihr Team<br>LGV Geodatenanwendungen",
+      "displayFrom": "2022-02-18 13:00",
+      "displayUntil": "2022-02-25 18:00",
+      "mustBeConfirmed": true,
+      "once": true
+    }
+  }
+}
+
