@@ -26,7 +26,7 @@ https://bitbucket.org/geowerkstatt-hamburg/masterportal/issues?reported_by=6329c
 
 Kleine Änderungen, die per CSS möglich waren, wurden in der index.html vorgenommen. Einen Überblick über alle Anpassungen bietet dieser PR-Entwurf.
 
-https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files 
+https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/4/files
 
 Die einzelnen Änderungen im Detail:
 
