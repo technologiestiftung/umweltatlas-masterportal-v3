@@ -106,6 +106,8 @@ Ein Skript ermöglicht das automatische Update der Datei services-internet.json 
 node ./ua_scripts/updateServices
 ``
 
+Hierfür gibt es auch ein Github Actions Script. 
+
 ## Daten in ``service-internet.json``
 
 Die Services aus dem Umweltaltas enthalten zusätzliche Attribute, die aus dem Umweltaltas stammen:

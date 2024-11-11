@@ -15,6 +15,7 @@ Anpassungen an den Services können hier gemacht werden:
 
 [./portal/umweltatlas/resources/services-internet.json](./portal/umweltatlas/resources/services-internet.json)
 
+Auf dem Github-Repository gibt es auch eine *Github Action*. Diese ermöglicht das automatische Update der Datei services-internet.json mit den Services aus dem [Geoportal](https://gdi.berlin.de/viewer/main/#url).
 
 ## UI-Text ändern
 
