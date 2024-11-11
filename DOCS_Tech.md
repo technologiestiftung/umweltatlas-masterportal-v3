@@ -31,6 +31,21 @@ https://github.com/technologiestiftung/umweltatlas-masterportal-v3/pull/2/files
 Die einzelnen Änderungen im Detail:
 
 
+### Build
+
+Damit der *build* auf Netlify geht, musste in der Datei [./devtools/tasks/buildFunctions.js](./devtools/tasks/buildFunctions.js) folgende Zeile geändert werden: 
+
+``
+mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().replace(/[\s:]+/g, ""),
+``
+
+zu 
+
+``
+mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))(),
+``
+
+
 ### Setup
 
 Die Canvas-Bibliothek (zum Ausführen von Tests) konnte nicht installiert werden und wurde deshalb aus der package.json entfernt:
