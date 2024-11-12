@@ -72,7 +72,7 @@ export function addAdditional (rawLayer, showAllLayerInTree = false) {
         const layerTypes3d = layerFactory.getLayerTypes3d();
 
         rawLayer.type = "layer";
-        if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree)) {
+        if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree) || (rawLayer.visibility && rawLayer.showInLayerTree === undefined)) {
             rawLayer.showInLayerTree = true;
         }
         else if (!Object.prototype.hasOwnProperty.call(rawLayer, "showInLayerTree")) {
