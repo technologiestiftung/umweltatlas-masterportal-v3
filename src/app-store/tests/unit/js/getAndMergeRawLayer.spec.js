@@ -495,7 +495,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it.only("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
             const rawLayer = {
                     id: "6",
                     showInLayerTree: false,
