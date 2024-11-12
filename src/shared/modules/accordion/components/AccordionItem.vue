@@ -61,7 +61,7 @@ export default {
                 
             >
                 <button
-                    :class="['accordion-button', fontSize, !isOpen? 'collapsed' : '', !colouredHeader? 'ps-0' : '', headerBold ? 'bold' : '']"
+                    :class="['accordion-button', fontSize, !isOpen? 'collapsed' : '', !colouredHeader? 'ps-0' : '', headerBold ? 'font-bold' : '']"
                     type="button"
                     :coloured="colouredHeader"
                     data-bs-toggle="collapse"

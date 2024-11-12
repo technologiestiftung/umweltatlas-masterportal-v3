@@ -5,10 +5,7 @@
         "active": true
       },
       "controls": {
-        "zoom": true,
-        "orientation": {
-          "zoomMode": "once"
-        }
+        "zoom": true
       },
       "mapView": {
         "backgroundImage": "./resources/img/backgroundCanvas.jpeg",
@@ -64,9 +61,6 @@
           },
           {
             "type": "visibleVector"
-          },
-          {
-            "type": "visibleWfs"
           },
           {
             "type": "topicTree",
@@ -232,7 +226,7 @@
           "visibility": true
         },
         {
-          "id": "truedop_2024:truedop_2024:GDIBE:25833",
+          "id": "truedop_2024:truedop_2024:copyForBasemap",
           "shortname": "Luftbild",
           "visibility": false,
           "preview": {
