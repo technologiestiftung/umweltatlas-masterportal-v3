@@ -56,7 +56,7 @@
 - BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
 - Searchbar: The action "Show topic in folder" was fixed.
 - i18next: Modified missing key handling to retain namespace prefixes.
-- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 
 ---
 
