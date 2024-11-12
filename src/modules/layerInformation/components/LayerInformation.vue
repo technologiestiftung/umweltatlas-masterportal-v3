@@ -220,7 +220,7 @@ export default {
                 <a 
                     @click="openInLayerTree(fullPath[value].id)"
                     href="#" 
-                    class="ua-breadcrumbs"
+                    class="ua-breadcrumbs font-bold"
                 >
                     {{ fullPath[value].name }}
                 </a>
