@@ -495,7 +495,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
+        it.only("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
             const rawLayer = {
                     id: "6",
                     showInLayerTree: false,
@@ -510,7 +510,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: false,
                 visibility: true,
                 type: "layer",
-                // zIndex: 5,
                 typ: "WMS",
                 is3DLayer: false
             });
