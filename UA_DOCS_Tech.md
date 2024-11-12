@@ -1,6 +1,6 @@
 # Technische Anmerkungen 
 
-## NPM Version
+## Node Version
 
 v20.12.2
 
@@ -16,7 +16,7 @@ npm run start
 npm run build
 ``
 
-Die Build-Dateien befinden sich noch dem build im Verzeichnis *dist/*.
+Die Build-Dateien befinden sich nach dem Build im Verzeichnis *dist/*.
 
 ## Änderungen
 
@@ -33,7 +33,7 @@ Die einzelnen Änderungen im Detail:
 
 ### Build
 
-Damit der *build* auf Netlify geht, musste in der Datei [./devtools/tasks/buildFunctions.js](./devtools/tasks/buildFunctions.js) folgende Zeile geändert werden: 
+Damit der *build* auf Netlify funktioniert, musste in der Datei [./devtools/tasks/buildFunctions.js](./devtools/tasks/buildFunctions.js) folgende Zeile geändert werden: 
 
 ``
 mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().replace(/[\s:]+/g, ""),
@@ -72,7 +72,7 @@ Dem Vergleichstool compareMaps wurde ein zusätzlicher Infotext hinzugefügt. Au
 
 Ein neues Modal namens LayerStartModal wurde hinzugefügt, das beim Starten der Anwendung erscheint. Nutzer können hier direkt ein Thema auswählen, welches dann im Themenbaum geöffnet wird.
 
-[LayerStartModal](./modules/layerTree/components/LayerStartModal.vue)
+[LayerStartModal](./src/modules/layerTree/components/LayerStartModal.vue)
 
 
 ### UI Texte
@@ -96,7 +96,9 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 
 ### UrlInput Component
 
-Zur besseren Darstellung und Nutzung der WFS- und WMS-URLs wurde eine separate Komponente namens UrlInput erstellt. URLs erscheinen dor in einem ``Input`` und können via Buttons kopiert oder geöffnent werden. 
+Zur besseren Darstellung und Nutzung der WFS- und WMS-URLs wurde eine separate Komponente namens UrlInput erstellt. URLs erscheinen dort in einem ``Input`` und können via Buttons kopiert oder geöffnent werden. 
+
+[UrlInput.vue](./src/shared/modules/urlInput/components/UrlInput.vue)
 
 ## Automatisches Update der Services
 
