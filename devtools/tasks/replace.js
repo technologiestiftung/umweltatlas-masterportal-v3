@@ -1,7 +1,7 @@
 const replace = require("replace-in-file"),
     path = require("path"),
     rootPath = path.resolve(__dirname, "../../"),
-    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().split(path.sep).join("/").replace(/[\s:]+/g, "");
+    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().split(path.sep).join("/");
 
 
 module.exports = function (destination) {
