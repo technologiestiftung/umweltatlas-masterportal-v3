@@ -46,6 +46,8 @@
 - Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/Dev/groupedLayers.md).
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Issue #1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
+- Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
+- Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
 - Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 - Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
