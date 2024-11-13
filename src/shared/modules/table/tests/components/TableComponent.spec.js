@@ -9,6 +9,13 @@ config.global.mocks.$t = key => key;
 describe("src/shared/modules/table/components/TableComponent.vue", () => {
     let store;
 
+    before(function () {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     beforeEach(() => {
         store = createStore({
             namespaced: true,
@@ -26,10 +33,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     }
                 }
             }
-        });
-        i18next.init({
-            lng: "cimode",
-            debug: false
         });
     });
 
