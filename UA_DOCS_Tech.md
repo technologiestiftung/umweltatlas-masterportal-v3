@@ -99,6 +99,7 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 - Es gibt nun einen PDF-Download-Link.
 - Ein Link zur entsprechenden Umweltatlas-Seite des Datensatzes wurde hinzugefügt.
 - Mit der neuen ``UrlInput`` Komponente werden WMS- und WFS-Links besser dargestellt.
+- Unter dem Titel wurden der Pfad zur Layer hinzugefügt damit sich der Datensatz besser Verordnen läßt.  
 
 ### UrlInput Component
 
