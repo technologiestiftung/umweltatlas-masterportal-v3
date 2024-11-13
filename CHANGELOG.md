@@ -19,6 +19,7 @@
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
+- Searchbar: the search in search results shows results and no error occurs.
 
 ---
 
