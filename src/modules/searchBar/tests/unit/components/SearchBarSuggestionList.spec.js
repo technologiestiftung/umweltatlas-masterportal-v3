@@ -248,7 +248,7 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
                 newComponent: {props: {name: "modules.searchBar.searchResults - Straße"}, type: "searchbar"}
             });
             expect(setPlaceholderSpy.calledOnce).to.be.true;
-            expect(setPlaceholderSpy.firstCall.args[1]).to.be.equals("modules.searchBar.placeholder.searchFor Straße");
+            expect(setPlaceholderSpy.firstCall.args[1]).to.be.equals("modules.searchBar.placeholder.searchFor" + " " + "Straße");
             expect(setCurrentComponentBySideSpy.calledOnce).to.be.true;
             expect(setNavigationHistoryBySideSpy.calledOnce).to.be.true;
             expect(setShowAllResultsSearchInterfaceInstancesSpy.calledOnce).to.be.true;
