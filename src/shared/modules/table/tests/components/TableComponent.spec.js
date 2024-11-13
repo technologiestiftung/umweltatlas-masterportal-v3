@@ -27,6 +27,10 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 }
             }
         });
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
     });
 
     afterEach(() => {

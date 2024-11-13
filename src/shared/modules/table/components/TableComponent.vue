@@ -279,7 +279,7 @@ export default {
         getSeparator (separatorType) {
             const numberWithGroupAndDecimalSeparator = 1000.1;
 
-            return Intl.NumberFormat(this.$i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
+            return Intl.NumberFormat(Intl.NumberFormat(i18next.language)).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
         },
 
         /**
