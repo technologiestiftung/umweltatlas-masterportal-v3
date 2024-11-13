@@ -5,7 +5,7 @@ import layerFactory from "../../../../core/layers/js/layerFactory";
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
+describe("src/app-store/js/getAndMergeRawLayer.js", () => {
     let layerConfig,
         warnSpy;
 
