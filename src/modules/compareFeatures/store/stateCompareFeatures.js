@@ -31,7 +31,7 @@ const state = {
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     type: "compareFeatures",
-    numberOfAttributesToShow: 12,
+    numberOfAttributesToShow: 50,
     numberOfFeaturesToShow: 3,
     // compareFeatures state
     id: "compareFeatures",
