@@ -18,6 +18,12 @@ npm run build
 
 Die Build-Dateien befinden sich nach dem Build im Verzeichnis *dist/*.
 
+## Masterportal-Update
+
+Der Code wurde zuletzt mit dem Originalcode des Masterportals synchronisiert am:
+
+``11.11.2024``
+
 ## Änderungen
 
 Um zuküftige Merge-Konflikte zu minimieren, wurden für den Umweltatlas möglichst wenige Änderungen im Code vorgenommen. Bugs und Verbesserungsvorschläge wurden in Bitbucket gemeldet und sind hier einsehbar:
