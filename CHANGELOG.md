@@ -24,6 +24,7 @@
 - Issue #1308:
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- wfst: layers that are not in services.json are supported.
 
 ---
 
