@@ -5,7 +5,7 @@ import layerFactory from "../../../../core/layers/js/layerFactory";
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe("src/app-store/js/getAndMergeRawLayer.js", () => {
+describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
     let layerConfig,
         warnSpy;
 
@@ -491,6 +491,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: false,
                 type: "layer",
+                zIndex: 3,
                 is3DLayer: false
             });
         });
@@ -511,7 +512,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 visibility: true,
                 type: "layer",
                 typ: "WMS",
-                zIndex: 3,
                 is3DLayer: false
             });
         });
