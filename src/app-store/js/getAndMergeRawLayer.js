@@ -59,9 +59,8 @@ function splitId (id, seperator = ".") {
 /**
  * Adds the attribute "showInLayerTree" to raw layer.
  * Rules:
- * If no add Layer Button is configured (portalConfig.tree.addLayerButton.active=true), then always showInLayerTree = true (so showLayerInTree has no effect in config.json)
- * If a layer has visibility= true, then also always showInLayerTree = true so it is not possible to have showInLayerTree = false and visibility: true
- * because visibility = true always results in showInLayerTree = true no matter what the config.json says.
+ * If no add Layer Button is configured (portalConfig.tree.addLayerButton.active=true), then always showInLayerTree = true and visibility = true (so showLayerInTree has no effect in config.json)
+ * If a layer has visibility= true and showInLayerTree is undefined, then also always showInLayerTree = true
  * If both are not true, then showInLayerTree = false (for all other treeTypes e.g. "auto") if the attribute is not already set explicitly on the layer (i.e. in config.json).
  * @param {Object} rawLayer The raw layer.
  * @param {Object} [showAllLayerInTree="false"] if true, all layers get the attribute showInLayerTree=true
@@ -72,13 +71,14 @@ export function addAdditional (rawLayer, showAllLayerInTree = false) {
         const layerTypes3d = layerFactory.getLayerTypes3d();
 
         rawLayer.type = "layer";
-        if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree) || (rawLayer.visibility && rawLayer.showInLayerTree === undefined)) {
+        if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree === undefined)) {
             rawLayer.showInLayerTree = true;
+            rawLayer.visibility = true;
         }
         else if (!Object.prototype.hasOwnProperty.call(rawLayer, "showInLayerTree")) {
             rawLayer.showInLayerTree = false;
         }
-        if (rawLayer.showInLayerTree === true) {
+        if (rawLayer.visibility) {
             rawLayer.zIndex = zIndex++;
         }
         rawLayer.is3DLayer = layerTypes3d.includes(rawLayer.typ?.toUpperCase());
@@ -399,7 +399,7 @@ function mergeByMetaIds (toMergeByMdId, layerList) {
 }
 
 /**
- * Resets the zIndex to 0.
+ * Resets the zIndex to 1.
  * @returns {void}
  */
 export function resetZIndex () {

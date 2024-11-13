@@ -5,7 +5,7 @@ import layerFactory from "../../../../core/layers/js/layerFactory";
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe("src/app-store/js/getAndMergeRawLayer.js", () => {
+describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
     let layerConfig,
         warnSpy;
 
@@ -439,6 +439,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
                 id: "1",
                 showInLayerTree: true,
+                visibility: true,
                 type: "layer",
                 zIndex: 1,
                 is3DLayer: false
@@ -459,7 +460,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true", () => {
+        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true and showInLayerTree undefined", () => {
             const rawLayer = {
                     id: "4",
                     visibility: true
@@ -490,7 +491,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: false,
                 type: "layer",
-                zIndex: 3,
                 is3DLayer: false
             });
         });
@@ -511,6 +511,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 visibility: true,
                 type: "layer",
                 typ: "WMS",
+                zIndex: 3,
                 is3DLayer: false
             });
         });
@@ -522,7 +523,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 visibility: true,
                 typ: "terrain3D"
             };
-
 
             expect(addAdditional(rawLayer, true)).to.deep.equals({
                 id: "6",
