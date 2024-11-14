@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
 
@@ -27,10 +28,10 @@
 - ShareView: Error handling when sharing via QR code has been improved.
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
 - Routing: Added checkbox to determine if routes stay visible after closing the routing tool
-- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
 - Filter supports secure WFS request.
-- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly. 
-- LayerInformation: Added last revision date to Layer Information. 
+- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly.
+- LayerInformation: Added last revision date to Layer Information.
 
 ### Changed
 - The following packages have been updated:
