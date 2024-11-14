@@ -5,7 +5,7 @@ import layerFactory from "../../../../core/layers/js/layerFactory";
 import {expect} from "chai";
 import sinon from "sinon";
 
-describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
+describe("src/app-store/js/getAndMergeRawLayer.js", () => {
     let layerConfig,
         warnSpy;
 
@@ -446,9 +446,10 @@ describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it("should set showInLayerTree to false, if showAllLayerInTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility false", () => {
             const rawLayer = {
-                    id: "2"
+                    id: "2",
+                    visibility: false
                 },
                 showAllLayerInTree = false;
 
@@ -456,7 +457,8 @@ describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
                 id: "2",
                 showInLayerTree: false,
                 type: "layer",
-                is3DLayer: false
+                is3DLayer: false,
+                visibility: false
             });
         });
 
@@ -496,7 +498,7 @@ describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true", () => {
             const rawLayer = {
                     id: "6",
                     showInLayerTree: false,
@@ -511,6 +513,7 @@ describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: false,
                 visibility: true,
                 type: "layer",
+                zIndex: 4,
                 typ: "WMS",
                 is3DLayer: false
             });
@@ -529,7 +532,7 @@ describe.only("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 4,
+                zIndex: 5,
                 typ: "terrain3D",
                 is3DLayer: true
             });
