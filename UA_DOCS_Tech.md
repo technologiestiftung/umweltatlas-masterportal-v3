@@ -18,6 +18,14 @@ npm run build
 
 Die Build-Dateien befinden sich nach dem Build im Verzeichnis *dist/*.
 
+## Masterportal aufsetzten
+
+Legen Sie den Ordner [dist](dist/) auf einem Server ab. Geben Sie dann im Browser die URL des Speicherorts der Daten ein, gefolgt vom Unterordner ``umweltatlas``.
+
+Beispiel: https://ua-map.netlify.app/umweltatlas/
+
+Falls Änderungen im Code vorgenommen wurden (nicht in den Konfigurations-JSONs), muss der Build-Prozess erneut ausgeführt werden.
+
 ## Masterportal-Update
 
 Der Code wurde zuletzt mit dem Originalcode des Masterportals synchronisiert am:
