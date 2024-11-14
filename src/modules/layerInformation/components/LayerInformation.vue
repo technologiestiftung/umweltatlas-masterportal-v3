@@ -68,6 +68,9 @@ export default {
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
+        showAbstractText () {            
+            return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
+        },
         showCustomMetaData () {
             return this.customText;
         },
@@ -229,7 +232,7 @@ export default {
         </div>
 
         <div
-            v-if="abstractText"
+            v-if="showAbstractText"
             class="mb-2 abstract"
             v-html="abstractText"
         />
@@ -280,7 +283,7 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
+            <span v-if="contact.name || contact.positionName || contact.email" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
                 <div class="ua-break-parent">
                     <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
