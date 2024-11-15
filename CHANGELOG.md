@@ -16,6 +16,7 @@
 
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
 - Issue #1280: showInLayerTree can be set up to false.
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
