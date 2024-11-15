@@ -17,6 +17,7 @@
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
 - Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1280: showInLayerTree can be set up to false.
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
@@ -25,6 +26,7 @@
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
 - wfst: layers that are not in services.json are supported.
+- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 
 ---
 
@@ -73,7 +75,6 @@
 - BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
 - Searchbar: The action "Show topic in folder" was fixed.
 - i18next: Modified missing key handling to retain namespace prefixes.
-- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 
 ---
 
