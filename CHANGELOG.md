@@ -3,16 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## 2024-11-15 v3.4.1
 
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
