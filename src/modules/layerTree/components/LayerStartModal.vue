@@ -124,10 +124,18 @@ export default {
                 </span>
             </button>
             <div class="row">
-                <h2 class="mb-2">
+                <h2 class="mb-1">
                     <img :src=uaImgLink alt=""/>
-                    Berliner Umweltatlas
+                   <span><span class="bold">Umweltatlas Map&thinsp;</span>
+                   <span>Berlin</span></span>
                 </h2>
+                <p class="info-text mb-3">
+                Die Umweltatlas Map ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
+                des
+                <a href="https://www.berlin.de/umweltatlas/" target="_blank"
+                    >Umweltatlas Berlin</a
+                >.  Entdecke Informationen und Karten zu diesen Themenbereichen:
+            </p>
                 <template
                     v-for="(conf, idx) in subjects"
                     :key="idx"
@@ -152,16 +160,12 @@ export default {
                     </div>
                 </template>
             </div>
-
-            
-            <p class="info-text mb-0">
-                Die Umweltatlas Map ist die Kartenzentrierte Erweiterung
-                des
-                <a href="https://www.berlin.de/umweltatlas/" target="_blank"
-                    >Umweltatlas</a
-                >
+                <p class="info-text mb-3">
+                Die Umweltatlas Map ist ein Angebot der
+                <a href="https://www.berlin.de/sen/sbw/" target="_blank"
+                    >Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</a
+                >.
             </p>
-
             
         </div>
 
