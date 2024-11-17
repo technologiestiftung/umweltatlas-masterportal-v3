@@ -19,10 +19,10 @@
     "portalFooter": {
       "urls": [
         {
-          "bezeichnung": "common:modules.portalFooter.designation",
-          "url": "https://www.berlin.de/sen/sbw/",
-          "alias": "Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen",
-          "alias_mobil": "SenSBW"
+          "bezeichnung": "",
+          "url": "https://www.berlin.de/umweltatlas/allgemeine-seiten/impressum/",
+          "alias": "Impressum",
+          "alias_mobil": "Impressum"
         }
       ]
     },
