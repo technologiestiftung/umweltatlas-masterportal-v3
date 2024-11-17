@@ -103,6 +103,7 @@
     "compareMaps": {
       "title":"Fügen Sie über die Drop-Down-Menüs zwei verschiedene Karten hinzu. Die Karten müssen vorher bereits aus dem Themenbaum zur Ansicht im Kartenviewer ausgewählt worden sein. Es erscheint ein Slider in der Karte, den sie verschieben können, um die Karten miteinander zu vergleichen.",
       "description": "Vergleichen Sie Karten nebeneinander oder übereinander",
+      "influenceFactors":"Bitte beachten Sie, dass Datensätze aus verschiedenen Jahren aufgrund unterschiedlicher Methoden nicht immer direkt miteinander vergleichbar sind.",
       "firstLayer": "Erster Layer",
       "horizontal": "horizontal",
       "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
