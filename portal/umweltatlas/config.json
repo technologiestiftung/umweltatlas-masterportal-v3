@@ -43,10 +43,10 @@
     "mainMenu": {
       "expanded": true,
       "title": {
-        "text": "Umweltatlas Berlin",
+        "text": "Umweltatlas Map",
         "logo": "./resources/img/logo-umweltatlas.svg",
         "link": "",
-        "toolTip": "Umweltatlas Berlin"
+        "toolTip": "Umweltatlas Map Berlin"
       },
       "searchBar": {
         "searchInterfaces": [
