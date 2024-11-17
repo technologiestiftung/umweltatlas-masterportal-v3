@@ -261,7 +261,8 @@
     },
     "draw": {
       "description": "Fügen Sie eigene Geometrien und Markierungen hinzu",
-      "name": "Zeichnen"
+      "name": "Zeichnen",
+      "introText":"Zeichnen Sie freihand oder legen Sie Linien, Punktmarkierungen oder verschiedene flächige Geometrien an. Wählen Sie dafür unten ein Zeichenwerkzeug aus und stellen sie Farben, Strichstärke und Transparenzen ein."
     },
     "draw_old": {
       "attributeSelect": {
