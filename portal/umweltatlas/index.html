@@ -10,7 +10,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
 
-        <title>Umweltatlas Berlin</title>
+        <title>Umweltatlas Map Berlin</title>
         <!-- enter your own Portal Title for the website at this -->
         <link rel="stylesheet" href="../../build/css/masterportal.css" />
         <!-- Here you can configure your own fonts as url -->
@@ -91,20 +91,56 @@
             height: 35px;
             overflow: hidden;
         }
+        #corner-logo {
+            position: fixed;
+            bottom: 4rem; /* Abstand vom unteren Rand vergrößert */
+            right: 6rem;  /* Abstand vom rechten Rand vergrößert */
+        }
+
+        #corner-logo img {
+            width: 275px; /* Größe des Logos angepasst */
+            height: auto; /* Proportionaler Skalierung */
+        }
+        /* Anpassungen für kleinere Bildschirme */
+        @media (max-width: 767px) {
+            #corner-logo {
+                bottom: 3rem; /* Weniger Abstand für mobile Geräte */
+                right: 3rem;  /* Weniger Abstand für mobile Geräte */
+            }
+
+            #corner-logo img {
+                width: 175px; /* Reduziere die Größe des Logos auf kleineren Bildschirmen */
+            }
+        }
+
+        /* Anpassungen für sehr kleine Bildschirme */
+        @media (max-width: 480px) {
+            #corner-logo {
+                bottom: 2rem; /* Noch weniger Abstand */
+                right: 2rem;  /* Noch weniger Abstand */
+            }
+
+            #corner-logo img {
+                width: 175px; /* Noch kleinere Logo-Größe */
+            }
+        }
     </style>
-    <body>
+    <body style="background-color: #edf8f4">
         <!-- custom loader -->
         <div id="loader">
-            <h2>Umweltatlas Berlin</h2>
+            <h2><span class="bold">Umweltatlas Map</span> Berlin</h2>
             <div id="portal-logo">
                 <img
                     src="./resources/img/logo-umweltatlas.svg"
                     alt="Umweltatlas Map"
                 />
             </div>
+            <p class="mt-3">Karten werden geladen ...</p>
         </div>
         <!-- custom loader end -->
-
+    <div id="corner-logo">
+        <img src="./resources/img/B_SEN_SBW_Logo_DE_H_PT_4C.svg" alt="Logo der Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen" />
+    </div>
         <div id="masterportal-root"></div>
         <script
             type="text/javascript"
