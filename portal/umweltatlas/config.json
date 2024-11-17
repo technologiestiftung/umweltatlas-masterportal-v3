@@ -84,7 +84,7 @@
             "icon": "bi-envelope",
             "type": "customMenuElement",
             "name": "Kontakt",
-            "htmlContent": "<div><p>Header 1p</p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum esse nostrum optio sint! Placeat harum mollitia quos ipsam. Error beatae amet rerum sint repellat veritatis eum impedit. Tenetur, et repudiandae!<a href=\"https://www.berlin.de/umweltatlas/\" target=\"_blank\">Berliner Umweltatlas</a></div>"
+            "htmlContent": "<div>Der Umweltatlas wird von der Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen betrieben. Wir verstehen uns als offenes Portal für alle umweltbezogenen Geodaten, die im Rahmen des Verwaltungshandeln erstellt oder erhoben werden.</p><p>Für die meisten Themen nutzen wir Daten, Expertisen und das Engagement zahlreicher Fachabteilungen unserer Verwaltung. Die fachlichen Ansprechpartner für die spezifischen Themen und Daten finden Sie daher über den Infobutton im Themenbaum zu den jeweiligen Datensätzen.</p><p>Für allgemeine Fragen wenden Sie sich an das Team des Berliner Umweltatlas:</p><p><span class='bold'>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</span></br>III D Geodateninfrastruktur, Umweltatlas</br>Fehrbelliner Platz 1</br>10707 Berlin</br><a href='mailto:umweltatlas@senstadt.berlin.de'>umweltatlas@senstadt.berlin.de</a></p><p><img src='./resources/img/B_SEN_SBW_Logo_DE_H_PT_4C.svg' alt='Logo Umweltatlas' style='width:200px; margin-top:20px;'/></p><p class='mt-4'><a href='https://www.berlin.de/sen/sbw/ueber-uns/artikel.1246136.php'>Impressum</a></p>"
           },
           {
             "type": "news"
