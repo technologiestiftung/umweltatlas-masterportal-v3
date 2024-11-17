@@ -123,8 +123,8 @@
           },
           {
             "type": "layerSlider",
-            "name": "Luftbilder Zeitreihe",
-            "title": "Luftbilder-Zeitreihe von Berlin 1928-2024. Klicken Sie ein bestimmtes Jahr an oder lassen Sie die Luftbilder automatisch nacheinander abspielen.",
+            "name": "Luftbild-Zeitreihe",
+            "title": "Hier können sie historische Luftbilder von Berlin von 1928 bis 2024 laden. Klicken Sie ein bestimmtes Jahr an oder lassen Sie die Luftbilder als Zeitreihe automatisch nacheinander abspielen.",
             "icon": "bi-clock-history",
             "layerIds": [
               {
