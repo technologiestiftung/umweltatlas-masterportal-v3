@@ -222,12 +222,12 @@
       "elements": [
         {
           "id": "basemap_raster_grau",
-          "shortname": "Grau",
+          "shortname": "Hintergrundkarte (grau)",
           "visibility": true
         },
         {
           "id": "truedop_2024:truedop_2024:copyForBasemap",
-          "shortname": "Luftbild",
+          "shortname": "Luftbild 2024",
           "visibility": false,
           "preview": {
             "zoomLevel": 13,
