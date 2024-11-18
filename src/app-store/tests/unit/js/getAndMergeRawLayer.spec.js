@@ -439,15 +439,17 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
                 id: "1",
                 showInLayerTree: true,
+                visibility: true,
                 type: "layer",
                 zIndex: 1,
                 is3DLayer: false
             });
         });
 
-        it("should set showInLayerTree to false, if showAllLayerInTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility false", () => {
             const rawLayer = {
-                    id: "2"
+                    id: "2",
+                    visibility: false
                 },
                 showAllLayerInTree = false;
 
@@ -455,28 +457,12 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 id: "2",
                 showInLayerTree: false,
                 type: "layer",
-                is3DLayer: false
+                is3DLayer: false,
+                visibility: false
             });
         });
 
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true", () => {
-            const rawLayer = {
-                    id: "3",
-                    visibility: true
-                },
-                showAllLayerInTree = false;
-
-            expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
-                id: "3",
-                showInLayerTree: true,
-                visibility: true,
-                type: "layer",
-                zIndex: 2,
-                is3DLayer: false
-            });
-        });
-
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true", () => {
+        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true and showInLayerTree undefined", () => {
             const rawLayer = {
                     id: "4",
                     visibility: true
@@ -488,7 +474,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 3,
+                zIndex: 2,
                 is3DLayer: false
             });
         });
@@ -507,12 +493,12 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: false,
                 type: "layer",
-                zIndex: 4,
+                zIndex: 3,
                 is3DLayer: false
             });
         });
 
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true", () => {
             const rawLayer = {
                     id: "6",
                     showInLayerTree: false,
@@ -524,30 +510,29 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
             expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
                 id: "6",
-                showInLayerTree: true,
+                showInLayerTree: false,
                 visibility: true,
                 type: "layer",
-                zIndex: 5,
+                zIndex: 4,
                 typ: "WMS",
                 is3DLayer: false
             });
         });
 
-        it("should set is3DLayer to true, if layrs typ is 3D-type", () => {
+        it("should set is3DLayer to true, if layers typ is 3D-type", () => {
             const rawLayer = {
                 id: "6",
-                showInLayerTree: false,
+                showInLayerTree: true,
                 visibility: true,
                 typ: "terrain3D"
             };
-
 
             expect(addAdditional(rawLayer, true)).to.deep.equals({
                 id: "6",
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 6,
+                zIndex: 5,
                 typ: "terrain3D",
                 is3DLayer: true
             });

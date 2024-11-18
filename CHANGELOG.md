@@ -15,6 +15,12 @@
 ### Removed
 
 ### Fixed
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
+- Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
+- Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
+- Searchbar: the search in search results shows results and no error occurs.
+- Issue #1280: showInLayerTree can be set up to false.
 
 ---
 
@@ -30,8 +36,8 @@
     - Travelling Salesman Routing (TSR) with VROOM
 - Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
 - Filter supports secure WFS request.
-- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly. 
-- LayerInformation: Added last revision date to Layer Information. 
+- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly.
+- LayerInformation: Added last revision date to Layer Information.
 
 ### Changed
 - The following packages have been updated:
@@ -48,6 +54,7 @@
 - Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
 - Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/Dev/groupedLayers.md).
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
+- Issue #1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
 - Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 - Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
@@ -58,6 +65,7 @@
 - BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
 - Searchbar: The action "Show topic in folder" was fixed.
 - i18next: Modified missing key handling to retain namespace prefixes.
+- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 
 ---
 
