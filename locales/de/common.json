@@ -57,14 +57,16 @@
       "alertTitleSuccess": "Layer erfolgreich hinzugefügt",
       "alreadyAdded": "Die Layer des angeforderten WMS wurden bereits hinzugefügt.",
       "completeMessage": "&#9989; Die Layer des angeforderten WMS wurden dem Themenbaum hinzugefügt!",
-      "description": "Fügen Sie einen Web Map Service (WMS) zum Themenbaum hinzu",
+      "description": "Fügen Sie Karten aus anderen Quellen zum Themenbaum hinzu",
       "errorHttpsMessage": " &#10060; Das von Ihnen angeforderte WMS befindet sich unter einer http-Url. Das Masterportal kann nur WMS über https (SSL) einbinden.",
       "errorMessage": "&#10060; Der angegebene Dienst konnte nicht geladen werden. Bitte stellen Sie sicher, dass die URL richtig angegeben wurde.<br><br> Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes mit folgendem Hinweis eines häufig auftretenden Fehlers: <br><strong>Es soll sichergestellt werden, dass ein CORS-Header für den Dienst gesetzt ist. Dies wird von der <a target='_blank' href='https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf'>GDI-DE</a> im Kapitel 4.7.1 empfohlen.</strong>",
       "errorTitle": "Layer konnte nicht hinzugefügt werden",
       "ifInExtent": "&#10060; Die über den WMS bereitgestellten Geodaten liegen außerhalb des darstellbaren Bereichs. WMS hinzufügen ist nicht möglich.",
       "name": "WMS hinzufügen",
       "placeholder": "Hier bitte die WMS-URL eingeben.",
-      "textLoadLayer": "Layer Laden"
+      "textLoadLayer": "Karte laden",
+      "introText": "Laden Sie externe Karten aus anderen Quellen in den Kartenviewer. Die Karten müssen über einen WMS (Web Map Service) zur Verfügung stehen.",
+      "wmsText":"Weitere Karten vom Land Berlin finden Sie zum Beispiel im <a target='_blank' href='https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/search?facet.q=type%2Fservice-view'>Metadatenkatalog des Berliner Geoportals</a>."
     },
     "alerting": {
       "alertWindowTitle": "Informationen",
@@ -101,8 +103,9 @@
       "targetSelectLabel": "Ziel-Layer"
     },
     "compareMaps": {
-      "title":"Bitte beachten Sie, dass Datensätze aus verschiedenen Jahren aufgrund unterschiedlicher Methoden nicht immer direkt miteinander vergleichbar sind.",
-      "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
+      "title":"Fügen Sie über die Drop-Down-Menüs zwei verschiedene Karten hinzu. Die Karten müssen vorher bereits aus dem Themenbaum zur Ansicht im Kartenviewer ausgewählt worden sein. Es erscheint ein Slider in der Karte, den sie verschieben können, um die Karten miteinander zu vergleichen.",
+      "description": "Vergleichen Sie Karten nebeneinander oder übereinander",
+      "influenceFactors":"Bitte beachten Sie, dass Datensätze aus verschiedenen Jahren aufgrund unterschiedlicher Methoden nicht immer direkt miteinander vergleichbar sind.",
       "firstLayer": "Erster Layer",
       "horizontal": "horizontal",
       "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
@@ -216,7 +219,7 @@
         "contentSaved": "Inhalt wurde in die Zwischenablage kopiert.",
         "contentNotSaved": "Inhalt konnte nicht in die Zwischenablage kopiert werden."
       },
-      "description": "Bestimmen Sie Koordinaten aus der Karte oder suchen Sie nach Koordinaten.",
+      "description": "Bestimmen oder suchen Sie nach Koordinaten",
       "errorMsg": {
         "example": "Beispiel: ",
         "hdmsNoCoord": "Bitte geben Sie Ihren Wert der {{valueKey}} vollständig ein.",
@@ -240,7 +243,7 @@
       "postionCoordinates": "Lagekoordinaten",
       "search": "Koordinaten suchen",
       "searchBtn": "Suche",
-      "supply": "Koordinaten / Höhe abfragen",
+      "supply": "Koordinaten abfragen",
       "utm": {
         "eastingLabel": "Ostwert",
         "northingLabel": "Nordwert"
@@ -257,8 +260,9 @@
       "wait": "Einen Moment bitte"
     },
     "draw": {
-      "description": "Erstellen Sie wichtige Markierungen oder kennzeichnen Sie Flächen",
-      "name": "Zeichnen / Schreiben"
+      "description": "Fügen Sie eigene Geometrien und Markierungen hinzu",
+      "name": "Zeichnen",
+      "introText":"Zeichnen Sie freihand oder legen Sie Linien, Punktmarkierungen oder verschiedene flächige Geometrien an. Wählen Sie dafür unten ein Zeichenwerkzeug aus und stellen sie Farben, Strichstärke und Transparenzen ein."
     },
     "draw_old": {
       "attributeSelect": {
@@ -334,7 +338,7 @@
       "limitReached_other": "Sie haben bereits {{count}} Objekte gezeichnet, bitte löschen Sie erst eines, bevor Sie fortfahren!",
       "lineWidth": "Strichstärke",
       "method": "Methode",
-      "name": "Zeichnen / Schreiben",
+      "name": "Zeichnen",
       "outerColorContour": "Äußere Umrissfarbe",
       "outerRadius": "Äußerer Radius",
       "radius": "Radius",
@@ -380,7 +384,7 @@
           "kml": "KML-Datei (*.kml)"
         }
       },
-      "description": "Importieren Sie Geodaten aus verschiedenen Dateiformaten",
+      "description": "Importieren Sie eigene Geodaten aus verschiedenen Dateiformaten",
       "fileZoom": "Auf Features dieser Datei \"{{filename}}\" zoomen",
       "importFiles": "Ausgewählte Dateien importieren",
       "name": "Datei-Import",
@@ -599,7 +603,7 @@
       "addSelectedSubjectsToMap_other": "{{count}} ausgewählte Themen der Karte hinzufügen"
     },
     "layerSlider": {
-      "description": "Starten Sie eine Slideshow",
+      "description": "Fügen Sie historische Luftbilder zum Themenbaum hinzu",
       "displayLayers": "Anzeige diverser Layer.",
       "name": "Layerserie",
       "serviceOne": "Dienst 1",
@@ -645,14 +649,14 @@
     "measure": {
       "area": "Fläche",
       "deleteMeasurements": "Messungen löschen",
-      "description": "Messen Sie eine Strecke oder Fläche",
+      "description": "Messen Sie Strecken oder Flächen",
       "finishWithDoubleClick": "Abschließen mit Doppelklick",
       "geometry": "Geometrie",
-      "influenceFactors": "Die angezeigten Werte unterliegen Ungenauigkeiten, die u.a. durch folgende Faktoren beeinflusst werden, z.B. Maßstab, Auflösung der Karte und des Bildschirmes.",
+      "influenceFactors": "Die angezeigten Werte unterliegen Ungenauigkeiten, die u.a. durch den Maßstab und die Auflösung der Karte und des Bildschirmes beeinflusst werden.",
       "inputAccuracy": "Eingabegenauigkeit und Anzahl der digitalisierten Punkte",
       "measure": "Einheit",
       "measureDistance": "Strecke der Messlinie bzw. Größe der Messfläche",
-      "name": "Strecke / Fläche messen",
+      "name": "Messen",
       "resolution": "Auflösung der Karte",
       "scale": "Maßstab",
       "screenResolution": "Auflösung des Bildschirmes",
@@ -952,7 +956,7 @@
         "unknownProjection": "Ergebnisse in unbekanntem Koordinatensystem"
       },
       "placeholder": {
-        "address": "Suche nach Adresse",
+        "address": "Suche nach Adresse oder Thema",
         "addressDistrict": "Suche Adresse, Stadtteil",
         "addressHospitalBplan": "Suche nach Adresse/Krankenhaus/B-Plan",
         "addressTopic": "Suche Adresse, Stadtteil, Thema",

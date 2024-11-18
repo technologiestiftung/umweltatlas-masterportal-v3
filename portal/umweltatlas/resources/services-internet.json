@@ -58,8 +58,8 @@
   },
   {
     "id": "basemap_raster_grau",
-    "name": "basemap.de Web Raster Grau",
-    "name_lang": "basemap.de Web Raster Grau",
+    "name": "Hintergrundkarte (grau)",
+    "name_lang": "Hintergrundkarte (Web Raster Grau)",
     "capabilitiesUrl": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/WMTSCapabilities.xml",
     "url": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/",
     "typ": "WMTS",
@@ -644,7 +644,7 @@
   },
   {
     "id": "truedop_2024:truedop_2024:copyForBasemap",
-    "name": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI)",
+    "name": "Luftbild 2024",
     "name_lang": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2024 (DOP20RGBI))",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/truedop_2024",
