@@ -373,9 +373,7 @@
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
             "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "version": false,
-            "logo": false
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
           },
           {
             "type": "legend"
@@ -939,13 +937,6 @@
     "subjectlayer": {
       "elements": [
         {
-          "id": ["3318", "3319", "3320", "3321", "4571", "6317", "11253", "14826", "18179", "20702", "23260", "24048", "33312"],
-          "name": "Pflanzstandorte 2011 - 2023",
-          "minScale": "5000",
-          "maxScale": "50000",
-          "visibility": true
-        },
-        {
           "id": "1935"
         },
         {
@@ -956,8 +947,8 @@
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "typ": "GROUP",
           "styleId": "4515",
-          "visibility": false,
-          "showInLayerTree": false
+          "visibility": true,
+          "showInLayerTree": true
         },
         {
           "id": "47",
@@ -969,7 +960,7 @@
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": false
+          "visibility": true
         },
         {
           "id": "23555",
@@ -1121,7 +1112,7 @@
           "typ": "WFS",
           "visibility": false,
           "gfiTheme": "schulinfo",
-          "showInLayerTree": false,
+          "showInLayerTree": true,
           "mouseHoverField": [
             "schulname",
             "kapitelbezeichnung"
@@ -1227,7 +1218,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": false,
+          "visibility": true,
           "gfiTheme": "schulinfo"
         },
         {
@@ -1403,7 +1394,7 @@
                   "id": "12883",
                   "name": "Gelände",
                   "typ": "Terrain3D",
-                  "visibility": false
+                  "visibility": true
                 }
               ]
             },
@@ -1415,19 +1406,19 @@
                   "id": "16101",
                   "name": "Brückenflächen HH",
                   "typ": "TileSet3D",
-                  "visibility": false
+                  "visibility": true
                 },
                 {
                   "id": "12884",
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
-                  "visibility": false
+                  "visibility": true
                 },
                 {
                   "id": "16100",
                   "name": "Hauptkirchen",
-                  "visibility": false,
+                  "visibility": true,
                   "hiddenFeatures": [
                     "DEHHALKAJ00011uJ",
                     "DEHHALKAJ0000yd2",

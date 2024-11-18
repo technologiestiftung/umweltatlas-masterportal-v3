@@ -22,7 +22,6 @@
 - Issue #1308:
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
-- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Searchbar: the search in search results shows results and no error occurs.
 - Issue #1280: showInLayerTree can be set up to false.
 
