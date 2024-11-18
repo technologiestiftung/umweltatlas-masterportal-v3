@@ -2838,6 +2838,7 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|color|nein|Number[]|[255, 127, 0, 1.0]|Gibt an, in welcher Farbe die gemessenen Strecken/Flächen angezeigt werden.|false|
 |earthRadius|nein|Number|6378137|Erdradius in Metern. Bitte beachten Sie, dass der Erdradius in Abhängigkeit zum Bezugsellipsoiden gewählt werden sollte. Für ETRS89 (EPSG:25832) ist dies beispielsweise GRS80.|false|
 |icon|nein|String|"bi-arrows-angle-expand"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |lineStringUnits|nein|String[]|["m", "km"]|Gibt an, welche Einheiten für Streckenberechnungen ausgewählt werden können. Unterstützt werden "m" (Meter), "nm" (Seemeile), "km" (Kilometer).|false|

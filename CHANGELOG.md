@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Measure-Tool: Added config parameter color for the measured lines and polygons.
 
 ### Changed
 

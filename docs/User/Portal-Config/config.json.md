@@ -2841,6 +2841,7 @@ The measure tool allows measuring distances and areas.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|color|no|Number[]|[255, 127, 0, 1.0]|Defines the color for the measured lines and polygons.|false|
 |earthRadius|no|Number|6378137|Earth radius in meters. Please mind that the earth radius should be chosen in accordance with the reference ellipsoid. E.g., GRS80 should be used for ETRS89 (EPSG:25832).|false|
 |icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |lineStringUnits|no|String[]|["m", "km"]|Indicates which units for length measurements will be selectable by users. Options are "m" (metres), "km" (kilometres), "nm" (nautical miles).|false|
