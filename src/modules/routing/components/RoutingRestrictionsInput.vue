@@ -4,17 +4,10 @@ import {mapGetters, mapActions} from "vuex";
 /**
  * RoutingRestrictionsInput
  * @module modules/RoutingRestrictionsInput
- * @vue-prop {String} moduleName - Selected Module either Directions or Isochrones.
  * @vue-data {Boolean} showRestrictions - Shows hgv restrictions input fields.
  */
 export default {
     name: "RoutingRestrictionsInput",
-    props: {
-        moduleName: {
-            type: String,
-            required: true
-        }
-    },
     data () {
         return {
             showRestrictions: false
@@ -22,7 +15,9 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/Routing/Directions", ["routingRestrictionsInputData"]),
-        ...mapGetters("Modules/Routing/Isochrones", ["isochronesRestrictionsInputData"])
+        ...mapGetters("Modules/Routing/Isochrones", ["isochronesRestrictionsInputData"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
+
     },
     methods: {
         ...mapActions("Modules/Routing/Directions", ["findDirections"]),
@@ -32,7 +27,7 @@ export default {
          * @returns {Object} RestrictionsInputData either from stateDirections or stateIsochrones
          */
         inputData () {
-            if (this.moduleName === "Directions") {
+            if (this.activeRoutingToolOption === "DIRECTIONS") {
                 return this.routingRestrictionsInputData;
             }
             return this.isochronesRestrictionsInputData;
@@ -54,7 +49,7 @@ export default {
                 value = min;
             }
 
-            if (this.moduleName === "Directions") {
+            if (this.activeRoutingToolOption === "DIRECTIONS") {
                 switch (field) {
                     case "length":
                         this.routingRestrictionsInputData.length = value;
@@ -75,7 +70,7 @@ export default {
                         console.error("Field not found for: ${field}");
                 }
             }
-            else if (this.moduleName === "Isochrones") {
+            else if (this.activeRoutingToolOption === "ISOCHRONES") {
                 switch (field) {
                     case "length":
                         this.isochronesRestrictionsInputData.length = value;
@@ -143,7 +138,7 @@ export default {
                             autocomplete="off"
                             @focus="isFocused = true"
                             @blur="isFocused = false"
-                            @change="moduleName === 'Directions' ? findDirections() : null"
+                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                             @input="validateInput('length', 0.0, 30.0)"
                         >
                         <span class="scale-unit">m</span>
@@ -169,7 +164,7 @@ export default {
                             autocomplete="off"
                             @focus="isFocused = true"
                             @blur="isFocused = false"
-                            @change="moduleName === 'Directions' ? findDirections() : null"
+                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                             @input="validateInput('width', 0.0, 3.5)"
                         >
                         <span class="scale-unit">m</span>
@@ -195,7 +190,7 @@ export default {
                             autocomplete="off"
                             @focus="isFocused = true"
                             @blur="isFocused = false"
-                            @change="moduleName === 'Directions' ? findDirections() : null"
+                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                             @input="validateInput('height', 0.0, 5.0)"
                         >
                         <span class="scale-unit">m</span>
@@ -223,7 +218,7 @@ export default {
                         autocomplete="off"
                         @focus="isFocused = true"
                         @blur="isFocused = false"
-                        @change="moduleName === 'Directions' ? findDirections() : null"
+                        @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                         @input="validateInput('weight', 0, 65)"
                     >
                     <span class="scale-unit">t</span>
@@ -248,7 +243,7 @@ export default {
                         autocomplete="off"
                         @focus="isFocused = true"
                         @blur="isFocused = false"
-                        @change="moduleName === 'Directions' ? findDirections() : null"
+                        @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                         @input="validateInput('axleload', 0, 19)"
                     >
                     <span class="scale-unit">t</span>
@@ -268,7 +263,7 @@ export default {
                             autocomplete="off"
                             @focus="isFocused = true"
                             @blur="isFocused = false"
-                            @change="moduleName === 'Directions' ? findDirections() : null"
+                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
                         >
                     </div>
                 </div>

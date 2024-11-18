@@ -288,7 +288,7 @@ export default {
         <hr>
 
         <div v-if="settings.speedProfile === 'HGV'">
-            <RoutingRestrictionsInput :module-name="'Isochrones'" />
+            <RoutingRestrictionsInput />
         </div>
 
         <RoutingAvoidFeatures

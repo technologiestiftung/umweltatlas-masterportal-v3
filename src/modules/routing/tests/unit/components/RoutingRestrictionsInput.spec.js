@@ -25,7 +25,8 @@ describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", ()
             weight: 18,
             axleload: 6,
             hazmat: false
-        };
+        },
+        activeRoutingToolOption = "DIRECTIONS";
 
     beforeEach(() => {
         store = createStore({
@@ -36,6 +37,9 @@ describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", ()
                     modules: {
                         Routing: {
                             namespaced: true,
+                            getters: {
+                                activeRoutingToolOption: () => activeRoutingToolOption
+                            },
                             modules: {
                                 Directions: {
                                     namespaced: true,
@@ -87,12 +91,10 @@ describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", ()
 
 
         inputData.returns(routingRestrictionsInputData);
+        activeRoutingToolOption = "DIRECTIONS";
         wrapper = mount(RoutingRestrictionsInputComponent, {
             global: {
                 plugins: [store]
-            },
-            propsData: {
-                moduleName: "Directions"
             },
             attachTo: document.body
         });
@@ -101,6 +103,7 @@ describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", ()
         expect(routingRestrictionsInputData.length).to.equal(30);
     });
     it("should validate input (exceeding minimum of width)", async () => {
+        activeRoutingToolOption = "ISOCHRONES";
 
         isochronesRestrictionsInputData = {
             length: 30.0,
@@ -118,9 +121,6 @@ describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", ()
         wrapper = mount(RoutingRestrictionsInputComponent, {
             global: {
                 plugins: [store]
-            },
-            propsData: {
-                moduleName: "Isochrones"
             },
             attachTo: document.body
         });

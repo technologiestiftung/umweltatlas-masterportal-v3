@@ -446,7 +446,7 @@ export default {
         <hr>
 
         <div v-if="settings.speedProfile === 'HGV'">
-            <RoutingRestrictionsInput :module-name="'Directions'" />
+            <RoutingRestrictionsInput />
         </div>
 
         <RoutingAvoidFeatures
