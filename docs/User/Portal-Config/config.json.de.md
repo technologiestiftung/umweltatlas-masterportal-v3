@@ -1027,6 +1027,7 @@ Hier können die Menüeinträge jeweils für das MainMenu (in der Desktopansicht
 |expanded|nein|Boolean|false|Definiert ob das jeweilige Menü beim Starten des Portals aus- oder eingeklappt ist.|false|
 |width|nein|String|"25%"|Setzt die initiale Breite des jeweiligen Menüs als Prozentwert.|false|
 |showDescription|nein|Boolean||Definiert ob eine Beschreibung zu den Modulen im jeweiligen Menü angezeigt werden soll.|false|
+|showHeaderIcon|nein|Boolean|false|Definiert ob im Menü Header das Icon des aktuellen Moduls angezeigt wird|false|
 |searchBar|nein|**[searchBar](#portalconfigmenusearchbar)**||Über das Eingabefeld Suche können verschiedene Suchen gleichzeitig angefragt werden.|false|
 |sections|nein|**[sections](#portalconfigmenusections)**[]||Unterteilung von Modulen im Menü.|false|
 |title|nein|**[title](#portalconfigmenutitle)**||Der Titel und weitere Parameter die im Hauptmenü angezeigt werden können.|false|

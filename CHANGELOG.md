@@ -8,6 +8,7 @@
 
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
+- Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
 
 ### Changed
 
