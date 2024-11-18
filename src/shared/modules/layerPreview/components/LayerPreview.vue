@@ -164,11 +164,16 @@ export default {
          * @returns {void}
          */
         buildWMTSUrl (layerConfig) {
-            wmts.getWMTSCapabilities(layerConfig.capabilitiesUrl).then((capabilities) => {
-                this.createWMTSPreviewUrlFromCapabilities(layerConfig, capabilities);
-            }).catch(error => {
-                console.warn("Error occured during creation of url for preview of wmts-layer", layerConfig, error);
-            });
+            if (layerConfig.capabilitiesUrl) {
+                wmts.getWMTSCapabilities(layerConfig.capabilitiesUrl).then((capabilities) => {
+                    this.createWMTSPreviewUrlFromCapabilities(layerConfig, capabilities);
+                }).catch(error => {
+                    console.warn("Error occured during creation of url for preview of wmts-layer", layerConfig, error);
+                });
+            }
+            else {
+                this.createWMTSPreviewWithoutCapabilities(layerConfig);
+            }
         },
 
         /**
@@ -206,6 +211,21 @@ export default {
             tile.load();
             previewUrl = tile.getImage().src;
             this.load(previewUrl);
+        },
+
+
+        /**
+         * Creates a fallback preview URL for WMTS layers without capabilities.
+         * @param {Object} layerConfig config of the WMTS layer
+         * @returns {void}
+         */
+        createWMTSPreviewWithoutCapabilities (layerConfig) {
+            const previewTileUrl = layerConfig.urls[0]
+                .replace("{TileMatrix}", "0")
+                .replace("{TileCol}", "0")
+                .replace("{TileRow}", "0");
+
+            this.load(previewTileUrl);
         },
 
         /**

@@ -24,6 +24,7 @@
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.
+- Issue #1275: Layers without capabilitiesURL can now be added as baselayers. 
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
@@ -45,6 +46,7 @@
 ### Fixed
 - Searchbar: the search in search results shows results and no error occurs.
 - Filter: for FilterSnippets on gfiAttributes with object definition the title is now taken from the gfiAttribute.
+
 
 ---
 
