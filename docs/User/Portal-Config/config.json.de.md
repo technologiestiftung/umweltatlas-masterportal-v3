@@ -1517,7 +1517,7 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 ```json
 {
     "type": "topicTree",
-    "searchInterfaceId": "topicTree" 
+    "searchInterfaceId": "topicTree"
 }
 ```
 
@@ -1678,20 +1678,21 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 |----|-------------|---|-------|------------|------|
 |icon|nein|String|"bi-info-circle"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.about.name"|Name des Moduls im Menü.|false|
-|type|nein|String|"about"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|type|ja|String|"about"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |abstractText|nein|String|""|Beschreibungstext des Portals|false|
 |contact|no|String|null|Metadaten Kontaktinformationen|false|
-|cswUrl|nein|String|"../../src/assets/img/Logo_Masterportal.svg"|Metadaten URL|false|
-|logoLink|nein|String|"https://masterportal.org"|Link des Logos|false|
-|logoText|nein|String|"Masterportallogo"|Text bei nicht anzeigbarem Logo|false|
+|cswUrl|nein|String|""|Metadaten URL|false|
+|logo|nein|Boolean/String|true|"../../src/assets/img/Logo_Masterportal.svg"|Pfad zum Logo. Mit `false` wird das Logo ausgeblendet.|false|
+|logoLink|nein|String|"https://masterportal.org"|Link der bei Klick auf das Logo in einem neuen Tab aufgerufen wird.|false|
+|logoText|nein|String|"Masterportallogo"|Alternativtext der eingeblendet wird, wenn das Logo nicht angezeigt werden kann.|false|
 |metaDataCatalogueId|nein|String|"2"|Id des Metadatenkatalogdienstes|false|
 |metaId|nein|String|""|Id des Metadateneintrages|false|
 |metaUrl|nein|String|""|URL des Metadateneintrages|false|
 |noMetadataLoaded|nein|String|""|Text bei nicht anzeigbaren Metadaten|false|
 |showAdditionalMetaData|nein|Boolean|true|Metadatenlink zu erweiterten Metadaten anzeigen|false|
 |title|nein|String|""|Titel der Metadaten|false|
-|version|nein|String|""|Versionangabe des Masterportals|false|
-|versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link zu der Masterportalversion|false|
+|version|nein|Boolean/String|true|Versionsangabe des Masterportals. Mit `true` wird die Masterportalversion automatisch ermittelt. Mit `false` wird die Version ausgeblendet.|false|
+|versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link der bei Klick auf die version in einem neuen Tab aufgerufen wird.|false|
 |ustId|nein|String|""|Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz|false|
 |privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt|false|
 |privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
@@ -1715,8 +1716,8 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-Mit diesem Modul lassen sich zusätzliche WMS Layer über eine angegebene URL laden. Von der [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) wird empfohlen einen CORS-Header einzurichten, siehe Kapitel 4.7.1.  
-Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`. 
+Mit diesem Modul lassen sich zusätzliche WMS Layer über eine angegebene URL laden. Von der [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) wird empfohlen einen CORS-Header einzurichten, siehe Kapitel 4.7.1.
+Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
@@ -4342,7 +4343,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
                 {
                     "id":"elasticSearch_0",
                     "searchCategory": "Thema (externe Fachdaten)"
-                }, 
+                },
                 {
                     "id": "topicTree",
                     "searchCategory": "Thema"
@@ -4805,8 +4806,8 @@ Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält. Sie
 **Beispiel mit children**
 
 ```json
-{ 
-    "id": [ "27926", "1711", "18104"], 
+{
+    "id": [ "27926", "1711", "18104"],
     "typ": "GROUP",
     "name": "Gruppe OAF, WFS, SensorThings",
     "visibility": false,

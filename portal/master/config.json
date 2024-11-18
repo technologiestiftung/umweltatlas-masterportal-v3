@@ -373,7 +373,9 @@
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
             "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "version": false,
+            "logo": false
           },
           {
             "type": "legend"
@@ -754,12 +756,12 @@
             {
               "id":"elasticSearch_0",
               "searchCategory": "Thema (externe Fachdaten)"
-            }, 
+            },
             {
               "id": "topicTree",
               "searchCategory": "Thema"
             }
-          ]         
+          ]
         }
       },
       "highlightedFeatures": {
@@ -937,6 +939,13 @@
     "subjectlayer": {
       "elements": [
         {
+          "id": ["3318", "3319", "3320", "3321", "4571", "6317", "11253", "14826", "18179", "20702", "23260", "24048", "33312"],
+          "name": "Pflanzstandorte 2011 - 2023",
+          "minScale": "5000",
+          "maxScale": "50000",
+          "visibility": true
+        },
+        {
           "id": "1935"
         },
         {
@@ -947,8 +956,8 @@
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "typ": "GROUP",
           "styleId": "4515",
-          "visibility": true,
-          "showInLayerTree": true
+          "visibility": false,
+          "showInLayerTree": false
         },
         {
           "id": "47",
@@ -960,7 +969,7 @@
           "id": "10220",
           "name": "Dauerzählstellen (Rad) Hamburg",
           "typ": "WMS",
-          "visibility": true
+          "visibility": false
         },
         {
           "id": "23555",
@@ -1112,7 +1121,7 @@
           "typ": "WFS",
           "visibility": false,
           "gfiTheme": "schulinfo",
-          "showInLayerTree": true,
+          "showInLayerTree": false,
           "mouseHoverField": [
             "schulname",
             "kapitelbezeichnung"
@@ -1218,7 +1227,7 @@
           "styleId": "8712",
           "name": "Schulen (Layertyp OAF)",
           "typ": "OAF",
-          "visibility": true,
+          "visibility": false,
           "gfiTheme": "schulinfo"
         },
         {
@@ -1394,7 +1403,7 @@
                   "id": "12883",
                   "name": "Gelände",
                   "typ": "Terrain3D",
-                  "visibility": true
+                  "visibility": false
                 }
               ]
             },
@@ -1406,19 +1415,19 @@
                   "id": "16101",
                   "name": "Brückenflächen HH",
                   "typ": "TileSet3D",
-                  "visibility": true
+                  "visibility": false
                 },
                 {
                   "id": "12884",
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
-                  "visibility": true
+                  "visibility": false
                 },
                 {
                   "id": "16100",
                   "name": "Hauptkirchen",
-                  "visibility": true,
+                  "visibility": false,
                   "hiddenFeatures": [
                     "DEHHALKAJ00011uJ",
                     "DEHHALKAJ0000yd2",

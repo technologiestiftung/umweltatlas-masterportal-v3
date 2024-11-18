@@ -1516,7 +1516,7 @@ Searching all topic selection tree layers.
 ```json
 {
     "type": "topicTree",
-    "searchInterfaceId": "topicTree" 
+    "searchInterfaceId": "topicTree"
 }
 ```
 
@@ -1680,17 +1680,18 @@ This module displays specific portal information like description, Masterportal 
 |type|no|String|"about"|The type of the module. Defines which module is configured.|false|
 |abstractText|no|String|""|Description of the portal|false|
 |contact|no|String|null|Metadata contact information|false|
-|cswUrl|no|String|"../../src/assets/img/Logo_Masterportal.svg"|Metadata URL|false|
-|logoLink|no|String|"https://masterportal.org"|Logo link|false|
-|logoText|no|String|"Masterportallogo"|Text if logo is not shown|false|
+|cswUrl|no|String|""|Metadata URL|false|
+|logo|no|Boolean/String|true|"../../src/assets/img/Logo_Masterportal.svg"|Path to the logo. With `false` the logo is hidden.|false|
+|logoLink|no|String|"https://masterportal.org"|Link that opens in a new tab when you click on the logo.|false|
+|logoText|no|String|"Masterportallogo"|Alternative text that is displayed if the logo cannot be displayed.|false|
 |metaDataCatalogueId|no|String|"2"|Id of the metadata service|false|
 |metaId|no|String|""|Id of the metadata object|false|
 |metaUrl|no|String|""|URL of the metadata object|false|
 |noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
 |showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
 |title|no|String|""|Metadata title |false|
-|version|no|String|""|Version information of the masterportal|false|
-|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+|version|no|Boolean/String|""|Version specification of the master portal. With `true` the master portal version is determined automatically. With `false` the version is hidden.|false|
+|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link that opens in a new tab when you click on the version.|false|
 |ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
 |privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
 |privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
@@ -1715,8 +1716,8 @@ This module displays specific portal information like description, Masterportal 
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-The module allows for adding additional WMS layers via a provided URL. The [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) recommends setting up a CORS header, see chapter 4.7.1.   
-Schema for a WMS layer URL: `www.diensteurl/wmsdienste`. 
+The module allows for adding additional WMS layers via a provided URL. The [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) recommends setting up a CORS header, see chapter 4.7.1.
+Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4347,7 +4348,7 @@ Configuration of the addLayerButton to select layers.
                 {
                     "id":"elasticSearch_0",
                     "searchCategory": "Thema (externe Fachdaten)"
-                }, 
+                },
                 {
                     "id": "topicTree",
                     "searchCategory": "Thema"
@@ -4810,8 +4811,8 @@ A group layer is created that contains all layers of the specified ids.
 **Example with children**
 
 ```json
-{ 
-    "id": [ "27926", "1711", "18104"], 
+{
+    "id": [ "27926", "1711", "18104"],
     "typ": "GROUP",
     "name": "Group OAF, WFS, SensorThings",
     "visibility": false,
