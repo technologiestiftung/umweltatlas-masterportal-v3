@@ -956,7 +956,7 @@
         "unknownProjection": "Ergebnisse in unbekanntem Koordinatensystem"
       },
       "placeholder": {
-        "address": "Suche nach Adresse",
+        "address": "Suche nach Adresse oder Thema",
         "addressDistrict": "Suche Adresse, Stadtteil",
         "addressHospitalBplan": "Suche nach Adresse/Krankenhaus/B-Plan",
         "addressTopic": "Suche Adresse, Stadtteil, Thema",
