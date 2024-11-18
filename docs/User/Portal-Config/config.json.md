@@ -1690,7 +1690,7 @@ This module displays specific portal information like description, Masterportal 
 |noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
 |showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
 |title|no|String|""|Metadata title |false|
-|version|no|Boolean/String|""|Version specification of the master portal. With `true` the master portal version is determined automatically. With `false` the version is hidden.|false|
+|version|no|Boolean/String|true|Version specification of the master portal. With `true` the master portal version is determined automatically. With `false` the version is hidden.|false|
 |versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link that opens in a new tab when you click on the version.|false|
 |ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
 |privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
