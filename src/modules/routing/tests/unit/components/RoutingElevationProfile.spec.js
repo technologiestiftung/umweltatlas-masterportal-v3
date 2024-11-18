@@ -4,6 +4,7 @@ import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import RoutingElevationProfileData from "../../../components/RoutingElevationProfile.vue";
 import VectorSource from "ol/source/Vector.js";
+import {Chart} from "chart.js";
 
 config.global.mocks.$t = key => key;
 
@@ -38,6 +39,9 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
         wrapper;
 
     beforeEach(() => {
+
+        sinon.stub(Chart.prototype, "render");
+
         activeRoutingToolOption = "DIRECTIONS";
         store = createStore({
             namespaced: true,
@@ -98,7 +102,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
     });
 
     it("should render the component", () => {
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -109,7 +112,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
     });
 
     it("computed directions should return routing directions", () => {
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -121,7 +123,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
 
     it("computed directions should return tsr directions", () => {
         activeRoutingToolOption = "TSR";
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -132,7 +133,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
     });
 
     it("computed layerSource should return directions layer source", () => {
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -144,7 +144,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
 
     it("computed layerSource should return tsr layer source", () => {
         activeRoutingToolOption = "TSR";
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -155,7 +154,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
     });
 
     it("should extract directions data correctly", () => {
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -171,7 +169,6 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
 
     it("should extract tsr data correctly", () => {
         activeRoutingToolOption = "TSR";
-        sinon.stub(RoutingElevationProfileData.methods, "drawChart");
         wrapper = mount(RoutingElevationProfileData, {
             global: {
                 plugins: [store]
@@ -183,5 +180,56 @@ describe("src/modules/routing/components/RoutingElevationProfileData.vue", () =>
         expect(wrapper.vm.elevations).deep.to.equal([200, 350, 305]);
         expect(wrapper.vm.ascent).equals("75");
         expect(wrapper.vm.descent).equals("50");
+    });
+
+    it("should call draw chart (DIRECTIONS)", () => {
+        const drawChart = sinon.spy(RoutingElevationProfileData.methods, "drawChart");
+
+        wrapper = mount(RoutingElevationProfileData, {
+            global: {
+                plugins: [store]
+            },
+            attachTo: document.body
+        });
+
+        expect(drawChart.calledOnce).to.be.true;
+        expect(wrapper.vm.chart.data.labels).to.deep.equal([0, 10, 17]);
+        expect(wrapper.vm.chart.data.datasets).to.deep.equal([
+            {
+                data: [150, 185, 204],
+                borderWidth: 2,
+                borderColor: "#fe2c00",
+                backgroundColor: "#fccac0",
+                pointStyle: false,
+                fill: true,
+                cubicInterpolationMode: "monotone"
+            }
+        ]);
+    });
+
+    it("should call draw chart (TSR)", () => {
+        activeRoutingToolOption = "TSR";
+        const drawChart = sinon.spy(RoutingElevationProfileData.methods, "drawChart");
+
+        wrapper = mount(RoutingElevationProfileData, {
+            global: {
+                plugins: [store]
+            },
+            attachTo: document.body
+        });
+
+        expect(drawChart.calledOnce).to.be.true;
+        expect(wrapper.vm.chart.data.labels).to.deep.equal([0, 85, 120]);
+        expect(wrapper.vm.chart.data.datasets).to.deep.equal([
+            {
+                data: [200, 350, 305],
+                borderWidth: 2,
+                borderColor: "#32a9e8",
+                backgroundColor: "#8cc7e6",
+                pointStyle: false,
+                fill: true,
+                cubicInterpolationMode: "monotone"
+            }
+        ]);
     });
 });

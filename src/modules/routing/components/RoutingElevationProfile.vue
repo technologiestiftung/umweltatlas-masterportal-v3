@@ -20,7 +20,8 @@ export default {
             distances: [],
             elevations: [],
             ascent: "",
-            descent: ""
+            descent: "",
+            chart: {}
         };
     },
     computed: {
@@ -60,9 +61,9 @@ export default {
         this.ascent = Math.round(this.directions.elevationProfile.ascent).toLocaleString();
         this.descent = Math.round(this.directions.elevationProfile.descent).toLocaleString();
 
-        const canvas = document.getElementById("elevation-profile");
+        const canvas = this.$refs.elevationProfile;
 
-        this.drawChart(canvas);
+        this.chart = this.drawChart(canvas);
 
         // add event listener - if leaving elevation profile with mouse, remove point on map
         canvas.addEventListener("mouseleave", () => {
@@ -90,7 +91,7 @@ export default {
                 borderColor = this.tsrSettings.styleElevationProfile.profileColor;
                 backgroundColor = this.tsrSettings.styleElevationProfile.profileFillColor;
             }
-            new Chart(canvas, {
+            const chart = new Chart(canvas, {
                 type: "line",
                 data: {
                     labels: this.distances,
@@ -147,6 +148,8 @@ export default {
                     afterDraw: this.drawVerticalLine
                 }]
             });
+
+            return chart;
         },
         /**
          * Returns the height for the tooltip
@@ -222,12 +225,12 @@ export default {
          */
         collapse () {
             if (!this.collapseProfile) {
-                document.getElementById("elevation-profile").style.display = "none";
-                document.getElementById("ascent-descent-data").style.display = "none";
+                this.$refs.elevationProfile.style.display = "none";
+                this.$refs.ascentDescent.style.display = "none";
             }
             else {
-                document.getElementById("elevation-profile").style.display = "block";
-                document.getElementById("ascent-descent-data").style.display = "block";
+                this.$refs.elevationProfile.style.display = "block";
+                this.$refs.ascentDescent.style.display = "block";
             }
 
             this.collapseProfile = !this.collapseProfile;
@@ -247,10 +250,14 @@ export default {
         <b>{{ $t('common:modules.routing.elevationProfile.titleCollapse') }}</b>
     </button>
     <div>
-        <canvas id="elevation-profile" />
+        <canvas
+            id="elevation-profile"
+            ref="elevationProfile"
+        />
     </div>
     <div
         id="ascent-descent-data"
+        ref="ascentDescent"
     >
         <div class="d-flex justify-content-around">
             <span>
