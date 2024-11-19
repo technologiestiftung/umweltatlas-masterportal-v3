@@ -255,7 +255,7 @@ export default {
                     >
                         {{ $t('common:modules.routing.restrictions.hazmat') }}
                     </label>
-                    <div class="d-flex justify-content-end">
+                    <div>
                         <input
                             id="hazmatInput"
                             v-model="inputData().hazmat"
@@ -276,8 +276,8 @@ export default {
 @import "~variables";
 
 #hazmatInput {
-    margin-left: -82px;
     margin-top: 10px;
+    margin-right: 11px;
 }
 
 .btn-up-down {
