@@ -1286,6 +1286,9 @@
           "or": "oder "
         }
       },
+      "layerPreview": {
+        "alert": "In der Konfiguration von {{layerName}} ist kein Preview Bild hinterlegt. Sie können unter preview.src ein Bild hinterlegen, um es in der Preview der Karte darzustellen."
+      },
       "list": {
         "pagination": "Ergebnisseite",
         "replace": {

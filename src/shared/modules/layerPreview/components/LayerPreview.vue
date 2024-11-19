@@ -80,6 +80,7 @@ export default {
         ...mapActions("Modules/LayerPreview", [
             "initialize"
         ]),
+        ...mapActions("Alerting", ["addSingleAlert"]),
         ...mapMutations("Modules/LayerPreview", [
             "addPreviewUrl"
         ]),
@@ -210,6 +211,7 @@ export default {
             tile = wmsWithOptions.getTile(tileCoord[0], tileCoord[1], tileCoord[2]);
             tile.load();
             previewUrl = tile.getImage().src;
+
             this.load(previewUrl);
         },
 
@@ -220,12 +222,22 @@ export default {
          * @returns {void}
          */
         createWMTSPreviewWithoutCapabilities (layerConfig) {
-            const previewTileUrl = layerConfig.urls[0]
-                .replace("{TileMatrix}", "0")
-                .replace("{TileCol}", "0")
-                .replace("{TileRow}", "0");
+            let url;
 
-            this.load(previewTileUrl);
+            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                url = layerConfig.preview.src;
+            }
+            else {
+                this.addSingleAlert({
+                    category: "info",
+                    content: this.$t("common:shared.modules.layerPreview.alert", {layerName: layerConfig.name})
+                });
+                const fallbackImagePath = "./resources/vectorTile.png";
+
+                url = fallbackImagePath;
+            }
+
+            this.load(url);
         },
 
         /**
