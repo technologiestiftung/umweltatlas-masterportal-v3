@@ -7,7 +7,7 @@ import TsrUpload from "../../../../components/TSR/TsrUpload.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
+describe("src/modules/routing/components/TSR/TsrUpload.vue", () => {
     let mapInteractionMode,
         tsrDirections,
         store,
@@ -57,7 +57,8 @@ describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
                                                 getDisplayName: () => sinon.stub(),
                                                 getCoordinates: () => sinon.stub()
                                             }
-                                        ]
+                                        ],
+                                        getTSRSpeedProfiles: sinon.stub()
                                     },
                                     mutations: {
                                         setMapInteractionMode: sinon.stub(),
@@ -65,7 +66,8 @@ describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
                                     },
                                     actions: {
                                         createInteractionFromMapInteractionMode: sinon.stub(),
-                                        initTSR: sinon.stub()
+                                        initTSR: sinon.stub(),
+                                        isStartEndInput: sinon.stub()
                                     }
                                 }
                             }

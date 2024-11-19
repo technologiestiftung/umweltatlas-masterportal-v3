@@ -68,7 +68,9 @@ describe("src/modules/routing/components/TSR/TsrOutput.vue", () => {
                                             return {
                                                 speedProfile: "CAR"
                                             };
-                                        }
+                                        },
+                                        tsrDuration: sinon.stub(),
+                                        tsrDistance: sinon.stub()
                                     },
                                     actions: {
                                         removeTSRWaypointsDrawInteraction: sinon.stub(),

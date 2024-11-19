@@ -60,7 +60,10 @@ describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
                                                 getCoordinates: () => sinon.stub()
                                             }
                                         ],
-                                        addStartEnd: () => addStartEnd
+                                        addStartEnd: () => addStartEnd,
+                                        getTSRSpeedProfiles: sinon.stub(),
+                                        tsrRouteSource: sinon.stub(),
+                                        isInputDisabled: sinon.stub()
                                     },
                                     mutations: {
                                         setMapInteractionMode: sinon.stub(),
@@ -68,7 +71,8 @@ describe("src/modules/routing/components/TSR/TsrItem.vue", () => {
                                     },
                                     actions: {
                                         createInteractionFromMapInteractionMode: sinon.stub(),
-                                        initTSR: sinon.stub()
+                                        initTSR: sinon.stub(),
+                                        isStartEndInput: sinon.stub()
                                     }
                                 }
                             }

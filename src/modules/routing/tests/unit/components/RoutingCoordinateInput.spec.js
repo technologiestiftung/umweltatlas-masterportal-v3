@@ -25,6 +25,9 @@ describe("src/modules/routing/components/RoutingCoordinateInput.vue", () => {
                             namespaced: true,
                             mutations: mutations,
                             actions: actions,
+                            getters: {
+                                activeRoutingToolOption: sinon.stub()
+                            },
                             modules: {
                                 Directions: {
                                     namespaced: true,
