@@ -26,7 +26,7 @@
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
 - Issue #1300:
-    - The EPSG code 25832 is now set as the default value in the search interface.
+    - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
 - Issue #1308:
     - The postal code is now correctly placed before the city in the about module
