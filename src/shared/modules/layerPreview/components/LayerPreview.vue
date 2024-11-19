@@ -211,7 +211,6 @@ export default {
             tile = wmsWithOptions.getTile(tileCoord[0], tileCoord[1], tileCoord[2]);
             tile.load();
             previewUrl = tile.getImage().src;
-
             this.load(previewUrl);
         },
 
