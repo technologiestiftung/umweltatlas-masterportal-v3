@@ -16,7 +16,7 @@ export default {
     computed: {
         ...mapGetters("Modules/Routing/Directions", ["routingRestrictionsInputData"]),
         ...mapGetters("Modules/Routing/Isochrones", ["isochronesRestrictionsInputData"]),
-        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"])
 
     },
     methods: {
