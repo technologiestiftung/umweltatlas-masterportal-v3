@@ -478,6 +478,11 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
             "data-bs-original-title": "layerWMS",
             title: "layerWMS"
         });
+        expect(wrapper.find(".wrapperImg").attributes()).to.deep.equals({
+            "data-v-601392fe": "",
+            class: "wrapperImg",
+            title: ""
+        });
     });
 
 });

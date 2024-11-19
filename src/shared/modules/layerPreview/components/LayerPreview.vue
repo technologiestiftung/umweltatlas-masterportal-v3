@@ -280,7 +280,10 @@ export default {
         @click="clicked()"
         @keydown.enter="clicked()"
     >
-        <div class="wrapperImg">
+        <div
+            class="wrapperImg"
+            title=""
+        >
             <img
                 :class="[
                     customClass,
