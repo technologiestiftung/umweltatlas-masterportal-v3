@@ -67,7 +67,7 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
         });
     });
 
-    describe.only("setLayerIds", () =>{
+    describe("setLayerIds", () =>{
         it("should replace the layers from the params", () => {
             const params = {
                 "MAP/LAYERIDS": "452,1711",
@@ -131,45 +131,6 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
                 transparency: "0",
                 showInLayerTree: true,
                 zIndex: 1
-            });
-        });
-        it("should set all layers", () => {
-            const params = {
-                "MAP/LAYERIDS": "452,1711",
-                TRANSPARENCY: "50,0",
-                VISIBILITY: "true,false",
-                MDID: "C1AC42B2-C104-45B8-91F9-DA14C3C88A1F"
-            };
-
-            layerUrlParams.setLayerIds(params);
-            layerUrlParams.setLayersByMetadataId(params);
-
-            expect(dispatchCalls.length).to.equals(3);
-            expect(dispatchCalls[0].addOrReplaceLayer).to.deep.equals({
-                layerId: "452",
-                visibility: true,
-                transparency: "50",
-                showInLayerTree: true,
-                zIndex: 0
-            });
-            expect(dispatchCalls[1].addOrReplaceLayer).to.deep.equals({
-                layerId: "1711",
-                visibility: false,
-                transparency: "0",
-                showInLayerTree: true,
-                zIndex: 1
-            });
-            expect(dispatchCalls[2].replaceByIdInLayerConfig).to.deep.equals({
-                layerConfigs: [
-                    {
-                        id: "753",
-                        layer: {
-                            id: "753",
-                            showInLayerTree: true,
-                            visibility: true
-                        }
-                    }
-                ]
             });
         });
     });
@@ -242,6 +203,102 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
                 zIndex: 1
             });
             expect(dispatchCalls[3].addOrReplaceLayer).to.deep.equals({
+                layerId: "2426",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 2
+            });
+        });
+    });
+
+    describe("setLayersByMetadataIdandLayerIds", () =>{
+        beforeEach(() => {
+            store.getters = {
+                allLayerConfigs: [
+                    {
+                        id: "2425",
+                        datasets: [
+                            {
+                                md_id: "F35EAC11-C236-429F-B1BF-751C0C18E8B7"
+                            }
+                        ]
+                    },
+                    {
+                        id: "2426",
+                        datasets: [
+                            {
+                                md_id: "F35EAC11-C236-429F-B1BF-751C0C18E8B7"
+                            }
+                        ]
+                    }
+                ],
+                determineZIndex: () => zIndex++,
+                layerConfigsByAttributes: () => {
+                    return [
+                        {
+                            id: "452"
+                        }
+                    ];
+                },
+                layerConfigById: () => true
+            };
+        });
+
+        it("should set Layer Ids and MDIDs", () => {
+            const params = {
+                MDID: "F35EAC11-C236-429F-B1BF-751C0C18E8B7",
+                "MAP/LAYERIDS": "452,1711",
+                TRANSPARENCY: "50,0",
+                VISIBILITY: "true,false"
+            };
+
+            layerUrlParams.setLayerIds(params);
+            layerUrlParams.setLayersByMetadataId(params);
+
+            expect(dispatchCalls.length).to.equals(6);
+            expect(dispatchCalls[0].addOrReplaceLayer).to.deep.equals({
+                layerId: "452",
+                visibility: true,
+                transparency: "50",
+                showInLayerTree: true,
+                zIndex: 0
+            });
+            expect(dispatchCalls[1].addOrReplaceLayer).to.deep.equals({
+                layerId: "1711",
+                visibility: false,
+                transparency: "0",
+                showInLayerTree: true,
+                zIndex: 1
+            });
+
+            expect(dispatchCalls[2].replaceByIdInLayerConfig).to.deep.equals({
+                layerConfigs: [
+                    {
+                        id: "452",
+                        layer: {
+                            id: "452",
+                            showInLayerTree: false,
+                            visibility: false
+                        }
+                    }
+                ]
+            });
+            expect(dispatchCalls[3].addOrReplaceLayer).to.deep.equals({
+                layerId: "452",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 0
+            });
+            expect(dispatchCalls[4].addOrReplaceLayer).to.deep.equals({
+                layerId: "2425",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 1
+            });
+            expect(dispatchCalls[5].addOrReplaceLayer).to.deep.equals({
                 layerId: "2426",
                 visibility: true,
                 transparency: 0,
