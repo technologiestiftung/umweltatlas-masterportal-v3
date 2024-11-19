@@ -43,7 +43,7 @@
 - Routing: Added checkbox to determine if routes stay visible after closing the routing tool
 - Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
 - Filter supports secure WFS request.
-- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly.
+- ShareView: Added hashtag to shared link to share link correctly.
 - LayerInformation: Added last revision date to Layer Information.
 
 ### Changed
