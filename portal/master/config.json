@@ -592,6 +592,7 @@
               "type": "ORS",
               "serviceId": "bkg_ors",
               "speedProfile": "CAR",
+              "elevation": true,
               "batchProcessing": {
                 "enabled": false,
                 "active": false
@@ -604,6 +605,16 @@
               "batchProcessing": {
                 "enabled": false,
                 "active": false
+              }
+            },
+            "tsrSettings": {
+              "type": "TSR",
+              "serviceId": "bkg_tsr",
+              "speedProfile": "CAR",
+              "elevation": true,
+              "tsrPointLimit": 50,
+              "styleRoute": {
+                "fillColor": [50, 169, 232, 1.0]
               }
             }
           },
