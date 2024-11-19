@@ -47,7 +47,6 @@
 - Searchbar: the search in search results shows results and no error occurs.
 - Filter: for FilterSnippets on gfiAttributes with object definition the title is now taken from the gfiAttribute.
 
-
 ---
 
 ## 2024-11-06 v3.4.0
