@@ -30,20 +30,20 @@ export default {
         ]),
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
-    created () {
-        this.initializeLayers();
-    },
     watch: {
         /**
          * Detects changes in visible Layers and initializes layers.
          * @returns {void}
          */
         visibleSubjectDataLayerConfigs: {
-            handler (newVal, oldVal) {
+            handler () {
                 this.initializeLayers();
             },
             deep: true
         }
+    },
+    created () {
+        this.initializeLayers();
     },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal"]),
@@ -52,10 +52,10 @@ export default {
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
          */
-        initializeLayers(){
+        initializeLayers () {
             const newLayerInformation = this.allLayerConfigs.filter(item => this.layerIds.includes(item.id)).reverse(),
-            firstActiveLayer = newLayerInformation.findIndex(layer => layer.visibility),
-            currentLayerDeactivated = this.currentLayerIndex > -1 && !newLayerInformation[this.currentLayerIndex].visibility;
+                firstActiveLayer = newLayerInformation.findIndex(layer => layer.visibility),
+                currentLayerDeactivated = this.currentLayerIndex > -1 && !newLayerInformation[this.currentLayerIndex].visibility;
 
             this.setLayerInformation(newLayerInformation);
             if ((this.currentLayerIndex === -1 && firstActiveLayer > -1) ||
