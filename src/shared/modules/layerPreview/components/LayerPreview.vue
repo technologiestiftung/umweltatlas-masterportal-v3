@@ -126,15 +126,12 @@ export default {
          * @param {Object} layerConfig config of the WMS layer
          * @returns {void}
          */
-        buildWMSUrl (layerConfig) {
+        buildWMSUrl (layerConfig, existingUrl) {
             let layerConfigUrl,
                 params,
-                url;
+                url = existingUrl;
 
-            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
-                url = layerConfig.preview.src;
-            }
-            else {
+            if (!url) {
                 if (layerConfig.typ === "GROUP") {
                     layerConfigUrl = layerConfig.children[0].url;
                     params = wms.makeParams(layerConfig.children[0]);
@@ -164,7 +161,7 @@ export default {
          * @param {Object} layerConfig config of the WMTS layer
          * @returns {void}
          */
-        buildWMTSUrl (layerConfig) {
+        buildWMTSUrl (layerConfig, url) {
             if (layerConfig.capabilitiesUrl) {
                 wmts.getWMTSCapabilities(layerConfig.capabilitiesUrl).then((capabilities) => {
                     this.createWMTSPreviewUrlFromCapabilities(layerConfig, capabilities);
@@ -172,8 +169,11 @@ export default {
                     console.warn("Error occured during creation of url for preview of wmts-layer", layerConfig, error);
                 });
             }
+            else if (!url) {
+                console.warn("There is no preview image for " + layerConfig.name + ". You can specify a preview image in the layer config under preview.src.");
+            }
             else {
-                this.createWMTSPreviewWithoutCapabilities(layerConfig);
+                this.load(url);
             }
         },
 
@@ -214,38 +214,13 @@ export default {
             this.load(previewUrl);
         },
 
-
-        /**
-         * Creates a fallback preview URL for WMTS layers without capabilities.
-         * @param {Object} layerConfig config of the WMTS layer
-         * @returns {void}
-         */
-        createWMTSPreviewWithoutCapabilities (layerConfig) {
-            let url;
-
-            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
-                url = layerConfig.preview.src;
-            }
-            else {
-                this.addSingleAlert({
-                    category: "info",
-                    content: this.$t("common:shared.modules.layerPreview.alert", {layerName: layerConfig.name})
-                });
-                const fallbackImagePath = "./resources/vectorTile.png";
-
-                url = fallbackImagePath;
-            }
-
-            this.load(url);
-        },
-
         /**
          * Sets the previewUrl from layerConfigs preview.src.
          * @param {Object} layerConfig config of the VectorTile layer
          * @returns {void}
          */
-        buildVectorTileUrl (layerConfig) {
-            this.addPreviewUrl({id: layerConfig.id, previewUrl: layerConfig.preview?.src});
+        buildVectorTileUrl (layerConfig, url) {
+            this.addPreviewUrl({id: layerConfig.id, previewUrl: url});
         },
 
         /**
@@ -263,19 +238,24 @@ export default {
          */
         generatePreviewUrlByConfigType () {
             const layerConfig = this.layerConfigById(this.layerId);
+            let url;
+
+            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                url = layerConfig.preview.src;
+            }
 
             if (layerConfig && this.supportedLayerTyps.includes(layerConfig.typ)) {
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
                 this.layerName = layerConfig.name;
                 if (!this.previewUrlByLayerIds[this.layerId]) {
                     if (layerConfig.typ === "WMS" || layerConfig.typ === "GROUP") {
-                        this.buildWMSUrl(layerConfig);
+                        this.buildWMSUrl(layerConfig, url);
                     }
                     else if (layerConfig.typ === "WMTS") {
-                        this.buildWMTSUrl(layerConfig);
+                        this.buildWMTSUrl(layerConfig, url);
                     }
                     else if (layerConfig.typ === "VectorTile") {
-                        this.buildVectorTileUrl(layerConfig);
+                        this.buildVectorTileUrl(layerConfig, url);
                     }
                 }
             }

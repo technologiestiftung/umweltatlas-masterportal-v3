@@ -1283,9 +1283,6 @@
           "or": "or "
         }
       },
-      "layerPreview": {
-        "alert": "In the configuration of {{layerName}}, no preview image is specified. You can add an image under preview.src to display it in the map preview."
-      },
       "list": {
         "pagination": "Pagination",
         "replace": {
