@@ -220,7 +220,7 @@ export default {
          * @returns {void}
          */
         buildVectorTileUrl (layerConfig, url) {
-            this.addPreviewUrl({id: layerConfig.id, previewUrl: url});
+            this.addPreviewUrl({id: layerConfig.id, previewUrl: url ? url : ""});
         },
 
         /**
