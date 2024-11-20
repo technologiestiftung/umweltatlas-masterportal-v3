@@ -19,7 +19,8 @@ describe("CompareFeatures.vue", () => {
             selectableLayers: () => [
                 {layerId: "layer1", layerName: "Layer 1"},
                 {layerId: "layer2", layerName: "Layer 2"}
-            ]
+            ],
+            numberOfAttributesToShow: () => 12
         },
 
         mutations = {

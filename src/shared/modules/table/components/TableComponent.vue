@@ -279,7 +279,7 @@ export default {
         getSeparator (separatorType) {
             const numberWithGroupAndDecimalSeparator = 1000.1;
 
-            return Intl.NumberFormat(Intl.NumberFormat(i18next.language)).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
+            return Intl.NumberFormat(i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
         },
 
         /**
@@ -954,10 +954,10 @@ export default {
                                 target="_blank"
                             >{{ item[entry.name] }}</a>
                         </p>
-                        <p v-else-if="item[entry.name] && (item[entry.name].toLowerCase() === 'true'|| item[entry.name].toLowerCase() === 'yes')">
+                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'true' || item[entry.name].toLowerCase() === 'yes')">
                             <span>{{ $t('common:modules.compareFeatures.trueFalse.true') }}</span>
                         </p>
-                        <p v-else-if="item[entry.name] && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
+                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
                             <span>{{ $t('common:modules.compareFeatures.trueFalse.false') }}</span>
                         </p>
                         <p v-else-if="isEmailAddress(item[entry.name])">
@@ -983,6 +983,9 @@ export default {
                         </p>
                         <p v-else-if="typeof item[entry.name] === 'number'">
                             {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
+                        </p>
+                        <p v-else-if="typeof item[entry.name] === 'string'">
+                            {{ item[entry.name] || "" }}
                         </p>
                         <p v-else>
                             {{ parseDecimalPlaces(item[entry.name]) }}
