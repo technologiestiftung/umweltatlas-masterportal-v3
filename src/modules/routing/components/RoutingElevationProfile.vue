@@ -1,7 +1,7 @@
 <script>
 /**
  * RoutingElevationProfile
- * @module modules/RoutingElevationProfile
+ * @module modules/routing/components/RoutingElevationProfile
  * @vue-data {Boolean} collapseProfile - shows if profile is collapsed.
  * @vue-data {Array} distances - distances data (x-axis).
  * @vue-data {Array} elevations - elevation data (y-axis).

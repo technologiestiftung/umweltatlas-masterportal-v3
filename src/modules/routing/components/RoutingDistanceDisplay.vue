@@ -3,7 +3,7 @@ import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
 
 /**
  * RoutingDistanceDisplay
- * @module modules/RoutingDistanceDisplay
+ * @module modules/routing/components/RoutingDistanceDisplay
  * @vue-prop {Number} distance - The distance.
  *
  * @vue-data {String} mText - The unit text for meter.

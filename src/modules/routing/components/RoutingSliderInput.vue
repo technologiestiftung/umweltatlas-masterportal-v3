@@ -2,7 +2,7 @@
 import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
 /**
  * RoutingSliderInput
- * @module modules/RoutingSliderInput
+ * @module modules/routing/components/RoutingSliderInput
  * @vue-prop {String} label - The label for the input.
  * @vue-prop {String} value - The value for the input.
  * @vue-prop {Number} min - The min value for the inputrange.

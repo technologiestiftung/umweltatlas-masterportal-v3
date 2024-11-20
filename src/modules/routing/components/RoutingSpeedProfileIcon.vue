@@ -2,7 +2,7 @@
 
 /**
  * RoutingSpeedProfileIcon
- * @module modules/RoutingSpeedProfileIcon
+ * @module modules/routing/components/RoutingSpeedProfileIcon
  * @vue-prop {Function} interaction - The click function.
  * @vue-prop {String} speedProfileId - The id.
  * @vue-prop {String} fillColor - The color.

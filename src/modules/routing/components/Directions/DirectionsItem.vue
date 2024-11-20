@@ -17,7 +17,7 @@ import * as constantsRouting from "../../store/constantsRouting";
 
 /**
  * DirectionsItem
- * @module modules/DirectionsItem
+ * @module modules/routing/components/Directions/DirectionsItem
  * @vue-data {*} constants - The constants direction.
  * @vue-data {*} constantsRouting - The constants routing.
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasEdit - Shows if current map mode is "AVOID_AREAS".

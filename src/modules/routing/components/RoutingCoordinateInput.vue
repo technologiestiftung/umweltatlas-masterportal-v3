@@ -5,7 +5,7 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
 
 /**
  * RoutingCoordinateInput
- * @module modules/RoutingCoordinateInput
+ * @module modules/routing/components/RoutingCoordinateInput
  * @vue-prop {Object} waypoint - The waypoints.
  * @vue-prop {Number} countWaypoints - The number of waypoints.
  *

@@ -4,7 +4,7 @@ import * as constantsRouting from "../store/constantsRouting";
 
 /**
  * Routing Avoid Features
- * @module modules/RoutingAvoidFeatures
+ * @module modules/routing/components/RoutingAvoidFeatures
  * @vue-prop {Array} activeAvoidFeaturesOptions - Th elist of the options.
  * @vue-prop {Object} settings - The settings for the element.
  * @vue-prop {Boolean} disabled - Shows if element is disabled.

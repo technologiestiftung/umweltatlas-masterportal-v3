@@ -10,7 +10,7 @@ import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vu
 
 /**
  * RoutingDownload
- * @module modules/RoutingDownload
+ * @module modules/routing/components/RoutingDownload
  * @vue-prop {Boolean} hideGpx - Shows if GPW format is hidden.
  * @vue-data {*} constants - The constants.
  * @vue-computed {Boolean} isDisabled - Shows if download button should be disabled.

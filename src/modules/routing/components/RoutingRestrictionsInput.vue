@@ -3,7 +3,7 @@ import {mapGetters, mapActions} from "vuex";
 
 /**
  * RoutingRestrictionsInput
- * @module modules/RoutingRestrictionsInput
+ * @module modules/routing/components/RoutingRestrictionsInput
  * @vue-data {Boolean} showRestrictions - Shows hgv restrictions input fields.
  */
 export default {
