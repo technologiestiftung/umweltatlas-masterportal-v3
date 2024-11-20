@@ -510,7 +510,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
                 id: "1",
                 showInLayerTree: true,
-                visibility: true,
                 type: "layer",
                 zIndex: 1,
                 is3DLayer: false
