@@ -310,21 +310,6 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.startpoint-input :deep(label) {
-    border: 1px rgb(244, 34, 37) solid;
-    border-radius: 5px;
-}
-
-.waypoint-input :deep(label) {
-    border: 1px rgb(0, 119, 182) solid;
-    border-radius: 5px;
-}
-
-.endpoint-input :deep(label) {
-    border: 1px rgb(51, 164, 71) solid;
-    border-radius: 5px;
-}
-
 #button-up {
     cursor: pointer;
 }
