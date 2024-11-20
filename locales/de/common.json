@@ -968,7 +968,7 @@
         "calculate": "TSR Route berechnen",
         "upload": {
           "header": "Wegpunkte hochladen",
-          "description": "Wählen Sie eine csv Datei aus, die eigene Wegpunkte für das TSR beinhaltet. \n Dabei ist folgendes Format einzuhalten:",
+          "description": "Wählen Sie eine csv Datei aus, die eigene Wegpunkte für das TSR beinhaltet. Die Punkte sind in WGS84 (EPSG:4326) anzugeben. Dabei ist folgendes Format einzuhalten:",
           "csvHeaders": "Datei enthält Kopfzeile",
           "help": "Hilfe",
           "divider": "oder",

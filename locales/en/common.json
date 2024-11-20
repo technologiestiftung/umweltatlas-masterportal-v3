@@ -965,7 +965,7 @@
         "calculate": "Calculate TSR Route",
         "upload": {
           "header": "Upload waypoints",
-          "description": "Choose a csv file that contains your own TSR waypoints. \n Please use the following format:",
+          "description": "Choose a csv file that contains your own TSR waypoints. The required coordinate system is WGS84 (EPSG:4326). Please use the following format:",
           "csvHeaders": "File contains header",
           "help": "Help",
           "divider": "or",
