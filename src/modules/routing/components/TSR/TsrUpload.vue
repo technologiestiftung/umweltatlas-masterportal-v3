@@ -90,6 +90,7 @@ export default {
                                 title: this.$t("common:modules.routing.tsr.upload.failTitle"),
                                 content: this.$t(error)
                             });
+                            console.error(this.$t(error));
                         });
                     // check coordinates for duplicates
                     if (this.dataIsValid) {
@@ -125,6 +126,7 @@ export default {
                                 title: this.$t("common:modules.routing.tsr.upload.failTitle"),
                                 content: e.message
                             });
+                            console.error(e.message);
                         }
                     }
                 };

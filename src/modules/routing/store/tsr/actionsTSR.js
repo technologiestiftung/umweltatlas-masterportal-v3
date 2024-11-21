@@ -17,6 +17,7 @@ export default {
                 content: i18next.t("common:modules.routing.tsr.errors.notEnoughPoints"),
                 title: i18next.t("common:modules.routing.tsr.errors.errorCalculation")
             }, {root: true});
+            console.warn(i18next.t("common:modules.routing.tsr.errors.notEnoughPoints"));
             return;
         }
 
@@ -26,6 +27,7 @@ export default {
                 content: i18next.t("common:modules.routing.tsr.errors.emptyPoint"),
                 title: i18next.t("common:modules.routing.tsr.errors.errorCalculation")
             }, {root: true});
+            console.warn(i18next.t("common:modules.routing.tsr.errors.emptyPoint"));
             return;
         }
 
@@ -74,6 +76,7 @@ export default {
                 title: i18next.t("common:modules.routing.errors.titleErrorRouteFetch"),
                 content: err.message
             }, {root: true});
+            console.warn(i18next.t("common:modules.routing.errors.titleErrorRouteFetch"));
         }
         commit("setIsLoadingDirections", false);
     },
