@@ -96,14 +96,19 @@ export default {
 
                 if (["DIRECTIONS", "ISOCHRONES"].includes(this.activeRoutingToolOption)) {
                     routeStyle = directionsRouteStyle(feature);
+
+                    if (routeStyle[1]) {
+                        feature.setStyle(routeStyle[1]);
+                    }
                 }
                 else if (this.activeRoutingToolOption === "TSR") {
                     routeStyle = tsrRouteStyle(feature);
+
+                    if (routeStyle[0]) {
+                        feature.setStyle(routeStyle[0]);
+                    }
                 }
 
-                if (routeStyle[1]) {
-                    feature.setStyle(routeStyle[1]);
-                }
             }
             return features;
         },
