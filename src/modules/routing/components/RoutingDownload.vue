@@ -108,7 +108,6 @@ export default {
                         feature.setStyle(routeStyle[0]);
                     }
                 }
-
             }
             return features;
         },
