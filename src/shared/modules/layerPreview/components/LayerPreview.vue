@@ -240,11 +240,10 @@ export default {
             const layerConfig = this.layerConfigById(this.layerId);
             let url;
 
-            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
-                url = layerConfig.preview.src;
-            }
-
             if (layerConfig && this.supportedLayerTyps.includes(layerConfig.typ)) {
+                if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                    url = layerConfig.preview.src;
+                }
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
                 this.layerName = layerConfig.name;
                 if (!this.previewUrlByLayerIds[this.layerId]) {
