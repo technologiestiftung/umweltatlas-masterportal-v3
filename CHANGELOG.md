@@ -48,7 +48,8 @@
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
 - Issue #1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
 - Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
-- Issue #1243: The wfst tool reacts on visibility changes of configured layer ids.
+- Issue #1243: wfst: reacts on visibility changes of configured layer ids.
+- Issue #1244: wfst: the correct geometry-buttons are displayed.
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.

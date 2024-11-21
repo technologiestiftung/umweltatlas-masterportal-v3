@@ -109,7 +109,11 @@ describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
             getters: {
                 allLayerConfigs: () => {
                     return allLayerConfigs;
+                },
+                visibleSubjectDataLayerConfigs: () => {
+                    return allLayerConfigs;
                 }
+
             }
         });
     });
@@ -206,5 +210,40 @@ describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
         expect(wrapper.find("#tool-wfs-transaction-form-input-dateAtt").exists()).to.be.true;
         expect(wrapper.find("#tool-wfs-transaction-form-input-dateAtt").attributes().type).to.equal("date");
         expect(wrapper.find(".tool-wfs-transaction-form-buttons").exists()).to.be.true;
+    });
+    it("initializeLayers - all visible", () => {
+        exampleLayerOne.visibility = true;
+        exampleLayerTwo.visibility = true;
+        store.commit("Modules/Wfst/setLayerIds", layerIds);
+
+        wrapper = shallowMount(WfsTransaction, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        wrapper.vm.initializeLayers();
+        expect(store.getters["Modules/Wfst/currentLayerIndex"]).to.be.equals(0);
+        expect(store.getters["Modules/Wfst/layerInformation"].length).to.be.equals(2);
+    });
+    it("initializeLayers - watch for visibility changes", () => {
+        const resetSpy = sinon.stub(WfsTransaction.methods, "reset");
+
+        exampleLayerOne.visibility = true;
+        exampleLayerTwo.visibility = true;
+        store.commit("Modules/Wfst/setLayerIds", layerIds);
+
+        wrapper = shallowMount(WfsTransaction, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        wrapper.vm.initializeLayers();
+        expect(store.getters["Modules/Wfst/currentLayerIndex"]).to.be.equals(0);
+        expect(store.getters["Modules/Wfst/layerInformation"].length).to.be.equals(2);
+        exampleLayerOne.visibility = false;
+        wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm);
+        expect(resetSpy.calledOnce).to.be.true;
     });
 });

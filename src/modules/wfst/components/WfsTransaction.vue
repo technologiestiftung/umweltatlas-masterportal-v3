@@ -53,7 +53,7 @@ export default {
          * @returns {void}
          */
         initializeLayers () {
-            const newLayerInformation = this.allLayerConfigs.filter(item => this.layerIds.includes(item.id)).reverse(),
+            const newLayerInformation = this.allLayerConfigs.filter(item => this.layerIds.includes(item.id)),
                 firstActiveLayer = newLayerInformation.findIndex(layer => layer.visibility),
                 currentLayerDeactivated = this.currentLayerIndex > -1 && !newLayerInformation[this.currentLayerIndex].visibility;
 
@@ -131,13 +131,13 @@ export default {
                 </select>
             </div>
             <template v-if="typeof featureProperties === 'string'">
-                <div class="tool-wfs-transaction-layer-failure">
+                <div class="tool-wfs-transaction-layer-failure mt-5">
                     {{ $t(featureProperties) }}
                 </div>
             </template>
             <div
                 v-else-if="showInteractionsButtons"
-                class="tool-wfs-transaction-interaction-select-container btn-toolbar mb-3"
+                class="tool-wfs-transaction-interaction-select-container btn-toolbar"
             >
                 <div
                     class="btn-group flex-wrap mr-1 mt-5"
