@@ -192,7 +192,13 @@ export default {
                     />
                 </form>
 
-                <div class="d-flex justify-content-between">
+                <div
+                    class="d-flex justify-content-between"
+                    role="button"
+                    tabindex="0"
+                    @click="isStartEndInput(1)"
+                    @keypress="isStartEndInput(1)"
+                >
                     <div
                         id="button-up"
                         data-bs-toggle="modal"
