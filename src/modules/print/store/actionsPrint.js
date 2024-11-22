@@ -314,8 +314,8 @@ const actions = {
         if (state.serviceUrl === "") {
             let serviceUrl;
 
-            if (state.mapfishServiceId !== "" && state.mapfishServiceId !== undefined) {
-                serviceUrl = rootGetters.restServiceById(state.mapfishServiceId).url;
+            if (state.printServiceId !== "" && state.printServiceId !== undefined) {
+                serviceUrl = rootGetters.restServiceById(state.printServiceId).url;
             }
             else {
                 serviceUrl = rootGetters.restServiceById("mapfish").url;
