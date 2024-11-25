@@ -67,6 +67,12 @@ async function fetchProcessAndWriteData() {
                 delete newServiceData.layerAttribution
             }
         
+            // add an exception for this layer. Do not update the name 
+            if(el.id === "basemap_raster_grau"){                
+                newServiceData.name = "Hintergrundkarte (grau)"
+                newServiceData.name_lang = "Hintergrundkarte (Web Raster Grau)"
+            }
+
             if (!newServiceData) {
                 newServices.push(el);
             } else {
@@ -75,6 +81,7 @@ async function fetchProcessAndWriteData() {
                     ...dataToKeep,
                 });
             }
+
         });
 
         // check if there are new layers in the config and add them if they are missing
