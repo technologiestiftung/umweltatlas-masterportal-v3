@@ -9667,20 +9667,20 @@
     }
   },
   {
-    "id": "ua_versiegelung_2021:versiegelung_2021_raster",
+    "id": "ua_versiegelung_2021:versiegelung_2021",
     "name": "Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten)",
-    "name_lang": "Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2021 (Umweltatlas))",
+    "name_lang": "Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten))",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_versiegelung_2021",
     "typ": "WMS",
     "gfiAttributes": "showAll",
-    "layers": "versiegelung_2021_raster",
+    "layers": "versiegelung_2021",
     "legend": true,
     "datasets": [
       {
-        "md_name": "Versiegelung 2021 (Umweltatlas)",
-        "md_id": "2c8a769b-364e-4596-ace4-4c05cd8eb872",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/25091cc2-3b41-3d21-b479-b2895fd9ec8a",
+        "md_name": "Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten)",
+        "md_id": "7346fe45-9b0a-4288-b487-ad9607e10d28",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/9bfd2a8f-1a80-383a-906e-5c7402df5439",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -9802,20 +9802,20 @@
     }
   },
   {
-    "id": "ua_versiegelung_2016:versiegelung_2016_raster",
+    "id": "ua_versiegelung_2016:versiegelung_2016",
     "name": "Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten)",
-    "name_lang": "Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2016 (Umweltatlas))",
+    "name_lang": "Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten))",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_versiegelung_2016",
     "typ": "WMS",
     "gfiAttributes": "showAll",
-    "layers": "versiegelung_2016_raster",
+    "layers": "versiegelung_2016",
     "legend": true,
     "datasets": [
       {
-        "md_name": "Versiegelung 2016 (Umweltatlas)",
-        "md_id": false,
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5f9f8a25-5898-3db3-b0b0-d96b5c4949a2",
+        "md_name": "Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten)",
+        "md_id": "30ddd326-b32d-376a-a698-ca9a62fe5eca",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/9e5f4bf6-5bdb-38ab-a21d-96fc2e37bb40",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],

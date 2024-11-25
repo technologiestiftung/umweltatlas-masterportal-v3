@@ -3,9 +3,11 @@ const fs = require('fs');
 const servicesPath = "./portal/umweltatlas/resources/services-internet.json"
 const servicesLocal = JSON.parse(fs.readFileSync(servicesPath, "utf8"));
 
-const configPath = "./portal/umweltatlas/resources/config.json"
+const configPath = "./portal/umweltatlas/config.json"
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-const configFolders = config.layerConfig.subjectlayer
+const configFolders = config.layerConfig
+
+let servicesGeoportal = undefined
 
 let newServices = []
 
@@ -44,14 +46,14 @@ function removeDuplicates(array) {
 }
 
 function findObjectByIds(objects, targetId) {
-    // Use the find method to locate the first object whose 'ids' array includes the targetId
-    return objects.find((object) => object.id.includes(targetId));
+    // Use the find method to locate the first object whose 'id' matches the targetId exactly
+    return objects.find(object => object.id === targetId);
 }
 
 async function fetchProcessAndWriteData() {
     try {
         const response = await fetch('https://gdi.berlin.de/viewer/_shared/resources/services-internet.json');
-        const servicesGeoportal = await response.json();
+        servicesGeoportal = await response.json();
 
         servicesLocal.forEach((el) => {
             const dataToKeep = {
@@ -75,15 +77,37 @@ async function fetchProcessAndWriteData() {
             }
         });
 
-
-        const allIds = getAllIds(newServices)
-        console.log('allIds',allIds);
+        // check if there are new layers in the config and add them if they are missing
+        const allIdsFromConfig = getAllIds(configFolders)
+        allIdsFromConfig.forEach(id => {
+            
+            const newServiceData = findObjectByIds(servicesLocal, id);
+            if(!newServiceData){
+                const newServiceData = findObjectByIds(servicesGeoportal, id);
+            
+                if(newServiceData && newServiceData?.layerAttribution){
+                    if(newServiceData?.layerAttribution){
+                        delete newServiceData.layerAttribution
+                    }
+                    newServices.push(newServiceData)
+                    console.log('added new service from config.json to services-internet.json: ',id);
+                }
+            }
+        });
         
-
         newServices = removeDuplicates(newServices)
 
+        // remove ids from services which are not used any longer
+        newServices = newServices.filter(s => {
+            const isExactMatch = allIdsFromConfig.some(id => id.trim().toLowerCase() === s.id.trim().toLowerCase());
+            if (!isExactMatch) {
+                console.log('removed following unused service: ', s.id);
+                return false; // Exclude this item
+            }
+            return true; // Keep this item
+        });
 
-
+        // write the datato the umweltatlas portal
         fs.writeFile(
             servicesPath,
             JSON.stringify(newServices, null, 2),
