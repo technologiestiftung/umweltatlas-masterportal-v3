@@ -301,6 +301,12 @@ export default {
                         >
                             {{ positionName }}
                         </p>
+                        <p v-if="contact.individualName">
+                            {{ contact.individualName }}
+                        </p>
+                        <p v-if="contact.phone">
+                            {{ contact.phone }}
+                        </p>
                         <p v-if="contact.street && contact.postalCode">
                             {{ contact.street + "  " + contact.postalCode }}
                         </p>
