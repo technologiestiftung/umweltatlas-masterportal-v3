@@ -24,7 +24,7 @@ module.exports = function getMastercodeVersionFolderName () {
 
     if (stableVersionNumber !== tag || !branch.includes(long)) {
         const gitLastCommitDate = dayjs(gitRevSync.date()).format("YYYY-MM-DD__HH-mm-ss"),
-            createdAtDate = dayjs().format("YYYY-MM-DD__HH-mm-ss");
+            createdAtDate = dayjs().format("YYYY-MM-DD__HH-mm");
 
 
         folderName += `_${gitRevSync.branch()}_git_last_commit_at_${gitLastCommitDate }_created_at_${createdAtDate}`;
