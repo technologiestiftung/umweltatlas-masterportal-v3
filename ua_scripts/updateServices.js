@@ -2,7 +2,19 @@
 const fs = require('fs');
 const servicesPath = "./portal/umweltatlas/resources/services-internet.json"
 const servicesLocal = JSON.parse(fs.readFileSync(servicesPath, "utf8"));
-const newServices = []
+let newServices = []
+
+function removeDuplicates(array) {
+    const seenIds = new Set();
+    return array.filter(item => {
+        if (seenIds.has(item.id)) {
+            return false;
+        } else {
+            seenIds.add(item.id);
+            return true;
+        }
+    });
+}
 
 function findObjectByIds(objects, targetId) {
     // Use the find method to locate the first object whose 'ids' array includes the targetId
@@ -35,6 +47,8 @@ async function fetchProcessAndWriteData() {
                 });
             }
         });
+
+        newServices = removeDuplicates(newServices)
 
         fs.writeFile(
             servicesPath,
