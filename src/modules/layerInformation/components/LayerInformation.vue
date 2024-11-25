@@ -37,6 +37,7 @@ export default {
         return {
             activeTab: "layerinfo-legend",
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
+            berlinImgLink: "./resources/img/berlin.png",
             imgLink: "./resources/img/person-circle.svg"
         };
     },
@@ -264,11 +265,24 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href=uaData.uaInfoURL target="_blank">
+                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    </a>
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Informations- und Datengrundlagen, Methoden sowie relevante Begleitliteratur und einem Kartenimpressum finden Sie im
                     <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                </p>
+            </span>
+            <span class="ua-break-parent">
+                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
+                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    </a>
+                </span>
+                <p class="ua-break-two" v-if="uaData.uaGdiURL">
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedigungen, finden Sie im 
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Metadatenportal</a>
                 </p>
             </span>
         </AccordionItem>
@@ -351,11 +365,6 @@ export default {
             </span>
 
         </AccordionItem>
-
-        <p class="mt-4 p-0" v-if="uaData.uaGdiURL">
-            Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedigungen, finden Sie im 
-            <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Metadatenportal</a>
-        </p>
 
         <p class="mb-4" v-if="uaData.uaDownload">
             <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
