@@ -58,8 +58,8 @@
   },
   {
     "id": "basemap_raster_grau",
-    "name": "Hintergrundkarte (grau)",
-    "name_lang": "Hintergrundkarte (Web Raster Grau)",
+    "name": "basemap.de Web Raster Grau",
+    "name_lang": "basemap.de Web Raster Grau",
     "capabilitiesUrl": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/WMTSCapabilities.xml",
     "url": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/",
     "typ": "WMTS",
