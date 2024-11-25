@@ -2,7 +2,34 @@
 const fs = require('fs');
 const servicesPath = "./portal/umweltatlas/resources/services-internet.json"
 const servicesLocal = JSON.parse(fs.readFileSync(servicesPath, "utf8"));
+
+const configPath = "./portal/umweltatlas/resources/config.json"
+const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+const configFolders = config.layerConfig.subjectlayer
+
 let newServices = []
+
+function getAllIds(input) {
+    let ids = [];
+
+    function traverse(item) {
+        if (Array.isArray(item)) {
+            // If the item is an array, traverse each element
+            item.forEach(traverse);
+        } else if (item && typeof item === "object") {
+            // If the item is an object, check for an "id" property
+            if ("id" in item) {
+                ids.push(item.id);
+            }
+            // Recursively traverse its properties
+            Object.values(item).forEach(traverse);
+        }
+    }
+
+    traverse(input);
+    return ids;
+}
+
 
 function removeDuplicates(array) {
     const seenIds = new Set();
@@ -48,7 +75,14 @@ async function fetchProcessAndWriteData() {
             }
         });
 
+
+        const allIds = getAllIds(newServices)
+        console.log('allIds',allIds);
+        
+
         newServices = removeDuplicates(newServices)
+
+
 
         fs.writeFile(
             servicesPath,
