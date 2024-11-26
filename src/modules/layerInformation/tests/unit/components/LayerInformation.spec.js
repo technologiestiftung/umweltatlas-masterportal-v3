@@ -231,4 +231,43 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
         expect(wrapper.find("#accordion-container-layer-info-contact").exists()).to.be.true;
     });
+
+    it("should show zip code in one line with city", async () => {
+        pointOfContact = "";
+        publisher = {
+            "name": "Behörde ABC",
+            "positionName": ["Metadaten-Verantwortlicher"],
+            "street": "XYZ Straße 99",
+            "housenr": "",
+            "postalCode": "D-12345",
+            "city": "Hamburg",
+            "email": "test@gv.hamburg.de",
+            "country": "DEU"
+        };
+
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#accordion-container-layer-info-contact").html()).to.contains("D-12345 Hamburg");
+    });
+
+
+    it("should not show undefined for missing address information", async () => {
+        pointOfContact = "";
+        publisher = {
+            "name": "Behörde ABC",
+            "email": "test@gv.hamburg.de"
+        };
+
+        const wrapper = mount(LayerInformationComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#accordion-container-layer-info-contact").html()).to.not.contains("undefined");
+    });
 });
