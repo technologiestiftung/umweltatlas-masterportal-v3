@@ -507,8 +507,7 @@ const BuildSpecModel = {
             styles.forEach((style, index) => {
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId"));
-                    let limiter = ",",
-                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+                    let styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
                     if (Array.isArray(styleFromStyleList)) {
                         styleFromStyleList = styleFromStyleList[0];
@@ -557,15 +556,14 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleFromStyleList !== undefined && styleFromStyleList.attributes?.labelField && styleFromStyleList.attributes?.labelField.length > 0) {
-                        stylingRules = stylingRules.replaceAll(limiter, " AND ");
-                        limiter = " AND ";
-                    }
+
+                    stylingRules = stylingRules.replace(/,(?=(?:[^'"]*['"][^'"]*['"])*[^'"]*$)/g, " AND ");
+
                     stylingRulesSplit = stylingRules
                         .replaceAll("[", "")
                         .replaceAll("]", "")
                         .replaceAll("*", "")
-                        .split(limiter)
+                        .split(" AND ")
                         .map(rule => rule.split("="));
 
                     if (Array.isArray(stylingRulesSplit) && stylingRulesSplit.length) {
