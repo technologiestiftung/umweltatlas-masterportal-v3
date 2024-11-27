@@ -2888,12 +2888,11 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_wleit_40:1",
+                      "id": "ua_geothermisches_potenzial:aa_geopot_wlf40_p",
                       "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit"
                     },
-                    { "id": "wmsk_wleit_40:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_wleit_40:3",
+                      "id": "ua_geothermisches_potenzial:ab_geopot_wlf40_fl",
                       "name": "Spezifische Wärmeleitfähigkeit"
                     }
                   ]
