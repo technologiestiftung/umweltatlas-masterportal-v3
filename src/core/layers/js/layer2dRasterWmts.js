@@ -12,7 +12,8 @@ import Layer2dRaster from "./layer2dRaster";
  */
 export default function Layer2dRasterWmts (attributes) {
     const defaultAttributes = {
-        optionsFromCapabilities: false
+        optionsFromCapabilities: false,
+        capabilitiesUrl: false
     };
 
     this.attributes = Object.assign(defaultAttributes, attributes);
