@@ -194,15 +194,15 @@ export default {
 
                 <div
                     class="d-flex justify-content-between"
-                    role="button"
-                    tabindex="0"
-                    @click="isStartEndInput(1)"
-                    @keypress="isStartEndInput(1)"
                 >
                     <div
                         id="button-up"
                         data-bs-toggle="modal"
                         data-bs-target="#uploadModal"
+                        role="button"
+                        tabindex="0"
+                        @click="isStartEndInput(1)"
+                        @keypress="isStartEndInput(1)"
                     >
                         {{ $t('common:modules.routing.tsr.upload.header') }}
                         <IconButton
