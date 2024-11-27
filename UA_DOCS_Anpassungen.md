@@ -12,23 +12,18 @@ Beispiel: www.mein-umweltatlas.de/umweltatlas
 Zum Beispiel: [./portal/umweltatlas/config.json](./portal/umweltatlas/config.json)
 
 1. Datei bearbeiten
-
 Klicken Sie oben rechts auf das Stift-Symbol (Tooltip: "Edit this file"), um die Datei editierbar zu machen.
 
 1. Anpassungen vornehmen
-
 Ändern Sie den Inhalt der Datei wie gewünscht. Achten Sie besonders darauf, dass alle öffnenden Zeichen wie ", {, oder ( korrekt geschlossen werden, um Syntaxfehler zu vermeiden.
 
 1. Änderungen speichern
-
 Klicken Sie auf den grünen Button "Commit changes".
 
 1. Änderung beschreiben
-
 Im erscheinenden Popup-Fenster geben Sie in der "Commit message" eine kurze Beschreibung der vorgenommenen Änderung ein. Bestätigen Sie anschließend mit "Commit changes".
 
 1. Änderungen überprüfen
-
 Die Änderungen sind nun übernommen. Sie können die Historie und Details der Änderungen unter [commits/main/](.commits/main/) einsehen.
 
 
@@ -37,11 +32,9 @@ Die Änderungen sind nun übernommen. Sie können die Historie und Details der �
 Wenn ein neuer Layer mit einer id hinzugefügt wurde, die noch nicht in den Services enthalten, aber im Berliner Geoportal verfügbar ist, kann der Service automatisch über ein **GitHub Actions-Skript** hinzugefügt werden.
 
 1. Skript ausführen
-
 Zu dem Skript *Update Services* navigieren [actions/workflows/update_services.yml](.actions/workflows/update_services.yml). Oben rechts den Button *Run workflow* klicken und noch mal bestätigen. 
 
 1. Änderungen überprüfen
-
 Nach etwa einer Minute sollte das Skript ausgeführt worden sein und die Änderungen im Code vorgenommen haben. Die genauen Änderungen können in der Commit-Historie eingesehen werden: [commits/main/](.commits/main/)
 
 # Anpassen vornehmen 
