@@ -238,20 +238,15 @@ export default {
             v-html="abstractText"
         />
 
-        <p v-if="showPublication">
-            {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+        <p v-if="showPublication || showRevision">
+            <span v-if="showPublication">
+                {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+            </span>
             <span v-if="showRevision">
-                {{ " / " + $t(dateRevision) }}
+                <br>
+                {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
             </span>
         </p>
-
-        <p v-if="showPeriodicity">
-            {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}
-        </p>
-
-
-
-
 
         <AccordionItem
             v-if="uaData.uaInfoURL"
