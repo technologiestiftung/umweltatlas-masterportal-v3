@@ -40643,7 +40643,7 @@
     "singleTile": true,
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_1_2017.pdf?ts=1696405061",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_2_2017.pdf?ts=1696405061",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -40677,7 +40677,7 @@
     "singleTile": true,
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_1_2017.pdf?ts=1696405061",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_2_2017.pdf?ts=1696405061",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -40708,7 +40708,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_3_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ca_geopot_wlf80_p",
@@ -40735,7 +40741,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_3_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:da_geopot_wlf100_p",
@@ -40762,7 +40774,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_4_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:eb_geopot_180040_fl",
@@ -40788,7 +40806,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_5_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ea_geopot_180040_p",
@@ -40815,7 +40839,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_5_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:fb_geopot_180060_fl",
@@ -40841,7 +40871,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_6_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:fa_geopot_180060_p",
@@ -40868,7 +40904,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_6_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:gb_geopot_180080_fl",
@@ -40894,7 +40936,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_7_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ga_geopot_180080_p",
@@ -40921,7 +40969,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_7_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:hb_geopot_1800100_fl",
@@ -40947,7 +41001,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_8_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ha_geopot_1800100_p",
@@ -40974,7 +41034,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_8_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ib_geopot_240040_fl",
@@ -41000,7 +41066,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_9_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ia_geopot_240040_p",
@@ -41027,7 +41099,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_9_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:jb_geopot_240060_fl",
@@ -41053,7 +41131,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_10_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ja_geopot_240060_p",
@@ -41080,7 +41164,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_10_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:kb_geopot_240080_fl",
@@ -41106,7 +41196,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:ka_geopot_240080_p",
@@ -41133,7 +41229,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:lb_geopot_2400100_fl",
@@ -41159,7 +41261,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   },
   {
     "id": "ua_geothermisches_potenzial:la_geopot_2400100_p",
@@ -41186,6 +41294,12 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf?ts=1696405061",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
   }
 ]
