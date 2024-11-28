@@ -2902,11 +2902,11 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_geothermisches_potenzial:ab_geopot_wlf60_fl",
+                      "id": "ua_geothermisches_potenzial:bb_geopot_wlf60_fl",
                       "name": "Spezifische Wärmeleitfähigkeit bis 60 m"
                     },
                     {
-                      "id": "ua_geothermisches_potenzial:aa_geopot_wlf60_p",
+                      "id": "ua_geothermisches_potenzial:ba_geopot_wlf60_p",
                       "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 60 m"
                     }
                   ]
