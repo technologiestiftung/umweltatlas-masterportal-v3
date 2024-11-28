@@ -2889,11 +2889,11 @@
                   "elements": [
                     {
                       "id": "ua_geothermisches_potenzial:aa_geopot_wlf40_p",
-                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit"
+                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 40 m"
                     },
                     {
                       "id": "ua_geothermisches_potenzial:ab_geopot_wlf40_fl",
-                      "name": "Spezifische Wärmeleitfähigkeit"
+                      "name": "Spezifische Wärmeleitfähigkeit bis 40 m"
                     }
                   ]
                 },
@@ -2902,13 +2902,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_wleit_60:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:ab_geopot_wlf60_fl",
+                      "name": "Spezifische Wärmeleitfähigkeit bis 60 m"
                     },
-                    { "id": "wmsk_wleit_60:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_wleit_60:3",
-                      "name": "Spezifische Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:aa_geopot_wlf60_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 60 m"
                     }
                   ]
                 },
