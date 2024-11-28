@@ -41616,5 +41616,58 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:bb_geopot_wlf60_fl",
+    "name": "Spezifische Wärmeleitfähigkeit bis 60 m",
+    "name_lang": "Spezifische Wärmeleitfähigkeit bis 60 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bb_geopot_wlf60_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ba_geopot_wlf60_p",
+    "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 60 m",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 60 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ba_geopot_wlf60_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
