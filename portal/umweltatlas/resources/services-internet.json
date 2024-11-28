@@ -12482,1006 +12482,6 @@
     }
   },
   {
-    "id": "wmsk_wleit_80:1",
-    "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit(Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 80 m)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_80",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm_wleit40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "772f7906-0269-386f-ae13-a2416e1cdad4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_3_2017.pdf?ts=1696405075",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_wleit_80:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 80 m)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_wleit_80?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 80 m",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_3_2017.pdf?ts=1696405075",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_wleit_80:3",
-    "name": "Spezifische Wärmeleitfähigkeit",
-    "name_lang": "Spezifische Wärmeleitfähigkeit (Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 80 m)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm_wleit40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 80 m",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_3_2017.pdf?ts=1696405075",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_wleit_100:1",
-    "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit(Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 100 m)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_100",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm_wleit40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "2b873ab9-5eff-3213-a44f-970d8d604a42",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_4_2017.pdf?ts=1696405064",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_wleit_100:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 100 m)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_wleit_100?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 100 m",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_4_2017.pdf?ts=1696405064",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_wleit_100:3",
-    "name": "Spezifische Wärmeleitfähigkeit",
-    "name_lang": "Spezifische Wärmeleitfähigkeit (Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 100 m)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_wleit_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm_wleit40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Wärmeleitfähigkeit bis 100 m",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_4_2017.pdf?ts=1696405064",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_40:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 1800 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_40",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "a8482729-4b15-30dc-9f94-6d915a872a8d",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_5_2017.pdf?ts=1696405055",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_40:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_40",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug1800_40?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_5_2017.pdf?ts=1696405055",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_40:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_40",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_5_2017.pdf?ts=1696405055",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_60:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 1800 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_60",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "b5ca190d-f598-349e-8cf7-b3885ee092ef",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_6_2017.pdf?ts=1696405074",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_60:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_60",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug1800_60?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_6_2017.pdf?ts=1696405074",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_60:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_60",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_6_2017.pdf?ts=1696405074",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_80:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 1800 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_80",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "ce613e10-2bcb-3420-83ea-cc6fa54031b5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_7_2017.pdf?ts=1696405077",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_80:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug1800_80?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_7_2017.pdf?ts=1696405077",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_80:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_7_2017.pdf?ts=1696405077",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_100:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 1800 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_100",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "9938aa60-89bd-3306-84af-82de81b8300e",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_8_2017.pdf?ts=1696405067",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_100:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug1800_100?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_8_2017.pdf?ts=1696405067",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug1800_100:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 1800 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug1800_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 1800 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_8_2017.pdf?ts=1696405067",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_40:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 2400 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_40",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "c9a40a2b-ca4d-3f8b-894f-cca30c60bf91",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_9_2017.pdf?ts=1696405036",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_40:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_40",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug2400_40?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_9_2017.pdf?ts=1696405036",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_40:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_40",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 40 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_9_2017.pdf?ts=1696405036",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_60:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 2400 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_60",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "4f673c58-0aec-3c07-9b75-3b52cf3bd3f1",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_10_2017.pdf?ts=1696405096",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_60:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_60",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug2400_60?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_10_2017.pdf?ts=1696405096",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_60:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_60",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 60 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_10_2017.pdf?ts=1696405096",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_80:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 2400 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_80",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "ed1d94db-2c79-3eba-bc0c-67d7aef6c79e",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf?ts=1696405078",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_80:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug2400_80?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf?ts=1696405078",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_80:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_80",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 80 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf?ts=1696405078",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_100:1",
-    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m",
-    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m(Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 2400 h/a)",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_100",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_id": "8cd770e8-521c-3126-9979-f67a52f76704",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf?ts=1696405090",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_100:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/wmsk_entzug2400_100?layerID=2",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf?ts=1696405090",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_entzug2400_100:3",
-    "name": "Spezifische Entzugsleistung in W/m",
-    "name_lang": "Spezifische Entzugsleistung in W/m (Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 2400 h/a)",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_entzug2400_100",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_18_geotherm1800-2400_40-100_2017.png",
-    "datasets": [
-      {
-        "md_name": "Geothermisches Potenzial - spezifische Entzugsleistung bis 100 m, für 2400 h/a",
-        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "100",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf?ts=1696405090",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k02_16_verweilzeitsick2003:1",
     "name": "Verweilzeit des Sickerwassers in der ungesättigten Zone",
     "name_lang": "Verweilzeit des Sickerwassers in der ungesättigten Zone(Verweilzeit des Sickerwassers in der ungesättigten Zone 2003 (Umweltatlas))",
@@ -41648,6 +40648,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ba_geopot_wlf60_p",
@@ -41681,5 +40682,510 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:cb_geopot_wlf80_fl",
+    "name": "Spezifische Wärmeleitfähigkeit bis 80 m",
+    "name_lang": "Spezifische Wärmeleitfähigkeit bis 80 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cb_geopot_wlf80_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ca_geopot_wlf80_p",
+    "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 80 m",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 80 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ca_geopot_wlf80_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:da_geopot_wlf100_p",
+    "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 100 m",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 100 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "da_geopot_wlf100_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:eb_geopot_180040_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "eb_geopot_180040_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ea_geopot_180040_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ea_geopot_180040_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:fb_geopot_180060_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fb_geopot_180060_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:fa_geopot_180060_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fa_geopot_180060_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:gb_geopot_180080_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gb_geopot_180080_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ga_geopot_180080_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ga_geopot_180080_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:hb_geopot_1800100_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "hb_geopot_1800100_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ha_geopot_1800100_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ha_geopot_1800100_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ib_geopot_240040_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ib_geopot_240040_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ia_geopot_240040_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ia_geopot_240040_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:jb_geopot_240060_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "jb_geopot_240060_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ja_geopot_240060_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ja_geopot_240060_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:kb_geopot_240080_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "kb_geopot_240080_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ka_geopot_240080_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ka_geopot_240080_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:lb_geopot_2400100_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a",
+    "name_lang": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "lb_geopot_2400100_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_geothermisches_potenzial:la_geopot_2400100_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a",
+    "name_lang": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "la_geopot_2400100_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]

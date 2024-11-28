@@ -2887,7 +2887,7 @@
                   "name": "02.18.1 Spezifische Wärmeleitfähigkeit bis 40 m",
                   "type": "folder",
                   "elements": [
-                      {                   {
+                    {                   
                       "id": "ua_geothermisches_potenzial:ab_geopot_wlf40_fl",
                       "name": "Spezifische Wärmeleitfähigkeit bis 40 m"
                     },
