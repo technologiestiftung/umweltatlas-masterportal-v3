@@ -2887,13 +2887,13 @@
                   "name": "02.18.1 Spezifische Wärmeleitfähigkeit bis 40 m",
                   "type": "folder",
                   "elements": [
+                      {                   {
+                      "id": "ua_geothermisches_potenzial:ab_geopot_wlf40_fl",
+                      "name": "Spezifische Wärmeleitfähigkeit bis 40 m"
+                    },
                     {
                       "id": "ua_geothermisches_potenzial:aa_geopot_wlf40_p",
                       "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 40 m"
-                    },
-                    {
-                      "id": "ua_geothermisches_potenzial:ab_geopot_wlf40_fl",
-                      "name": "Spezifische Wärmeleitfähigkeit bis 40 m"
                     }
                   ]
                 },
@@ -2916,13 +2916,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_wleit_80:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:cb_geopot_wlf80_fl",
+                      "name": "Spezifische Wärmeleitfähigkeit bis 80 m"
                     },
-                    { "id": "wmsk_wleit_80:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_wleit_80:3",
-                      "name": "Spezifische Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:ca_geopot_wlf80_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 80 m"
                     }
                   ]
                 },
@@ -2931,13 +2930,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_wleit_100:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:db_geopot_wlf1000_fl",
+                      "name": "Spezifische Wärmeleitfähigkeit bis 100 m"
                     },
-                    { "id": "wmsk_wleit_100:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_wleit_100:3",
-                      "name": "Spezifische Wärmeleitfähigkeit"
+                      "id": "ua_geothermisches_potenzial:da_geopot_wlf100_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Wärmeleitfähigkeit bis 100 m"
                     }
                   ]
                 },
@@ -2946,13 +2944,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug1800_40:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:eb_geopot_180040_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a"
                     },
-                    { "id": "wmsk_entzug1800_40:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug1800_40:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ea_geopot_180040_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 1800 h/a"
                     }
                   ]
                 },
@@ -2961,13 +2958,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug1800_60:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:fb_geopot_180060_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a"
                     },
-                    { "id": "wmsk_entzug1800_60:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug1800_60:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:fa_geopot_180060_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 1800 h/a"
                     }
                   ]
                 },
@@ -2976,13 +2972,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug1800_80:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:gb_geopot_180080_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a"
                     },
-                    { "id": "wmsk_entzug1800_80:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug1800_80:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ga_geopot_180080_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 1800 h/a"
                     }
                   ]
                 },
@@ -2991,13 +2986,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug1800_100:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:hb_geopot_1800100_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a"
                     },
-                    { "id": "wmsk_entzug1800_100:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug1800_100:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ha_geopot_1800100_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 1800 h/a"
                     }
                   ]
                 },
@@ -3006,13 +3000,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug2400_40:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ib_geopot_240040_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a"
                     },
-                    { "id": "wmsk_entzug2400_40:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug2400_40:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ia_geopot_240040_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 40 m Tiefe und 2400 h/a"
                     }
                   ]
                 },
@@ -3021,13 +3014,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug2400_60:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:jb_geopot_240060_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a"
                     },
-                    { "id": "wmsk_entzug2400_60:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug2400_60:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ja_geopot_240060_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 60 m Tiefe und 2400 h/a"
                     }
                   ]
                 },
@@ -3036,13 +3028,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug2400_80:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:kb_geopot_240080_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a"
                     },
-                    { "id": "wmsk_entzug2400_80:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug2400_80:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:ka_geopot_240080_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a"
                     }
                   ]
                 },
@@ -3051,13 +3042,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk_entzug2400_100:1",
-                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:lb_geopot_2400100_fl",
+                      "name": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a"
                     },
-                    { "id": "wmsk_entzug2400_100:2", "name": "Gewässer" },
                     {
-                      "id": "wmsk_entzug2400_100:3",
-                      "name": "Spezifische Entzugsleistung in W/m"
+                      "id": "ua_geothermisches_potenzial:la_geopot_2400100_p",
+                      "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a"
                     }
                   ]
                 }
