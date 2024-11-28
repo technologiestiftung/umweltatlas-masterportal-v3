@@ -40715,7 +40715,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-      }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ca_geopot_wlf80_p",
@@ -40749,7 +40749,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-      }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:da_geopot_wlf100_p",
@@ -40783,7 +40783,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:eb_geopot_180040_fl",
@@ -40816,7 +40816,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ea_geopot_180040_p",
@@ -40850,7 +40850,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:fb_geopot_180060_fl",
@@ -40883,7 +40883,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:fa_geopot_180060_p",
@@ -40917,7 +40917,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:gb_geopot_180080_fl",
@@ -40950,7 +40950,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ga_geopot_180080_p",
@@ -40984,7 +40984,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:hb_geopot_1800100_fl",
@@ -41017,7 +41017,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ha_geopot_1800100_p",
@@ -41051,7 +41051,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ib_geopot_240040_fl",
@@ -41084,7 +41084,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ia_geopot_240040_p",
@@ -41118,7 +41118,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:jb_geopot_240060_fl",
@@ -41151,7 +41151,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ja_geopot_240060_p",
@@ -41185,7 +41185,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:kb_geopot_240080_fl",
@@ -41218,7 +41218,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:ka_geopot_240080_p",
@@ -41252,7 +41252,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:lb_geopot_2400100_fl",
@@ -41285,7 +41285,7 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
   },
   {
     "id": "ua_geothermisches_potenzial:la_geopot_2400100_p",
@@ -41319,6 +41319,32 @@
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
-          }
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:db_geopot_wlf100_fl",
+    "name": "Spezifische Wärmeleitfähigkeit bis 100 m",
+    "name_lang": "Spezifische Wärmeleitfähigkeit bis 100 m (Geothermisches Potenzial (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "db_geopot_wlf100_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geothermisches Potenzial (Umweltatlas)",
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/397e6253-4bf5-35eb-b4f8-efbd9ad01c2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
