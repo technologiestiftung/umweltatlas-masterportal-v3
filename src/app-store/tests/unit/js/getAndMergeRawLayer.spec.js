@@ -36,7 +36,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                     id: "notExisting",
                     name: "WARN: Layer with id notExisting was not found in services.json and has no name! ",
                     type: "layer",
-                    showInLayerTree: false,
                     is3DLayer: false
                 };
 

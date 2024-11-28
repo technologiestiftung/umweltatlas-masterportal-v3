@@ -75,7 +75,7 @@ export function addAdditional (rawLayer, showAllLayerInTree = false) {
         if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree === undefined)) {
             rawLayer.showInLayerTree = true;
         }
-        else if (!Object.prototype.hasOwnProperty.call(rawLayer, "showInLayerTree") && (rawLayer.visibility === false || rawLayer.visibility === undefined)) {
+        else if (!Object.prototype.hasOwnProperty.call(rawLayer, "showInLayerTree") && rawLayer.visibility === false) {
             rawLayer.showInLayerTree = false;
         }
 
