@@ -94,7 +94,10 @@ export default {
          * @returns {Array} the sorted configs
          */
         sort (configs) {
-            return sortBy(configs, (conf) => conf.type !== "folder");
+            return sortBy(configs, (conf) => [
+                conf.type !== "folder",
+                conf.name.toLowerCase()
+            ]);
         },
         /**
          * Navigates backwards in folder-menu.
