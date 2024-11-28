@@ -2930,7 +2930,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_geothermisches_potenzial:db_geopot_wlf1000_fl",
+                      "id": "ua_geothermisches_potenzial:db_geopot_wlf100_fl",
                       "name": "Spezifische Wärmeleitfähigkeit bis 100 m"
                     },
                     {
