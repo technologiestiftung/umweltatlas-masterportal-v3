@@ -47,11 +47,9 @@ export default {
         sliderValue () {
             if (!this.timeRange[this.sliderValue]) {
                 this.sliderValue = this.timeRange.indexOf(this.defaultValue);
-            }
-
-            if (!this.timeRange[this.sliderValue]) {
-                // revert to 0 in case of fault
-                this.sliderValue = 0;
+                if (this.sliderValue < 0) {
+                    this.sliderValue = 0
+                }
             }
 
             if (this.sliderOptionCount === this.sliderValue) {
