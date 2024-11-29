@@ -2652,10 +2652,27 @@
                       "name": "2006",
                       "type": "folder",
                       "elements": [
+                                                                {
+                                    "id": "ua_flurabstand_2006:e_flurabstand_2006_diff",
+                                    "name": "2006 - Flurabstand des Grundwassers differenziert"
+                                } ,
                         {
-                          "id": "flurab2006_diff:1",
-                          "name": "2006 - Flurabstand"
-                        }
+                                    "id": "ua_flurabstand_2006:d_flurabstand_2006_panketal",
+                                    "name": "2006 - Flurabstand des Grundwassers differenziert Panketal"
+                                },  
+                        {
+                                    "id": "ua_flurabstand_2006:c_flurabstand_2006_hgwlgespannt",
+                                    "name": "2006 - Flurabstand des Grundwassers differenziert Hauptgrundwasserleiter gespannt"
+                                },
+                        {
+                                    "id": "ua_flurabstand_2006:b_flurabstand_2006_fliessgw",
+                                    "name": "2006 - Flurabstand des Grundwassers differenziert Fließgewässer"
+                                },
+                        {
+                                    "id": "ua_flurabstand_2006:a_flurabstand_2006_gewaesser",
+                                    "name": "2006 - Flurabstand des Grundwassers differenziert Oberflächengewässer"
+                                },                                                        
+                                                                                    
                       ]
                     },
                     {
