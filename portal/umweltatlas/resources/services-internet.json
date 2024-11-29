@@ -41475,7 +41475,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2006:d_flurabstand_2006_panketal",
@@ -41527,7 +41533,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2006:b_flurabstand_2006_fliessgw",
@@ -41553,7 +41565,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+       "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2006:a_flurabstand_2006_gewaesser",
@@ -41579,6 +41597,12 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
