@@ -255,7 +255,11 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
     it("renders elevation profile", async () => {
         batchProcessingEnabled = false;
         elevation = true;
-        routingDirections = [];
+        routingDirections = {
+            duration: 10,
+            distance: 10,
+            segments: []
+        };
         wrapper = shallowMount(DirectionsComponent, {global: {
             plugins: [store]
         }});
