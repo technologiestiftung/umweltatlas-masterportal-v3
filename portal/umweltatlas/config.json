@@ -2662,26 +2662,23 @@
                       "name": "2005",
                       "type": "folder",
                       "elements": [
-                                {
-                                    "id": "ua_flurabstand_2005:a_flurabstand_2005_fliessgw",
-                                    "name": "2005 - Flurabstand des Grundwassers Fließgewässer"
-                                },
-                                {
-                                    "id": "ua_flurabstand_2005:b_flurabstand_2005_gewaesser",
-                                    "name": "2005 - Flurabstand des Grundwassers Oberflächengewässer" 
-                                },
-                                {
-                                    "id": "ua_flurabstand_2005:c_flurabstand_2005_panketal",
-                                    "name": "2005 - Flurabstand des Grundwassers Panketal"
-                                },
-                                {
-                                    "id": "ua_flurabstand_2005:d_flurabstand_2005_hgwlgespannt",
-                                    "name": "2005 - Flurabstand des Grundwassers Hauptgrundwasserleiter gespannt"
-                                },
-                                {
+                                                                {
                                     "id": "ua_flurabstand_2005:e_flurabstand_2005",
                                     "name": "2005 - Flurabstand des Grundwassers in Metern"
-                                }
+                                },                           {
+                                    "id": "ua_flurabstand_2005:d_flurabstand_2005_hgwlgespannt",
+                                    "name": "2005 - Flurabstand des Grundwassers Hauptgrundwasserleiter gespannt"
+                                },                                {
+                                    "id": "ua_flurabstand_2005:c_flurabstand_2005_panketal",
+                                    "name": "2005 - Flurabstand des Grundwassers Panketal"
+                                },                             {
+                                    "id": "ua_flurabstand_2005:b_flurabstand_2005_gewaesser",
+                                    "name": "2005 - Flurabstand des Grundwassers Oberflächengewässer" 
+                                },{
+                                    "id": "ua_flurabstand_2005:a_flurabstand_2005_fliessgw",
+                                    "name": "2005 - Flurabstand des Grundwassers Fließgewässer"
+                                }   
+
                       ]
                     },
                     {
