@@ -33,11 +33,13 @@
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
+- WMS features with geometry can be highlighted with polygon marker
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
+- WMS gfi responses with mimeType json/application are parsed as GeoJSON
 
 ### Deprecated
 
