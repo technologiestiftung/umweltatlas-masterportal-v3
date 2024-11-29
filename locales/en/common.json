@@ -886,7 +886,13 @@
         "filenamePlaceholder": "Please enter file name",
         "format": "Format",
         "header": "Download",
-        "saveResult": "Save Result"
+        "saveResult": "Save Result",
+        "error": {
+          "header": "Invalid filename",
+          "fileNameTooLong": "Filename is too long. No more than 40 characters are allowed",
+          "fileNameContainsWhiteSpace": "Filename contains white space",
+          "fileNameContainsInvalidChars": "Filename contains invalid characters"
+        }
       },
       "endpoint": "Endpoint",
       "elevationProfile": {

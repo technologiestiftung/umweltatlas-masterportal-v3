@@ -889,7 +889,13 @@
         "filenamePlaceholder": "Bitte Dateinamen angeben",
         "format": "Format",
         "header": "Herunterladen",
-        "saveResult": "Ergebnis speichern"
+        "saveResult": "Ergebnis speichern",
+        "error": {
+          "header": "Der Dateiname ist ungültig.",
+          "fileNameTooLong": "Der Dateiname ist zu lang. Es sind höchstens 40 Zeichen erlaubt.",
+          "fileNameContainsWhiteSpace": "Der Dateiname enthält Leerzeichen.",
+          "fileNameContainsInvalidChars": "Der Dateiname enthält unerlaubte Sonderzeichen."
+        }
       },
       "endpoint": "Zielpunkt",
       "elevationProfile": {
