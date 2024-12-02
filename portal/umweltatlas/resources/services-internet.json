@@ -41475,7 +41475,8 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
     "uaContact": {
       "name": "Leilah Haag",
@@ -41533,7 +41534,8 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
     "uaContact": {
       "name": "Leilah Haag",
@@ -41565,7 +41567,8 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-       "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
     "uaContact": {
       "name": "Leilah Haag",
@@ -41597,7 +41600,8 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-        "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2006/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2006_z.pdf?ts=1696404862",
     "uaContact": {
       "name": "Leilah Haag",
