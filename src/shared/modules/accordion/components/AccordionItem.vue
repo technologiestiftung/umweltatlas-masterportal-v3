@@ -30,6 +30,17 @@ export default {
             required: false,
             default: null
         }
+        ,
+        colouredBody: {
+            type: Boolean,
+            required: false,
+            default: null
+        }        ,
+        headerBold: {
+            type: Boolean,
+            required: false,
+            default: null
+        }
     }
 };
 </script>
@@ -47,9 +58,10 @@ export default {
                 v-if="title"
                 :id="`flush-heading-${id}`"
                 class="accordion-header ms-0"
+                
             >
                 <button
-                    :class="['accordion-button', fontSize, !isOpen? 'collapsed' : '', !colouredHeader? 'ps-0' : 'rounded']"
+                    :class="['accordion-button', fontSize, !isOpen? 'collapsed' : '', !colouredHeader? 'ps-0' : '', headerBold ? 'font-bold' : '']"
                     type="button"
                     :coloured="colouredHeader"
                     data-bs-toggle="collapse"
@@ -73,6 +85,7 @@ export default {
                 <div
                     class="accordion-body"
                     :class="['accordion-body', !colouredHeader? 'pt-0' : 'pb-2']"
+                    :coloured="colouredBody"
                 >
                     <slot />
                 </div>
@@ -88,6 +101,7 @@ export default {
         --bs-border-color: $white;
         --bs-accordion-active-bg: $white;
         --bs-accordion-btn-focus-box-shadow: none;
+        top: 3px;
         .font-size-big {
             font-size: $font_size_big;
         }
@@ -97,7 +111,12 @@ export default {
 
    [coloured=true] {
         background-color: $light_blue;
+
+        &.accordion-body{
+            padding-top: 0px
+        }
    }
 
    }
+
 </style>
