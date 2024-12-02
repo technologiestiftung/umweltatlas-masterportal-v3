@@ -35,7 +35,11 @@
 - Issue #1300:
     - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
-- Issue #1308:
+- Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
+- Issue #1308: 
+    - The postal code is now correctly placed before the city in the about module
+    - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- Issue #1308: 
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
 - wfst: layers that are not in services.json are supported.
