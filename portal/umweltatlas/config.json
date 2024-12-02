@@ -2104,7 +2104,7 @@
                                         },
                         {
                                             "id": "ua_grundwassergl_2013:aa_wassk_peg_bru_wassgeb_pkt",
-                                            "name": "2013 - Wasserwerke, Pegel an OberflächengewÃ¤ssern und Brunnen"
+                                            "name": "2013 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
                                         },
                                         {
                                             "id": "ua_grundwassergl_2013:ab_wassk_peg_bru_wassgeb_li",
@@ -2141,22 +2141,45 @@
                       "name": "2012",
                       "type": "folder",
                       "elements": [
+                                        {
+                                            "id": "ua_grundwassergl_2012:da_geologische_skizze",
+                                            "name": "2012 -Geologische Skizze"
+                                        },
                         {
-                          "id": "wmsk_02_12gwgleichen2012:0",
-                          "name": "2012 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2012:3",
-                          "name": "2012 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2012:1",
-                          "name": "2012 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2012:2",
-                          "name": "2012 - Geologische Skizze"
-                        }
+                                            "id": "ua_grundwassergl_2012:aa_wassk_peg_bru_wassgeb_pkt",
+                                            "name": "2012 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2012:ab_wassk_peg_bru_wassgeb_li",
+                                            "name": "2012 - Wasserschutzgebietsgrenzen"
+                                },
+                                {
+                                             "id": "ua_grundwassergl_2012:ba_hgwl_gwms_pkt",
+                                            "name": "2012 - Grundwassermessstellen Hauptgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2012:bb_hgwl_gwms_li",
+                                            "name": "2012 - Hauptgrundwasserleiter 2012"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2012:bc_hgwl_gwms_pol",
+                                            "name": "2012 - Hauptgrundwasserleiterflächen 2012"
+                                },
+                                        {
+                                            "id": "ua_grundwassergl_2012:ca_pgwl_gwms_pkt",
+                                            "name": "2012 - Grundwassermessstellen Panketalgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2012:cb_pgwl_gwms_li",
+                                            "name": "2012 - Panketalgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2012:cc_pgwl_gwms_pol",
+                                            "name": "2012 - Panketalgrundwasserleiterflächen"
+                                }
+                                
+
+
                       ]
                     },
                     {
