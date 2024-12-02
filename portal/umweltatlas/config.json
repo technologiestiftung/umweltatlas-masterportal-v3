@@ -2001,7 +2001,7 @@
 
                                         {
                                             "id": "ua_grundwassergl_2017:cc_pgwl_gwms_pol",
-                                            "name": "2017 - PanketalgrundwasserleiterflÃ¤chen"
+                                            "name": "2017 - Panketalgrundwasserleiterflächen"
                                         },
 										                                       {
                                             "id": "ua_grundwassergl_2017:bb_hgwl_gwms_li",
@@ -2014,14 +2014,14 @@
  
                                         {
                                             "id": "ua_grundwassergl_2017:bc_hgwl_gwms_pol",
-                                            "name": "2017 - HauptgrundwasserleiterflÃ¤chen"
+                                            "name": "2017 - Hauptgrundwasserleiterflächen"
                                         },
 							                                {
                                             "id": "ua_grundwassergl_2017:ab_wassk_peg_bru_wassgeb_li",
                                             "name": "2017 - Wasserschutzgebietsgrenzen 2017"
                                 },	{
                                             "id": "ua_grundwassergl_2017:aa_wassk_peg_bru_wassgeb_pkt",
-                                            "name": "2017 - Wasserwerke, Pegel an OberflÃ¤chengewÃ¤ssern und Brunnen"
+                                            "name": "2017 - Wasserwerke, Pegel an OberflÃ¤chengewässern und Brunnen"
                                 }
 
 
