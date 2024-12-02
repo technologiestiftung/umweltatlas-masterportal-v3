@@ -2097,22 +2097,44 @@
                       "name": "2013",
                       "type": "folder",
                       "elements": [
+                                                    
+                                        {
+                                            "id": "ua_grundwassergl_2013:da_geologische_skizze",
+                                            "name": "2013 - Geologische Skizze"
+                                        },
                         {
-                          "id": "wmsk_02_12gwgleichen2013:3",
-                          "name": "2013 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2013:1",
-                          "name": "2013 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2013:2",
-                          "name": "2013 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2013:4",
-                          "name": "2013 - Geologische Skizze"
-                        }
+                                            "id": "ua_grundwassergl_2013:aa_wassk_peg_bru_wassgeb_pkt",
+                                            "name": "2013 - Wasserwerke, Pegel an OberflächengewÃ¤ssern und Brunnen"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2013:ab_wassk_peg_bru_wassgeb_li",
+                                            "name": "2013 - Wasserschutzgebietsgrenzen"
+                                },
+                                {
+                                             "id": "ua_grundwassergl_2013:ba_hgwl_gwms_pkt",
+                                            "name": "2013 - Grundwassermessstellen Hauptgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2013:bb_hgwl_gwms_li",
+                                            "name": "2013 - Hauptgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2013:bc_hgwl_gwms_pol",
+                                            "name": "2013 - Hauptgrundwasserleiterflächen"
+                                },
+                                        {
+                                            "id": "ua_grundwassergl_2013:ca_pgwl_gwms_pkt",
+                                            "name": "2013 - Grundwassermessstellen Panketalgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2013:cb_pgwl_gwms_li",
+                                            "name": "2013 - Panketalgrundwasserleiter"
+                                        },
+                                        {
+                                            "id": "ua_grundwassergl_2013:cc_pgwl_gwms_pol",
+                                            "name": "2013 - Panketalgrundwasserleiterflächen"
+                                }
+
                       ]
                     },
                     {
