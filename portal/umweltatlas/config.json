@@ -2159,11 +2159,11 @@
                                         },
                                         {
                                             "id": "ua_grundwassergl_2012:bb_hgwl_gwms_li",
-                                            "name": "2012 - Hauptgrundwasserleiter 2012"
+                                            "name": "2012 - Hauptgrundwasserleiter"
                                         },
                                         {
                                             "id": "ua_grundwassergl_2012:bc_hgwl_gwms_pol",
-                                            "name": "2012 - Hauptgrundwasserleiterflächen 2012"
+                                            "name": "2012 - Hauptgrundwasserleiterflächen"
                                 },
                                         {
                                             "id": "ua_grundwassergl_2012:ca_pgwl_gwms_pkt",
