@@ -1988,42 +1988,43 @@
                       "name": "2017",
                       "type": "folder",
                       "elements": [
-									                                     {
+									                                                            								{
+                                            "id": "ua_grundwassergl_2017:da_geologische_skizze",
+                                            "name": "2017 - Geologische Skizze"
+                                },	         {
+                                            "id": "ua_grundwassergl_2017:cb_pgwl_gwms_li",
+                                            "name": "2017 - Panketalgrundwasserleiter"
+                                        },        {
                                             "id": "ua_grundwassergl_2017:ca_pgwl_gwms_pkt",
                                             "name": "2017 - Grundwassermessstellen Panketalgrundwasserleiter 2017"
                                         },
-                                        {
-                                            "id": "ua_grundwassergl_2017:cb_pgwl_gwms_li",
-                                            "name": "2017 - Panketalgrundwasserleiter"
-                                        },
+
                                         {
                                             "id": "ua_grundwassergl_2017:cc_pgwl_gwms_pol",
                                             "name": "2017 - PanketalgrundwasserleiterflÃ¤chen"
                                         },
-										{
-                                            "id": "ua_grundwassergl_2017:ba_hgwl_gwms_pkt",
-                                            "name": "2017 - Grundwassermessstellen Hauptgrundwasserleiter"
-                                        },
-                                        {
+										                                       {
                                             "id": "ua_grundwassergl_2017:bb_hgwl_gwms_li",
                                             "name": "2017 - Hauptgrundwasserleiter"
                                         },
+                        {
+                                            "id": "ua_grundwassergl_2017:ba_hgwl_gwms_pkt",
+                                            "name": "2017 - Grundwassermessstellen Hauptgrundwasserleiter"
+                                        },
+ 
                                         {
                                             "id": "ua_grundwassergl_2017:bc_hgwl_gwms_pol",
                                             "name": "2017 - HauptgrundwasserleiterflÃ¤chen"
                                         },
-								{
+							                                {
+                                            "id": "ua_grundwassergl_2017:ab_wassk_peg_bru_wassgeb_li",
+                                            "name": "2017 - Wasserschutzgebietsgrenzen 2017"
+                                },	{
                                             "id": "ua_grundwassergl_2017:aa_wassk_peg_bru_wassgeb_pkt",
                                             "name": "2017 - Wasserwerke, Pegel an OberflÃ¤chengewÃ¤ssern und Brunnen"
                                 },
-                                {
-                                            "id": "ua_grundwassergl_2017:ab_wassk_peg_bru_wassgeb_li",
-                                            "name": "2017 - Wasserschutzgebietsgrenzen 2017"
-                                },
-								{
-                                            "id": "ua_grundwassergl_2017:da_geologische_skizze",
-                                            "name": "2017 - Geologische Skizze"
-                                }	
+
+
                       ]
                     },
                     {
