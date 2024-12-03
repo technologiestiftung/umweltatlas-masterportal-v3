@@ -6855,174 +6855,6 @@
     }
   },
   {
-    "id": "k02_13_01oabf2017:1",
-    "name": "Oberflächenabfluss aus Niederschlägen",
-    "name_lang": "Oberflächenabfluss aus Niederschlägen (Oberflächenabfluss aus Niederschlägen 2017 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_01oabf2017",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_13_01oabf2017.png",
-    "datasets": [
-      {
-        "md_name": "Oberflächenabfluss aus Niederschlägen 2017 (Umweltatlas)",
-        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_1_2017.pdf?ts=1696416435",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_02vers2017:1",
-    "name": "Versickerung aus Niederschlägen",
-    "name_lang": "Versickerung aus Niederschlägen (Versickerung aus Niederschlägen 2017 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_02vers2017",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_13_02vers2017.png",
-    "datasets": [
-      {
-        "md_name": "Versickerung aus Niederschlägen 2017 (Umweltatlas)",
-        "md_id": "5dab27b7-656e-451b-ad73-c23220516d5f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f936df7-aebc-35eb-a262-6408209624f1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_2_2017.pdf?ts=1696416477",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_03gesabf2017:1",
-    "name": "Gesamtabfluss aus Niederschlägen",
-    "name_lang": "Gesamtabfluss aus Niederschlägen (Gesamtabfluss aus Niederschlägen 2017 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_03gesabf2017",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_13_03gesabf2017.png",
-    "datasets": [
-      {
-        "md_name": "Gesamtabfluss aus Niederschlägen 2017 (Umweltatlas)",
-        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_3_2017.pdf?ts=1696416447",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_04verov2017:1",
-    "name": "Versickerung aus Niederschlägen ohne Versiegelung",
-    "name_lang": "Versickerung aus Niederschlägen ohne Versiegelung (Versickerung aus Niederschlägen ohne Versiegelung 2017 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_04verov2017",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_13_04verov2017.png",
-    "datasets": [
-      {
-        "md_name": "Versickerung aus Niederschlägen ohne Versiegelung 2017 (Umweltatlas)",
-        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_4_2017.pdf?ts=1696416467",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_05verd2017:1",
-    "name": "Verdunstung aus Niederschlägen",
-    "name_lang": "Verdunstung aus Niederschlägen(Verdunstung aus Niederschlägen 2017 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_05verd2017",
-    "typ": "WMS",
-    "layers": "2",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_13_05verd2017.png",
-    "datasets": [
-      {
-        "md_id": "f49abdee-a353-3d91-a59c-fd75db18c5d6",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6bf88598-e375-325f-8c1b-2ca4f6a9e516",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_5_2017.pdf?ts=1696416470",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
     "name": "Gesamtabfluss aus Niederschlägen 2012",
     "name_lang": "Gesamtabfluss aus Niederschlägen 2012 (Wasserhaushalt 2012 (Umweltatlas))",
@@ -7221,102 +7053,6 @@
     }
   },
   {
-    "id": "k02_13_01oabf2005:2",
-    "name": "Oberflächenabfluß aus Niederschlägen 2005 (Umweltatlas)",
-    "name_lang": "Oberflächenabfluß aus Niederschlägen 2005 (Umweltatlas)(Oberflächenabfluss aus Niederschlägen 2005 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_01oabf2005",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k02_13_01oabf2005?layerID=1",
-    "datasets": [
-      {
-        "md_id": "514970ff-d5da-3ec1-9da1-0d84e6b171d6",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2005/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_1_2005.pdf?ts=1696416165",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_02vers2005:2",
-    "name": "Versickerung aus Niederschlägen",
-    "name_lang": "Versickerung aus Niederschlägen(Versickerung aus Niederschlägen 2005 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_02vers2005",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k02_13_02vers2005?layerID=1",
-    "datasets": [
-      {
-        "md_id": "46c9e212-0ee9-361f-a697-2e4c3fb2df54",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2005/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_2_2005.pdf?ts=1696416164",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_03gesabf2005:2",
-    "name": "Gesamtabfluss aus Niederschlägen 2005",
-    "name_lang": "Gesamtabfluss aus Niederschlägen 2005(Gesamtabfluss aus Niederschlägen 2005 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_03gesabf2005",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k02_13_03gesabf2005?layerID=1",
-    "datasets": [
-      {
-        "md_id": "c0a0e102-bd43-31e0-8a4d-e4ec26122b1b",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2005/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_3_2005.pdf?ts=1696416170",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "versick2001_o_vg:1",
     "name": "Hintergrund ISU50 2001",
     "name_lang": "Hintergrund ISU50 2001 (Versickerung aus Niederschlägen ohne Versiegelung 2001 (Umweltatlas))",
@@ -7344,38 +7080,6 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_4_2001.pdf?ts=1696416173",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_13_05verd2005:2",
-    "name": "Verdunstung aus Niederschlägen 2005",
-    "name_lang": "Verdunstung aus Niederschlägen 2005(Verdunstung aus Niederschlägen 2005 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_13_05verd2005",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k02_13_05verd2005?layerID=1",
-    "datasets": [
-      {
-        "md_id": "6b2c419c-6936-32b3-a3e3-6b64c692d9c8",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2005/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_5_2005.pdf?ts=1696416167",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -42110,5 +41814,239 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_wasserhaushalt_2017:oabf2017",
+    "name": "Oberflächenabfluss aus Niederschlägen 2017",
+    "name_lang": "Oberflächenabfluss aus Niederschlägen 2017 (Wasserhaushalt 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "oabf2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2017 (Umweltatlas)",
+        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2005:oberflaechenabfluss_2005",
+    "name": "Oberflächenabfluß aus Niederschlägen 2005",
+    "name_lang": "Oberflächenabfluß aus Niederschlägen 2005 (Wasserhaushalt 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "oberflaechenabfluss_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2005 (Umweltatlas)",
+        "md_id": "e0bef6bf-06d4-37e6-b787-046af444bb58",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_versickerung_2017:ua_versickerung_2017",
+    "name": "Versickerung aus Niederschlägen 2017",
+    "name_lang": "Versickerung aus Niederschlägen 2017 (Versickerung aus Niederschlägen 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_versickerung_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_versickerung_2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Versickerung aus Niederschlägen 2017 (Umweltatlas)",
+        "md_id": "5dab27b7-656e-451b-ad73-c23220516d5f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f936df7-aebc-35eb-a262-6408209624f1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2005:versickerung_2005",
+    "name": "Versickerung aus Niederschlägen 2005",
+    "name_lang": "Versickerung aus Niederschlägen 2005 (Wasserhaushalt 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "versickerung_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2005 (Umweltatlas)",
+        "md_id": "e0bef6bf-06d4-37e6-b787-046af444bb58",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2017:gesabf2017",
+    "name": "Gesamtabfluss aus Niederschlägen 2017",
+    "name_lang": "Gesamtabfluss aus Niederschlägen 2017 (Wasserhaushalt 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gesabf2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2017 (Umweltatlas)",
+        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2005:gesamtabfluss_2005",
+    "name": "Gesamtabfluss aus Niederschlägen 2005",
+    "name_lang": "Gesamtabfluss aus Niederschlägen 2005 (Wasserhaushalt 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gesamtabfluss_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2005 (Umweltatlas)",
+        "md_id": "e0bef6bf-06d4-37e6-b787-046af444bb58",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2017:verov2017",
+    "name": "Versickerung aus Niederschlägen ohne Versiegelung 2017",
+    "name_lang": "Versickerung aus Niederschlägen ohne Versiegelung 2017 (Wasserhaushalt 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "verov2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2017 (Umweltatlas)",
+        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_verdunstung_2017:ua_verdunstung_2017",
+    "name": "Verdunstung aus Niederschlägen 2017",
+    "name_lang": "Verdunstung aus Niederschlägen 2017 (Verdunstung aus Niederschlägen 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_verdunstung_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_verdunstung_2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Verdunstung aus Niederschlägen 2017 (Umweltatlas)",
+        "md_id": "4d4428bd-baec-4e2b-ad87-c2fefc53e7fb",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6bf88598-e375-325f-8c1b-2ca4f6a9e516",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserhaushalt_2005:verdunstung_2005",
+    "name": "Verdunstung aus Niederschlägen 2005",
+    "name_lang": "Verdunstung aus Niederschlägen 2005 (Wasserhaushalt 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "verdunstung_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2005 (Umweltatlas)",
+        "md_id": "e0bef6bf-06d4-37e6-b787-046af444bb58",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/7546ab67-c345-341d-a7bd-eaf59a7310c1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
