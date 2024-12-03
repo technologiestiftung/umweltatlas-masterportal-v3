@@ -2685,28 +2685,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
-                          "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
                           "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
                           "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
-                          "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
-                          "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
                     },
@@ -2715,7 +2695,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_17gwneu2005:2",
+                          "id": "ua_wasserhaushalt_2005:grundwasserneubildung_2005",
                           "name": "2005 - Grundwasserneubildung 2005 (Umweltatlas)"
                         }
                       ]
