@@ -40959,7 +40959,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/hochwasser/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/hochwasser/de-karten/02_23_1_2019.pdf?ts=1696412987",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser",
@@ -40985,7 +40992,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/hochwasser/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/hochwasser/de-karten/02_23_1_2019.pdf?ts=1696412987",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwassergefahrenkarten:b_hwgk_mittel",
@@ -41011,7 +41025,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/hochwasser/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/hochwasser/de-karten/02_23_2_2019.pdf?ts=1696412997",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwassergefahrenkarten:c_hwgk_niedrig",
@@ -41037,6 +41058,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/hochwasser/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/hochwasser/de-karten/02_23_3_2019.pdf?ts=1696412978",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
