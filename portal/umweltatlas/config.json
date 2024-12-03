@@ -6990,19 +6990,23 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_01verkehr_roadDEN2022:4",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
                           "name": "2022 - Autobahn"
                         },
                         {
-                          "id": "k_07_05_01verkehr_roadDEN2022:2",
-                          "name": "2022 - Hauptstraße"
-                        },
-                        {
-                          "id": "k_07_05_01verkehr_roadDEN2022:3",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
                           "name": "2022 - Bundesstraße"
                         },
                         {
-                          "id": "k_07_05_01verkehr_roadDEN2022:1",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "name": "2022 - Sonstige Straße"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "name": "2022 - Lärmschutzeinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:bb_strasse_gesamt_den2022",
                           "name": "2022 - Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßenverkehr"
                         }
                       ]
@@ -7068,19 +7072,23 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_02verkehr_roadN2022:3",
-                          "name": "2022 - Bundesstraße"
-                        },
-                        {
-                          "id": "k_07_05_02verkehr_roadN2022:2",
-                          "name": "2022 - Hauptstraße"
-                        },
-                        {
-                          "id": "k_07_05_02verkehr_roadN2022:4",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
                           "name": "2022 - Autobahn"
                         },
                         {
-                          "id": "k_07_05_02verkehr_roadN2022:1",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "name": "2022 - Bundesstraße"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "name": "2022 - Sonstige Straße"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "name": "2022 - Lärmschutzeinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:cb_strasse_gesamt_n2022",
                           "name": "2022 - Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßenverkehr"
                         }
                       ]
@@ -7146,12 +7154,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_03verkehr_tramDEN2022:2",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
                           "name": "2022 - Straßen- und oberirdische U-Bahn"
                         },
                         {
-                          "id": "k_07_05_03verkehr_tramDEN2022:1",
-                          "name": "2022 - Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßen-/U-Bahnverkehr"
+                          "id": "ua_stratlaerm_2022:bc_tram_ubahn_den2022",
+                          "name": "2022 - Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßen-/oberirdische U-Bahn"
                         }
                       ]
                     },
@@ -7204,12 +7212,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_04verkehr_tramN2022:2",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
                           "name": "2022 - Straßen- und oberirdische U-Bahn"
                         },
                         {
-                          "id": "k_07_05_04verkehr_tramN2022:1",
-                          "name": "2022 - Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßen-/U-Bahnverkehr"
+                          "id": "ua_stratlaerm_2022:cc_tram_ubahn_n2022",
+                          "name": "2022 - Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßen-/oberirdische U-Bahn"
                         }
                       ]
                     },
@@ -7258,7 +7266,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k_07_05_07verkehr_flylDEN2022:1",
+                      "id": "ua_stratlaerm_2022:bd_flug_gesamt_den2022",
                       "name": "2022 - Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Flugverkehr"
                     },
                     {
@@ -7280,7 +7288,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k_07_05_08verkehr_flylN2022:1",
+                      "id": "ua_stratlaerm_2022:cd_flug_gesamt_n2022",
                       "name": "2022 - Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
                     },
                     {
@@ -7302,7 +7310,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k_07_05_09gewerbeDEN2022:1",
+                      "id": "ua_stratlaerm_2022:be_industrie_den2022",
                       "name": "2022 - Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) IED-Anlagen (Kraftwerke)"
                     },
                     {
@@ -7324,7 +7332,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k_07_05_10gewerbeN2022:1",
+                      "id": "ua_stratlaerm_2022:ce_industrie_n2022",
                       "name": "2022 - Strategische Lärmkarte L_N (Nacht-Lärmindex) IED-Anlagen (Kraftwerke)"
                     },
                     {
@@ -7350,44 +7358,48 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_11_fassadpeg2022:0",
+                          "id": "ua_stratlaerm_2022:aa_fp_gesamt2022",
                           "name": "2022 - Fassadenpegel aller bewerteten Lärmquellen"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:2",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
                           "name": "2022 - Autobahn"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:3",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
                           "name": "2022 - Bundesstraßen"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:4",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:5",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
                           "name": "2022 - Tram und oberirdische U-Bahn"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:1",
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
                           "name": "2022 - S- und Fernbahn"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:10",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
                           "name": "2022 - Lärmschutzeinrichtungen"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:6",
+                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
                           "name": "2022 - Wohngebäude"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:7",
+                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
                           "name": "2022 - Krankenhäuser"
                         },
                         {
-                          "id": "k_07_05_11_fassadpeg2022:8",
+                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
                           "name": "2022 - Bildungseinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ae_kita2022",
+                          "name": "2022 - Kindertagesstätten"
                         }
                       ]
                     },
@@ -7519,33 +7531,33 @@
                       "name": "2022",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k_07_05_14verkehr_gesDEN2022:1",
+                       {
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
                           "name": "2022 - Autobahn"
                         },
                         {
-                          "id": "k_07_05_14verkehr_gesDEN2022:3",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
                           "name": "2022 - Bundesstraßen"
                         },
                         {
-                          "id": "k_07_05_14verkehr_gesDEN2022:4",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz"
                         },
                         {
-                          "id": "k_07_05_14verkehr_gesDEN2022:0",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "name": "2022 - Tram und oberirdische U-Bahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
                           "name": "2022 - S- und Fernbahn"
                         },
                         {
-                          "id": "k_07_05_14verkehr_gesDEN2022:5",
-                          "name": "2022 - Straßenbahn und oberirdische U-Bahn"
-                        },
-                        {
-                          "id": "k_07_05_14verkehr_gesDEN2022:6",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
                           "name": "2022 - Lärmschutzeinrichtungen"
                         },
                         {
-                          "id": "k_07_05_14verkehr_gesDEN2022:2",
-                          "name": "2022 - Gesamtlärm Verkehr L_DEN"
+                          "id": "ua_stratlaerm_2022:bf_gesamtlaerm_den2022",
+                          "name": "2022 - Gesamtverkehr (Straße, Schiene, Luft) L_DEN"
                         }
                       ]
                     },
@@ -7638,32 +7650,32 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:1",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
                           "name": "2022 - Autobahn"
                         },
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:3",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
                           "name": "2022 - Bundesstraßen"
                         },
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:4",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz"
                         },
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:0",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "name": "2022 - Tram und oberirdische U-Bahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
                           "name": "2022 - S- und Fernbahn"
                         },
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:5",
-                          "name": "2022 - Straßenbahn und oberirdische U-Bahn"
-                        },
-                        {
-                          "id": "k_07_05_15verkehr_gesN2022:6",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
                           "name": "2022 - Lärmschutzeinrichtungen"
                         },
                         {
-                          "id": "k_07_05_15verkehr_gesN2022:2",
-                          "name": "2022 - Gesamtlärm Verkehr L_N"
+                          "id": "ua_stratlaerm_2022:cf_gesamtlaerm_n2022",
+                          "name": "2022 -  	Gesamtverkehr (Straße, Schiene, Luft) L_N"
                         }
                       ]
                     },
@@ -7762,6 +7774,56 @@
                   "type": "folder",
                   "elements": [
                     {
+                      "name": "2022",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2022:ba_fp_gesamt2022_lden",
+                          "name": "2022 - Fassadenpegel Gesamtlärm L_DEN aller bewerteten Lärmquellen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "name": "2022 - Autobahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "name": "2022 - Bundesstraßen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "name": "2022 - Sonstiges untersuchtes Straßennetz"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "name": "2022 - Tram und oberirdische U-Bahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "name": "2022 - S- und Fernbahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "name": "2022 - Lärmschutzeinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
+                          "name": "2022 - Wohngebäude"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
+                          "name": "2022 - Krankenhäuser"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
+                          "name": "2022 - Bildungseinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ae_kita2022",
+                          "name": "2022 - Kindertagesstätten"
+                        }
+                      ]
+                    },
+                    {
                       "name": "2017",
                       "type": "folder",
                       "elements": [
@@ -7858,6 +7920,55 @@
                   "type": "folder",
                   "elements": [
                     {
+                      "name": "2022",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2022:ca_fp_gesamt2022_ln",
+                          "name": "2022 - Fassadenpegel Gesamtlärm L_N aller bewerteten Lärmquellen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "name": "2022 - Autobahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "name": "2022 - Bundesstraßen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "name": "2022 - Sonstiges untersuchtes Straßennetz"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "name": "2022 - Tram und oberirdische U-Bahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "name": "2022 - S- und Fernbahn"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "name": "2022 - Lärmschutzeinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
+                          "name": "2022 - Wohngebäude"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
+                          "name": "2022 - Krankenhäuser"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
+                          "name": "2022 - Bildungseinrichtungen"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2022:ae_kita2022",
+                          "name": "2022 - Kindertagesstätten"
+                        }
+                      ]
+                    },{
                       "name": "2017",
                       "type": "folder",
                       "elements": [
