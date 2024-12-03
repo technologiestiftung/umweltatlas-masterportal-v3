@@ -1371,7 +1371,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_01oabf2017:1",
+                          "id": "ua_wasserhaushalt_2017:oabf2017",
                           "name": "2017 - Oberflächenabfluss aus Niederschlägen"
                         }
                       ]
@@ -1381,28 +1381,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
-                          "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
-                          "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
                           "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
                           "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
-                          "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
                     },
@@ -1411,8 +1391,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_01oabf2005:2",
-                          "name": "2005 - Oberflächenabfluß aus Niederschlägen 2005 (Umweltatlas)"
+                          "id": "ua_wasserhaushalt_2005:oberflaechenabfluss_2005",
+                          "name": "2005 - Oberflächenabfluss aus Niederschlägen 2005 (Umweltatlas)"
                         }
                       ]
                     },
@@ -1422,7 +1402,7 @@
                       "elements": [
                         {
                           "id": "oabfluss2001:1",
-                          "name": "2001 - Oberflächenabfluß aus Niederschlägen 2001 (Umweltatlas)"
+                          "name": "2001 - Oberflächenabfluss aus Niederschlägen 2001 (Umweltatlas)"
                         }
                       ]
                     }
@@ -1437,7 +1417,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_02vers2017:1",
+                          "id": "ua_versickerung_2017:ua_versickerung_2017",
                           "name": "2017 - Versickerung aus Niederschlägen"
                         }
                       ]
@@ -1447,28 +1427,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
-                          "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
-                          "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
-                          "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
-                          "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
                           "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
                           "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
                     },
@@ -1477,7 +1437,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_02vers2005:2",
+                          "id": "ua_wasserhaushalt_2005:versickerung_2005",
                           "name": "2005 - Versickerung aus Niederschlägen"
                         }
                       ]
@@ -1513,7 +1473,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_03gesabf2017:1",
+                          "id": "ua_wasserhaushalt_2017:gesabf2017",
                           "name": "2017 - Gesamtabfluss aus Niederschlägen"
                         }
                       ]
@@ -1525,26 +1485,6 @@
                         {
                           "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
                           "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
-                          "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
-                          "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
-                          "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
                     },
@@ -1553,7 +1493,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_03gesabf2005:2",
+                          "id": "ua_wasserhaushalt_2005:gesamtabfluss_2005",
                           "name": "2005 - Gesamtabfluss aus Niederschlägen"
                         }
                       ]
@@ -1579,7 +1519,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_04verov2017:1",
+                          "id": "ua_wasserhaushalt_2017:verov2017",
                           "name": "2017 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
@@ -1589,38 +1529,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
-                          "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
-                          "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
-                          "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
-                          "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
                           "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
                           "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2005",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "versick2001_o_vg:1",
-                          "name": "2005 - Versickerung aus Niederschlägen ohne Versiegelung 2001 (Umweltatlas)"
                         }
                       ]
                     },
@@ -1655,7 +1565,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_05verd2017:1",
+                          "id": "ua_verdunstung_2017:ua_verdunstung_2017",
                           "name": "2017 - Verdunstung aus Niederschlägen"
                         }
                       ]
@@ -1665,28 +1575,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_wasserhaushalt_2012:ua_gesabfluss_2012",
-                          "name": "2012 - Gesamtabfluss aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_gwneu_2012",
-                          "name": "2012 - Grundwasserneubildung"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_oberflabfluss_2012",
-                          "name": "2012 - Oberflächenabfluss aus Niederschlägen"
-                        },
-                        {
                           "id": "ua_wasserhaushalt_2012:ua_verdunstung_2012",
                           "name": "2012 - Verdunstung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerung_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen"
-                        },
-                        {
-                          "id": "ua_wasserhaushalt_2012:ua_versickerungov_2012",
-                          "name": "2012 - Versickerung aus Niederschlägen ohne Versiegelung"
                         }
                       ]
                     },
@@ -1695,7 +1585,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_13_05verd2005:2",
+                          "id": "ua_wasserhaushalt_2005:verdunstung_2005",
                           "name": "2005 - Verdunstung aus Niederschlägen"
                         }
                       ]
