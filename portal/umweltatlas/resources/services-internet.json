@@ -39735,7 +39735,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
@@ -39762,7 +39769,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
@@ -39789,7 +39803,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
@@ -39816,7 +39837,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:bb_strasse_gesamt_den2022",
@@ -39842,7 +39870,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:cb_strasse_gesamt_n2022",
@@ -39868,7 +39903,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_02_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
@@ -39896,6 +39938,14 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json"
+    ,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:bc_tram_ubahn_den2022",
@@ -39922,6 +39972,14 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json"
+    ,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:cc_tram_ubahn_n2022",
@@ -39948,6 +40006,14 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json"
+    ,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_04_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:bd_flug_gesamt_den2022",
@@ -39974,6 +40040,14 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json"
+    ,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_07_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:cd_flug_gesamt_n2022",
@@ -39999,7 +40073,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_08_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:be_industrie_den2022",
@@ -40025,7 +40106,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_09_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ce_industrie_n2022",
@@ -40051,7 +40139,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_10_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:aa_fp_gesamt2022",
@@ -40078,7 +40173,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
@@ -40106,6 +40207,13 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json"
+    ,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
@@ -40132,7 +40240,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
@@ -40159,7 +40273,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
@@ -40186,7 +40306,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ae_kita2022",
@@ -40213,7 +40339,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:bf_gesamtlaerm_den2022",
@@ -40239,7 +40371,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_14_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:cf_gesamtlaerm_n2022",
@@ -40265,7 +40404,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_15_2022.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ba_fp_gesamt2022_lden",
@@ -40291,7 +40437,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_stratlaerm_2022:ca_fp_gesamt2022_ln",
@@ -40317,6 +40469,12 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
