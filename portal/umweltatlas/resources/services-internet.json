@@ -29121,1356 +29121,6 @@
     }
   },
   {
-    "id": "k_07_05_01verkehr_roadDEN2022:4",
-    "name": "Autobahn",
-    "name_lang": "Autobahn (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_01verkehr_roadDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_A_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf?ts=1706012397",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_01verkehr_roadDEN2022:2",
-    "name": "Hauptstraße",
-    "name_lang": "Hauptstraße (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_01verkehr_roadDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sonst_strassen_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf?ts=1706012397",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_01verkehr_roadDEN2022:3",
-    "name": "Bundesstraße",
-    "name_lang": "Bundesstraße (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_01verkehr_roadDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_B_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf?ts=1706012397",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_01verkehr_roadDEN2022:1",
-    "name": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßenverkehr",
-    "name_lang": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßenverkehr (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_01verkehr_roadDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_DEN_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_01_2022.pdf?ts=1706012397",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_02verkehr_roadN2022:3",
-    "name": "Bundesstraße",
-    "name_lang": "Bundesstraße (Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_02verkehr_roadN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_B_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_02_2022.pdf?ts=1706012388",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_02verkehr_roadN2022:2",
-    "name": "Hauptstraße",
-    "name_lang": "Hauptstraße (Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_02verkehr_roadN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sonst_strassen_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_02_2022.pdf?ts=1706012388",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_02verkehr_roadN2022:4",
-    "name": "Autobahn",
-    "name_lang": "Autobahn (Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_02verkehr_roadN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_A_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_02_2022.pdf?ts=1706012388",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_02verkehr_roadN2022:1",
-    "name": "Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßenverkehr",
-    "name_lang": "Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßenverkehr (Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_02verkehr_roadN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_N_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßenverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_02_2022.pdf?ts=1706012388",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_03verkehr_tramDEN2022:2",
-    "name": "Straßen- und oberirdische U-Bahn",
-    "name_lang": "Straßen- und oberirdische U-Bahn (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_03verkehr_tramDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_tram_ubahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf?ts=1706012386",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_03verkehr_tramDEN2022:1",
-    "name": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßen-/U-Bahnverkehr",
-    "name_lang": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Straßen-/U-Bahnverkehr (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_03verkehr_tramDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_DEN_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf?ts=1706012386",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_04verkehr_tramN2022:2",
-    "name": "Straßen- und oberirdische U-Bahn",
-    "name_lang": "Straßen- und oberirdische U-Bahn (Strat. Lärmkarte L N (Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_04verkehr_tramN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_tram_ubahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_04_2022.pdf?ts=1706012430",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_04verkehr_tramN2022:1",
-    "name": "Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßen-/U-Bahnverkehr",
-    "name_lang": "Strategische Lärmkarte L_N (Nacht-Lärmindex) Straßen-/U-Bahnverkehr (Strat. Lärmkarte L N (Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_04verkehr_tramN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_N_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Straßen- und oberirdische U-Bahn 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_04_2022.pdf?ts=1706012430",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_07verkehr_flylDEN2022:1",
-    "name": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Flugverkehr",
-    "name_lang": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) Flugverkehr (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Flugverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_07verkehr_flylDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_DEN_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Flugverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_07_2022.pdf?ts=1706012395",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_08verkehr_flylN2022:1",
-    "name": "Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)",
-    "name_lang": "Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA) (Strat. Lärmkarte L N (Nacht-Index) Flugverkehr 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_08verkehr_flylN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_N_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Flugverkehr 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_08_2022.pdf?ts=1706012398",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_09gewerbeDEN2022:1",
-    "name": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) IED-Anlagen (Kraftwerke)",
-    "name_lang": "Strategische Lärmkarte L_DEN (Tag-Abend-Nacht-Lärmindex) IED-Anlagen (Kraftwerke) (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) IED-Anlagen (Kraftwerke) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_09gewerbeDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_DEN_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) IED-Anlagen (Kraftwerke) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_09_2022.pdf?ts=1706012383",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_10gewerbeN2022:1",
-    "name": "Strategische Lärmkarte L_N (Nacht-Lärmindex) IED-Anlagen (Kraftwerke)",
-    "name_lang": "Strategische Lärmkarte L_N (Nacht-Lärmindex) IED-Anlagen (Kraftwerke) (Strat. Lärmkarte L N (Nacht-Index) IED-Anlagen (Kraftwerke) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_10gewerbeN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_N_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) IED-Anlagen (Kraftwerke) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_10_2022.pdf?ts=1706012385",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:0",
-    "name": "Fassadenpegel aller bewerteten Lärmquellen",
-    "name_lang": "Fassadenpegel aller bewerteten Lärmquellen (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_11fassadpeg2016_pegel.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:2",
-    "name": "Autobahn",
-    "name_lang": "Autobahn (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_A_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "500",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:3",
-    "name": "Bundesstraßen",
-    "name_lang": "Bundesstraßen (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_B_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:4",
-    "name": "Sonstiges untersuchtes Straßennetz",
-    "name_lang": "Sonstiges untersuchtes Straßennetz (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sonst_strassen_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:5",
-    "name": "Tram und oberirdische U-Bahn",
-    "name_lang": "Tram und oberirdische U-Bahn (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_tram_ubahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:1",
-    "name": "S- und Fernbahn",
-    "name_lang": "S- und Fernbahn (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sbahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:10",
-    "name": "Lärmschutzeinrichtungen",
-    "name_lang": "Lärmschutzeinrichtungen (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "10",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_laermschutz_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:6",
-    "name": "Wohngebäude",
-    "name_lang": "Wohngebäude (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "6",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_11fassadpeg2016_wohnen.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:7",
-    "name": "Krankenhäuser",
-    "name_lang": "Krankenhäuser (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "7",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_11fassadpeg2016_KH.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_11_fassadpeg2022:8",
-    "name": "Bildungseinrichtungen",
-    "name_lang": "Bildungseinrichtungen (Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_11_fassadpeg2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "8",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_11fassadpeg2016_bildung.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte Fassadenpegel an lärmbeeinflussten Wohngebäuden 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "10000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:1",
-    "name": "Autobahn",
-    "name_lang": "Autobahn (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_A_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:3",
-    "name": "Bundesstraßen",
-    "name_lang": "Bundesstraßen (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_B_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:4",
-    "name": "Sonstiges untersuchtes Straßennetz",
-    "name_lang": "Sonstiges untersuchtes Straßennetz (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sonst_strassen_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:0",
-    "name": "S- und Fernbahn",
-    "name_lang": "S- und Fernbahn (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sbahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:5",
-    "name": "Straßenbahn und oberirdische U-Bahn",
-    "name_lang": "Straßenbahn und oberirdische U-Bahn (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_tram_ubahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:6",
-    "name": "Lärmschutzeinrichtungen",
-    "name_lang": "Lärmschutzeinrichtungen (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "6",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_laermschutz_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_14verkehr_gesDEN2022:2",
-    "name": "Gesamtlärm Verkehr L_DEN",
-    "name_lang": "Gesamtlärm Verkehr L_DEN (Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_14verkehr_gesDEN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_DEN_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L DEN (Tag-Abend-Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:1",
-    "name": "Autobahn",
-    "name_lang": "Autobahn (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_A_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:3",
-    "name": "Bundesstraßen",
-    "name_lang": "Bundesstraßen (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_B_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:4",
-    "name": "Sonstiges untersuchtes Straßennetz",
-    "name_lang": "Sonstiges untersuchtes Straßennetz (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sonst_strassen_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:0",
-    "name": "S- und Fernbahn",
-    "name_lang": "S- und Fernbahn (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_sbahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:5",
-    "name": "Straßenbahn und oberirdische U-Bahn",
-    "name_lang": "Straßenbahn und oberirdische U-Bahn (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_tram_ubahn_2016.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:6",
-    "name": "Lärmschutzeinrichtungen",
-    "name_lang": "Lärmschutzeinrichtungen (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "6",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_laermschutz_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_07_05_15verkehr_gesN2022:2",
-    "name": "Gesamtlärm Verkehr L_N",
-    "name_lang": "Gesamtlärm Verkehr L_N (Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_07_05_15verkehr_gesN2022",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_07_05_N_2022.png",
-    "datasets": [
-      {
-        "md_name": "Strat. Lärmkarte L N (Nacht-Index) Gesamtverkehr (Straße, Schiene, Luft) 2022 (Umweltatlas)",
-        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "250",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
-    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_15_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "schallschutzfensterprogramm:schallschutzfensterprogramm",
     "name": "Schallschutzfensterprogramm 2024/2025",
     "name_lang": "Schallschutzfensterprogramm 2024/2025 (Schallschutzfensterprogramm 2024/2025)",
@@ -41059,5 +39709,614 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022",
+    "name": "Autobahn 2022",
+    "name_lang": "Autobahn 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+    "name": "Bundesstraßen 2022",
+    "name_lang": "Bundesstraßen 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "name_lang": "Sonstiges untersuchtes Straßennetz 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "name_lang": "Lärmschutzeinrichtungen 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:bb_strasse_gesamt_den2022",
+    "name": "Straßenverkehr L DEN (Tag-Abend-Nacht-Index) 2022",
+    "name_lang": "Straßenverkehr L DEN (Tag-Abend-Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bb_strasse_gesamt_den2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:cb_strasse_gesamt_n2022",
+    "name": "Straßenverkehr L N (Nacht-Index) 2022",
+    "name_lang": "Straßenverkehr L N (Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cb_strasse_gesamt_n2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "name_lang": "Straßen- und oberirdische U-Bahn 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:bc_tram_ubahn_den2022",
+    "name": "Straßen- und oberirdische U-Bahn L DEN (Tag-Abend-Nacht-Index) 2022",
+    "name_lang": "Straßen- und oberirdische U-Bahn L DEN (Tag-Abend-Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bc_tram_ubahn_den2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:cc_tram_ubahn_n2022",
+    "name": "Straßen- und oberirdische U-Bahn L N (Nacht-Index) 2022",
+    "name_lang": "Straßen- und oberirdische U-Bahn L N (Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cc_tram_ubahn_n2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:bd_flug_gesamt_den2022",
+    "name": "Flugverkehr L DEN (Tag-Abend-Nacht-Index) 2022",
+    "name_lang": "Flugverkehr L DEN (Tag-Abend-Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bd_flug_gesamt_den2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:cd_flug_gesamt_n2022",
+    "name": "Flugverkehr L_N (Nacht-Index) 2022",
+    "name_lang": "Flugverkehr L_N (Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cd_flug_gesamt_n2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:be_industrie_den2022",
+    "name": "IED-Anlagen (Kraftwerke) L DEN (Tag-Abend-Nacht-Index) 2022",
+    "name_lang": "IED-Anlagen (Kraftwerke) L DEN (Tag-Abend-Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "be_industrie_den2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ce_industrie_n2022",
+    "name": "IED-Anlagen (Kraftwerke) L N (Nacht-Index) 2022",
+    "name_lang": "IED-Anlagen (Kraftwerke) L N (Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ce_industrie_n2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:aa_fp_gesamt2022",
+    "name": "Fassadenpegel aller bewerteten Lärmquellen 2022",
+    "name_lang": "Fassadenpegel aller bewerteten Lärmquellen 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "aa_fp_gesamt2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+    "name": "S- und Fernbahn 2022",
+    "name_lang": "S- und Fernbahn 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "dd_s_und_fernbahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
+    "name": "Wohngebäude 2022",
+    "name_lang": "Wohngebäude 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ab_wohngebaeude2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
+    "name": "Krankenhäuser 2022",
+    "name_lang": "Krankenhäuser 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ac_krankenhaeuser2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
+    "name": "Bildungseinrichtungen 2022",
+    "name_lang": "Bildungseinrichtungen 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ad_bildungseinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ae_kita2022",
+    "name": "Kindertagesstätten 2022",
+    "name_lang": "Kindertagesstätten 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ae_kita2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:bf_gesamtlaerm_den2022",
+    "name": "Gesamtverkehr (Straße, Schiene, Luft) L DEN (Tag-Abend-Nacht-Index) 2022",
+    "name_lang": "Gesamtverkehr (Straße, Schiene, Luft) L DEN (Tag-Abend-Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bf_gesamtlaerm_den2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:cf_gesamtlaerm_n2022",
+    "name": "Gesamtverkehr (Straße, Schiene, Luft) L N (Nacht-Index) 2022",
+    "name_lang": "Gesamtverkehr (Straße, Schiene, Luft) L N (Nacht-Index) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cf_gesamtlaerm_n2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ba_fp_gesamt2022_lden",
+    "name": "Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) 2022",
+    "name_lang": "Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ba_fp_gesamt2022_lden",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_stratlaerm_2022:ca_fp_gesamt2022_ln",
+    "name": "Fassadenpegel Gesamtlärm L N (Nacht) 2022",
+    "name_lang": "Fassadenpegel Gesamtlärm L N (Nacht) 2022 (Strategische Lärmkarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ca_fp_gesamt2022_ln",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Strategische Lärmkarten 2022 (Umweltatlas)",
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/dacd7d29-e45b-39c6-80e2-ab20e747afd1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
