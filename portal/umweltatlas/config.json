@@ -3207,12 +3207,12 @@
                       "name": "Trinkwasserschutzgebiete"
                     },
                     {
-                      "id": "ua_hochwasserrisikokarten:ee_hwrk_gefaehrdete_objekte_hoch",
-                      "name": "Potenziell gefährdete Objekte"
-                    },
-                    {
                       "id": "ua_hochwasserrisikokarten:ee_hwrk_weltkulturerbe_hoch",
                       "name": "UNESCO-Weltkulturerbe"
+                    },
+                     {
+                      "id": "ua_hochwasserrisikokarten:ef_hwrk_gefaehrdete_objekte_hoch",
+                      "name": "Potenziell gefährdete Objekte"
                     },
                     {
                       "id": "ua_hochwasserrisikokarten:eg_hwrk_wirtschaftliche_taetigkeit_hoch",
