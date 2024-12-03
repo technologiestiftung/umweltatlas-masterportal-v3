@@ -7289,15 +7289,15 @@
                   "elements": [
                     {
                       "id": "ua_stratlaerm_2022:cd_flug_gesamt_n2022",
-                      "name": "2022 - Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
+                      "name": "2022 - Strategische Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
                     },
                     {
                       "id": "wmsk_07_05_08flugN:1",
-                      "name": "2017 - Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
+                      "name": "2017 - Strategische Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
                     },
                     {
                       "id": "wmsk_07_05_08flugN2012:1",
-                      "name": "2012 - Strat. Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
+                      "name": "2012 - Strategische Lärmkarte L_N (Nacht-Index) Flugverkehr (UA)"
                     },
                     {
                       "id": "k07_05_08txlN2007:1",
@@ -7968,7 +7968,8 @@
                           "name": "2022 - Kindertagesstätten"
                         }
                       ]
-                    },{
+                    },
+                    {
                       "name": "2017",
                       "type": "folder",
                       "elements": [
