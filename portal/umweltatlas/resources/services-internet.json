@@ -39937,8 +39937,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
-    ,
+    "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
     "uaContact": {
@@ -39971,8 +39970,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
-    ,
+    "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
     "uaContact": {
@@ -40005,8 +40003,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
-    ,
+    "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_04_2022.pdf",
     "uaContact": {
@@ -40039,8 +40036,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
-    ,
+    "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_07_2022.pdf",
     "uaContact": {
@@ -40206,8 +40202,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
-    ,
+    "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/datengrundlage-und-berechnungsmodell/",
     "uaContact": {
       "name": "Leilah Haag",
