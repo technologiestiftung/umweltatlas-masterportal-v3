@@ -3166,41 +3166,24 @@
                   "name": "02.23.1 Hochwassergefahrenkarte für Hochwasser mit hoher Wahrscheinlichkeit",
                   "type": "folder",
                   "elements": [
-                    { "id": "k02_23_1hwgkhigh2019:1", "name": "Panke" },
-                    { "id": "k02_23_1hwgkhigh2019:2", "name": "Untere Havel" },
-                    { "id": "k02_23_1hwgkhigh2019:3", "name": "Tegeler Fließ" },
-                    { "id": "k02_23_1hwgkhigh2019:4", "name": "Erpe" },
-                    { "id": "k02_23_1hwgkhigh2019:5", "name": "Gewässer" }
+                    { "id": "ua_hochwassergefahrenkarten:a_hwgk_hoch", "name": "Hochwasser mit hoher Wahrscheinlichkeit" },
+                    { "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser", "name": "Gewässer" }
                   ]
                 },
                 {
                   "name": "02.23.2 Hochwassergefahrenkarte für Hochwasser mit mittlerer Wahrscheinlichkeit",
                   "type": "folder",
                   "elements": [
-                    { "id": "k02_23_2hwgkmedium2019:1", "name": "Panke" },
-                    {
-                      "id": "k02_23_2hwgkmedium2019:2",
-                      "name": "Untere Havel"
-                    },
-                    {
-                      "id": "k02_23_2hwgkmedium2019:3",
-                      "name": "Tegeler Fließ"
-                    },
-                    { "id": "k02_23_2hwgkmedium2019:4", "name": "Erpe" },
-                    { "id": "k02_23_2hwgkmedium2019:5", "name": "Müggelspree" },
-                    { "id": "k02_23_2hwgkmedium2019:6", "name": "Gewässer" }
+                    { "id": "ua_hochwassergefahrenkarten:b_hwgk_mittel", "name": "Hochwasser mit mittlerer Wahrscheinlichkeit" },
+                    { "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser", "name": "Gewässer" }
                   ]
                 },
                 {
                   "name": "02.23.3 Hochwassergefahrenkarte für Hochwasser mit niedriger Wahrscheinlichkeit",
                   "type": "folder",
                   "elements": [
-                    { "id": "k02_23_3hwgklow2019:1", "name": "Panke" },
-                    { "id": "k02_23_3hwgklow2019:2", "name": "Untere Havel" },
-                    { "id": "k02_23_3hwgklow2019:3", "name": "Tegeler Fließ" },
-                    { "id": "k02_23_3hwgklow2019:4", "name": "Erpe" },
-                    { "id": "k02_23_3hwgklow2019:5", "name": "Müggelspree" },
-                    { "id": "k02_23_3hwgklow2019:6", "name": "Gewässer" }
+                    { "id": "ua_hochwassergefahrenkarten:c_hwgk_niedrig", "name": "Hochwasser mit niedriger Wahrscheinlichkeit" },
+                    { "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser", "name": "Gewässer" }
                   ]
                 },
                 {
@@ -3208,27 +3191,31 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k02_23_4hwrkhigh2019:1",
+                      "id": "ua_hochwasserrisikokarten:ea_hwrk_hochwasser_einwohner_hoch",
                       "name": "Betroffene Einwohner je Risikogebiet"
                     },
                     {
-                      "id": "k02_23_4hwrkhigh2019:2",
+                      "id": "ua_hochwasserrisikokarten:eb_hwrk_eu_badestelle_hoch",
                       "name": "EU-Freibad/Badestelle"
                     },
                     {
-                      "id": "k02_23_4hwrkhigh2019:3",
+                      "id": "ua_hochwasserrisikokarten:ec_hwrk_betroffene_schutzgebiete_hoch",
                       "name": "Potenziell betroffene Schutzgebiete"
                     },
                     {
-                      "id": "k02_23_4hwrkhigh2019:4",
-                      "name": "UNESCO-Weltkulturerbe"
+                      "id": "ua_hochwasserrisikokarten:ed_hwrk_trinkwasser_hoch",
+                      "name": "Trinkwasserschutzgebiete"
                     },
                     {
-                      "id": "k02_23_4hwrkhigh2019:5",
+                      "id": "ua_hochwasserrisikokarten:ee_hwrk_gefaehrdete_objekte_hoch",
                       "name": "Potenziell gefährdete Objekte"
                     },
                     {
-                      "id": "k02_23_4hwrkhigh2019:6",
+                      "id": "ua_hochwasserrisikokarten:ee_hwrk_weltkulturerbe_hoch",
+                      "name": "UNESCO-Weltkulturerbe"
+                    },
+                    {
+                      "id": "ua_hochwasserrisikokarten:eg_hwrk_wirtschaftliche_taetigkeit_hoch",
                       "name": "Art der wirtschaftlichen Tätigkeit"
                     }
                   ]
@@ -3238,27 +3225,31 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k02_23_5hwrkmedium2019:1",
+                      "id": "ua_hochwasserrisikokarten:fa_hwrk_hochwasser_einwohner_mittel",
                       "name": "Betroffene Einwohner je Risikogebiet"
                     },
                     {
-                      "id": "k02_23_5hwrkmedium2019:2",
+                      "id": "ua_hochwasserrisikokarten:fb_hwrk_eu_badestelle_mittel",
                       "name": "EU-Freibad/Badestelle"
                     },
                     {
-                      "id": "k02_23_5hwrkmedium2019:3",
+                      "id": "ua_hochwasserrisikokarten:fc_hwrk_betroffene_schutzgebiete_mittel",
                       "name": "Potenziell betroffene Schutzgebiete"
                     },
                     {
-                      "id": "k02_23_5hwrkmedium2019:4",
+                      "id": "ua_hochwasserrisikokarten:fd_hwrk_trinkwasser_mittel",
+                      "name": "Trinkwasserschutzgebiete"
+                    },
+                    {
+                      "id": "ua_hochwasserrisikokarten:fe_hwrk_weltkulturerbe_mittel",
                       "name": "UNESCO-Weltkulturerbe"
                     },
                     {
-                      "id": "k02_23_5hwrkmedium2019:5",
+                      "id": "ua_hochwasserrisikokarten:ff_hwrk_gefaehrdete_objekte_mittel",
                       "name": "Potenziell gefährdete Objekte"
                     },
                     {
-                      "id": "k02_23_5hwrkmedium2019:6",
+                      "id": "ua_hochwasserrisikokarten:fg_hwrk_wirtschaftliche_taetigkeit_mittel",
                       "name": "Art der wirtschaftlichen Tätigkeit"
                     }
                   ]
@@ -3268,27 +3259,35 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k02_23_6hwrklow2019:1",
+                      "id": "ua_hochwasserrisikokarten:ga_hwrk_hochwasser_einwohner_niedrig",
                       "name": "Betroffene Einwohner je Risikogebiet"
                     },
                     {
-                      "id": "k02_23_6hwrklow2019:2",
+                      "id": "ua_hochwasserrisikokarten:gb_hwrk_eu_badestelle_niedrig",
                       "name": "EU-Freibad/Badestelle"
                     },
                     {
-                      "id": "k02_23_6hwrklow2019:3",
+                      "id": "ua_hochwasserrisikokarten:gc_hwrk_betroffene_schutzgebiete_niedrig",
                       "name": "Potenziell betroffene Schutzgebiete"
                     },
                     {
-                      "id": "k02_23_6hwrklow2019:4",
+                      "id": "ua_hochwasserrisikokarten:gc_hwrk_betroffene_schutzgebiete_niedrig",
+                      "name": "Potenziell betroffene Schutzgebiete"
+                    },
+                    {
+                      "id": "ua_hochwasserrisikokarten:gd_hwrk_trinkwasser_niedrig",
+                      "name": "Trinkwasserschutzgebiete"
+                    },
+                    {
+                      "id": "ua_hochwasserrisikokarten:ge_hwrk_weltkulturerbe_niedrig",
                       "name": "UNESCO-Weltkulturerbe"
                     },
                     {
-                      "id": "k02_23_6hwrklow2019:5",
+                      "id": "ua_hochwasserrisikokarten:gf_hwrk_gefaehrdete_objekte_niedrig",
                       "name": "Potenziell gefährdete Objekte"
                     },
                     {
-                      "id": "k02_23_6hwrklow2019:6",
+                      "id": "ua_hochwasserrisikokarten:gg_hwrk_wirtschaftliche_taetigkeit_niedrig",
                       "name": "Art der wirtschaftlichen Tätigkeit"
                     }
                   ]
