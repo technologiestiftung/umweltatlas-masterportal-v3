@@ -1733,14 +1733,6 @@
                         {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022",
                           "name": "2022 - Art der Kanalisation"
-                        },
-                        {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022_1",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation"
-                        },
-                        {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022_2",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation differenziert"
                         }
                       ]
                     },
@@ -1749,7 +1741,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "wmsk02_09_1artkan2017:1",
+                          "id": "ua_kanalisation_2017:artkan2017",
                           "name": "2017 - Art der Kanalisation"
                         }
                       ]
@@ -1805,16 +1797,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022",
-                          "name": "2022 - Art der Kanalisation"
-                        },
-                        {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022_1",
                           "name": "2022 - Einzugsgebiete der Regenwasserkanalisation"
-                        },
-                        {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022_2",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation differenziert"
                         }
                       ]
                     },
@@ -1823,7 +1807,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "wmsk02_09_2rkan2017:1",
+                          "id": "ua_kanalisation_2017:rkan2017",
                           "name": "2017 - Einzugsgebiete der Regenwasserkanalisation"
                         }
                       ]
@@ -1883,14 +1867,6 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022",
-                          "name": "2022 - Art der Kanalisation"
-                        },
-                        {
-                          "id": "ua_kanalisation_2022:sp02_09kanalisation2022_1",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation"
-                        },
-                        {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022_2",
                           "name": "2022 - Einzugsgebiete der Regenwasserkanalisation differenziert"
                         }
@@ -1901,7 +1877,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "wmsk02_09_21rkd2017:1",
+                          "id": "ua_kanalisation_2017:rkd2017",
                           "name": "2017 - Regenwassereinzugsgebiete differenziert"
                         }
                       ]
