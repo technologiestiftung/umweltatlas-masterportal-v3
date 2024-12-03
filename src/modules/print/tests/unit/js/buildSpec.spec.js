@@ -664,7 +664,7 @@ describe("src/modules/print/js/buildSpec", function () {
             const source = new VectorSource(),
                 layer = new VectorLayer({
                     source,
-                    style: measureStyle
+                    style: measureStyle([255, 127, 0, 1.0])
                 }),
                 feature = new Feature({
                     geometry: new Polygon([[[0, 0], [0, 1], [1, 1], [0, 0]]])

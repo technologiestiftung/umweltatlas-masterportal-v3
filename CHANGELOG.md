@@ -7,20 +7,50 @@
 ### __Breaking Changes__
 
 ### Added
+- Measure-Tool: Added config parameter color for the measured lines and polygons.
+- Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
 
 ### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
 
 ### Deprecated
 
 ### Removed
+- Issue #1300: Migrator: The following attributes are removed from the search interface bkg when migrating, as they have no effect: `minCharacters`, `suggestCount`, `suggestServiceId`, `zoomLevel`, `zoomToResultOnClick` and `zoomToResultOnHover`.
+- GetFeatureInfo: The attributes `imageLinks` and `maxWidth` have been removed from the gfiTheme `Default`, as the images are now rendered within the table.
 
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Issue #1280: showInLayerTree can be set up to false.
+- Issue #1275: Layers without capabilitiesURL can now be added as baselayers. 
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
+- Issue #1292: fixed undefined in LayerInformation contact data and show zip code in one line with city.
+- Issue #1300:
+    - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
+    - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
+- Issue #1308:
+    - The postal code is now correctly placed before the city in the about module
+    - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- wfst: layers that are not in services.json are supported.
+- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
+- BuildPortal: Updated mastercodeVersionFolderName to prevent whitespaces and colons, ensuring correct CSS and JavaScript paths in index.html and common.json files. Added a timestamp (`_created_at_<createdAtDate>`) to the build folder name to ensure unique folder names for each build.
+- LayerSelection: fixed alphabetical sorting of subtopics.
+
+---
+
+## 2024-11-15 v3.4.1
+
+### Fixed
 - Searchbar: the search in search results shows results and no error occurs.
-- Issue #1280: showInLayerTree can be set up to false.
+- Filter: for FilterSnippets on gfiAttributes with object definition the title is now taken from the gfiAttribute.
 
 ---
 
@@ -36,7 +66,7 @@
     - Travelling Salesman Routing (TSR) with VROOM
 - Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
 - Filter supports secure WFS request.
-- ShareView: Added hashtag to shared link to help Outlook recognize our links correctly.
+- ShareView: Added hashtag to shared link to share link correctly.
 - LayerInformation: Added last revision date to Layer Information.
 
 ### Changed
@@ -65,7 +95,6 @@
 - BuildPortal: Fixed mastercodeVersionFolderName to never include whitespaces or colons to avoid an error being thrown, if the version you are building in includes them.
 - Searchbar: The action "Show topic in folder" was fixed.
 - i18next: Modified missing key handling to retain namespace prefixes.
-- 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 
 ---
 

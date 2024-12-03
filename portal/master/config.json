@@ -765,12 +765,12 @@
             {
               "id":"elasticSearch_0",
               "searchCategory": "Thema (externe Fachdaten)"
-            }, 
+            },
             {
               "id": "topicTree",
               "searchCategory": "Thema"
             }
-          ]         
+          ]
         }
       },
       "highlightedFeatures": {

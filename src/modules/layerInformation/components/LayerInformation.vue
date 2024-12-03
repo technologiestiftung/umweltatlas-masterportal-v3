@@ -205,10 +205,10 @@ export default {
                 {{ positionName }}
             </p>
             <p>
-                {{ contact.street + "  " + contact.postalCode }}
+                {{ contact.street }}
             </p>
             <p>
-                {{ contact.city }}
+                {{ contact.postalCode }} {{ contact.city }}
             </p>
             <a
                 :href="'mailto:' + contact.email"

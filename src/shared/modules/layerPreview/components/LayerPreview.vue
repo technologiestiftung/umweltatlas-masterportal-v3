@@ -80,6 +80,7 @@ export default {
         ...mapActions("Modules/LayerPreview", [
             "initialize"
         ]),
+        ...mapActions("Alerting", ["addSingleAlert"]),
         ...mapMutations("Modules/LayerPreview", [
             "addPreviewUrl"
         ]),
@@ -125,15 +126,12 @@ export default {
          * @param {Object} layerConfig config of the WMS layer
          * @returns {void}
          */
-        buildWMSUrl (layerConfig) {
+        buildWMSUrl (layerConfig, existingUrl) {
             let layerConfigUrl,
                 params,
-                url;
+                url = existingUrl;
 
-            if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
-                url = layerConfig.preview.src;
-            }
-            else {
+            if (!url) {
                 if (layerConfig.typ === "GROUP") {
                     layerConfigUrl = layerConfig.children[0].url;
                     params = wms.makeParams(layerConfig.children[0]);
@@ -163,12 +161,20 @@ export default {
          * @param {Object} layerConfig config of the WMTS layer
          * @returns {void}
          */
-        buildWMTSUrl (layerConfig) {
-            wmts.getWMTSCapabilities(layerConfig.capabilitiesUrl).then((capabilities) => {
-                this.createWMTSPreviewUrlFromCapabilities(layerConfig, capabilities);
-            }).catch(error => {
-                console.warn("Error occured during creation of url for preview of wmts-layer", layerConfig, error);
-            });
+        buildWMTSUrl (layerConfig, url) {
+            if (layerConfig.capabilitiesUrl) {
+                wmts.getWMTSCapabilities(layerConfig.capabilitiesUrl).then((capabilities) => {
+                    this.createWMTSPreviewUrlFromCapabilities(layerConfig, capabilities);
+                }).catch(error => {
+                    console.warn("Error occured during creation of url for preview of wmts-layer", layerConfig, error);
+                });
+            }
+            else if (!url) {
+                console.warn("There is no preview image for " + layerConfig.name + ". You can specify a preview image in the layer config under preview.src.");
+            }
+            else {
+                this.load(url);
+            }
         },
 
         /**
@@ -213,8 +219,8 @@ export default {
          * @param {Object} layerConfig config of the VectorTile layer
          * @returns {void}
          */
-        buildVectorTileUrl (layerConfig) {
-            this.addPreviewUrl({id: layerConfig.id, previewUrl: layerConfig.preview?.src});
+        buildVectorTileUrl (layerConfig, url) {
+            this.addPreviewUrl({id: layerConfig.id, previewUrl: url ? url : ""});
         },
 
         /**
@@ -232,19 +238,23 @@ export default {
          */
         generatePreviewUrlByConfigType () {
             const layerConfig = this.layerConfigById(this.layerId);
+            let url;
 
             if (layerConfig && this.supportedLayerTyps.includes(layerConfig.typ)) {
+                if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
+                    url = layerConfig.preview.src;
+                }
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
                 this.layerName = layerConfig.name;
                 if (!this.previewUrlByLayerIds[this.layerId]) {
                     if (layerConfig.typ === "WMS" || layerConfig.typ === "GROUP") {
-                        this.buildWMSUrl(layerConfig);
+                        this.buildWMSUrl(layerConfig, url);
                     }
                     else if (layerConfig.typ === "WMTS") {
-                        this.buildWMTSUrl(layerConfig);
+                        this.buildWMTSUrl(layerConfig, url);
                     }
                     else if (layerConfig.typ === "VectorTile") {
-                        this.buildVectorTileUrl(layerConfig);
+                        this.buildVectorTileUrl(layerConfig, url);
                     }
                 }
             }
@@ -275,11 +285,15 @@ export default {
             'layerPreview'
         ]"
         :data-bs-toggle="!isMobile ? 'tooltip' : null"
+        :data-bs-original-title="layerName"
         :title="layerName"
         @click="clicked()"
         @keydown.enter="clicked()"
     >
-        <div class="wrapperImg">
+        <div
+            class="wrapperImg"
+            title=""
+        >
             <img
                 :class="[
                     customClass,
@@ -306,7 +320,7 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.layerPreview{
+.layerPreview {
     position: relative;
     width: 50px;
     height: 50px;
@@ -327,10 +341,10 @@ export default {
 .bi-circle::before {
     display: block;
 }
-.wrapperImg{
+.wrapperImg {
    position: absolute;
 }
-.checkable{
+.checkable {
     position: absolute;
     width: 50px;
     height: 50px;
@@ -342,7 +356,7 @@ export default {
     border: 2px solid rgba(66, 66, 66, 0.3);
     border-radius: 50%;
 }
-.checkable:hover, .checkable:focus,  .checkable:active{
+.checkable:hover, .checkable:focus,  .checkable:active {
     border: 2px solid rgba(66, 66, 66, 0.8);
 }
 
@@ -350,7 +364,7 @@ export default {
     .checkable{
         font-size: 2.5rem;
         text-align: center;
-}
+    }
 }
 
 </style>
