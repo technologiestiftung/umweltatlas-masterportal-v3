@@ -6516,14 +6516,20 @@
                       "name": "2021",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k_06_06ewdichte2021:1",
-                          "name": "2021 - Einwohnerdichte"
-                        },
-                        {
-                          "id": "k_06_06ewdichte2021:2",
-                          "name": "2021 - Einwohnerentwicklung zwischen 2020 und"
-                        }
+                                                        {
+
+                                    "id": "ua_einwohnerdichte_2021:ua_einwohnerdichte_2021_entw",
+
+                                    "name": "2021 - Einwohnerentwicklung zwischen 2020 und 2021"
+
+                                },
+{
+
+                                    "id": "ua_einwohnerdichte_2021:ua_einwohnerdichte_2021",
+
+                                    "name": "2021 - Einwohnerdichte 2021"
+
+                                }
                       ]
                     },
                     {
