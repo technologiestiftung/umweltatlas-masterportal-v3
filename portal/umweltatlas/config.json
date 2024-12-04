@@ -1281,10 +1281,10 @@
                   "name": "01.17 Geologische Skizze",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "wmsk_01_14_01geoskizze:2",
-                      "name": "2007 - Geologische Skizze"
-                    }
+    {
+        "id": "ua_geoskizze:c_geoskizze",
+        "name": "2007 - Geologische Skizze"
+    }
                   ]
                 }
               ]
