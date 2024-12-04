@@ -1247,28 +1247,60 @@
                   "name": "01.19.1 Moorgebiete und Bodentypen",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "wmsk01_19_1moorbodtyp2015:2",
-                      "name": "2015 - Moorgebiete"
-                    },
-                    {
-                      "id": "wmsk01_19_1moorbodtyp2015:1",
-                      "name": "2015 - Bodentypen"
-                    }
+                                                    {
+
+                                    "id": "ua_moore:c_sp01_19_1moorbodtyp2015_tgeb",
+
+                                    "name": "Bodentypen"
+
+                                },
+								                                {
+
+                                    "id": "ua_moore:b_sp01_19_1moorbodtyp2015_geb",
+
+                                    "name": "Moorgebiete"
+
+                                },
+{
+
+                                    "id": "ua_moore:a_sp01_19_1moorbodtyp2015_pkt",
+
+                                    "name": "Aufnahmepunkte"
+
+                                }
+
+
+
+
+
                   ]
                 },
                 {
                   "name": "01.19.2 Kohlenstoffvorräte der Moore",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "wmsk01_19_2moor_cspeicher2015:2",
-                      "name": "2015 - Moorgebiete"
-                    },
-                    {
-                      "id": "wmsk01_19_2moor_cspeicher2015:1",
-                      "name": "2015 - Kohlenstoffvorräte"
-                    }
+                                                    {
+
+                                    "id": "ua_moore:d_sp01_19_1moor_cspeicher2015",
+
+                                    "name": "Kohlenstoffvorräte"
+
+                                },
+								                                {
+
+                                    "id": "ua_moore:b_sp01_19_1moorbodtyp2015_geb",
+
+                                    "name": "Moorgebiete"
+
+                                },
+{
+
+                                    "id": "ua_moore:a_sp01_19_1moorbodtyp2015_pkt",
+
+                                    "name": "Aufnahmepunkte"
+
+                                }
+
                   ]
                 }
               ]
