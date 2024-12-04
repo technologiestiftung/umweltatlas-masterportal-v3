@@ -6536,14 +6536,20 @@
                       "name": "2020",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k_06_06ewdichte2020:1",
-                          "name": "2020 - Einwohnerdichte"
-                        },
-                        {
-                          "id": "k_06_06ewdichte2020:2",
-                          "name": "2020 - Einwohnerentwicklung zwischen 2019 und"
-                        }
+                                                        {
+
+                                    "id": "ua_einwohnerdichte_2020:ua_einwohnerdichte_2020_entw",
+
+                                    "name": "2020 - Einwohnerentwicklung zwischen 2019 und 2020"
+
+                                },
+{
+
+                                    "id": "ua_einwohnerdichte_2020:ua_einwohnerdichte_2020",
+
+                                    "name": "2020 - Einwohnerdichte 2020"
+
+                                }
                       ]
                     },
                     {
