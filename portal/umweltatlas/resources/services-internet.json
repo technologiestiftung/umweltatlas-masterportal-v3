@@ -6183,40 +6183,6 @@
     }
   },
   {
-    "id": "wmsk01_20gk25:2",
-    "name": "Kürzel",
-    "name_lang": "Kürzel (Geologische Karte 1 : 25.000 (Historische GK25, Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk01_20gk25",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_20_GK25.png",
-    "datasets": [
-      {
-        "md_name": "Geologische Karte 1 : 25.000 (Historische GK25, Umweltatlas)",
-        "md_id": "3cfed238-c727-3aed-af05-1f5af472cb5d",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/af1ee7c7-2dd5-3c68-9b9d-cf0d6091f0c1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "6000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-karte/1937/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/geologische-karte/karte/01_20_1937.pdf?ts=1696236367",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_rieselfelder:a_rieselfelder_pkt",
     "name": "Sondernutzung (Punkte)",
     "name_lang": "Sondernutzung (Punkte) (Ehemalige Rieselfelder (Umweltatlas))",
@@ -41223,5 +41189,31 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_gk25:gk25",
+    "name": "Geologische Karte 1 : 25.000",
+    "name_lang": "Geologische Karte 1 : 25.000 (Geologische Karte 1 : 25.000 (Historische GK25, Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gk25",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gk25",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Geologische Karte 1 : 25.000 (Historische GK25, Umweltatlas)",
+        "md_id": "3cfed238-c727-3aed-af05-1f5af472cb5d",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/af1ee7c7-2dd5-3c68-9b9d-cf0d6091f0c1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
