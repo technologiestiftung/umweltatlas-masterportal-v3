@@ -41214,6 +41214,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-karte/1937/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/geologische-karte/karte/01_20_1937.pdf?ts=1696236367",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
