@@ -41216,6 +41216,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+        "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/gruenvolumen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/gruenvolumen/karten/05_09_2020.pdf?ts=1696143042",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   }
 ]
