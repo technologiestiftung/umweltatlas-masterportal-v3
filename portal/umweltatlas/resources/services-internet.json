@@ -26506,71 +26506,6 @@
     }
   },
   {
-    "id": "k_06_06ewdichte2021:1",
-    "name": "Einwohnerentwicklung zwischen 2020 und 2021",
-    "name_lang": "Einwohnerentwicklung zwischen 2020 und 2021 (Einwohnerdichte 2021 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_06_06ewdichte2021",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewentwicklung2020_2021.png",
-    "datasets": [
-      {
-        "md_name": "Einwohnerdichte 2021 (Umweltatlas)",
-        "md_id": "54e2c658-3282-4d3c-8aa3-be6a47b4abd3",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/d9b6c19a-e105-3738-b8a5-38471edcaed6",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2021/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2021/karten/06_06_2021.pdf?ts=1696399438",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_06_06ewdichte2021:2",
-    "name": "Einwohnerentwicklung zwischen 2020 und 2021",
-    "name_lang": "Einwohnerentwicklung zwischen 2020 und 2021 (Einwohnerdichte 2021 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_06_06ewdichte2021",
-    "typ": "WMS",
-    "layers": "1",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewentwicklung2020_2021.png",
-    "datasets": [
-      {
-        "md_id": "da03c0f6-a0df-33e8-9f88-f7b8f704475e",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/d9b6c19a-e105-3738-b8a5-38471edcaed6",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": "True",
-    "tilesize": "512",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2021/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2021/karten/06_06_2021.pdf?ts=1696399438",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k_06_06ewdichte2020:1",
     "name": "Einwohnerentwicklung zwischen 2019 und 2020",
     "name_lang": "Einwohnerentwicklung zwischen 2019 und 2020 (Einwohnerdichte 2020 (Umweltatlas))",
@@ -41457,5 +41392,57 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_einwohnerdichte_2021:ua_einwohnerdichte_2021_entw",
+    "name": "Einwohnerentwicklung zwischen 2020 und 2021",
+    "name_lang": "Einwohnerentwicklung zwischen 2020 und 2021 (Einwohnerdichte 2021 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2021",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2021_entw",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2021 (Umweltatlas)",
+        "md_id": "55b87771-0767-4dca-b4a8-0dc43b963e64",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b4cc3d8e-0fb7-3bc0-9227-2923c0eaba99",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2021:ua_einwohnerdichte_2021",
+    "name": "Einwohnerdichte 2021",
+    "name_lang": "Einwohnerdichte 2021 (Einwohnerdichte 2021 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2021",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2021 (Umweltatlas)",
+        "md_id": "55b87771-0767-4dca-b4a8-0dc43b963e64",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b4cc3d8e-0fb7-3bc0-9227-2923c0eaba99",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
