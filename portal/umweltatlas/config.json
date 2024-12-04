@@ -6712,18 +6712,26 @@
                       "name": "2016",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_06_11_Gruendach_2016:1",
-                          "name": "2016 - Begrünte Dachfläche [m²] (Kreise)"
-                        },
-                        {
-                          "id": "wmsk_06_11_Gruendach_2016:3",
-                          "name": "2016 - Begrünte Dachfläche pro Block- und Blockteilfläche [%]"
-                        },
-                        {
-                          "id": "wmsk_06_11_Gruendach_2016:2",
-                          "name": "2016 - Gebäude"
-                        }
+    {
+        "id": "ua_gruendaecher_2016:e_begruente_dachfl_block",
+        "name": "2016 - Begrünte Dachfläche pro Block- und Blockteilfläche [%]"
+    },
+    {
+        "id": "ua_gruendaecher_2016:d_gebaeude",
+        "name": "2016 - Gebäude"
+    },
+    {
+        "id": "ua_gruendaecher_2016:c_begruente_dachteilfl_tief",
+        "name": "2016 - Begrünte Dachteilflächen - Tiefgaragen"
+    },
+    {
+        "id": "ua_gruendaecher_2016:b_begruente_dachteilfl_geb",
+        "name": "2016 - Begrünte Dachteilflächen - Gebäude"
+    },
+    {
+        "id": "ua_gruendaecher_2016:a_begruente_dachfl_kreise",
+        "name": "2016 - Begrünte Dachfläche [m²] (Kreise)"
+    }
                       ]
                     }
                   ]
