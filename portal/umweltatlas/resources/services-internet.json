@@ -6249,244 +6249,6 @@
     }
   },
   {
-    "id": "k_inggeo:1",
-    "name": "Blattschnitt 1:5000",
-    "name_lang": "Blattschnitt 1:5000 (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k_inggeo?layerID=1",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:2",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_gewaesser.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:3",
-    "name": "obere Schicht",
-    "name_lang": "obere Schicht (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_obere_schicht.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:4",
-    "name": "ehem. Wasserläufe",
-    "name_lang": "ehem. Wasserläufe (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_wasserlaeufe.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:5",
-    "name": "ausgew. Bauwerke",
-    "name_lang": "ausgew. Bauwerke (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_bauwerke.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:6",
-    "name": "Aufschüttungen",
-    "name_lang": "Aufschüttungen (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "6",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_aufschuettung.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k_inggeo:7",
-    "name": "Bohrungen",
-    "name_lang": "Bohrungen (Ingenieurgeologische Karte (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k_inggeo",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "7",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_inggeo_2015_bohrpunkte.png",
-    "datasets": [
-      {
-        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
-        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_rieselfelder:a_rieselfelder_pkt",
     "name": "Sondernutzung (Punkte)",
     "name_lang": "Sondernutzung (Punkte) (Ehemalige Rieselfelder (Umweltatlas))",
@@ -40471,5 +40233,788 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:i_sp_igk_obere_schicht",
+    "name": "Obere Schicht",
+    "name_lang": "Obere Schicht (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "i_sp_igk_obere_schicht",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:h_sp_igk_aufschuettungen",
+    "name": "Aufschüttungen",
+    "name_lang": "Aufschüttungen (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "h_sp_igk_aufschuettungen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:g_sp_igk_bauwerke_pg",
+    "name": "Bauwerke Nummer",
+    "name_lang": "Bauwerke Nummer (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "g_sp_igk_bauwerke_pg",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "20000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:f_sp_igk_bauwerke",
+    "name": "Bauwerke",
+    "name_lang": "Bauwerke (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "f_sp_igk_bauwerke",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:e_sp_igk_altwasser",
+    "name": "Altwasser",
+    "name_lang": "Altwasser (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "e_sp_igk_altwasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:d_sp_igk_gewaesser",
+    "name": "Gewässer",
+    "name_lang": "Gewässer (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_sp_igk_gewaesser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:c_sp_igk_blattschnitte_pg",
+    "name": "Blattschnitte Aufschrift",
+    "name_lang": "Blattschnitte Aufschrift (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_sp_igk_blattschnitte_pg",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:b_sp_igk_blattschnitte_li",
+    "name": "Blattschnitte Linien",
+    "name_lang": "Blattschnitte Linien (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_sp_igk_blattschnitte_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_ingenieurgeologkarte_2017:a_sp_igk_bohrpunkte",
+    "name": "Bohrpunkte",
+    "name_lang": "Bohrpunkte (Ingenieurgeologische Karte (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_ingenieurgeologkarte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_sp_igk_bohrpunkte",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Ingenieurgeologische Karte (Umweltatlas)",
+        "md_id": "10ab8f24-dc7a-3fc8-a7b1-6d97e6f8254f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6b1785f4-95cd-32fa-b568-4587dd302c9f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "minScale": "100.0",
+    "maxScale": "10000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ea_hwrk_hochwasser_einwohner_hoch",
+    "name": "Betroffene Einwohner je Risikogebiet - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "Betroffene Einwohner je Risikogebiet - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ea_hwrk_hochwasser_einwohner_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:eb_hwrk_eu_badestelle_hoch",
+    "name": "EU-Freibad/Badestelle -  Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "EU-Freibad/Badestelle -  Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "eb_hwrk_eu_badestelle_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ec_hwrk_betroffene_schutzgebiete_hoch",
+    "name": "Potenziell betroffene Schutzgebiete - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "Potenziell betroffene Schutzgebiete - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ec_hwrk_betroffene_schutzgebiete_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ed_hwrk_trinkwasser_hoch",
+    "name": "Trinkwasserschutzgebiete - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "Trinkwasserschutzgebiete - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ed_hwrk_trinkwasser_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ee_hwrk_weltkulturerbe_hoch",
+    "name": "UNESCO-Weltkulturerbe - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "UNESCO-Weltkulturerbe - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ee_hwrk_weltkulturerbe_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ef_hwrk_gefaehrdete_objekte_hoch",
+    "name": "Potenziell gefährdete Objekte - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "Potenziell gefährdete Objekte - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ef_hwrk_gefaehrdete_objekte_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:eg_hwrk_wirtschaftliche_taetigkeit_hoch",
+    "name": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit hoher Wahrscheinlichkeit",
+    "name_lang": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit hoher Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "eg_hwrk_wirtschaftliche_taetigkeit_hoch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fa_hwrk_hochwasser_einwohner_mittel",
+    "name": "Betroffene Einwohner je Risikogebiet - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "Betroffene Einwohner je Risikogebiet - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fa_hwrk_hochwasser_einwohner_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fb_hwrk_eu_badestelle_mittel",
+    "name": "EU-Freibad/Badestelle - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "EU-Freibad/Badestelle - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fb_hwrk_eu_badestelle_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fc_hwrk_betroffene_schutzgebiete_mittel",
+    "name": "Potenziell betroffene Schutzgebiete - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "Potenziell betroffene Schutzgebiete - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fc_hwrk_betroffene_schutzgebiete_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fd_hwrk_trinkwasser_mittel",
+    "name": "Trinkwasserschutzgebiete - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "Trinkwasserschutzgebiete - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fd_hwrk_trinkwasser_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fe_hwrk_weltkulturerbe_mittel",
+    "name": "UNESCO-Weltkulturerbe - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "UNESCO-Weltkulturerbe - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fe_hwrk_weltkulturerbe_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ff_hwrk_gefaehrdete_objekte_mittel",
+    "name": "Potenziell gefährdete Objekte - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "Potenziell gefährdete Objekte - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ff_hwrk_gefaehrdete_objekte_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:fg_hwrk_wirtschaftliche_taetigkeit_mittel",
+    "name": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit mittlerer Wahrscheinlichkeit",
+    "name_lang": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit mittlerer Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fg_hwrk_wirtschaftliche_taetigkeit_mittel",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ga_hwrk_hochwasser_einwohner_niedrig",
+    "name": "Betroffene Einwohner je Risikogebiet - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "Betroffene Einwohner je Risikogebiet - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ga_hwrk_hochwasser_einwohner_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:gb_hwrk_eu_badestelle_niedrig",
+    "name": "EU-Freibad/Badestelle - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "EU-Freibad/Badestelle - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gb_hwrk_eu_badestelle_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:gc_hwrk_betroffene_schutzgebiete_niedrig",
+    "name": "Potenziell betroffene Schutzgebiete - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "Potenziell betroffene Schutzgebiete - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gc_hwrk_betroffene_schutzgebiete_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:gd_hwrk_trinkwasser_niedrig",
+    "name": "Trinkwasserschutzgebiete - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "Trinkwasserschutzgebiete - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gd_hwrk_trinkwasser_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:ge_hwrk_weltkulturerbe_niedrig",
+    "name": "UNESCO-Weltkulturerbe - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "UNESCO-Weltkulturerbe - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ge_hwrk_weltkulturerbe_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:gf_hwrk_gefaehrdete_objekte_niedrig",
+    "name": "Potenziell gefährdete Objekte - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "Potenziell gefährdete Objekte - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gf_hwrk_gefaehrdete_objekte_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_hochwasserrisikokarten:gg_hwrk_wirtschaftliche_taetigkeit_niedrig",
+    "name": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit niedriger Wahrscheinlichkeit",
+    "name_lang": "Art der wirtschaftlichen Tätigkeit - Hochwasser mit niedriger Wahrscheinlichkeit (Hochwasserrisikokarten (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwasserrisikokarten",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gg_hwrk_wirtschaftliche_taetigkeit_niedrig",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Hochwasserrisikokarten (Umweltatlas)",
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/eaccca01-449d-3ca3-9779-eafabd382163",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
