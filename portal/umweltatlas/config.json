@@ -2513,14 +2513,14 @@
                       "name": "2020",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k02_14_06gwdtemp_20_100m_2020:2",
-                          "name": "2020 - Messstellen"
-                        },
-                        {
-                          "id": "k02_14_06gwdtemp_20_100m_2020:1",
-                          "name": "2020 - Grundwassertemperaturen"
-                        }
+    {
+        "id": "ua_grundwassertemperatur_durchs_2020:b_gwdtemp_20_100m_2020",
+        "name": "2020 - Durchschnittstemperatur des Grundwassers 20 - 100 m unter Geländeoberfläche"
+    },
+    {
+        "id": "ua_grundwassertemperatur_durchs_2020:a_gwdtemp_20_100m_2020_mess",
+        "name": "2020 - Messstellen"
+    }
                       ]
                     },
                     {
