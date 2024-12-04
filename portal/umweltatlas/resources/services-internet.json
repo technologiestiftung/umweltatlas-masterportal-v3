@@ -41180,7 +41180,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:cc_pgwl_gwms_pol",
@@ -41206,7 +41213,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:cb_pgwl_gwms_li",
@@ -41232,7 +41246,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:ca_pgwl_gwms_pkt",
@@ -41259,7 +41280,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:bc_hgwl_gwms_pol",
@@ -41285,7 +41313,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:bb_hgwl_gwms_li",
@@ -41311,7 +41346,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:ba_hgwl_gwms_pkt",
@@ -41338,7 +41380,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:ab_wassk_peg_bru_wassgeb_li",
@@ -41364,7 +41413,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_grundwassergl_2020:aa_wassk_peg_bru_wassgeb_pkt",
@@ -41390,6 +41446,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2020/karten/02_12_2020.pdf?ts=1696409924",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
