@@ -1813,6 +1813,10 @@
                   "name": "02.12 Grundwasserhöhen des Hauptgrundwasserleiters und des Panketalgrundwasserleiters",
                   "type": "folder",
                   "elements": [
+                    {
+                      "name": "2020",
+                      "type": "folder",
+                      "elements": [
     {
         "id": "ua_grundwassergl_2020:da_geologische_skizze",
         "name": "Geologische Skizze"
