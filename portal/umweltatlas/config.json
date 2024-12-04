@@ -6527,7 +6527,7 @@
 
                                     "id": "ua_einwohnerdichte_2021:ua_einwohnerdichte_2021",
 
-                                    "name": "2021 - Einwohnerdichte 2021"
+                                    "name": "2021 - Einwohnerdichte"
 
                                 }
                       ]
@@ -6547,7 +6547,7 @@
 
                                     "id": "ua_einwohnerdichte_2020:ua_einwohnerdichte_2020",
 
-                                    "name": "2020 - Einwohnerdichte 2020"
+                                    "name": "2020 - Einwohnerdichte"
 
                                 }
                       ]
@@ -6556,14 +6556,20 @@
                       "name": "2019",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k_06_06ewdichte2019:1",
-                          "name": "2019 - Einwohnerdichte"
-                        },
-                        {
-                          "id": "k_06_06ewdichte2019:2",
-                          "name": "2019 - Einwohnerentwicklung zwischen 2018 und"
-                        }
+                                                        {
+
+                                    "id": "ua_einwohnerdichte_2019:ua_einwohnerdichte_2019_entw",
+
+                                    "name": "2019 - Einwohnerentwicklung zwischen 2018 und 2019"
+
+                                },
+{
+
+                                    "id": "ua_einwohnerdichte_2019:ua_einwohnerdichte_2019",
+
+                                    "name": "2019 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
