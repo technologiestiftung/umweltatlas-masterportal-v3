@@ -1813,26 +1813,42 @@
                   "name": "02.12 Grundwasserhöhen des Hauptgrundwasserleiters und des Panketalgrundwasserleiters",
                   "type": "folder",
                   "elements": [
-                    {
-                      "name": "2020",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen:1",
-                          "name": "2020 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen:2",
-                          "name": "2020 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen:3",
-                          "name": "2020 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen:4",
-                          "name": "2020 - Geologische Skizze"
-                        }
+    {
+        "id": "ua_grundwassergl_2020:da_geologische_skizze",
+        "name": "Geologische Skizze"
+    },
+    {
+        "id": "ua_grundwassergl_2020:cc_pgwl_gwms_pol",
+        "name": "Panketalgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2020:cb_pgwl_gwms_li",
+        "name": "Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2020:ca_pgwl_gwms_pkt",
+        "name": "Grundwassermessstellen Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2020:bc_hgwl_gwms_pol",
+        "name": "Hauptgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2020:bb_hgwl_gwms_li",
+        "name": "Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2020:ba_hgwl_gwms_pkt",
+        "name": "Grundwassermessstellen Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2020:ab_wassk_peg_bru_wassgeb_li",
+        "name": "Wasserschutzgebietsgrenzen"
+    },
+    {
+        "id": "ua_grundwassergl_2020:aa_wassk_peg_bru_wassgeb_pkt",
+        "name": "Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+    }
                       ]
                     },
                     {
