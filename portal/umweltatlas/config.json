@@ -1297,10 +1297,10 @@
                   "name": "01.20 Geologische Karte 1 : 25.000 (Historische GK25)",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "wmsk01_20gk25:2",
-                      "name": "1937 - Geologische Karte 1 : 25.000"
-                    }
+    {
+        "id": "ua_gk25:gk25",
+        "name": "1937 - Geologische Karte 1 : 25.000"
+    }
                   ]
                 }
               ]
