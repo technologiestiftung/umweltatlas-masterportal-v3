@@ -41045,7 +41045,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_gruendaecher_2020:e_begruente_dachfl_block",
@@ -41071,7 +41078,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_gruendaecher_2020:d_gebaeude",
@@ -41098,7 +41112,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_gruendaecher_2020:c_begruente_dachteilfl_tief",
@@ -41125,7 +41146,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_gruendaecher_2020:b_begruente_dachteilfl_geb",
@@ -41152,7 +41180,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_gruendaecher_2020:a_begruente_dachfl_kreise",
@@ -41179,6 +41214,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2020.pdf?ts=1678733792",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
