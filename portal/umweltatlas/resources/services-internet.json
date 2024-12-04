@@ -40258,7 +40258,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:h_sp_igk_aufschuettungen",
@@ -40284,7 +40291,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:g_sp_igk_bauwerke_pg",
@@ -40311,7 +40325,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:f_sp_igk_bauwerke",
@@ -40337,7 +40358,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:e_sp_igk_altwasser",
@@ -40363,7 +40391,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:d_sp_igk_gewaesser",
@@ -40389,7 +40424,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:c_sp_igk_blattschnitte_pg",
@@ -40415,7 +40457,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:b_sp_igk_blattschnitte_li",
@@ -40441,7 +40490,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_ingenieurgeologkarte_2017:a_sp_igk_bohrpunkte",
@@ -40469,7 +40525,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ea_hwrk_hochwasser_einwohner_hoch",
@@ -40495,7 +40558,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:eb_hwrk_eu_badestelle_hoch",
@@ -40521,7 +40591,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ec_hwrk_betroffene_schutzgebiete_hoch",
@@ -40547,7 +40624,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ed_hwrk_trinkwasser_hoch",
@@ -40573,7 +40657,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ee_hwrk_weltkulturerbe_hoch",
@@ -40599,7 +40690,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ef_hwrk_gefaehrdete_objekte_hoch",
@@ -40625,7 +40723,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:eg_hwrk_wirtschaftliche_taetigkeit_hoch",
@@ -40651,7 +40756,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fa_hwrk_hochwasser_einwohner_mittel",
@@ -40677,7 +40789,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fb_hwrk_eu_badestelle_mittel",
@@ -40703,7 +40822,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fc_hwrk_betroffene_schutzgebiete_mittel",
@@ -40729,7 +40855,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fd_hwrk_trinkwasser_mittel",
@@ -40755,7 +40888,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fe_hwrk_weltkulturerbe_mittel",
@@ -40781,7 +40921,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ff_hwrk_gefaehrdete_objekte_mittel",
@@ -40807,7 +40954,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:fg_hwrk_wirtschaftliche_taetigkeit_mittel",
@@ -40833,7 +40987,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ga_hwrk_hochwasser_einwohner_niedrig",
@@ -40859,7 +41020,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:gb_hwrk_eu_badestelle_niedrig",
@@ -40885,7 +41053,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:gc_hwrk_betroffene_schutzgebiete_niedrig",
@@ -40911,7 +41086,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:gd_hwrk_trinkwasser_niedrig",
@@ -40937,7 +41119,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:ge_hwrk_weltkulturerbe_niedrig",
@@ -40963,7 +41152,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:gf_hwrk_gefaehrdete_objekte_niedrig",
@@ -40989,7 +41185,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_hochwasserrisikokarten:gg_hwrk_wirtschaftliche_taetigkeit_niedrig",
@@ -41015,6 +41218,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/ingenieurgeologische-karte/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/ingenieurgeologische-karte/karten/uebersichtskarte/01_15_2015.pdf?ts=1696236207",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
