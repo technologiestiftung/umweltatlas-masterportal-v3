@@ -3171,18 +3171,18 @@
                   "name": "02.21 Überschwemmungsgebiete",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "ueberschwemmung:1",
-                      "name": "Höhenlinie der Wasserspiegellage (m über NHN)"
-                    },
-                    {
-                      "id": "ueberschwemmung:2",
-                      "name": "Überschwemmungsgebiete"
-                    },
-                    {
-                      "id": "ueberschwemmung:3",
-                      "name": "Gewässer der Überschwemmungsgebiete"
-                    }
+    {
+        "id": "ua_uesg:c_ueberschwemmungsgebiete",
+        "name": "Überschwemmungsgebiete"
+    },
+    {
+        "id": "ua_uesg:b_gewaesser",
+        "name": "Gewässer der Überschwemmungsgebiete"
+    },
+    {
+        "id": "ua_uesg:a_hoehenlinie",
+        "name": "Höhenlinie der Wasserspiegellage (m über NHN)"
+    }
                   ]
                 }
               ]
