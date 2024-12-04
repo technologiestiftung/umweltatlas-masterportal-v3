@@ -1313,13 +1313,42 @@
                   "name": "01.15 Ingenieurgeologische Karte",
                   "type": "folder",
                   "elements": [
-                    { "id": "k_inggeo:1", "name": "ausgew. Bauwerke" },
-                    { "id": "k_inggeo:2", "name": "Bohrungen" },
-                    { "id": "k_inggeo:3", "name": "Aufschüttungen" },
-                    { "id": "k_inggeo:4", "name": "ehem. Wasserläufe" },
-                    { "id": "k_inggeo:5", "name": "Blattschnitt 1:5000" },
-                    { "id": "k_inggeo:6", "name": "Gewässer" },
-                    { "id": "k_inggeo:7", "name": "obere Schicht" }
+                                  {
+        "id": "ua_ingenieurgeologkarte_2017:i_sp_igk_obere_schicht",
+        "name": "2017 - Obere Schicht"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:h_sp_igk_aufschuettungen",
+        "name": "2017 - Aufschüttungen"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:g_sp_igk_bauwerke_pg",
+        "name": "2017 - Bauwerke Nummer"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:f_sp_igk_bauwerke",
+        "name": "2017 - Bauwerke"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:e_sp_igk_altwasser",
+        "name": "2017 - Altwasser"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:d_sp_igk_gewaesser",
+        "name": "2017 - Gewässer"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:c_sp_igk_blattschnitte_pg",
+        "name": "2017 - Blattschnitte Aufschrift"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:b_sp_igk_blattschnitte_li",
+        "name": "2017 - Blattschnitte Linien"
+    },
+    {
+        "id": "ua_ingenieurgeologkarte_2017:a_sp_igk_bohrpunkte",
+        "name": "2017 - Bohrpunkte"
+    }
                   ]
                 }
               ]
