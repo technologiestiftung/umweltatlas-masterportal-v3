@@ -27579,108 +27579,6 @@
     }
   },
   {
-    "id": "wmsk_06_11_Gruendach_2016:1",
-    "name": "Begrünte Dachfläche pro Block- und Blockteilfläche [%]",
-    "name_lang": "Begrünte Dachfläche pro Block- und Blockteilfläche [%] (Gründächer 2016 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_11_Gruendach_2016",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_11_gruendach_block.png",
-    "datasets": [
-      {
-        "md_name": "Gründächer 2016 (Umweltatlas)",
-        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "4000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2016/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2016.pdf?ts=1696400805",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_06_11_Gruendach_2016:2",
-    "name": "Begrünte Dachfläche [m²] (Kreise)",
-    "name_lang": "Begrünte Dachfläche [m²] (Kreise) (Gründächer 2016 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_11_Gruendach_2016",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_11_gruendach_kreis.png",
-    "datasets": [
-      {
-        "md_name": "Gründächer 2016 (Umweltatlas)",
-        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "4000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2016/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2016.pdf?ts=1696400805",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_06_11_Gruendach_2016:3",
-    "name": "Begrünte Dachteilflächen - Gebäude",
-    "name_lang": "Begrünte Dachteilflächen - Gebäude (Gründächer 2016 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_11_Gruendach_2016",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_11_gruendach_geb2.png",
-    "datasets": [
-      {
-        "md_name": "Gründächer 2016 (Umweltatlas)",
-        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "4000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gruendaecher/2016/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/gruendaecher/karte/06_11_2016.pdf?ts=1696400805",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k06_05gruenversorg2020:1",
     "name": "Wald (überwiegend für die Erholung nutzbar)",
     "name_lang": "Wald (überwiegend für die Erholung nutzbar) (Versorgung mit öffentlichen, wohnungsnahen Grünanlagen 2020 (Umweltatlas))",
@@ -41222,5 +41120,139 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_gruendaecher_2016:e_begruente_dachfl_block",
+    "name": "Begrünte Dachfläche pro Block- und Blockteilfläche [%] 2016",
+    "name_lang": "Begrünte Dachfläche pro Block- und Blockteilfläche [%] 2016 (Gründächer 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gruendaecher_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "e_begruente_dachfl_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Gründächer 2016 (Umweltatlas)",
+        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_gruendaecher_2016:d_gebaeude",
+    "name": "Gebäude 2016",
+    "name_lang": "Gebäude 2016 (Gründächer 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gruendaecher_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_gebaeude",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Gründächer 2016 (Umweltatlas)",
+        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "25000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_gruendaecher_2016:c_begruente_dachteilfl_tief",
+    "name": "Begrünte Dachteilflächen - Tiefgaragen 2016",
+    "name_lang": "Begrünte Dachteilflächen - Tiefgaragen 2016 (Gründächer 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gruendaecher_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_begruente_dachteilfl_tief",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Gründächer 2016 (Umweltatlas)",
+        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "25000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_gruendaecher_2016:b_begruente_dachteilfl_geb",
+    "name": "Begrünte Dachteilflächen - Gebäude 2016",
+    "name_lang": "Begrünte Dachteilflächen - Gebäude 2016 (Gründächer 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gruendaecher_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_begruente_dachteilfl_geb",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Gründächer 2016 (Umweltatlas)",
+        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "25000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_gruendaecher_2016:a_begruente_dachfl_kreise",
+    "name": "Begrünte Dachfläche [m²] (Kreise) 2016",
+    "name_lang": "Begrünte Dachfläche [m²] (Kreise) 2016 (Gründächer 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gruendaecher_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_begruente_dachfl_kreise",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Gründächer 2016 (Umweltatlas)",
+        "md_id": "d9f92c6c-e935-3667-9c6d-d62b1acd367b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/a5f507ff-2552-3ac3-811b-27b543050d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "25000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
