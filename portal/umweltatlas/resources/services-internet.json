@@ -11582,106 +11582,6 @@
     }
   },
   {
-    "id": "ueberschwemmung:1",
-    "name": "Gewässer der Überschwemmungsgebiete",
-    "name_lang": "Gewässer der Überschwemmungsgebiete (Überschwemmungsgebiete (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/ueberschwemmung",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_21uesg2018_gew.png",
-    "datasets": [
-      {
-        "md_name": "Überschwemmungsgebiete (Umweltatlas)",
-        "md_id": "94d744ee-a520-3920-bbb6-51e09fb592a6",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "2500",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/ueberschwemmungsgebiete/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/ueberschwemmungsgebiete/karte/02_21_2018.pdf?ts=1696415523",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ueberschwemmung:2",
-    "name": "Überschwemmungsgebiete",
-    "name_lang": "Überschwemmungsgebiete(Überschwemmungsgebiete (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/ueberschwemmung",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_21uesg2018_uesg.png",
-    "datasets": [
-      {
-        "md_id": "45f92558-d3b6-31be-91f7-fa02619590d5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/ueberschwemmungsgebiete/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/ueberschwemmungsgebiete/karte/02_21_2018.pdf?ts=1696415523",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ueberschwemmung:3",
-    "name": "Höhenlinie der Wasserspiegellage (m über NHN)",
-    "name_lang": "Höhenlinie der Wasserspiegellage (m über NHN) (Überschwemmungsgebiete (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/ueberschwemmung",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_21uesg2018_h.png",
-    "datasets": [
-      {
-        "md_name": "Überschwemmungsgebiete (Umweltatlas)",
-        "md_id": "94d744ee-a520-3920-bbb6-51e09fb592a6",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "2500",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/ueberschwemmungsgebiete/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/ueberschwemmungsgebiete/karte/02_21_2018.pdf?ts=1696415523",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_srhk:a_srhk_starkregengefahrenkarten_vorhanden",
     "name": "Starkregengefahrenkarten",
     "name_lang": "Starkregengefahrenkarten (Starkregenhinweiskarte)",
@@ -41226,5 +41126,83 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_uesg:c_ueberschwemmungsgebiete",
+    "name": "Überschwemmungsgebiete",
+    "name_lang": "Überschwemmungsgebiete (Überschwemmungsgebiete (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_uesg",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_ueberschwemmungsgebiete",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Überschwemmungsgebiete (Umweltatlas)",
+        "md_id": "94d744ee-a520-3920-bbb6-51e09fb592a6",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_uesg:b_gewaesser",
+    "name": "Gewässer der Überschwemmungsgebiete",
+    "name_lang": "Gewässer der Überschwemmungsgebiete (Überschwemmungsgebiete (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_uesg",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_gewaesser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Überschwemmungsgebiete (Umweltatlas)",
+        "md_id": "94d744ee-a520-3920-bbb6-51e09fb592a6",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_uesg:a_hoehenlinie",
+    "name": "Höhenlinie der Wasserspiegellage (m über NHN)",
+    "name_lang": "Höhenlinie der Wasserspiegellage (m über NHN) (Überschwemmungsgebiete (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_uesg",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "a_hoehenlinie",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Überschwemmungsgebiete (Umweltatlas)",
+        "md_id": "94d744ee-a520-3920-bbb6-51e09fb592a6",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/c89bb94d-5763-3c94-955c-212f8d823dbf",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
