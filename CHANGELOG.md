@@ -3,12 +3,14 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2024-12-05 v3.5.1
 ### __Breaking Changes__
 
 ### Added
 
 ### Changed
+    - dependencies:
+        - @masterportal/masterportalapi: 2.41.1 to 2.42.2 (revert ol and cesium version, because of problems with Routing)
 
 ### Deprecated
 
