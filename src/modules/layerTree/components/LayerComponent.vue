@@ -3,6 +3,7 @@ import {mapGetters} from "vuex";
 import layerFactory from "../../../core/layers/js/layerFactory";
 import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
 import LayerCheckBox from "./LayerCheckBox.vue";
+import LayerComponentIconFilter from "./LayerComponentIconFilter.vue";
 import LayerComponentIconInfo from "./LayerComponentIconInfo.vue";
 import LayerComponentIconSubMenu from "./LayerComponentIconSubMenu.vue";
 import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
@@ -18,6 +19,7 @@ export default {
     name: "LayerComponent",
     components: {
         LayerCheckBox,
+        LayerComponentIconFilter,
         LayerComponentIconInfo,
         LayerComponentIconSubMenu,
         LayerComponentSubMenu
@@ -122,6 +124,10 @@ export default {
             <div
                 class="d-flex"
             >
+                <LayerComponentIconFilter
+                    :is-layer-tree="isLayerTree()"
+                    :layer-conf="conf"
+                />
                 <LayerComponentIconSubMenu
                     v-if="isLayerTree()"
                     :layer-conf="conf"

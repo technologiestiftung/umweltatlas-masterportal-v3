@@ -4724,7 +4724,8 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |autoRefresh|nein|Integer||Automatischer Reload des Layers. Angabe in ms. Minimum ist 500.|false|
-|capabilitiesUrl|nein|String||Wert aus **[services.json](../Global-Config/services.json.md)**. Capabilities URL des Dienstes|false
+|capabilitiesUrl|nein|String||Wert aus **[services.json](../Global-Config/services.json.md)**. Capabilities URL des Dienstes|false|
+|filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
 |fitCapabilitiesExtent|nein|Boolean|false|Wert aus **[services.json](../Global-Config/services.json.md)**. Bei Aktivierung dieser Option und Vorhandensein einer Capabilities URL in der Konfiguration, passt die Anwendung die Kartenausdehnung automatisch an die Bounding-Box-Informationen an, die sie aus der GetCapabilities-Anfrage erhält."|false|
 |id|ja|String/String[]||Id des Layers. In der **[services.json](../Global-Config/services.json.md)** werden die Ids aufgelöst und die notwendigen Informationen herangezogen. Bei Konfiguration eines Arrays von Ids wird ein Layer erzeugt, der im Request den Parameter LAYERS mit einer komma-separierten Liste der Inhalte des Attributes `layers` der einzelnen Layer enthält. Die Einstellung von `minScale` und `maxScale` für jeden Layer muss in der `services.json` enthalten sein. Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen und vom selben typ sind. Mit dem Sonderzeichen `.` als Suffix, kann eine LayerId mehrfach verwendet werden. Jede mit einem Suffix versehene LayerId erzeugt einen eigenen Eintrag im Themenbaum.|false|
 |isPointLayer|nein|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
@@ -4747,7 +4748,8 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
             "name": "Beispiel Layer",
             "typ": "WMS",
             "visibility": false,
-            "styleId": "3"
+            "styleId": "3",
+            "filterRefId": 0
         }
     ]
 }
