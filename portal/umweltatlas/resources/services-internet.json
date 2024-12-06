@@ -9864,107 +9864,6 @@
     }
   },
   {
-    "id": "ua_flurabstand_2020:Flurabstand2020",
-    "name": "Flurabstand des Grundwassers 2020",
-    "name_lang": "Flurabstand des Grundwassers 2020 (Flurabstand des Grundwassers 2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2020",
-    "typ": "WMS",
-    "gfiAttributes": "showAll",
-    "layers": "Flurabstand2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_name": "Flurabstand",
-        "md_id": "68a2e251-ec7a-411d-a631-5fd6fa575e1d",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/8c737100-9e59-3b94-9ef4-7d1812f08f20",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "infoFormat": "application/json",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2020.pdf?ts=1700209640",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_02_07flurab2009:2",
-    "name": "Panketal",
-    "name_lang": "Panketal (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_07flurab2009",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_07flurab2009.png",
-    "datasets": [
-      {
-        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
-        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "1000000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf?ts=1700209643",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_02_07flurab2009:1",
-    "name": "Flurabstand",
-    "name_lang": "Flurabstand (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_07flurab2009",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_07flurab2009.png",
-    "datasets": [
-      {
-        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
-        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "1000000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf?ts=1700209643",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "flurab2002:1",
     "name": "Flurabstand des Grundwassers",
     "name_lang": "Flurabstand des Grundwassers(Flurabstand des Grundwassers 2002 (Umweltatlas))",
@@ -41458,5 +41357,161 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_flurabstand_2020:c_flurabstand2020",
+    "name": "Flurabstand des Grundwassers 2020",
+    "name_lang": "Flurabstand des Grundwassers 2020 (Flurabstand des Grundwassers 2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_flurabstand2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2020 (Umweltatlas)",
+        "md_id": "68a2e251-ec7a-411d-a631-5fd6fa575e1d",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/8c737100-9e59-3b94-9ef4-7d1812f08f20",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flurabstand_2009:e_flurabstand_2009_diff",
+    "name": "Flurabstand des Grundwassers 2009 differenziert",
+    "name_lang": "Flurabstand des Grundwassers 2009 differenziert (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2009",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "e_flurabstand_2009_diff",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
+        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flurabstand_2009:d_flurabstand_2009_diff_keinhgwl",
+    "name": "Flurabstand des Grundwassers 2009 differenziert kein Hauptgrundwasserleiter",
+    "name_lang": "Flurabstand des Grundwassers 2009 differenziert kein Hauptgrundwasserleiter (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2009",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_flurabstand_2009_diff_keinhgwl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
+        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flurabstand_2009:c_flurabstand_2009_diff_hgwlgespannt",
+    "name": "Flurabstand des Grundwassers 2009 differenziert gespanntes Grundwasser",
+    "name_lang": "Flurabstand des Grundwassers 2009 differenziert gespanntes Grundwasser (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2009",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_flurabstand_2009_diff_hgwlgespannt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
+        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flurabstand_2009:b_flurabstand_2009_diff_panketal",
+    "name": "Flurabstand des Grundwassers 2009 differenziert Panketal",
+    "name_lang": "Flurabstand des Grundwassers 2009 differenziert Panketal (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2009",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_flurabstand_2009_diff_panketal",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
+        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
+    "name": "Flurabstand des Grundwassers 2009 differenziert Gewässer",
+    "name_lang": "Flurabstand des Grundwassers 2009 differenziert Gewässer (Flurabstand des Grundwassers 2009 differenziert (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flurabstand_2009",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_flurabstand_2009_diff_gewaesser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flurabstand des Grundwassers 2009 differenziert (Umweltatlas)",
+        "md_id": "ddbe850f-efea-34f8-8563-a7d50c111a6c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/58f7c00e-aa77-3003-9839-ba9d7695bb0f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
