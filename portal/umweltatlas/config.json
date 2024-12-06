@@ -3684,40 +3684,40 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
-                      "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
-                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
-                      "name": "seit-1989 - RUBIS und Passivsammler (außer Betrieb)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:d_p_aktuell",
-                      "name": "seit-1989 - Passivsammler (aktuell)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
-                      "name": "seit-1989 - RUBIS und Passivsammler (aktuell)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
-                      "name": "seit-1989 - automatisches Messnetz bis 1989 (außer Betrieb)"
-                    },
-                    {
-                      "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
-                      "name": "seit-1989 - Messcontainer (außer Betrieb)"
+                      "id": "ua_luftguetemessnetz:i_umweltzone",
+                      "name": "seit-1989 - Umweltzone"
                     },
                     {
                       "id": "ua_luftguetemessnetz:h_mc_aktuell",
                       "name": "seit-1989 - Messcontainer (aktuell)"
                     },
                     {
-                      "id": "ua_luftguetemessnetz:i_umweltzone",
-                      "name": "seit-1989 - Umweltzone"
+                      "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
+                      "name": "seit-1989 - Messcontainer (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
+                      "name": "seit-1989 - automatisches Messnetz bis 1989 (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
+                      "name": "seit-1989 - RUBIS und Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:d_p_aktuell",
+                      "name": "seit-1989 - Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
+                      "name": "seit-1989 - RUBIS und Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
+                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
+                      "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
                     }
                   ]
                 },
