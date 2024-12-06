@@ -3598,28 +3598,28 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
-                          "name": "2022 - Fischsymbol"
-                        },
-                        {
-                          "id": "ua_fischfauna_2022:b_fischfauna2022_messstelle",
-                          "name": "2022 - Messstellen der Befischung"
-                        },
-                        {
-                          "id": "ua_fischfauna_2022:c_fischfauna2022_gew_li",
-                          "name": "2022 - Gewässer (Linien)"
-                        },
-                        {
-                          "id": "ua_fischfauna_2022:d_fischfauna2022_mit_fisch",
-                          "name": "2022 - Gewässer mit Befischung"
+                          "id": "ua_fischfauna_2022:f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
+                          "name": "2022 - Sonstige Gewässer"
                         },
                         {
                           "id": "ua_fischfauna_2022:e_fischfauna2022_nicht_befischt",
                           "name": "2022 - Gewässer ohne Befischung"
                         },
                         {
-                          "id": "ua_fischfauna_2022:f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
-                          "name": "2022 - Sonstige Gewässer"
+                          "id": "ua_fischfauna_2022:d_fischfauna2022_mit_fisch",
+                          "name": "2022 - Gewässer mit Befischung"
+                        },
+                        {
+                          "id": "ua_fischfauna_2022:c_fischfauna2022_gew_li",
+                          "name": "2022 - Gewässer (Linien)"
+                        },
+                        {
+                          "id": "ua_fischfauna_2022:b_fischfauna2022_messstelle",
+                          "name": "2022 - Messstellen der Befischung"
+                        },
+                        {
+                          "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
+                          "name": "2022 - Fischsymbol"
                         }
                       ]
                     },
@@ -3628,18 +3628,26 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k02_08fisch2013:3",
-                          "name": "2013 - Messstellen der Befischung"
-                        },
-                        {
-                          "id": "k02_08fisch2013:1",
+                          "id": "ua_fischfauna_2013:f_fischfauna2013_gew_sonst",
                           "name": "2013 - Becken, Feuchtgebiete"
                         },
                         {
-                          "id": "k02_08fisch2013:4",
-                          "name": "2013 - Fischarten"
+                          "id": "ua_fischfauna_2013:e_fischfauna2013_gew_nicht_befischt",
+                          "name": "2013 - Gewässer ohne Befischung"
                         },
-                        { "id": "k02_08fisch2013:2", "name": "2013 - Gewässer" }
+                        {
+                          "id": "ua_fischfauna_2013:d_fischfauna2013_gew_befischt",
+                          "name": "2013 - Gewässer mit Befischung"
+                        },
+                        { "id": "ua_fischfauna_2013:c_fischfauna2013_gew_li",
+                          "name": "2013 - Gewässer (Linien)" 
+                        },
+                        { "id": "ua_fischfauna_2013:b_fischfauna2013_messstellen",
+                          "name": "2013 - Messstellen der Befischung" 
+                        },
+                        { "id": " 	ua_fischfauna_2013:a_fischfauna2013_fischsymbol ",
+                          "name": "2013 - Fischsymbol" 
+                        }
                       ]
                     },
                     {
