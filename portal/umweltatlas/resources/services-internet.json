@@ -41389,7 +41389,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_1_2019.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp",
@@ -41416,7 +41423,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_1_2019.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_wasserdurchlaessigkeit:c_wasserdurchlaessigkeit_1m",
@@ -41442,7 +41456,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_2_2019.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_fischfauna_2013:f_fischfauna2013_gew_sonst",
@@ -41468,7 +41489,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_fischfauna_2013:e_fischfauna2013_gew_nicht_befischt",
@@ -41494,7 +41522,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_fischfauna_2013:d_fischfauna2013_gew_befischt",
@@ -41520,7 +41555,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_fischfauna_2013:c_fischfauna2013_gew_li",
@@ -41546,7 +41588,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_fischfauna_2013:b_fischfauna2013_messstellen",
@@ -41572,6 +41621,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
