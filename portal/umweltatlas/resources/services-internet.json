@@ -41169,8 +41169,8 @@
   },
   {
     "id": "ua_boden_corg_2010:kohlenstoffvor2010",
-    "name": "Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas)",
-    "name_lang": "Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas) (Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas))",
+    "name": "Organischer Kohlenstoffvorrat der Böden 2010",
+    "name_lang": "Organischer Kohlenstoffvorrat der Böden 2010 (Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas))",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_boden_corg_2010",
     "typ": "WMS",
@@ -41629,5 +41629,31 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2011:b_grz2011",
+    "name": "Grundflächenzahl  (GRZ) 2011",
+    "name_lang": "Grundflächenzahl  (GRZ) 2011 (Städtebauliche Dichte - GFZ/GRZ 2011 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2011",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_grz2011",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Städtebauliche Dichte - GFZ/GRZ 2011 (Umweltatlas)",
+        "md_id": "2d1a5fef-7048-3e15-b252-d7af72516c0b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/63ebf689-62b6-3d5b-ae4d-c79db31989ea",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
