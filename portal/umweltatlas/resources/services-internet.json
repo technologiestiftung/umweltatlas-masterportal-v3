@@ -26495,74 +26495,6 @@
     }
   },
   {
-    "id": "k06_09_01gfz2015:1",
-    "name": "Reale Geschossflächenzahl",
-    "name_lang": "Reale Geschossflächenzahl (Städtebauliche Dichte - Geschossflächenzahl (GFZ) 2019 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_09_01gfz2015",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_09_01gfz2015.png",
-    "datasets": [
-      {
-        "md_name": "Städtebauliche Dichte - Geschossflächenzahl (GFZ) 2019 (Umweltatlas)",
-        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4a0206a6-c23a-34ee-9947-cfd05ecb6db7",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_01_2019.pdf?ts=1696402368",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_09_02grz2015:1",
-    "name": "Reale Grundflächenzahl",
-    "name_lang": "Reale Grundflächenzahl (Städtebauliche Dichte - Grundflächenzahl (GRZ) 2019 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_09_02grz2015",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_09_02grz2015.png",
-    "datasets": [
-      {
-        "md_name": "Städtebauliche Dichte - Grundflächenzahl (GRZ) 2019 (Umweltatlas)",
-        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4a0206a6-c23a-34ee-9947-cfd05ecb6db7",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_02_2019.pdf?ts=1696402376",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k_06_03freiflentwick:2",
     "name": "Freiflächengewinne und -verluste",
     "name_lang": "Freiflächengewinne und -verluste (Freiflächenentwicklung (Umweltatlas))",
@@ -41629,5 +41561,57 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2019:a_gfz_2019",
+    "name": "Geschossflächenzahl (GFZ) 2019",
+    "name_lang": "Geschossflächenzahl (GFZ) 2019 (Städtebauliche Dichte - GFZ/GRZ 2019 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2019",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_gfz_2019",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Städtebauliche Dichte - GFZ/GRZ 2019 (Umweltatlas)",
+        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4a0206a6-c23a-34ee-9947-cfd05ecb6db7",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2019:b_grz_2019",
+    "name": "Grundflächenzahl (GRZ) 2019",
+    "name_lang": "Grundflächenzahl (GRZ) 2019 (Städtebauliche Dichte - GFZ/GRZ 2019 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2019",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_grz_2019",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Städtebauliche Dichte - GFZ/GRZ 2019 (Umweltatlas)",
+        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4a0206a6-c23a-34ee-9947-cfd05ecb6db7",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
