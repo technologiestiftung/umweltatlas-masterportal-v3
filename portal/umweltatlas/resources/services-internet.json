@@ -1596,38 +1596,6 @@
     }
   },
   {
-    "id": "wmsk_01_06_6kohlenstoffvor2010:4",
-    "name": "Kohlenstoffvorräte [kg/m²]",
-    "name_lang": "Kohlenstoffvorräte [kg/m²](Organischer Kohlenstoffvorrat 2010 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_01_06_6kohlenstoffvor2010",
-    "typ": "WMS",
-    "layers": "3",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_06kohlenstoff.png",
-    "datasets": [
-      {
-        "md_id": "62486e90-7622-31fb-b013-eea2aefc8cff",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_06_2010.pdf?ts=1696240858",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k01_06_08sumkat2010:1",
     "name": "Summe austauschbarer Kationen des Oberbodens",
     "name_lang": "Summe austauschbarer Kationen des Oberbodens(Summe austauschbarer Kationen des Oberbodens 2010 (Umweltatlas))",
@@ -2998,38 +2966,6 @@
     }
   },
   {
-    "id": "wmsk01_11_01selten2015:1",
-    "name": "Regionale Seltenheit der Bodengesellschaften",
-    "name_lang": "Regionale Seltenheit der Bodengesellschaften(Regionale Seltenheit der Bodengesellschaften 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk01_11_01selten2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_11_01selten2015.png",
-    "datasets": [
-      {
-        "md_id": "9ebdfad4-a84e-347f-926b-de8e766d1a77",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_01_2015.pdf?ts=1696236079",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k01_11_02eigen2015:1",
     "name": "Besondere naturräumliche Eigenart",
     "name_lang": "Besondere naturräumliche Eigenart(Besondere naturräumliche Eigenart der Böden 2015 (Umweltatlas))",
@@ -3055,70 +2991,6 @@
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_02_2015.pdf?ts=1696236146",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk01_11_03natnae2015:1",
-    "name": "Naturnähe der Böden",
-    "name_lang": "Naturnähe der Böden(Naturnähe der Böden 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk01_11_03natnae2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_11_03natnae2015.png",
-    "datasets": [
-      {
-        "md_id": "aa5e026d-ee38-3729-8a52-8ed601e6a2af",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_03_2015.pdf?ts=1696236114",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk01_11_04austau2015:1",
-    "name": "Austauschhäufigkeit des Bodenwassers",
-    "name_lang": "Austauschhäufigkeit des Bodenwassers(Austauschhäufigkeit des Bodenwassers 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk01_11_04austau2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_11_04austau2015.png",
-    "datasets": [
-      {
-        "md_id": "8e737cf6-0e79-387b-99c5-96bb34f21a2f",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_04__01_12_04_2015.pdf?ts=1696236125",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -3247,38 +3119,6 @@
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_10__01_11_09_2015.pdf?ts=1696236101",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk01_11_10bindung2015:1",
-    "name": "Bindungsstärke für Schwermetalle",
-    "name_lang": "Bindungsstärke für Schwermetalle(Bindungsstärke der Böden für Schwermetalle 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk01_11_10bindung2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_11_10bindung2015.png",
-    "datasets": [
-      {
-        "md_id": "f088e2c3-87dd-33d7-9575-f113caf37df7",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_10_2015.pdf?ts=1696236075",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -4812,38 +4652,6 @@
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2015/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_03_2015.pdf?ts=1696240132",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k01_12_04regel2015:1",
-    "name": "Regelungsfunktion für den Wasserhaushalt",
-    "name_lang": "Regelungsfunktion für den Wasserhaushalt(Regelungsfunktion der Böden für den Wasserhaushalt 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_12_04regel2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_12_04regel2015.png",
-    "datasets": [
-      {
-        "md_id": "cbd70411-0428-3ad9-ba85-e640593d9102",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/37e7741e-a474-3501-8db1-a7e3c8c8a8d2",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2015/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_11_04__01_12_04_2015.pdf?ts=1696240138",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -41624,5 +41432,161 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_boden_corg_2010:kohlenstoffvor2010",
+    "name": "Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas)",
+    "name_lang": "Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas) (Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_corg_2010",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "kohlenstoffvor2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Organischer Kohlenstoffvorrat der Böden 2010 (Umweltatlas)",
+        "md_id": "27921401-f61a-3e1f-9b55-1070d86dbe00",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_seltenheit_2015:seltenheit_2015",
+    "name": "Regionale Seltenheit der Bodengesellschaften 2015",
+    "name_lang": "Regionale Seltenheit der Bodengesellschaften 2015 (Regionale Seltenheit der Bodengesellschaften 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_seltenheit_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "seltenheit_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Regionale Seltenheit der Bodengesellschaften 2015 (Umweltatlas)",
+        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_naturnaehe_2015:a_naturnaehe2015",
+    "name": "Naturnähe der Böden 2015",
+    "name_lang": "Naturnähe der Böden 2015 (Naturnähe der Böden 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_naturnaehe_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_naturnaehe2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Naturnähe der Böden 2015 (Umweltatlas)",
+        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_austauschh_2015:austauschh2015",
+    "name": "Austauschhäufigkeit des Bodenwassers 2015",
+    "name_lang": "Austauschhäufigkeit des Bodenwassers 2015 (Austauschhäufigkeit des Bodenwassers 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_austauschh_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "austauschh2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Austauschhäufigkeit des Bodenwassers 2015 (Umweltatlas)",
+        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_bindung_2015:bindung2015",
+    "name": "Bindungsstärke für Schwermetalle der Böden 2015",
+    "name_lang": "Bindungsstärke für Schwermetalle der Böden 2015 (Bindungsstärke für Schwermetalle der Böden 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_bindung_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bindung2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Bindungsstärke für Schwermetalle der Böden 2015 (Umweltatlas)",
+        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bb492d1f-c806-349a-a998-bc491ad22e07",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_regelfkt_2015:regel2015",
+    "name": "Regelungsfunktion für den Wasserhaushalt der Böden 2015",
+    "name_lang": "Regelungsfunktion für den Wasserhaushalt der Böden 2015 (Regelungsfunktion für den Wasserhaushalt der Böden 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_regelfkt_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "regel2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Regelungsfunktion für den Wasserhaushalt der Böden 2015 (Umweltatlas)",
+        "md_id": "09d868a2-7c5d-4cbb-a43f-5146a426b25f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/37e7741e-a474-3501-8db1-a7e3c8c8a8d2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
