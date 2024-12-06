@@ -1,0 +1,24 @@
+{
+  "globalAlerts": ["wartungsarbeiten", "wartungsarbeiten2"],
+  "alerts": {
+    "wartungsarbeiten": {
+      "displayClass": "info",
+      "category": "Datenupdate",
+      "content": "<p class='bold'>Luftdaten 2022</p>Wie sauber ist die Berliner Luft? Und wie sauber war sie vor 45 Jahren? Die Karte „Berliner Luftgütemessnetz - Standorte und Messdaten“ steht nun aktualisiert zur Verfügung. Mehr Informationen finden sie <a href='https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/zusammenfassung/'>hier</a>.",
+      "displayFrom": "2024-06-27 13:00",
+      "displayUntil": "2024-09-27 18:00",
+      "mustBeConfirmed": false,
+      "once": true
+    },
+    "wartungsarbeiten2": {
+      "displayClass": "info",
+      "category": "Datenupdate",
+      "content": "<p class='bold'>Bodendaten 2020</p>Die Bodenthemen unter „Bodengesellschaften“, „Bodenkundliche Kennwerte“, „Bodenfunktionskriterien“, „Bodenfunktionen“ und „Planungshinweise Bodenschutz“ stehen nun mit dem Stand 2020 zur Verfügung.",
+      "displayFrom": "2024-06-27 13:00",
+      "displayUntil": "2024-09-27 18:00",
+      "mustBeConfirmed": false,
+      "once": true
+    }
+  }
+}
+

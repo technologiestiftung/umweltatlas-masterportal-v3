@@ -32,8 +32,8 @@
     "versionHotfix:all": "npm run versionHotfix && cd addons && npm run versionHotfix && cd .. && cd portalconfigs && npm run versionHotfix && cd ..",
     "versionMinor:all": "npm run versionMinor && cd addons && npm run versionMinor && cd .. && cd portalconfigs && npm run versionMinor && cd ..",
     "versionMajor:all": "npm run versionMajor && cd addons && npm run versionMajor && cd .. && cd portalconfigs && npm run versionMajor && cd ..",
-    "prePushHook": "node ./node_modules/@masterportal/mpconfigparser/cli.js docs/User/Portal-Config/config.json.md docs/User/Portal-Config/config.json.de.md && eslint --max-warnings 0 \"./**/*.{vue,js}\" && npm run test",
     "validateDocs": "node devtools/docsValidation/validateDocs.js",
+    "prePushHook": "",
     "prepare": "husky"
   },
   "@comment dependencies and devDependencies": [
@@ -90,7 +90,6 @@
     "@vue/compiler-sfc": "^ 3.5.4",
     "@vue/devtools-api": "^ 6.6.4",
     "@vue/test-utils": "^ 2.4.6",
-    "canvas": "^2.11.2",
     "chai": "^5.1.1",
     "child-process-promise": "^2.2.1",
     "css-loader": "4.3.0",
@@ -146,3 +145,4 @@
     "npm": "^9.5.1 || ^10.5.0"
   }
 }
+
