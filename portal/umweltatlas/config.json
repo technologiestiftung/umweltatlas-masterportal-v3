@@ -1891,22 +1891,42 @@
                       "name": "2019",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen2019:0",
-                          "name": "2019 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2019:3",
-                          "name": "2019 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2019:1",
-                          "name": "2019 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2019:2",
-                          "name": "2019 - Geologische Skizze"
-                        }
+{
+    "id": "ua_grundwassergl_2019:da_geologische_skizze",
+    "name": "Geologische Skizze"
+},
+{
+    "id": "ua_grundwassergl_2019:cc_pgwl_gwms_pol",
+    "name": "2019 - Panketalgrundwasserleiterflächen"
+},
+{
+    "id": "ua_grundwassergl_2019:cb_pgwl_gwms_li",
+    "name": "2019 - Panketalgrundwasserleiter"
+},
+{
+    "id": "ua_grundwassergl_2019:ca_pgwl_gwms_pkt",
+    "name": "2019 - Grundwassermessstellen Panketalgrundwasserleiter"
+},
+{
+    "id": "ua_grundwassergl_2019:bc_hgwl_gwms_pol",
+    "name": "2019 - Hauptgrundwasserleiterflächen"
+},
+{
+    "id": "ua_grundwassergl_2019:bb_hgwl_gwms_li",
+    "name": "2019 - Hauptgrundwasserleiter"
+},
+{
+    "id": "ua_grundwassergl_2019:ba_hgwl_gwms_pkt",
+    "name": "2019 - Grundwassermessstellen Hauptgrundwasserleiter"
+},
+{
+    "id": "ua_grundwassergl_2019:ab_wassk_peg_bru_wassgeb_li",
+    "name": "2019 - Wasserschutzgebietsgrenzen"
+},
+{
+    "id": "ua_grundwassergl_2019:aa_wassk_peg_bru_wassgeb_pkt",
+    "name": "2019 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+}
                       ]
                     },
                     {
