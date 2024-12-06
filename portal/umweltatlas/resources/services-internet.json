@@ -41586,7 +41586,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_01_2019.pdf?ts=1696402368",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_staedtebauliche_dichte2019:b_grz_2019",
@@ -41612,6 +41619,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_02_2019.pdf?ts=1696402376",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   }
 ]
