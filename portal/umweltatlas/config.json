@@ -3427,7 +3427,7 @@
                     {
                       "id": "ua_srgk:dk_vegetationsflaechen",
                       "name": "Vegetation"
-                    }
+                    },
                     {
                       "id": "ua_srgk:dj_trennstreifen",
                       "name": "Trennstreifen"
@@ -3477,7 +3477,7 @@
                     {
                       "id": "ua_srgk:a_modellgebiete",
                       "name": "Modellgebiete"
-                    },
+                    }
                   ]
                 }
               ]
