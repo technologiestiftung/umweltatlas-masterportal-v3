@@ -2821,21 +2821,29 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "wmsk02_19zeHGW2015:4",
+                      "id": "ua_zehgw:d_geoskizzegew",
+                      "name": "Geologische Skizze"
+                    },
+                    { "id": "ua_zehgw:cd_zehgw_flaechen", "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen" },
+                    {
+                      "id": "ua_zehgw:cc_gewaesser_fl",
+                      "name": "Gewässer"
+                    },
+                    {
+                      "id": "ua_zehgw:cb_gewaesser_li",
+                      "name": "Gewässer (Linien)"
+                    },
+                    {
+                      "id": "ua_zehgw:ca_zehgw_linien",
+                      "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen (Linien)"
+                    },
+                    {
+                      "id": "ua_zehgw:b_wsgmerge",
                       "name": "Wasserschutzgebietsgrenzen"
                     },
-                    { "id": "wmsk02_19zeHGW2015:5", "name": "Wasserwerke" },
                     {
-                      "id": "wmsk02_19zeHGW2015:2",
-                      "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen mit Sachdatenanzeige"
-                    },
-                    {
-                      "id": "wmsk02_19zeHGW2015:3",
-                      "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen"
-                    },
-                    {
-                      "id": "wmsk02_19zeHGW2015:1",
-                      "name": "Geologische Skizze"
+                      "id": "ua_zehgw:a_wasserwerke",
+                      "name": "Wasserwerke"
                     }
                   ]
                 }
@@ -4231,7 +4239,7 @@
               "type": "folder",
               "elements": [
                 {
-                  "name": "03.11.2 Verkehrsbedingte Luftbelastung im Straßenraum 2020 und",
+                  "name": "03.11.2 Verkehrsbedingte Luftbelastung im Straßenraum",
                   "type": "folder",
                   "elements": [
                     {
