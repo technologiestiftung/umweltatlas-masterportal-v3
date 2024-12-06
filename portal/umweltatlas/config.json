@@ -1228,12 +1228,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
-                      "name": "Entsiegelungspotenziale Kontur"
-                    },
-                    {
                       "id": "ua_entsiegelung:b_entsieg_klasse_teil",
                       "name": "Entsiegelungspotenziale Signatur"
+                    },
+                    {
+                      "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
+                      "name": "Entsiegelungspotenziale Kontur"
                     }
                   ]
                 }
@@ -7885,7 +7885,7 @@
                   "elements": [
                     {
                       "id": "schallschutzfensterprogramm:schallschutzfensterprogramm",
-                      "name": "2022 - Schallschutzfensterprogramm"
+                      "name": "2024-2025 - Schallschutzfensterprogramm"
                     }
                   ]
                 },
