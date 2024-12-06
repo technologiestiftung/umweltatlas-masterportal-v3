@@ -10131,138 +10131,6 @@
     }
   },
   {
-    "id": "k02_22_1wasserdurchlaessigkeit2019:2",
-    "name": "verwendete Bohrungen",
-    "name_lang": "verwendete Bohrungen(Wasserdurchlässigkeit des Untergrundes (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_22_1wasserdurchlaessigkeit2019",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_22_1wasserdurchlaessigkeit2019_pkt.png",
-    "datasets": [
-      {
-        "md_id": "15a216a3-d4fd-3e7b-b2fc-19e1196ff324",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_1_2019.pdf?ts=1696415681",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_22_1wasserdurchlaessigkeit2019:1",
-    "name": "verwendete Bohrungen",
-    "name_lang": "verwendete Bohrungen (Wasserdurchlässigkeit des Untergrundes (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_22_1wasserdurchlaessigkeit2019",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_22_1wasserdurchlaessigkeit2019_pkt.png",
-    "datasets": [
-      {
-        "md_name": "Wasserdurchlässigkeit des Untergrundes (Umweltatlas)",
-        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "8000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_1_2019.pdf?ts=1696415681",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_22_2wasserdurchlaessigkeit_1m2019:2",
-    "name": "verwendete Bohrungen",
-    "name_lang": "verwendete Bohrungen(Wasserdurchlässigkeit des Untergrundes ab einer Tiefe von 1 m (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_22_2wasserdurchlaessigkeit_1m2019",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_22_1wasserdurchlaessigkeit2019_pkt.png",
-    "datasets": [
-      {
-        "md_id": "9e486a26-87b4-3071-aff8-89165f4d24cd",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_2_2019.pdf?ts=1696415667",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_22_2wasserdurchlaessigkeit_1m2019:1",
-    "name": "verwendete Bohrungen",
-    "name_lang": "verwendete Bohrungen (Wasserdurchlässigkeit des Untergrundes ab einer Tiefe von 1 m (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_22_2wasserdurchlaessigkeit_1m2019",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_22_1wasserdurchlaessigkeit2019_pkt.png",
-    "datasets": [
-      {
-        "md_name": "Wasserdurchlässigkeit des Untergrundes ab einer Tiefe von 1 m (Umweltatlas)",
-        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "8000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_2_2019.pdf?ts=1696415667",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k02_16_verweilzeitsick2003:1",
     "name": "Verweilzeit des Sickerwassers in der ungesättigten Zone",
     "name_lang": "Verweilzeit des Sickerwassers in der ungesättigten Zone(Verweilzeit des Sickerwassers in der ungesättigten Zone 2003 (Umweltatlas))",
@@ -11672,140 +11540,6 @@
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_08fisch2013:1",
-    "name": "Becken, Feuchtgebiete",
-    "name_lang": "Becken, Feuchtgebiete (Fischfauna 2013 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_08fisch2013",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_08fisch2013_gew.png",
-    "datasets": [
-      {
-        "md_name": "Fischfauna 2013 (Umweltatlas)",
-        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf?ts=1696404402",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_08fisch2013:3",
-    "name": "Messstellen der Befischung",
-    "name_lang": "Messstellen der Befischung(Fischfauna 2013 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_08fisch2013",
-    "typ": "WMS",
-    "layers": "5",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_08fisch2013_messstelle.png",
-    "datasets": [
-      {
-        "md_id": "8f6abad5-9046-31fc-9e98-97da865958e4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf?ts=1696404402",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_08fisch2013:4",
-    "name": "Gewässer",
-    "name_lang": "Gewässer (Fischfauna 2013 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_08fisch2013",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_08fisch2013_gew.png",
-    "datasets": [
-      {
-        "md_name": "Fischfauna 2013 (Umweltatlas)",
-        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf?ts=1696404402",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k02_08fisch2013:2",
-    "name": "Fischarten",
-    "name_lang": "Fischarten (Fischfauna 2013 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_08fisch2013",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_08fisch2013_fischart.png",
-    "datasets": [
-      {
-        "md_name": "Fischfauna 2013 (Umweltatlas)",
-        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf?ts=1696404402",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -41630,5 +41364,214 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_wasserdurchlaessigkeit:b_wasserdurchlaessigkeit",
+    "name": "Wasserdurchlässigkeit des Untergrundes bis zu einer Tiefe von 5,0 m unter GOK",
+    "name_lang": "Wasserdurchlässigkeit des Untergrundes bis zu einer Tiefe von 5,0 m unter GOK (Wasserdurchlässigkeit des Untergrundes (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserdurchlaessigkeit",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_wasserdurchlaessigkeit",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserdurchlässigkeit des Untergrundes (Umweltatlas)",
+        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp",
+    "name": "verwendete Bohrungen",
+    "name_lang": "verwendete Bohrungen (Wasserdurchlässigkeit des Untergrundes (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserdurchlaessigkeit",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_wasserdurchlaessigkeit_bp",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserdurchlässigkeit des Untergrundes (Umweltatlas)",
+        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "40000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_wasserdurchlaessigkeit:c_wasserdurchlaessigkeit_1m",
+    "name": "Wasserdurchlässigkeit des Untergrundes zwischen einer Tiefe von 1,0 m bis 5,0 m unter GOK",
+    "name_lang": "Wasserdurchlässigkeit des Untergrundes zwischen einer Tiefe von 1,0 m bis 5,0 m unter GOK (Wasserdurchlässigkeit des Untergrundes (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserdurchlaessigkeit",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_wasserdurchlaessigkeit_1m",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserdurchlässigkeit des Untergrundes (Umweltatlas)",
+        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4362630b-8a24-3e8b-8fe6-734d4c7ac77e",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2013:f_fischfauna2013_gew_sonst",
+    "name": "Becken, Feuchtgebiete",
+    "name_lang": "Becken, Feuchtgebiete (Fischfauna 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "f_fischfauna2013_gew_sonst",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2013 (Umweltatlas)",
+        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2013:e_fischfauna2013_gew_nicht_befischt",
+    "name": "Gewässer ohne Befischung",
+    "name_lang": "Gewässer ohne Befischung (Fischfauna 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "e_fischfauna2013_gew_nicht_befischt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2013 (Umweltatlas)",
+        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2013:d_fischfauna2013_gew_befischt",
+    "name": "Gewässer mit Befischung",
+    "name_lang": "Gewässer mit Befischung (Fischfauna 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_fischfauna2013_gew_befischt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2013 (Umweltatlas)",
+        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2013:c_fischfauna2013_gew_li",
+    "name": "Gewässer (Linien)",
+    "name_lang": "Gewässer (Linien) (Fischfauna 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_fischfauna2013_gew_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2013 (Umweltatlas)",
+        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2013:b_fischfauna2013_messstellen",
+    "name": "Messstellen der Befischung",
+    "name_lang": "Messstellen der Befischung (Fischfauna 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_fischfauna2013_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2013 (Umweltatlas)",
+        "md_id": "af1c1256-b4c6-38d7-9e53-7f8ee92cdd45",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f542c3df-0d78-3517-876e-2fd16bdd174a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
