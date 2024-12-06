@@ -3212,13 +3212,14 @@
                   "name": "02.11.1 Wasserschutzgebiete",
                   "type": "folder",
                   "elements": [
+                    { "id": "wsg:wsg_bb", "name": "2009 - Wasserschutzgebiete (Brandenburg)" },
+                    { "id": "wsg:wsg", "name": "2009 - Wasserschutzgebiete" },
+                    { "id": "wsg:wasserwerke", "name": "2009 - Wasserwerke" },
+                    { "id": "wsg:brunnen", "name": "2009 - Brunnengalerien" },
                     {
-                      "id": "wsg:2",
+                      "id": "wsg:blattschnitt",
                       "name": "2009 - amtlicher Kartenausschnitt"
-                    },
-                    { "id": "wsg:4", "name": "2009 - Wasserwerke" },
-                    { "id": "wsg:3", "name": "2009 - Brunnengalerien" },
-                    { "id": "wsg:1", "name": "2009 - Wasserschutzgebiet" }
+                    }
                   ]
                 },
                 {
