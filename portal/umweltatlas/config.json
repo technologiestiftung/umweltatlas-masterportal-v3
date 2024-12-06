@@ -1394,20 +1394,20 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_rieselfelder:a_rieselfelder_pkt",
-                      "name": "2010 - Sondernutzung (Punkte)"
-                    },
-                    {
-                      "id": "ua_rieselfelder:b_rieselfeldbezirke",
-                      "name": "2010 - Rieselfeldbezirke"
+                      "id": "ua_rieselfelder:d_rieselfelder",
+                      "name": "2010 - Rieselfeldflächen stillgelegt"
                     },
                     {
                       "id": "ua_rieselfelder:c_sondernutzungsflaechen",
                       "name": "2010 - Sondernutzungsflächen"
                     },
                     {
-                      "id": "ua_rieselfelder:d_rieselfelder",
-                      "name": "2010 - Rieselfeldflächen stillgelegt"
+                      "id": "ua_rieselfelder:b_rieselfeldbezirke",
+                      "name": "2010 - Rieselfeldbezirke"
+                    },
+                    {
+                      "id": "ua_rieselfelder:a_rieselfelder_pkt",
+                      "name": "2010 - Sondernutzung (Punkte)"
                     }
                   ]
                 }
@@ -8303,64 +8303,64 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_solaranlagen_pv:a_sp08_09_1pvstandgr30kw",
-                      "name": "Standorte der Photovoltaikanlagen größer 30 kWp"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:b_sp08_09_1pvstandkl30kw",
-                      "name": "Standorte (zusammengefasst) der Photovoltaikanlagen bis 30 kWp"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:c_sp08_09_1pvstand_oeh",
-                      "name": "Standorte der Photovoltaikanlagen - Öffentliche Hand"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:d_sp08_09_1pvstandmietstrgr30kwp",
-                      "name": "Standorte PV-Mieterstromanlagen [> 30kWp]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:e_sp08_09_1pvstandmietstrkl30kw",
-                      "name": "Standorte PV-Mieterstromanlagen [<=30 kWp nicht lagetreu]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:f_sp08_09_1pvsummebez",
-                      "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk [MWp]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:g_sp08_09_1pvsummeplz",
-                      "name": "Installierte Leistung der Photovoltaikanlagen pro Postleitzahl [kWp]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:h_sp08_09_1pvsummebez_oeh",
-                      "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk - Öffentliche Hand [MWp]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:i_pvsummebezmietstr",
-                      "name": "Installierte Leistung der PV-Mieterstromanlagen pro Bezirk"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:j_sp_08_09_01_pvstromeinbez",
-                      "name": "Photovoltaik-Stromeinspeisung pro Bezirk [MWh]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:k_sp_08_09_01_pvstromeinplz",
-                      "name": "Photovoltaik-Stromeinspeisung pro Postleitzahl [MWh]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:l_sp_08_09_01_pvdeckungbez",
-                      "name": "Relative Deckungsrate der Photovoltaik-Leistung pro Bezirk [%]"
-                    },
-                    {
-                      "id": "ua_solaranlagen_pv:m_sp_08_09_1solarpv_pot_bez",
-                      "name": "Photovoltaik - Potenzial (theoretisch) pro Bezirk [MWp]"
+                      "id": "ua_solaranlagen_pv:o_sp_08_09_1solarpv_geb",
+                      "name": "Photovoltaik - Potenzial (theoretisch) - Gebäude"
                     },
                     {
                       "id": "ua_solaranlagen_pv:n_sp_08_09_1solarpv_dach",
                       "name": "Photovoltaik-Potenzial (theoretisch) - Dachfläche"
                     },
                     {
-                      "id": "ua_solaranlagen_pv:o_sp_08_09_1solarpv_geb",
-                      "name": "Photovoltaik - Potenzial (theoretisch) - Gebäude"
+                      "id": "ua_solaranlagen_pv:m_sp_08_09_1solarpv_pot_bez",
+                      "name": "Photovoltaik - Potenzial (theoretisch) pro Bezirk [MWp]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:l_sp_08_09_01_pvdeckungbez",
+                      "name": "Relative Deckungsrate der Photovoltaik-Leistung pro Bezirk [%]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:k_sp_08_09_01_pvstromeinplz",
+                      "name": "Photovoltaik-Stromeinspeisung pro Postleitzahl [MWh]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:j_sp_08_09_01_pvstromeinbez",
+                      "name": "Photovoltaik-Stromeinspeisung pro Bezirk [MWh]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:i_pvsummebezmietstr",
+                      "name": "Installierte Leistung der PV-Mieterstromanlagen pro Bezirk"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:h_sp08_09_1pvsummebez_oeh",
+                      "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk - Öffentliche Hand [MWp]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:g_sp08_09_1pvsummeplz",
+                      "name": "Installierte Leistung der Photovoltaikanlagen pro Postleitzahl [kWp]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:f_sp08_09_1pvsummebez",
+                      "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk [MWp]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:e_sp08_09_1pvstandmietstrkl30kw",
+                      "name": "Standorte PV-Mieterstromanlagen [<=30 kWp nicht lagetreu]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:d_sp08_09_1pvstandmietstrgr30kwp",
+                      "name": "Standorte PV-Mieterstromanlagen [> 30kWp]"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:c_sp08_09_1pvstand_oeh",
+                      "name": "Standorte der Photovoltaikanlagen - Öffentliche Hand"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:b_sp08_09_1pvstandkl30kw",
+                      "name": "Standorte (zusammengefasst) der Photovoltaikanlagen bis 30 kWp"
+                    },
+                    {
+                      "id": "ua_solaranlagen_pv:a_sp08_09_1pvstandgr30kw",
+                      "name": "Standorte der Photovoltaikanlagen größer 30 kWp"
                     }
                   ]
                 },
@@ -8369,32 +8369,32 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_solaranlagen_st:a_standorte_solarthemie_anlagen",
-                      "name": "Standorte der solarthermischen Anlagen"
-                    },
-                    {
-                      "id": "ua_solaranlagen_st:b_standorte_solarthermie_anlagen_oeh",
-                      "name": "Standorte der solarthermischen Anlagen - Öffentliche Hand"
-                    },
-                    {
-                      "id": "ua_solaranlagen_st:c_summe_stanlagen_bez",
-                      "name": "Summe der solarthermischen Anlagen pro Bezirk"
-                    },
-                    {
-                      "id": "ua_solaranlagen_st:d_summe_stanlagen_plz",
-                      "name": "Summe der solarthermischen Anlagen pro Postleitzahl"
-                    },
-                    {
-                      "id": "ua_solaranlagen_st:e_summe_stanlagen_bez_oeh",
-                      "name": "Summe der solarthermischen Anlagen pro Bezirk - Öffentliche Hand"
+                      "id": "ua_solaranlagen_st:g_solarthermie_gebaeudeflaechen",
+                      "name": "Solarthermie-Potenzial (theoretisch) - Gebäude"
                     },
                     {
                       "id": "ua_solaranlagen_st:f_solarthermie_dachflaechen",
                       "name": "Solarthermie-Potenzial (theoretisch) - Dachfläche"
                     },
                     {
-                      "id": "ua_solaranlagen_st:g_solarthermie_gebaeudeflaechen",
-                      "name": "Solarthermie-Potenzial (theoretisch) - Gebäude"
+                      "id": "ua_solaranlagen_st:e_summe_stanlagen_bez_oeh",
+                      "name": "Summe der solarthermischen Anlagen pro Bezirk - Öffentliche Hand"
+                    },
+                    {
+                      "id": "ua_solaranlagen_st:d_summe_stanlagen_plz",
+                      "name": "Summe der solarthermischen Anlagen pro Postleitzahl"
+                    },
+                    {
+                      "id": "ua_solaranlagen_st:c_summe_stanlagen_bez",
+                      "name": "Summe der solarthermischen Anlagen pro Bezirk"
+                    },
+                    {
+                      "id": "ua_solaranlagen_st:b_standorte_solarthermie_anlagen_oeh",
+                      "name": "Standorte der solarthermischen Anlagen - Öffentliche Hand"
+                    },
+                    {
+                      "id": "ua_solaranlagen_st:a_standorte_solarthemie_anlagen",
+                      "name": "Standorte der solarthermischen Anlagen"
                     }
                   ]
                 },
