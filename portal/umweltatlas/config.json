@@ -6959,10 +6959,10 @@
                       "name": "2019",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k06_09_01gfz2015:1",
-                          "name": "2019 - Reale Geschossflächenzahl"
-                        }
+                       {
+                                    "id": "ua_staedtebauliche_dichte2019:a_gfz_2019",
+                                    "name": "2019 - Geschossflächenzahl (GFZ) 2019"
+                      }
                       ]
                     },
                     {
@@ -6985,10 +6985,10 @@
                       "name": "2019",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k06_09_02grz2015:1",
-                          "name": "2019 - Reale Grundflächenzahl"
-                        }
+                                {
+                                    "id": "ua_staedtebauliche_dichte2019:b_grz_2019",
+                                    "name": "2019 - Grundflächenzahl (GRZ) 2019"
+                                }
                       ]
                     },
                     {
