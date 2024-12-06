@@ -2634,17 +2634,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_flurabstand_2020:c_flurabstand2020",
+                          "name": "2020 - Flurabstand des Grundwassers"
+                        },
+                        {
                           "id": "ua_flurabstand_2020:b_hauptgrundwasserleiter_gespannt_2020",
                           "name": "2020 - Hauptgrundwasserleiter gespannt"
                         },
                         {
                           "id": "ua_flurabstand_2020:a_panketal",
                           "name": "2020 - Panketal"
-                        },
-                        {
-                          "id": "ua_flurabstand_2020:Flurabstand2020",
-                          "name": "2020 - Flurabstand des Grundwassers"
                         }
+                        
                       ]
                     },
                     {
@@ -2652,11 +2653,23 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "wmsk_02_07flurab2009:2",
+                          "id": "ua_flurabstand_2009:e_flurabstand_2009_diff",
                           "name": "2009 - Panketal"
                         },
                         {
-                          "id": "wmsk_02_07flurab2009:1",
+                          "id": "ua_flurabstand_2009:d_flurabstand_2009_diff_keinhgwl",
+                          "name": "2009 - Panketal"
+                        },
+                        {
+                          "id": "ua_flurabstand_2009:c_flurabstand_2009_diff_hgwlgespannt",
+                          "name": "2009 - Panketal"
+                        },
+                        {
+                          "id": "ua_flurabstand_2009:b_flurabstand_2009_diff_panketal",
+                          "name": "2009 - Panketal"
+                        },
+                        {
+                          "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
                           "name": "2009 - Flurabstand"
                         }
                       ]
