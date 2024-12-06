@@ -2654,15 +2654,15 @@
                       "elements": [
                         {
                           "id": "ua_flurabstand_2009:e_flurabstand_2009_diff",
-                          "name": "2009 - Panketal"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert"
                         },
                         {
                           "id": "ua_flurabstand_2009:d_flurabstand_2009_diff_keinhgwl",
-                          "name": "2009 - Panketal"
+                          "name": "2009 - kein Hauptgrundwasserleiter"
                         },
                         {
                           "id": "ua_flurabstand_2009:c_flurabstand_2009_diff_hgwlgespannt",
-                          "name": "2009 - Panketal"
+                          "name": "2009 - gespanntes Grundwasser"
                         },
                         {
                           "id": "ua_flurabstand_2009:b_flurabstand_2009_diff_panketal",
@@ -2670,7 +2670,7 @@
                         },
                         {
                           "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
-                          "name": "2009 - Flurabstand"
+                          "name": "2009 - Gewässer"
                         }
                       ]
                     },
@@ -2869,16 +2869,16 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_zemhgw:a_zemhgw_wasserwerke",
-                      "name": "Wasserwerke"
+                      "id": "ua_zemhgw:c_zemhgw_flurabstand",
+                      "name": "zeMHGW-Flurabstand"
                     },
-                    {
+                   {
                       "id": "ua_zemhgw:b_zemhgw_wsg_sd",
                       "name": "Wasserschutzgebiete"
                     },
-                    {
-                      "id": "ua_zemhgw:c_zemhgw_flurabstand",
-                      "name": "zeMHGW-Flurabstand"
+                     {
+                      "id": "ua_zemhgw:a_zemhgw_wasserwerke",
+                      "name": "Wasserwerke"
                     }
                   ]
                 }
