@@ -10090,172 +10090,6 @@
     }
   },
   {
-    "id": "wmsk02_19zeHGW2015:4",
-    "name": "Geologische Skizze",
-    "name_lang": "Geologische Skizze (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk02_19zeHGW2015",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_19zeHGW_skizze.png",
-    "datasets": [
-      {
-        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
-        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zehgw/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zehgw/karten/02_19_2021.pdf?ts=1696412066",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk02_19zeHGW2015:5",
-    "name": "Wasserwerke",
-    "name_lang": "Wasserwerke(Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk02_19zeHGW2015",
-    "typ": "WMS",
-    "layers": "2",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_19zeHGW_wsg.png",
-    "datasets": [
-      {
-        "md_id": "00d89639-a8c0-3110-a390-28cab2277ba4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zehgw/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zehgw/karten/02_19_2021.pdf?ts=1696412066",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk02_19zeHGW2015:2",
-    "name": "Wasserwerke",
-    "name_lang": "Wasserwerke (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk02_19zeHGW2015",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_19zeHGW_wsg.png",
-    "datasets": [
-      {
-        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
-        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zehgw/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zehgw/karten/02_19_2021.pdf?ts=1696412066",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk02_19zeHGW2015:3",
-    "name": "Wasserschutzgebietsgrenzen",
-    "name_lang": "Wasserschutzgebietsgrenzen (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk02_19zeHGW2015",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_19zeHGW_wsg_grenze.png",
-    "datasets": [
-      {
-        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
-        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zehgw/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zehgw/karten/02_19_2021.pdf?ts=1696412066",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk02_19zeHGW2015:1",
-    "name": "Geologische Skizze",
-    "name_lang": "Geologische Skizze(Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk02_19zeHGW2015",
-    "typ": "WMS",
-    "layers": "4",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_19zeHGW_skizze.png",
-    "datasets": [
-      {
-        "md_id": "00d89639-a8c0-3110-a390-28cab2277ba4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zehgw/fortlaufend-aktualisiert/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zehgw/karten/02_19_2021.pdf?ts=1696412066",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "wmsk_02_20zeMHGW2016:3",
     "name": "Wasserschutzgebietsgrenzen",
     "name_lang": "Wasserschutzgebietsgrenzen (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Umweltatlas))",
@@ -41521,6 +41355,188 @@
         "md_name": "Wasserschutzgebiete",
         "md_id": "577270ae-d249-3244-bab7-d265797e941b",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/1c058a53-844f-313a-890b-d26913f4a67a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:d_geoskizzegew",
+    "name": "Geologische Skizze",
+    "name_lang": "Geologische Skizze (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_geoskizzegew",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:cd_zehgw_flaechen",
+    "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen",
+    "name_lang": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cd_zehgw_flaechen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:cc_gewaesser_fl",
+    "name": "Gewässer",
+    "name_lang": "Gewässer (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cc_gewaesser_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:cb_gewaesser_li",
+    "name": "Gewässer (Linien)",
+    "name_lang": "Gewässer (Linien) (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cb_gewaesser_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:ca_zehgw_linien",
+    "name": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen (Linien)",
+    "name_lang": "Zu erwartender höchster Grundwasserstand inkl. Uferstreifen (Linien) (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "ca_zehgw_linien",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:b_wsgmerge",
+    "name": "Wasserschutzgebietsgrenzen",
+    "name_lang": "Wasserschutzgebietsgrenzen (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "b_wsgmerge",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_zehgw:a_wasserwerke",
+    "name": "Wasserwerke",
+    "name_lang": "Wasserwerke (Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zehgw",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_wasserwerke",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Zu erwartender höchster Grundwasserstand (zeHGW) (Umweltatlas)",
+        "md_id": "b57bf31e-fb58-3397-83be-52775e56eac4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3f8c0407-ceb6-359f-801c-21a88eaca417",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
