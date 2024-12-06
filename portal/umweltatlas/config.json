@@ -2901,12 +2901,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k02_22_1wasserdurchlaessigkeit2019:2",
-                      "name": "2019 - verwendete Bohrungen"
+                      "id": "ua_wasserdurchlaessigkeit:b_wasserdurchlaessigkeit",
+                      "name": "2019 - Wasserdurchlässigkeit des Untergrundes bis zu einer Tiefe von 5,0 m unter GOK"
                     },
                     {
-                      "id": "k02_22_1wasserdurchlaessigkeit2019:1",
-                      "name": "2019 - Wasserdurchlässigkeit des Untergrundes bis zu einer Tiefe von 5,0 m unter GOK"
+                      "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp",
+                      "name": "2019 - verwendete Bohrungen"
                     }
                   ]
                 },
@@ -2915,12 +2915,12 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "k02_22_2wasserdurchlaessigkeit_1m2019:2",
-                      "name": "2019 - verwendete Bohrungen"
+                      "id": "ua_wasserdurchlaessigkeit:c_wasserdurchlaessigkeit_1m",
+                      "name": "Wasserdurchlässigkeit des Untergrundes zwischen einer Tiefe von 1,0 m bis 5,0 m unter GOK"
                     },
                     {
-                      "id": "k02_22_2wasserdurchlaessigkeit_1m2019:1",
-                      "name": "2019 - Wasserdurchlässigkeit des Untergrundes ab einer Tiefe von 1 m"
+                      "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp",
+                      "name": "2019 - verwendete Bohrungen"
                     }
                   ]
                 }
@@ -3645,7 +3645,7 @@
                         { "id": "ua_fischfauna_2013:b_fischfauna2013_messstellen",
                           "name": "2013 - Messstellen der Befischung" 
                         },
-                        { "id": " 	ua_fischfauna_2013:a_fischfauna2013_fischsymbol ",
+                        { "id": "ua_fischfauna_2013:a_fischfauna2013_fischsymbol ",
                           "name": "2013 - Fischsymbol" 
                         }
                       ]
