@@ -41382,7 +41382,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2020.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2009:e_flurabstand_2009_diff",
@@ -41408,7 +41415,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2009:d_flurabstand_2009_diff_keinhgwl",
@@ -41434,7 +41448,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2009:c_flurabstand_2009_diff_hgwlgespannt",
@@ -41460,7 +41481,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2009:b_flurabstand_2009_diff_panketal",
@@ -41486,7 +41514,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
@@ -41512,6 +41547,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/flurabstand/2009/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/flurabstand/de-karten/02_07_2009.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
