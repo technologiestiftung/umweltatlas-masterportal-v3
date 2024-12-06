@@ -41621,6 +41621,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2011/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_02_2011.pdf?ts=1719826636",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   }
 ]
