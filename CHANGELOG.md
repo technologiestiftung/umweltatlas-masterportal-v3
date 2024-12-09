@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Measure-Tool: fixed missing getters in test mock to prevent warnings.
 
 ---
 
@@ -53,7 +54,7 @@
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.
-- Issue #1275: Layers without capabilitiesURL can now be added as baselayers. 
+- Issue #1275: Layers without capabilitiesURL can now be added as baselayers.
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
@@ -62,7 +63,7 @@
     - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
 - Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
-- Issue #1308: 
+- Issue #1308:
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
 - wfst: layers that are not in services.json are supported.
@@ -87,11 +88,11 @@
 - AddWMS: Added Information about CORS header to doc and changed error message.
 - ShareView: Error handling when sharing via QR code has been improved.
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
-- Routing: 
+- Routing:
     - Added checkbox to determine if routes stay visible after closing the routing tool
     - HGV-Routing with additional restrictions
     - Travelling Salesman Routing (TSR) with VROOM
-- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
 - Filter supports secure WFS request.
 - ShareView: Added hashtag to shared link to share link correctly.
 - LayerInformation: Added last revision date to Layer Information.
