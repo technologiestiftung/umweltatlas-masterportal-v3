@@ -5,6 +5,7 @@ import {intersects} from "ol/extent";
 import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {deleteParams} from "../../../shared/js/utils/deleteUrlParams";
 
 /**
  * Adds WMS
@@ -82,8 +83,37 @@ export default {
                     title: this.$t("common:modules.addWMS.errorTitle")});
             }
             else {
+
+                deleteParams(url, ["request", "service"]);
                 url.searchParams.set("request", "GetCapabilities");
                 url.searchParams.set("service", "WMS");
+            }
+            return url.href;
+        },
+        /**
+         * Creates the url without the parameter service, request and version
+         * @param {String} serviceUrl inserted url by user
+         * @returns {String} the url.href
+         */
+        getBaseServiceUrl: function (serviceUrl) {
+            let url;
+
+            this.invalidUrl = false;
+            try {
+                url = new URL(serviceUrl);
+            }
+            catch (e) {
+                this.invalidUrl = true;
+                this.displayErrorMessage();
+            }
+            if (url.href.includes("http:")) {
+                this.addSingleAlert({
+                    content: this.$t("common:modules.addWMS.errorHttpsMessage"),
+                    category: "error",
+                    title: this.$t("common:modules.addWMS.errorTitle")});
+            }
+            else {
+                deleteParams(url, ["request", "service", "version"]);
             }
             return url.href;
         },
@@ -200,7 +230,7 @@ export default {
                     name: object.Title,
                     typ: "WMS",
                     layers: [object.Name],
-                    url: this.wmsUrl,
+                    url: this.getBaseServiceUrl(this.wmsUrl),
                     version: this.version,
                     visibility: true,
                     type: "layer",

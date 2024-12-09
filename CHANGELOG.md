@@ -22,6 +22,7 @@
 - Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- AddWMS: Fixed handling of service parameter.
 
 ---
 ## 2024-12-12 v3.3.3 (LTS)
@@ -85,7 +86,6 @@
 - Issue #1308:
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
-- Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities
 - wfst: layers that are not in services.json are supported.
 - 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
