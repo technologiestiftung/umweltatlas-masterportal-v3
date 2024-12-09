@@ -134,7 +134,7 @@ export default {
     },
 
     /**
-     * Applies highlighting to a line feature. Similar to highlightPolygon, it clones and applies a provided custom style to the feature if available.
+     * Applies highlighting to a line feature. Similar to highlightPolygonType, it clones and applies a provided custom style to the feature if available.
      * If no custom style is provided, it dispatches an action to place a default line marker.
      *
      * @param {Object} context - The Vuex action context, which includes commit and dispatch methods among others.

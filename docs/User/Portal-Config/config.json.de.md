@@ -541,10 +541,10 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |coloredHighlighting3D|nein|**[coloredHighlighting3D](#portalconfigmapgetfeatureinfocoloredhighlighting3d)**||Regeldefinitionen zum Überschreiben des Highlightings von angeklickten 3D tiles.|false|
 |hideMapMarkerOnVectorHighlight|nein|Boolean|false|Wenn Wert auf true gesetzt ist, wird der MapMarker beim VectorHighlighting nicht mit angezeigt. Gilt nur für das DetachedTemplate.|false|
 |highlightVectorRules|nein|**[highlightVectorRules](#portalconfigmapgetfeatureinfohighlightvectorrules)**||Regeldefinitionen zum Überschreiben des Stylings von abgefragten Vektordaten.|false|
-|showPolygonMarkerForWMS|nein|Boolean|false| Wenn Wert auf true gesetzt ist, wird für WMS Features mit Geometrie ein Polygonmarker gesetzt.|false|
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
 |name|ja|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
+|showPolygonMarkerForWMS|nein|Boolean|false| Wenn Wert auf true gesetzt ist, wird für WMS Features mit Geometrie ein Polygonmarker gesetzt.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**
 
