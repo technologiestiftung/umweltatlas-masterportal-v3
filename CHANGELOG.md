@@ -12,6 +12,7 @@ Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
 ### Changed
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
 - Re-enabled setting the latest tag and uncommented the TODO regarding its usage in bitbucket-pipelines.yml.
+- Filter: for wfs extern the wfs version of the defined service is used.
 
 ### Deprecated
 
@@ -54,13 +55,11 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
-- WMS features with geometry can be highlighted with polygon marker
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
-- WMS gfi responses with mimeType json/application are parsed as GeoJSON
 
 ### Deprecated
 
@@ -70,10 +69,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
-- Issue #1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
 - Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
-- Issue #1243: wfst: reacts on visibility changes of configured layer ids.
-- Issue #1244: wfst: the correct geometry-buttons are displayed.
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.
