@@ -108,6 +108,7 @@ beforeEach(() => {
         currentFeature: sinon.stub(),
         gfiFeaturesReverse: sinon.stub(),
         highlightVectorRules: () => false,
+        showPolygonMarkerForWMS: () => false,
         menuSide: () => false,
         showMarker: sinon.stub(),
         visible: () => true,
