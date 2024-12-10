@@ -8,7 +8,8 @@ import LayerComponentIconFilter from "../../../components/LayerComponentIconFilt
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => {
-    let layer,
+    let icon,
+        layer,
         propsData,
         store,
         wrapper,
@@ -28,7 +29,22 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
             isLayerTree: isLayerTree
         };
 
+        icon = "bi-test";
+
         store = createStore({
+            modules: {
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        Filter: {
+                            namespaced: true,
+                            getters: {
+                                icon: () => icon
+                            }
+                        }
+                    }
+                }
+            }
         });
     });
 
@@ -45,7 +61,7 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
             propsData: propsData
         });
 
-        expect(wrapper.find("#layer-component-icon-filter-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find("icon-button-stub").exists()).to.be.true;
     });
 
 
@@ -58,7 +74,7 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
             propsData: propsData
         });
 
-        expect(wrapper.find("#layer-component-icon-filter-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find("icon-button-stub").exists()).to.be.true;
     });
 
 
@@ -70,6 +86,6 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
             propsData: propsData
         });
 
-        expect(wrapper.find("#layer-component-icon-filter-" + propsData.layerConf.id).exists()).to.be.false;
+        expect(wrapper.find("icon-button-stub").exists()).to.be.false;
     });
 });
