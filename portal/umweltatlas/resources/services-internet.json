@@ -41775,5 +41775,109 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_einwohnerdichte_2023:einwohnerdichte2023_entw",
+    "name": "Einwohnerentwicklung zwischen 2022 und 2023",
+    "name_lang": "Einwohnerentwicklung zwischen 2022 und 2023 (Einwohnerdichte 2023 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2023",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "einwohnerdichte2023_entw",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2023 (Umweltatlas)",
+        "md_id": "ca78eb01-db63-4f50-9823-73c2adbc541b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/d46e6c1e-05fd-3e99-a48f-5699f1140d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2023:einwohnerdichte2023",
+    "name": "Einwohnerdichte 2023",
+    "name_lang": "Einwohnerdichte 2023 (Einwohnerdichte 2023 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2023",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "einwohnerdichte2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2023 (Umweltatlas)",
+        "md_id": "ca78eb01-db63-4f50-9823-73c2adbc541b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/d46e6c1e-05fd-3e99-a48f-5699f1140d46",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2022:einwohnerdichte2022_entw",
+    "name": "Einwohnerentwicklung zwischen 2021 und 2022",
+    "name_lang": "Einwohnerentwicklung zwischen 2021 und 2022 (Einwohnerdichte 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "einwohnerdichte2022_entw",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2022 (Umweltatlas)",
+        "md_id": "92f0d342-c999-4318-98fd-791681e10858",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ad0d7faa-e016-3b75-974b-0737da5a89f3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2022:einwohnerdichte2022",
+    "name": "Einwohnerdichte 2022",
+    "name_lang": "Einwohnerdichte 2022 (Einwohnerdichte 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "einwohnerdichte2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2022 (Umweltatlas)",
+        "md_id": "92f0d342-c999-4318-98fd-791681e10858",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ad0d7faa-e016-3b75-974b-0737da5a89f3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
