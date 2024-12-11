@@ -6291,7 +6291,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k06_01realnutz2020:0",
+                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020",
                           "name": "2020 - Reale Nutzung der bebauten Flächen"
                         }
                       ]
@@ -6371,7 +6371,7 @@
                       "name": "2015 - Reale Nutzung"
                     },
                     {
-                      "id": "k06_01_1realnutz2020:0",
+                      "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020",
                       "name": "2020 - Reale Nutzung"
                     },
                     {
@@ -6389,7 +6389,7 @@
                       "name": "ab-2021 - Grün- und Freiflächenbestand"
                     },
                     {
-                      "id": "k06_02_freifl2020:0",
+                      "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
                       "name": "2020 - Grün- und Freiflächenbestand"
                     },
                     {
@@ -6427,7 +6427,7 @@
                       "name": "ab-2021 - Reale Nutzung und Vegetationsbedeckung"
                     },
                     {
-                      "id": "k06_02_1nutz_vegbestand2020:0",
+                      "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
                       "name": "2020 - Reale Nutzung und Vegetationsbedeckung"
                     },
                     {
