@@ -6614,6 +6614,28 @@
                   "name": "06.06 Einwohnerdichte",
                   "type": "folder",
                   "elements": [
+
+                    {
+                      "name": "2022",
+                      "type": "folder",
+                      "elements": [
+                                {
+
+                                    "id": "ua_einwohnerdichte_2022:einwohnerdichte2022_entw",
+
+                                    "name": "2022 - Einwohnerentwicklung zwischen 2021 und 2022"
+
+                                },
+								{
+
+                                    "id": "ua_einwohnerdichte_2022:einwohnerdichte2022",
+
+                                    "name": "2022 - Einwohnerdichte"
+
+                                }
+
+                      ]
+                    },
                     {
                       "name": "2021",
                       "type": "folder",
