@@ -41801,7 +41801,7 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/"
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/",
     "uaContact": {
       "name": "Manuel Döllefeld",
       "tel": "+49 30 90139 5360",
@@ -41833,7 +41833,7 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/"
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/",
     "uaContact": {
       "name": "Manuel Döllefeld",
       "tel": "+49 30 90139 5360",
@@ -41865,7 +41865,7 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/"
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/",
     "uaContact": {
       "name": "Manuel Döllefeld",
       "tel": "+49 30 90139 5360",
@@ -41897,7 +41897,7 @@
     "transparent": true,
     "singleTile": true,
     "infoFormat": "application/json",
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/"
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/",
     "uaContact": {
       "name": "Manuel Döllefeld",
       "tel": "+49 30 90139 5360",
