@@ -16,11 +16,6 @@ export default {
         layerConf: {
             type: Object,
             required: true
-        },
-        /** true, if icon is shown in LayerTree, else icon is shown in LayerSelection */
-        isLayerTree: {
-            type: Boolean,
-            required: true
         }
     },
     computed: {

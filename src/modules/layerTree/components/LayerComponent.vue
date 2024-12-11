@@ -125,7 +125,6 @@ export default {
                 class="d-flex"
             >
                 <LayerComponentIconFilter
-                    :is-layer-tree="isLayerTree()"
                     :layer-conf="conf"
                 />
                 <LayerComponentIconSubMenu

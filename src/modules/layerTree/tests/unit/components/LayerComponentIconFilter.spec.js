@@ -12,12 +12,10 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
         layer,
         propsData,
         store,
-        wrapper,
-        isLayerTree;
+        wrapper;
 
 
     beforeEach(() => {
-        isLayerTree = true;
         layer = {
             id: "1",
             name: "layer",
@@ -25,8 +23,7 @@ describe("src/modules/layerTree/components/LayerComponentIconFilter.vue", () => 
         };
 
         propsData = {
-            layerConf: layer,
-            isLayerTree: isLayerTree
+            layerConf: layer
         };
 
         icon = "bi-test";
