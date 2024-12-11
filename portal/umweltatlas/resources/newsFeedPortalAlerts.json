@@ -3,8 +3,8 @@
   "alerts": {
      "wartungsarbeiten": {
       "displayClass": "info",
-      "category": "Datenupdate",
-      "content": "<p class='bold'>Luftdaten 2022</p>Wie sauber ist die Berliner Luft? Und wie sauber war sie vor 45 Jahren? Die Karte „Berliner Luftgütemessnetz - Standorte und Messdaten“ steht nun aktualisiert zur Verfügung. Mehr Informationen finden sie <a href='https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/zusammenfassung/'>hier</a>.",
+      "category": "Luftdaten 2022",
+      "content": "Wie sauber ist die Berliner Luft? Und wie sauber war sie vor 45 Jahren? Die Karte „Berliner Luftgütemessnetz - Standorte und Messdaten“ steht nun aktualisiert zur Verfügung. Mehr Informationen finden sie <a href='https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/zusammenfassung/'>hier</a>.",
       "displayFrom": "2024-06-27 13:00",
       "displayUntil": "2024-09-27 18:00",
       "mustBeConfirmed": false,
