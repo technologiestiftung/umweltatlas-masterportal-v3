@@ -5795,20 +5795,18 @@
                       "elements": [
                         {
 
-                                            "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
+                                            "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
 
-                                            "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung"
-
-                                        }, 
-										
-										{
-
-                                            "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
-
-                                            "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung"
+                                            "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung"
 
                                         },
+										 {
 
+                                            "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
+
+                                            "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung"
+
+                                        },
 										{
 
                                             "id": "ua_niederschlag_1991_2020:ac_lniederschl_9120_blockfl",
@@ -5816,20 +5814,18 @@
                                             "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung"
 
                                         },
-
 										{
 
-                                            "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
+                                            "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
 
-                                            "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung"
+                                            "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung"
 
                                         },
+										{
 
-                                        {
+                                            "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
 
-                                            "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
-
-                                            "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung"
+                                            "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung"
 
                                         }
                       ]
