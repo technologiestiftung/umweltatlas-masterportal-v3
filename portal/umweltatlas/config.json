@@ -5867,25 +5867,43 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k04_08_2lniederschl2020:0",
-                          "name": "1991-2020 - Isolinien der Niederschlagsverteilung Sommerhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_2lniederschl2020:1",
-                          "name": "1991-2020 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_2lniederschl2020:2",
-                          "name": "1991-2020 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_2lniederschl2020:3",
-                          "name": "1991-2020 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_2lniederschl2020:4",
-                          "name": "1991-2020 - Rasterflächen der Niederschlagsverteilung Sommerhalbjahr"
-                        }
+
+                                            "id": "ua_niederschlag_1991_2020:be_niederschlag_9120_raster_sommer",
+
+                                            "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr"
+
+                                        },
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:bd_lniederschl_9120_str_sommer",
+
+                                            "name": "1991-2020 Straßenflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr"
+
+                                        },
+										
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:bc_lniederschl_9120_block_sommer",
+
+                                            "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr"
+
+                                        },
+
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:bb_lniederschl_9120_isofl_sommer",
+
+                                            "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr"
+
+                                        },
+
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:ba_lniederschl_9120_isoli_sommer",
+
+                                            "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr"
+
+                                        }
                       ]
                     },
                     {
