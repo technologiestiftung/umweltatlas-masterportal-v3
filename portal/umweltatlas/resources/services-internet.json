@@ -23802,142 +23802,6 @@
     }
   },
   {
-    "id": "k06_01realnutz2020:0",
-    "name": "Reale Nutzung der bebauten Flächen",
-    "name_lang": "Reale Nutzung der bebauten Flächen (Reale Nutzung der bebauten Flächen 2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_01realnutz2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_01realnutz2020.png",
-    "datasets": [
-      {
-        "md_name": "Reale Nutzung der bebauten Flächen 2020 (Umweltatlas)",
-        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_2020.pdf?ts=1696400170",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_01_1realnutz2020:0",
-    "name": "Reale Nutzung",
-    "name_lang": "Reale Nutzung (Reale Nutzung 2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_01_1realnutz2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_01_1_realenutz2020.png",
-    "datasets": [
-      {
-        "md_name": "Reale Nutzung 2020 (Umweltatlas)",
-        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_1_2020.pdf?ts=1696400182",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_02_freifl2020:0",
-    "name": "Grün- und Freiflächenbestand",
-    "name_lang": "Grün- und Freiflächenbestand (Grün- und Freiflächenbestand 2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_02_freifl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_02freifl2020.png",
-    "datasets": [
-      {
-        "md_name": "Grün- und Freiflächenbestand 2020 (Umweltatlas)",
-        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2020.pdf?ts=1696400164",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_02_1nutz_vegbestand2020:0",
-    "name": "Reale Nutzung und Vegetationsbedeckung",
-    "name_lang": "Reale Nutzung und Vegetationsbedeckung (Reale Nutzung und Vegetationsbedeckung 2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_02_1nutz_vegbestand2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_02_1_realenutzVeg2020.png",
-    "datasets": [
-      {
-        "md_name": "Reale Nutzung und Vegetationsbedeckung 2020 (Umweltatlas)",
-        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2020.pdf?ts=1696400193",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "realnutz2015:1",
     "name": "Reale Nutzung der bebauten Flächen",
     "name_lang": "Reale Nutzung der bebauten Flächen(Reale Nutzung der bebauten Flächen 2015 (Umweltatlas))",
@@ -41903,5 +41767,109 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020",
+    "name": "Reale Nutzung der bebauten Flächen 2020",
+    "name_lang": "Reale Nutzung der bebauten Flächen 2020 (Flächennutzung 2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flächennutzung 2020 (Umweltatlas)",
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020",
+    "name": "Reale Nutzung 2020",
+    "name_lang": "Reale Nutzung 2020 (Flächennutzung 2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_ua_realnutz_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flächennutzung 2020 (Umweltatlas)",
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
+    "name": "Grün- und Freiflächenbestand 2020",
+    "name_lang": "Grün- und Freiflächenbestand 2020 (Flächennutzung 2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_ua_gruen_freiflaechenbestand",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flächennutzung 2020 (Umweltatlas)",
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2020",
+    "name_lang": "Reale Nutzung und Vegetationsbedeckung 2020 (Flächennutzung 2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_ua_nutz_vegbestand_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Flächennutzung 2020 (Umweltatlas)",
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/fe583c02-056c-3e10-969d-31ce7e39151d",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
