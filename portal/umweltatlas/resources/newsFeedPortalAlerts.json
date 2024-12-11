@@ -1,7 +1,6 @@
 {
   "globalAlerts": ["wartungsarbeiten", "wartungsarbeiten2"],
   "alerts": {
-    ,
     "wartungsarbeiten3": {
       "displayClass": "info",
       "category": "Datenupdate",
