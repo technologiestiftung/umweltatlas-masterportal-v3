@@ -5943,25 +5943,44 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k04_08_3lniederschl2020:0",
-                          "name": "1991-2020 - Isolinien der Niederschlagsverteilung Winterhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_3lniederschl2020:1",
-                          "name": "1991-2020 - Isoflächen der Niederschlagsverteilung Winterhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_3lniederschl2020:2",
-                          "name": "1991-2020 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_3lniederschl2020:3",
-                          "name": "1991-2020 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr"
-                        },
-                        {
-                          "id": "k04_08_3lniederschl2020:4",
-                          "name": "1991-2020 - Rasterflächen der Niederschlagsverteilung Winterhalbjahr"
-                        }
+
+                                            "id": "ua_niederschlag_1991_2020:ce_niederschlag_9120_raster_winter",
+
+                                            "name": "1991-2020 - Rasterflächen -  Langjährige Niederschlagsverteilung Winterhalbjahr"
+
+                                        },
+										
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:cd_lniederschl_9120_str_winter",
+
+                                            "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung Winterhalbjahr"
+
+                                        },
+										
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:cc_lniederschl_9120_block_winter",
+
+                                            "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Winterhalbjahr"
+
+                                        },
+										
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:cb_lniederschl_9120_isofl_winter",
+
+                                            "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr"
+
+                                        },
+
+										{
+
+                                            "id": "ua_niederschlag_1991_2020:ca_lniederschl_9120_isoli_winter",
+
+                                            "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr"
+
+                                        }
                       ]
                     },
                     {
