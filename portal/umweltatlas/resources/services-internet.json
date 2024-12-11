@@ -22406,176 +22406,6 @@
     }
   },
   {
-    "id": "k04_08_1lniederschl2020:0",
-    "name": "Isolinien der Niederschlagsverteilung 1991-2020",
-    "name_lang": "Isolinien der Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k04_08_1lniederschl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_04_02ltempmittel_04_08lniederschl_8110_li.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
-        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf?ts=1678182424",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k04_08_1lniederschl2020:1",
-    "name": "Isoflächen der Niederschlagsverteilung 1991-2020",
-    "name_lang": "Isoflächen der Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k04_08_1lniederschl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_04_08_1lniederschl_8110_fl.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
-        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf?ts=1678182424",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k04_08_1lniederschl2020:2",
-    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1991-2020",
-    "name_lang": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k04_08_1lniederschl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_04_08_1lniederschl_8110_bl_str.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
-        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf?ts=1678182424",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k04_08_1lniederschl2020:3",
-    "name": "Straßenflächenzuordnung der Niederschlagsverteilung 1991-2020",
-    "name_lang": "Straßenflächenzuordnung der Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k04_08_1lniederschl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_04_08_1lniederschl_8110_bl_str.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
-        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf?ts=1678182424",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k04_08_1lniederschl2020:4",
-    "name": "Rasterflächen der Niederschlagsverteilung 1991-2020",
-    "name_lang": "Rasterflächen der Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k04_08_1lniederschl2020",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_04_08_1lniederschl_8110_rast.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
-        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "500",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf?ts=1678182424",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k04_08_2lniederschl2020:0",
     "name": "Isolinien der Niederschlagsverteilung Sommerhalbjahr 1991-2020",
     "name_lang": "Isolinien der Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Umweltatlas))",
@@ -41790,5 +41620,135 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "name_lang": "Rasterflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ae_niederschlag_9120_raster",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
+    "name": "Straßenflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "name_lang": "Straßenflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ad_lniederschl_9120_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ac_lniederschl_9120_blockfl",
+    "name": "Block- und Blockteilflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "name_lang": "Block- und Blockteilflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ac_lniederschl_9120_blockfl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
+    "name": "Isoflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "name_lang": "Isoflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ab_lniederschl_9120_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
+    "name": "Isolinien - Langjährige Niederschlagsverteilung 1991-2020",
+    "name_lang": "Isolinien - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "aa_lniederschl_9120_isoli",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Niederschlagsverteilung 1991-2020 (Umweltatlas)",
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/3ecd3764-e865-3aa7-ab81-6039c0a37131",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
