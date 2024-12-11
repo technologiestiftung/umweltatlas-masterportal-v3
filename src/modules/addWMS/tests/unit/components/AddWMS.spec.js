@@ -292,7 +292,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.not.contain("request=GetCapabilities&service=WMS");
         });
 
-        it("removes Uppercase", function () {
+        it("removes uppercase", function () {
             const serviceUrl = "https://test/test?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0";
 
             expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.equal("https://test/test");
