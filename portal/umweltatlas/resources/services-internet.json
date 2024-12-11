@@ -41635,7 +41635,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf?ts=1678182418",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_niederschlag_1991_2020:cd_lniederschl_9120_str_winter",
@@ -41661,7 +41668,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf?ts=1678182418",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_niederschlag_1991_2020:cc_lniederschl_9120_block_winter",
@@ -41687,7 +41701,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf?ts=1678182418",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_niederschlag_1991_2020:cb_lniederschl_9120_isofl_winter",
@@ -41713,7 +41734,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf?ts=1678182418",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_niederschlag_1991_2020:ca_lniederschl_9120_isoli_winter",
@@ -41739,6 +41767,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf?ts=1678182418",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
