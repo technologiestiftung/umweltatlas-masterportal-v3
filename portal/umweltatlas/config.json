@@ -6465,7 +6465,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_06_07strutyp2020:0",
+                          "id": "ua_stadtstruktur_2020:ua_stadtstruktur_2020",
                           "name": "2020 - Stadtstruktur"
                         }
                       ]
@@ -6559,7 +6559,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "k_06_08strutyp_diff2020:0",
+                          "id": "ua_stadtstruktur_2020:ua_stadtstruktur_diff_2020",
                           "name": "2020 - Stadtstruktur differenziert"
                         }
                       ]
