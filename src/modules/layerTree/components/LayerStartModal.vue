@@ -126,11 +126,11 @@ export default {
             <div class="row">
                 <h2 class="mb-1">
                     <img :src=uaImgLink alt=""/>
-                   <span><span class="bold">Umweltatlas Map&thinsp;</span>
-                   <span>Berlin</span></span>
+                   <span><span class="bold">Umweltatlas Berlin&thinsp;</span>
+                   <span></span></span>
                 </h2>
                 <p class="info-text mb-3">
-                Die Umweltatlas Map ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
+                Die Katenanwendung des Umweltatlas Berlin ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
                 des
                 <a href="https://www.berlin.de/umweltatlas/" target="_blank"
                     >Umweltatlas Berlin</a
@@ -160,12 +160,7 @@ export default {
                     </div>
                 </template>
             </div>
-                <p class="info-text mb-3">
-                Die Umweltatlas Map ist ein Angebot der
-                <a href="https://www.berlin.de/sen/sbw/" target="_blank"
-                    >Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</a
-                >.
-            </p>
+                
             
         </div>
 
