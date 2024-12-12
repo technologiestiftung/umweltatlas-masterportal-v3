@@ -88,6 +88,10 @@ export default {
         id="modules-draw-module"
         class="d-flex flex-column"
     >
+        <p
+            class="mb-3"
+            v-html="$t('common:modules.draw.introText')"
+        />
         <div
             id="draw-edit"
         >
