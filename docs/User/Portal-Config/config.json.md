@@ -1607,6 +1607,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:layerSlider]: # (portalConfig.menu.sections.modules)
 [type:login]: # (portalConfig.menu.sections.modules)
 [type:measure]: # (portalConfig.menu.sections.modules)
+[type:modeler3D]: # (portalConfig.menu.sections.modules)
 [type:news]: # (portalConfig.menu.sections.modules)
 [type:openConfig]: # (portalConfig.menu.sections.modules)
 [type:print]: # (portalConfig.menu.sections.modules)
@@ -1643,6 +1644,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |layerSlider|no|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |login|no|**[login](#portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
 |measure|no|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
+|measure|no|**[modeler3D](#portalconfigmenusectionsmodulesmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
 |news|no|**[news](#portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
 |openConfig|no|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
 |print|no|**[print](#portalconfigmenusectionsmodulesprint)**||Printing module that can be used to export the map's current view as PDF.|false|
@@ -2870,6 +2872,92 @@ The measure tool allows measuring distances and areas.
     "measurementAccuracy": "dynamic",
     "name": "common:modules.measure.name",
     "type": "measure"
+}
+```
+
+***
+
+##### portalConfig.menu.sections.modules.modeler3D {data-toc-label='3D Modeler'}
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+Can only be used in 3D mode!
+The 3D modeler allows to import 3D models in the formats .gltf, .dae and .obj, as well as to draw lines and extrudable 3D polygons.
+These drawings can be exported and loaded back georeferenced into the map.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlIdPath|no|String|"gmlid"|Specify the path to the GML ID in the GFI for buildings in 3D Layers.|false|
+|updateAllLayers|no|Boolean|true|Specify, if all layers should be updated, when buildings are hidden.|false|
+|highlightStyle|no|**[highlightStyle](#markdown-header-portalConfigmenusectionsmodulesmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+|allowedAttributes|no|String[]|["Wertbezeichnung", "Gebaeudefunktion"]|Define which attributes should be available for the filtering function.|false|
+|pvoColors|no|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
+|buildingSource|no|String|"ALKIS"|Define the source of buildings (currently only ALKIS supported)|false|
+|buildingFunctionURL|no|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Define the URL where the building types should be retrieved from.|false|
+
+**Example**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "gmlIdPath": "gmlId",
+        "updateAllLayers": false,
+        "highlightStyle": {
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        },
+        "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
+        "pvoColors": {
+            "housing": "#ff0000",
+            "commercial": "#666666",
+            "public": "#44ff44"
+        },
+        "buildingSource": "ALKIS",
+        "buildingFunctionURL": "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"
+    }
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|silhouetteColor|no|String|"#E20D0F"|Specify the outline color for highlighting entities.|false|
+|silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.pvoColors
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|housing|no|String|"#ff0000"|Define the pvo color of housing buildings.|false|
+|commercial|no|String|"#666666"|Define the pvo color of commercial buildings.|false|
+|public|no|String|"#44ff44"|Define the pvo color of public buildings.|false|
+
+**Example**
+
+```json
+{
+    "pvoColors": {
+        "housing": "#ff0000",
+        "commercial": "#666666",
+        "public": "#44ff44"
+    }
 }
 ```
 

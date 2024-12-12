@@ -2872,6 +2872,92 @@ Mit dem Messwerkzeug können Strecken und Flächen gemessen werden.
 
 ***
 
+##### portalConfig.menu.sections.modules.modeler3D {data-toc-label='3D Modeler'}
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+Nur im 3D Modus nutzbar!
+Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.
+Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte geladen werden.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlIdPath|nein|String|"gmlid"|Bestimmen Sie den Pfad der GML ID im GFI für Gebäude in 3D Layern.|false|
+|updateAllLayers|nein|Boolean|true|Bestimmen Sie, ob beim Ausblenden von Gebäuden, alle Layer aktualisiert werden sollen.|false|
+|highlightStyle|nein|**[highlightStyle](#markdown-header-portalConfigmenusectionsmodulesmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke.|false|
+|allowedAttributes|nein|String[]|["Wertbezeichnung", "Gebaeudefunktion"]|Bestimmen Sie welche GFI Attribute zum Filtern verwendet werden können.|false|
+|pvoColors|nein|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Bestimmen Sie die Farben der PlanzeichenVO|false|
+|buildingSource|nein|String|"ALKIS"|Bestimmen Sie die Quelle der Gebäudefunktionsdaten (aktuell nur ALKIS).|false|
+|buildingFunctionURL|nein|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Bestimmen Sie die URL von welcher die Gebäudefunktionen bezogen werden sollen.|false|
+
+**Beispiel**
+
+```json
+{
+    "modeler3D": {
+        "name": "translate#common:menu.tools.modeler3D",
+        "gmlIdPath": "gmlId",
+        "updateAllLayers": false,
+        "highlightStyle": {
+            "silhouetteColor": "#E20D0F",
+            "silhouetteSize": 4
+        },
+        "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
+        "pvoColors": {
+            "housing": "#ff0000",
+            "commercial": "#666666",
+            "public": "#44ff44"
+        },
+        "buildingSource": "ALKIS",
+        "buildingFunctionURL": "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"
+    }
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities.|false|
+|silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities.|false|
+
+**Beispiel**
+
+```json
+{
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.pvoColors
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|housing|nein|String|"#ff0000"|Bestimmen Sie die PVO Farbe der Wohngebäude.|false|
+|commercial|nein|String|"#666666"|Bestimmen Sie die PVO Farbe der Gewerbegebäude.|false|
+|public|nein|String|"#44ff44"|Bestimmen Sie die PVO Farbe der öffentlichen Gebäude.|false|
+
+**Beispiel**
+
+```json
+{
+    "pvoColors": {
+        "housing": "#ff0000",
+        "commercial": "#666666",
+        "public": "#44ff44"
+    }
+}
+```
+
+***
+
 ##### portalConfig.menu.sections.modules.news {data-toc-label='News'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
