@@ -9,6 +9,7 @@
 ### Added
 
 ### Changed
+- Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
 
 ### Deprecated
 

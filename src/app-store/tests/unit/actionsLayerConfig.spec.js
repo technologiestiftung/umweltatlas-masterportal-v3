@@ -18,7 +18,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         setIdsAtFoldersSpy,
         replaceInNestedValuesSpy,
         buildSpy;
-    const restConf = "./resources/rest-services-internet.json",
+    const restConf = "./resources/rest-services.json",
         layerConf = "./services.json";
 
     beforeEach(() => {
