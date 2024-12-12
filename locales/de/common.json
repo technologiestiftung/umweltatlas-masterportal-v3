@@ -1083,9 +1083,10 @@
     "selectFeatures": {
       "description": "Erhalten Sie Informationen zu Objekten die Sie auf der Karte auswählen",
       "name": "Features auswählen",
-      "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Ziehen einer Box um die auszuwählenden Features bzw. Halten von Strg und Ziehen.",
+      "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features, indem Sie die Strg-Taste halten und eine Box um die gewünschten Features ziehen, oder fügen Sie einzelne Features durch Halten der Strg-Taste und Klicken mit der linken Maustaste hinzu.",
       "propertylessFeature": "Element ohne Attribute",
-      "zoomToFeature": "Auf dieses Feature zoomen"
+      "clearSelection": "Gesamtauswahl aufheben",
+      "deselectFeature": "Feature abwählen"
     },
     "statisticDashboard": {
       "name": "Statistik Dashboard",

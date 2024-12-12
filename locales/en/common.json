@@ -1080,9 +1080,10 @@
     "selectFeatures": {
       "description": "Get information about objects you select on the map",
       "name": "Select features",
-      "noFeatureChosen": "No feature chosen. Select features dragging a box around the features to choose.(Or holding down Ctrl+drag)",
+      "noFeatureChosen": "No features selected. Select features by holding the Ctrl key and dragging a box around the desired features, or add individual features by holding the Ctrl key and clicking with the left mouse button.",
       "propertylessFeature": "Element without attributes",
-      "zoomToFeature": "Zoom to this feature"
+      "clearSelection": "Clear selection",
+      "deselectFeature": "Deselect feature"
     },
     "statisticDashboard": {
       "name": "Statistic dashboard",

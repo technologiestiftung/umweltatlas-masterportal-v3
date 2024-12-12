@@ -748,9 +748,10 @@
     },
     "selectFeatures": {
       "name": "Seleziona",
-      "noFeatureChosen": "Nessuna voce selezionata. Selezionare le voci tenendo premuto il tasto Ctrl e trascinando una casella attorno alle voci da selezionare.",
+      "noFeatureChosen": "Nessuna caratteristica selezionata. Selezionare le caratteristiche tenendo premuto il tasto Ctrl e trascinando un riquadro attorno alle caratteristiche desiderate, oppure aggiungere singole caratteristiche tenendo premuto il tasto Ctrl e facendo clic con il pulsante sinistro del mouse.",
       "propertylessFeature": "Voce senza attributi",
-      "zoomToFeature": "Zoom su questa voce"
+      "clearSelection":  "Cancella la selezione",
+      "deselectFeature": "Deseleziona questa voce"
     },
     "shadow": {
       "name": "Ombre",
