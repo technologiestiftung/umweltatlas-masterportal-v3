@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
 
 ### Changed
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
@@ -15,6 +16,7 @@
 ### Deprecated
 
 ### Removed
+Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals 
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
