@@ -18,7 +18,7 @@ const state = {
     type: "selectFeatures",
     name: "common:modules.selectFeatures.name",
     icon: "bi-hand-index",
-    selectedFeatures: undefined,
+    selectedFeatures: [],
     selectedFeaturesWithRenderInformation: [],
     selectInteraction: undefined,
     dragBoxInteraction: undefined,

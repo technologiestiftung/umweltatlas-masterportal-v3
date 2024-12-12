@@ -1,7 +1,8 @@
 <script>
 import {DragBox, Select} from "ol/interaction";
-import {never, platformModifierKeyOnly, touchOnly} from "ol/events/condition";
+import {platformModifierKeyOnly, touchOnly} from "ol/events/condition";
 import VectorSource from "ol/source/Vector.js";
+import {Style, Stroke, Fill, Circle as CircleStyle} from "ol/style";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersSelectFeatures";
@@ -11,12 +12,31 @@ import {isUrl} from "../../../shared/js/utils/urlHelper";
 import {isEmailAddress} from "../../../shared/js/utils/isEmailAddress.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../shared/js/utils/isPhoneNumber.js";
 
-/**
- * Select Features
- * @module modules/SelectFeatures
- */
 export default {
     name: "SelectFeatures",
+    data () {
+        return {
+            selectedFeatureStyle: new Style({
+                image: new CircleStyle({
+                    radius: 7,
+                    fill: new Fill({
+                        color: "rgba(0, 153, 255, 0.5)"
+                    }),
+                    stroke: new Stroke({
+                        color: "rgba(0, 153, 255, 1)",
+                        width: 2
+                    })
+                }),
+                stroke: new Stroke({
+                    color: "rgba(0, 153, 255, 1)",
+                    width: 2
+                }),
+                fill: new Fill({
+                    color: "rgba(0, 153, 255, 0.3)"
+                })
+            })
+        };
+    },
     computed: {
         ...mapGetters(["ignoredKeys", "isMobile"]),
         ...mapGetters("Maps", ["mode"]),
@@ -28,7 +48,7 @@ export default {
     },
     unmounted () {
         this.removeInteractions();
-        this.clearFeatures();
+        this.clearSelection();
     },
     methods: {
         ...mapMutations("Modules/SelectFeatures", Object.keys(mutations)),
@@ -36,7 +56,7 @@ export default {
             addInteractionToMap: "addInteraction",
             removeInteractionFromMap: "removeInteraction"
         }),
-        ...mapActions("Modules/SelectFeatures", ["highlightFeature"]),
+        ...mapActions("Modules/SelectFeatures", ["highlightFeature", "toggleFeatureSelection"]),
         isEmailAddress,
         isPhoneNumber,
         getPhoneNumberAsWebLink,
@@ -47,94 +67,149 @@ export default {
          */
         createInteractions: function () {
             const select = new Select({
-                // select works indirectly via DragBox results - never updates itself
-                    addCondition: never,
-                    removeCondition: never,
-                    toggleCondition: never,
-                    condition: never
+                    condition: (event) => event.originalEvent.ctrlKey && event.type === "pointerdown",
+                    style: null
                 }),
                 dragBox = new DragBox(this.isMobile ? {condition: touchOnly} : {condition: platformModifierKeyOnly});
 
-            dragBox.on("boxstart", this.clearFeatures.bind(this));
             dragBox.on("boxend", this.setFeaturesFromDrag.bind(this));
 
+            select.on("select", (event) => {
+                this.setFeaturesFromClick(event.mapBrowserEvent);
+            });
             this.setSelectInteraction(select);
             this.setDragBoxInteraction(dragBox);
         },
 
         /**
-         * Clears the selected features of all current instances.
+         * Entfernt ein einzelnes Feature aus der Auswahl.
+         * @param {Number} index - Index des zu entfernenden Features
+         * @param {Object} feature - Das Feature-Objekt
          * @returns {void}
          */
-        clearFeatures: function () {
-            if (this.selectedFeatures) {
-                this.selectedFeatures.clear();
+        removeFeature (index, feature) {
+            if (feature) {
+                feature.setStyle(null);
+                this.selectedFeatures.splice(index, 1);
+                this.selectedFeaturesWithRenderInformation.splice(index, 1);
             }
-            this.setSelectedFeatures(this.selectInteraction.getFeatures());
+        },
+
+        /**
+         * Leert die komplette Feature-Auswahl.
+         * @returns {void}
+         */
+        clearSelection: function () {
+            if (this.selectedFeatures) {
+                this.selectedFeatures.forEach(feature => feature.setStyle(null));
+                this.setSelectedFeatures([]);
+            }
             this.setSelectedFeaturesWithRenderInformation([]);
         },
 
         /**
-         * Adds the interactions to the Map.
+         * Interaktionen zur Karte hinzufügen.
          * @returns {void}
          */
         addInteractions: function () {
-            this.addInteractionToMap(this.selectInteraction);
             this.addInteractionToMap(this.dragBoxInteraction);
+            this.addInteractionToMap(this.selectInteraction);
         },
 
         /**
-         * Removes the Interactions from the Map.
+         * Interaktionen von der Karte entfernen.
          * @returns {void}
          */
         removeInteractions: function () {
-            this.removeInteractionFromMap(this.selectInteraction);
             this.removeInteractionFromMap(this.dragBoxInteraction);
+            this.removeInteractionFromMap(this.selectInteraction);
             this.selectedFeaturesWithRenderInformation.length = 0;
         },
 
         /**
-         * Infers features from interaction state and sets them to the selectedFeatures.
+         * Erfasst Features innerhalb der gezogenen Box.
          * @returns {void}
          */
         setFeaturesFromDrag: function () {
-            const extent = this.dragBoxInteraction.getGeometry().getExtent();
+            const map = mapCollection.getMap("2D"),
+                extent = this.dragBoxInteraction.getGeometry().getExtent();
 
-            mapCollection.getMap("2D").getLayers()
+            map.getLayers()
                 .getArray()
                 .filter(layer => layer.get("visible") && layer.get("source") instanceof VectorSource)
-                .forEach(
-                    layer => {
-                        if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
-                            const features = layer.get("source")?.getFeaturesInExtent(extent);
+                .forEach(layer => {
+                    if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
+                        const features = layer.get("source")?.getFeaturesInExtent(extent);
 
-                            features.forEach(feature => {
+                        features.forEach(feature => {
+                            const featureId = feature.getId(),
+                                alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                            if (!alreadySelected) {
+                                feature.setStyle(this.selectedFeatureStyle);
                                 this.prepareFeature(layer, feature);
-                            });
-                        }
-                        else {
-                            layer.get("source").forEachFeatureIntersectingExtent(
-                                extent,
-                                feature => this.prepareFeature(layer, feature)
-                            );
-                        }
+                            }
+                        });
                     }
-                );
+                    else {
+                        layer.get("source").forEachFeatureIntersectingExtent(
+                            extent,
+                            feature => {
+                                const featureId = feature.getId(),
+                                    alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                                if (!alreadySelected) {
+                                    feature.setStyle(this.selectedFeatureStyle);
+                                    this.prepareFeature(layer, feature);
+                                }
+                            }
+                        );
+                    }
+                });
         },
 
         /**
-         * Gets a feature or multiple features and forwards it/them to the pushFeatures Function.
-         * Also pushes the features to the selected features.
-         * @param {module:ol/Layer} layer layer the feature belongs to (for gfi attributes)
-         * @param {module:ol/Feature} feature feature to be pushed
+         * Erfasst ein Feature per Klick (Strg+Klick).
+         * @param {Object} event Klick-Event
+         * @returns {void}
+         */
+        setFeaturesFromClick: function (event) {
+            const map = mapCollection.getMap("2D"),
+                coordinate = event.coordinate,
+                pixel = map.getPixelFromCoordinate(coordinate);
+
+            map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+                if (!layer) {
+                    console.warn("No layer found for feature", feature);
+                    return true;
+                }
+
+                if (layer.get("visible") && layer.get("source") instanceof VectorSource) {
+                    const featureId = feature.getId(),
+                        alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                    if (!alreadySelected) {
+                        feature.setStyle(this.selectedFeatureStyle);
+                        this.prepareFeature(layer, feature);
+                    }
+                }
+                else {
+                    console.warn("Layer not visible or not a vector source", layer);
+                }
+                return true;
+            });
+        },
+
+        /**
+         * Bereitet Features für die Auswahl vor und fügt sie hinzu.
+         * @param {module:ol/Layer} layer Layer des Features
+         * @param {module:ol/Feature} feature Das Feature
          * @returns {void}
          */
         prepareFeature: function (layer, feature) {
             this.addSelectedFeature(feature);
             if (feature.get("features") === undefined) {
-                const item = feature;
-
-                this.pushFeatures(layer, item);
+                this.pushFeatures(layer, feature);
             }
             else {
                 feature.get("features").forEach(item => {
@@ -144,9 +219,23 @@ export default {
         },
 
         /**
-         * Pushes the given feature and its properties to the selectedFeaturesWithRenderInformation array.
-         * @param {module:ol/Layer} layer layer the feature belongs to (for gfi attributes)
-         * @param {module:ol/Feature} item feature to be pushed
+         * Fügt ein Feature zur ausgewählten Liste hinzu, falls es noch nicht vorhanden ist.
+         * @param {module:ol/Feature} feature
+         * @returns {void}
+         */
+        addSelectedFeature: function (feature) {
+            const featureId = feature.getId();
+
+            if (this.selectedFeatures.some(f => f.getId() === featureId)) {
+                return;
+            }
+            this.selectedFeatures.push(feature);
+        },
+
+        /**
+         * Fügt ein Feature mit Render-Informationen hinzu.
+         * @param {Object} layer Layer
+         * @param {module:ol/Feature} item Feature
          * @returns {void}
          */
         pushFeatures: function (layer, item) {
@@ -160,15 +249,9 @@ export default {
             });
         },
 
-        /**
-         * Iterates the Properties and adds Links and Breaks.
-         * @param {Array} properties Technical key to display value
-         * @returns {Array<String[]>} Array of [key,value]-pairs - may be empty
-         */
         processLinksAndBreaks: function (properties) {
             const resultProperties = properties;
 
-            // makes links in result list clickable and adds <br/>s
             Object.entries(properties).forEach(([key, propValue]) => {
                 let propertyValue = propValue;
 
@@ -177,9 +260,9 @@ export default {
                 }
                 if (this.isValidKey(key) && this.isValidValue(propertyValue) && propertyValue.indexOf("|") > -1) {
                     resultProperties[key] = "";
-                    propertyValue.split("|").forEach(function (arrayItemValue) {
+                    propertyValue.split("|").forEach(arrayItemValue => {
                         if (isUrl(arrayItemValue)) {
-                            resultProperties[key] += "<a href=" + arrayItemValue + " target=\"_blank\">" + arrayItemValue + "</a><br/>";
+                            resultProperties[key] += `<a href="${arrayItemValue}" target="_blank">${arrayItemValue}</a><br/>`;
                         }
                         else {
                             resultProperties[key] += arrayItemValue + "<br/>";
@@ -187,23 +270,15 @@ export default {
                     });
                 }
                 else if (this.isValidKey(key) && this.isValidValue(propertyValue) && isUrl(propertyValue)) {
-                    resultProperties[key] = "<a href=" + propertyValue + " target=\"_blank\">" + propertyValue + "</a>";
+                    resultProperties[key] = `<a href="${propertyValue}" target="_blank">${propertyValue}</a>`;
                 }
             });
-
             return resultProperties;
         },
 
-        /**
-         * Prepares the properties of a feature for tabular display.
-         * @param {Array} properties Technical key to display value
-         * @param {Object} gfiAttributes Technical key to display key
-         * @returns {Array<String[]>} Array of [key,value]-pairs - may be empty
-         */
         translateGFI: function (properties, gfiAttributes) {
             const resultProperties = this.processLinksAndBreaks(properties);
 
-            // showAll => just use properties and make key look nice
             if (gfiAttributes === "showAll") {
                 return Object
                     .entries(resultProperties)
@@ -215,7 +290,6 @@ export default {
                     });
             }
 
-            // type object => contains pretty-print instruction for key as value
             if (typeof gfiAttributes === "object") {
                 return Object
                     .keys(gfiAttributes)
@@ -225,7 +299,6 @@ export default {
                     ]);
             }
 
-            // gfiAttributes === "ignore" (or invalid)
             if (gfiAttributes !== "ignore") {
                 console.warn(`Layer has invalid gfiAttributes "${gfiAttributes}". Acting as if "ignore" was given.`);
             }
@@ -233,81 +306,49 @@ export default {
             return [];
         },
 
-        /**
-         * Prepares a key for display.
-         * e.g. "very_important_field" becomes "Very Important Field"
-         * @param {String} str key to beautify
-         * @returns {String} beautified key
-         */
         beautifyKey: function (str) {
             if (typeof str !== "string") {
+                console.warn("Invalid input for beautifyKey. Expected a string, got:", typeof str);
                 return "";
             }
-
             return str
                 .split("_")
                 .map(item => item.substring(0, 1).toUpperCase() + item.substring(1))
                 .join(" ");
         },
 
-        /**
-         * Translates | separators to newlines.
-         * @param {String} str string, potentially with separators '|'
-         * @returns {String} beautified string
-         */
         beautifyValue: function (str) {
             if (typeof str !== "string") {
+                console.warn("Invalid input for beautifyValue. Expected a string, got:", typeof str);
                 return "";
             }
-
             return str
                 .split("|")
                 .map(item => item.trim())
                 .join("<br/>");
         },
 
-        /**
-         * helper function: check, if key has a valid value
-         * @param {String} key parameter
-         * @returns {Boolean} key is valid (i.e. not a member of ignoredKeys)
-         */
         isValidKey: function (key) {
             return this.ignoredKeys.indexOf(key.toUpperCase()) === -1;
         },
 
-        /**
-         * helper function: check, if str has a valid value
-         * @param {String} str parameter
-         * @returns {Boolean} value is valid
-         */
         isValidValue: function (str) {
             return Boolean(str && typeof str === "string" && str.toUpperCase() !== "NULL");
         },
 
-        /**
-         * Feature listing offer clickable elements to zoom to a feature.
-         * @param {Object} event click event
-         * @returns {void}
-         */
         featureZoom: function (event) {
-            const featureIndex = event.currentTarget.id.split("-")[0],
+            const map = mapCollection.getMap("2D"),
+                featureIndex = event.currentTarget.id.split("-")[0],
                 selected = this.selectedFeaturesWithRenderInformation[featureIndex];
 
-            mapCollection.getMap(this.mode).getView().fit(selected.item.getGeometry());
+            map.getView().fit(selected.item.getGeometry());
             this.highlightFeature({feature: selected.item, layerId: selected.layerId});
         },
 
-        /**
-         * translates the given key, checkes if the key exists and throws a console warning if not
-         * @param {String} key the key to translate
-         * @param {Object} [options=null] for interpolation, formating and plurals
-         * @returns {String} the translation or the key itself on error
-         */
         translate (key, options = null) {
             if (key === "common:" + this.$t(key)) {
                 console.warn("the key " + JSON.stringify(key) + " is unknown to the common translation");
             }
-
             return this.$t(key, options);
         }
     }
@@ -315,7 +356,9 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="selectFeatures">
+    <div
+        id="selectFeatures"
+    >
         <div
             v-if="selectedFeaturesWithRenderInformation.length === 0"
             class="selectFeaturesDefaultMessage"
@@ -327,14 +370,22 @@ export default {
             ref="select-features-tables"
             class="select-features-tables"
         >
+            <div class="sticky-clear-container">
+                <button
+                    class="btn btn-primary btn-sm"
+                    @click="clearSelection"
+                >
+                    {{ translate("common:modules.selectFeatures.clearSelection") }}
+                </button>
+            </div>
+            <br>
             <template
                 v-for="(selectedFeature, index) in selectedFeaturesWithRenderInformation"
                 :key="index"
             >
                 <table
                     v-if="selectedFeature.properties.length > 0"
-                    :key="index"
-                    class="table table-bordered"
+                    class="table table-striped table-bordered"
                 >
                     <tbody>
                         <tr
@@ -376,14 +427,25 @@ export default {
                 >
                     {{ translate("common:modules.selectFeatures.propertylessFeature") }}
                 </p>
-                <a
-                    :id="index + '-selectFeatures-feature'"
-                    href="#"
-                    class="select-features-zoom-link"
-                    @click="featureZoom"
+                <div
+                    class="feature-actions"
                 >
-                    {{ translate("common:modules.selectFeatures.zoomToFeature") }}
-                </a>
+                    <a
+                        :id="index + '-selectFeatures-feature'"
+                        :key="'a' + index"
+                        href="#"
+                        class="select-features-zoom-link"
+                        @click="featureZoom"
+                    >
+                        {{ translate("common:modules.selectFeatures.zoomToFeature") }}
+                    </a>
+                    <button
+                        class="btn btn-link btn-sm remove-feature-btn"
+                        @click="removeFeature(index, selectedFeature.item)"
+                    >
+                        {{ translate("common:modules.selectFeatures.deselectFeature") }}
+                    </button>
+                </div>
                 <hr
                     v-if="index !== selectedFeaturesWithRenderInformation.length - 1"
                     :key="'h' + index"
@@ -393,14 +455,39 @@ export default {
     </div>
 </template>
 
-<style type="scss" scoped>
+<style scoped lang="scss">
 .selectFeatures {
     max-width: 600px;
     max-height: 745px;
 }
 
-.select-features-tables p {
-    margin: 8px 0;
+.select-features-tables {
+    overflow-y: auto;
+    max-height: 600px;
+    position: relative;
+}
+
+.feature-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.remove-feature-btn {
+    color: red;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-left: 10px;
+}
+
+.sticky-clear-container {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 td.featureName {
