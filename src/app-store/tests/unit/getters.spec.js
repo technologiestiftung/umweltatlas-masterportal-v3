@@ -122,7 +122,16 @@ describe("src/app-store/getters.js", () => {
 
         it("should return all visible layers - ids as array", () => {
             const layer = {
-                    "id": "33780",
+                    "id": [
+                        "717",
+                        "718",
+                        "719",
+                        "720",
+                        "13712",
+                        "13709",
+                        "13714",
+                        "13716"
+                    ],
                     visibility: true,
                     name: "Geobasiskarten (farbig)"
                 },

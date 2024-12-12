@@ -818,34 +818,6 @@
           "visibility": true
         },
         {
-          "id": "33793",
-          "name": "geobasiskarten_graublau",
-          "shortname": "geobasiskarten_graublau",
-          "typ": "WMS",
-          "visibility": true
-        },
-        {
-          "id": "33780",
-          "name": "geobasiskarten_farbig",
-          "shortname": "geobasiskarten_farbig",
-          "typ": "WMS",
-          "visibility": true
-        },
-        {
-          "id": "33787",
-          "name": "geobasiskarten_schwarzgrau",
-          "shortname": "geobasiskarten_schwarzgrau",
-          "typ": "WMS",
-          "visibility": true
-        },
-        {
-          "id": "33797",
-          "name": "geobasiskarten_schriftplatte",
-          "shortname": "geobasiskarten_schriftplatte",
-          "typ": "WMS",
-          "visibility": true
-        },
-        {
           "id": "452",
           "name": "Digitale Orthophotos (belaubt) Hamburg",
           "shortname": "Orthophotos",

@@ -95,6 +95,36 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                     kategorie_organisation: "Landesbetrieb Straßen, Brücken und Gewässer"
                 }],
                 zIndex: 6
+            },
+            {
+                id: "717",
+                name: "name717",
+                layers: "layer717",
+                maxScale: "10000",
+                minScale: "10",
+                typ: "WMS",
+                zIndex: 7,
+                datasets: []
+            },
+            {
+                id: "718",
+                name: "name718",
+                layers: "layer718",
+                maxScale: "30000",
+                minScale: "30",
+                typ: "WMS",
+                zIndex: 8,
+                datasets: []
+            },
+            {
+                id: "719",
+                name: "name719",
+                layers: "layer719",
+                maxScale: "20000",
+                minScale: "20",
+                typ: "WMS",
+                zIndex: 9,
+                datasets: []
             }
         ];
         layerConfig = {};
@@ -126,7 +156,11 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         layerConfigCustom[treeBaselayersKey] = {
             elements: [
                 {
-                    "id": "33780",
+                    id: [
+                        "717",
+                        "718",
+                        "719"
+                    ],
                     visibility: true,
                     name: "Geobasiskarten (farbig)"
                 },
@@ -427,7 +461,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.secondCall.args[0]).to.equals("updateLayerConfigs");
             expect(dispatch.secondCall.args[1]).to.deep.equals([
                 {
-                    "id": "33780",
+                    id: ["717", "718", "719"],
                     visibility: true,
                     name: "Geobasiskarten (farbig)"
                 },
@@ -463,6 +497,17 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                                     type: "folder",
                                     elements: [
                                         {
+                                            id: "717",
+                                            visibility: true
+                                        },
+                                        {
+                                            id: "718",
+                                            visibility: true
+                                        },
+                                        {
+                                            id: "719"
+                                        },
+                                        {
                                             name: "Überschwemmungsgebiete",
                                             type: "folder",
                                             elements: [
@@ -491,6 +536,9 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.secondCall.args[1]).to.deep.equals([
                 {id: "1132", name: "100 Jahre Stadtgruen POIs", visibility: true},
                 {id: "10220"},
+                {id: "717", visibility: true},
+                {id: "718", visibility: true},
+                {id: "719"},
                 {id: "1103", visibility: true}
 
             ]);
