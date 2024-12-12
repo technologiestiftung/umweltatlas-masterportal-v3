@@ -1086,7 +1086,8 @@
       "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features, indem Sie die Strg-Taste halten und eine Box um die gewünschten Features ziehen, oder fügen Sie einzelne Features durch Halten der Strg-Taste und Klicken mit der linken Maustaste hinzu.",
       "propertylessFeature": "Element ohne Attribute",
       "clearSelection": "Gesamtauswahl aufheben",
-      "deselectFeature": "Feature abwählen"
+      "deselectFeature": "Feature abwählen",
+      "zoomToFeature": "Auf dieses Feature zoomen"
     },
     "statisticDashboard": {
       "name": "Statistik Dashboard",

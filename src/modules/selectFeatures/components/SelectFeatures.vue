@@ -463,7 +463,6 @@ export default {
 
 .select-features-tables {
     overflow-y: auto;
-    max-height: 600px;
     position: relative;
 }
 

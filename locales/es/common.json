@@ -748,7 +748,8 @@
       "noFeatureChosen": "No hay características seleccionadas. Seleccione características manteniendo pulsada la tecla Ctrl y arrastrando un cuadro alrededor de las características deseadas, o añada características individuales manteniendo pulsada la tecla Ctrl y haciendo clic con el botón izquierdo del ratón.",
       "propertylessFeature": "Elemento sin atributos",
       "clearSelection":  "Borrar selección",
-      "deselectFeature": "Deseleccionar entidad"
+      "deselectFeature": "Deseleccionar entidad",
+      "zoomToFeature": "Acercar el zomm a esta entidad"
     },
     "shadow": {
       "name": "Sombras",

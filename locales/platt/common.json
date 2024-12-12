@@ -748,7 +748,8 @@
       "noFeatureChosen": "Keene Features utsöcht. Söök Föögsels ut, indem du de Strg-Taste hollst un en Box üm de gewünsten Features treckst, oder föög eenige Features dör dat Holten vun de Strg-Taste un greep mit den linken Mood to.",
       "propertylessFeature": "Element ohne Attribute",
       "clearSelection": "Auswahl opheben",
-      "deselectFeature": "Feature ut de Auswahl nähmen"
+      "deselectFeature": "Feature ut de Auswahl nähmen",
+      "zoomToFeature": "Auf dieses Feature zoomen"
     },
     "shadow": {
       "name": "Scheem",
