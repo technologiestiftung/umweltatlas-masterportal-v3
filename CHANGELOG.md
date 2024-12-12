@@ -18,6 +18,7 @@
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
 - Issue #1309: fixed translation of periodicity.
 - Routing: fixed style for waypoints.
+- Filter: The searched result list in dropdown should be sorted alphabetically.
 
 ---
 
