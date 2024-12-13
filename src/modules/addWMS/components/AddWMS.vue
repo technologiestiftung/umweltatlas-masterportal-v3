@@ -96,25 +96,9 @@ export default {
          * @returns {String} the url.href
          */
         getBaseServiceUrl: function (serviceUrl) {
-            let url;
+            const url = new URL(serviceUrl);
 
-            this.invalidUrl = false;
-            try {
-                url = new URL(serviceUrl);
-            }
-            catch (e) {
-                this.invalidUrl = true;
-                this.displayErrorMessage();
-            }
-            if (url.href.includes("http:")) {
-                this.addSingleAlert({
-                    content: this.$t("common:modules.addWMS.errorHttpsMessage"),
-                    category: "error",
-                    title: this.$t("common:modules.addWMS.errorTitle")});
-            }
-            else {
-                deleteParams(url, ["request", "service", "version"]);
-            }
+            deleteParams(url, ["request", "service", "version"]);
             return url.href;
         },
         /**
