@@ -266,9 +266,9 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async closeTSR ({rootState, state, dispatch}) {
+    async closeTSR ({state, dispatch}) {
         const {tsrWaypointsLayer, tsrRouteLayer, tsrElevationLayer} = state,
-            map = await mapCollection.getMap(rootState.Maps.mode);
+            map = await mapCollection.getMap("2D");
 
         map.removeLayer(toRaw(tsrRouteLayer));
         map.removeLayer(toRaw(tsrWaypointsLayer));

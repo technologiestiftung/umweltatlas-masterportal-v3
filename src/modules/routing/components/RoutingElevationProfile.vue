@@ -11,6 +11,8 @@
 import {mapGetters} from "vuex";
 import {Chart} from "chart.js";
 import {toRaw} from "vue";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
 
 export default {
     name: "RoutingElevationProfile",
@@ -69,7 +71,7 @@ export default {
         canvas.addEventListener("mouseleave", () => {
             const source = this.layerSource;
 
-            source.getFeatures()[0].getGeometry().setCoordinates([]);
+            source.removeFeature(source.getFeatures()[0]);
         });
     },
     methods: {
@@ -187,7 +189,16 @@ export default {
                 const index = hoverData[0].index,
                     point = this.directions.lineString[index];
 
-                source.getFeatures()[0].getGeometry().setCoordinates(point);
+                if (source.getFeatures().length === 0) {
+                    const feature = new Feature({
+                        geometry: new Point(point)
+                    });
+
+                    source.addFeature(feature);
+                }
+                else {
+                    source.getFeatures()[0].getGeometry().setCoordinates(point);
+                }
             }
         },
         /**
