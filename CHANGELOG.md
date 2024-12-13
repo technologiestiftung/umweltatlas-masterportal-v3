@@ -20,6 +20,7 @@
 - Issue #1309: fixed translation of periodicity.
 - Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
 
 ---
 
