@@ -66,7 +66,7 @@
       "placeholder": "Hier bitte die WMS-URL eingeben.",
       "textLoadLayer": "Karte laden",
       "introText": "Laden Sie externe Karten aus anderen Quellen in den Kartenviewer. Die Karten müssen über einen WMS (Web Map Service) zur Verfügung stehen.",
-      "wmsText":"Weitere Karten vom Land Berlin finden Sie zum Beispiel im <a target='_blank' href='https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/home'>Metadatenkatalog des Geoportals Berlin</a>."
+      "wmsText":"Weitere Karten vom Land Berlin finden Sie zum Beispiel in der <a target='_blank' href='https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/home'>Geodatensuche Berlin</a>."
     },
     "alerting": {
       "alertWindowTitle": "Informationen",
