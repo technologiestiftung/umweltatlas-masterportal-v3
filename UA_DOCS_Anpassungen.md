@@ -77,6 +77,10 @@ Hier können Neuigkeiten eintragen werden:
 
 [./portal/umweltatlas/resources/newsFeedPortalAlerts.json](./portal/umweltatlas/resources/newsFeedPortalAlerts.json)
 
+Die Einstellungsoptionen sind hier dokumentiert:
+
+[./docs/Dev/vueComponents/Alerting.md](./docs/Dev/vueComponents/Alerting.md)
+
 
 # Mögliche Verbesserungen
 
