@@ -42,13 +42,14 @@ export default {
         },
         defaultValue () {
             this.sliderValue = this.timeRange.indexOf(this.defaultValue);
+            // FIXME: temporary solution for updating time slider
             this.$forceUpdate();
         },
         sliderValue () {
             if (!this.timeRange[this.sliderValue]) {
                 this.sliderValue = this.timeRange.indexOf(this.defaultValue);
                 if (this.sliderValue < 0) {
-                    this.sliderValue = 0
+                    this.sliderValue = 0;
                 }
             }
 
