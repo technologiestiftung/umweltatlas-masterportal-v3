@@ -2382,22 +2382,42 @@
                       "name": "2007",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen2007:3",
-                          "name": "2007 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2007:0",
-                          "name": "2007 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2007:1",
-                          "name": "2007 - Geologische Skizze"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2007:5",
-                          "name": "2007 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete"
-                        }
+    {
+        "id": "ua_grundwassergl_2007:da_geologische_skizze",
+        "name": "2007 - Geologische Skizze"
+    },
+    {
+        "id": "ua_grundwassergl_2007:cc_pgwl_gwms_pol",
+        "name": "2007 - Panketalgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2007:cb_pgwl_gwms_li",
+        "name": "2007 - Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2007:ca_pgwl_gwms_pkt",
+        "name": "2007 - Grundwassermessstellen Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2007:bc_hgwl_gwms_pol",
+        "name": "2007 - Hauptgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2007:bb_hgwl_gwms_li",
+        "name": "2007 - Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2007:ba_hgwl_gwms_pkt",
+        "name": "2007 - Grundwassermessstellen Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2007:ab_wassk_peg_bru_wassgeb_li",
+        "name": "2007 - Wasserschutzgebietsgrenzen"
+    },
+    {
+        "id": "ua_grundwassergl_2007:aa_wassk_peg_bru_wassgeb_pkt",
+        "name": "2007 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+    }
                       ]
                     },
                     {
