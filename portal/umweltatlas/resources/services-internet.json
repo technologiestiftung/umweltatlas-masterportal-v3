@@ -43445,7 +43445,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:da_ua_windfeld_2m_04h_2022_20m",
@@ -43472,7 +43479,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:db_ua_windfeld_2m_04h_2022_100m",
@@ -43499,7 +43513,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:dc_ua_kaltluftvol_siedlg_04h_2022",
@@ -43525,7 +43546,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:dd_ua_kaltluftvol_str_04h_2022",
@@ -43551,7 +43579,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:de_ua_kaltluftvol_grfrei_04h_2022",
@@ -43577,7 +43612,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:e_ua_kaltluftvol_raster_04h_2022",
@@ -43603,7 +43645,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:fa_ua_lufttemp_siedlg_t2m_04h_2022",
@@ -43629,7 +43678,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:fb_ua_lufttemp_str_t2m_04h_2022",
@@ -43655,7 +43711,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:fc_ua_lufttemp_grfrei_t2m_04h_2022",
@@ -43681,7 +43744,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:ha_ua_lufttemp_siedlg_t2m_14h_2022",
@@ -43707,7 +43777,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
@@ -43733,7 +43810,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:hc_ua_lufttemp_grfrei_t2m_14h_2022",
@@ -43759,7 +43843,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:ja_ua_oberfltemp_siedlg_t2m_04h_2022",
@@ -43785,7 +43876,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:jb_ua_oberfltemp_str_t2m_04h_2022",
@@ -43811,7 +43909,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:jc_ua_oberfltemp_grfrei_t2m_04h_2022",
@@ -43837,7 +43942,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:la_ua_oberfltemp_siedlg_t2m_14h_2022",
@@ -43863,7 +43975,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:lb_ua_oberfltemp_str_t2m_14h_2022",
@@ -43889,7 +44008,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:lc_ua_oberfltemp_grfrei_t2m_14h_2022",
@@ -43915,7 +44041,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_klimaanalyse_2022:na_ua_abkuehl_siedlg_2022",
@@ -43941,6 +44074,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.dehttps://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/04_10_7_2014.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
