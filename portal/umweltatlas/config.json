@@ -2019,22 +2019,42 @@
                       "name": "2016",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen2016:3",
-                          "name": "2016 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2016:1",
-                          "name": "2016 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2016:2",
-                          "name": "2016 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2016:4",
-                          "name": "2016 - Geologische Skizze"
-                        }
+    {
+        "id": "ua_grundwassergl_2016:da_geologische_skizze",
+        "name": "2016 - Geologische Skizze"
+    },
+    {
+        "id": "ua_grundwassergl_2016:cc_pgwl_gwms_pol",
+        "name": "2016 - Panketalgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2016:cb_pgwl_gwms_li",
+        "name": "2016 - Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2016:ca_pgwl_gwms_pkt",
+        "name": "2016 - Grundwassermessstellen Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2016:bc_hgwl_gwms_pol",
+        "name": "2016 - Hauptgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2016:bb_hgwl_gwms_li",
+        "name": "2016 - Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2016:ba_hgwl_gwms_pkt",
+        "name": "2016 - Grundwassermessstellen Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2016:ab_wassk_peg_bru_wassgeb_li",
+        "name": "2016 - Wasserschutzgebietsgrenzen"
+    },
+    {
+        "id": "ua_grundwassergl_2016:aa_wassk_peg_bru_wassgeb_pkt",
+        "name": "2016 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+    }
                       ]
                     },
                     {
