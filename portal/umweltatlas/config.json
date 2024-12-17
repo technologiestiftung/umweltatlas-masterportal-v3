@@ -7313,14 +7313,18 @@
                   "name": "06.03 Freiflächenentwicklung",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "k_06_03freiflentwick:2",
-                      "name": "Freiflächengewinne und -verluste"
-                    },
-                    {
-                      "id": "k_06_03freiflentwick:1",
-                      "name": "Freiflächenbestand"
-                    }
+    {
+        "id": "ua_freiflaechenentwicklung:c_ffe_bestand2020",
+        "name": "Freiflächenbestand"
+    },
+    {
+        "id": "ua_freiflaechenentwicklung:b_ffe_gewinne_verluste",
+        "name": "Freiflächengewinne und -verluste"
+    },
+    {
+        "id": "ua_freiflaechenentwicklung:a_ffe_umrandungen",
+        "name": "Freiflächenentwicklung seit 1945"
+    }
                   ]
                 }
               ]
