@@ -302,6 +302,7 @@
         "enterFilename": "Please enter filename",
         "filename": "Filename",
         "format": "Format",
+        "notSupportedGeometryType": "One or more drawn geometries cannot be downloaded in the selected format because the format does not support the geometry type.",
         "pleaseChoose": "Please choose",
         "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
       },

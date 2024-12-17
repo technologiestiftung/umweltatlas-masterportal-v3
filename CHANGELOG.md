@@ -18,10 +18,11 @@
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
+- Issue #1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
 - Issue #1309: fixed translation of periodicity.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
 - Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
-- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
 - AddWMS: Fixed handling of service parameter.
 
 ---

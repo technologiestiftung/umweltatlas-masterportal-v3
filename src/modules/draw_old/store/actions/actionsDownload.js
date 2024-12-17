@@ -15,7 +15,13 @@ import main from "../../js/main";
  * @returns {String} The features written in the chosen format as a String.
  */
 async function convertFeatures ({state, dispatch}, format) {
-    const convertedFeatures = [];
+    const convertedFeatures = [],
+        alert = {
+            category: "error",
+            content: i18next.t("common:modules.draw_old.download.notSupportedGeometryType", {geometry: "Polygon"}),
+            displayClass: "error"
+        };
+    let notSupportedGeometryType = false;
 
     for (const feature of state.download.features) {
         const cloned = feature.clone(),
@@ -27,6 +33,14 @@ async function convertFeatures ({state, dispatch}, format) {
 
         cloned.getGeometry().setCoordinates(transCoords, "XY");
         convertedFeatures.push(cloned);
+
+        if (format instanceof GPX && feature.getGeometry().getType() === "Polygon") {
+            notSupportedGeometryType = true;
+        }
+    }
+
+    if (notSupportedGeometryType) {
+        dispatch("Alerting/addSingleAlert", alert, {root: true});
     }
 
     return format.writeFeatures(convertedFeatures);

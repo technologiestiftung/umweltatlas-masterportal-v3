@@ -302,6 +302,7 @@
         "enterFilename": "Bitte Dateiname angeben",
         "filename": "Dateiname",
         "format": "Format",
+        "notSupportedGeometryType": "Ein oder mehrere gezeichnete Geometrien können in dem ausgewählten Format nicht heruntergeladen werden, da das Format den Geometrietyp nicht unterstützt.",
         "pleaseChoose": "Bitte Auswählen",
         "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
       },
