@@ -82,9 +82,9 @@ export default {
         },
 
         /**
-         * Entfernt ein einzelnes Feature aus der Auswahl.
-         * @param {Number} index - Index des zu entfernenden Features
-         * @param {Object} feature - Das Feature-Objekt
+         * Removes a single feature from the selection.
+         * @param {Number} index - The index of the feature to remove.
+         * @param {Object} feature - The feature object to deselect.
          * @returns {void}
          */
         removeFeature (index, feature) {
@@ -96,7 +96,7 @@ export default {
         },
 
         /**
-         * Leert die komplette Feature-Auswahl.
+         * Clears the selected features of all current instances.
          * @returns {void}
          */
         clearSelection: function () {
@@ -108,7 +108,7 @@ export default {
         },
 
         /**
-         * Interaktionen zur Karte hinzufügen.
+         * Adds the interactions to the Map.
          * @returns {void}
          */
         addInteractions: function () {
@@ -117,7 +117,7 @@ export default {
         },
 
         /**
-         * Interaktionen von der Karte entfernen.
+         * Removes the Interactions from the Map.
          * @returns {void}
          */
         removeInteractions: function () {
@@ -127,7 +127,7 @@ export default {
         },
 
         /**
-         * Erfasst Features innerhalb der gezogenen Box.
+         * Infers features from interaction state and sets them to the selectedFeatures.
          * @returns {void}
          */
         setFeaturesFromDrag: function () {
@@ -169,8 +169,8 @@ export default {
         },
 
         /**
-         * Erfasst ein Feature per Klick (Strg+Klick).
-         * @param {Object} event Klick-Event
+         * Infers features from a click event and sets them to the selectedFeatures.
+         * @param {Object} event The click event
          * @returns {void}
          */
         setFeaturesFromClick: function (event) {
@@ -201,9 +201,10 @@ export default {
         },
 
         /**
-         * Bereitet Features für die Auswahl vor und fügt sie hinzu.
-         * @param {module:ol/Layer} layer Layer des Features
-         * @param {module:ol/Feature} feature Das Feature
+         * Gets a feature or multiple features and forwards it/them to the pushFeatures Function.
+         * Also pushes the features to the selected features.
+         * @param {module:ol/Layer} layer layer the feature belongs to (for gfi attributes)
+         * @param {module:ol/Feature} feature feature to be pushed
          * @returns {void}
          */
         prepareFeature: function (layer, feature) {
@@ -219,7 +220,7 @@ export default {
         },
 
         /**
-         * Fügt ein Feature zur ausgewählten Liste hinzu, falls es noch nicht vorhanden ist.
+         * Adds a feature to the selected list if it is not already present.
          * @param {module:ol/Feature} feature
          * @returns {void}
          */
@@ -233,9 +234,9 @@ export default {
         },
 
         /**
-         * Fügt ein Feature mit Render-Informationen hinzu.
-         * @param {Object} layer Layer
-         * @param {module:ol/Feature} item Feature
+         * Pushes the given feature and its properties to the selectedFeaturesWithRenderInformation array.
+         * @param {module:ol/Layer} layer layer the feature belongs to (for gfi attributes)
+         * @param {module:ol/Feature} item feature to be pushed
          * @returns {void}
          */
         pushFeatures: function (layer, item) {
@@ -249,6 +250,11 @@ export default {
             });
         },
 
+        /**
+         * Iterates the Properties and adds Links and Breaks.
+         * @param {Array} properties Technical key to display value
+         * @returns {Array.<String[]>} Array of [key,value]-pairs - may be empty
+         */
         processLinksAndBreaks: function (properties) {
             const resultProperties = properties;
 
@@ -276,6 +282,12 @@ export default {
             return resultProperties;
         },
 
+        /**
+         * Prepares the properties of a feature for tabular display.
+         * @param {Array} properties Technical key to display value
+         * @param {Object} gfiAttributes Technical key to display key
+         * @returns {Array.<String[]>} Array of [key,value]-pairs - may be empty
+         */
         translateGFI: function (properties, gfiAttributes) {
             const resultProperties = this.processLinksAndBreaks(properties);
 
@@ -306,6 +318,12 @@ export default {
             return [];
         },
 
+        /**
+         * Prepares a key for display.
+         * e.g. "very_important_field" becomes "Very Important Field"
+         * @param {String} str key to beautify
+         * @returns {String} beautified key
+         */
         beautifyKey: function (str) {
             if (typeof str !== "string") {
                 console.warn("Invalid input for beautifyKey. Expected a string, got:", typeof str);
@@ -317,6 +335,11 @@ export default {
                 .join(" ");
         },
 
+        /**
+         * Translates | separators to newlines.
+         * @param {String} str string, potentially with separators '|'
+         * @returns {String} beautified string
+         */
         beautifyValue: function (str) {
             if (typeof str !== "string") {
                 console.warn("Invalid input for beautifyValue. Expected a string, got:", typeof str);
@@ -328,14 +351,29 @@ export default {
                 .join("<br/>");
         },
 
+        /**
+         * helper function: check, if key has a valid value
+         * @param {String} key parameter
+         * @returns {Boolean} key is valid (i.e. not a member of ignoredKeys)
+         */
         isValidKey: function (key) {
             return this.ignoredKeys.indexOf(key.toUpperCase()) === -1;
         },
 
+        /**
+         * helper function: check, if str has a valid value
+         * @param {String} str parameter
+         * @returns {Boolean} value is valid
+         */
         isValidValue: function (str) {
             return Boolean(str && typeof str === "string" && str.toUpperCase() !== "NULL");
         },
 
+        /**
+         * Feature listing offer clickable elements to zoom to a feature.
+         * @param {Object} event click event
+         * @returns {void}
+         */
         featureZoom: function (event) {
             const map = mapCollection.getMap("2D"),
                 featureIndex = event.currentTarget.id.split("-")[0],
@@ -345,6 +383,12 @@ export default {
             this.highlightFeature({feature: selected.item, layerId: selected.layerId});
         },
 
+        /**
+         * translates the given key, checkes if the key exists and throws a console warning if not
+         * @param {String} key the key to translate
+         * @param {Object} [options=null] for interpolation, formating and plurals
+         * @returns {String} the translation or the key itself on error
+         */
         translate (key, options = null) {
             if (key === "common:" + this.$t(key)) {
                 console.warn("the key " + JSON.stringify(key) + " is unknown to the common translation");
