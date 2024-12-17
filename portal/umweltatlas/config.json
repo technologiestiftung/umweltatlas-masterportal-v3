@@ -2949,10 +2949,10 @@
                       "name": "2017",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k02_17gwneu2017:1",
-                          "name": "2017 - Grundwasserneubildung"
-                        }
+    {
+        "id": "ua_wasserhaushalt_2017:gwneu_2017",
+        "name": "2017 - Grundwasserneubildung"
+    }
                       ]
                     },
                     {
