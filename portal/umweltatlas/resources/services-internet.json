@@ -43179,7 +43179,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/freiflaechenentwicklung/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/freiflaechenentwicklung/karte/06_03_2020.pdf?ts=1700494937",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_freiflaechenentwicklung:b_ffe_gewinne_verluste",
@@ -43205,7 +43212,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/freiflaechenentwicklung/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/freiflaechenentwicklung/karte/06_03_2020.pdf?ts=1700494937",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_freiflaechenentwicklung:a_ffe_umrandungen",
@@ -43231,6 +43245,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/freiflaechenentwicklung/fortlaufend-aktualisiert/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/freiflaechenentwicklung/karte/06_03_2020.pdf?ts=1700494937",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   }
 ]
