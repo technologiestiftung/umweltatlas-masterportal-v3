@@ -12,6 +12,10 @@ import {isUrl} from "../../../shared/js/utils/urlHelper";
 import {isEmailAddress} from "../../../shared/js/utils/isEmailAddress.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../shared/js/utils/isPhoneNumber.js";
 
+/**
+ * Select Features
+ * @module modules/SelectFeatures
+ */
 export default {
     name: "SelectFeatures",
     data () {
@@ -48,7 +52,7 @@ export default {
     },
     unmounted () {
         this.removeInteractions();
-        this.clearSelection();
+        this.clearFeatures();
     },
     methods: {
         ...mapMutations("Modules/SelectFeatures", Object.keys(mutations)),
@@ -99,7 +103,7 @@ export default {
          * Clears the selected features of all current instances.
          * @returns {void}
          */
-        clearSelection: function () {
+        clearFeatures: function () {
             if (this.selectedFeatures) {
                 this.selectedFeatures.forEach(feature => feature.setStyle(null));
                 this.setSelectedFeatures([]);
@@ -417,7 +421,7 @@ export default {
             <div class="sticky-clear-container">
                 <button
                     class="btn btn-primary btn-sm"
-                    @click="clearSelection"
+                    @click="clearFeatures"
                 >
                     {{ translate("common:modules.selectFeatures.clearSelection") }}
                 </button>
