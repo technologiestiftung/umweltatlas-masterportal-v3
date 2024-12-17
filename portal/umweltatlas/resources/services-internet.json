@@ -43049,7 +43049,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2017/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2017/de-karten/06_06_2017.pdf?ts=1696398828",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_einwohnerdichte_2016:ua_einwohnerdichte_2016",
@@ -43075,7 +43082,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2016/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2016/de-karten/06_06_2016.pdf?ts=1696398660",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_einwohnerdichte_2015:ua_einwohnerdichte_2015",
@@ -43101,7 +43115,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2015/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2015/de-karten/06_06_2015.pdf?ts=1696398564",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_einwohnerdichte_2014:ua_einwohnerdichte_2014",
@@ -43127,7 +43148,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2014/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2014/de-karten/06_06_2014.pdf?ts=1696398457",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_einwohnerdichte_2013:ua_einwohnerdichte_2013",
@@ -43153,7 +43181,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2013/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2013/de-karten/06_06_2013.pdf?ts=1696398369",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_einwohnerdichte_2012:ua_einwohnerdichte_2012",
@@ -43179,6 +43214,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2012/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2012/de-karten/06_06_2012.pdf?ts=1696398258",
+    "uaContact": {
+      "name": "Manuel Döllefeld",
+      "tel": "+49 30 90139 5360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   }
 ]
