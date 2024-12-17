@@ -6901,60 +6901,78 @@
                       "name": "2017",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_06_06ewdichte2017:1",
-                          "name": "2017 - Einwohnerdichte"
-                        }
+{
+
+                                    "id": "ua_einwohnerdichte_2017:ua_einwohnerdichte_2017",
+
+                                    "name": "2017 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
                       "name": "2016",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_06_06ewdichte2016:1",
-                          "name": "2016 - Einwohnerdichte"
-                        }
+ {
+
+                                    "id": "ua_einwohnerdichte_2016:ua_einwohnerdichte_2016",
+
+                                    "name": "2016 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
                       "name": "2015",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_06_06ewdichte2015:1",
-                          "name": "2015 - Einwohnerdichte"
-                        }
+{
+
+                                    "id": "ua_einwohnerdichte_2015:ua_einwohnerdichte_2015",
+
+                                    "name": "2015 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
                       "name": "2014",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k06_06ewdichte2014:1",
-                          "name": "2014 - Einwohnerdichte"
-                        }
+{
+
+                                    "id": "ua_einwohnerdichte_2014:ua_einwohnerdichte_2014",
+
+                                    "name": "2014 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
                       "name": "2013",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k06_06ewdichte2013:1",
-                          "name": "2013 - Einwohnerdichte"
-                        }
+{
+
+                                    "id": "ua_einwohnerdichte_2013:ua_einwohnerdichte_2013",
+
+                                    "name": "2013 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
                       "name": "2012",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "k06_06ewdichte2012:1",
-                          "name": "2012 - Einwohnerdichte"
-                        }
+{
+
+                                    "id": "ua_einwohnerdichte_2012:ua_einwohnerdichte_2012",
+
+                                    "name": "2012 - Einwohnerdichte"
+
+                                }
                       ]
                     },
                     {
