@@ -23723,198 +23723,6 @@
     }
   },
   {
-    "id": "wmsk_06_06ewdichte2017:1",
-    "name": "Einwohnerdichte 2017",
-    "name_lang": "Einwohnerdichte 2017(Einwohnerdichte 2017 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_06ewdichte2017",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2009.png",
-    "datasets": [
-      {
-        "md_id": "9b134605-ba75-3ca6-81d3-164747d98bc5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ba75a472-f6c0-3826-83f5-bba174cbad27",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2017/de-karten/06_06_2017.pdf?ts=1696398828",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_06_06ewdichte2016:1",
-    "name": "Einwohnerdichte 2016",
-    "name_lang": "Einwohnerdichte 2016(Einwohnerdichte 2016 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_06ewdichte2016",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2018.png",
-    "datasets": [
-      {
-        "md_id": "8a212a8c-5fb0-3152-a752-57d83948a4c5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f2b27c00-a575-3214-83bc-3ba19c837cc5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2016/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2016/de-karten/06_06_2016.pdf?ts=1696398660",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_06_06ewdichte2015:1",
-    "name": "Einwohnerdichte 2015",
-    "name_lang": "Einwohnerdichte 2015(Einwohnerdichte 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_06_06ewdichte2015",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2009.png",
-    "datasets": [
-      {
-        "md_id": "ce28fb4b-7bc3-3574-8b99-d73bdc4352af",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3b13d1e-dfa8-39a3-86d8-1740c02f0583",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2015/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2015/de-karten/06_06_2015.pdf?ts=1696398564",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_06ewdichte2014:1",
-    "name": "Einwohnerdichte 2014",
-    "name_lang": "Einwohnerdichte 2014(Einwohnerdichte 2014 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_06ewdichte2014",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2009.png",
-    "datasets": [
-      {
-        "md_id": "1b39f074-9876-3209-a46f-a5525990be5e",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5f9b121e-f3c1-3edd-8447-f72d18214dff",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2014/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2014/de-karten/06_06_2014.pdf?ts=1696398457",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_06ewdichte2013:1",
-    "name": "Einwohnerdichte 2013",
-    "name_lang": "Einwohnerdichte 2013(Einwohnerdichte 2013 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_06ewdichte2013",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2009.png",
-    "datasets": [
-      {
-        "md_id": "5c74a2a1-16af-3d2e-b08a-499071dabdd3",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5408d896-0b92-3a44-9227-160f620997bb",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2013/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2013/de-karten/06_06_2013.pdf?ts=1696398369",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k06_06ewdichte2012:1",
-    "name": "Einwohnerdichte 2012",
-    "name_lang": "Einwohnerdichte 2012(Einwohnerdichte 2012 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k06_06ewdichte2012",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_06_06ewdichte2009.png",
-    "datasets": [
-      {
-        "md_id": "b56d11bb-9a9e-34d0-a4cd-5489843bfa6e",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6a30bcaf-5416-37ba-a0d2-eb5fa9b03951",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2012/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2012/de-karten/06_06_2012.pdf?ts=1696398258",
-    "uaContact": {
-      "name": "Manuel Döllefeld",
-      "tel": "+49 30 90139 5360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k06_06ewdichte2011:1",
     "name": "Einwohnerdichte",
     "name_lang": "Einwohnerdichte(Einwohnerdichte 2011 (Umweltatlas))",
@@ -43216,5 +43024,161 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_einwohnerdichte_2017:ua_einwohnerdichte_2017",
+    "name": "Einwohnerdichte 2017",
+    "name_lang": "Einwohnerdichte 2017 (Einwohnerdichte 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2017 (Umweltatlas)",
+        "md_id": "21c8f9e3-14c9-4e81-bb18-d592454f5984",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ba75a472-f6c0-3826-83f5-bba174cbad27",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2016:ua_einwohnerdichte_2016",
+    "name": "Einwohnerdichte 2016",
+    "name_lang": "Einwohnerdichte 2016 (Einwohnerdichte 2016 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2016",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2016",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2016 (Umweltatlas)",
+        "md_id": "cb61ccd5-13ef-3a57-871a-c43d0215a25c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f2b27c00-a575-3214-83bc-3ba19c837cc5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2015:ua_einwohnerdichte_2015",
+    "name": "Einwohnerdichte 2015",
+    "name_lang": "Einwohnerdichte 2015 (Einwohnerdichte 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2015 (Umweltatlas)",
+        "md_id": "ef292daf-b26e-3ac7-9059-1ffb2f1cdb72",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3b13d1e-dfa8-39a3-86d8-1740c02f0583",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2014:ua_einwohnerdichte_2014",
+    "name": "Einwohnerdichte 2014",
+    "name_lang": "Einwohnerdichte 2014 (Einwohnerdichte 2014 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2014",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2014 (Umweltatlas)",
+        "md_id": "804a8bc9-a634-36e3-ae07-ad015c8158f1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5f9b121e-f3c1-3edd-8447-f72d18214dff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2013:ua_einwohnerdichte_2013",
+    "name": "Einwohnerdichte 2013",
+    "name_lang": "Einwohnerdichte 2013 (Einwohnerdichte 2013 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2013",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2013",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2013 (Umweltatlas)",
+        "md_id": "451530fb-525f-345e-9b99-a0f6cdb6797f",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5408d896-0b92-3a44-9227-160f620997bb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_einwohnerdichte_2012:ua_einwohnerdichte_2012",
+    "name": "Einwohnerdichte 2012",
+    "name_lang": "Einwohnerdichte 2012 (Einwohnerdichte 2012 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2012",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ua_einwohnerdichte_2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Einwohnerdichte 2012 (Umweltatlas)",
+        "md_id": "5d890d15-2915-3176-9dd1-b825d6a4ed4e",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/6a30bcaf-5416-37ba-a0d2-eb5fa9b03951",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
