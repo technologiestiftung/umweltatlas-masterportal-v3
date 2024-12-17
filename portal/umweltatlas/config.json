@@ -5003,6 +5003,32 @@
                   "name": "04.10.07 Klimaanalysekarte",
                   "type": "folder",
                   "elements": [
+                                        {
+                      "name": "2022",
+                      "type": "folder",
+                      "elements": [
+    {
+        "id": "ua_klimaanalyse_2022:be_ua_kaltluftvol_grfrei_22h_2022",
+        "name": "2022 - Grün- und Freiflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)]"
+    },
+    {
+        "id": "ua_klimaanalyse_2022:bd_ua_kaltluftvol_str_22h_2022",
+        "name": "2022 - Verkehrsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)]"
+    },
+    {
+        "id": "ua_klimaanalyse_2022:bc_ua_kaltluftvol_siedlg_22h_2022",
+        "name": "2022 - Siedlungsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)]"
+    },
+    {
+        "id": "ua_klimaanalyse_2022:bb_ua_windfeld_2m_22h_2022_100m",
+        "name": "2022 - Windfeld um 22:00 Uhr [m/s] (ab Maßstab 1:2500)"
+    },
+    {
+        "id": "ua_klimaanalyse_2022:ba_ua_windfeld_2m_22h_2022_20m",
+        "name": "2022 - Windfeld um 22:00 Uhr [m/s] (bis Maßstab 1:2500)"
+    }
+                      ]
+                    },
                     {
                       "name": "2014",
                       "type": "folder",
