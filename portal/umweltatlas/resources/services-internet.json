@@ -43420,5 +43420,527 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_klimaanalyse_2022:c_ua_kaltluftvol_raster_22h_2022",
+    "name": "Raster: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Raster: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_ua_kaltluftvol_raster_22h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:da_ua_windfeld_2m_04h_2022_20m",
+    "name": "Windfeld um 04:00 Uhr [m/s] 2022 (bis Maßstab 1:2500)",
+    "name_lang": "Windfeld um 04:00 Uhr [m/s] 2022 (bis Maßstab 1:2500) (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "da_ua_windfeld_2m_04h_2022_20m",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "2500.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:db_ua_windfeld_2m_04h_2022_100m",
+    "name": "Windfeld um 04:00 Uhr [m/s] 2022 (ab Maßstab 1:2500)",
+    "name_lang": "Windfeld um 04:00 Uhr [m/s] 2022 (ab Maßstab 1:2500) (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "db_ua_windfeld_2m_04h_2022_100m",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "minScale": "2501.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:dc_ua_kaltluftvol_siedlg_04h_2022",
+    "name": "Siedlungsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Siedlungsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "dc_ua_kaltluftvol_siedlg_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:dd_ua_kaltluftvol_str_04h_2022",
+    "name": "Verkehrsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Verkehrsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "dd_ua_kaltluftvol_str_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:de_ua_kaltluftvol_grfrei_04h_2022",
+    "name": "Grün- und Freiflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Grün- und Freiflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "de_ua_kaltluftvol_grfrei_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:e_ua_kaltluftvol_raster_04h_2022",
+    "name": "Raster: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Raster: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "e_ua_kaltluftvol_raster_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:fa_ua_lufttemp_siedlg_t2m_04h_2022",
+    "name": "Siedlungsflächen: Lufttemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Siedlungsflächen: Lufttemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fa_ua_lufttemp_siedlg_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:fb_ua_lufttemp_str_t2m_04h_2022",
+    "name": "Verkehrsflächen: Lufttemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Verkehrsflächen: Lufttemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fb_ua_lufttemp_str_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:fc_ua_lufttemp_grfrei_t2m_04h_2022",
+    "name": "Grün- und Freiflächen: Lufttemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Grün- und Freiflächen: Lufttemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "fc_ua_lufttemp_grfrei_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:ha_ua_lufttemp_siedlg_t2m_14h_2022",
+    "name": "Siedlungsflächen: Lufttemperatur um 14:00 Uhr [°C] 2022",
+    "name_lang": "Siedlungsflächen: Lufttemperatur um 14:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ha_ua_lufttemp_siedlg_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
+    "name": "Verkehrsflächen: Lufttemperatur um 14:00 Uhr [°C] 2022",
+    "name_lang": "Verkehrsflächen: Lufttemperatur um 14:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "hb_ua_lufttemp_str_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:hc_ua_lufttemp_grfrei_t2m_14h_2022",
+    "name": "Grün- und Freiflächen: Lufttemperatur um 14:00 Uhr [°C] 2022",
+    "name_lang": "Grün- und Freiflächen: Lufttemperatur um 14:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "hc_ua_lufttemp_grfrei_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:ja_ua_oberfltemp_siedlg_t2m_04h_2022",
+    "name": "Siedlungsflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Siedlungsflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ja_ua_oberfltemp_siedlg_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:jb_ua_oberfltemp_str_t2m_04h_2022",
+    "name": "Verkehrsflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Verkehrsflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "jb_ua_oberfltemp_str_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:jc_ua_oberfltemp_grfrei_t2m_04h_2022",
+    "name": "Grün- und Freiflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022",
+    "name_lang": "Grün- und Freiflächen: Oberflächentemperatur um 04:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "jc_ua_oberfltemp_grfrei_t2m_04h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:la_ua_oberfltemp_siedlg_t2m_14h_2022",
+    "name": "Siedlungsflächen: Oberflächentemperatur um 14:00 Uhr [°C]  2022",
+    "name_lang": "Siedlungsflächen: Oberflächentemperatur um 14:00 Uhr [°C]  2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "la_ua_oberfltemp_siedlg_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:lb_ua_oberfltemp_str_t2m_14h_2022",
+    "name": "Verkehrsflächen: Oberflächentemperatur um 14:00 Uhr [°C] 2022",
+    "name_lang": "Verkehrsflächen: Oberflächentemperatur um 14:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "lb_ua_oberfltemp_str_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:lc_ua_oberfltemp_grfrei_t2m_14h_2022",
+    "name": "Grün- und Freiflächen: Oberflächentemperatur um 14:00 Uhr [°C] 2022",
+    "name_lang": "Grün- und Freiflächen: Oberflächentemperatur um 14:00 Uhr [°C] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "lc_ua_oberfltemp_grfrei_t2m_14h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:na_ua_abkuehl_siedlg_2022",
+    "name": "Siedlungsflächen: Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr [K] 2022",
+    "name_lang": "Siedlungsflächen: Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr [K] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "na_ua_abkuehl_siedlg_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
