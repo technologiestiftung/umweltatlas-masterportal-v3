@@ -6986,142 +6986,6 @@
     }
   },
   {
-    "id": "wmsk_02_12gwgleichen2008:5",
-    "name": "Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete",
-    "name_lang": "Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete (Grundwassergleichen 2008 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_12gwgleichen2008",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/leg_gwgleichen2007_sonstiges.png",
-    "datasets": [
-      {
-        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
-        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2008/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2008/karten/02_12_2008.pdf?ts=1696408593",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_02_12gwgleichen2008:0",
-    "name": "Hauptgrundwasserleiter mit Grundwassermessstellen",
-    "name_lang": "Hauptgrundwasserleiter mit Grundwassermessstellen (Grundwassergleichen 2008 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_12gwgleichen2008",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/leg_gwgleichen2007_haupt.png",
-    "datasets": [
-      {
-        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
-        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2008/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2008/karten/02_12_2008.pdf?ts=1696408593",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_02_12gwgleichen2008:3",
-    "name": "Panketalgrundwasserleiter mit Grundwassermessstellen",
-    "name_lang": "Panketalgrundwasserleiter mit Grundwassermessstellen (Grundwassergleichen 2008 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_12gwgleichen2008",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/leg_gwgleichen2007_panke.png",
-    "datasets": [
-      {
-        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
-        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2008/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2008/karten/02_12_2008.pdf?ts=1696408593",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_02_12gwgleichen2008:1",
-    "name": "Geologische Skizze",
-    "name_lang": "Geologische Skizze (Grundwassergleichen 2008 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_02_12gwgleichen2008",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/leg_gwgleichen2007_geologie.png",
-    "datasets": [
-      {
-        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
-        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2008/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2008/karten/02_12_2008.pdf?ts=1696408593",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "wmsk_02_12gwgleichen2007:5",
     "name": "Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete",
     "name_lang": "Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete (Grundwassergleichen 2007 (Umweltatlas))",
@@ -42890,5 +42754,241 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_grundwassergl_2008:da_geologische_skizze",
+    "name": "Geologische Skizze",
+    "name_lang": "Geologische Skizze (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "da_geologische_skizze",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:cc_pgwl_gwms_pol",
+    "name": "Panketalgrundwasserleiterflächen 2008",
+    "name_lang": "Panketalgrundwasserleiterflächen 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "cc_pgwl_gwms_pol",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:cb_pgwl_gwms_li",
+    "name": "Panketalgrundwasserleiter 2008",
+    "name_lang": "Panketalgrundwasserleiter 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "cb_pgwl_gwms_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:ca_pgwl_gwms_pkt",
+    "name": "Grundwassermessstellen Panketalgrundwasserleiter 2008",
+    "name_lang": "Grundwassermessstellen Panketalgrundwasserleiter 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ca_pgwl_gwms_pkt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:bc_hgwl_gwms_pol",
+    "name": "Hauptgrundwasserleiterflächen 2008",
+    "name_lang": "Hauptgrundwasserleiterflächen 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bc_hgwl_gwms_pol",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:bb_hgwl_gwms_li",
+    "name": "Hauptgrundwasserleiter 2008",
+    "name_lang": "Hauptgrundwasserleiter 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "bb_hgwl_gwms_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:ba_hgwl_gwms_pkt",
+    "name": "Grundwassermessstellen Hauptgrundwasserleiter 2008",
+    "name_lang": "Grundwassermessstellen Hauptgrundwasserleiter 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ba_hgwl_gwms_pkt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "50000.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:ab_wassk_peg_bru_wassgeb_li",
+    "name": "Wasserschutzgebietsgrenzen 2008",
+    "name_lang": "Wasserschutzgebietsgrenzen 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "ab_wassk_peg_bru_wassgeb_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_grundwassergl_2008:aa_wassk_peg_bru_wassgeb_pkt",
+    "name": "Wasserwerke, Pegel an Oberflächengewässern und Brunnen 2008",
+    "name_lang": "Wasserwerke, Pegel an Oberflächengewässern und Brunnen 2008 (Grundwassergleichen 2008 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2008",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "aa_wassk_peg_bru_wassgeb_pkt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Grundwassergleichen 2008 (Umweltatlas)",
+        "md_id": "634ca983-baf9-3efa-8073-66534ca8b5c5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e56029f3-76e7-326f-a2ee-57b686fa30cb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
