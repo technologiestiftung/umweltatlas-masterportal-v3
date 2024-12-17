@@ -1934,22 +1934,42 @@
                       "name": "2018",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen2018:3",
-                          "name": "2018 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebietsgrenzen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2018:1",
-                          "name": "2018 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2018:2",
-                          "name": "2018 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2018:4",
-                          "name": "2018 - Geologische Skizze"
-                        }
+    {
+        "id": "ua_grundwassergl_2018:da_geologische_skizze",
+        "name": "2018 - Geologische Skizze"
+    },
+    {
+        "id": "ua_grundwassergl_2018:cc_pgwl_gwms_pol",
+        "name": "2018 - Panketalgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2018:cb_pgwl_gwms_li",
+        "name": "2018 - Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2018:ca_pgwl_gwms_pkt",
+        "name": "2018 - Grundwassermessstellen Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2018:bc_hgwl_gwms_pol",
+        "name": "2018 - Hauptgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2018:bb_hgwl_gwms_li",
+        "name": "2018 - Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2018:ba_hgwl_gwms_pkt",
+        "name": "2018 - Grundwassermessstellen Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2018:ab_wassk_peg_bru_wassgeb_li",
+        "name": "2018 - Wasserschutzgebietsgrenzen"
+    },
+    {
+        "id": "ua_grundwassergl_2018:aa_wassk_peg_bru_wassgeb_pkt",
+        "name": "2018 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+    }
                       ]
                     },
                     {
