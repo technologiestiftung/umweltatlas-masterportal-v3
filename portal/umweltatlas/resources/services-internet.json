@@ -43253,5 +43253,137 @@
       "tel": "+49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_klimaanalyse_2022:be_ua_kaltluftvol_grfrei_22h_2022",
+    "name": "Grün- und Freiflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Grün- und Freiflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "be_ua_kaltluftvol_grfrei_22h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:bd_ua_kaltluftvol_str_22h_2022",
+    "name": "Verkehrsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Verkehrsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bd_ua_kaltluftvol_str_22h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:bc_ua_kaltluftvol_siedlg_22h_2022",
+    "name": "Siedlungsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022",
+    "name_lang": "Siedlungsflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] 2022 (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bc_ua_kaltluftvol_siedlg_22h_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:bb_ua_windfeld_2m_22h_2022_100m",
+    "name": "Windfeld um 22:00 Uhr [m/s] 2022 (ab Maßstab 1:2500)",
+    "name_lang": "Windfeld um 22:00 Uhr [m/s] 2022 (ab Maßstab 1:2500) (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bb_ua_windfeld_2m_22h_2022_100m",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "minScale": "2501.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_klimaanalyse_2022:ba_ua_windfeld_2m_22h_2022_20m",
+    "name": "Windfeld um 22:00 Uhr [m/s] 2022 (bis Maßstab 1:2500)",
+    "name_lang": "Windfeld um 22:00 Uhr [m/s] 2022 (bis Maßstab 1:2500) (Klimaanalysekarten 2022 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2022",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "ba_ua_windfeld_2m_22h_2022_20m",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Klimaanalysekarten 2022 (Umweltatlas)",
+        "md_id": "8ea601b2-9a12-4123-bb19-b5774fe3003b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/78c87800-446e-3e83-8171-03ca776eaa7f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "maxScale": "2500.0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
