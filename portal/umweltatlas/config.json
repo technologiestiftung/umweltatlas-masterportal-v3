@@ -2256,22 +2256,42 @@
                       "name": "2010",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "wmsk_02_12gwgleichen2010:4",
-                          "name": "2010 - Panketalgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2010:0",
-                          "name": "2010 - Hauptgrundwasserleiter mit Grundwassermessstellen"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2010:2",
-                          "name": "2010 - Geologische Skizze"
-                        },
-                        {
-                          "id": "wmsk_02_12gwgleichen2010:7",
-                          "name": "2010 - Wasserwerke, Pegel, Brunnen, Wasserschutzgebiete"
-                        }
+    {
+        "id": "ua_grundwassergl_2010:da_geologische_skizze",
+        "name": "2010 - Geologische Skizze"
+    },
+    {
+        "id": "ua_grundwassergl_2010:cc_pgwl_gwms_pol",
+        "name": "2010 - Panketalgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2010:cb_pgwl_gwms_li",
+        "name": "2010 - Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2010:ca_pgwl_gwms_pkt",
+        "name": "2010 - Grundwassermessstellen Panketalgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2010:bc_hgwl_gwms_pol",
+        "name": "2010 - Hauptgrundwasserleiterflächen"
+    },
+    {
+        "id": "ua_grundwassergl_2010:bb_hgwl_gwms_li",
+        "name": "2010 - Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2010:ba_hgwl_gwms_pkt",
+        "name": "2010 - Grundwassermessstellen Hauptgrundwasserleiter"
+    },
+    {
+        "id": "ua_grundwassergl_2010:ab_wassk_peg_bru_wassgeb_li",
+        "name": "2010 - Wasserschutzgebietsgrenzen"
+    },
+    {
+        "id": "ua_grundwassergl_2010:aa_wassk_peg_bru_wassgeb_pkt",
+        "name": "2010 - Wasserwerke, Pegel an Oberflächengewässern und Brunnen"
+    }
                       ]
                     },
                     {
