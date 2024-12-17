@@ -8584,40 +8584,6 @@
     }
   },
   {
-    "id": "k02_17gwneu2017:1",
-    "name": "Grundwasserneubildung",
-    "name_lang": "Grundwasserneubildung (Grundwasserneubildung 2017 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k02_17gwneu2017",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_02_17gwneu2017.png",
-    "datasets": [
-      {
-        "md_name": "Grundwasserneubildung 2017 (Umweltatlas)",
-        "md_id": "3155459e-58ef-4850-8bf8-21cc884de307",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/02b0448a-df5c-3339-bf7d-716b280b67b8",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserneubildung/2017/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserneubildung/de-karten/02_17_2017.pdf?ts=1696411710",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k02_17gwneu2003:1",
     "name": "Grundwasserneubildung",
     "name_lang": "Grundwasserneubildung(Grundwasserneubildung 1990 (Umweltatlas))",
@@ -44082,5 +44048,31 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_wasserhaushalt_2017:gwneu_2017",
+    "name": "Grundwasserneubildung 2017 (Umweltatlas)",
+    "name_lang": "Grundwasserneubildung 2017 (Umweltatlas) (Wasserhaushalt 2017 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2017",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "gwneu_2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Wasserhaushalt 2017 (Umweltatlas)",
+        "md_id": "92e3b6b6-8441-4f60-b42c-e2e8cdb8ae76",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0d008b8b-84b3-327a-9aa6-8c1ce425e937",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
