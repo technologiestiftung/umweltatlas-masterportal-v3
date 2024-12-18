@@ -18,11 +18,12 @@ Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
 ### Deprecated
 
 ### Removed
-Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals 
+Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
 - Issue #1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
+- Issue #1271: Draw_old: fix download of features with multi geometries.
 - Issue #1309: fixed translation of periodicity.
 - Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
 - Routing: fixed style for waypoints.
