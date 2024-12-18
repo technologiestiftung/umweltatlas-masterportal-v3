@@ -2889,20 +2889,20 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 |pvoColors|nein|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Bestimmen Sie die Farben der PlanzeichenVO|false|
 |buildingSource|nein|String|"ALKIS"|Bestimmen Sie die Quelle der Gebäudefunktionsdaten (aktuell nur ALKIS).|false|
 |buildingFunctionURL|nein|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Bestimmen Sie die URL von welcher die Gebäudefunktionen bezogen werden sollen.|false|
+|type|nein|String|"modeler3D"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel**
 
 ```json
 {
-    "modeler3D": {
-        "name": "translate#common:menu.tools.modeler3D",
-        "gmlIdPath": "gmlId",
-        "updateAllLayers": false,
-        "highlightStyle": {
-            "silhouetteColor": "#E20D0F",
-            "silhouetteSize": 4
-        },
-        "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
+    "type": "modeler3D",
+    "gmlIdPath": "gmlId",
+    "updateAllLayers": false,
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    },
+    "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
         "pvoColors": {
             "housing": "#ff0000",
             "commercial": "#666666",
@@ -2910,7 +2910,6 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
         },
         "buildingSource": "ALKIS",
         "buildingFunctionURL": "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"
-    }
 }
 ```
 

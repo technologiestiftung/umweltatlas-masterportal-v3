@@ -2894,20 +2894,20 @@ These drawings can be exported and loaded back georeferenced into the map.
 |pvoColors|no|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
 |buildingSource|no|String|"ALKIS"|Define the source of buildings (currently only ALKIS supported)|false|
 |buildingFunctionURL|no|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Define the URL where the building types should be retrieved from.|false|
+|type|no|String|"modeler3D"|The type of the module. Defines which module is configured.|false|
 
 **Example**
 
 ```json
 {
-    "modeler3D": {
-        "name": "translate#common:menu.tools.modeler3D",
-        "gmlIdPath": "gmlId",
-        "updateAllLayers": false,
-        "highlightStyle": {
-            "silhouetteColor": "#E20D0F",
-            "silhouetteSize": 4
-        },
-        "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
+    "type": "modeler3D",
+    "gmlIdPath": "gmlId",
+    "updateAllLayers": false,
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    },
+    "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
         "pvoColors": {
             "housing": "#ff0000",
             "commercial": "#666666",
@@ -2915,7 +2915,6 @@ These drawings can be exported and loaded back georeferenced into the map.
         },
         "buildingSource": "ALKIS",
         "buildingFunctionURL": "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"
-    }
 }
 ```
 
