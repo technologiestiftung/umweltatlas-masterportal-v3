@@ -816,7 +816,8 @@
             "title": "Filter & Style Function",
             "styleSettingsTitle": "Color Settings",
             "value": "Value"
-        }
+        },
+        "errorLoadingData": "Error loading the values for the attribute 'BuildingFunctionType'"
     },
       "options": {
         "captions": {

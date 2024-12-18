@@ -818,7 +818,8 @@
             "title": "Filter & Stylefunktion",
             "styleSettingsTitle": "Farbeinstellungen",
             "value": "Wert"
-        }
+        },
+        "errorLoadingData": "Fehler beim Laden der Werteliste für das Attribut 'BuildingFunctionType'"
     },
       "options": {
         "captions": {

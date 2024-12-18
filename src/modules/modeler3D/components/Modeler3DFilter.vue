@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
@@ -82,6 +82,7 @@ export default {
             "setFilterList",
             "setLayerList"
         ]),
+        ...mapActions("Alerting", ["addSingleAlert"]),
 
         /**
          * Adds a new filter to the filter list.
@@ -270,33 +271,48 @@ export default {
          * Loads the attribute values from an external XML file.
          */
         async loadAttributeValues () {
-            const response = await fetch("https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"),
-                data = await response.text(),
-                parser = new DOMParser(),
-                xmlDoc = parser.parseFromString(data, "text/xml"),
-                elements = xmlDoc.getElementsByTagName("dictionaryEntry"),
+            try {
+                const response = await fetch("https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml");
 
-                uniqueNames = new Set();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                else {
+                    const data = await response.text(),
+                        parser = new DOMParser(),
+                        xmlDoc = parser.parseFromString(data, "text/xml"),
+                        elements = xmlDoc.getElementsByTagName("dictionaryEntry"),
+                        uniqueNames = new Set();
 
-            this.attributeValues = Array.from(elements)
-                .filter(element => element.getElementsByTagName("gml:description")[0].textContent === "ALKIS")
-                .map(element => {
-                    const gid = element.getElementsByTagName("gml:name")[0].textContent.split("_"),
-                        name = element.getElementsByTagName("gml:name")[1].textContent,
-                        id = gid[0] === "31001" ? parseInt(gid[1], 10) : parseInt(gid[1], 10) + (parseInt(gid[0], 10) * 1000);
+                    this.attributeValues = Array.from(elements)
+                        .filter(element => element.getElementsByTagName("gml:description")[0].textContent === "ALKIS")
+                        .map(element => {
+                            const gid = element.getElementsByTagName("gml:name")[0].textContent.split("_"),
+                                name = element.getElementsByTagName("gml:name")[1].textContent,
+                                id = gid[0] === "31001" ? parseInt(gid[1], 10) : parseInt(gid[1], 10) + (parseInt(gid[0], 10) * 1000);
 
-                    if (!uniqueNames.has(name)) {
-                        uniqueNames.add(name);
-                        return {
-                            id,
-                            name,
-                            color: "#ffffff"
-                        };
-                    }
+                            if (!uniqueNames.has(name)) {
+                                uniqueNames.add(name);
+                                return {
+                                    id,
+                                    name,
+                                    color: "#ffffff"
+                                };
+                            }
 
-                    return undefined;
-                })
-                .filter(Boolean);
+                            return undefined;
+                        })
+                        .filter(Boolean);
+                }
+            }
+            catch (error) {
+                console.error("Fehler beim Abrufen der Daten:", error);
+                this.addSingleAlert({
+                    title: i18next.t("common:modules.modeler3D.name"),
+                    content: i18next.t("common:modules.modeler3D.filter.errorLoadingData"),
+                    category: "error"
+                });
+            }
         },
         /**
          * Finds the group that contains the filter with the given ID.
