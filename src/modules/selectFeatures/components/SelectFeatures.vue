@@ -86,6 +86,16 @@ export default {
         },
 
         /**
+         * Resets the map interactions by removing existing ones and adding them again.
+         * @returns {void}
+         */
+        resetInteractions () {
+            this.removeInteractions();
+            this.createInteractions();
+            this.addInteractions();
+        },
+
+        /**
          * Removes a single feature from the selection.
          * @param {Number} index - The index of the feature to remove.
          * @param {Object} feature - The feature object to deselect.
@@ -96,6 +106,9 @@ export default {
                 feature.setStyle(null);
                 this.selectedFeatures.splice(index, 1);
                 this.selectedFeaturesWithRenderInformation.splice(index, 1);
+                if (this.selectedFeatures.length === 0) {
+                    this.resetInteractions();
+                }
             }
         },
 
@@ -107,6 +120,9 @@ export default {
             if (this.selectedFeatures) {
                 this.selectedFeatures.forEach(feature => feature.setStyle(null));
                 this.setSelectedFeatures([]);
+                if (this.selectedFeatures.length === 0) {
+                    this.resetInteractions();
+                }
             }
             this.setSelectedFeaturesWithRenderInformation([]);
         },
