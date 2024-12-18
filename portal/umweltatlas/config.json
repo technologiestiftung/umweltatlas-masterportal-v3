@@ -3835,29 +3835,21 @@
                       "name": "2002",
                       "type": "folder",
                       "elements": [
- {
-        "id": "ua_fischfauna_2022:f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
-        "name": "2022 - Sonstige Gewässer"
+    {
+        "id": "ua_fischfauna_2002:d_fischfauna2002_gew_nicht_befischt",
+        "name": "2002 - Gewässer ohne Befischung"
     },
     {
-        "id": "ua_fischfauna_2022:e_fischfauna2022_nicht_befischt",
-        "name": "2022 - Gewässer ohne Befischung"
+        "id": "ua_fischfauna_2002:c_fischfauna2002_befischt",
+        "name": "2002 - Gewässer mit Befischung"
     },
     {
-        "id": "ua_fischfauna_2022:d_fischfauna2022_mit_fisch",
-        "name": "2022 - Gewässer mit Befischung"
+        "id": "ua_fischfauna_2002:b_fischfauna2002_gew_li",
+        "name": "2002 - Gewässer (Linien)"
     },
     {
-        "id": "ua_fischfauna_2022:c_fischfauna2022_gew_li",
-        "name": "2022 - Gewässer (Linien)"
-    },
-    {
-        "id": "ua_fischfauna_2022:b_fischfauna2022_messstelle",
-        "name": "2022 - Messstellen der Befischung"
-    },
-    {
-        "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
-        "name": "2022 - Fischsymbol"
+        "id": "ua_fischfauna_2002:a_fischfauna2002_symbol",
+        "name": "2002 - Fischsymbol"
     }
                       ]
                     },
