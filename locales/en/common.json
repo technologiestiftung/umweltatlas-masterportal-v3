@@ -299,6 +299,7 @@
       "description": "Create important markers or identify areas. Download them here to reload them later",
       "doubleCirclePlaceholder": "Please enter a radius",
       "download": {
+        "allGeometryTypesNotSupported": "One or more drawn geometries cannot be downloaded in the selected format because the format does not support the geometry type.",
         "enterFilename": "Please enter filename",
         "filename": "Filename",
         "format": "Format",

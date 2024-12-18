@@ -64,6 +64,15 @@ const mutations = {
         state.download.fileUrl = payload;
     },
     /**
+     * Sets the download file.
+     * @param {Object} state the state of draw-module
+     * @param {String} payload the data to set
+     * @returns {void}
+     */
+    setDownloadFeaturesNotSupported: (state, payload) => {
+        state.download.featuresNotSupported = payload;
+    },
+    /**
      * Sets the download selected Format.
      * @param {Object} state the state of draw-module
      * @param {String} payload the data to set

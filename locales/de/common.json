@@ -299,10 +299,11 @@
       "description": "Erstellen Sie wichtige Markierungen oder kennzeichnen Sie Flächen. Laden Sie diese hier herunter, um sie später wieder zu laden",
       "doubleCirclePlaceholder": "Bitte geben Sie einen Radius ein",
       "download": {
+        "allGeometryTypesNotSupported": "Die gezeichneten Geometrien können in dem ausgewählten Format nicht heruntergeladen werden. Das Format unterstützt den Geometrietyp Polygon nicht.",
         "enterFilename": "Bitte Dateiname angeben",
         "filename": "Dateiname",
         "format": "Format",
-        "notSupportedGeometryType": "Ein oder mehrere gezeichnete Geometrien können in dem ausgewählten Format nicht heruntergeladen werden, da das Format den Geometrietyp nicht unterstützt.",
+        "notSupportedGeometryType": "Ein oder mehrere gezeichnete Geometrien können in dem ausgewählten Format nicht heruntergeladen werden, da das Format den Geometrietyp Polygon nicht unterstützt. Alle gezeichneten Punkte und Linien können heruntergeladen werden.",
         "pleaseChoose": "Bitte Auswählen",
         "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
       },
