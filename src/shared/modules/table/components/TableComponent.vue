@@ -9,9 +9,8 @@ import isObject from "../../../js/utils/isObject";
 import Multiselect from "vue-multiselect";
 import thousandsSeparator from "../../../js/utils/thousandsSeparator";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../src/shared/js/utils/isPhoneNumber.js";
-import beautifyKey from "../../../../../src/shared/js/utils/beautifyKey.js";
 import {isWebLink} from "../../../../../src/shared/js/utils/urlHelper.js";
-import {isEmailAddress} from "../../../../../src/shared/js/utils//isEmailAddress.js";
+import {isEmailAddress} from "../../../../../src/shared/js/utils/isEmailAddress.js";
 
 export default {
     name: "TableComponent",
@@ -263,7 +262,6 @@ export default {
     methods: {
         isPhoneNumber,
         getPhoneNumberAsWebLink,
-        beautifyKey,
         isWebLink,
         isEmailAddress,
         removeVerticalBar (value) {
@@ -948,6 +946,7 @@ export default {
                         :key="columnIdx"
                         :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
+                        {{ item[entry.key] }}
                         <p v-if="isWebLink(item[entry.name])">
                             <a
                                 :href="item[entry.name]"
@@ -965,11 +964,6 @@ export default {
                         </p>
                         <p v-else-if="isPhoneNumber(item[entry.name])">
                             <a :href="getPhoneNumberAsWebLink(item[entry.name])">{{ item[entry.name] }}</a>
-                        </p>
-                        <p
-                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes(';') && key.includes('SCHULEN')"
-                        >
-                            <span v-html="toBold(item[entry.name], key)" />
                         </p>
                         <p
                             v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('|')"
