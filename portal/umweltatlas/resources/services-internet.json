@@ -43985,5 +43985,109 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_fischfauna_2002:d_fischfauna2002_gew_nicht_befischt",
+    "name": "Gewässer ohne Befischung",
+    "name_lang": "Gewässer ohne Befischung (Fischfauna 2002 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2002",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "d_fischfauna2002_gew_nicht_befischt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2002 (Umweltatlas)",
+        "md_id": "66da030f-82c9-3472-a373-0ef8579836be",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/24fa8a9b-1cb3-3407-b433-5af79d98b4a3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2002:c_fischfauna2002_befischt",
+    "name": "Gewässer mit Befischung",
+    "name_lang": "Gewässer mit Befischung (Fischfauna 2002 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2002",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "c_fischfauna2002_befischt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2002 (Umweltatlas)",
+        "md_id": "66da030f-82c9-3472-a373-0ef8579836be",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/24fa8a9b-1cb3-3407-b433-5af79d98b4a3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2002:b_fischfauna2002_gew_li",
+    "name": "Gewässer (Linien)",
+    "name_lang": "Gewässer (Linien) (Fischfauna 2002 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2002",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_fischfauna2002_gew_li",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2002 (Umweltatlas)",
+        "md_id": "66da030f-82c9-3472-a373-0ef8579836be",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/24fa8a9b-1cb3-3407-b433-5af79d98b4a3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_fischfauna_2002:a_fischfauna2002_symbol",
+    "name": "Fischsymbol",
+    "name_lang": "Fischsymbol (Fischfauna 2002 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2002",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "a_fischfauna2002_symbol",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Fischfauna 2002 (Umweltatlas)",
+        "md_id": "66da030f-82c9-3472-a373-0ef8579836be",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/24fa8a9b-1cb3-3407-b433-5af79d98b4a3",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
