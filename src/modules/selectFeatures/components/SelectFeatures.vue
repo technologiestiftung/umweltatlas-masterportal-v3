@@ -330,7 +330,6 @@ export default {
          */
         beautifyKey: function (str) {
             if (typeof str !== "string") {
-                console.warn("Invalid input for beautifyKey. Expected a string, got:", typeof str);
                 return "";
             }
             return str
@@ -346,7 +345,6 @@ export default {
          */
         beautifyValue: function (str) {
             if (typeof str !== "string") {
-                console.warn("Invalid input for beautifyValue. Expected a string, got:", typeof str);
                 return "";
             }
             return str
