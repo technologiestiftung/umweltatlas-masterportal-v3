@@ -6,7 +6,6 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  * Represents a filter button for a layer in the layertree.
  * @module modules/layerTree/components/LayerComponentIconFilter
  * @vue-prop {Object} layerConf - The current layer configuration.
- * @vue-prop {Boolean} isLayerTree - Shows if icon is shown in layer tree.
  */
 export default {
     name: "LayerComponentIconFilter",
