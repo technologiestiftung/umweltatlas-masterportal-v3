@@ -45,7 +45,8 @@
       "ifInExtent": "I geodati forniti tramite il WMS sono al di fuori dell'area visualizzabile. WMS non aggiunto.",
       "name": "Aggiungi WMS",
       "placeholder": "Inserire qui l'URL del WMS.",
-      "textLoadLayer": "Carica"
+      "textLoadLayer": "Carica",
+      "examples": "Esempi:"
     },
     "alerting": {
       "alertWindowTitle": "",

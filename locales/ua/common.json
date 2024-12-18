@@ -45,7 +45,8 @@
       "ifInExtent": "&#10060; Геодані, що надаються через WMS, знаходяться за межами відображуваного діапазону. Додавання WMS неможливо.",
       "name": "Додати WMS",
       "placeholder": "Будь ласка, введіть тут WMS-URL адресу.",
-      "textLoadLayer": "Завантажити шари карти (layer)"
+      "textLoadLayer": "Завантажити шари карти (layer)",
+      "examples": "Приклади:"
     },
     "alerting": {
       "alertWindowTitle": "",

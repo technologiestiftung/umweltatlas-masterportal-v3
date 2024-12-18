@@ -45,7 +45,8 @@
       "ifInExtent": "Os geodados fornecidos através do WMS estão fora da área de exposição. Adicionar WMS não é possível.",
       "name": "Adicionar Serviço WMS",
       "placeholder": "Por favor introduza aqui o URL do WMS.",
-      "textLoadLayer": "Carregar camada"
+      "textLoadLayer": "Carregar camada",
+      "examples": "Exemplos:"
     },
     "alerting": {
       "alertWindowTitle": "",

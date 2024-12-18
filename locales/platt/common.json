@@ -45,7 +45,8 @@
       "ifInExtent": "&#10060; Die über den WMS bereitgestellten Geodaten liegen außerhalb des darstellbaren Bereichs. WMS hinzufügen ist nicht möglich.",
       "name": "WMS doartodoan",
       "placeholder": "Hier bidde de WMS-URL ingeven.",
-      "textLoadLayer": "Layer Laden"
+      "textLoadLayer": "Layer Laden",
+      "examples": "Beispiele:"
     },
     "alerting": {
       "alertWindowTitle": "",

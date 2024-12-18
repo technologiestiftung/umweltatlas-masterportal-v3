@@ -9,6 +9,7 @@
 ### Added
 Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
 - SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
+- addWMS: add the possibility to configure example URLs to display under the module.
 
 ### Changed
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.

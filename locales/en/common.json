@@ -64,7 +64,8 @@
       "ifInExtent": "&#10060; The geodata provided via the WMS are outside the displayable range. Adding WMS is not possible.",
       "name": "Add WMS",
       "placeholder": "Please enter the WMS-URL here.",
-      "textLoadLayer": "Load layer"
+      "textLoadLayer": "Load layer",
+      "examples": "Examples:"
     },
     "alerting": {
       "alertWindowTitle": "Information",

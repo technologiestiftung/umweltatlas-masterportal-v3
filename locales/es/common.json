@@ -45,7 +45,8 @@
       "ifInExtent": "&#10060; Los geodatos proporcionados a través del WMS están fuera del área de visualización. No es posible añadir el servicio WMS.",
       "name": "Añadir WMS",
       "placeholder": "Introduzca aquí la WMS-URL.",
-      "textLoadLayer": "Cargar capa"
+      "textLoadLayer": "Cargar capa",
+      "examples": "Ejemplos:"
     },
     "alerting": {
       "alertWindowTitle": "",

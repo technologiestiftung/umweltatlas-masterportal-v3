@@ -6,6 +6,7 @@
  * @property {String} icon icon next to title (config-param)
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {String[]} supportedMapModes Map mode in which this module can be used.
+ * @property {String[]} exampleURLs List of example WMS service URLs that will be shown to the user.
  */
 const state = {
     description: "common:modules.addWMS.description",
@@ -13,7 +14,9 @@ const state = {
     name: "common:modules.addWMS.name",
     icon: "bi-cloud-plus",
     supportedDevices: ["Desktop", "Mobile", "Table"],
-    supportedMapModes: ["2D", "3D"]
+    supportedMapModes: ["2D", "3D"],
+
+    exampleURLs: []
 };
 
 export default state;

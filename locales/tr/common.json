@@ -45,7 +45,8 @@
       "ifInExtent": "WMS aracılığıyla kullanıma sunulan coğrafi veriler, görüntülenebilir alanın dışındadır. WMS eklenemiyor.",
       "name": "WMS ekle",
       "placeholder": "Lütfen WMS URL'ini buraya girin.",
-      "textLoadLayer": "Katmanı yükle"
+      "textLoadLayer": "Katmanı yükle",
+      "examples": "Örnekler:"
     },
     "alerting": {
       "alertWindowTitle": "",

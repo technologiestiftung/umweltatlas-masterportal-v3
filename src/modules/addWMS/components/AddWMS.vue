@@ -26,8 +26,9 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["mapViewSettings"]),
-        ...mapGetters("Maps", ["projection", "mode"])
+        ...mapGetters("Modules/AddWMS", ["exampleURLs"]),
+        ...mapGetters("Maps", ["projection", "mode"]),
+        ...mapGetters(["mapViewSettings"])
     },
     mounted () {
         this.setFocusToFirstControl();
@@ -373,6 +374,18 @@ export default {
                 </span>
             </button>
         </div>
+        <div
+            v-if="exampleURLs && exampleURLs.length > 0"
+            class="WMS_example_urls"
+        >
+            <h5>{{ $t('common:modules.addWMS.examples') }}</h5>
+            <p
+                v-for="url in exampleURLs"
+                :key="url"
+            >
+                {{ url }}
+            </p>
+        </div>
     </div>
 </template>
 
@@ -390,5 +403,9 @@ export default {
         font-size: $font-size-lg;
         color: $light_red;
         margin-bottom: 10px;
+    }
+    .WMS_example_urls {
+        margin-top: 32px;
+        font-size: $font-size-sm;
     }
 </style>
