@@ -6,7 +6,7 @@ import {convertJsonToCsv} from "../../../../shared/js/utils/convertJsonToCsv";
 import {setCsvAttributes} from "../../js/setCsvAttributes.js";
 import {setKmlAttributes} from "../../js/setKmlAttributes.js";
 import transform from "../../js/download/transform.js";
-import {transformMultiPoint, transformPoint, transformGeometry} from "../../js/download/transformGeometry";
+import {transformGeometry} from "../../js/download/transformGeometry";
 import main from "../../js/main";
 
 /**
