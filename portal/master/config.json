@@ -1100,10 +1100,8 @@
           "escapeChar": "!"
         },
         {
-          "id": "52",
-          "styleId": "52",
+          "id": "945",
           "name": "Parkhäuser",
-          "typ": "WFS",
           "visibility": false,
           "autoRefresh": 5000
         },

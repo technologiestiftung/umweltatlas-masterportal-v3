@@ -30,6 +30,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
 - LayerInformation: Added LayerInfo for each layer within a GROUP layer.
+- Portal Master: Fixed error in console by updating layer id. 
 
 ---
 ## 2024-12-12 v3.3.3 (LTS)
