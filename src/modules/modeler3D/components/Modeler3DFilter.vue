@@ -453,18 +453,17 @@ export default {
                 <hr class="m-0 mt-2">
             </template>
             <div>
-                <div>
-                    <label
-                        for="filterName"
-                    >
-                        {{ $t('modules.modeler3D.filter.captions.filterName') }}
-                    </label>
+                <div class="form-floating mb-3">
                     <input
                         id="filterName"
                         v-model="filterName"
-                        class="form-control mb-1"
+                        class="form-control"
                         type="text"
+                        placeholder="{{ $t('modules.modeler3D.filter.captions.filterName') }}"
                     >
+                    <label for="filterName">
+                        {{ $t('modules.modeler3D.filter.captions.filterName') }}
+                    </label>
                 </div>
                 <div class="form-check">
                     <input
@@ -568,63 +567,45 @@ export default {
             :is-open="true"
         >
             <div class="container p-0">
-                <div
-                    id="layer"
-                    class="row"
-                >
-                    <div class="col col-lg form-group form-group-md">
-                        <label
-                            class="col col-md col-form-label"
-                            for="layerSelect"
+                <div class="form-floating mb-3">
+                    <select
+                        id="layerSelect"
+                        v-model="selectedLayer"
+                        class="form-select"
+                        :aria-label="$t('modules.modeler3D.filter.captions.selectLayer')"
+                    >
+                        <option
+                            v-for="layer in layers"
+                            :key="layer.id"
+                            :value="layer"
                         >
-                            {{ $t("modules.modeler3D.filter.captions.selectLayer") }}
-                        </label>
-                        <div class="col col-md">
-                            <select
-                                id="layerSelect"
-                                v-model="selectedLayer"
-                                class="form-select form-select-sm"
-                            >
-                                <option
-                                    v-for="layer in layers"
-                                    :key="layer.id"
-                                    :value="layer"
-                                >
-                                    {{ layer.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+                            {{ layer.name }}
+                        </option>
+                    </select>
+                    <label for="layerSelect">
+                        {{ $t("modules.modeler3D.filter.captions.selectLayer") }}
+                    </label>
                 </div>
 
-                <div
-                    id="attribute"
-                    class="row"
-                >
-                    <div class="col col-lg form-group form-group-md">
-                        <label
-                            class="col col-md col-form-label"
-                            for="attributeSelect"
+                <div class="form-floating mb-3">
+                    <select
+                        id="attributeSelect"
+                        v-model="selectedAttribute"
+                        class="form-select"
+                        :aria-label="$t('modules.modeler3D.filter.captions.selectAttribute')"
+                        @change="loadAttributeValues"
+                    >
+                        <option
+                            v-for="attribute in attributes"
+                            :key="attribute"
+                            :value="attribute"
                         >
-                            {{ $t("modules.modeler3D.filter.captions.selectAttribute") }}
-                        </label>
-                        <div class="col col-md">
-                            <select
-                                id="attributeSelect"
-                                v-model="selectedAttribute"
-                                class="form-select form-select-sm"
-                                @change="loadAttributeValues"
-                            >
-                                <option
-                                    v-for="attribute in attributes"
-                                    :key="attribute"
-                                    :value="attribute"
-                                >
-                                    {{ attribute }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+                            {{ attribute }}
+                        </option>
+                    </select>
+                    <label for="attributeSelect">
+                        {{ $t("modules.modeler3D.filter.captions.selectAttribute") }}
+                    </label>
                 </div>
 
                 <button
