@@ -8793,7 +8793,7 @@
     "legend": true,
     "datasets": [
       {
-        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand (Umweltatlas)",
+        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Umweltatlas)",
         "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5035e07b-95c2-3920-8018-45a68bd0a5a9",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
@@ -8826,7 +8826,7 @@
     "legend": true,
     "datasets": [
       {
-        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand (Umweltatlas)",
+        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Umweltatlas)",
         "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5035e07b-95c2-3920-8018-45a68bd0a5a9",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
@@ -8859,7 +8859,7 @@
     "legend": true,
     "datasets": [
       {
-        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand (Umweltatlas)",
+        "md_name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Umweltatlas)",
         "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/5035e07b-95c2-3920-8018-45a68bd0a5a9",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
@@ -10651,478 +10651,6 @@
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_1_2022.pdf?ts=1719565888",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:3",
-    "name": "PM2,5-Emissionen Hausbrand 2015",
-    "name_lang": "PM2,5-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "3",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM25.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:12",
-    "name": "NOx-Emissionen Hausbrand 2015",
-    "name_lang": "NOx-Emissionen Hausbrand 2015(Entwicklung Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "layers": "15",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_NOx.png",
-    "datasets": [
-      {
-        "md_id": "30c7adb6-7d4e-3d33-9ec4-bd40ffa9d4a4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:13",
-    "name": "NOx-Emissionen Verkehr 2015",
-    "name_lang": "NOx-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "13",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_NOx.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:14",
-    "name": "NOx-Emissionen Industrie 2015",
-    "name_lang": "NOx-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "14",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_NOx.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:15",
-    "name": "NOx-Emissionen Hausbrand 2015",
-    "name_lang": "NOx-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "15",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_NOx.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:2",
-    "name": "PM2,5-Emissionen Industrie 2015",
-    "name_lang": "PM2,5-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "2",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM25.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:8",
-    "name": "PM10-Emissionen Industrie 2015",
-    "name_lang": "PM10-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "8",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM10.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:9",
-    "name": "PM10-Emissionen Hausbrand 2015",
-    "name_lang": "PM10-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "9",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM10.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:10",
-    "name": "PM10-Emissionen Gesamt 2015",
-    "name_lang": "PM10-Emissionen Gesamt 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "10",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM10.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:11",
-    "name": "Verursacher Diagramm PM10-Emissionen 2015",
-    "name_lang": "Verursacher Diagramm PM10-Emissionen 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "11",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2emissionsanteile2015.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "4065",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:4",
-    "name": "PM2,5-Emissionen Gesamt 2015",
-    "name_lang": "PM2,5-Emissionen Gesamt 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "4",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM25.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:5",
-    "name": "Verursacher Diagramm PM2,5-Emissionen 2015",
-    "name_lang": "Verursacher Diagramm PM2,5-Emissionen 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "5",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2emissionsanteile2015.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "4065",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:6",
-    "name": "PM2,5-Emissionen Verkehr 2015",
-    "name_lang": "PM2,5-Emissionen Verkehr 2015(Entwicklung Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "layers": "1",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM25.png",
-    "datasets": [
-      {
-        "md_id": "30c7adb6-7d4e-3d33-9ec4-bd40ffa9d4a4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "wmsk_03_12_2emissionen:7",
-    "name": "PM10-Emissionen Verkehr 2015",
-    "name_lang": "PM10-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "7",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM10.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -32166,33 +31694,6 @@
     }
   },
   {
-    "id": "wmsk_03_12_2emissionen:1",
-    "name": "PM2,5-Emissionen Verkehr 2015",
-    "name_lang": "PM2,5-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/wmsk_03_12_2emissionen",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "1",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_03_12_2verursacher_emissionen2015_PM25.png",
-    "datasets": [
-      {
-        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
-        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "1000",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true
-  },
-  {
     "id": "wmsk_04102_lufttemp2015:1",
     "name": "Raster Berlin und Umland: Lufttemperatur in 2 m Höhe um 14 Uhr [°C]",
     "name_lang": "Raster Berlin und Umland: Lufttemperatur in 2 m Höhe um 14 Uhr [°C] (Klimamodell Berlin: Lufttemperatur 2015 (Umweltatlas))",
@@ -44117,5 +43618,395 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_2_5_everk",
+    "name": "PM2,5-Emissionen Verkehr 2015",
+    "name_lang": "PM2,5-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_2_5_everk",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_2_5_eind",
+    "name": "PM2,5-Emissionen Industrie 2015",
+    "name_lang": "PM2,5-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_2_5_eind",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_2_5_ehaus",
+    "name": "PM2,5-Emissionen Hausbrand 2015",
+    "name_lang": "PM2,5-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_2_5_ehaus",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_2_5_egesamt",
+    "name": "PM2,5-Emissionen Gesamt 2015",
+    "name_lang": "PM2,5-Emissionen Gesamt 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_2_5_egesamt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_10_everk",
+    "name": "PM10-Emissionen Verkehr 2015",
+    "name_lang": "PM10-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_10_everk",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_10_eind",
+    "name": "PM10-Emissionen Industrie 2015",
+    "name_lang": "PM10-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_10_eind",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_10_ehaus",
+    "name": "PM10-Emissionen Hausbrand 2015",
+    "name_lang": "PM10-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_10_ehaus",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_pm_10_egesamt",
+    "name": "PM10-Emissionen Gesamt 2015",
+    "name_lang": "PM10-Emissionen Gesamt 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_pm_10_egesamt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_nox_everk",
+    "name": "NOx-Emissionen Verkehr 2015",
+    "name_lang": "NOx-Emissionen Verkehr 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_nox_everk",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_nox_eind",
+    "name": "NOx-Emissionen Industrie 2015",
+    "name_lang": "NOx-Emissionen Industrie 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_nox_eind",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_nox_ehaus",
+    "name": "NOx-Emissionen Hausbrand 2015",
+    "name_lang": "NOx-Emissionen Hausbrand 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_nox_ehaus",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:b_nox_egesamt",
+    "name": "NOx-Emissionen Gesamt 2015",
+    "name_lang": "NOx-Emissionen Gesamt 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "b_nox_egesamt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:a_pm_2_5_e_diagramm",
+    "name": "Verursacher Diagramm PM2,5-Emissionen 2015",
+    "name_lang": "Verursacher Diagramm PM2,5-Emissionen 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "a_pm_2_5_e_diagramm",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:a_pm10_e_diagramm",
+    "name": "Verursacher Diagramm PM10-Emissionen 2015",
+    "name_lang": "Verursacher Diagramm PM10-Emissionen 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "a_pm10_e_diagramm",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
+    "name": "Verursacher Diagramm NOx-Emissionen 2015",
+    "name_lang": "Verursacher Diagramm NOx-Emissionen 2015 (Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftquali_emission_2015",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "a_nox_e_diagramm",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Langjährige Entwicklung der Luftqualität - Emissionen 2015 (Umweltatlas)",
+        "md_id": "7d209ca5-1de1-3fdc-ae64-d47aea3cb418",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/de75852e-55e9-3379-8462-c002f08ffbde",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
   }
 ]
