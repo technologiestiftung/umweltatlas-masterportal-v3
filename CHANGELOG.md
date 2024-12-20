@@ -59,11 +59,13 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
+- WMS features with geometry can be highlighted with polygon marker.
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
+- WMS gfi responses with mimeType json/application are parsed as GeoJSON.
 
 ### Deprecated
 
@@ -73,7 +75,10 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
 - Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
+- Issue #1243: wfst: reacts on visibility changes of configured layer ids.
+- Issue #1244: wfst: the correct geometry-buttons are displayed.
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.
@@ -89,6 +94,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Issue #1308:
     - The postal code is now correctly placed before the city in the about module
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
 - wfst: layers that are not in services.json are supported.
 - 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
