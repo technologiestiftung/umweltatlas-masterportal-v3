@@ -43643,7 +43643,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_2_5_eind",
@@ -43669,7 +43676,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_2_5_ehaus",
@@ -43695,7 +43709,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_2_5_egesamt",
@@ -43721,7 +43742,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_10_everk",
@@ -43747,7 +43775,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_10_eind",
@@ -43773,7 +43808,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_10_ehaus",
@@ -43799,7 +43841,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_pm_10_egesamt",
@@ -43825,7 +43874,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_nox_everk",
@@ -43851,7 +43907,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_nox_eind",
@@ -43877,7 +43940,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_nox_ehaus",
@@ -43903,7 +43973,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:b_nox_egesamt",
@@ -43929,7 +44006,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:a_pm_2_5_e_diagramm",
@@ -43955,7 +44039,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:a_pm10_e_diagramm",
@@ -43981,7 +44072,14 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
@@ -44007,6 +44105,13 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "infoFormat": "application/json"
+    "infoFormat": "application/json",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/entwicklung-der-luftqualitaet/seit-1989/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_02_emissionen_2015.pdf?ts=1701335227",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
