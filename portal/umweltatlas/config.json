@@ -3927,66 +3927,66 @@
                   "name": "03.12.2 Emissionen",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "wmsk_03_12_2emissionen:3",
-                      "name": "seit-1989 - Verursacher Diagramm NOx-Emissionen"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:12",
-                      "name": "seit-1989 - NOx-Emissionen Hausbrand"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:13",
-                      "name": "seit-1989 - NOx-Emissionen Industrie"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:14",
-                      "name": "seit-1989 - NOx-Emissionen Verkehr"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:15",
-                      "name": "seit-1989 - NOx-Emissionen Gesamt"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:2",
-                      "name": "seit-1989 - Verursacher Diagramm PM10-Emissionen"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:8",
-                      "name": "seit-1989 - PM10-Emissionen Hausbrand"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:9",
-                      "name": "seit-1989 - PM10-Emissionen Industrie"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:10",
-                      "name": "seit-1989 - PM10-Emissionen Verkehr"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:11",
-                      "name": "seit-1989 - PM10-Emissionen Gesamt"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:1",
-                      "name": "seit-1989 - Verursacher Diagramm PM2,5-Emissionen"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:4",
-                      "name": "seit-1989 - PM2,5-Emissionen Hausbrand"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:5",
-                      "name": "seit-1989 - PM2,5-Emissionen Industrie"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:6",
-                      "name": "seit-1989 - PM2,5-Emissionen Verkehr"
-                    },
-                    {
-                      "id": "wmsk_03_12_2emissionen:7",
-                      "name": "seit-1989 - PM2,5-Emissionen Gesamt"
-                    }
+                       {
+        "id": "ua_luftquali_emission_2015:b_pm_2_5_everk",
+        "name": "2015 - PM2,5-Emissionen Verkehr"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_2_5_eind",
+        "name": "2015 - PM2,5-Emissionen Industrie"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_2_5_ehaus",
+        "name": "2015 - PM2,5-Emissionen Hausbrand"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_2_5_egesamt",
+        "name": "2015 - PM2,5-Emissionen Gesamt"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_10_everk",
+        "name": "2015 - PM10-Emissionen Verkehr"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_10_eind",
+        "name": "2015 - PM10-Emissionen Industrie"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_10_ehaus",
+        "name": "2015 - PM10-Emissionen Hausbrand"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_pm_10_egesamt",
+        "name": "2015 - PM10-Emissionen Gesamt"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_nox_everk",
+        "name": "2015 - NOx-Emissionen Verkehr"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_nox_eind",
+        "name": "2015 - NOx-Emissionen Industrie"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_nox_ehaus",
+        "name": "2015 - NOx-Emissionen Hausbrand"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:b_nox_egesamt",
+        "name": "2015 - NOx-Emissionen Gesamt"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:a_pm_2_5_e_diagramm",
+        "name": "2015 - Verursacher Diagramm PM2,5-Emissionen"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:a_pm10_e_diagramm",
+        "name": "2015 - Verursacher Diagramm PM10-Emissionen"
+    },
+    {
+        "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
+        "name": "2015 - Verursacher Diagramm NOx-Emissionen"
+    }
                   ]
                 },
                 {
