@@ -11,6 +11,34 @@ config.global.mocks.$t = key => key;
 describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
     let store,
         wrapper;
+    const values1 = {name: "Layer1", typ: "TileSet3D", visibility: true},
+        values2 = {name: "Layer2", typ: "TileSet3D", visibility: false},
+        tilesets = [
+            {
+                layer: {
+                    values: values1,
+                    tileset: Promise.resolve({
+                        style: "Styling",
+                        readyPromise: Promise.resolve(true)
+                    })
+                },
+                get: (key) => {
+                    return values1[key];
+                }
+            },
+            {
+                layer: {
+                    values: values2,
+                    tileset: Promise.resolve({
+                        style: "Styling",
+                        readyPromise: Promise.resolve(true)
+                    })
+                },
+                get: (key) => {
+                    return values2[key];
+                }
+            }
+        ];
 
     beforeEach(() => {
         store = createStore({
@@ -38,6 +66,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
             `)
             })
         );
+        sinon.stub(layerCollection, "getLayers").returns(tilesets);
 
         store.commit("Modules/Modeler3D/setFilterList", []);
         store.commit("Modules/Modeler3D/setLayerList", []);
@@ -160,19 +189,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
             expect(wrapper.vm.newFilter).to.be.true;
             expect(wrapper.vm.pvoStyleEnabled).to.be.false;
             expect(wrapper.vm.showModal).to.be.true;
-            expect(wrapper.vm.currentFilterId).to.equal(0);
-        });
-
-        it("should get attribute name from layer", () => {
-            const layer1 = {name: "Gebäude LoD2"},
-                layer2 = {name: "Other Layer"};
-
-            expect(wrapper.vm.getAttributeNameFromLayer(layer1)).to.equal(
-                "Wertbezeichnung"
-            );
-            expect(wrapper.vm.getAttributeNameFromLayer(layer2)).to.equal(
-                "Gebaeudefunktion"
-            );
         });
 
         it("should edit a filter", () => {
@@ -201,17 +217,6 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
             wrapper.vm.resetStyle();
 
             expect(wrapper.vm.attributeValues[0].color).to.equal("#ffffff");
-        });
-
-        it("should get unique id", () => {
-            store.commit("Modules/Modeler3D/setFilterList", [
-                {id: 0},
-                {id: 1}
-            ]);
-
-            const uniqueId = wrapper.vm.getUniqueId();
-
-            expect(uniqueId).to.equal(2);
         });
 
         it("should change pvo style", () => {
@@ -313,7 +318,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
                     id: 0,
                     layer: {name: "Gebäude LoD2", id: 1},
                     name: "Test Filter",
-                    values: [{name: "attr1", color: "#000000"}]
+                    values: [{name: "attr1", color: "#000000"}],
+                    attribute: "Wertbezeichnung"
                 }
             ]);
             store.commit("Modules/Modeler3D/setLayerList", [
@@ -336,7 +342,8 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
                     id: 0,
                     layer: {name: "Gebäude LoD2", id: 1},
                     name: "Test Filter",
-                    values: [{name: "attr1", color: "#000000"}]
+                    values: [{name: "attr1", color: "#000000"}],
+                    attribute: "Wertbezeichnung"
                 }
             ]);
             store.commit("Modules/Modeler3D/setLayerList", []);

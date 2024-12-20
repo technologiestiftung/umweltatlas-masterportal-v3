@@ -4,6 +4,9 @@
  * @property {Boolean}      active - if true, component is rendered
  * @property {Object[]}     activeShapePoints - Holds the positions of the currently selected shape
  * @property {Boolean}      adaptToHeight - if true, adjust height automatically on position change
+ * @property {String[]}     allowedAttributes - List of attributes that are allowed for the model
+ * @property {String}       buildingFunctionURL - URL to the building function type definitions
+ * @property {String}       buildingSource - Source of the building data
  * @property {Number}       coordinateEasting - the raw transformed easting coordinate displayed on the ui
  * @property {Number}       coordinateNorthing - the raw transformed northing coordinate displayed on the ui
  * @property {String}       currentFilterId - id of the currently selected filter
@@ -64,6 +67,9 @@ export default {
 
     activeShapePoints: [],
     adaptToHeight: true,
+    allowedAttributes: ["Wertbezeichnung", "Gebaeudefunktion"],
+    buildingFunctionURL: "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml",
+    buildingSource: "ALKIS",
     clampToGround: true,
     coordinateEasting: 0,
     coordinateNorthing: 0,
@@ -118,6 +124,11 @@ export default {
     opacity: 1,
     povActive: false,
     projections: [],
+    pvoColors: {
+        housing: "#ff0000",
+        commercial: "#666666",
+        public: "#44ff44"
+    },
     rectDepth: 0,
     rectWidth: 0,
     rotation: 0,

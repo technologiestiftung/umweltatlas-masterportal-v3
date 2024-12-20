@@ -4,7 +4,7 @@ import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 
 import layerCollection from "../../../core/layers/js/layerCollection";
-
+import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 /**
  * The component that handles the 3D modeler filtering & styling.
@@ -32,8 +32,8 @@ export default {
     data () {
         return {
             selectedLayer: {},
-            selectedAttribute: "Gebäudefunktion",
-            attributes: ["Gebäudefunktion"], // Beispiele
+            selectedAttribute: "",
+            attributes: [""],
             layers: [],
             showModal: false,
             attributeValues: [],
@@ -50,7 +50,11 @@ export default {
         ...mapGetters("Modules/Modeler3D", [
             "currentFilterId",
             "filterList",
-            "layerList"
+            "layerList",
+            "buildingFunctionURL",
+            "buildingSource",
+            "allowedAttributes",
+            "pvoColors"
         ]),
 
         attributeValuesSorted () {
@@ -69,10 +73,22 @@ export default {
         }
     },
     created () {
-        const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D");
+        const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D"),
+            activeTileset = tilesets.filter(layer => layer.get("visibility") === true)[0];
 
-        this.layers = tilesets.map(tileset => tileset.layer.values);
-        this.selectedLayer = this.layers[0];
+        this.layers = tilesets.map(tileset => {
+            const layer = tileset.layer.values;
+
+            tileset.layer.tileset.then(ts => {
+                layer.style = ts.style;
+            });
+
+            return layer;
+        });
+        this.selectedLayer = this.layers.find(layer => layer.id === activeTileset.layer.values.id);
+        activeTileset.layer.tileset
+            .then(tileset => tileset.readyPromise)
+            .then(this.getAllGfiAttributes());
 
         this.loadAttributeValues();
     },
@@ -88,7 +104,7 @@ export default {
          * Adds a new filter to the filter list.
          */
         addFilter () {
-            const id = this.getUniqueId();
+            const id = uniqueId("filter-");
 
             this.attributeValues.forEach(value => {
                 value.color = "#ffffff";
@@ -111,12 +127,21 @@ export default {
             this.showModal = true;
         },
         /**
-         * Gets the attribute name based on the layer.
-         * @param {Object} layer - The layer object.
-         * @returns {string} - The attribute name.
+         * Gets all possible attributes of the currently selected layer
          */
-        getAttributeNameFromLayer (layer) {
-            return layer.name === "Gebäude LoD2" ? "Wertbezeichnung" : "Gebaeudefunktion";
+        async getAllGfiAttributes () {
+            layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D" && layer.get("id") === this.selectedLayer.id)[0].layer.tileset.then(tileset => {
+                const removeListener = tileset.tileVisible.addEventListener(tile => {
+                    const content = tile.content,
+                        feature = content.getFeature(0),
+                        properties = Object.keys(feature.getProperty("attributes"));
+
+                    this.attributes = properties.filter(value => this.allowedAttributes.includes(value));
+                    this.selectedAttribute = this.attributes[0];
+
+                    removeListener();
+                });
+            });
         },
         /**
          * Prepares style editing of an existing filter.
@@ -140,13 +165,6 @@ export default {
             });
         },
         /**
-         * Gets a unique id for a new filter.
-         * @returns {number} - The unique id.
-         */
-        getUniqueId () {
-            return this.filterList.length > 0 ? Math.max(...this.filterList.map(filter => filter.id)) + 1 : 0;
-        },
-        /**
          * Changes the styling of the attribute values to the recommended colors based on the PlanzeichenVO.
          * @param {boolean} val - The new PVO style value.
          */
@@ -154,13 +172,13 @@ export default {
             if (val) {
                 this.attributeValues.forEach(value => {
                     if (value.id >= 1000 && value.id < 2000) {
-                        value.color = "#ff0000";
+                        value.color = this.pvoColors.housing;
                     }
                     else if (value.id >= 2000 && value.id < 3000) {
-                        value.color = "#666666";
+                        value.color = this.pvoColors.commercial;
                     }
                     else if (value.id >= 3000 && value.id < 9999) {
-                        value.color = "#44ff44";
+                        value.color = this.pvoColors.public;
                     }
                     else {
                         value.color = "#ffffff";
@@ -194,11 +212,7 @@ export default {
                 this.setLayerList([]);
                 layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D").forEach(t => {
                     t.layer.tileset.then(tileset => {
-                        tileset.style = new Cesium.Cesium3DTileStyle({
-                            color: {
-                                conditions: [["true", "color('white')"]]
-                            }
-                        });
+                        tileset.style = this.layers.find(layer => layer.id === t.layer.values.id).style;
                     });
                 });
             }
@@ -209,10 +223,10 @@ export default {
 
             if (this.currentFilterId !== null) {
                 if (this.filterList.some(filter => filter.name === this.filterName && filter.id !== this.currentFilterId)) {
-                    this.filterList[this.currentFilterId].name = `${this.filterName} (${this.currentFilterId})`;
+                    this.filterList.find(filter => filter.id === this.currentFilterId).name = `${this.filterName} (${this.currentFilterId})`;
                 }
                 else {
-                    this.filterList[this.currentFilterId].name = this.filterName;
+                    this.filterList.find(filter => filter.id === this.currentFilterId).name = this.filterName;
                 }
                 this.copyColorValues();
             }
@@ -241,10 +255,10 @@ export default {
                 const stylingConfig = [];
 
                 filter.values.forEach(value => {
-                    if (value.color === "#ffffff") {
+                    if (!value?.color || value?.color === "#ffffff") {
                         return;
                     }
-                    stylingConfig.push(["${attributes['" + this.getAttributeNameFromLayer(filter.layer) + "']} === '" + value.name + "'", "color('" + value.color + "')"]);
+                    stylingConfig.push(["${attributes['" + filter.attribute + "']} === '" + value.name + "'", "color('" + value.color + "')"]);
                 });
 
 
@@ -272,7 +286,7 @@ export default {
          */
         async loadAttributeValues () {
             try {
-                const response = await fetch("https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml");
+                const response = await fetch(this.buildingFunctionURL);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -285,7 +299,7 @@ export default {
                         uniqueNames = new Set();
 
                     this.attributeValues = Array.from(elements)
-                        .filter(element => element.getElementsByTagName("gml:description")[0].textContent === "ALKIS")
+                        .filter(element => element.getElementsByTagName("gml:description")[0].textContent === this.buildingSource)
                         .map(element => {
                             const gid = element.getElementsByTagName("gml:name")[0].textContent.split("_"),
                                 name = element.getElementsByTagName("gml:name")[1].textContent,
@@ -573,6 +587,7 @@ export default {
                         v-model="selectedLayer"
                         class="form-select"
                         :aria-label="$t('modules.modeler3D.filter.captions.selectLayer')"
+                        @change="getAllGfiAttributes"
                     >
                         <option
                             v-for="layer in layers"
