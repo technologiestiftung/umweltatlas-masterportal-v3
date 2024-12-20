@@ -379,12 +379,14 @@ export default {
             class="WMS_example_urls"
         >
             <h5>{{ $t('common:modules.addWMS.examples') }}</h5>
-            <p
-                v-for="url in exampleURLs"
-                :key="url"
-            >
-                {{ url }}
-            </p>
+            <ul>
+                <li
+                    v-for="url in exampleURLs"
+                    :key="url"
+                >
+                    {{ url }}
+                </li>
+            </ul>
         </div>
     </div>
 </template>

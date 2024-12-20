@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
-Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
+Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
 - SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
 - addWMS: add the possibility to configure example URLs to display under the module.
 
@@ -19,7 +19,7 @@ Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797
 ### Deprecated
 
 ### Removed
-Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals
+Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals.
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
@@ -93,7 +93,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
 - Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
 - Issue #1308:
-    - The postal code is now correctly placed before the city in the about module
+    - The postal code is now correctly placed before the city in the about module.
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
 - Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
 - wfst: layers that are not in services.json are supported.

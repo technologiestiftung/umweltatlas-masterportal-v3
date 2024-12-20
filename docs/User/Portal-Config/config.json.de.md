@@ -1735,7 +1735,12 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 {
     "icon": "bi-cloud-plus",
     "name": "common:modules.addWMS.name",
-    "type": "addWMS"
+    "type": "addWMS",
+    "exampleURLs": [
+        "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
+        "https://sgx.geodatenzentrum.de/wms_landschaften",
+        "https://sgx.geodatenzentrum.de/wms_vg5000_0101"
+    ]
 }
 ```
 
