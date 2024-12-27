@@ -423,6 +423,36 @@ export default class InterfaceWfsExtern {
     }
 
     /**
+     * The Implementation of GML3.2 (Base for WFS 2.0.0) in Openlayers is incomplete.
+     * Adds missing GML-IDs for time and spatial based filter and fixes the namespace for time based filters
+     * @param {String} payload the wfs filter request
+     * @returns {String} the WFS request with fixed GML3.2
+     */
+    convertGML32 (payload) {
+        let count = 0,
+            replacetxt = "",
+            changedPayload = payload;
+
+        while (changedPayload.indexOf("<Polygon xmlns=\"http://www.opengis.net/gml/3.2\">") > 0) {
+            replacetxt = "<Polygon gml:id=\"geom.request." + count + "\" xmlns=\"http://www.opengis.net/gml/3.2\" xmlns:gml=\"http://www.opengis.net/gml/3.2\">";
+            changedPayload = changedPayload.replace("<Polygon xmlns=\"http://www.opengis.net/gml/3.2\">", replacetxt);
+            count++;
+        }
+        while (changedPayload.indexOf("<TimePeriod xmlns=\"http://www.opengis.net/gml\">") > 0) {
+            replacetxt = "<TimePeriod gml:id=\"timeperiod.request." + count + "\" xmlns:gml=\"http://www.opengis.net/gml/3.2\" xmlns=\"http://www.opengis.net/gml/3.2\">";
+            changedPayload = changedPayload.replace("<TimePeriod xmlns=\"http://www.opengis.net/gml\">", replacetxt);
+            count++;
+        }
+        while (changedPayload.indexOf("<TimeInstant>") > 0) {
+            replacetxt = "<TimeInstant gml:id=\"timeinstant.request." + count + "\" xmlns:gml=\"http://www.opengis.net/gml/3.2\">";
+            changedPayload = changedPayload.replace("<TimeInstant>", replacetxt);
+            count++;
+        }
+
+        return changedPayload;
+    }
+
+    /**
      * Filters the given filterQuestion and returns the resulting filterAnswer.
      * @param {Object} filterQuestion an object with filterId, service and rules
      * @param {Function} onsuccess a function(filterAnswer)
@@ -432,14 +462,14 @@ export default class InterfaceWfsExtern {
      */
     filter (filterQuestion, onsuccess, onerror, axiosMock = false) {
         const filter = Array.isArray(filterQuestion?.rules) && filterQuestion?.rules.length || filterQuestion.commands?.filterGeometry ? this.getFilter(filterQuestion.rules, filterQuestion.commands?.searchInMapExtent, filterQuestion.commands?.geometryName, filterQuestion.commands?.filterGeometry) : undefined,
-            featureRequest = new WFS().writeGetFeature({
+            featureRequest = new WFS({"version": filterQuestion?.service?.version}).writeGetFeature({
                 srsName: filterQuestion?.service?.srsName,
                 featureNS: filterQuestion?.service?.featureNS,
                 featurePrefix: filterQuestion?.service?.featurePrefix,
                 featureTypes: filterQuestion?.service?.featureTypes,
                 filter
             }),
-            payload = new XMLSerializer().serializeToString(featureRequest),
+            payload = filterQuestion?.service?.version === "2.0.0" ? this.convertGML32(new XMLSerializer().serializeToString(featureRequest)) : new XMLSerializer().serializeToString(featureRequest),
             axiosObject = typeof axiosMock === "object" && axiosMock !== null ? axiosMock : axios,
             progress = 1;
 
@@ -451,22 +481,22 @@ export default class InterfaceWfsExtern {
                 "Content-Type": "text/xml"
             },
             cancelToken: this.axiosCancelTokenSources[filterQuestion.filterId].token
-        /*    onDownloadProgress: progressEvent => {
-                if (typeof progressEvent.total !== "number" || progressEvent.total === 0) {
-                    progress = (progress + 1) % 98 + 2;
-                }
-                else {
-                    progress = Math.max(2, Math.min(99, Math.round(100 / progressEvent.total * progressEvent.loaded)));
-                }
+            /*    onDownloadProgress: progressEvent => {
+                    if (typeof progressEvent.total !== "number" || progressEvent.total === 0) {
+                        progress = (progress + 1) % 98 + 2;
+                    }
+                    else {
+                        progress = Math.max(2, Math.min(99, Math.round(100 / progressEvent.total * progressEvent.loaded)));
+                    }
 
-                this.callEmptySuccess(onsuccess, filterQuestion, progress);
-            }   */
+                    this.callEmptySuccess(onsuccess, filterQuestion, progress);
+                }   */
         })
             .then(response => {
                 if (isObject(response) && typeof response.data === "string" && typeof onsuccess === "function") {
                     this.callEmptySuccess(onsuccess, filterQuestion, 99);
                     setTimeout(() => {
-                        const items = new WFS().readFeatures(response.data);
+                        const items = new WFS({"version": filterQuestion?.service?.version}).readFeatures(response.data);
 
                         onsuccess({
                             service: filterQuestion.service,
@@ -681,12 +711,23 @@ export default class InterfaceWfsExtern {
                 console.error("Time-related snippets (`date` and `dateRange`) can only be operated in `external` mode or as a fixed rule (`visible`: `false`) if their counterpart at the WFS service is in a correct time format (ISO8601: `YYYY-MM-DD`). Current format is `" + rule?.format + "`.");
                 return;
             }
-            args.push(this.getRuleFilter(
-                rule?.attrName,
-                rule?.operator,
-                rule?.value,
-                this.getLogicalHandlerByOperator(rule?.operator, this.isIso8601(rule?.format))
-            ));
+            // Service may fail if start and end of a time based filter is the same, query for equal instead.
+            if (rule?.format && this.isIso8601(rule?.format) && this.isRangeOperator(rule?.operator) && (rule?.value[0] === rule?.value[1])) {
+                args.push(this.getRuleFilter(
+                    rule?.attrName,
+                    "EQ",
+                    rule?.value[0],
+                    equalToFilter
+                ));
+            }
+            else {
+                args.push(this.getRuleFilter(
+                    rule?.attrName,
+                    rule?.operator,
+                    rule?.value,
+                    this.getLogicalHandlerByOperator(rule?.operator, this.isIso8601(rule?.format))
+                ));
+            }
         });
 
         if (typeof geometryName === "string" && isObject(filterGeometry)) {

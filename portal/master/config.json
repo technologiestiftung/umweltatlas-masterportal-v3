@@ -831,16 +831,7 @@
           }
         },
         {
-          "id": [
-            "4736",
-            "12062",
-            "4745",
-            "4739",
-            "12061",
-            "4742",
-            "12060",
-            "12059"
-          ],
+          "id": "33787",
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
           "visibility": false
@@ -1109,10 +1100,8 @@
           "escapeChar": "!"
         },
         {
-          "id": "52",
-          "styleId": "52",
+          "id": "945",
           "name": "Parkhäuser",
-          "typ": "WFS",
           "visibility": false,
           "autoRefresh": 5000
         },

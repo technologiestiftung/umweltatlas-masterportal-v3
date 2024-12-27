@@ -266,12 +266,37 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         });
     });
     describe("getUrl", () => {
-        const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
+        it("creates url correctly", function () {
+            const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
 
-        it("creates url correctly'", function () {
             expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map&request=GetCapabilities&service=WMS");
             expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
             expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
+        });
+
+        it("creates url with lowercase parameter keys request and service", function () {
+            const serviceUrl = "https://test/test?SERVICE=WMS&REQUEST=GetCapabilities";
+
+            expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?request=GetCapabilities&service=WMS");
+            expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
+        });
+    });
+    describe("getBaseServiceUrl", () => {
+
+        it("keeps other parameters", function () {
+            const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map&request=GetCapabilities&service=WMS&version=1.3.0";
+
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map");
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.not.contain("request=GetCapabilities&service=WMS");
+        });
+
+        it("removes uppercase", function () {
+            const serviceUrl = "https://test/test?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0";
+
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.equal("https://test/test");
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.not.contain("request=GetCapabilities&service=WMS");
         });
     });
 });

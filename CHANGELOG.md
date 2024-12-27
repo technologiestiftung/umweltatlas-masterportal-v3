@@ -7,15 +7,44 @@
 ### __Breaking Changes__
 
 ### Added
+Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
+- SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
+- addWMS: add the possibility to configure example URLs to display under the module.
 
 ### Changed
+- Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
+- Re-enabled setting the latest tag and uncommented the TODO regarding its usage in bitbucket-pipelines.yml.
+- Filter: for wfs extern the wfs version of the defined service is used.
 
 ### Deprecated
 
 ### Removed
+Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals.
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
+- Issue #1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
+- Issue #1271: Draw_old: fix download of features with multi geometries.
+- Issue #1309: fixed translation of periodicity.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Routing: 
+    - fixed style for waypoints.
+    - fixed elevation profile
+- Filter: The searched result list in dropdown should be sorted alphabetically.
+- AddWMS: Fixed handling of service parameter.
+- LayerInformation: Added LayerInfo for each layer within a GROUP layer.
+- Portal Master: Fixed error in console by updating layer id. 
+
+---
+## 2024-12-12 v3.3.3 (LTS)
+
+### Fixed
+- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Searchbar: the search in search results shows results and no error occurs.
+- wfst: layers that are not in services.json are supported.
 
 ---
 
@@ -33,13 +62,13 @@
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
-- WMS features with geometry can be highlighted with polygon marker
+- WMS features with geometry can be highlighted with polygon marker.
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
-- WMS gfi responses with mimeType json/application are parsed as GeoJSON
+- WMS gfi responses with mimeType json/application are parsed as GeoJSON.
 
 ### Deprecated
 
@@ -66,8 +95,9 @@
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
 - Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
 - Issue #1308:
-    - The postal code is now correctly placed before the city in the about module
+    - The postal code is now correctly placed before the city in the about module.
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
 - wfst: layers that are not in services.json are supported.
 - 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.

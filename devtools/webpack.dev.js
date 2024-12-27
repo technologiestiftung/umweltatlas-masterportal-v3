@@ -36,7 +36,9 @@ Object.keys(proxies).forEach(proxy => {
 module.exports = function () {
     return merge.smart({
         mode: "development",
-        devtool: "cheap-module-eval-source-map",
+        // devtool: "cheap-module-eval-source-map",
+        // changed to eval to debug ts-files in chrome developer tools
+        devtool: "eval",
         devServer: {
             headers: {
                 "Access-Control-Allow-Origin": "*"

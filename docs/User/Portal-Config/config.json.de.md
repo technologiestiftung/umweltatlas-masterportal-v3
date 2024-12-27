@@ -1727,6 +1727,7 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 |icon|nein|String|"bi-cloud-plus"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.addWMS.name"|Name des Moduls im Menü..|false|
 |type|nein|String|"addWMS"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|exampleURLs|nein|String[]|[]|Beispiel URLs, die unter dem Modul angezeigt werden.|false|
 
 **Beispiel**
 
@@ -1734,7 +1735,12 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 {
     "icon": "bi-cloud-plus",
     "name": "common:modules.addWMS.name",
-    "type": "addWMS"
+    "type": "addWMS",
+    "exampleURLs": [
+        "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
+        "https://sgx.geodatenzentrum.de/wms_landschaften",
+        "https://sgx.geodatenzentrum.de/wms_vg5000_0101"
+    ]
 }
 ```
 

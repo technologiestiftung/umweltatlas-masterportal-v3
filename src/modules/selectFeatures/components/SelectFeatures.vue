@@ -1,7 +1,8 @@
 <script>
 import {DragBox, Select} from "ol/interaction";
-import {never, platformModifierKeyOnly, touchOnly} from "ol/events/condition";
+import {platformModifierKeyOnly, touchOnly} from "ol/events/condition";
 import VectorSource from "ol/source/Vector.js";
+import {Style, Stroke, Fill, Circle as CircleStyle} from "ol/style";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersSelectFeatures";
@@ -17,6 +18,29 @@ import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../shared/js/utils/i
  */
 export default {
     name: "SelectFeatures",
+    data () {
+        return {
+            selectedFeatureStyle: new Style({
+                image: new CircleStyle({
+                    radius: 7,
+                    fill: new Fill({
+                        color: "rgba(0, 153, 255, 0.5)"
+                    }),
+                    stroke: new Stroke({
+                        color: "rgba(0, 153, 255, 1)",
+                        width: 2
+                    })
+                }),
+                stroke: new Stroke({
+                    color: "rgba(0, 153, 255, 1)",
+                    width: 2
+                }),
+                fill: new Fill({
+                    color: "rgba(0, 153, 255, 0.3)"
+                })
+            })
+        };
+    },
     computed: {
         ...mapGetters(["ignoredKeys", "isMobile"]),
         ...mapGetters("Maps", ["mode"]),
@@ -36,7 +60,7 @@ export default {
             addInteractionToMap: "addInteraction",
             removeInteractionFromMap: "removeInteraction"
         }),
-        ...mapActions("Modules/SelectFeatures", ["highlightFeature"]),
+        ...mapActions("Modules/SelectFeatures", ["highlightFeature", "toggleFeatureSelection"]),
         isEmailAddress,
         isPhoneNumber,
         getPhoneNumberAsWebLink,
@@ -47,19 +71,45 @@ export default {
          */
         createInteractions: function () {
             const select = new Select({
-                // select works indirectly via DragBox results - never updates itself
-                    addCondition: never,
-                    removeCondition: never,
-                    toggleCondition: never,
-                    condition: never
+                    condition: (event) => event.originalEvent.ctrlKey && event.type === "pointerdown",
+                    style: null
                 }),
                 dragBox = new DragBox(this.isMobile ? {condition: touchOnly} : {condition: platformModifierKeyOnly});
 
-            dragBox.on("boxstart", this.clearFeatures.bind(this));
             dragBox.on("boxend", this.setFeaturesFromDrag.bind(this));
 
+            select.on("select", (event) => {
+                this.setFeaturesFromClick(event.mapBrowserEvent);
+            });
             this.setSelectInteraction(select);
             this.setDragBoxInteraction(dragBox);
+        },
+
+        /**
+         * Resets the map interactions by removing existing ones and adding them again.
+         * @returns {void}
+         */
+        resetInteractions () {
+            this.removeInteractions();
+            this.createInteractions();
+            this.addInteractions();
+        },
+
+        /**
+         * Removes a single feature from the selection.
+         * @param {Number} index - The index of the feature to remove.
+         * @param {Object} feature - The feature object to deselect.
+         * @returns {void}
+         */
+        removeFeature (index, feature) {
+            if (feature) {
+                feature.setStyle(null);
+                this.selectedFeatures.splice(index, 1);
+                this.selectedFeaturesWithRenderInformation.splice(index, 1);
+                if (this.selectedFeatures.length === 0) {
+                    this.resetInteractions();
+                }
+            }
         },
 
         /**
@@ -68,9 +118,12 @@ export default {
          */
         clearFeatures: function () {
             if (this.selectedFeatures) {
-                this.selectedFeatures.clear();
+                this.selectedFeatures.forEach(feature => feature.setStyle(null));
+                this.setSelectedFeatures([]);
+                if (this.selectedFeatures.length === 0) {
+                    this.resetInteractions();
+                }
             }
-            this.setSelectedFeatures(this.selectInteraction.getFeatures());
             this.setSelectedFeaturesWithRenderInformation([]);
         },
 
@@ -79,8 +132,8 @@ export default {
          * @returns {void}
          */
         addInteractions: function () {
-            this.addInteractionToMap(this.selectInteraction);
             this.addInteractionToMap(this.dragBoxInteraction);
+            this.addInteractionToMap(this.selectInteraction);
         },
 
         /**
@@ -88,8 +141,8 @@ export default {
          * @returns {void}
          */
         removeInteractions: function () {
-            this.removeInteractionFromMap(this.selectInteraction);
             this.removeInteractionFromMap(this.dragBoxInteraction);
+            this.removeInteractionFromMap(this.selectInteraction);
             this.selectedFeaturesWithRenderInformation.length = 0;
         },
 
@@ -98,28 +151,73 @@ export default {
          * @returns {void}
          */
         setFeaturesFromDrag: function () {
-            const extent = this.dragBoxInteraction.getGeometry().getExtent();
+            const map = mapCollection.getMap("2D"),
+                extent = this.dragBoxInteraction.getGeometry().getExtent();
 
-            mapCollection.getMap("2D").getLayers()
+            map.getLayers()
                 .getArray()
                 .filter(layer => layer.get("visible") && layer.get("source") instanceof VectorSource)
-                .forEach(
-                    layer => {
-                        if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
-                            const features = layer.get("source")?.getFeaturesInExtent(extent);
+                .forEach(layer => {
+                    if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
+                        const features = layer.get("source")?.getFeaturesInExtent(extent);
 
-                            features.forEach(feature => {
+                        features.forEach(feature => {
+                            const featureId = feature.getId(),
+                                alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                            if (!alreadySelected) {
+                                feature.setStyle(this.selectedFeatureStyle);
                                 this.prepareFeature(layer, feature);
-                            });
-                        }
-                        else {
-                            layer.get("source").forEachFeatureIntersectingExtent(
-                                extent,
-                                feature => this.prepareFeature(layer, feature)
-                            );
-                        }
+                            }
+                        });
                     }
-                );
+                    else {
+                        layer.get("source").forEachFeatureIntersectingExtent(
+                            extent,
+                            feature => {
+                                const featureId = feature.getId(),
+                                    alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                                if (!alreadySelected) {
+                                    feature.setStyle(this.selectedFeatureStyle);
+                                    this.prepareFeature(layer, feature);
+                                }
+                            }
+                        );
+                    }
+                });
+        },
+
+        /**
+         * Infers features from a click event and sets them to the selectedFeatures.
+         * @param {Object} event The click event
+         * @returns {void}
+         */
+        setFeaturesFromClick: function (event) {
+            const map = mapCollection.getMap("2D"),
+                coordinate = event.coordinate,
+                pixel = map.getPixelFromCoordinate(coordinate);
+
+            map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+                if (!layer) {
+                    console.warn("No layer found for feature", feature);
+                    return true;
+                }
+
+                if (layer.get("visible") && layer.get("source") instanceof VectorSource) {
+                    const featureId = feature.getId(),
+                        alreadySelected = this.selectedFeatures.some(f => f.getId() === featureId);
+
+                    if (!alreadySelected) {
+                        feature.setStyle(this.selectedFeatureStyle);
+                        this.prepareFeature(layer, feature);
+                    }
+                }
+                else {
+                    console.warn("Layer not visible or not a vector source", layer);
+                }
+                return true;
+            });
         },
 
         /**
@@ -132,15 +230,27 @@ export default {
         prepareFeature: function (layer, feature) {
             this.addSelectedFeature(feature);
             if (feature.get("features") === undefined) {
-                const item = feature;
-
-                this.pushFeatures(layer, item);
+                this.pushFeatures(layer, feature);
             }
             else {
                 feature.get("features").forEach(item => {
                     this.pushFeatures(layer, item);
                 });
             }
+        },
+
+        /**
+         * Adds a feature to the selected list if it is not already present.
+         * @param {module:ol/Feature} feature
+         * @returns {void}
+         */
+        addSelectedFeature: function (feature) {
+            const featureId = feature.getId();
+
+            if (this.selectedFeatures.some(f => f.getId() === featureId)) {
+                return;
+            }
+            this.selectedFeatures.push(feature);
         },
 
         /**
@@ -163,12 +273,11 @@ export default {
         /**
          * Iterates the Properties and adds Links and Breaks.
          * @param {Array} properties Technical key to display value
-         * @returns {Array<String[]>} Array of [key,value]-pairs - may be empty
+         * @returns {Array.<String[]>} Array of [key,value]-pairs - may be empty
          */
         processLinksAndBreaks: function (properties) {
             const resultProperties = properties;
 
-            // makes links in result list clickable and adds <br/>s
             Object.entries(properties).forEach(([key, propValue]) => {
                 let propertyValue = propValue;
 
@@ -177,9 +286,9 @@ export default {
                 }
                 if (this.isValidKey(key) && this.isValidValue(propertyValue) && propertyValue.indexOf("|") > -1) {
                     resultProperties[key] = "";
-                    propertyValue.split("|").forEach(function (arrayItemValue) {
+                    propertyValue.split("|").forEach(arrayItemValue => {
                         if (isUrl(arrayItemValue)) {
-                            resultProperties[key] += "<a href=" + arrayItemValue + " target=\"_blank\">" + arrayItemValue + "</a><br/>";
+                            resultProperties[key] += `<a href="${arrayItemValue}" target="_blank">${arrayItemValue}</a><br/>`;
                         }
                         else {
                             resultProperties[key] += arrayItemValue + "<br/>";
@@ -187,10 +296,9 @@ export default {
                     });
                 }
                 else if (this.isValidKey(key) && this.isValidValue(propertyValue) && isUrl(propertyValue)) {
-                    resultProperties[key] = "<a href=" + propertyValue + " target=\"_blank\">" + propertyValue + "</a>";
+                    resultProperties[key] = `<a href="${propertyValue}" target="_blank">${propertyValue}</a>`;
                 }
             });
-
             return resultProperties;
         },
 
@@ -198,12 +306,11 @@ export default {
          * Prepares the properties of a feature for tabular display.
          * @param {Array} properties Technical key to display value
          * @param {Object} gfiAttributes Technical key to display key
-         * @returns {Array<String[]>} Array of [key,value]-pairs - may be empty
+         * @returns {Array.<String[]>} Array of [key,value]-pairs - may be empty
          */
         translateGFI: function (properties, gfiAttributes) {
             const resultProperties = this.processLinksAndBreaks(properties);
 
-            // showAll => just use properties and make key look nice
             if (gfiAttributes === "showAll") {
                 return Object
                     .entries(resultProperties)
@@ -215,7 +322,6 @@ export default {
                     });
             }
 
-            // type object => contains pretty-print instruction for key as value
             if (typeof gfiAttributes === "object") {
                 return Object
                     .keys(gfiAttributes)
@@ -225,7 +331,6 @@ export default {
                     ]);
             }
 
-            // gfiAttributes === "ignore" (or invalid)
             if (gfiAttributes !== "ignore") {
                 console.warn(`Layer has invalid gfiAttributes "${gfiAttributes}". Acting as if "ignore" was given.`);
             }
@@ -243,7 +348,6 @@ export default {
             if (typeof str !== "string") {
                 return "";
             }
-
             return str
                 .split("_")
                 .map(item => item.substring(0, 1).toUpperCase() + item.substring(1))
@@ -259,7 +363,6 @@ export default {
             if (typeof str !== "string") {
                 return "";
             }
-
             return str
                 .split("|")
                 .map(item => item.trim())
@@ -290,10 +393,11 @@ export default {
          * @returns {void}
          */
         featureZoom: function (event) {
-            const featureIndex = event.currentTarget.id.split("-")[0],
+            const map = mapCollection.getMap("2D"),
+                featureIndex = event.currentTarget.id.split("-")[0],
                 selected = this.selectedFeaturesWithRenderInformation[featureIndex];
 
-            mapCollection.getMap(this.mode).getView().fit(selected.item.getGeometry());
+            map.getView().fit(selected.item.getGeometry());
             this.highlightFeature({feature: selected.item, layerId: selected.layerId});
         },
 
@@ -307,7 +411,6 @@ export default {
             if (key === "common:" + this.$t(key)) {
                 console.warn("the key " + JSON.stringify(key) + " is unknown to the common translation");
             }
-
             return this.$t(key, options);
         }
     }
@@ -315,7 +418,9 @@ export default {
 </script>
 
 <template lang="html">
-    <div id="selectFeatures">
+    <div
+        id="selectFeatures"
+    >
         <div
             v-if="selectedFeaturesWithRenderInformation.length === 0"
             class="selectFeaturesDefaultMessage"
@@ -327,14 +432,22 @@ export default {
             ref="select-features-tables"
             class="select-features-tables"
         >
+            <div class="sticky-clear-container">
+                <button
+                    class="btn btn-primary btn-sm"
+                    @click="clearFeatures"
+                >
+                    {{ translate("common:modules.selectFeatures.clearSelection") }}
+                </button>
+            </div>
+            <br>
             <template
                 v-for="(selectedFeature, index) in selectedFeaturesWithRenderInformation"
                 :key="index"
             >
                 <table
                     v-if="selectedFeature.properties.length > 0"
-                    :key="index"
-                    class="table table-bordered"
+                    class="table table-striped table-bordered"
                 >
                     <tbody>
                         <tr
@@ -376,14 +489,25 @@ export default {
                 >
                     {{ translate("common:modules.selectFeatures.propertylessFeature") }}
                 </p>
-                <a
-                    :id="index + '-selectFeatures-feature'"
-                    href="#"
-                    class="select-features-zoom-link"
-                    @click="featureZoom"
+                <div
+                    class="feature-actions"
                 >
-                    {{ translate("common:modules.selectFeatures.zoomToFeature") }}
-                </a>
+                    <a
+                        :id="index + '-selectFeatures-feature'"
+                        :key="'a' + index"
+                        href="#"
+                        class="select-features-zoom-link"
+                        @click="featureZoom"
+                    >
+                        {{ translate("common:modules.selectFeatures.zoomToFeature") }}
+                    </a>
+                    <button
+                        class="btn btn-link btn-sm remove-feature-btn"
+                        @click="removeFeature(index, selectedFeature.item)"
+                    >
+                        {{ translate("common:modules.selectFeatures.deselectFeature") }}
+                    </button>
+                </div>
                 <hr
                     v-if="index !== selectedFeaturesWithRenderInformation.length - 1"
                     :key="'h' + index"
@@ -393,14 +517,38 @@ export default {
     </div>
 </template>
 
-<style type="scss" scoped>
+<style scoped lang="scss">
 .selectFeatures {
     max-width: 600px;
     max-height: 745px;
 }
 
-.select-features-tables p {
-    margin: 8px 0;
+.select-features-tables {
+    overflow-y: auto;
+    position: relative;
+}
+
+.feature-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.remove-feature-btn {
+    color: red;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-left: 10px;
+}
+
+.sticky-clear-container {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 td.featureName {

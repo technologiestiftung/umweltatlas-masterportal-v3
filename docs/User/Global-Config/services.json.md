@@ -1,6 +1,6 @@
 # services.json
 
-All services available for display in the Masterportal (WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md), and more) are configured and maintained in this JSON file. The file is linked to from the *config.js* of each individual portal by the *layerConf* parameter. For an example, see the *services-internet.json* included in the *examples.zip* at *//examples/Basic/resources/*.
+All services available for display in the Masterportal (WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md), and more) are configured and maintained in this JSON file. The file is linked to from the *config.js* of each individual portal by the *layerConf* parameter. For an example, see the *services.json* included in the *examples.zip* at *//examples/Basic/resources/*.
 
 All layer information the portal needs to use the services is stored here. Configuration details differ between WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md) and other services types. You may also use local GeoJSON files; see GeoJSON example.
 

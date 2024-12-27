@@ -45,7 +45,8 @@
       "ifInExtent": "I geodati forniti tramite il WMS sono al di fuori dell'area visualizzabile. WMS non aggiunto.",
       "name": "Aggiungi WMS",
       "placeholder": "Inserire qui l'URL del WMS.",
-      "textLoadLayer": "Carica"
+      "textLoadLayer": "Carica",
+      "examples": "Esempi:"
     },
     "alerting": {
       "alertWindowTitle": "",
@@ -748,8 +749,10 @@
     },
     "selectFeatures": {
       "name": "Seleziona",
-      "noFeatureChosen": "Nessuna voce selezionata. Selezionare le voci tenendo premuto il tasto Ctrl e trascinando una casella attorno alle voci da selezionare.",
+      "noFeatureChosen": "Nessuna caratteristica selezionata. Selezionare le caratteristiche tenendo premuto il tasto Ctrl e trascinando un riquadro attorno alle caratteristiche desiderate, oppure aggiungere singole caratteristiche tenendo premuto il tasto Ctrl e facendo clic con il pulsante sinistro del mouse.",
       "propertylessFeature": "Voce senza attributi",
+      "clearSelection":  "Cancella la selezione",
+      "deselectFeature": "Deseleziona questa voce",
       "zoomToFeature": "Zoom su questa voce"
     },
     "shadow": {

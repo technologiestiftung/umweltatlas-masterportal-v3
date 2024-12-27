@@ -5,6 +5,7 @@ import {intersects} from "ol/extent";
 import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {deleteParams} from "../../../shared/js/utils/deleteUrlParams";
 
 /**
  * Adds WMS
@@ -25,8 +26,9 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["mapViewSettings"]),
-        ...mapGetters("Maps", ["projection", "mode"])
+        ...mapGetters("Modules/AddWMS", ["exampleURLs"]),
+        ...mapGetters("Maps", ["projection", "mode"]),
+        ...mapGetters(["mapViewSettings"])
     },
     mounted () {
         this.setFocusToFirstControl();
@@ -82,9 +84,22 @@ export default {
                     title: this.$t("common:modules.addWMS.errorTitle")});
             }
             else {
+
+                deleteParams(url, ["request", "service"]);
                 url.searchParams.set("request", "GetCapabilities");
                 url.searchParams.set("service", "WMS");
             }
+            return url.href;
+        },
+        /**
+         * Creates the url without the parameter service, request and version
+         * @param {String} serviceUrl inserted url by user
+         * @returns {String} the url.href
+         */
+        getBaseServiceUrl: function (serviceUrl) {
+            const url = new URL(serviceUrl);
+
+            deleteParams(url, ["request", "service", "version"]);
             return url.href;
         },
         /**
@@ -200,7 +215,7 @@ export default {
                     name: object.Title,
                     typ: "WMS",
                     layers: [object.Name],
-                    url: this.wmsUrl,
+                    url: this.getBaseServiceUrl(this.wmsUrl),
                     version: this.version,
                     visibility: true,
                     type: "layer",
@@ -359,6 +374,20 @@ export default {
                 </span>
             </button>
         </div>
+        <div
+            v-if="exampleURLs && exampleURLs.length > 0"
+            class="WMS_example_urls"
+        >
+            <h5>{{ $t('common:modules.addWMS.examples') }}</h5>
+            <ul>
+                <li
+                    v-for="url in exampleURLs"
+                    :key="url"
+                >
+                    {{ url }}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -376,5 +405,9 @@ export default {
         font-size: $font-size-lg;
         color: $light_red;
         margin-bottom: 10px;
+    }
+    .WMS_example_urls {
+        margin-top: 32px;
+        font-size: $font-size-sm;
     }
 </style>

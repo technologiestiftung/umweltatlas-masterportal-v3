@@ -45,7 +45,8 @@
       "ifInExtent": "WMS aracılığıyla kullanıma sunulan coğrafi veriler, görüntülenebilir alanın dışındadır. WMS eklenemiyor.",
       "name": "WMS ekle",
       "placeholder": "Lütfen WMS URL'ini buraya girin.",
-      "textLoadLayer": "Katmanı yükle"
+      "textLoadLayer": "Katmanı yükle",
+      "examples": "Örnekler:"
     },
     "alerting": {
       "alertWindowTitle": "",
@@ -745,8 +746,10 @@
     },
     "selectFeatures": {
       "name": "özellikleri seçmek",
-      "noFeatureChosen": "Özellikler seçilmedi. Bu için lütfen strg tuşuna basıp seçtiginiz özellikleri kutu içine alın.",
+      "noFeatureChosen": "Seçili özellik yok. Ctrl tuşunu basılı tutup istediğiniz özelliklerin etrafında bir kutu sürükleyerek özellikleri seçin veya Ctrl tuşunu basılı tutup farenin sol tuşuyla tıklayarak tek tek özellikler ekleyin.",
       "propertylessFeature": "Özniteliksiz ögeler",
+      "clearSelection": "Seçimi temizle",
+      "deselectFeature": "Özelliği seçimden çıkar",
       "zoomToFeature": "Lütfen bu özelliği büyütün"
     },
     "shadow": {
@@ -870,7 +873,7 @@
           "biannually": "senede iki kere",
           "continual": "devamlı olarak",
           "daily": "gündelik",
-          "fortnightly": "haftada iki kere",
+          "fortnightly": "iki haftada bir",
           "irregular": "düzensiz aralıklar",
           "monthly": "aylik",
           "notPlanned": "planlanmamış",

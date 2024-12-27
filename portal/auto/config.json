@@ -343,16 +343,7 @@
           "visibility": true
         },
         {
-          "id": [
-            "13534",
-            "13537",
-            "13538",
-            "13539",
-            "13540",
-            "13541",
-            "13535",
-            "13536"
-          ],
+          "id": "33797",
           "name": "Geobasiskarten (Schriftplatte)",
           "shortname": "Schriftplatte",
           "showInLayerTree": false,
