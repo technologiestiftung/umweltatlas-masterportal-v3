@@ -3,8 +3,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## 2025-01-02 v3.6.0
 
 ### Added
 Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
@@ -15,8 +14,6 @@ Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
 - Re-enabled setting the latest tag and uncommented the TODO regarding its usage in bitbucket-pipelines.yml.
 - Filter: for wfs extern the wfs version of the defined service is used.
-
-### Deprecated
 
 ### Removed
 Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals.
@@ -31,7 +28,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
 - LayerInformation: Added LayerInfo for each layer within a GROUP layer.
-- Portal Master: Fixed error in console by updating layer id. 
+- Portal Master: Fixed error in console by updating layer id.
 
 ---
 ## 2024-12-12 v3.3.3 (LTS)
