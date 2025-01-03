@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1106: Layer names, folder names and breadcrumbs are translated.
 
 ---
 
