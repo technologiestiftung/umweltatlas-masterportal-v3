@@ -30,7 +30,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showInTree"]),
+        ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showSearchResultsInTree"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
@@ -188,7 +188,7 @@ export default {
         aria-label=""
     >
         <SearchBar
-            v-if="addLayerButtonSearchActive === true || showInTree === true"
+            v-if="addLayerButtonSearchActive === true || showSearchResultsInTree === true"
         />
         <div class="layer-selection-navigation d-flex">
             <div

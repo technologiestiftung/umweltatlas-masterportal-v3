@@ -40,6 +40,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Issue #1271: Draw_old: fix download of features with multi geometries.
 - Issue #1309: fixed translation of periodicity.
 - Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
 - Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
