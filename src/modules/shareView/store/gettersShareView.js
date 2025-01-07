@@ -48,6 +48,18 @@ const simpleGetters = {
         shareUrl = `${shareUrl}&MENU=${JSON.stringify(menuParams)}`;
         shareUrl = `${shareUrl}&LAYERS=${JSON.stringify(layerParams)}`;
 
+        // Add existing URL parameters if there are any
+        if (location.search) {
+            const existingParams = new URLSearchParams(location.search),
+                paramsObject = {};
+
+            existingParams.forEach((value, key) => {
+                paramsObject[key] = value;
+            });
+
+            shareUrl = `${shareUrl}&ADDITIONAL=${JSON.stringify(paramsObject)}`;
+        }
+
         return shareUrl;
     }
 };

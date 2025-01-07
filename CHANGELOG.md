@@ -10,6 +10,7 @@
 - LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
 - CompareFeatures: applied the functionality from version 2 to 3 and changed the data display to use shared table (TableComponent).
 - Modeler3D: Added filter & style function.
+- ShareView: Include existing URL query parameters into the generated share URL.
 
 ### Changed
 
@@ -52,10 +53,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Issue #1309: fixed translation of periodicity.
 - Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
 - Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
-- Routing:
-    - fixed style for waypoints.
-    - fixed elevation profile
-    - fixed error message in console when switching from 2D to 3D in TSR
+- Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
 - LayerInformation: Added LayerInfo for each layer within a GROUP layer.
