@@ -208,12 +208,18 @@ describe("src/core/js/layers/layerProcessor.js", () => {
                     typ: "WMS"
 
                 },
+                layer: {
+                    getOpacity: ()=> 1
+                },
                 get: (value) => {
                     if (value === "maxScale") {
                         return childLayer.attributes.maxScale;
                     }
                     if (value === "typ") {
                         return childLayer.attributes.typ;
+                    }
+                    if (value === "opacity") {
+                        return 1;
                     }
                     return value;
                 },
@@ -227,6 +233,9 @@ describe("src/core/js/layers/layerProcessor.js", () => {
                     typ: "GROUP",
                     transparency: 50,
                     zIndex: 1
+                },
+                layer: {
+                    getOpacity: ()=> 0.5
                 },
                 get: (value) => {
                     if (value === "typ") {
@@ -272,6 +281,9 @@ describe("src/core/js/layers/layerProcessor.js", () => {
                 attributes: {
                     typ: "WMS"
                 },
+                layer: {
+                    getOpacity: ()=> undefined
+                },
                 get: (value) => {
                     if (value === "maxScale") {
                         return childLayer.attributes.maxScale;
@@ -296,6 +308,9 @@ describe("src/core/js/layers/layerProcessor.js", () => {
                     minScale: "0",
                     transparency: 100,
                     zIndex: 55
+                },
+                layer: {
+                    getOpacity: ()=> 1
                 },
                 get: (value) => {
                     if (value === "maxScale") {
@@ -326,8 +341,7 @@ describe("src/core/js/layers/layerProcessor.js", () => {
         expect(setMaxResolutionSpy.firstCall.args[0]).to.equals(505);
         expect(setMinResolutionSpy.calledOnce).to.be.true;
         expect(setMinResolutionSpy.firstCall.args[0]).to.equals(0);
-        expect(setOpacitySpy.calledOnce).to.be.true;
-        expect(setOpacitySpy.firstCall.args[0]).to.equals(0);
+        expect(setOpacitySpy.calledOnce).to.be.false;
         expect(setZIndexSpy.calledOnce).to.be.true;
         expect(setZIndexSpy.firstCall.args[0]).to.equals(55);
     });
@@ -345,6 +359,9 @@ describe("src/core/js/layers/layerProcessor.js", () => {
             childLayer = {
                 attributes: {
                     typ: "WMS"
+                },
+                layer: {
+                    getOpacity: ()=> 1
                 },
                 get: (value) => {
                     if (value === "maxScale") {
@@ -369,6 +386,9 @@ describe("src/core/js/layers/layerProcessor.js", () => {
                     typ: "GROUP",
                     transparency: 50,
                     zIndex: 1
+                },
+                layer: {
+                    getOpacity: ()=> 0.5
                 },
                 get: (value) => {
                     if (value === "maxScale") {

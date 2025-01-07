@@ -16,6 +16,7 @@
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
 
 ---
 

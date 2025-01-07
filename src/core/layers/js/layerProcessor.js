@@ -109,7 +109,10 @@ export function setResolutions (layer) {
                 zIndex = layer.get("zIndex");
 
             setMinMaxResolution(childLayer, layer);
-            childLayer.getLayer().setOpacity(opacity);
+            if (layer.layer.getOpacity() !== 1 && childLayer.layer.getOpacity() === 1) {
+                childLayer.getLayer().setOpacity(opacity);
+
+            }
             childLayer.getLayer().setZIndex(zIndex);
         });
     }
