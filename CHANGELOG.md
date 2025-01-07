@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
-- LayerTree: added a new parameter at layer `filterRefId` as an Index of a configured filter Layer.
+- LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
 
 ### Changed
 
