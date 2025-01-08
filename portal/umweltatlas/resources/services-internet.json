@@ -43973,5 +43973,37 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+    {
+    "id": "k01_01boges2005:0",
+    "name": "Bodengesellschaften",
+    "name_lang": "Bodengesellschaften(Bodengesellschaften 2005 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_01boges2005",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_01boges2005.png",
+    "datasets": [
+      {
+        "md_id": "7aa7334f-dcba-356b-a5f8-15f9ea695a9d",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2005/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2005.pdf?ts=1695987708",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
