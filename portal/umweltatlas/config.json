@@ -396,15 +396,15 @@
                       "name": "2015 - Nutzbare Feldkapazität für Flachwurzler"
                     },
                     {
-                      "id": "k01_06_02flach2010:1",
+                      "id": "k01_06_02flach2010:0",
                       "name": "2010 - Nutzbare Feldkapazität für Flachwurzler"
                     },
                     {
-                      "id": "k01_06_02flach2005:1",
+                      "id": "k01_06_02flach2005:0",
                       "name": "2005 - Nutzbare Feldkapazität für Flachwurzler"
                     },
                     {
-                      "id": "kb01_06_02flach:1",
+                      "id": "kb01_06_02flach:0",
                       "name": "2001 - Nutzbare Feldkapazität für Flachwurzler"
                     }
                   ]
@@ -422,19 +422,19 @@
                       "name": "2015 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes"
                     },
                     {
-                      "id": "k01_06_04nfeld2010:1",
+                      "id": "k01_06_04nfeld2010:0",
                       "name": "2010 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
                     },
                     {
-                      "id": "k01_06_04nfeld2005:1",
+                      "id": "k01_06_04nfeld2005:0",
                       "name": "2005 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
                     },
                     {
-                      "id": "kb01_06_04nfeld:1",
+                      "id": "kb01_06_04nfeld:0",
                       "name": "2001 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
                     },
                     {
-                      "id": "k01_06_04nfeld1990:1",
+                      "id": "k01_06_04nfeld1990:0",
                       "name": "1990 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
                     }
                   ]
@@ -452,16 +452,17 @@
                       "name": "2015 - Humusmenge der Böden"
                     },
                     {
-                      "id": "k01_06_05humus2010:1",
+                      "id": "k01_06_05humus2010:0",
                       "name": "2010 - Humusmenge"
                     },
                     {
-                      "id": "k01_06_05humus2005:1",
+                      "id": "k01_06_05humus2005:0",
                       "name": "2005 - Humusmenge"
                     },
-                    { "id": "kb01_06_05humus:1", "name": "2001 - Humusmenge" },
+                    { "id": "kb01_06_05humus:0",
+                      "name": "2001 - Humusmenge" },
                     {
-                      "id": "k01_06_05humus1990:1",
+                      "id": "k01_06_05humus1990:0",
                       "name": "1990 - Humusmenge"
                     }
                   ]
@@ -481,10 +482,6 @@
                     {
                       "id": "ua_boden_corg_2010:kohlenstoffvor2010",
                       "name": "2010 - Organischer Kohlenstoffvorrat der Böden"
-                    },
-                    {
-                      "id": "k01_06_07ph1990:1",
-                      "name": "1990 - pH-Werte als Mittel aus Ober- und Unterboden"
                     }
                   ]
                 },
@@ -501,12 +498,20 @@
                       "name": "2015 - pH-Werte im Oberboden"
                     },
                     {
-                      "id": "k01_06_07ph2005:2",
+                      "id": "k01_06_07ph2010:0",
+                      "name": "2010 - pH-Werte im Oberboden"
+                    },
+                    {
+                      "id": "k01_06_07ph2005:0",
                       "name": "2005 - pH-Werte im Oberboden"
                     },
                     {
-                      "id": "kb01_06_07ph:1",
+                      "id": "kb01_06_07ph:0",
                       "name": "2001 - pH-Werte im Oberboden"
+                    },
+                    {
+                      "id": "k01_06_07ph1990:0",
+                      "name": "1990 - pH-Werte als Mittel aus Ober- und Unterboden"
                     }
                   ]
                 },
@@ -523,20 +528,20 @@
                       "name": "2015 - Summe austauschbarer Kationen des Oberbodens"
                     },
                     {
-                      "id": "k01_06_08sumkat2010:1",
+                      "id": "k01_06_08sumkat2010:0",
                       "name": "2010 - Summe austauschbarer Kationen des Oberbodens"
                     },
                     {
-                      "id": "k01_06_08sumkat2005:1",
+                      "id": "k01_06_08sumkat2005:0",
                       "name": "2005 - Summe austauschbarer Kationen des Oberbodens"
                     },
                     {
-                      "id": "kb01_06_08sumkat:1",
+                      "id": "kb01_06_08sumkat:0",
                       "name": "2001 - Summe austauschbarer Kationen des Oberbodens"
                     },
                     {
-                      "id": "k01_06_08sumkat1990:1",
-                      "name": "1990 - Summe austauschbarer Kationen des Oberbodens"
+                      "id": "k01_06_08sumkat1990:0",
+                      "name": "1990 - Basensättigung des Oberbodens"
                     }
                   ]
                 },
@@ -553,19 +558,19 @@
                       "name": "2015 - Mittlere effektive Kationenaustauschkapazität der Böden"
                     },
                     {
-                      "id": "k01_06_09kataus2010:1",
+                      "id": "k01_06_09kataus2010:0",
                       "name": "2010 - Mittlere effektive Kationenaustauschkapazität"
                     },
                     {
-                      "id": "k01_06_09kataus2005:1",
+                      "id": "k01_06_09kataus2005:0",
                       "name": "2005 - Mittlere effektive Kationenaustauschkapazität"
                     },
                     {
-                      "id": "kb01_06_09kataus:1",
+                      "id": "kb01_06_09kataus:0",
                       "name": "2001 - Mittlere effektive Kationenaustauschkapazität"
                     },
                     {
-                      "id": "k01_06_09kataus1990:1",
+                      "id": "k01_06_09kataus1990:0",
                       "name": "1990 - Mittlere effektive Kationenaustauschkapazität"
                     }
                   ]
@@ -583,19 +588,19 @@
                       "name": "2015 - Gesättigte Wasserdurchlässigkeit (kf) der Böden"
                     },
                     {
-                      "id": "k01_06_10wasdur2010:1",
+                      "id": "k01_06_10wasdur2010:0",
                       "name": "2010 - Wasserdurchlässigkeit (kf) der Böden"
                     },
                     {
-                      "id": "k01_06_10wasdur2005:1",
+                      "id": "k01_06_10wasdur2005:0",
                       "name": "2005 - Wasserdurchlässigkeit (kf) der Böden"
                     },
                     {
-                      "id": "kb01_06_10wasdur:1",
+                      "id": "kb01_06_10wasdur:0",
                       "name": "2001 - Wasserdurchlässigkeit (kf) der Böden"
                     },
                     {
-                      "id": "k01_06_10wasdur1990:1",
+                      "id": "k01_06_10wasdur1990:0",
                       "name": "1990 - Wasserdurchlässigkeit (kf) der Böden"
                     }
                   ]
