@@ -348,15 +348,15 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "kb01_06_01bodart:1",
+                          "id": "kb01_06_01bodart:0",
                           "name": "2001 - Bodenarten"
                         },
                         {
-                          "id": "kb01_06_01bodart:4",
+                          "id": "kb01_06_01bodart:3",
                           "name": "2001 - Grobbodenart und -anteil am Gesamtboden"
                         },
                         {
-                          "id": "kb01_06_01bodart:5",
+                          "id": "kb01_06_01bodart:4",
                           "name": "2001 - Torfart"
                         }
                         
@@ -366,6 +366,10 @@
                       "name": "1990",
                       "type": "folder",
                       "elements": [
+                       {
+                          "id": "k01_06_01bodart1990:0",
+                          "name": "1990 - Bodenarten"
+                        },
                         {
                           "id": "k01_06_01bodart1990:3",
                           "name": "1990 - Grobbodenart und -anteil am Gesamtboden"
@@ -373,11 +377,8 @@
                         {
                           "id": "k01_06_01bodart1990:4",
                           "name": "1990 - Torfart"
-                        },
-                        {
-                          "id": "k01_06_01bodart1990:1",
-                          "name": "1990 - Bodenarten"
                         }
+                    
                       ]
                     }
                   ]
