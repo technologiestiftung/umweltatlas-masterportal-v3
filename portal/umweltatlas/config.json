@@ -624,19 +624,19 @@
                       "name": "2015 - Regionale Seltenheit der Bodengesellschaften"
                     },
                     {
-                      "id": "k01_11_01selten2010:1",
+                      "id": "k01_11_01selten2010:0",
                       "name": "2010 - Regionale Seltenheit der Bodengesellschaften"
                     },
                     {
-                      "id": "k01_11_01selten2005:1",
+                      "id": "k01_11_01selten2005:0",
                       "name": "2005 - Regionale Seltenheit der Bodengesellschaften"
                     },
                     {
-                      "id": "kb01_11_01selten:1",
+                      "id": "kb01_11_01selten:0",
                       "name": "2001 - Regionale Seltenheit der Bodengesellschaften"
                     },
                     {
-                      "id": "k01_11_01selten1990:1",
+                      "id": "k01_11_01selten1990:0",
                       "name": "1990 - Regionale Seltenheit der Bodengesellschaften"
                     }
                   ]
@@ -650,23 +650,23 @@
                       "name": "2020 - Besondere naturräumliche Eigenart der Böden"
                     },
                     {
-                      "id": "k01_11_02eigen2015:1",
+                      "id": "k01_11_02eigen2015:0",
                       "name": "2015 - Besondere naturräumliche Eigenart"
                     },
                     {
-                      "id": "k01_11_02eigen2010:1",
+                      "id": "k01_11_02eigen2010:0",
                       "name": "2010 - Besondere naturräumliche Eigenart"
                     },
                     {
-                      "id": "k01_11_02eigen2005:1",
+                      "id": "k01_11_02eigen2005:0",
                       "name": "2005 - Besondere naturräumliche Eigenart"
                     },
                     {
-                      "id": "kb01_11_02eigen:1",
+                      "id": "kb01_11_02eigen:0",
                       "name": "2001 - Besondere naturräumliche Eigenart"
                     },
                     {
-                      "id": "k01_11_02eigen1990:1",
+                      "id": "k01_11_02eigen1990:0",
                       "name": "1990 - Besondere naturräumliche Eigenart"
                     }
                   ]
@@ -684,19 +684,19 @@
                       "name": "2015 - Naturnähe der Böden"
                     },
                     {
-                      "id": "k01_11_03natnae2010:1",
+                      "id": "k01_11_03natnae2010:0",
                       "name": "2010 - Naturnähe der Böden"
                     },
                     {
-                      "id": "k01_11_03natnae2005:1",
+                      "id": "k01_11_03natnae2005:0",
                       "name": "2005 - Naturnähe der Böden"
                     },
                     {
-                      "id": "kb01_11_03natnae:1",
+                      "id": "kb01_11_03natnae:0",
                       "name": "2001 - Naturnähe der Böden"
                     },
                     {
-                      "id": "k01_11_03natnae1990:1",
+                      "id": "k01_11_03natnae1990:0",
                       "name": "1990 - Naturnähe der Böden"
                     }
                   ]
@@ -714,19 +714,19 @@
                       "name": "2015 - Austauschhäufigkeit des Bodenwassers"
                     },
                     {
-                      "id": "k01_11_04austau2010:1",
+                      "id": "k01_11_04austau2010:0",
                       "name": "2010 - Austauschhäufigkeit des Bodenwassers"
                     },
                     {
-                      "id": "k01_11_04austau2005:1",
+                      "id": "k01_11_04austau2005:0",
                       "name": "2005 - Austauschhäufigkeit des Bodenwassers"
                     },
                     {
-                      "id": "kb01_11_04austau:1",
+                      "id": "kb01_11_04austau:0",
                       "name": "2001 - Austauschhäufigkeit des Bodenwassers"
                     },
                     {
-                      "id": "k01_11_04austau1990:1",
+                      "id": "k01_11_04austau1990:0",
                       "name": "1990 - Austauschhäufigkeit des Bodenwassers"
                     }
                   ]
@@ -740,23 +740,23 @@
                       "name": "2020 - Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden (KAKeff-Wert)"
                     },
                     {
-                      "id": "k01_11_06schad2015:1",
+                      "id": "k01_11_06schad2015:0",
                       "name": "2015 - Nährstoffspeicher-/Schadstoffbindungsvermögen"
                     },
                     {
-                      "id": "k01_11_06schad2010:1",
+                      "id": "k01_11_06schad2010:0",
                       "name": "2010 - Nährstoffspeicher-/Schadstoffbindungsvermögen"
                     },
                     {
-                      "id": "k01_11_06schad2005:1",
+                      "id": "k01_11_06schad2005:0",
                       "name": "2005 - Nährstoffspeicher-/Schadstoffbindungsvermögen"
                     },
                     {
-                      "id": "kb01_11_06schad:1",
+                      "id": "kb01_11_06schad:0",
                       "name": "2001 - Nährstoffspeicher-/Schadstoffbindungsvermögen"
                     },
                     {
-                      "id": "k01_11_06schad1990:1",
+                      "id": "k01_11_06schad1990:0",
                       "name": "1990 - Nährstoffspeicher-/Schadstoffbindungsvermögen"
                     }
                   ]
@@ -770,23 +770,23 @@
                       "name": "2020 - Nährstoffversorgung des Oberbodens (S-Wert)"
                     },
                     {
-                      "id": "k01_11_07naehr2015:1",
+                      "id": "k01_11_07naehr2015:0",
                       "name": "2015 - Nährstoffversorgung des Oberbodens"
                     },
                     {
-                      "id": "k01_11_07naehr2010:1",
+                      "id": "k01_11_07naehr2010:0",
                       "name": "2010 - Nährstoffversorgung des Oberbodens"
                     },
                     {
-                      "id": "k01_11_07naehr2005:1",
+                      "id": "k01_11_07naehr2005:0",
                       "name": "2005 - Nährstoffversorgung des Oberbodens"
                     },
                     {
-                      "id": "kb01_11_07naehr:1",
+                      "id": "kb01_11_07naehr:0",
                       "name": "2001 - Nährstoffversorgung des Oberbodens"
                     },
                     {
-                      "id": "k01_11_07naehr1990:1",
+                      "id": "k01_11_07naehr1990:0",
                       "name": "1990 - Nährstoffversorgung des Oberbodens"
                     }
                   ]
@@ -800,19 +800,19 @@
                       "name": "2020 - Wasserversorgung der Böden"
                     },
                     {
-                      "id": "k01_11_08wasser2015:1",
+                      "id": "k01_11_08wasser2015:0",
                       "name": "2015 - Wasserversorgung"
                     },
                     {
-                      "id": "k01_11_08wasser2010:1",
+                      "id": "k01_11_08wasser2010:0",
                       "name": "2010 - Wasserversorgung"
                     },
                     {
-                      "id": "k01_11_08wasser2005:1",
+                      "id": "k01_11_08wasser2005:0",
                       "name": "2005 - Wasserversorgung"
                     },
                     {
-                      "id": "kb01_11_08wasser:2",
+                      "id": "kb01_11_08wasser:0",
                       "name": "2001 - Wasserversorgung"
                     }
                   ]
@@ -826,23 +826,23 @@
                       "name": "2020 - Filtervermögen der Böden (kf-Wert)"
                     },
                     {
-                      "id": "k01_11_09filter2015:1",
+                      "id": "k01_11_09filter2015:0",
                       "name": "2015 - Filtervermögen"
                     },
                     {
-                      "id": "k01_11_09filter2010:1",
+                      "id": "k01_11_09filter2010:0",
                       "name": "2010 - Filtervermögen"
                     },
                     {
-                      "id": "k01_11_09filter2005:1",
+                      "id": "k01_11_09filter2005:0",
                       "name": "2005 - Filtervermögen"
                     },
                     {
-                      "id": "kb01_11_09filter:1",
+                      "id": "kb01_11_09filter:0",
                       "name": "2001 - Filtervermögen"
                     },
                     {
-                      "id": "k01_11_09filter1990:1",
+                      "id": "k01_11_09filter1990:0",
                       "name": "1990 - Filtervermögen"
                     }
                   ]
@@ -860,15 +860,19 @@
                       "name": "2015 - Bindungsstärke für Schwermetalle der Böden"
                     },
                     {
-                      "id": "k01_11_10bindung2005:1",
+                      "id": "k01_11_10bindung2010:0",
+                      "name": "2010 - Bindungsstärke für Schwermetalle der Böden"
+                    },
+                    {
+                      "id": "k01_11_10bindung2005:0",
                       "name": "2005 - Bindungsstärke für Schwermetalle der Böden"
                     },
                     {
-                      "id": "kb01_11_10bindung:1",
+                      "id": "kb01_11_10bindung:0",
                       "name": "2001 - Bindungsstärke für Schwermetalle der Böden"
                     },
                     {
-                      "id": "k01_11_10bindung1990:1",
+                      "id": "k01_11_10bindung1990:0",
                       "name": "1990 - Bindungsstärke für Schwermetalle der Böden"
                     }
                   ]
@@ -882,7 +886,7 @@
                       "name": "2020 - Puffervermögen im organischen Kohlenstoffhaushalt der Böden"
                     },
                     {
-                      "id": "k01_11_11kohlestoffpuff2015:1",
+                      "id": "k01_11_11kohlestoffpuff2015:3",
                       "name": "2015 - Puffervermögen im organischen Kohlenstoffhaushalt"
                     }
                   ]
