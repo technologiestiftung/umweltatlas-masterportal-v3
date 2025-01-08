@@ -43767,7 +43767,8 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2001/methode/",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2001/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_10__01_11_09_2001.pdf",
     "uaContact": {
       "name": "Leilah Haag",
