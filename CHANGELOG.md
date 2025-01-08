@@ -16,6 +16,9 @@
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1312: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
+- Issue #1313: Added WMS layers are now no longer initially visible.
+- Issue #1314: Added WMS are added in a folder structure in the layerSelection.
 - Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
 
 ---
@@ -56,9 +59,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
-- Issue #1312: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
-- Issue #1313: Added WMS layers are now no longer initially visible.
-- Issue #1314: Added WMS are added in a folder structure in the layerSelection.
 - Searchbar: the search in search results shows results and no error occurs.
 - wfst: layers that are not in services.json are supported.
 
