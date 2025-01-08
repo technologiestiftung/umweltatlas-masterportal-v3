@@ -5786,7 +5786,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": "%",
+    "tooltipUnit": " %",
     "chartConfig": {
         "type": "bar",
         "data": {

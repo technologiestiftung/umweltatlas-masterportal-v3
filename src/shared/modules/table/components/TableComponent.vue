@@ -861,6 +861,7 @@ export default {
                     <th
                         v-if="removable"
                         class="p-0"
+                        :style="{ width: '3rem' }"
                     />
                     <th
                         v-for="(column, idx) in editedTable.headers"
@@ -1115,7 +1116,6 @@ table {
         &:first-child {
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
-            width: 3rem;
         }
         &:last-child {
             border-top-right-radius: 5px;
