@@ -310,17 +310,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "k01_06_01bodart2010:1",
+                          "name": "2010 - Bodenarten des Feinbodens"
+                        },
+                        {
                           "id": "k01_06_01bodart2010:2",
                           "name": "2010 - Grobbodenart und -anteil am Gesamtboden"
                         },
                         {
                           "id": "k01_06_01bodart2010:3",
                           "name": "2010 - Torfart"
-                        },
-                        {
-                          "id": "k01_06_01bodart2010:1",
-                          "name": "2010 - Bodenarten des Feinbodens"
                         }
+                        
                       ]
                     },
                     {
@@ -328,17 +329,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "k01_06_01bodart2005:1",
+                          "name": "2005 - Bodenarten"
+                        },
+                        {
                           "id": "k01_06_01bodart2005:2",
                           "name": "2005 - Grobbodenart und -anteil am Gesamtboden"
                         },
                         {
                           "id": "k01_06_01bodart2005:3",
                           "name": "2005 - Torfart"
-                        },
-                        {
-                          "id": "k01_06_01bodart2005:1",
-                          "name": "2005 - Bodenarten"
                         }
+                        
                       ]
                     },
                     {
@@ -346,17 +348,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "kb01_06_01bodart:1",
+                          "name": "2001 - Bodenarten"
+                        },
+                        {
                           "id": "kb01_06_01bodart:4",
                           "name": "2001 - Grobbodenart und -anteil am Gesamtboden"
                         },
                         {
                           "id": "kb01_06_01bodart:5",
                           "name": "2001 - Torfart"
-                        },
-                        {
-                          "id": "kb01_06_01bodart:1",
-                          "name": "2001 - Bodenarten"
                         }
+                        
                       ]
                     },
                     {
