@@ -269,10 +269,10 @@
                       "name": "2005 - Bodengesellschaften"
                     },
                     {
-                      "id": "boges2001:1",
+                      "id": "boges2001:0",
                       "name": "2001 - Bodengesellschaften"
                     },
-                    { "id": "boges:1", "name": "1990 - Bodengesellschaften" }
+                    { "id": "boges:0", "name": "1990 - Bodengesellschaften" }
                   ]
                 }
               ]
