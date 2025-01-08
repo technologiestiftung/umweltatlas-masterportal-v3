@@ -42539,7 +42539,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/planungshinweise-bodenschutz/2015/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/planungshinweise-bodenschutz/de-karten/01_13_2015.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_13bodplan2010:0",
@@ -42566,6 +42573,13 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/planungshinweise-bodenschutz/2010/kartenbeschreibung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/planungshinweise-bodenschutz/de-karten/01_13_2010.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
