@@ -906,24 +906,24 @@
                       "name": "2020 - Lebensraumfunktion für naturnahe und seltene Pflanzengesellschaften der Böden"
                     },
                     {
-                      "id": "k01_12_01lebens2015:1",
+                      "id": "k01_12_01lebens2015:0",
                       "name": "2015 - Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften"
                     },
                     {
-                      "id": "k01_12_01lebens2010:1",
+                      "id": "k01_12_01lebens2010:0",
                       "name": "2010 - Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften"
                     },
                     {
-                      "id": "k01_12_01lebens2005:1",
+                      "id": "k01_12_01lebens2005:0",
                       "name": "2005 - Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften"
                     },
                     {
-                      "id": "kb01_12_01lebens:1",
+                      "id": "kb01_12_01lebens:0",
                       "name": "2001 - Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften"
                     },
                     {
-                      "id": "k01_12_01lebens1990:1",
-                      "name": "1990 - Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften"
+                      "id": "k01_12_01lebens1990:0",
+                      "name": "1990 - Lebensraumfunktion der Böden für die natürliche Vegetation"
                     }
                   ]
                 },
@@ -936,23 +936,23 @@
                       "name": "2020 - Ertragsfunktion der Böden für Kulturpflanzen"
                     },
                     {
-                      "id": "k01_12_02ertrag2015:1",
+                      "id": "k01_12_02ertrag2015:0",
                       "name": "2015 - Ertragsfunktion für Kulturpflanzen"
                     },
                     {
-                      "id": "k01_12_02ertrag2010:1",
+                      "id": "k01_12_02ertrag2010:0",
                       "name": "2010 - Ertragsfunktion für Kulturpflanzen"
                     },
                     {
-                      "id": "k01_12_02ertrag2005:1",
+                      "id": "k01_12_02ertrag2005:0",
                       "name": "2005 - Ertragsfunktion für Kulturpflanzen"
                     },
                     {
-                      "id": "kb01_12_02ertrag:1",
+                      "id": "kb01_12_02ertrag:0",
                       "name": "2001 - Ertragsfunktion für Kulturpflanzen"
                     },
                     {
-                      "id": "k01_12_02ertrag1990:1",
+                      "id": "k01_12_02ertrag1990:0",
                       "name": "1990 - Ertragsfunktion für Kulturpflanzen"
                     }
                   ]
@@ -966,23 +966,23 @@
                       "name": "2020 - Puffer- und Filterfunktion der Böden"
                     },
                     {
-                      "id": "k01_12_03puff2015:1",
+                      "id": "k01_12_03puff2015:0",
                       "name": "2015 - Puffer- und Filterfunktion"
                     },
                     {
-                      "id": "k01_12_03puff2010:1",
+                      "id": "k01_12_03puff2010:0",
                       "name": "2010 - Puffer- und Filterfunktion"
                     },
                     {
-                      "id": "k01_12_03puff2005:1",
+                      "id": "k01_12_03puff2005:0",
                       "name": "2005 - Puffer- und Filterfunktion"
                     },
                     {
-                      "id": "kb01_12_03puff:1",
+                      "id": "kb01_12_03puff:0",
                       "name": "2001 - Puffer- und Filterfunktion"
                     },
                     {
-                      "id": "k01_12_03puff1990:1",
+                      "id": "k01_12_03puff1990:0",
                       "name": "1990 - Puffer- und Filterfunktion"
                     }
                   ]
@@ -1000,19 +1000,19 @@
                       "name": "2015 - Regelungsfunktion für den Wasserhaushalt"
                     },
                     {
-                      "id": "k01_12_04regel2010:1",
+                      "id": "k01_12_04regel2010:0",
                       "name": "2010 - Regelungsfunktion für den Wasserhaushalt"
                     },
                     {
-                      "id": "k01_12_04regel2005:1",
+                      "id": "k01_12_04regel2005:0",
                       "name": "2005 - Regelungsfunktion für den Wasserhaushalt"
                     },
                     {
-                      "id": "kb01_12_04regel:1",
+                      "id": "kb01_12_04regel:0",
                       "name": "2001 - Regelungsfunktion für den Wasserhaushalt"
                     },
                     {
-                      "id": "k01_12_04regel1990:1",
+                      "id": "k01_12_04regel1990:0",
                       "name": "1990 - Regelungsfunktion für den Wasserhaushalt"
                     }
                   ]
@@ -1026,23 +1026,23 @@
                       "name": "2020 - Archivfunktion der Böden für die Naturgeschichte"
                     },
                     {
-                      "id": "k01_12_05archiv2015:1",
+                      "id": "k01_12_05archiv2015:0",
                       "name": "2015 - Archivfunktion für die Naturgeschichte"
                     },
                     {
-                      "id": "k01_12_05archiv2010:1",
+                      "id": "k01_12_05archiv2010:0",
                       "name": "2010 - Archivfunktion für die Naturgeschichte"
                     },
                     {
-                      "id": "k01_12_05archiv2005:1",
+                      "id": "k01_12_05archiv2005:0",
                       "name": "2005 - Archivfunktion für die Naturgeschichte"
                     },
                     {
-                      "id": "kb01_12_05archiv:1",
+                      "id": "kb01_12_05archiv:0",
                       "name": "2001 - Archivfunktion für die Naturgeschichte"
                     },
                     {
-                      "id": "k01_12_05archiv1990:1",
+                      "id": "k01_12_05archiv1990:0",
                       "name": "1990 - Archivfunktion für die Naturgeschichte"
                     }
                   ]
@@ -1056,23 +1056,23 @@
                       "name": "2020 - Leistungsfähigkeit der Böden"
                     },
                     {
-                      "id": "k01_12_06leist2015:1",
+                      "id": "k01_12_06leist2015:0",
                       "name": "2015 - Leistungsfähigkeit der Böden"
                     },
                     {
-                      "id": "k01_12_06leist2010:1",
+                      "id": "k01_12_06leist2010:0",
                       "name": "2010 - Leistungsfähigkeit der Böden"
                     },
                     {
-                      "id": "k01_12_06leist2005:1",
+                      "id": "k01_12_06leist2005:0",
                       "name": "2005 - Leistungsfähigkeit der Böden"
                     },
                     {
-                      "id": "kb01_12_06leist:1",
+                      "id": "kb01_12_06leist:0",
                       "name": "2001 - Leistungsfähigkeit der Böden"
                     },
                     {
-                      "id": "k01_12_06leist1990:1",
+                      "id": "k01_12_06leist1990:0",
                       "name": "1990 - Leistungsfähigkeit der Böden"
                     }
                   ]
