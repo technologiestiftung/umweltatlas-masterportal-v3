@@ -7,6 +7,8 @@
 ### __Breaking Changes__
 
 ### Added
+- LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
+- CompareFeatures: applied the functionality from version 2 to 3 and changed the data display to use shared table (TableComponent).
 
 ### Changed
 
@@ -15,6 +17,53 @@
 ### Removed
 
 ### Fixed
+- Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1312: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
+- Issue #1313: Added WMS layers are now no longer initially visible.
+- Issue #1314: Added WMS are added in a folder structure in the layerSelection.
+- Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
+- Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
+
+---
+
+## 2025-01-02 v3.6.0
+
+### Added
+Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
+- SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
+- addWMS: add the possibility to configure example URLs to display under the module.
+
+### Changed
+- Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
+- Re-enabled setting the latest tag and uncommented the TODO regarding its usage in bitbucket-pipelines.yml.
+- Filter: for wfs extern the wfs version of the defined service is used.
+
+### Removed
+Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals.
+
+### Fixed
+- Measure-Tool: fixed missing getters in test mock to prevent warnings.
+- Issue #1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
+- Issue #1271: Draw_old: fix download of features with multi geometries.
+- Issue #1309: fixed translation of periodicity.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
+- Routing: fixed style for waypoints.
+- Filter: The searched result list in dropdown should be sorted alphabetically.
+- AddWMS: Fixed handling of service parameter.
+- LayerInformation: Added LayerInfo for each layer within a GROUP layer.
+- Portal Master: Fixed error in console by updating layer id.
+
+---
+## 2024-12-12 v3.3.3 (LTS)
+
+### Fixed
+- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Searchbar: the search in search results shows results and no error occurs.
+- wfst: layers that are not in services.json are supported.
 
 ---
 
@@ -32,11 +81,13 @@
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
+- WMS features with geometry can be highlighted with polygon marker.
 
 ### Changed
 - The following packages have been updated:
     - dependencies:
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
+- WMS gfi responses with mimeType json/application are parsed as GeoJSON.
 
 ### Deprecated
 
@@ -48,10 +99,12 @@
 - Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
 - Issue #1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
 - Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
+- Issue #1243: wfst: reacts on visibility changes of configured layer ids.
+- Issue #1244: wfst: the correct geometry-buttons are displayed.
 - Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
 - Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Issue #1280: showInLayerTree can be set up to false.
-- Issue #1275: Layers without capabilitiesURL can now be added as baselayers. 
+- Issue #1275: Layers without capabilitiesURL can now be added as baselayers.
 - Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
 - Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
 - Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
@@ -60,9 +113,10 @@
     - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
 - Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
-- Issue #1308: 
-    - The postal code is now correctly placed before the city in the about module
+- Issue #1308:
+    - The postal code is now correctly placed before the city in the about module.
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
+- Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
 - wfst: layers that are not in services.json are supported.
 - 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
@@ -85,11 +139,11 @@
 - AddWMS: Added Information about CORS header to doc and changed error message.
 - ShareView: Error handling when sharing via QR code has been improved.
 - Maps: add filter to getFeature Request in zoomToGetAndFilterFeatures function.
-- Routing: 
+- Routing:
     - Added checkbox to determine if routes stay visible after closing the routing tool
     - HGV-Routing with additional restrictions
     - Travelling Salesman Routing (TSR) with VROOM
-- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md). 
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
 - Filter supports secure WFS request.
 - ShareView: Added hashtag to shared link to share link correctly.
 - LayerInformation: Added last revision date to Layer Information.

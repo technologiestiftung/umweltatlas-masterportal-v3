@@ -544,6 +544,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
 |name|ja|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
+|showPolygonMarkerForWMS|nein|Boolean|false| Wenn Wert auf true gesetzt ist, wird für WMS Features mit Geometrie ein Polygonmarker gesetzt.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**
 
@@ -569,6 +570,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
             "scale": 2
         }
     },
+    "showPolygonMarkerForWMS": true,
     "hideMapMarkerOnVectorHighlight": true
 }
 ```
@@ -1592,6 +1594,7 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
@@ -1626,6 +1629,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |about|nein|**[about](#portalconfigmenusectionsmodulesabout)**||Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. Beschreibungstext, Masterportalversion, Metadaten.|true|
 |addWMS|nein|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||Mit diesem Modul lassen sich Layer eines WMS laden. Die Angabe erfolgt über eine URL. Es werden alle Layer des Dienstes geladen und im Themenbaum angezeigt.|true|
 |bufferAnalysis|nein|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||In der Buffer-Analyse muss ein Quell-Layer, ein Buffer-Radius und ein Ziel-Layer ausgewählt werden. Buffer-Radien werden um die Features des Quell-Layers dargestellt. Sobald ein Ziel-Layer gewählt wurde, werden nur die Features dieses Layers hervorgehoben, welche sich außerhalb der Buffer-Radien befinden. Auch eine invertierte Anzeige ist möglich. Bei dieser werden nur die Features des Ziel-Layers innerhalb der Radien hervorgehoben.|false|
+|compareFeatures|nein|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**|| Bietet eine Vergleichsmöglichkeit von Vektor-Features. In der getFeatureInfo lassen sich Features über das Stern-Symbol auf die Vergleichliste setzen. Funktioniert in Verbindung mit dem GFI-Theme **Default**!|false|
 |contact|nein|**[contact](#portalconfigmenusectionsmodulescontact)**||Das Kontaktformular bietet dem Benutzer die Möglichkeit an das konfigurierte Postfach eine Nachricht zu senden. Es können beispielsweise Fehler oder Wünsche und Anregungen gemeldet und Screenshots können beigefügt werden.|false|
 |compareMaps|nein|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||Dieses Tool ermöglicht es Benutzern, zwei Layer nebeneinander mit einem Layer-Swiper zu vergleichen.|false|
 |coordToolkit|nein|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Koordinatenabfrage: Werkzeug um Koordinaten und Höhe per Maus-Klick abzufragen: Bei Klick in die Karte werden die Koordinaten in der Anzeige eingefroren und können auch direkt in die Zwischenablage kopiert werden. Koordinatensuche: Über eine Eingabemaske können das Koordinatensystem und die Koordinaten eingegeben werden. Das Werkzeug zoomt dann auf die entsprechende Koordinate und setzt einen Marker darauf. Die Koordinatensysteme werden aus der config.js bezogen.|false|
@@ -1725,6 +1729,7 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 |icon|nein|String|"bi-cloud-plus"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.addWMS.name"|Name des Moduls im Menü..|false|
 |type|nein|String|"addWMS"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|exampleURLs|nein|String[]|[]|Beispiel URLs, die unter dem Modul angezeigt werden.|false|
 
 **Beispiel**
 
@@ -1732,7 +1737,12 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 {
     "icon": "bi-cloud-plus",
     "name": "common:modules.addWMS.name",
-    "type": "addWMS"
+    "type": "addWMS",
+    "exampleURLs": [
+        "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
+        "https://sgx.geodatenzentrum.de/wms_landschaften",
+        "https://sgx.geodatenzentrum.de/wms_vg5000_0101"
+    ]
 }
 ```
 
@@ -3011,6 +3021,34 @@ Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
   "id": "wms_koordinatennetze_25832",
   "label": "Koordinatennetz UTM32N - ETRS89"
 }]
+```
+
+***
+#### Portalconfig.menu.sections.modules.compareFeatures{data-toc-label='Compare Features'}
+
+[inherits]: # (Portalconfig.menu.tool)
+
+Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|icon|nein|String|"bi-star"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|name|nein|String|"common:modules.compareFeatures.name"|Name des Moduls im Menü.|false|
+|numberOfAttributesToShow|nein|Integer|12|Deprecated in next major release. Anzahl der Attribute die angezeigt werden. Gibt es mehrere Attribute können diese über einen Button zusätzlich ein-/ bzw. ausgeblendet werden.|false|
+|numberOfFeaturesToShow|nein|Integer|3|Deprecated in next major release. Anzahl der Features die maximal miteinander verglichen werden können.|false|
+|type|nein|String|"compareFeatures"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+
+
+**Beispiel**
+
+```json
+"compareFeatures": {
+  "icon": "bi-star",
+  "name": "common:modules.compareFeatures.title",
+  "numberOfAttributesToShow": 10,
+  "numberOfFeaturesToShow": 5,
+  "type": "compareFeatures"
+}
 ```
 
 ***
@@ -4716,7 +4754,8 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |autoRefresh|nein|Integer||Automatischer Reload des Layers. Angabe in ms. Minimum ist 500.|false|
-|capabilitiesUrl|nein|String||Wert aus **[services.json](../Global-Config/services.json.md)**. Capabilities URL des Dienstes|false
+|capabilitiesUrl|nein|String||Wert aus **[services.json](../Global-Config/services.json.md)**. Capabilities URL des Dienstes|false|
+|filterRefId|nein|Integer||Referenzierung zu einem konfigurierten Filter. Dabei ist die Id entsprechend der Position der Layer im Filter. Angefangen bei 0.|false|
 |fitCapabilitiesExtent|nein|Boolean|false|Wert aus **[services.json](../Global-Config/services.json.md)**. Bei Aktivierung dieser Option und Vorhandensein einer Capabilities URL in der Konfiguration, passt die Anwendung die Kartenausdehnung automatisch an die Bounding-Box-Informationen an, die sie aus der GetCapabilities-Anfrage erhält."|false|
 |id|ja|String/String[]||Id des Layers. In der **[services.json](../Global-Config/services.json.md)** werden die Ids aufgelöst und die notwendigen Informationen herangezogen. Bei Konfiguration eines Arrays von Ids wird ein Layer erzeugt, der im Request den Parameter LAYERS mit einer komma-separierten Liste der Inhalte des Attributes `layers` der einzelnen Layer enthält. Die Einstellung von `minScale` und `maxScale` für jeden Layer muss in der `services.json` enthalten sein. Hierbei ist wichtig, dass die angegebenen ids dieselbe URL ansprechen, also den selben Dienst benutzen und vom selben typ sind. Mit dem Sonderzeichen `.` als Suffix, kann eine LayerId mehrfach verwendet werden. Jede mit einem Suffix versehene LayerId erzeugt einen eigenen Eintrag im Themenbaum.|false|
 |isPointLayer|nein|Boolean|false|Anzeige, ob der (Vektor)-Layer nur aus Punkt-Features besteht (nur relevant für WebGL Rendering))|false|
@@ -4739,7 +4778,8 @@ Neben diesen Attributen gibt es auch Typ-spezifische Attribute für die verschie
             "name": "Beispiel Layer",
             "typ": "WMS",
             "visibility": false,
-            "styleId": "3"
+            "styleId": "3",
+            "filterRefId": 0
         }
     ]
 }
@@ -5737,7 +5777,7 @@ Beispiel für ein Chart Snippet. Fragt die Features aus dem konfigurierten "serv
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
+    "tooltipUnit": "%",
     "chartConfig": {
         "type": "bar",
         "data": {

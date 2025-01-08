@@ -30,7 +30,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showInTree"]),
+        ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showSearchResultsInTree"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
@@ -188,7 +188,7 @@ export default {
         aria-label=""
     >
         <SearchBar
-            v-if="addLayerButtonSearchActive === true || showInTree === true"
+            v-if="addLayerButtonSearchActive === true || showSearchResultsInTree === true"
         />
         <div class="layer-selection-navigation d-flex">
             <div
@@ -297,13 +297,13 @@ export default {
                                     @click="navigateStepsBack(index)"
                                     @keypress="navigateStepsBack(index)"
                                 >
-                                    <h6 class="mp-menu-navigation-link bold">{{ lastFolderName === "root" ? $t("common:modules.layerSelection.datalayer") : lastFolderName }}</h6>
+                                    <h6 class="mp-menu-navigation-link bold">{{ lastFolderName === "root" ? $t("common:modules.layerSelection.datalayer") : $t(lastFolderName) }}</h6>
                                 </a>
                                 <h6
                                     v-else
                                     class="mp-menu-navigation-link bold no-link"
                                 >
-                                    {{ lastFolderName }}
+                                    {{ $t(lastFolderName) }}
                                 </h6>
                             </li>
                         </ol>

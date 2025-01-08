@@ -544,6 +544,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |icon|no|String|"bi-info-circle-fill"|CSS icon class. Icon is shown before the tool name.|false|
 |menuSide|no|String|"secondaryMenu"|Specifies in which menu the information should be displayed.|false|
 |name|yes|String|"common:modules.getFeatureInfo.name"|Name displayed in the menu.|false|
+|showPolygonMarkerForWMS|no|Boolean|false|If set to true, Polygonmarker will be shown for WMS features with geometry.|false|
 
 **Example of a GetFeatureInfo configuration**.
 
@@ -569,6 +570,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
             "scale": 2
         }
     },
+    "showPolygonMarkerForWMS": true,
     "hideMapMarkerOnVectorHighlight": true
 }
 ```
@@ -1591,6 +1593,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
@@ -1626,6 +1629,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
+|compareFeatures|no|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**||Offers a comparison option for vector features. The getFeatureInfo (GFI) window will offer a clickable star symbol to put elements on the comparison list. Works when used together with the GFI theme **Default**.|false|
 |compareMaps|no|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||This tool allows users to compare two map layers side by side using a layer swiper. |false|
 |coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
@@ -1725,6 +1729,7 @@ Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
 |icon|no|String|"bi-cloud-plus"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.addWMS.name"|Name of the module in the menu.|false|
 |type|no|String|"addWMS"|The type of the module. Defines which module is configured.|false|
+|exampleURLs|no|String[]|[]|Example URLs displayed under the module.|false|
 
 **Example**
 
@@ -1732,7 +1737,12 @@ Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
 {
     "icon": "bi-cloud-plus",
     "name": "common:modules.addWMS.name",
-    "type": "addWMS"
+    "type": "addWMS",
+    "exampleURLs": [
+        "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
+        "https://sgx.geodatenzentrum.de/wms_landschaften",
+        "https://sgx.geodatenzentrum.de/wms_vg5000_0101"
+    ]
 }
 ```
 
@@ -3014,6 +3024,36 @@ List of layouts and formats that filters the response from the print service in 
 "capabilitiesFilter": {
     "layouts": ["A4 Hochformat", "A3 Hochformat"],
     "outputFormats": ["PDF"]
+}
+```
+
+***
+
+#### Portalconfig.menu.sections.modules.compareFeatures
+{data-toc-label='Compare Features'}
+
+[inherits]: # (Portalconfig.menu.sections.modules)
+
+This tool allows comparing vector features which are provided by WFS(❗) services.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-star"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|name|no|String|"common:modules.compareFeatures.name"|Name of the module in the menu.|false|
+|numberOfAttributesToShow|no|Integer|12|Deprecated in next major release. Maximum amount of attributes initially shown. If more attributes are available, they can be shown and hidden by clicking a button.|false|
+|numberOfFeaturesToShow|no|Integer|3|Deprecated in next major release. Maximum amount of features selectable for comparison.|false|
+|type|no|String|"compareFeatures"|The type of the module. Defines which module is configured.|false|
+
+
+**Example**
+
+```json
+"compareFeatures": {
+    "icon": "bi-star",
+    "name": "common:modules.compareFeatures.title",
+    "numberOfAttributesToShow": 10,
+    "numberOfFeaturesToShow": 5,
+    "type": "compareFeatures"
 }
 ```
 
@@ -4722,7 +4762,8 @@ Besides these attributes, there are also type-specific attributes for the differ
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
-|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false
+|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false|
+|filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
 |fitCapabilitiesExtent|no|Boolean|false|**[services.json](../Global-Config/services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
 |id|yes|String/String[]||Id of the layer. The ids are resolved in **[services.json](../Global-Config/services.json.md)** and the necessary information is used. When configuring an array of Ids, a layer is created that contains the LAYERS parameter in the request with a comma-separated list of the contents of the `layers` attribute of the individual layers. Setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. It is important here that the specified ids address the same URL, i.e. use the same service and are of same typ. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
@@ -4745,7 +4786,8 @@ Besides these attributes, there are also type-specific attributes for the differ
             "name": "Example Layer",
             "typ": "WMS",
             "visibility": false,
-            "styleId": "3"
+            "styleId": "3",
+            "filterRefId": 0
         }
     ]
 }
@@ -5744,7 +5786,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
+    "tooltipUnit": " %",
     "chartConfig": {
         "type": "bar",
         "data": {

@@ -20,7 +20,7 @@ export default {
     },
     data: () => ({playing: false, playbackHandle: null, sliderValue: 0}),
     computed: {
-        ...mapGetters("Modules/WmsTime", ["timeRange", "minWidth", "timeSlider"]),
+        ...mapGetters("Modules/WmsTime", ["timeRange", "defaultValue", "minWidth", "timeSlider"]),
         ...mapGetters("Modules/LayerSwiper", {
             layerSwiperActive: "active"
         }),
@@ -42,11 +42,15 @@ export default {
         },
         defaultValue () {
             this.sliderValue = this.timeRange.indexOf(this.defaultValue);
+            // FIXME: temporary solution for updating time slider
+            this.$forceUpdate();
         },
         sliderValue () {
             if (!this.timeRange[this.sliderValue]) {
-                // revert to 0 in case of fault
-                this.sliderValue = 0;
+                this.sliderValue = this.timeRange.indexOf(this.defaultValue);
+                if (this.sliderValue < 0) {
+                    this.sliderValue = 0;
+                }
             }
 
             if (this.sliderOptionCount === this.sliderValue) {
@@ -70,9 +74,12 @@ export default {
     methods: {
         ...mapActions("Modules/LayerSwiper", ["updateMap"]),
         ...mapActions("Modules/WmsTime", ["toggleSwiper"]),
-        ...mapMutations("Modules/WmsTime", ["setTimeSliderPlaying"]),
+        ...mapMutations("Modules/WmsTime", ["setTimeSliderPlaying", "setTimeSliderDefaultValue"]),
         setSliderValue (value) {
             this.sliderValue = Number(value);
+            if (!this.playing && this.timeRange[this.sliderValue]) {
+                this.setTimeSliderDefaultValue(this.timeRange[this.sliderValue]);
+            }
         },
         animate () {
             const index = this.nextIndex();

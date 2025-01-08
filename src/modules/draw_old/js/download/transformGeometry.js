@@ -12,15 +12,43 @@ function transform (sourceProjectionCode, coords, isPolygon) {
 
     for (const value of coords) {
         if (isPolygon) {
-            value.forEach(point => {
-                transCoords.push(transformPoint(sourceProjectionCode, point));
-            });
-            continue;
+            if (coords.length > 1) {
+                transCoords.push(transform(sourceProjectionCode, value, isPolygon)[0]);
+            }
+            else {
+                value.forEach(point => {
+                    if (point.length > 2) {
+                        transCoords.push(transform(sourceProjectionCode, point, isPolygon));
+                    }
+                    else {
+                        transCoords.push(transformPoint(sourceProjectionCode, point));
+                    }
+                });
+                continue;
+            }
         }
-        transCoords.push(transformPoint(sourceProjectionCode, value));
+        else if (value.length > 2 && !isPolygon) {
+            transCoords.push(transform(sourceProjectionCode, value, isPolygon));
+        }
+        else {
+            transCoords.push(transformPoint(sourceProjectionCode, value));
+        }
     }
-
     return isPolygon ? [transCoords] : transCoords;
+}
+/**
+ * requests the transformPoint function for each individual point
+ * @param {String} sourceProjectionCode source projection.
+ * @param {Number[]} coords Coordinates.
+ * @returns {Number[]} Transformed coordinates.
+ */
+function transformMultiPoint (sourceProjectionCode, coords) {
+    const multiPoint = [];
+
+    coords.forEach(point =>{
+        multiPoint.push(transformPoint(sourceProjectionCode, point));
+    });
+    return multiPoint;
 }
 /**
  * Transforms the given point coordinates from a given source projection to EPSG:4326.
@@ -43,6 +71,7 @@ function transformGeometry (sourceProjectionCode, geometry) {
 
 export {
     transform,
+    transformMultiPoint,
     transformPoint,
     transformGeometry
 };

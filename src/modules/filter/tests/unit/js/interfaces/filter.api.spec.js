@@ -73,6 +73,7 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         layerId: 0,
                         url: "foo",
                         typename: "bar",
+                        version: undefined,
                         isSecured: undefined,
                         namespace: "foob/boof",
                         srsName: "foo",
@@ -84,6 +85,49 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                 openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
                 filterApi.setServiceByLayerModel(0, layerModel, false);
                 expect(filterApi.service).to.deep.equal(expected);
+                sinon.restore();
+            });
+            it("should set the version in the wfs service", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        typ: "WFS",
+                        featureNS: "foob/boof",
+                        url: "foo",
+                        featureType: "bar",
+                        version: "2.0.0"
+                    },
+                    expected = {
+                        type: "wfs",
+                        extern: false,
+                        layerId: 0,
+                        url: "foo",
+                        typename: "bar",
+                        version: "2.0.0",
+                        isSecured: undefined,
+                        namespace: "foob/boof",
+                        srsName: "foo",
+                        featureNS: "foob",
+                        featurePrefix: "boof",
+                        featureTypes: ["bar"]
+                    };
+
+                openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
+                filterApi.setServiceByLayerModel(0, layerModel, false);
+                expect(filterApi.service).to.deep.equal(expected);
+                sinon.restore();
+            });
+            it("featurePrefix should be empty if namespace have no slash", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        typ: "WFS",
+                        featureNS: "foob",
+                        url: "foo",
+                        featureType: "bar"
+                    };
+
+                openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
+                filterApi.setServiceByLayerModel(0, layerModel, false);
+                expect(filterApi.service.featurePrefix).to.be.equals("");
                 sinon.restore();
             });
             it("should set the service for oaf", () => {

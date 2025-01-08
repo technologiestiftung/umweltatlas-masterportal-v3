@@ -30,9 +30,9 @@ const getters = {
      * @returns {Boolean} Whether to activate or deactivate the Download Button.
      */
     disableFileDownload (state) {
-        const {features, fileName, selectedFormat} = state.download;
+        const {features, fileName, selectedFormat, featuresNotSupported} = state.download;
 
-        return features.length === 0 || fileName === "" || selectedFormat === "" || selectedFormat === "none";
+        return features.length === 0 || fileName === "" || selectedFormat === "" || selectedFormat === "none" || featuresNotSupported;
     },
     /**
      * Provides state for urlParams, returns only type, name and icon.

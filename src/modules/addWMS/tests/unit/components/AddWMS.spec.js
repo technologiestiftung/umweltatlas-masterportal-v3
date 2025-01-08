@@ -1,17 +1,21 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
+import sinon from "sinon";
 import AddWMSComponent from "../../../components/AddWMS.vue";
 import AddWMS from "../../../store/indexAddWMS";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/addWMS/components/AddWMS.vue", () => {
-    let store,
-        wrapper,
-        componentData;
+    let addLayerToLayerConfigSpy,
+        componentData,
+        store,
+        wrapper;
 
     beforeEach(() => {
+        addLayerToLayerConfigSpy = sinon.spy();
+
         store = createStore({
             modules: {
                 Modules: {
@@ -33,7 +37,16 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                             };
                         }
                     }
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: {
+                        addSingleAlert: sinon.stub()
+                    }
                 }
+            },
+            actions: {
+                addLayerToLayerConfig: addLayerToLayerConfigSpy
             }
         });
 
@@ -55,6 +68,10 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             data: componentData,
             attachTo: elem
         });
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the AddWMS Module", () => {
@@ -103,6 +120,160 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         it("should return true if the version is equal or higher than 1.3.0", function () {
             expect(wrapper.vm.isVersionEnabled("1.3.0")).to.be.true;
             expect(wrapper.vm.isVersionEnabled("2.3.5")).to.be.true;
+        });
+    });
+
+    describe("parseLayerStructure", () => {
+        it("should add layer object to folder structure", () => {
+            const folder = {
+                    type: "folder",
+                    name: "part 1",
+                    elements: []
+                },
+                object = {
+                    MaxScaleDenominator: undefined,
+                    MinScaleDenominator: undefined,
+                    Name: "geb_sum",
+                    Style: [
+                        {
+                            LegendURL: [
+                                {
+                                    Format: "image/png",
+                                    OnlineResource: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png"
+                                }
+                            ],
+                            Name: "style_solaratlas_geb_sum",
+                            Title: "style_solaratlas_geb_sum"
+                        }
+                    ],
+                    Title: "geb_sum"
+                },
+                level = 1;
+
+            wrapper.vm.wmsUrl = "https://geodienste.hamburg.de/HH_WMS_Solaratlas";
+            wrapper.vm.version = "1.3.0";
+            wrapper.vm.parseLayerStructure(folder, object, level);
+
+            expect(folder).to.deep.equals({
+                type: "folder",
+                name: "part 1",
+                elements: [
+                    {
+                        datasets: [],
+                        id: "geb_sum",
+                        layers: ["geb_sum"],
+                        legendURL: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png",
+                        maxScale: undefined,
+                        minScale: undefined,
+                        name: "geb_sum",
+                        showInLayerTree: false,
+                        typ: "WMS",
+                        type: "layer",
+                        url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
+                        version: "1.3.0",
+                        visibility: false
+                    }
+                ]
+            });
+        });
+
+        it("should add layer object to subfolder in the folder structure", () => {
+            const folder = {
+                    type: "folder",
+                    name: "part 1",
+                    elements: []
+                },
+                object = {
+                    Layer: [
+                        {
+                            MaxScaleDenominator: undefined,
+                            MinScaleDenominator: undefined,
+                            Name: "geb_sum",
+                            Style: [
+                                {
+                                    LegendURL: [
+                                        {
+                                            Format: "image/png",
+                                            OnlineResource: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png"
+                                        }
+                                    ],
+                                    Name: "style_solaratlas_geb_sum",
+                                    Title: "style_solaratlas_geb_sum"
+                                }
+                            ],
+                            Title: "geb_sum"
+                        }
+                    ],
+                    Title: "Example"
+                },
+                level = 1;
+
+            wrapper.vm.wmsUrl = "https://geodienste.hamburg.de/HH_WMS_Solaratlas";
+            wrapper.vm.version = "1.3.0";
+            wrapper.vm.parseLayerStructure(folder, object, level);
+
+            expect(folder).to.deep.equals({
+                type: "folder",
+                name: "part 1",
+                elements: [
+                    {
+                        type: "folder",
+                        name: "Example",
+                        elements: [
+                            {
+                                datasets: [],
+                                id: "geb_sum",
+                                layers: ["geb_sum"],
+                                legendURL: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png",
+                                maxScale: undefined,
+                                minScale: undefined,
+                                name: "geb_sum",
+                                showInLayerTree: false,
+                                typ: "WMS",
+                                type: "layer",
+                                url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
+                                version: "1.3.0",
+                                visibility: false
+                            }
+                        ]
+                    }
+                ]
+            });
+        });
+    });
+
+    describe("addLayerToTopicTree", () => {
+        it("should add folder structure to topic tree", () => {
+            const folder = {
+                type: "folder",
+                name: "part 1",
+                elements: [
+                    {
+                        datasets: [],
+                        id: "geb_sum",
+                        layers: ["geb_sum"],
+                        legendURL: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png",
+                        maxScale: undefined,
+                        minScale: undefined,
+                        name: "geb_sum",
+                        showInLayerTree: false,
+                        typ: "WMS",
+                        type: "layer",
+                        url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
+                        version: "1.3.0",
+                        visibility: false
+                    }
+                ]
+            };
+
+            wrapper.vm.addLayerToTopicTree(folder);
+
+            expect(addLayerToLayerConfigSpy.calledOnce).to.be.true;
+            expect(addLayerToLayerConfigSpy.firstCall.args[1]).to.deep.equals({
+                layerConfig: folder,
+                parentKey: "subjectlayer"
+            });
+
         });
     });
 
@@ -266,12 +437,37 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         });
     });
     describe("getUrl", () => {
-        const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
+        it("creates url correctly", function () {
+            const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map";
 
-        it("creates url correctly'", function () {
             expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map&request=GetCapabilities&service=WMS");
             expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
             expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
+        });
+
+        it("creates url with lowercase parameter keys request and service", function () {
+            const serviceUrl = "https://test/test?SERVICE=WMS&REQUEST=GetCapabilities";
+
+            expect(wrapper.vm.getUrl(serviceUrl)).to.equal("https://test/test?request=GetCapabilities&service=WMS");
+            expect(wrapper.vm.getUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getUrl(serviceUrl)).to.contain("request=GetCapabilities&service=WMS");
+        });
+    });
+    describe("getBaseServiceUrl", () => {
+
+        it("keeps other parameters", function () {
+            const serviceUrl = "https://test/test?map=/storage/mapfiles/test.map&request=GetCapabilities&service=WMS&version=1.3.0";
+
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.equal("https://test/test?map=%2Fstorage%2Fmapfiles%2Ftest.map");
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl).split("?").length - 1).to.equal(1);
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.not.contain("request=GetCapabilities&service=WMS");
+        });
+
+        it("removes uppercase", function () {
+            const serviceUrl = "https://test/test?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0";
+
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.equal("https://test/test");
+            expect(wrapper.vm.getBaseServiceUrl(serviceUrl)).to.not.contain("request=GetCapabilities&service=WMS");
         });
     });
 });

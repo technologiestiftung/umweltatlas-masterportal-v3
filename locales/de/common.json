@@ -56,7 +56,7 @@
     "addWMS": {
       "alertTitleSuccess": "Layer erfolgreich hinzugefügt",
       "alreadyAdded": "Die Layer des angeforderten WMS wurden bereits hinzugefügt.",
-      "completeMessage": "&#9989; Die Layer des angeforderten WMS wurden dem Themenbaum hinzugefügt!",
+      "completeMessage": "Die Layer des angeforderten WMS wurden dem Themenbaum hinzugefügt und können über <b>Themen hinzufügen</b> ausgewählt werden!",
       "description": "Fügen Sie einen Web Map Service (WMS) zum Themenbaum hinzu",
       "errorHttpsMessage": " &#10060; Das von Ihnen angeforderte WMS befindet sich unter einer http-Url. Das Masterportal kann nur WMS über https (SSL) einbinden.",
       "errorMessage": "&#10060; Der angegebene Dienst konnte nicht geladen werden. Bitte stellen Sie sicher, dass die URL richtig angegeben wurde.<br><br> Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes mit folgendem Hinweis eines häufig auftretenden Fehlers: <br><strong>Es soll sichergestellt werden, dass ein CORS-Header für den Dienst gesetzt ist. Dies wird von der <a target='_blank' href='https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf'>GDI-DE</a> im Kapitel 4.7.1 empfohlen.</strong>",
@@ -64,7 +64,8 @@
       "ifInExtent": "&#10060; Die über den WMS bereitgestellten Geodaten liegen außerhalb des darstellbaren Bereichs. WMS hinzufügen ist nicht möglich.",
       "name": "WMS hinzufügen",
       "placeholder": "Hier bitte die WMS-URL eingeben.",
-      "textLoadLayer": "Layer Laden"
+      "textLoadLayer": "Layer laden",
+      "examples": "Beispiele:"
     },
     "alerting": {
       "alertWindowTitle": "Informationen",
@@ -201,6 +202,31 @@
         "zoomOut": "Herauszoomen"
       }
     },
+    "compareFeatures": {
+      "title": "Vergleichsliste",
+      "description": "Vergleiche ausgewählte Objekte in der Tabelle.",
+      "topicsSelection": "Themen Auswahl",
+      "removeFromList": "Von Liste entfernen",
+      "noFeatures": {
+          "nothingSelected": "Es sind keine {{objects}} für die Vergleichsliste ausgewählt.",
+          "objectName": "Objekte",
+          "info": "Klicken Sie auf ein Objekt in der Karte. Es öffnet sich ein Fenster mit den jeweiligen Sachinformationen. In der rechten oberen Ecke befindet sich ein Sternsymbol {{iconEmptyStar}}. Klicken Sie auf dieses Symbol, um das Objekt zur Vergleichsliste hinzuzufügen. Das Sternsymbol wird gelb eingefärbt {{iconYellowStar}}. Ein erneuter Klick auf das Sternsymbol entfernt das Objekt wieder von der Vergleichsliste.",
+          "info2": "Sobald ein Objekt zur Vergleichsliste hinzugefügt wird, erscheint es in der Tabelle, sodass Sie es einfach mit anderen Objekten vergleichen können. Um ein Objekt zu entfernen, klicken Sie einfach auf das 'X' neben dem entsprechenden Objekt auf der linken Seite der Tabelle."
+        },
+      "feedback": {
+          "added": "Das Feature wurde zur Vergleichsliste hinzugefügt",
+          "addedWithName": "{{currentFeatureName}} wurde zur Vergleichsliste hinzugefügt",
+          "notAdded": "Das Feature konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "notAddedWithName": "{{currentFeatureName}} konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
+          "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
+          "goToComparisonlist": "Zur Vergleichsliste"
+      },
+      "trueFalse": {
+          "true": "Ja",
+          "false": "Nein"
+      }
+    },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "East-Wert / Rechtswert",
@@ -299,9 +325,11 @@
       "description": "Erstellen Sie wichtige Markierungen oder kennzeichnen Sie Flächen. Laden Sie diese hier herunter, um sie später wieder zu laden",
       "doubleCirclePlaceholder": "Bitte geben Sie einen Radius ein",
       "download": {
+        "allGeometryTypesNotSupported": "Die gezeichneten Geometrien können in dem ausgewählten Format nicht heruntergeladen werden. Das Format unterstützt den Geometrietyp Polygon nicht.",
         "enterFilename": "Bitte Dateiname angeben",
         "filename": "Dateiname",
         "format": "Format",
+        "notSupportedGeometryType": "Ein oder mehrere gezeichnete Geometrien können in dem ausgewählten Format nicht heruntergeladen werden, da das Format den Geometrietyp Polygon nicht unterstützt. Alle gezeichneten Punkte und Linien können heruntergeladen werden.",
         "pleaseChoose": "Bitte Auswählen",
         "unknownGeometry": "Unbekannte Geometrie: <strong>{{geometry}}</strong>"
       },
@@ -491,6 +519,12 @@
       "buttonBack": "Vorherige Informationen anzeigen",
       "buttonForward": "Weitere Informationen anzeigen",
       "errorMessage": "Bei der Informationsabfrage (GetFeatureInfo) ist ein Fehler aufgetreten.<br>Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut. Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes.",
+      "favoriteIcons": {
+        "compareFeatureIcon": {
+            "toCompareList": "Auf die Vergleichsliste",
+            "fromCompareList": "Von der Vergleichsliste entfernen"
+        }
+      },
       "name": "Informationen abfragen",
       "themes": {
         "default": {
@@ -579,7 +613,8 @@
       "pointOfContact": "Ansprechpartner",
       "contactInfoMessage": "Schreiben sie dem Ansprechpartner des Themas ",
       "mailSubject": "Anfrage zum Datensatz ",
-      "mailOriginHint": "Diese Anfrage wurde über das Kontaktformular unter der folgenden URL an Sie versandt"
+      "mailOriginHint": "Diese Anfrage wurde über das Kontaktformular unter der folgenden URL an Sie versandt",
+      "changeLayerInfo": "Information zur Ebene auswählen: "
     },
     "layerPills": {
       "next": "Nächsten Layer anzeigen",
@@ -1081,8 +1116,10 @@
     "selectFeatures": {
       "description": "Erhalten Sie Informationen zu Objekten die Sie auf der Karte auswählen",
       "name": "Features auswählen",
-      "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Ziehen einer Box um die auszuwählenden Features bzw. Halten von Strg und Ziehen.",
+      "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features, indem Sie die Strg-Taste halten und eine Box um die gewünschten Features ziehen, oder fügen Sie einzelne Features durch Halten der Strg-Taste und Klicken mit der linken Maustaste hinzu.",
       "propertylessFeature": "Element ohne Attribute",
+      "clearSelection": "Gesamtauswahl aufheben",
+      "deselectFeature": "Feature abwählen",
       "zoomToFeature": "Auf dieses Feature zoomen"
     },
     "statisticDashboard": {
@@ -1280,7 +1317,7 @@
           "biannually": "zweimal jährlich",
           "continual": "kontinuierlich",
           "daily": "täglich",
-          "fortnightly": "zweimal wöchentlich",
+          "fortnightly": "vierzehntägig",
           "irregular": "unregelmäßige Intervalle",
           "monthly": "monatlich",
           "notPlanned": "nicht geplant",

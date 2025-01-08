@@ -28,27 +28,46 @@ export default {
             "showInteractionsButtons",
             "transactionProcessing"
         ]),
-        ...mapGetters(["allLayerConfigs"])
+        ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
+    },
+    watch: {
+        /**
+         * Detects changes in visible Layers and initializes layers.
+         * @returns {void}
+         */
+        visibleSubjectDataLayerConfigs: {
+            handler () {
+                this.initializeLayers();
+            },
+            deep: true
+        }
     },
     created () {
-        const newLayerInformation = this.allLayerConfigs.filter(item => this.layerIds.includes(item.id)).reverse(),
-            firstActiveLayer = newLayerInformation.findIndex(layer => layer.visibility),
-            currentLayerDeactivated = this.currentLayerIndex > -1 && !newLayerInformation[this.currentLayerIndex].visibility;
-
-        this.setLayerInformation(newLayerInformation);
-        if ((this.currentLayerIndex === -1 && firstActiveLayer > -1) ||
-            (this.currentLayerIndex > -1 && firstActiveLayer === -1) ||
-            (currentLayerDeactivated && firstActiveLayer > -1)) {
-            this.setCurrentLayerIndex(firstActiveLayer);
-        }
-        if (currentLayerDeactivated) {
-            this.reset();
-        }
-        this.setFeatureProperties();
+        this.initializeLayers();
     },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal"]),
         ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setFeatureProperty", "setFeatureProperties", "sendTransaction"]),
+        /**
+         * Initializes all layers stored in state's layerIds.
+         * @returns {void}
+         */
+        initializeLayers () {
+            const newLayerInformation = this.allLayerConfigs.filter(item => this.layerIds.includes(item.id)),
+                firstActiveLayer = newLayerInformation.findIndex(layer => layer.visibility),
+                currentLayerDeactivated = this.currentLayerIndex > -1 && !newLayerInformation[this.currentLayerIndex].visibility;
+
+            this.setLayerInformation(newLayerInformation);
+            if ((this.currentLayerIndex === -1 && firstActiveLayer > -1) ||
+                (this.currentLayerIndex > -1 && firstActiveLayer === -1) ||
+                (currentLayerDeactivated && firstActiveLayer > -1)) {
+                this.setCurrentLayerIndex(firstActiveLayer);
+            }
+            if (currentLayerDeactivated) {
+                this.reset();
+            }
+            this.setFeatureProperties();
+        },
         /**
          * Changes the layer index according user selection
          * @param {Number} index Index of the layer
@@ -112,13 +131,13 @@ export default {
                 </select>
             </div>
             <template v-if="typeof featureProperties === 'string'">
-                <div class="tool-wfs-transaction-layer-failure">
+                <div class="tool-wfs-transaction-layer-failure mt-5">
                     {{ $t(featureProperties) }}
                 </div>
             </template>
             <div
                 v-else-if="showInteractionsButtons"
-                class="tool-wfs-transaction-interaction-select-container btn-toolbar mb-3"
+                class="tool-wfs-transaction-interaction-select-container btn-toolbar"
             >
                 <div
                     class="btn-group flex-wrap mr-1 mt-5"
