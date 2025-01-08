@@ -678,7 +678,7 @@
     }
   },
   {
-    "id": "k01_01boges2010:1",
+    "id": "k01_01boges2010:0",
     "name": "Bodengesellschaften",
     "name_lang": "Bodengesellschaften(Bodengesellschaften 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -710,7 +710,7 @@
     }
   },
   {
-    "id": "k01_01boges2005:1",
+    "id": "k01_01boges2005:0",
     "name": "Bodengesellschaften",
     "name_lang": "Bodengesellschaften(Bodengesellschaften 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -742,7 +742,7 @@
     }
   },
   {
-    "id": "boges2001:1",
+    "id": "boges2001:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Bodengesellschaften 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -776,7 +776,7 @@
     }
   },
   {
-    "id": "boges:1",
+    "id": "boges:0",
     "name": "Bodengesellschaften",
     "name_lang": "Bodengesellschaften(Bodengesellschaften 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1402,7 +1402,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart2010:2",
+    "id": "k01_06_01bodart2010:4",
     "name": "Grobbodenart und -anteil am Gesamtboden",
     "name_lang": "Grobbodenart und -anteil am Gesamtboden(Bodenarten 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1468,7 +1468,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart2010:1",
+    "id": "k01_06_01bodart2010:0",
     "name": "Bodenarten des Feinbodens",
     "name_lang": "Bodenarten des Feinbodens(Bodenarten 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1500,7 +1500,7 @@
     }
   },
   {
-    "id": "k01_06_02flach2010:1",
+    "id": "k01_06_02flach2010:0",
     "name": "Nutzbare Feldkapazität für Flachwurzler",
     "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1532,7 +1532,7 @@
     }
   },
   {
-    "id": "k01_06_04nfeld2010:1",
+    "id": "k01_06_04nfeld2010:0",
     "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
     "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1564,7 +1564,7 @@
     }
   },
   {
-    "id": "k01_06_05humus2010:1",
+    "id": "k01_06_05humus2010:0",
     "name": "Humusmenge",
     "name_lang": "Humusmenge(Humusmenge der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1596,7 +1596,7 @@
     }
   },
   {
-    "id": "k01_06_08sumkat2010:1",
+    "id": "k01_06_08sumkat2010:0",
     "name": "Summe austauschbarer Kationen des Oberbodens",
     "name_lang": "Summe austauschbarer Kationen des Oberbodens(Summe austauschbarer Kationen des Oberbodens 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1628,7 +1628,7 @@
     }
   },
   {
-    "id": "k01_06_09kataus2010:1",
+    "id": "k01_06_09kataus2010:0",
     "name": "Mittlere effektive Kationenaustauschkapazität",
     "name_lang": "Mittlere effektive Kationenaustauschkapazität(Mittlere effektive Kationenaustauschkapazität der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1660,7 +1660,7 @@
     }
   },
   {
-    "id": "k01_06_10wasdur2010:1",
+    "id": "k01_06_10wasdur2010:0",
     "name": "Wasserdurchlässigkeit (kf) der Böden",
     "name_lang": "Wasserdurchlässigkeit (kf) der Böden(Wasserdurchlässigkeit (kf) der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1692,7 +1692,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart2005:2",
+    "id": "k01_06_01bodart2005:4",
     "name": "Grobbodenart und -anteil am Gesamtboden",
     "name_lang": "Grobbodenart und -anteil am Gesamtboden(Bodenarten 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1724,7 +1724,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart2005:3",
+    "id": "k01_06_01bodart2005:5",
     "name": "Torfart",
     "name_lang": "Torfart(Bodenarten 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1756,7 +1756,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart2005:1",
+    "id": "k01_06_01bodart2005:0",
     "name": "Bodenarten",
     "name_lang": "Bodenarten(Bodenarten 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1788,7 +1788,7 @@
     }
   },
   {
-    "id": "k01_06_02flach2005:1",
+    "id": "k01_06_02flach2005:0",
     "name": "Nutzbare Feldkapazität für Flachwurzler",
     "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1820,7 +1820,7 @@
     }
   },
   {
-    "id": "k01_06_04nfeld2005:1",
+    "id": "k01_06_04nfeld2005:0",
     "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
     "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1852,7 +1852,7 @@
     }
   },
   {
-    "id": "k01_06_05humus2005:1",
+    "id": "k01_06_05humus2005:0",
     "name": "Humusmenge",
     "name_lang": "Humusmenge(Humusmenge der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1884,7 +1884,7 @@
     }
   },
   {
-    "id": "k01_06_07ph2005:2",
+    "id": "k01_06_07ph2005:0",
     "name": "Bezirksname",
     "name_lang": "Bezirksname (pH-Werte im Oberboden 2005 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -1918,7 +1918,7 @@
     }
   },
   {
-    "id": "k01_06_08sumkat2005:1",
+    "id": "k01_06_08sumkat2005:0",
     "name": "Summe austauschbarer Kationen des Oberbodens",
     "name_lang": "Summe austauschbarer Kationen des Oberbodens(Summe austauschbarer Kationen des Oberbodens 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1950,7 +1950,7 @@
     }
   },
   {
-    "id": "k01_06_09kataus2005:1",
+    "id": "k01_06_09kataus2005:0",
     "name": "Mittlere effektive Kationenaustauschkapazität",
     "name_lang": "Mittlere effektive Kationenaustauschkapazität(Mittlere effektive Kationenaustauschkapazität der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -1982,7 +1982,7 @@
     }
   },
   {
-    "id": "k01_06_10wasdur2005:1",
+    "id": "k01_06_10wasdur2005:0",
     "name": "Wasserdurchlässigkeit (kf) der Böden",
     "name_lang": "Wasserdurchlässigkeit (kf) der Böden(Wasserdurchlässigkeit (kf) der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2114,7 +2114,7 @@
     }
   },
   {
-    "id": "kb01_06_02flach:1",
+    "id": "kb01_06_02flach:0",
     "name": "Nutzbare Feldkapazität für Flachwurzler",
     "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2146,7 +2146,7 @@
     }
   },
   {
-    "id": "kb01_06_04nfeld:1",
+    "id": "kb01_06_04nfeld:0",
     "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
     "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2178,7 +2178,7 @@
     }
   },
   {
-    "id": "kb01_06_05humus:1",
+    "id": "kb01_06_05humus:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Humusmenge der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -2212,7 +2212,7 @@
     }
   },
   {
-    "id": "kb01_06_07ph:1",
+    "id": "kb01_06_07ph:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (pH-Werte im Oberboden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -2246,7 +2246,7 @@
     }
   },
   {
-    "id": "kb01_06_08sumkat:1",
+    "id": "kb01_06_08sumkat:0",
     "name": "Summe austauschbarer Kationen des Oberbodens",
     "name_lang": "Summe austauschbarer Kationen des Oberbodens(Summe austauschbarer Kationen des Oberbodens 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2278,7 +2278,7 @@
     }
   },
   {
-    "id": "kb01_06_09kataus:1",
+    "id": "kb01_06_09kataus:0",
     "name": "Mittlere effektive Kationenaustauschkapazität",
     "name_lang": "Mittlere effektive Kationenaustauschkapazität(Mittlere effektive Kationenaustauschkapazität der Böden 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2310,7 +2310,7 @@
     }
   },
   {
-    "id": "kb01_06_10wasdur:1",
+    "id": "kb01_06_10wasdur:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Wasserdurchlässigkeit (kf) der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -2412,7 +2412,7 @@
     }
   },
   {
-    "id": "k01_06_01bodart1990:1",
+    "id": "k01_06_01bodart1990:0",
     "name": "Bodenarten",
     "name_lang": "Bodenarten(Bodenarten 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2444,7 +2444,7 @@
     }
   },
   {
-    "id": "k01_06_04nfeld1990:1",
+    "id": "k01_06_04nfeld1990:0",
     "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
     "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2476,7 +2476,7 @@
     }
   },
   {
-    "id": "k01_06_05humus1990:1",
+    "id": "k01_06_05humus1990:0",
     "name": "Humusmenge",
     "name_lang": "Humusmenge(Humusmenge der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2508,7 +2508,7 @@
     }
   },
   {
-    "id": "k01_06_07ph1990:1",
+    "id": "k01_06_07ph1990:0",
     "name": "pH-Werte als Mittel aus Ober- und Unterboden",
     "name_lang": "pH-Werte als Mittel aus Ober- und Unterboden(pH-Werte als Mittel aus Ober- und Unterboden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2540,7 +2540,7 @@
     }
   },
   {
-    "id": "k01_06_08sumkat1990:1",
+    "id": "k01_06_08sumkat1990:0",
     "name": "Basensättigung des Oberbodens",
     "name_lang": "Basensättigung des Oberbodens(Basensättigung des Oberbodens 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2572,7 +2572,7 @@
     }
   },
   {
-    "id": "k01_06_09kataus1990:1",
+    "id": "k01_06_09kataus1990:0",
     "name": "Mittlere effektive Kationenaustauschkapazität",
     "name_lang": "Mittlere effektive Kationenaustauschkapazität(Mittlere effektive Kationenaustauschkapazität der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2604,7 +2604,7 @@
     }
   },
   {
-    "id": "k01_06_10wasdur1990:1",
+    "id": "k01_06_10wasdur1990:0",
     "name": "Wasserdurchlässigkeit (kf) der Böden",
     "name_lang": "Wasserdurchlässigkeit (kf) der Böden(Wasserdurchlässigkeit (kf) der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -2966,7 +2966,7 @@
     }
   },
   {
-    "id": "k01_11_02eigen2015:1",
+    "id": "k01_11_02eigen2015:0",
     "name": "Besondere naturräumliche Eigenart",
     "name_lang": "Besondere naturräumliche Eigenart(Besondere naturräumliche Eigenart der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -2998,7 +2998,7 @@
     }
   },
   {
-    "id": "k01_11_06schad2015:1",
+    "id": "k01_11_06schad2015:0",
     "name": "Nährstoffspeicher-/Schadstoffbindungsvermögen",
     "name_lang": "Nährstoffspeicher-/Schadstoffbindungsvermögen(Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -3030,7 +3030,7 @@
     }
   },
   {
-    "id": "k01_11_07naehr2015:1",
+    "id": "k01_11_07naehr2015:0",
     "name": "Nährstoffversorgung des Oberbodens",
     "name_lang": "Nährstoffversorgung des Oberbodens(Nährstoffversorgung des Oberbodens 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -3062,7 +3062,7 @@
     }
   },
   {
-    "id": "k01_11_08wasser2015:1",
+    "id": "k01_11_08wasser2015:0",
     "name": "Wasserversorgung",
     "name_lang": "Wasserversorgung(Wasserversorgung der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -3094,7 +3094,7 @@
     }
   },
   {
-    "id": "k01_11_09filter2015:1",
+    "id": "k01_11_09filter2015:0",
     "name": "Filtervermögen",
     "name_lang": "Filtervermögen(Filtervermögen der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -3126,7 +3126,7 @@
     }
   },
   {
-    "id": "k01_11_11kohlestoffpuff2015:1",
+    "id": "k01_11_11kohlestoffpuff2015:0",
     "name": "Puffervermögen im organischen Kohlenstoffhaushalt",
     "name_lang": "Puffervermögen im organischen Kohlenstoffhaushalt(Puffervermögen im organischen Kohlenstoffhaushalt 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -3158,7 +3158,7 @@
     }
   },
   {
-    "id": "k01_11_01selten2010:1",
+    "id": "k01_11_01selten2010:0",
     "name": "Regionale Seltenheit der Bodengesellschaften",
     "name_lang": "Regionale Seltenheit der Bodengesellschaften(Regionale Seltenheit der Bodengesellschaften 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3190,7 +3190,7 @@
     }
   },
   {
-    "id": "k01_11_02eigen2010:1",
+    "id": "k01_11_02eigen2010:0",
     "name": "Besondere naturräumliche Eigenart",
     "name_lang": "Besondere naturräumliche Eigenart(Besondere naturräumliche Eigenart der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3222,7 +3222,7 @@
     }
   },
   {
-    "id": "k01_11_03natnae2010:1",
+    "id": "k01_11_03natnae2010:0",
     "name": "Naturnähe",
     "name_lang": "Naturnähe(Naturnähe der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3254,7 +3254,7 @@
     }
   },
   {
-    "id": "k01_11_04austau2010:1",
+    "id": "k01_11_04austau2010:0",
     "name": "Austauschhäufigkeit des Bodenwassers",
     "name_lang": "Austauschhäufigkeit des Bodenwassers(Austauschhäufigkeit des Bodenwassers 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3286,7 +3286,7 @@
     }
   },
   {
-    "id": "k01_11_06schad2010:1",
+    "id": "k01_11_06schad2010:0",
     "name": "Nährstoffspeicher-/Schadstoffbindungsvermögen",
     "name_lang": "Nährstoffspeicher-/Schadstoffbindungsvermögen(Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3318,7 +3318,7 @@
     }
   },
   {
-    "id": "k01_11_07naehr2010:1",
+    "id": "k01_11_07naehr2010:0",
     "name": "Nährstoffversorgung des Oberbodens",
     "name_lang": "Nährstoffversorgung des Oberbodens(Nährstoffversorgung des Oberbodens 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3350,7 +3350,7 @@
     }
   },
   {
-    "id": "k01_11_08wasser2010:1",
+    "id": "k01_11_08wasser2010:0",
     "name": "Wasserversorgung",
     "name_lang": "Wasserversorgung(Wasserversorgung der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3382,7 +3382,7 @@
     }
   },
   {
-    "id": "k01_11_09filter2010:1",
+    "id": "k01_11_09filter2010:0",
     "name": "Filtervermögen",
     "name_lang": "Filtervermögen(Filtervermögen der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3414,7 +3414,7 @@
     }
   },
   {
-    "id": "k01_11_01selten2005:1",
+    "id": "k01_11_01selten2005:0",
     "name": "Regionale Seltenheit der Bodengesellschaften",
     "name_lang": "Regionale Seltenheit der Bodengesellschaften(Regionale Seltenheit der Bodengesellschaften 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3446,7 +3446,7 @@
     }
   },
   {
-    "id": "k01_11_02eigen2005:1",
+    "id": "k01_11_02eigen2005:0",
     "name": "Besondere naturräumliche Eigenart",
     "name_lang": "Besondere naturräumliche Eigenart(Besondere naturräumliche Eigenart der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3478,7 +3478,7 @@
     }
   },
   {
-    "id": "k01_11_03natnae2005:1",
+    "id": "k01_11_03natnae2005:0",
     "name": "Hintergrund ISU 5 2005",
     "name_lang": "Hintergrund ISU 5 2005 (Naturnähe der Böden 2005 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3512,7 +3512,7 @@
     }
   },
   {
-    "id": "k01_11_04austau2005:1",
+    "id": "k01_11_04austau2005:0",
     "name": "Austauschhäufigkeit des Bodenwassers",
     "name_lang": "Austauschhäufigkeit des Bodenwassers(Austauschhäufigkeit des Bodenwassers 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3544,7 +3544,7 @@
     }
   },
   {
-    "id": "k01_11_06schad2005:1",
+    "id": "k01_11_06schad2005:0",
     "name": "Hintergrund ISU 5 2005",
     "name_lang": "Hintergrund ISU 5 2005 (Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 2005 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3578,7 +3578,7 @@
     }
   },
   {
-    "id": "k01_11_07naehr2005:1",
+    "id": "k01_11_07naehr2005:0",
     "name": "Hintergrund ISU 5 2005",
     "name_lang": "Hintergrund ISU 5 2005 (Nährstoffversorgung des Oberbodens 2005 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3612,7 +3612,7 @@
     }
   },
   {
-    "id": "k01_11_08wasser2005:1",
+    "id": "k01_11_08wasser2005:0",
     "name": "Wasserversorgung",
     "name_lang": "Wasserversorgung(Wasserversorgung der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3644,7 +3644,7 @@
     }
   },
   {
-    "id": "k01_11_09filter2005:1",
+    "id": "k01_11_09filter2005:0",
     "name": "Filtervermögen",
     "name_lang": "Filtervermögen(Filtervermögen der Böden 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3676,7 +3676,7 @@
     }
   },
   {
-    "id": "k01_11_10bindung2005:1",
+    "id": "k01_11_10bindung2005:0",
     "name": "Bindungsstärke für Schwermetalle",
     "name_lang": "Bindungsstärke für Schwermetalle(Bindungsstärke der Böden für Schwermetalle 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3708,7 +3708,7 @@
     }
   },
   {
-    "id": "kb01_11_01selten:1",
+    "id": "kb01_11_01selten:0",
     "name": "Regionale Seltenheit der Bodengesellschaften",
     "name_lang": "Regionale Seltenheit der Bodengesellschaften(Regionale Seltenheit der Bodengesellschaften 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3740,7 +3740,7 @@
     }
   },
   {
-    "id": "kb01_11_02eigen:1",
+    "id": "kb01_11_02eigen:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Besondere naturräumliche Eigenart der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3774,7 +3774,7 @@
     }
   },
   {
-    "id": "kb01_11_03natnae:1",
+    "id": "kb01_11_03natnae:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Naturnähe der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3808,7 +3808,7 @@
     }
   },
   {
-    "id": "kb01_11_04austau:1",
+    "id": "kb01_11_04austau:0",
     "name": "Austauschhäufigkeit des Bodenwassers",
     "name_lang": "Austauschhäufigkeit des Bodenwassers(Austauschhäufigkeit des Bodenwassers 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -3840,7 +3840,7 @@
     }
   },
   {
-    "id": "kb01_11_06schad:1",
+    "id": "kb01_11_06schad:0",
     "name": "Strassennamen",
     "name_lang": "Strassennamen (Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -3874,7 +3874,7 @@
     }
   },
   {
-    "id": "kb01_11_07naehr:1",
+    "id": "kb01_11_07naehr:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Nährstoffversorgung des Oberbodens 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -4010,7 +4010,7 @@
     }
   },
   {
-    "id": "k01_11_01selten1990:1",
+    "id": "k01_11_01selten1990:0",
     "name": "Regionale Seltenheit der Bodengesellschaften",
     "name_lang": "Regionale Seltenheit der Bodengesellschaften(Regionale Seltenheit der Bodengesellschaften 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4042,7 +4042,7 @@
     }
   },
   {
-    "id": "k01_11_02eigen1990:1",
+    "id": "k01_11_02eigen1990:0",
     "name": "Besondere naturräumliche Eigenart",
     "name_lang": "Besondere naturräumliche Eigenart(Besondere naturräumliche Eigenart der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4074,7 +4074,7 @@
     }
   },
   {
-    "id": "k01_11_03natnae1990:1",
+    "id": "k01_11_03natnae1990:0",
     "name": "Naturnähe der Böden",
     "name_lang": "Naturnähe der Böden(Naturnähe der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4106,7 +4106,7 @@
     }
   },
   {
-    "id": "k01_11_04austau1990:1",
+    "id": "k01_11_04austau1990:0",
     "name": "Austauschhäufigkeit des Bodenwassers",
     "name_lang": "Austauschhäufigkeit des Bodenwassers(Austauschhäufigkeit des Bodenwassers 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4138,7 +4138,7 @@
     }
   },
   {
-    "id": "k01_11_06schad1990:1",
+    "id": "k01_11_06schad1990:0",
     "name": "Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden",
     "name_lang": "Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden(Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4170,7 +4170,7 @@
     }
   },
   {
-    "id": "k01_11_07naehr1990:1",
+    "id": "k01_11_07naehr1990:0",
     "name": "Nährstoffversorgung des Oberbodens",
     "name_lang": "Nährstoffversorgung des Oberbodens(Nährstoffversorgung des Oberbodens 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4202,7 +4202,7 @@
     }
   },
   {
-    "id": "k01_11_09filter1990:1",
+    "id": "k01_11_09filter1990:0",
     "name": "Filtervermögen der Böden",
     "name_lang": "Filtervermögen der Böden(Filtervermögen der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4234,7 +4234,7 @@
     }
   },
   {
-    "id": "k01_11_10bindung1990:1",
+    "id": "k01_11_10bindung1990:0",
     "name": "Bindungsstärke der Böden für Schwermetalle",
     "name_lang": "Bindungsstärke der Böden für Schwermetalle(Bindungsstärke der Böden für Schwermetalle 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4563,7 +4563,7 @@
     }
   },
   {
-    "id": "k01_12_01lebens2015:1",
+    "id": "k01_12_01lebens2015:0",
     "name": "Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften",
     "name_lang": "Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2015)",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -4595,7 +4595,7 @@
     }
   },
   {
-    "id": "k01_12_02ertrag2015:1",
+    "id": "k01_12_02ertrag2015:0",
     "name": "Ertragsfunktion für Kulturpflanzen",
     "name_lang": "Ertragsfunktion für Kulturpflanzen(Ertragsfunktion der Böden für Kulturpflanzen 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -4627,7 +4627,7 @@
     }
   },
   {
-    "id": "k01_12_03puff2015:1",
+    "id": "k01_12_03puff2015:0",
     "name": "Puffer- und Filterfunktion",
     "name_lang": "Puffer- und Filterfunktion(Puffer- und Filterfunktion der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -4659,7 +4659,7 @@
     }
   },
   {
-    "id": "k01_12_05archiv2015:1",
+    "id": "k01_12_05archiv2015:0",
     "name": "Archivfunktion für die Naturgeschichte",
     "name_lang": "Archivfunktion für die Naturgeschichte(Archivfunktion der Böden für die Naturgeschichte 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -4691,7 +4691,7 @@
     }
   },
   {
-    "id": "k01_12_06leist2015:1",
+    "id": "k01_12_06leist2015:0",
     "name": "Leistungsfähigkeit der Böden",
     "name_lang": "Leistungsfähigkeit der Böden(Leistungsfähigkeit der Böden 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -4723,7 +4723,7 @@
     }
   },
   {
-    "id": "k01_12_01lebens2010:1",
+    "id": "k01_12_01lebens2010:0",
     "name": "Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften",
     "name_lang": "Lebensraumfunktion für naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2010)",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4755,7 +4755,7 @@
     }
   },
   {
-    "id": "k01_12_02ertrag2010:1",
+    "id": "k01_12_02ertrag2010:0",
     "name": "Ertragsfunktion für Kulturpflanzen",
     "name_lang": "Ertragsfunktion für Kulturpflanzen(Ertragsfunktion der Böden für Kulturpflanzen 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4787,7 +4787,7 @@
     }
   },
   {
-    "id": "k01_12_03puff2010:1",
+    "id": "k01_12_03puff2010:0",
     "name": "Puffer- und Filterfunktion",
     "name_lang": "Puffer- und Filterfunktion(Puffer- und Filterfunktion der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4819,7 +4819,7 @@
     }
   },
   {
-    "id": "k01_12_04regel2010:1",
+    "id": "k01_12_04regel2010:0",
     "name": "Regelungsfunktion für den Wasserhaushalt",
     "name_lang": "Regelungsfunktion für den Wasserhaushalt(Regelungsfunktion der Böden für den Wasserhaushalt 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4851,7 +4851,7 @@
     }
   },
   {
-    "id": "k01_12_05archiv2010:1",
+    "id": "k01_12_05archiv2010:0",
     "name": "Archivfunktion für die Naturgeschichte",
     "name_lang": "Archivfunktion für die Naturgeschichte(Archivfunktion der Böden für die Naturgeschichte 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4883,7 +4883,7 @@
     }
   },
   {
-    "id": "k01_12_06leist2010:1",
+    "id": "k01_12_06leist2010:0",
     "name": "Leistungsfähigkeit der Böden",
     "name_lang": "Leistungsfähigkeit der Böden(Leistungsfähigkeit der Böden 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4915,7 +4915,7 @@
     }
   },
   {
-    "id": "k01_12_01lebens2005:1",
+    "id": "k01_12_01lebens2005:0",
     "name": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften",
     "name_lang": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2005)",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -4947,7 +4947,7 @@
     }
   },
   {
-    "id": "k01_12_02ertrag2005:1",
+    "id": "k01_12_02ertrag2005:0",
     "name": "Ertragsfunktion für Kulturpflanzen",
     "name_lang": "Ertragsfunktion für Kulturpflanzen(Ertragsfunktion der Böden für Kulturpflanzen 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5013,7 +5013,7 @@
     }
   },
   {
-    "id": "k01_12_04regel2005:1",
+    "id": "k01_12_04regel2005:0",
     "name": "Regelungsfunktion für den Wasserhaushalt",
     "name_lang": "Regelungsfunktion für den Wasserhaushalt(Regelungsfunktion der Böden für den Wasserhaushalt 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5045,7 +5045,7 @@
     }
   },
   {
-    "id": "k01_12_05archiv2005:1",
+    "id": "k01_12_05archiv2005:0",
     "name": "Archivfunktion für die Naturgeschichte",
     "name_lang": "Archivfunktion für die Naturgeschichte(Archivfunktion der Böden für die Naturgeschichte 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5111,7 +5111,7 @@
     }
   },
   {
-    "id": "kb01_12_01lebens:1",
+    "id": "kb01_12_01lebens:0",
     "name": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften",
     "name_lang": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2001)",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5143,7 +5143,7 @@
     }
   },
   {
-    "id": "kb01_12_02ertrag:1",
+    "id": "kb01_12_02ertrag:0",
     "name": "Ertragsfunktion für Kulturpflanzen",
     "name_lang": "Ertragsfunktion für Kulturpflanzen(Ertragsfunktion der Böden für Kulturpflanzen 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5175,7 +5175,7 @@
     }
   },
   {
-    "id": "kb01_12_03puff:1",
+    "id": "kb01_12_03puff:0",
     "name": "Straßennamen",
     "name_lang": "Straßennamen (Puffer- und Filterfunktion der Böden 2001 (Umweltatlas))",
     "crs": "EPSG:25833",
@@ -5311,7 +5311,7 @@
     }
   },
   {
-    "id": "k01_12_01lebens1990:1",
+    "id": "k01_12_01lebens1990:0",
     "name": "Lebensraumfunktion für die natürliche Vegetation",
     "name_lang": "Lebensraumfunktion für die natürliche Vegetation(Lebensraumfunktion für die natürliche Vegetation 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5343,7 +5343,7 @@
     }
   },
   {
-    "id": "k01_12_02ertrag1990:1",
+    "id": "k01_12_02ertrag1990:0",
     "name": "Ertragsfunktion für Kulturpflanzen",
     "name_lang": "Ertragsfunktion für Kulturpflanzen(Ertragsfunktion der Böden für Kulturpflanzen 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5375,7 +5375,7 @@
     }
   },
   {
-    "id": "k01_12_03puff1990:1",
+    "id": "k01_12_03puff1990:0",
     "name": "Puffer- und Filterfunktion",
     "name_lang": "Puffer- und Filterfunktion(Puffer- und Filterfunktion der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5407,7 +5407,7 @@
     }
   },
   {
-    "id": "k01_12_04regel1990:1",
+    "id": "k01_12_04regel1990:0",
     "name": "Regelungsfunktion für den Wasserhaushalt",
     "name_lang": "Regelungsfunktion für den Wasserhaushalt(Regelungsfunktion der Böden für den Wasserhaushalt 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5439,7 +5439,7 @@
     }
   },
   {
-    "id": "k01_12_05archiv1990:1",
+    "id": "k01_12_05archiv1990:0",
     "name": "Archivfunktion für die Naturgeschichte",
     "name_lang": "Archivfunktion für die Naturgeschichte(Archivfunktion der Böden für die Naturgeschichte 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5471,7 +5471,7 @@
     }
   },
   {
-    "id": "k01_12_06leist1990:1",
+    "id": "k01_12_06leist1990:0",
     "name": "Leistungsfähigkeit der Böden",
     "name_lang": "Leistungsfähigkeit der Böden(Leistungsfähigkeit der Böden 1990 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5536,7 +5536,7 @@
     }
   },
   {
-    "id": "k01_13bodplan2015:1",
+    "id": "k01_13bodplan2015:0",
     "name": "Planungshinweise zum Bodenschutz",
     "name_lang": "Planungshinweise zum Bodenschutz(Planungshinweise zum Bodenschutz 2015 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -5568,7 +5568,7 @@
     }
   },
   {
-    "id": "k01_13bodplan2010:1",
+    "id": "k01_13bodplan2010:0",
     "name": "Planungshinweise zum Bodenschutz 2010",
     "name_lang": "Planungshinweise zum Bodenschutz 2010(Planungshinweise zum Bodenschutz 2010 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
@@ -5600,7 +5600,7 @@
     }
   },
   {
-    "id": "k01_13bodplan2005:1",
+    "id": "k01_13bodplan2005:0",
     "name": "Planungshinweise zum Bodenschutz 2005 (Umweltatlas)",
     "name_lang": "Planungshinweise zum Bodenschutz 2005 (Umweltatlas)(Planungshinweise zum Bodenschutz 2005 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
@@ -5632,7 +5632,7 @@
     }
   },
   {
-    "id": "k01_13bodplan2001:1",
+    "id": "k01_13bodplan2001:0",
     "name": "Planungshinweise zum Bodenschutz (Umweltatlas)",
     "name_lang": "Planungshinweise zum Bodenschutz (Umweltatlas)(Planungshinweise zum Bodenschutz 2001 (Umweltatlas))",
     "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
