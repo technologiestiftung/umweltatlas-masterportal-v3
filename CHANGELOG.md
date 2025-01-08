@@ -7,6 +7,27 @@
 ### __Breaking Changes__
 
 ### Added
+- LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1312: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
+- Issue #1313: Added WMS layers are now no longer initially visible.
+- Issue #1314: Added WMS are added in a folder structure in the layerSelection.
+- Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
+- Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
+
+---
+
+## 2025-01-02 v3.6.0
+
+### Added
 Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
 - SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
 - addWMS: add the possibility to configure example URLs to display under the module.
@@ -15,8 +36,6 @@ Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.
 - Re-enabled setting the latest tag and uncommented the TODO regarding its usage in bitbucket-pipelines.yml.
 - Filter: for wfs extern the wfs version of the defined service is used.
-
-### Deprecated
 
 ### Removed
 Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau, schriftplatte) from Portals.
@@ -27,13 +46,15 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Issue #1271: Draw_old: fix download of features with multi geometries.
 - Issue #1309: fixed translation of periodicity.
 - Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
 - Routing: 
     - fixed style for waypoints.
     - fixed elevation profile
+    - fixed error message in console when switching from 2D to 3D in TSR
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
 - LayerInformation: Added LayerInfo for each layer within a GROUP layer.
-- Portal Master: Fixed error in console by updating layer id. 
+- Portal Master: Fixed error in console by updating layer id.
 
 ---
 ## 2024-12-12 v3.3.3 (LTS)

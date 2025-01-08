@@ -35,7 +35,6 @@ import PortalFooter from "../portalFooter/components/PortalFooter.vue";
 import PrintMap from "../print/components/PrintMap.vue";
 import Routing from "../routing/components/RoutingTemplate.vue";
 import SearchBar from "../searchBar/components/SearchBar.vue";
-import SearchBarResultList from "../searchBar/components/SearchBarResultList.vue";
 import ScaleSwitcher from "../scaleSwitcher/components/ScaleSwitcher.vue";
 import SelectFeatures from "../selectFeatures/components/SelectFeatures.vue";
 import Shadow from "../shadow/components/ShadowTool.vue";
@@ -85,8 +84,7 @@ const getters = {
             portalFooter: PortalFooter,
             print: PrintMap,
             routing: Routing,
-            searchbar: SearchBar,
-            searchbarresultlist: SearchBarResultList,
+            searchBar: SearchBar,
             scaleSwitcher: ScaleSwitcher,
             selectFeatures: SelectFeatures,
             shadow: Shadow,

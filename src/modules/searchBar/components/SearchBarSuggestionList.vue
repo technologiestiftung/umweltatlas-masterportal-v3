@@ -27,7 +27,7 @@ export default {
     computed: {
         ...mapGetters("Modules/SearchBar", [
             "minCharacters",
-            "showInTree",
+            "showSearchResultsInTree",
             "searchInput",
             "searchResults",
             "searchResultsActive",
@@ -46,7 +46,6 @@ export default {
         ...mapMutations("Modules/SearchBar", [
             "setCurrentAvailableCategories",
             "setPlaceholder",
-            "setSearchResultsActive",
             "setShowAllResults",
             "setShowAllResultsSearchInterfaceInstances"
         ]),
@@ -75,9 +74,9 @@ export default {
             if (this.menuBySide(side)) {
                 const name = i18next.t("common:modules.searchBar.searchResults") + " - " + categoryItem;
 
-                this.setNavigationCurrentComponentBySide({side: side, newComponent: {props: {name}, type: "searchbar"}});
+                this.setNavigationCurrentComponentBySide({side: side, newComponent: {props: {name}, type: "searchBar"}});
                 this.setPlaceholder(i18next.t("common:modules.searchBar.placeholder.searchFor") + " " + categoryItem);
-                this.setCurrentComponentBySide({side: side, type: "searchbar"});
+                this.setCurrentComponentBySide({side: side, type: "searchBar"});
                 this.setNavigationHistoryBySide({side: side, newHistory: [{type: "root", props: []}, {type: "searchBar", props: {name}}, {type: "searchBar", props: {name: "modules.searchBar.searchResultList"}}]});
             }
             this.setCurrentAvailableCategories(categoryItem);
@@ -93,7 +92,7 @@ export default {
 
 <template lang="html">
     <div
-        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0 && !showInTree"
+        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0 && !showSearchResultsInTree"
         class="suggestions-container"
     >
         <div

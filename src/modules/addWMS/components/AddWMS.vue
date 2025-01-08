@@ -91,6 +91,7 @@ export default {
             }
             return url.href;
         },
+
         /**
          * Creates the url without the parameter service, request and version
          * @param {String} serviceUrl inserted url by user
@@ -102,6 +103,7 @@ export default {
             deleteParams(url, ["request", "service", "version"]);
             return url.href;
         },
+
         /**
          * Importing the external wms layers
          * @returns {void}
@@ -125,7 +127,12 @@ export default {
                             capability = parser.read(data),
                             version = capability?.version,
                             checkVersion = this.isVersionEnabled(version),
-                            currentExtent = this.mapViewSettings?.extent;
+                            currentExtent = this.mapViewSettings?.extent,
+                            folder = {
+                                type: "folder",
+                                name: "",
+                                elements: []
+                            };
                         let checkExtent = this.getIfInExtent(capability, currentExtent),
                             finalCapability = capability;
 
@@ -148,9 +155,11 @@ export default {
                         this.version = version;
                         this.wmsUrl = url;
 
+                        folder.name = finalCapability.Capability.Layer.Title;
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
-                            this.parseLayer(layer, 1);
+                            this.parseLayerStructure(folder, layer, 1);
                         });
+                        this.addLayerToTopicTree(folder);
                     }
                     catch (e) {
                         this.displayErrorMessage();
@@ -187,16 +196,24 @@ export default {
         },
 
         /**
-         * Creates a new layer and adds it to layerConfigs.
+         * Creates recursive the layer structure with subfolders and layers.
          * @info recursive function
-         * @param {Object} object the layer object to add
-         * @param {Number} level the depth of the recursion
+         * @param {Object} folder The layerTree folder.
+         * @param {Object} object the layer object to add.
+         * @param {Number} level The depth of the recursion.
          * @return {void}
          */
-        parseLayer: function (object, level) {
+        parseLayerStructure: function (folder, object, level) {
             if (Object.prototype.hasOwnProperty.call(object, "Layer")) {
+                const subFolder = {
+                    type: "folder",
+                    name: object.Title,
+                    elements: []
+                };
+
+                folder.elements.push(subFolder);
                 object.Layer.forEach(layer => {
-                    this.parseLayer(layer, level + 1);
+                    this.parseLayerStructure(subFolder, layer, level + 1);
                 });
             }
             else {
@@ -217,33 +234,41 @@ export default {
                     layers: [object.Name],
                     url: this.getBaseServiceUrl(this.wmsUrl),
                     version: this.version,
-                    visibility: true,
+                    visibility: false,
                     type: "layer",
-                    showInLayerTree: true,
+                    showInLayerTree: false,
                     maxScale: object?.MaxScaleDenominator?.toString(),
                     minScale: object?.MinScaleDenominator?.toString(),
                     legendURL: object?.Style?.[0].LegendURL?.[0].OnlineResource?.toString(),
                     datasets
                 };
 
-                this.addLayerToLayerConfig({layerConfig: layerObject, parentKey: treeSubjectsKey}).then((addedLayer) => {
-                    if (addedLayer) {
-                        this.addSingleAlert({
-                            content: this.$t("common:modules.addWMS.completeMessage"),
-                            category: "success",
-                            title: this.$t("common:modules.addWMS.alertTitleSuccess")});
-                        this.$refs.wmsUrl.value = "";
-                    }
-                    else {
-                        this.addSingleAlert({
-                            content: this.$t("common:modules.addWMS.alreadyAdded"),
-                            category: "warning",
-                            title: this.$t("common:modules.addWMS.errorTitle")});
-                        this.$refs.wmsUrl.value = "";
-                    }
-                });
-
+                folder.elements.push(layerObject);
             }
+        },
+
+        /**
+         * Adds the layer in folder structure to the topic tree.
+         * @param {Object} folder The layerTree folder.
+         * @returns {void}
+         */
+        addLayerToTopicTree: function (folder) {
+            this.addLayerToLayerConfig({layerConfig: folder, parentKey: treeSubjectsKey}).then((addedLayer) => {
+                if (addedLayer) {
+                    this.addSingleAlert({
+                        content: this.$t("common:modules.addWMS.completeMessage"),
+                        category: "success",
+                        title: this.$t("common:modules.addWMS.alertTitleSuccess")});
+                    this.$refs.wmsUrl.value = "";
+                }
+                else {
+                    this.addSingleAlert({
+                        content: this.$t("common:modules.addWMS.alreadyAdded"),
+                        category: "warning",
+                        title: this.$t("common:modules.addWMS.errorTitle")});
+                    this.$refs.wmsUrl.value = "";
+                }
+            });
         },
 
         /**

@@ -4730,7 +4730,8 @@ Besides these attributes, there are also type-specific attributes for the differ
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
-|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false
+|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false|
+|filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
 |fitCapabilitiesExtent|no|Boolean|false|**[services.json](../Global-Config/services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
 |id|yes|String/String[]||Id of the layer. The ids are resolved in **[services.json](../Global-Config/services.json.md)** and the necessary information is used. When configuring an array of Ids, a layer is created that contains the LAYERS parameter in the request with a comma-separated list of the contents of the `layers` attribute of the individual layers. Setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. It is important here that the specified ids address the same URL, i.e. use the same service and are of same typ. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
@@ -4753,7 +4754,8 @@ Besides these attributes, there are also type-specific attributes for the differ
             "name": "Example Layer",
             "typ": "WMS",
             "visibility": false,
-            "styleId": "3"
+            "styleId": "3",
+            "filterRefId": 0
         }
     ]
 }
