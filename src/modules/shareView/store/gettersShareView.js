@@ -50,14 +50,11 @@ const simpleGetters = {
 
         // Add existing URL parameters if there are any
         if (location.search) {
-            const existingParams = new URLSearchParams(location.search),
-                paramsObject = {};
+            const existingParams = new URLSearchParams(location.search);
 
-            existingParams.forEach((value, key) => {
-                paramsObject[key] = value;
+            existingParams?.forEach((value, key) => {
+                shareUrl = `${shareUrl}&${key}=${value}`;
             });
-
-            shareUrl = `${shareUrl}&ADDITIONAL=${JSON.stringify(paramsObject)}`;
         }
 
         return shareUrl;
