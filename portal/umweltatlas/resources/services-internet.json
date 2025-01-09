@@ -1824,7 +1824,7 @@
     "singleTile": true,
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_09_2020.pdf?ts=1717498942",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_09_2020.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -41642,7 +41642,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_2015.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_07naehr2005:0",
@@ -41669,7 +41676,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2005/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_2005.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "kb01_11_07naehr:0",
@@ -41696,7 +41710,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_2001.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_07naehr1990:0",
@@ -41723,7 +41744,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/1990/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_1990.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_08wasser2015:0",
@@ -41750,7 +41778,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2015.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_08wasser2010:0",
@@ -41777,7 +41812,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2010.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_08wasser2005:0",
@@ -41804,7 +41846,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2005/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2005.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "kb01_11_08wasser:0",
@@ -41831,7 +41880,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2001.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_11_09filter2015:0",
