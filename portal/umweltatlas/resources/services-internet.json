@@ -43347,5 +43347,39 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "k01_06_07ph2010:0",
+    "name": "pH-Werte im Oberboden 2010",
+    "name_lang": "pH-Werte im Oberboden 2010 (pH-Werte im Oberboden 2010 (Umweltatlas))",
+    "crs": "EPSG:3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_07ph2010",
+    "typ": "WMS",
+    "gfiAttributes": "ignore",
+    "layers": "0",
+    "legend": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_07ph2010?layerID=0",
+    "datasets": [
+      {
+        "md_name": "pH-Werte im Oberboden 2010 (Umweltatlas)",
+        "md_id": "27921401-f61a-3e1f-9b55-1070d86dbe00",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/69f57d76-97eb-34e5-a384-b0af9d1c2a0b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "minScale": "6000",
+    "maxScale": "250000",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "5",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_07_2010.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
