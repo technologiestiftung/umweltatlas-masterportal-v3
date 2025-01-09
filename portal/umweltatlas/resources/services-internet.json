@@ -43989,5 +43989,102 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "kb01_12_01lebens:0",
+    "name": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften",
+    "name_lang": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2001)",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/kb01_12_01lebens",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/kb01_12_01lebens?layerID=0",
+    "datasets": [
+      {
+        "md_id": "04c489a8-e1a1-3100-a7d2-9d99ba92594c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/bf2aa044-ada5-3ba1-ac30-55f342788b55",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_2005.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_12_01lebens2005:0",
+    "name": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften",
+    "name_lang": "Lebensraumfunktion naturnahe/seltene Pflanzengesellschaften(Lebensraumfunktion für naturnahe / seltene Pflanzengesellschaften 2005)",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_12_01lebens2005",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_12_01lebens2005?layerID=0",
+    "datasets": [
+      {
+        "md_id": "59711b55-eb7e-3c5a-a1da-192bfbfe795b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/abd8662f-0bfc-3506-bffc-3114d19a3b37",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2005/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_2005.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_11_10bindung2010:0",
+    "name": "Bindungsstärke für Schwermetalle",
+    "name_lang": "Bindungsstärke für Schwermetalle(Bindungsstärke der Böden für Schwermetalle 2010 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_11_10bindung2010",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_11_10bindung2006.png",
+    "datasets": [
+      {
+        "md_id": "98dd2076-e9ef-397a-9fbc-20750788fcf4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/42832566-10e8-36da-a385-29f1b9bf4722",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_10_2010.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
+  
 ]
