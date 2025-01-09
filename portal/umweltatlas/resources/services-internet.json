@@ -1356,7 +1356,7 @@
     "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_01bodart2005?layerID=4",
     "datasets": [
       {
-        "md_id": "ce5a8771-1648-3685-90d2-d56a73d28a45",
+        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
@@ -1388,7 +1388,7 @@
     "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_01bodart2005?layerID=5",
     "datasets": [
       {
-        "md_id": "ce5a8771-1648-3685-90d2-d56a73d28a45",
+        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
@@ -1420,7 +1420,7 @@
     "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_01bodart2005?layerID=0",
     "datasets": [
       {
-        "md_id": "ce5a8771-1648-3685-90d2-d56a73d28a45",
+        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
