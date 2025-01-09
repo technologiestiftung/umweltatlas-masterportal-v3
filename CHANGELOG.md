@@ -23,6 +23,7 @@
 - Issue #1314: Added WMS are added in a folder structure in the layerSelection.
 - Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
+- Routing: Fixed URL of ORS request in TSR
 
 ---
 
