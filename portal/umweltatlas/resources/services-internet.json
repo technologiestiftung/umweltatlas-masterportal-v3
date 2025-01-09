@@ -1989,7 +1989,7 @@
     "singleTile": true,
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_03_2020.pdf?ts=1717498908",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_03_2020.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -42074,7 +42074,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/1990/methode/index.php/umweltatlas/boden/bodenfunktionen/1990/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_1990.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_12_02ertrag2015:0",
@@ -42101,7 +42108,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2015/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_02_2015.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_12_02ertrag1990:0",
@@ -42128,7 +42142,14 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/1990/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_02_1990.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   },
   {
     "id": "k01_12_03puff2015:0",
