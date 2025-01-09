@@ -1459,7 +1459,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2001.pdf",
     "uaContact": {
       "name": "Leilah Haag",
@@ -40774,7 +40774,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2001.pdf",
     "uaContact": {
       "name": "Leilah Haag",
@@ -40808,7 +40808,7 @@
     "gfiTheme": "default",
     "transparent": true,
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2001.pdf",
     "uaContact": {
       "name": "Leilah Haag",
