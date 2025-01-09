@@ -43315,5 +43315,37 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "k01_06_05humus2010:0",
+    "name": "Humusmenge",
+    "name_lang": "Humusmenge(Humusmenge der Böden 2010 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_05humus2010",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_05humus2006.png",
+    "datasets": [
+      {
+        "md_id": "178588a4-c2c2-3e7a-b6c0-7a0cad0e59a3",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_05_2010.pdf?ts=1696240851",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
