@@ -1190,12 +1190,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_versiegelung_2011:versiegelung_2011",
-                          "name": "2011 - Versiegelung 2011 (unkorrigierte Versiegelungsgrade, Rasterdaten)"
-                        },
-                        {
                           "id": "k01_02versieg2011:0",
                           "name": "2011 - Versiegelung"
+                        },
+                        {
+                          "id": "ua_versiegelung_2011:versiegelung_2011",
+                          "name": "2011 - Versiegelung 2011 (unkorrigierte Versiegelungsgrade, Rasterdaten)"
                         }
                       ]
                     },
