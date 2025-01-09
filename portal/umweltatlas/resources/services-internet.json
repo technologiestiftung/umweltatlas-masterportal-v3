@@ -43091,5 +43091,229 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "k01_06_02flach2010:0",
+    "name": "Nutzbare Feldkapazität für Flachwurzler",
+    "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2010 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_02flach2010",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_02flach2010?layerID=0",
+    "datasets": [
+      {
+        "md_id": "29963248-2db0-3fc5-bdeb-b1923be71022",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_02_2010.pdf?ts=1696240839",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_06_04nfeld2010:0",
+    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
+    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2010 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld2010",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_04nfeld2006.png",
+    "datasets": [
+      {
+        "md_id": "55af4f0e-04fd-3d3c-b0d6-694e20fcb9b1",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2010.pdf?ts=1696240837",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_06_02flach2005:0",
+    "name": "Nutzbare Feldkapazität für Flachwurzler",
+    "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2005 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_02flach2005",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_02flach2005?layerID=0",
+    "datasets": [
+      {
+        "md_id": "e0557304-82df-3eac-8461-0357d6ce7684",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/69f57d76-97eb-34e5-a384-b0af9d1c2a0b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_02_2005.pdf?ts=1696052260",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_06_04nfeld2005:0",
+    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
+    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2005 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld2005",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_04nfeld2005?layerID=0",
+    "datasets": [
+      {
+        "md_id": "9f0cf4fa-30a0-3555-b5ef-07f2bd46eee3",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/69f57d76-97eb-34e5-a384-b0af9d1c2a0b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2005.pdf?ts=1696052194",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "kb01_06_02flach:0",
+    "name": "Nutzbare Feldkapazität für Flachwurzler",
+    "name_lang": "Nutzbare Feldkapazität für Flachwurzler(Nutzbare Feldkapazität der Böden für Flachwurzler 2001 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/kb01_06_02flach",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/kb01_06_02flach?layerID=0",
+    "datasets": [
+      {
+        "md_id": "a0551b76-ddc1-3ff6-bc53-876915f89ef6",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_02_2001.pdf?ts=1695989941",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "kb01_06_04nfeld:0",
+    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
+    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2001 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/kb01_06_04nfeld",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/kb01_06_04nfeld?layerID=0",
+    "datasets": [
+      {
+        "md_id": "b4bf8488-2dd0-3279-807f-5ec7ffc5f752",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2001.pdf?ts=1695989909",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "k01_06_04nfeld1990:0",
+    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
+    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 1990 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld1990",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_04nfeld2006.png",
+    "datasets": [
+      {
+        "md_id": "53fc4742-d8c7-37b7-90fc-874bf47cef5b",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4213ab3f-1d9f-3099-bf7a-973ea32dd3cf",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_1990.pdf?ts=1695989672",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
