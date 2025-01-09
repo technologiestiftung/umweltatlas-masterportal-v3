@@ -43381,5 +43381,37 @@
       "tel": "+49 30 90139 5270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "kb01_06_08sumkat:0",
+    "name": "Summe austauschbarer Kationen des Oberbodens",
+    "name_lang": "Summe austauschbarer Kationen des Oberbodens(Summe austauschbarer Kationen des Oberbodens 2001 (Umweltatlas))",
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
+    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/kb01_06_08sumkat",
+    "typ": "WMS",
+    "layers": "0",
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "1",
+    "gfiAttributes": "ignore",
+    "gfiTheme": "default",
+    "transparent": true,
+    "tilesize": "512",
+    "maxScale": "210000",
+    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/kb01_06_08sumkat?layerID=0",
+    "datasets": [
+      {
+        "md_id": "a90d0e6a-c12b-3f44-ad33-ef1f0cdb1320",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_08__01_11_07_2001.pdf?ts=1695989970",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
