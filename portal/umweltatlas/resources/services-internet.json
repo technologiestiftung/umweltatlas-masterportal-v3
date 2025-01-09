@@ -1298,7 +1298,7 @@
     "transparent": true,
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2010.pdf?ts=1696240883",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2010.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1330,7 +1330,7 @@
       }
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2010.pdf?ts=1696240883",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2010.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1362,7 +1362,7 @@
       }
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf?ts=1696052240",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1394,7 +1394,7 @@
       }
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf?ts=1696052240",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1426,7 +1426,7 @@
       }
     ],
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf?ts=1696052240",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1460,7 +1460,7 @@
     "transparent": true,
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2001.pdf?ts=1695989954",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2001.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1494,7 +1494,7 @@
     "transparent": true,
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_1990.pdf?ts=1695989683",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_1990.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1528,7 +1528,7 @@
     "transparent": true,
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_1990.pdf?ts=1695989683",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_1990.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -1561,7 +1561,7 @@
     "singleTile": true,
     "infoFormat": "application/json",
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_01_2020.pdf?ts=1717498950",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_01_2020.pdf",
     "uaContact": {
       "name": "Leilah Haag",
       "tel": "+49 30 90139 5270",
@@ -43083,6 +43083,13 @@
     "featureCount": "5",
     "gfiTheme": "default",
     "transparent": true,
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2010.pdf",
+    "uaContact": {
+      "name": "Leilah Haag",
+      "tel": "+49 30 90139 5270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
   }
 ]
