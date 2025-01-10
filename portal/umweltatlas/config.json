@@ -4022,78 +4022,78 @@
                       "name": "Emissionen aller Verursacher"
                     }]},
                     
-                      {
-                        "name": "03.12.02.2 NOx-Gesamtemissionen",
-                        "type": "folder",
-                        "elements": [
-                          {
-                            "id": "emi_nox_all1994:3",
-                            "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                          },
-                          {
-                            "id": "emi_nox_all1994:4",
-                            "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                          },
-                          {
-                            "id": "emi_nox_all1994:1",
-                            "name": "Emissionen aller Verursacher"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "03.12.02.3 NOx-Gesamtemissionen",
-                        "type": "folder",
-                        "elements": [
-                          {
-                            "id": "emi_nox_all2002:3",
-                            "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                          },
-                          {
-                            "id": "emi_nox_all2002:2",
-                            "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                          },
-                          {
-                            "id": "emi_nox_all2002:1",
-                            "name": "Emissionen aller Verursacher"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "03.12.02.4 NOx-Gesamtemissionen",
-                        "type": "folder",
-                        "elements": [
-                          {
-                            "id": "k03_12_02_4noxemigesamt2005:2",
-                            "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                          },
-                          {
-                            "id": "k03_12_02_4noxemigesamt2005:3",
-                            "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                          },
-                          {
-                            "id": "k03_12_02_4noxemigesamt2005:1",
-                            "name": "NOx Emissionen aller Verursacher"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "03.12.02.5 NOx-Gesamtemissionen",
-                        "type": "folder",
-                        "elements": [
-                          {
-                            "id": "k03_12_02_5noxemigesamt2009:3",
-                            "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                          },
-                          {
-                            "id": "k03_12_02_5noxemigesamt2009:2",
-                            "name": "Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                          },
-                          {
-                            "id": "k03_12_02_5noxemigesamt2009:1",
-                            "name": "NOx Emissionen aller Verursacher"
-                          }
-                        ]
-                      },
+                       {
+                      "name": "03.12.02.2 - 1994",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "emi_nox_all1994:3",
+                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                        },
+                        {
+                          "id": "emi_nox_all1994:4",
+                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                        },
+                        {
+                          "id": "emi_nox_all1994:1",
+                          "name": "Emissionen aller Verursacher"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "03.12.02.3 - 2002",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "emi_nox_all2002:3",
+                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                        },
+                        {
+                          "id": "emi_nox_all2002:2",
+                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                        },
+                        {
+                          "id": "emi_nox_all2002:1",
+                          "name": "Emissionen aller Verursacher"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "03.12.02.4 - 2005",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "k03_12_02_4noxemigesamt2005:2",
+                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                        },
+                        {
+                          "id": "k03_12_02_4noxemigesamt2005:3",
+                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                        },
+                        {
+                          "id": "k03_12_02_4noxemigesamt2005:1",
+                          "name": "NOx Emissionen aller Verursacher"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "03.12.02.5 - 2009",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "k03_12_02_5noxemigesamt2009:3",
+                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
+                        },
+                        {
+                          "id": "k03_12_02_5noxemigesamt2009:2",
+                          "name": "Emissionsentwicklung als Diagramm mit Zahlenwerten"
+                        },
+                        {
+                          "id": "k03_12_02_5noxemigesamt2009:1",
+                          "name": "NOx Emissionen aller Verursacher"
+                        }
+                      ]
+                    },
 
                     
                     {
