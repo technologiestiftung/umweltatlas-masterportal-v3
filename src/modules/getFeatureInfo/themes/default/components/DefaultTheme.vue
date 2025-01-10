@@ -5,6 +5,7 @@ import {translateKeyWithPlausibilityCheck} from "../../../../../shared/js/utils/
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
 import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
 import {isHTML} from "../../../../../shared/js/utils/isHTML.js";
+import CompareFeatureIcon from "./favoriteIcons/components/CompareFeatureIcon.vue";
 import DefaultThemeSensorChart from "./DefaultThemeSensorChart.vue";
 import {getPropertiesWithFullKeys} from "../js/getPropertiesWithFullKeys.js";
 import {markRaw} from "vue";
@@ -22,6 +23,7 @@ import {markRaw} from "vue";
 export default {
     name: "DefaultTheme",
     components: {
+        CompareFeatureIcon: markRaw(CompareFeatureIcon),
         DefaultThemeSensorChart: markRaw(DefaultThemeSensorChart)
     },
     props: {

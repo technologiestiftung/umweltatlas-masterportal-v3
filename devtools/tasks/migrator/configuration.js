@@ -1,5 +1,4 @@
 const toolsNotToMigrate = [
-        "compareFeatures",
         "addLayerRemotely",
         "bauforum",
         "boris",

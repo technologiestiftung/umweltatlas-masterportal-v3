@@ -194,18 +194,32 @@ async function sendRequestVROOM (url, tsrSpeedProfile, start, end, jobs) {
  * @returns {Object} ORS response
  */
 async function sendRequestORS (tsrSpeedProfile, coordinates) {
-    // get service url
-    const url = store.getters.restServiceById(state.directionsSettings.serviceId).url +
-        `/v2/directions/${tsrSpeedProfile}/geojson`,
+    let serviceUrl = store.getters.restServiceById(state.directionsSettings.serviceId).url,
+        response = null,
+        url = "";
 
+    const path = `v2/directions/${tsrSpeedProfile}/geojson`,
         postParams = {
             coordinates: coordinates,
             preference: "recommended",
             units: "m",
             elevation: true
-        },
+        };
 
-        response = await axios.post(url, postParams);
+    if (serviceUrl.endsWith("/")) {
+        serviceUrl += path;
+    }
+    else {
+        serviceUrl = serviceUrl + "/" + path;
+    }
+    if (serviceUrl.startsWith("/")) {
+        url = new URL(serviceUrl, window.location.origin);
+    }
+    else {
+        url = new URL(serviceUrl);
+    }
+
+    response = await axios.post(url, postParams);
 
     return response;
 }

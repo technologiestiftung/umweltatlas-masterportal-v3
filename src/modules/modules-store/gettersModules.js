@@ -6,6 +6,7 @@ import Contact from "../contact/components/ContactFormular.vue";
 import CoordToolkit from "../coordToolkit/components/CoordToolkit.vue";
 import CopyrightConstraints from "../copyrightConstraints/components/CopyrightConstraints.vue";
 import CustomMenuElement from "../menu/components/CustomMenuElement.vue";
+import CompareFeatures from "../compareFeatures/components/CompareFeatures.vue";
 import CompareMaps from "../compareMaps/components/CompareMaps.vue";
 import Draw from "../draw/components/DrawModule.vue";
 import Draw_old from "../draw_old/components/DrawItem.vue";
@@ -56,6 +57,7 @@ const getters = {
             coordToolkit: CoordToolkit,
             copyrightConstraints: CopyrightConstraints,
             compareMaps: CompareMaps,
+            compareFeatures: CompareFeatures,
             customMenuElement: CustomMenuElement,
             draw: Draw,
             draw_old: Draw_old,

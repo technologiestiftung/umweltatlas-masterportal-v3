@@ -202,6 +202,31 @@
         "zoomOut": "Herauszoomen"
       }
     },
+    "compareFeatures": {
+      "title": "Vergleichsliste",
+      "description": "Vergleiche ausgewählte Objekte in der Tabelle.",
+      "topicsSelection": "Themen Auswahl",
+      "removeFromList": "Von Liste entfernen",
+      "noFeatures": {
+          "nothingSelected": "Es sind keine {{objects}} für die Vergleichsliste ausgewählt.",
+          "objectName": "Objekte",
+          "info": "Klicken Sie auf ein Objekt in der Karte. Es öffnet sich ein Fenster mit den jeweiligen Sachinformationen. In der rechten oberen Ecke befindet sich ein Sternsymbol {{iconEmptyStar}}. Klicken Sie auf dieses Symbol, um das Objekt zur Vergleichsliste hinzuzufügen. Das Sternsymbol wird gelb eingefärbt {{iconYellowStar}}. Ein erneuter Klick auf das Sternsymbol entfernt das Objekt wieder von der Vergleichsliste.",
+          "info2": "Sobald ein Objekt zur Vergleichsliste hinzugefügt wird, erscheint es in der Tabelle, sodass Sie es einfach mit anderen Objekten vergleichen können. Um ein Objekt zu entfernen, klicken Sie einfach auf das 'X' neben dem entsprechenden Objekt auf der linken Seite der Tabelle."
+        },
+      "feedback": {
+          "added": "Das Feature wurde zur Vergleichsliste hinzugefügt",
+          "addedWithName": "{{currentFeatureName}} wurde zur Vergleichsliste hinzugefügt",
+          "notAdded": "Das Feature konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "notAddedWithName": "{{currentFeatureName}} konnte nicht zur Vergleichsliste hinzugefügt werden",
+          "limitReached": "Die maximale Anzahl an Objekten in der Vergleichsliste wurde erreicht.",
+          "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
+          "goToComparisonlist": "Zur Vergleichsliste"
+      },
+      "trueFalse": {
+          "true": "Ja",
+          "false": "Nein"
+      }
+    },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "East-Wert / Rechtswert",
@@ -494,6 +519,12 @@
       "buttonBack": "Vorherige Informationen anzeigen",
       "buttonForward": "Weitere Informationen anzeigen",
       "errorMessage": "Bei der Informationsabfrage (GetFeatureInfo) ist ein Fehler aufgetreten.<br>Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut. Falls das Problem weiterhin auftritt, wenden Sie sich bitte an den Betreiber des Dienstes.",
+      "favoriteIcons": {
+        "compareFeatureIcon": {
+            "toCompareList": "Auf die Vergleichsliste",
+            "fromCompareList": "Von der Vergleichsliste entfernen"
+        }
+      },
       "name": "Informationen abfragen",
       "themes": {
         "default": {

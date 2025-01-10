@@ -202,6 +202,32 @@
         "zoomOut": "Zoom Out"
       }
     },
+    "compareFeatures": {
+      "title": "Comparison list",
+      "description": "Compare selected objects in the table.",
+      "topicsSelection": "Topics selection",
+      "removeFromList": "Remove from list",
+      "noFeatures": {
+          "nothingSelected": "There are no {{objects}} selected for the comparison list.",
+          "objectName": "objects",
+          "info": "Click on an object on the map. A window opens with the respective factual information. In the upper right corner there is a star symbol {{iconEmptyStar}}. Click on this icon to add the object to the comparison list. The star icon will be colored yellow {{iconYellowStar}}. Click the star icon again to remove the object from the comparison list. ",
+          "info2": "Once an object is added to the comparison list, it will appear in the table, allowing you to easily compare it with other objects. To remove an object, you can also simply click the 'X' next to it on the left side of the table."
+
+      },
+      "feedback": {
+          "added": "The feature was added to the comparison list",
+          "addedWithName": "{{currentFeatureName}} was added to the comparison list",
+          "notAdded": "The feature could not be added to the comparison list",
+          "notAddedWithName": "{{currentFeatureName}} could not be added to the comparison list",
+          "limitReached": "The maximum number of objects in the comparison list has been reached.",
+          "removeObjects": "Please remove at least one object before proceeding.",
+          "goToComparisonlist": "To the comparison list"
+      },
+      "trueFalse": {
+          "true": "Yes",
+          "false": "No"
+      }
+  },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "Easting",
@@ -494,6 +520,12 @@
       "buttonBack": "Show previous information",
       "buttonForward": "Show further information",
       "errorMessage": "An error has occurred  during the information request (GetFeatureInfo).<br>Please try again later. If the problem persists, please contact the operator of the service.",
+      "favoriteIcons": {
+        "compareFeatureIcon": {
+            "toCompareList": "Add to compare list",
+            "fromCompareList": "Remove from compare list"
+        }
+      },
       "name": "Retrieve information",
       "themes": {
         "default": {

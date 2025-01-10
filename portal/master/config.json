@@ -529,6 +529,9 @@
             "type": "populationRequest"
           },
           {
+            "type": "compareFeatures"
+          },
+          {
             "type": "print",
             "printServiceId": "mapfish",
             "printAppId": "master",
@@ -1100,8 +1103,10 @@
           "escapeChar": "!"
         },
         {
-          "id": "945",
+          "id": "52",
+          "styleId": "52",
           "name": "Parkhäuser",
+          "typ": "WFS",
           "visibility": false,
           "autoRefresh": 5000
         },
@@ -1212,14 +1217,6 @@
           "styleId": "18106",
           "loadThingsOnlyInCurrentExtent": true,
           "urlIsVisible": true
-        },
-        {
-          "id": "27926",
-          "styleId": "8712",
-          "name": "Schulen (Layertyp OAF)",
-          "typ": "OAF",
-          "visibility": true,
-          "gfiTheme": "schulinfo"
         },
         {
           "id": "20625.90024",
