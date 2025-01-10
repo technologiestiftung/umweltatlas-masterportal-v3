@@ -3934,13 +3934,13 @@
                       "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
                       "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
                     },
-                    {
-                                      "name": "03.12.1 Berliner Luftgütemessnetz - Standorte und Messdaten",
-                  "type": "folder",
-                  "elements": [                    {
-                      "id": "test",
-                      "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
-                    }]}}
+                      {
+              "name": "Langjährige Entwicklung der Luftqualität",
+              "type": "folder",
+              "elements": [                    {
+                      "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
+                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
+                    }]}
                   ]
                 },
                 {
