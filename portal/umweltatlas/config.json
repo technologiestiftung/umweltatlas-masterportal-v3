@@ -4010,15 +4010,15 @@
                   "name": "03.12.02.1 - 1989",
                   "type": "folder",
                   "elements": [ {
-                      "id": "emi_nox_all1989:3",
+                      "id": "emi_nox_all1989:2",
                       "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
                     },
                     {
-                      "id": "emi_nox_all1989:4",
+                      "id": "emi_nox_all1989:3",
                       "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
                     },
                     {
-                      "id": "emi_nox_all1989:1",
+                      "id": "emi_nox_all1989:0",
                       "name": "Emissionen aller Verursacher"
                     }]},
                     
