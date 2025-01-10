@@ -3933,14 +3933,7 @@
                     {
                       "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
                       "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
-                    },
-                      {
-              "name": "2015",
-              "type": "folder",
-              "elements": [                    {
-                      "id": "nox- bla bla",
-                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
-                    }]}
+                    }
                   ]
                 },
                 {
