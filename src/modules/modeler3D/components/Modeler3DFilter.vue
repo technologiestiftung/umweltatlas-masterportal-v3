@@ -4,8 +4,10 @@ import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
-import layerCollection from "../../../core/layers/js/layerCollection";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
+
+import layerCollection from "../../../core/layers/js/layerCollection";
+import processLayerConfig from "../../../core/layers/js/layerProcessor";
 
 /**
  * The component that handles the 3D modeler filtering & styling.
@@ -49,6 +51,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["visibleSubjectDataLayerConfigs", "allLayerConfigs"]),
         ...mapGetters("Modules/Modeler3D", [
             "currentFilterId",
             "filterList",
@@ -58,7 +61,6 @@ export default {
             "allowedAttributes",
             "pvoColors"
         ]),
-
         attributeValuesSorted () {
             return this.attributeValues.toSorted((a, b) => a.name.localeCompare(b.name));
         },
@@ -74,25 +76,17 @@ export default {
             }, {});
         }
     },
+    watch: {
+        visibleSubjectDataLayerConfigs (newVal, oldVal) {
+            if (newVal.length !== oldVal) {
+                processLayerConfig(this.allLayerConfigs, "3D");
+                this.Initialize3dLayers();
+
+            }
+        }
+    },
     created () {
-        const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D"),
-            activeTileset = tilesets.filter(layer => layer.get("visibility") === true)[0];
-
-        this.layers = tilesets.map(tileset => {
-            const layer = tileset.layer.values;
-
-            tileset.layer.tileset.then(ts => {
-                layer.style = ts.style;
-            });
-
-            return layer;
-        });
-        this.selectedLayer = this.layers.find(layer => layer.id === activeTileset.layer.values.id);
-        activeTileset.layer.tileset
-            .then(tileset => tileset.readyPromise)
-            .then(this.getAllGfiAttributes());
-
-        this.loadAttributeValues();
+        this.Initialize3dLayers();
     },
     methods: {
         ...mapMutations("Modules/Modeler3D", [
@@ -101,6 +95,32 @@ export default {
             "setLayerList"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
+
+        Initialize3dLayers () {
+            const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D"),
+                activeTileset = tilesets?.filter(layer => layer.get("visibility") === true)[0];
+
+            if (!activeTileset) {
+                this.layers = {};
+                return;
+            }
+
+            this.layers = tilesets.map(tileset => {
+                const layer = tileset.layer.values;
+
+                tileset.layer.tileset.then(ts => {
+                    layer.style = ts.style;
+                });
+
+                return layer || {};
+            });
+            this.selectedLayer = this.layers.find(layer => layer.id === activeTileset.layer.values.id);
+            activeTileset.layer.tileset
+                .then(tileset => tileset.readyPromise)
+                .then(this.getAllGfiAttributes());
+
+            this.loadAttributeValues();
+        },
 
         /**
          * Adds a new filter to the filter list.
@@ -459,7 +479,6 @@ export default {
 <template>
     <div
         id="modeler3d-filter"
-        class="rounded-dialog"
     >
         <ModalItem
             :show-modal="showModal"
