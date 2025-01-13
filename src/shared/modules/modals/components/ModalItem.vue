@@ -93,7 +93,7 @@ export default {
         :class="[showingClass]"
         role="alert"
     >
-        <div id="modal-1-overlay" class="modal"/>
+        <div id="modal-1-overlay" />
         <button
             id="modal-1-outer-wrapper"
             @mousedown="discardByClickOutside"
@@ -104,7 +104,7 @@ export default {
                 ref="discard"
                 tabindex="0"
                 :style="modalInnerWrapperStyle"
-                class="rounded-dialog"
+                class="modal-rounded-dialog"
             >
                 <IconButton
                     :class-array="['btn-light', 'bootstrap-icon']"
@@ -139,7 +139,7 @@ export default {
     // @import "~/css/mixins.scss";
     @import "~variables";
 
-    .rounded-dialog {
+    .modal-rounded-dialog {
     border-radius: 0.3em;
 }
 

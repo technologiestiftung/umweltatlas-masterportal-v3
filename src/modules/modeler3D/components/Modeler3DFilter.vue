@@ -879,8 +879,4 @@ export default {
     }
 }
 
-.rounded-dialog {
-    border-radius: 10px;
-    overflow: hidden;
-}
 </style>
