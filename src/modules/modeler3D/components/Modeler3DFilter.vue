@@ -455,14 +455,14 @@ export default {
 </script>
 
 <template>
-    <div id="modeler3d-filter">
+    <div id="modeler3d-filter" class="rounded-dialog">
         <ModalItem
             :show-modal="showModal"
             @modalHid="showModal = false"
         >
             <template #header>
-                <div class="d-flex justify-content-center pt-2">
-                    <h1>{{ $t('modules.modeler3D.filter.captions.styleSettingsTitle') }}</h1>
+                <div>
+                    <h1 class="mb-0 p-xxl-1 fs-5">{{ $t('modules.modeler3D.filter.captions.styleSettingsTitle') }}</h1>
                 </div>
                 <hr class="m-0 mt-2">
             </template>
@@ -871,5 +871,10 @@ export default {
         color: $light_grey_contrast;
         cursor: pointer;
     }
+}
+
+.rounded-dialog {
+    border-radius: 10px;
+    overflow: hidden;
 }
 </style>
