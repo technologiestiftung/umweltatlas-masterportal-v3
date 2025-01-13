@@ -96,6 +96,9 @@ export default {
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
 
+        /**
+         * Sets the layer selection for setting filters, as well as the selected layer and the attribute values of the selected layer.
+         */
         Initialize3dLayers () {
             const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D"),
                 activeTileset = tilesets?.filter(layer => layer.get("visibility") === true)[0];
