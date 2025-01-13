@@ -2,6 +2,7 @@
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 
 import layerCollection from "../../../core/layers/js/layerCollection";
 import {uniqueId} from "../../../shared/js/utils/uniqueId";
@@ -27,7 +28,8 @@ export default {
     name: "Modeler3DFilter",
     components: {
         AccordionItem,
-        ModalItem
+        ModalItem,
+        FlatButton
     },
     data () {
         return {
@@ -455,14 +457,19 @@ export default {
 </script>
 
 <template>
-    <div id="modeler3d-filter" class="rounded-dialog">
+    <div
+        id="modeler3d-filter"
+        class="rounded-dialog"
+    >
         <ModalItem
             :show-modal="showModal"
             @modalHid="showModal = false"
         >
             <template #header>
                 <div>
-                    <h1 class="mb-0 p-xxl-1 fs-5">{{ $t('modules.modeler3D.filter.captions.styleSettingsTitle') }}</h1>
+                    <h1 class="mb-0 p-xxl-1 fs-5">
+                        {{ $t('modules.modeler3D.filter.captions.styleSettingsTitle') }}
+                    </h1>
                 </div>
                 <hr class="m-0 mt-2">
             </template>
@@ -622,13 +629,12 @@ export default {
                         {{ $t("modules.modeler3D.filter.captions.selectAttribute") }}
                     </label>
                 </div>
-
-                <button
-                    class="btn btn-primary mt-2"
-                    @click="addFilter"
-                >
-                    {{ $t("modules.modeler3D.filter.captions.addFilter") }}
-                </button>
+                <FlatButton
+                    id="modeler3d-addFilter"
+                    :aria-label="$t('modules.modeler3D.filter.captions.addFilter')"
+                    :interaction="addFilter"
+                    :text="$t('modules.modeler3D.filter.captions.addFilter')"
+                />
             </div>
         </AccordionItem>
         <hr class="m-0">
