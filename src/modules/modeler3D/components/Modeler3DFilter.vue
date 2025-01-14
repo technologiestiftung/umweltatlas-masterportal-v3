@@ -548,7 +548,7 @@ export default {
                 </div>
                 <table
                     id="styleTable"
-                    class="table styleTable mt-3"
+                    class="table mt-3"
                 >
                     <thead>
                         <tr>
@@ -797,10 +797,6 @@ export default {
 <style lang="scss" scoped>
 @import "~mixins";
 @import "~variables";
-
-.styleTable {
-    font-size: $font_size_big;
-}
 
 .small-heading {
     font-size: $font_size_big;
