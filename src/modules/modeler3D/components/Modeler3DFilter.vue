@@ -147,7 +147,7 @@ export default {
             this.attributeValues.forEach(value => {
                 value.color = "#ffffff";
             });
-            this.filterName = this.selectedAttribute;
+            this.filterName = this.selectedAttribute || "[unbenannt]";
 
             this.filterList.push({
                 id: id,
