@@ -50,6 +50,12 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
                         Modeler3D
                     }
                 }
+            },
+            getters: {
+                visibleSubjectDataLayerConfigs: () => [
+                    {name: "Layer1", id: "1"},
+                    {name: "Layer2", id: "2"}
+                ]
             }
         });
         sinon.stub(global, "fetch").returns(
@@ -120,7 +126,7 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
                 }
             });
 
-            const addFilterButton = wrapper.find(".btn.btn-primary.mt-2");
+            const addFilterButton = wrapper.find("#modeler3d-addFilter");
 
             expect(addFilterButton.exists()).to.be.true;
             expect(addFilterButton.text()).to.equal("modules.modeler3D.filter.captions.addFilter");
@@ -148,6 +154,11 @@ describe("src/modules/tools/modeler3D/components/Modeler3DFilter.vue", () => {
             wrapper = mount(Modeler3DFilterComponent, {
                 global: {
                     plugins: [store]
+                },
+                data () {
+                    return {
+                        groupOrder: ["TestLayer1", "TestLayer2"]
+                    };
                 }
             });
 
