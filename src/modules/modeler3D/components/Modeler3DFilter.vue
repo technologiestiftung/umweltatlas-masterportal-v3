@@ -8,7 +8,6 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 import layerCollection from "../../../core/layers/js/layerCollection";
 import processLayerConfig from "../../../core/layers/js/layerProcessor";
-import { translateKeyWithPlausibilityCheck } from "../../../shared/js/utils/translateKeyWithPlausibilityCheck";
 
 /**
  * The component that handles the 3D modeler filtering & styling.
