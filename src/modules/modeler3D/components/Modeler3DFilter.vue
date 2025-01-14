@@ -8,6 +8,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
 
 import layerCollection from "../../../core/layers/js/layerCollection";
 import processLayerConfig from "../../../core/layers/js/layerProcessor";
+import { translateKeyWithPlausibilityCheck } from "../../../shared/js/utils/translateKeyWithPlausibilityCheck";
 
 /**
  * The component that handles the 3D modeler filtering & styling.
@@ -287,6 +288,12 @@ export default {
 
             this.setCurrentFilterId(null);
 
+            this.showModal = false;
+        },
+        /**
+         *  Sets the data object showModal to false to close the modal dialog
+         */
+        abortStyle () {
             this.showModal = false;
         },
         /**
@@ -578,25 +585,25 @@ export default {
                     id="footer-buttons"
                     class="d-flex justify-content-between p-2 mt-2"
                 >
-                    <button
-                        class="btn btn-primary"
-                        @click="applyStyle()"
-                    >
-                        {{ $t('modules.modeler3D.filter.captions.applyStyle') }}
-                    </button>
-                    <button
-                        class="btn btn-warning"
-                        @click="resetStyle()"
-                    >
-                        {{ $t('modules.modeler3D.filter.captions.resetStyle') }}
-                    </button>
-                    <button
+                    <FlatButton
+                        id="modeler3d-applyStyle"
+                        :aria-label="$t('modules.modeler3D.filter.captions.applyStyle')"
+                        :interaction="applyStyle"
+                        :text="$t('modules.modeler3D.filter.captions.applyStyle')"
+                    />
+                    <FlatButton
+                        id="modeler3d-resetStyle"
+                        :aria-label="$t('modules.modeler3D.filter.captions.resetStyle')"
+                        :interaction="resetStyle"
+                        :text="$t('modules.modeler3D.filter.captions.resetStyle')"
+                    />
+                    <FlatButton
                         v-if="!newFilter"
-                        class="btn btn-secondary"
-                        @click="showModal = false"
-                    >
-                        {{ $t('modules.modeler3D.filter.captions.abortStyle') }}
-                    </button>
+                        id="modeler3d-abortStyle"
+                        :aria-label="$t('modules.modeler3D.filter.captions.abortStyle')"
+                        :interaction="abortStyle"
+                        :text="$t('modules.modeler3D.filter.captions.abortStyle')"
+                    />
                 </div>
             </template>
         </ModalItem>
