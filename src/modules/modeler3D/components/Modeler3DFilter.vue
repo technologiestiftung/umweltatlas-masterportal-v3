@@ -47,7 +47,8 @@ export default {
             dzIsDropHovering: null,
             dzIsHovering: false,
             dragCounter: 0,
-            filterName: ""
+            filterName: "",
+            groupOrder: []
         };
     },
     computed: {
@@ -74,6 +75,19 @@ export default {
                 groups[layerName].unshift(filter);
                 return groups;
             }, {});
+        },
+        sortedGroupedFilters () {
+            const groupedFilters = this.groupedFiltersByLayer,
+                orderedGroups = this.groupOrder,
+                sortedGroups = {};
+
+            orderedGroups.forEach(group => {
+                if (groupedFilters[group]) {
+                    sortedGroups[group] = groupedFilters[group];
+                }
+            });
+
+            return sortedGroups;
         }
     },
     watch: {
@@ -81,7 +95,6 @@ export default {
             if (newVal.length !== oldVal) {
                 processLayerConfig(this.allLayerConfigs, "3D");
                 this.Initialize3dLayers();
-
             }
         }
     },
@@ -144,6 +157,10 @@ export default {
                 values: this.attributeValues,
                 pvoStyleEnabled: false
             });
+
+            if (!this.groupOrder.includes(this.selectedLayer.name)) {
+                this.groupOrder.push(this.selectedLayer.name);
+            }
 
             this.setCurrentFilterId(id);
             this.newFilter = true;
@@ -461,7 +478,6 @@ export default {
             if (draggedGroup === targetGroup) {
                 const draggedIndex = draggedGroup.findIndex(filter => filter.id === this.draggedItemIndex),
                     targetIndex = targetGroup.findIndex(filter => filter.id === id),
-
                     temp = draggedGroup[draggedIndex];
 
                 draggedGroup[draggedIndex] = targetGroup[targetIndex];
@@ -677,7 +693,7 @@ export default {
                 </p>
                 <div v-else>
                     <div
-                        v-for="(filters, layerName) in groupedFiltersByLayer"
+                        v-for="(filters, layerName) in sortedGroupedFilters"
                         :key="layerName"
                         class="layer-group"
                     >
