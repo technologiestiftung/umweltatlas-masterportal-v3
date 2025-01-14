@@ -25,6 +25,7 @@
 - Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
 - Routing: Fixed URL of ORS request in TSR
+- SensorThings-Layer: problem with not visible features after move of map was solved.
 
 ---
 
