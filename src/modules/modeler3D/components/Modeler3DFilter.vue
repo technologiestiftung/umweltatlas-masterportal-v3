@@ -187,6 +187,7 @@ export default {
          * Gets all possible attributes of the currently selected layer
          */
         async getAllGfiAttributes () {
+            this.selectedAttribute = "";
             layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D" && layer.get("id") === this.selectedLayer.id)[0].layer.tileset.then(tileset => {
                 const removeListener = tileset.tileVisible.addEventListener(tile => {
                     const content = tile.content,
