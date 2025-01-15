@@ -120,6 +120,23 @@ export default {
             "setLayerList"
         ]),
         ...mapActions("Alerting", ["addSingleAlert"]),
+        /**
+         * Creates layer objects that contains values like id, name of a layer as well as its style.
+         * @param {Object} tilesets tileset that contains relevant data of a layer
+         */
+        createFilterLayers (tilesets) {
+            const filterLayers = tilesets.map(tileset => {
+                const layer = tileset.layer.values;
+
+                tileset.layer.tileset.then(ts => {
+                    layer.style = ts.style;
+                });
+
+                return layer || {};
+            });
+
+            return filterLayers;
+        },
 
         /**
          * Sets the layer selection for setting filters, as well as the selected layer and the attribute values of the selected layer.
@@ -129,20 +146,24 @@ export default {
                 activeTileset = tilesets?.filter(layer => layer.get("visibility") === true)[0];
 
             if (!activeTileset) {
-                this.layers = {};
+                this.layers = [];
                 return;
             }
 
-            this.layers = tilesets.map(tileset => {
-                const layer = tileset.layer.values;
+            if (this.layers.length === 0) {
+                this.layers = this.createFilterLayers(tilesets);
+            }
+            else {
+                const existingLayerIds = this.layers.map(layer => layer.id),
+                    newLayers = this.createFilterLayers(tilesets).filter(layer => !existingLayerIds.includes(layer.id));
 
-                tileset.layer.tileset.then(ts => {
-                    layer.style = ts.style;
-                });
+                this.layers = this.layers.concat(newLayers);
+            }
 
-                return layer || {};
-            });
             this.selectedLayer = this.layers.find(layer => layer.id === activeTileset.layer.values.id);
+            if (!this.selectedLayer) {
+                return;
+            }
             activeTileset.layer.tileset
                 .then(tileset => tileset.readyPromise)
                 .then(this.getAllGfiAttributes());
@@ -267,7 +288,14 @@ export default {
                 this.setLayerList([]);
                 layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D").forEach(t => {
                     t.layer.tileset.then(tileset => {
-                        tileset.style = this.layers.find(layer => layer.id === t.layer.values.id).style;
+                        const tileLayer = this.layers.find(layer => layer.id === t.layer.values.id);
+
+                        if (!tileLayer) {
+                            return;
+                        }
+
+                        tileset.style = tileLayer.style;
+
                     });
                 });
             }
@@ -691,6 +719,7 @@ export default {
                     :aria-label="$t('modules.modeler3D.filter.captions.addFilter')"
                     :interaction="addFilter"
                     :text="$t('modules.modeler3D.filter.captions.addFilter')"
+                    :disabled="visibleLayers.length === 0"
                 />
             </div>
         </AccordionItem>
