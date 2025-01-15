@@ -90,11 +90,8 @@ export default {
             return sortedGroups;
         },
         visibleLayers () {
-            const visibleLayerIds = [];
+            const visibleLayerIds = this.visibleSubjectDataLayerConfigs.map(layer => layer.id);
 
-            this.visibleSubjectDataLayerConfigs.forEach(
-                layer => visibleLayerIds.push(layer.id)
-            );
             return this.layers.filter(layer => visibleLayerIds.includes(layer.id));
         }
     },
@@ -108,13 +105,13 @@ export default {
                 oldVal3dLayer = oldVal3dLayer.filter(x => !newVal3dLayer.includes(x));
                 if (newVal3dLayer.length > 0 || oldVal3dLayer.length > 0) {
                     processLayerConfig(this.allLayerConfigs, "3D");
-                    this.Initialize3dLayers();
+                    this.initialize3dLayers();
                 }
             }
         }
     },
     created () {
-        this.Initialize3dLayers();
+        this.initialize3dLayers();
     },
     methods: {
         ...mapMutations("Modules/Modeler3D", [
@@ -127,7 +124,7 @@ export default {
         /**
          * Sets the layer selection for setting filters, as well as the selected layer and the attribute values of the selected layer.
          */
-        Initialize3dLayers () {
+        initialize3dLayers () {
             const tilesets = layerCollection.getLayers().filter(layer => layer.get("typ") === "TileSet3D"),
                 activeTileset = tilesets?.filter(layer => layer.get("visibility") === true)[0];
 
