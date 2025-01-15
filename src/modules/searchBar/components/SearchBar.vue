@@ -292,6 +292,10 @@ export default {
                     }
                 });
             }
+        },
+        clearSearch () {
+            this.searchInputValue = "";
+            this.$refs.searchInput.focus();
         }
     }
 };
@@ -310,6 +314,15 @@ export default {
                 :aria-label="$t(layerSelectionPlaceHolder)"
                 @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
             >
+            <button
+                v-if="searchInputValue"
+                class="clear-btn btn btn-outline-secondary"
+                type="button"
+                aria-label="Clear search"
+                @click="clearSearch"
+            >
+                &times;
+            </button>
             <button
                 id="search-button"
                 class="btn btn-primary"
@@ -337,6 +350,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+    .input-group {
+        position: relative;
+    }
     #search-bar {
         #search-button {
             border-top-right-radius: 5px;
@@ -344,6 +360,30 @@ export default {
         }
         .input-label {
             color: $placeholder-color;
+        }
+    }
+    input[type="search"] {
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-search-cancel-button {
+        display: none;
+    }
+    }
+    .clear-btn {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: #7d9f7c;
+        cursor: pointer;
+        z-index: 99;
+
+        &:hover {
+            color: #5b7c5c;
         }
     }
     .overflowHidden{
