@@ -13,6 +13,7 @@
 - ShareView: Include existing URL query parameters into the generated share URL.
 
 ### Changed
+- SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers. 
 
 ### Deprecated
 
