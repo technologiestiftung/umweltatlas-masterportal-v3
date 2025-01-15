@@ -92,9 +92,15 @@ export default {
     },
     watch: {
         visibleSubjectDataLayerConfigs (newVal, oldVal) {
-            if (newVal.length !== oldVal) {
-                processLayerConfig(this.allLayerConfigs, "3D");
-                this.Initialize3dLayers();
+            let newVal3dLayer = newVal.filter(layer => layer.typ === "TileSet3D");
+            const oldVal3dLayer = oldVal.filter(layer => layer.typ === "TileSet3D");
+
+            if (oldVal3dLayer.length !== newVal3dLayer.length) {
+                newVal3dLayer = newVal3dLayer.filter(x => !oldVal3dLayer.includes(x));
+                if (newVal3dLayer.length > 0) {
+                    processLayerConfig(this.allLayerConfigs, "3D");
+                    this.Initialize3dLayers();
+                }
             }
         }
     },
