@@ -16,7 +16,7 @@
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
 - @masterportal/masterportalapi: Version update from 2.42.2 to 2.43.0.
 - OL: Changes in tests LayerPreview.spec.js after OL update.
-- AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
+- Issue #1338: AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
 
 ### Deprecated
 
@@ -31,6 +31,7 @@
 - Issue #1313: Added WMS layers are now no longer initially visible.
 - Issue #1314: Added WMS are added in a folder structure in the layerSelection.
 - Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
+- Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
 - Routing: Fixed URL of ORS request in TSR
