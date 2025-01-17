@@ -18,6 +18,7 @@
 ### Deprecated
 
 ### Removed
+- setupDev.md: Removed unneeded Python instructions.
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
@@ -31,6 +32,7 @@
 - Routing: Fixed URL of ORS request in TSR
 - SensorThings-Layer: problem with not visible features after move of map was solved.
 - Login-Module: Fix interceptor for login-secured services.
+- setupDev.md: Added relevant proxy-command.
 
 ---
 

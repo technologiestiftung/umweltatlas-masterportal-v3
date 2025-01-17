@@ -69,6 +69,7 @@ npm config set cache D:\npm-cache
 ### Proxy configuration (optional)
 
 Only relevant when a proxy is in use.
+Proxy in use on windows machines can be checked by running `netsh winhttp show proxy` in `cmd`
 
 
 Run in `cmd`:
@@ -117,16 +118,6 @@ $ npm install
 Now all npm dependencies are installed.
 
 In case add-ons are to be used, please refer to the **[add-ons documentation](../Tutorials/addOnsVue.md)** for further assistance.
-
-### Python Dependencies
-
-The documentation of this software is generated with mkdocs-material, a tool written in Python.
-To prevent conflicts between Python packages on the system and project level,
-a virtual environment (venv) is recommended.
-
-1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment.
-2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
-3. Now run `pip install -r .\python-dependencies.txt` to install the required Python packages. You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
 
 
 ## npm Commands
