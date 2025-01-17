@@ -21,6 +21,7 @@
 
 ### Removed
 - setupDev.md: Removed unneeded Python instructions.
+- Readme: Link to RemoteInterface.md deleted due to it being outdated 
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
@@ -35,6 +36,7 @@
 - SensorThings-Layer: problem with not visible features after move of map was solved.
 - Login-Module: Fix interceptor for login-secured services.
 - setupDev.md: Added relevant proxy-command.
+- Readme: Links fixed
 
 ---
 
