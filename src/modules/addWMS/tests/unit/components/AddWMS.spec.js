@@ -1,19 +1,21 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
+import crs from "@masterportal/masterportalapi/src/crs";
 import sinon from "sinon";
 import AddWMSComponent from "../../../components/AddWMS.vue";
-import AddWMS from "../../../store/indexAddWMS";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/addWMS/components/AddWMS.vue", () => {
     let addLayerToLayerConfigSpy,
         componentData,
+        featureCount,
         store,
         wrapper;
 
     beforeEach(() => {
+        crs.registerProjections();
         addLayerToLayerConfigSpy = sinon.spy();
 
         store = createStore({
@@ -22,7 +24,13 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                     namespaced: true,
                     modules: {
                         namespaced: true,
-                        AddWMS
+                        AddWMS: {
+                            namespaced: true,
+                            getters: {
+                                exampleURLs: () => [],
+                                featureCount: () => featureCount
+                            }
+                        }
                     }
                 },
                 Maps: {
@@ -123,6 +131,21 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         });
     });
 
+    describe("getInfoFormat", () => {
+        it("should return 'text/xml', if possible formats are empty", () => {
+            expect(wrapper.vm.getInfoFormat([])).to.equals("text/xml");
+        });
+        it("should return 'application/vnd.ogc.gml', if possible formats contains 'gml'", () => {
+            expect(wrapper.vm.getInfoFormat(["text/xml", "gml", "text/json"])).to.equals("application/vnd.ogc.gml");
+        });
+        it("should return 'application/vnd.ogc.gml', if possible formats contains 'application/vnd.ogc.gml'", () => {
+            expect(wrapper.vm.getInfoFormat(["text/xml", "application/vnd.ogc.gml", "text/json"])).to.equals("application/vnd.ogc.gml");
+        });
+        it("should return 'text/json' if the first entry is 'text/json' in possible formats and gml or 'application/vnd.ogc.gml' are not included", () => {
+            expect(wrapper.vm.getInfoFormat(["text/xml", "text/json"])).to.equals("text/xml");
+        });
+    });
+
     describe("parseLayerStructure", () => {
         it("should add layer object to folder structure", () => {
             const folder = {
@@ -152,6 +175,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
 
             wrapper.vm.wmsUrl = "https://geodienste.hamburg.de/HH_WMS_Solaratlas";
             wrapper.vm.version = "1.3.0";
+            wrapper.vm.infoFormat = "text/xml";
             wrapper.vm.parseLayerStructure(folder, object, level);
 
             expect(folder).to.deep.equals({
@@ -167,6 +191,8 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                         minScale: undefined,
                         name: "geb_sum",
                         showInLayerTree: false,
+                        featureCount: undefined,
+                        infoFormat: "text/xml",
                         typ: "WMS",
                         type: "layer",
                         url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
@@ -208,8 +234,11 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                 },
                 level = 1;
 
+            featureCount = 5;
+
             wrapper.vm.wmsUrl = "https://geodienste.hamburg.de/HH_WMS_Solaratlas";
             wrapper.vm.version = "1.3.0";
+            wrapper.vm.infoFormat = "text/xml";
             wrapper.vm.parseLayerStructure(folder, object, level);
 
             expect(folder).to.deep.equals({
@@ -229,6 +258,8 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                                 minScale: undefined,
                                 name: "geb_sum",
                                 showInLayerTree: false,
+                                featureCount: 5,
+                                infoFormat: "text/xml",
                                 typ: "WMS",
                                 type: "layer",
                                 url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",

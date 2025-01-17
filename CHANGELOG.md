@@ -13,15 +13,16 @@
 - ShareView: Include existing URL query parameters into the generated share URL.
 
 ### Changed
-- SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers. 
+- SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
 - @masterportal/masterportalapi: Version update from 2.42.2 to 2.43.0.
 - OL: Changes in tests LayerPreview.spec.js after OL update.
+- AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
 
 ### Deprecated
 
 ### Removed
 - setupDev.md: Removed unneeded Python instructions.
-- Readme: Link to RemoteInterface.md deleted due to it being outdated 
+- Readme: Link to RemoteInterface.md deleted due to it being outdated
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
@@ -37,6 +38,7 @@
 - Login-Module: Fix interceptor for login-secured services.
 - setupDev.md: Added relevant proxy-command.
 - Readme: Links fixed
+- AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 
 ---
 
@@ -45,7 +47,7 @@
 ### Added
 Geobasiskarten: Added new Layers 33780, 33793, 33787, 33797.
 - SelectFeatures: Added click selection for features and added UI components to delete all or single features from the selection.
-- addWMS: add the possibility to configure example URLs to display under the module.
+- AddWMS: add the possibility to configure example URLs to display under the module.
 
 ### Changed
 - Portal/basic: Renaming of services.json and rest-services.json as in the documentation.

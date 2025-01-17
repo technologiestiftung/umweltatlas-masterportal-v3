@@ -11,6 +11,7 @@ import {deleteParams} from "../../../shared/js/utils/deleteUrlParams";
  * Adds WMS
  * @module modules/AddWMS
  * @vue-data {Number} uniqueId - Current unique id.
+ * @vue-data {String} infoFormat - The infoFormat for gfi requests.
  * @vue-data {Boolean} invalidUrl - Shows if Url is invalid.
  * @vue-data {String} wmsUrl - Current wms url.
  * @vue-data {String} version - Current version.
@@ -20,13 +21,14 @@ export default {
     data () {
         return {
             uniqueId: 100,
+            infoFormat: "",
             invalidUrl: false,
             wmsUrl: "",
             version: ""
         };
     },
     computed: {
-        ...mapGetters("Modules/AddWMS", ["exampleURLs"]),
+        ...mapGetters("Modules/AddWMS", ["exampleURLs", "featureCount"]),
         ...mapGetters("Maps", ["projection", "mode"]),
         ...mapGetters(["mapViewSettings"])
     },
@@ -154,6 +156,7 @@ export default {
 
                         this.version = version;
                         this.wmsUrl = url;
+                        this.infoFormat = this.getInfoFormat(finalCapability.Capability.Request.GetFeatureInfo.Format);
 
                         folder.name = finalCapability.Capability.Layer.Title;
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
@@ -193,6 +196,26 @@ export default {
                 category: "error",
                 title: this.$t("common:modules.addWMS.errorTitle")
             });
+        },
+
+        /**
+         * Returns the infoFormat for the wms.
+         * If the wms does not provide any formats, `text/xml` is used as defaultq
+         * Note: The infoFormat `Application/vnd.ogc.gml` is preferred because OL on MapServer WMS cannot handle the prefixes `ogr` in the `text/xml` infoFormat.
+         * @param {String[]} possibleFormats The possible infoFormats of capabilities.
+         * @returns {String} The infoFormat.
+         */
+        getInfoFormat: function (possibleFormats) {
+            let infoFormat = "text/xml";
+
+            if (possibleFormats.includes("gml") || possibleFormats.includes("application/vnd.ogc.gml")) {
+                infoFormat = "application/vnd.ogc.gml";
+            }
+            else if (possibleFormats.length > 0) {
+                infoFormat = possibleFormats[0];
+            }
+
+            return infoFormat;
         },
 
         /**
@@ -236,6 +259,8 @@ export default {
                     version: this.version,
                     visibility: false,
                     type: "layer",
+                    featureCount: this.featureCount,
+                    infoFormat: this.infoFormat,
                     showInLayerTree: false,
                     maxScale: object?.MaxScaleDenominator?.toString(),
                     minScale: object?.MinScaleDenominator?.toString(),
