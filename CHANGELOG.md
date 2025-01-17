@@ -27,10 +27,10 @@
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
 - Issue #1301: CustomMenuElement now also works in secondaryMenu.
-- Issue #1312: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
-- Issue #1313: Added WMS layers are now no longer initially visible.
-- Issue #1314: Added WMS are added in a folder structure in the layerSelection.
-- Issue #1321 Grouped Layer: Child layer adopt the transparency from the config.json.
+- Issue #1312: AddWMS: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
+- Issue #1313: AddWMS: Added WMS layers are now no longer initially visible.
+- Issue #1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
+- Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
 - Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
@@ -39,7 +39,6 @@
 - Login-Module: Fix interceptor for login-secured services.
 - setupDev.md: Added relevant proxy-command.
 - Readme: Links fixed
-- AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 
 ---
 
