@@ -3,6 +3,8 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
 import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
 import escapeId from "../../../shared/js/utils/escapeId";
+import decodeHtmlEntites from "../../../shared/js/utils/htmlEntities";
+import removeHtmlTags from "../../../shared/js/utils/removeHtmlTags";
 
 /**
  * Displays a checkbox to select a layer in layertree.
@@ -51,6 +53,9 @@ export default {
          */
         isBold () {
             return this.isLayerVisible || this.highlightLayerId === this.conf.id;
+        },
+        htmlfreeLayerName () {
+            return removeHtmlTags(this.conf.shortname || this.conf.name);
         }
     },
     mounted () {
@@ -69,7 +74,7 @@ export default {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
         escapeId,
-
+        decodeHtmlEntites,
         /**
          * Replaces the value of current conf's visibility in state's layerConfig
          * @param {Boolean} value visible or not
@@ -129,17 +134,10 @@ export default {
             :class="['pt-4']"
             :for="'layer-tree-layer-preview-' + conf.id"
             tabindex="0"
-            :aria-label="$t(conf.name)"
+            :aria-label="htmlfreeLayerName"
         >
-            <span
-                v-if="conf.shortname"
-            >
-                {{ $t(conf.shortname) }}
-            </span>
-            <span
-                v-else
-            >
-                {{ $t(conf.name) }}
+            <span>
+                {{ $t(conf.shortname || conf.name) }}
             </span>
         </label>
     </div>
@@ -148,7 +146,7 @@ export default {
         :id="'layer-checkbox-' + escapeId(conf.id)"
         :disabled="disabled"
         class="btn d-flex w-100 layer-tree-layer-title pe-2 p-1 btn-light"
-        :title="conf.shortname ? $t(conf.shortname) : $t(conf.name)"
+        :title="htmlfreeLayerName"
         @click="clicked()"
         @keydown.enter="clicked()"
     >
@@ -172,18 +170,11 @@ export default {
             :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'font-bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
-            :aria-label="$t(conf.name)"
+            :aria-label="htmlfreeLayerName"
         >
             <span
-                v-if="conf.shortname"
-            >
-                {{ $t(conf.shortname) }}
-            </span>
-            <span
-                v-else
-            >
-                {{ $t(conf.name) }}
-            </span>
+                v-html="$t(conf.shortname || conf.name)"
+            />
         </span>
     </button>
 </template>
