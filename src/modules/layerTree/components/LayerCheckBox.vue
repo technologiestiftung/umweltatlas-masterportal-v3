@@ -180,6 +180,7 @@ export default {
     @import "~mixins";
     .layer-tree-layer-title {
         overflow: hidden;
+        line-height: normal;
     }
     .layer-tree-layer-label {
         overflow: hidden;
