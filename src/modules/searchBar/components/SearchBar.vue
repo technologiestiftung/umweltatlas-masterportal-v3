@@ -316,12 +316,12 @@ export default {
             >
             <button
                 v-if="searchInputValue"
-                class="clear-btn btn btn-outline-secondary"
+                class="btn-icon input-icon reset-button"
                 type="button"
                 aria-label="Clear search"
                 @click="clearSearch"
             >
-                &times;
+                <i class="bi-x-lg fs-6" />
             </button>
             <button
                 id="search-button"
@@ -370,22 +370,32 @@ export default {
         display: none;
     }
     }
-    .clear-btn {
+    .btn-icon {
+        position: absolute;
         position: absolute;
         right: 40px;
-        top: 50%;
+        top: 40%;
         transform: translateY(-50%);
-        font-size: 1.5rem;
-        background: none;
+        background-color: rgba(0, 0, 0, 0);
         border: none;
-        color: #7d9f7c;
-        cursor: pointer;
-        z-index: 99;
-
-        &:hover {
-            color: #5b7c5c;
-        }
+        padding: 5px 0 0 10px;
+        z-index: 5;
     }
+
+    .input-icon {
+        margin-left: -37px;
+    }
+
+    .reset-button {
+        cursor: pointer;
+    }
+
+    li:hover, li.active {
+        cursor: pointer;
+        background: $light-grey;
+        font-size: $font-size-base;
+    }
+
     .overflowHidden{
         overflow: hidden;
         text-overflow: ellipsis;
