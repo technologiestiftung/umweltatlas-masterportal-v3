@@ -32,9 +32,13 @@ const simpleGetters = {
             menuParams = rootGetters["Menu/urlParams"];
         let shareUrl = location.origin + location.pathname + "?";
 
-        if (menuParams.main.currentComponent === "shareView") {
+        if (menuParams.main.currentComponent === "shareView" || menuParams.main.currentComponent === "layerSelection") {
             menuParams.main.currentComponent = "root";
             delete menuParams.main.attributes;
+            if (menuParams.secondary.currentComponent === "borisComponent") {
+                menuParams.secondary.currentComponent = "root";
+                delete menuParams.secondary.attributes;
+            }
         }
         else if (menuParams.secondary.currentComponent === "shareView") {
             menuParams.secondary.currentComponent = "root";
