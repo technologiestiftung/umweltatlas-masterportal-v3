@@ -3,9 +3,6 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
 import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
 import escapeId from "../../../shared/js/utils/escapeId";
-import decodeHtmlEntites from "../../../shared/js/utils/htmlEntities";
-import removeHtmlTags from "../../../shared/js/utils/removeHtmlTags";
-
 /**
  * Displays a checkbox to select a layer in layertree.
  * @module modules/layerTree/components/LayerCheckBox
@@ -54,8 +51,8 @@ export default {
         isBold () {
             return this.isLayerVisible || this.highlightLayerId === this.conf.id;
         },
-        htmlfreeLayerName () {
-            return removeHtmlTags(this.conf.shortname || this.conf.name);
+        layerName () {
+            return this.conf.shortname || this.conf.name;
         }
     },
     mounted () {
@@ -74,7 +71,6 @@ export default {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
         escapeId,
-        decodeHtmlEntites,
         /**
          * Replaces the value of current conf's visibility in state's layerConfig
          * @param {Boolean} value visible or not
@@ -134,7 +130,7 @@ export default {
             :class="['pt-4']"
             :for="'layer-tree-layer-preview-' + conf.id"
             tabindex="0"
-            :aria-label="htmlfreeLayerName"
+            :aria-label="layerName"
         >
             <span>
                 {{ $t(conf.shortname || conf.name) }}
@@ -146,7 +142,7 @@ export default {
         :id="'layer-checkbox-' + escapeId(conf.id)"
         :disabled="disabled"
         class="btn d-flex w-100 layer-tree-layer-title pe-2 p-1 btn-light"
-        :title="htmlfreeLayerName"
+        :title="layerName"
         @click="clicked()"
         @keydown.enter="clicked()"
     >
@@ -170,10 +166,10 @@ export default {
             :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'font-bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
-            :aria-label="htmlfreeLayerName"
+            :aria-label="layerName"
         >
             <span
-                v-html="$t(conf.shortname || conf.name)"
+                v-html="$t(conf.shortname || conf.htmlName || conf.name)"
             />
         </span>
     </button>
