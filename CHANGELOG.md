@@ -14,6 +14,7 @@
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers. 
+- OL: Changes in tests LayerPreview.spec.js after OL update.
 
 ### Deprecated
 
