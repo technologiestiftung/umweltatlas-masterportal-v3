@@ -14,7 +14,9 @@
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers. 
+- @masterportal/masterportalapi: Version update from 2.42.2 to 2.43.0.
 - OL: Changes in tests LayerPreview.spec.js after OL update.
+
 
 ### Deprecated
 
