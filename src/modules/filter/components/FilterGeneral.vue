@@ -391,18 +391,18 @@ export default {
          * @returns {void}
          */
         registerMapMoveListeners () {
-            this.registerListener({type: "loadstart", listener: this.executeListeners.bind(this)});
-            this.registerListener({type: "loadend", listener: this.executeListeners.bind(this)});
-            this.registerListener({type: "moveend", listener: this.executeListeners.bind(this)});
+            this.registerListener({type: "loadstart", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadstart"});
+            this.registerListener({type: "loadend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadend"});
+            this.registerListener({type: "moveend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "moveend"});
         },
         /**
          * Unregistering this moveend, loadend and loadstart listener.
          * @returns {void}
          */
         unregisterMapMoveListeners () {
-            this.unregisterListener({type: "loadstart", listener: this.executeListeners.bind(this)});
-            this.unregisterListener({type: "loadend", listener: this.executeListeners.bind(this)});
-            this.unregisterListener({type: "moveend", listener: this.executeListeners.bind(this)});
+            this.unregisterListener({type: "loadstart", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadstart"});
+            this.unregisterListener({type: "loadend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadend"});
+            this.unregisterListener({type: "moveend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "moveend"});
         },
         /**
          * Adds given listener callback to the mapMoveListeners list.
