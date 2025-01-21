@@ -81,7 +81,10 @@ Layer3dTileset.prototype.updateLayerValues = function (attributes) {
     if (this.get("visibility") !== attributes.visibility) {
         this.setVisible(attributes.visibility, mapCollection.getMap("3D"));
     }
-    this.setOpacity(attributes.transparency);
+
+    if (this.get("transparency") !== attributes.transparency) {
+        this.setOpacity(attributes.transparency);
+    }
 };
 
 /**
