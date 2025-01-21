@@ -39,6 +39,7 @@
 - Login-Module: Fix interceptor for login-secured services.
 - setupDev.md: Added relevant proxy-command.
 - Readme: Links fixed
+- Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration. 
 
 ---
 
