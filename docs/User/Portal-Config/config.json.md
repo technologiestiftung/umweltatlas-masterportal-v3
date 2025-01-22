@@ -4762,7 +4762,8 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |elements|no|**[elements](#layerconfigelements)**[]||Next layer with layers or folders under the type `folder`.|false|
-|name|no|String|""|Layer or folder name.|false|
+|name|no|String|""|Layer or folder name. Can contain HTML tags that will only be rendered in layer tree. |false|
+|shortname|no|String|""|shortened layer or folder name. If configured it will be displayed in layer tree instead of `name`. |false|
 |type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
 
 **Example baselayer**

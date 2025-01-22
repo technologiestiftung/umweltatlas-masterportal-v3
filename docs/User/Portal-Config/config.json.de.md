@@ -93,6 +93,7 @@ Der baselayerSwitcher ermnöglicht ein einfaches Wechseln bzw. Auswählen eines 
 |active|nein|Boolean|false|Definiert, ob der baselayerSwitcher aktiv ist.|false|
 |activatedExpandable|nein|Boolean|false|Gibt an, ob der baselayerSwitcher aufgeklappt ist und alle verfügbaren baselayer angezeigt werden oder nur der aktive, welcher sich auf höchster Ebene befindet.|false|
 |singleBaseLayer|nein|Boolean|false|Definiert ob der bisherige Baselayer ausgeblendet wird.|false|
+
 **Beispiel**
 
 ```json
@@ -4752,7 +4753,8 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#layerconfi
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |elements|nein|**[elements](#layerconfigelements)**[]||Nächste Ebene mit Layern oder Ordnern unter dem type `folder`.|false|
-|name|nein|String|""|Name des Layers oder Ordners.|false|
+|name|nein|String|""|Name des Layers oder Ordners. Kann HTLM enthalten, welches nur im Layerbaum dargestellt wird. |false|
+|shortname|nein|String|""|Verkürzter Name des Layers oder Ordners. Falls konfiguriert wird er im Layerbaum anstelle von `name` angezeigt. |false|
 |type|nein|String|"layer"|Typ des Elements: "layer" für Layer oder "folder" für Ordner|false|
 
 **Beispiel baselayer**
