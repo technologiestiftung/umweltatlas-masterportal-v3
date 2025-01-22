@@ -3110,7 +3110,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 
 ***
 
-###### portalConfig.menu.sections.modules.print.additionalLayers
+###### portalConfig.menu.sections.modules.print.additionalLayers {data-toc-label='Print additionalLayers'}
 List of Layers that can be added to the print document.
 
 |Name|Required|Type|Default|Description|Expert|

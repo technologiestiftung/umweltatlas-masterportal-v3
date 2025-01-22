@@ -3105,7 +3105,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 ```
 
 ***
-###### portalConfig.menu.sections.modules.print.additionalLayers
+###### portalConfig.menu.sections.modules.print.additionalLayers {data-toc-label='Print additionalLayers'}
 Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
