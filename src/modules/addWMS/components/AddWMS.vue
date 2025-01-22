@@ -156,7 +156,7 @@ export default {
 
                         this.version = version;
                         this.wmsUrl = url;
-                        this.infoFormat = this.getInfoFormat(finalCapability.Capability.Request.GetFeatureInfo.Format);
+                        this.infoFormat = this.getInfoFormat(finalCapability?.Capability?.Request?.GetFeatureInfo?.Format);
 
                         folder.name = finalCapability.Capability.Layer.Title;
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
@@ -200,7 +200,7 @@ export default {
 
         /**
          * Returns the infoFormat for the wms.
-         * If the wms does not provide any formats, `text/xml` is used as defaultq
+         * If the wms does not provide any formats, `text/xml` is used as default.
          * Note: The infoFormat `Application/vnd.ogc.gml` is preferred because OL on MapServer WMS cannot handle the prefixes `ogr` in the `text/xml` infoFormat.
          * @param {String[]} possibleFormats The possible infoFormats of capabilities.
          * @returns {String} The infoFormat.
@@ -208,10 +208,10 @@ export default {
         getInfoFormat: function (possibleFormats) {
             let infoFormat = "text/xml";
 
-            if (possibleFormats.includes("gml") || possibleFormats.includes("application/vnd.ogc.gml")) {
+            if (possibleFormats?.includes("gml") || possibleFormats?.includes("application/vnd.ogc.gml")) {
                 infoFormat = "application/vnd.ogc.gml";
             }
-            else if (possibleFormats.length > 0) {
+            else if (possibleFormats?.length > 0) {
                 infoFormat = possibleFormats[0];
             }
 
