@@ -2,7 +2,7 @@ import store from "../app-store";
 import main from "../main";
 
 export default {
-    install (options) {
+    install (app, options) {
         if (options === undefined || typeof options.postMessageUrl !== "string") {
             console.error("RemoteInterface could not been installed: Param \"postMessageUrl\" missing.");
             return;
