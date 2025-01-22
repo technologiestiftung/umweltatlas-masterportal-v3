@@ -7,6 +7,7 @@ import proj4 from "proj4";
 import {Point} from "ol/geom";
 import {Tooltip} from "bootstrap";
 import axios from "axios";
+import removeHtmlTags from "../../../js/utils/removeHtmlTags";
 
 export default {
     name: "LayerPreview",
@@ -245,7 +246,7 @@ export default {
                     url = layerConfig.preview.src;
                 }
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
-                this.layerName = layerConfig.name;
+                this.layerName = removeHtmlTags(layerConfig.name);
                 if (!this.previewUrlByLayerIds[this.layerId]) {
                     if (layerConfig.typ === "WMS" || layerConfig.typ === "GROUP") {
                         this.buildWMSUrl(layerConfig, url);
