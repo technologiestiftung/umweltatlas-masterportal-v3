@@ -14,9 +14,10 @@
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
-- @masterportal/masterportalapi: Version update from 2.42.2 to 2.43.0.
 - OL: Changes in tests LayerPreview.spec.js after OL update.
 - Issue #1338: AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
+- dependencies:
+        - @masterportal/masterportalapi: 2.42.2 to 2.44.0
 
 ### Deprecated
 
@@ -42,7 +43,7 @@
 - Login-Module: Fix interceptor for login-secured services.
 - setupDev.md: Added relevant proxy-command.
 - Readme: Links fixed
-- Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration. 
+- Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration.
 
 ---
 
