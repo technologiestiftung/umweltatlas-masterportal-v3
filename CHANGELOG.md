@@ -29,6 +29,7 @@
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
 - Routing: Fixed URL of ORS request in TSR
 - SensorThings-Layer: problem with not visible features after move of map was solved.
+- Login-Module: Fix interceptor for login-secured services.
 
 ---
 
