@@ -30,9 +30,7 @@ export default function Layer3dTileset (attributes) {
     if (this.attributes.hiddenFeatures && this.attributes.visibility === true) {
         this.addToHiddenObjects(this.attributes.hiddenFeatures);
     }
-    this.layer.tileset?.then(tileset => {
-        tileset.tileVisible?.addEventListener(this.applyStyle.bind(this));
-    });
+    this.layer.tileset?.then(tileset => tileset.tileVisible?.addEventListener(this.applyStyle.bind(this)));
     this.initStyle(attributes);
 }
 
@@ -112,7 +110,7 @@ Layer3dTileset.prototype.initStyle = async function (attrs) {
 };
 
 /**
- * Creates the style function.
+ * Creates the style and sets it at tileset layer.
  * @param {Object} attrs  params of the raw layer
  * @returns {void}
  */
