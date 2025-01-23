@@ -1403,21 +1403,21 @@
                   "id": "16101",
                   "name": "Brückenflächen HH",
                   "typ": "TileSet3D",
-                  "visibility": false
+                  "visibility": true
                 },
                 {
                   "id": "12884",
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
-                  "visibility": false,
+                  "visibility": true,
                   "styleId": "3DTileSetStyle",
                   "layerAttribution": "Styling über die style_v3.json: alle Gebäude mit Flachdach sind grün."
                 },
                 {
                   "id": "16100",
                   "name": "Hauptkirchen",
-                  "visibility": false,
+                  "visibility": true,
                   "hiddenFeatures": [
                     "DEHHALKAJ00011uJ",
                     "DEHHALKAJ0000yd2",
