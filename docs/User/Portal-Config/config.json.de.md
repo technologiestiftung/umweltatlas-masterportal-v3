@@ -1727,6 +1727,7 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|featureCount|nein|Number||Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
 |icon|nein|String|"bi-cloud-plus"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.addWMS.name"|Name des Moduls im Menü..|false|
 |type|nein|String|"addWMS"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
@@ -1737,6 +1738,7 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 ```json
 {
     "icon": "bi-cloud-plus",
+    "featureCount": 10,
     "name": "common:modules.addWMS.name",
     "type": "addWMS",
     "exampleURLs": [
