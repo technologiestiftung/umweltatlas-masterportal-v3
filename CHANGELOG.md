@@ -31,6 +31,7 @@
 - Issue #1313: AddWMS: Added WMS layers are now no longer initially visible.
 - Issue #1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
 - Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
+- Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
 - Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.

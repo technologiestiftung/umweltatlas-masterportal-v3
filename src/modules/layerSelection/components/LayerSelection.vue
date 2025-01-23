@@ -96,7 +96,7 @@ export default {
         sort (configs) {
             return sortBy(configs, (conf) => [
                 conf.type !== "folder",
-                conf.name.toLowerCase()
+                this.portalConfig.tree.type === "auto" ? conf.name.toLowerCase() : undefined
             ]);
         },
         /**

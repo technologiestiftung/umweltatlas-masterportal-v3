@@ -26,13 +26,15 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         showInTree,
         store,
         subjectDataLayers,
-        wrapper;
+        wrapper,
+        treeType;
 
     beforeEach(() => {
         lastFolderNames = [];
         searchInput = "Neuenfelder";
         mapMode = "2D";
         showAllResults = true;
+        treeType = undefined;
         categories = [
             {
                 "key": "kategorie_opendata",
@@ -182,7 +184,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                             hideBackgroundsHeader: false,
                             backgroundsHeaderText: "custom backgrounds header text in test",
                             hideDatalayerHeader: false,
-                            datalayerHeaderText: "custom datalayers text in test"
+                            datalayerHeaderText: "custom datalayers text in test",
+                            type: treeType
                         }
                     };
                 }
@@ -470,7 +473,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
     });
 
     describe("methods", () => {
-        it("test method sort", () => {
+        it("test method sort without tree type", () => {
             let sorted = [];
             const toSort = subjectDataLayers[0].elements[0].elements;
 
@@ -485,7 +488,30 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             expect(sorted.length).to.be.equals(toSort.length);
             expect(sorted[0].type).to.be.equals("folder");
             expect(sorted[1].type).to.be.equals("layer");
+            expect(sorted[1].name).to.be.equals("layer2D_1");
             expect(sorted[2].type).to.be.equals("layer");
+            expect(sorted[2].name).to.be.equals("layer2D_2");
+        });
+        it("test method sort with tree type auto", () => {
+            let sorted = [];
+            const toSort = subjectDataLayers[0].elements[0].elements;
+
+            treeType = "auto";
+
+            wrapper = shallowMount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            expect(toSort[0].type).not.to.be.equals("folder");
+            sorted = wrapper.vm.sort(toSort);
+
+            expect(sorted.length).to.be.equals(toSort.length);
+            expect(sorted[0].type).to.be.equals("folder");
+            expect(sorted[1].type).to.be.equals("layer");
+            expect(sorted[1].name).to.be.equals("layer2D_1");
+            expect(sorted[2].type).to.be.equals("layer");
+            expect(sorted[2].name).to.be.equals("layer2D_2");
         });
 
         it("test method categorySelected", () => {
