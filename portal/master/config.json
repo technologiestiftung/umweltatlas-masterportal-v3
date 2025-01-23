@@ -1411,8 +1411,7 @@
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
                   "visibility": true,
-                  "styleId": "3DTileSetStyle",
-                  "layerAttribution": "Styling über die style_v3.json: alle Gebäude mit Flachdach sind grün."
+                  "styleId": "3DTileSetStyle"
                 },
                 {
                   "id": "16100",
@@ -1431,6 +1430,7 @@
                   "name": "3D-Entities Testlayer",
                   "typ": "Entities3D",
                   "visibility": false,
+                  "layerAttribution": "Test 3D layerAttribution",
                   "entities": [
                     {
                       "url": "https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb",

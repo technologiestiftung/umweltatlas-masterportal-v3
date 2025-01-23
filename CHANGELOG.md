@@ -49,7 +49,6 @@
 - Readme: Links fixed
 - Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration.
 - Attributions: Attributions of 3D-layers are only shown in map mode 3D.
-- Style.json.md: type3DTileSets example corrected: `"type": "Cesium"` must start with a capital letter.
 
 ---
 
