@@ -38,6 +38,7 @@
 - Issue #1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error. 
 - Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
 - Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
+- Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md).
 - Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
@@ -47,6 +48,8 @@
 - setupDev.md: Added relevant proxy-command.
 - Readme: Links fixed
 - Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration.
+- Attributions: Attributions of 3D-layers are only shown in map mode 3D.
+- Style.json.md: type3DTileSets example corrected: `"type": "Cesium"` must start with a capital letter.
 
 ---
 

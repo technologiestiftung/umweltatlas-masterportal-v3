@@ -704,7 +704,7 @@ You may also use [rect](https://developer.mozilla.org/en-US/docs/Web/API/CanvasR
                 "attr4": "abc"
             },
             "style": {
-                "type": "cesium",
+                "type": "Cesium",
                 "color": "rgba(0, 0, 255, 0.5)"
             }
         },
@@ -713,7 +713,7 @@ You may also use [rect](https://developer.mozilla.org/en-US/docs/Web/API/CanvasR
                 "attr2": [0, 10]
             },
             "style": {
-                "type": "cesium",
+                "type": "Cesium",
                 "color": "rgba(0, 255, 0, 0.5)"
             }
         },
@@ -722,13 +722,13 @@ You may also use [rect](https://developer.mozilla.org/en-US/docs/Web/API/CanvasR
                 "attr1": 50.5
             },
             "style": {
-                "type": "cesium",
+                "type": "Cesium",
                 "color": "rgb(255, 0, 0)"
             }
         },
         {
             "style": {
-                "type": "cesium",
+                "type": "Cesium",
                 "color": "rgba(150, 150, 150, 0.5)"
             }
         }

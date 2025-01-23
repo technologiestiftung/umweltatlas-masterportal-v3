@@ -1,4 +1,7 @@
 import {Tileset} from "@masterportal/masterportalapi/src";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import store from "../../../app-store";
 import Layer3d from "./layer3d";
 import layerCollection from "./layerCollection";
 
@@ -27,7 +30,10 @@ export default function Layer3dTileset (attributes) {
     if (this.attributes.hiddenFeatures && this.attributes.visibility === true) {
         this.addToHiddenObjects(this.attributes.hiddenFeatures);
     }
-    this.layer.tileset?.then(tileset => tileset.tileVisible?.addEventListener(this.applyStyle.bind(this)));
+    this.layer.tileset?.then(tileset => {
+        tileset.tileVisible?.addEventListener(this.applyStyle.bind(this));
+    });
+    this.initStyle(attributes);
 }
 
 Layer3dTileset.prototype = Object.create(Layer3d.prototype);
@@ -86,6 +92,53 @@ Layer3dTileset.prototype.updateLayerValues = function (attributes) {
         this.setOpacity(attributes.transparency);
     }
 };
+
+/**
+ * Initializes the style for this layer. If styleId is set, this is done after vector styles are loaded.
+ * @param {Object} attrs  params of the raw layer
+ * @returns {void}
+ */
+Layer3dTileset.prototype.initStyle = async function (attrs) {
+    if (store.getters.styleListLoaded) {
+        this.createStyle(attrs);
+    }
+    else {
+        store.watch((state, getters) => getters.styleListLoaded, value => {
+            if (value) {
+                this.createStyle(attrs);
+            }
+        });
+    }
+};
+
+/**
+ * Creates the style function.
+ * @param {Object} attrs  params of the raw layer
+ * @returns {void}
+ */
+Layer3dTileset.prototype.createStyle = async function (attrs) {
+    const styleId = attrs.styleId,
+        styleObject = styleList.returnStyleObject(styleId);
+
+    if (styleObject !== undefined) {
+        const createdStyle = createStyle.createStyle(styleObject, undefined, false, Config.wfsImgPath),
+            options = {
+                color: {
+                    conditions: createdStyle
+                }
+            },
+            style = new Cesium.Cesium3DTileStyle(options);
+
+        this.setStyle(style);
+        this.layer.tileset?.then(tileset => {
+            tileset.style = style;
+        });
+    }
+    else if (styleId !== undefined) {
+        console.warn(i18next.t("common:core.layers.errorHandling.wrongStyleId", {styleId}));
+    }
+};
+
 
 /**
  * Adds the ids to hide to the hidden objects.

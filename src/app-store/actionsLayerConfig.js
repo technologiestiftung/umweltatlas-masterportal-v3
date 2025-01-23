@@ -103,7 +103,9 @@ export default {
                 layerCollection.getLayerById(id)?.visibilityChanged(replacement.visibility);
             }
 
-            dispatch("showLayerAttributions", config.layer);
+            if (getters["Maps/mode"] === "2D" && !config.layer.is3DLayer || getters["Maps/mode"] === "3D") {
+                dispatch("showLayerAttributions", config.layer);
+            }
         });
     },
 
