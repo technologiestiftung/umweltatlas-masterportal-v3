@@ -49,6 +49,7 @@
 - Readme: Links fixed
 - Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration.
 - Attributions: Attributions of 3D-layers are only shown in map mode 3D.
+- ShareView: Fixed wrong zIndex to avoid the order of layers being incorrect after opening shared link. 
 
 ---
 
