@@ -85,6 +85,10 @@ export default {
                 lastVisibility = existingLayer?.visibility;
             let assigned = [];
 
+            if (existingLayer?.zIndex === undefined && config.layer.zIndex === undefined && replacement.visibility) {
+                replacement.zIndex = getters.determineZIndex(id);
+            }
+
             assigned = replacer.replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
 
             if (assigned.length > 1) {
@@ -141,7 +145,7 @@ export default {
         }
         else {
             if (newZIndex === null) {
-                newZIndex = layer.zIndex;
+                newZIndex = layer.zIndex ?? newZIndex;
             }
 
             if (layer.zIndex === null && !layer.showInLayerTree && visibility) {
