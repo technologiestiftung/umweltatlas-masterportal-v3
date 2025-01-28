@@ -12,6 +12,7 @@
         "getGeometryTypeFromOAFFetchfailedMessage": "Details: Die API antwortet nicht.",
         "LinkMetadata": "Kontaktdaten und weitere Informationen finden sie <a href={{linkMetadata}} target=\"_blank\">hier</a>.",
         "wrongStyleId": "Unter der angegeben StyleId: {{styleId}} konnte kein Styleobjekt gefunden werden. Bitte stellen Sie sicher, dass in der verwendeten Style.json ein Style mit der StyleId: {{styleId}} konfiguriert ist.",
+        "wrongLayerId": "Layer mit der ID: {{layerId}} wurde nicht gefunden. Bitte überprüfen Sie die ID.",
         "403": "<strong>Zugriff auf {{layerName}} nicht möglich!</strong></br> Sie sind leider nicht berechtigt, die Daten für {{layerName}} anzuzeigen. Das Thema wurde automatisch deaktiviert.</br></br>Bitte wenden sie sich für eine Zugriffsberechtigung an die für diese Daten verantwortliche Stelle.</br></br>"
       },
       "urlParamWarning": "Der parametrisierte Aufruf ist fehlerhaft. Der Layer mit der Id: <b>{{layerId}}</b> existiert nicht und wird ignoriert."

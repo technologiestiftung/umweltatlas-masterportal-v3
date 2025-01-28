@@ -4,44 +4,135 @@ import visibilityChecker from "../../visibilityChecker";
 describe("src/shared/js/utils/isModuleVisible", () => {
     describe("visibilityChecker.isModuleVisible", () => {
         it("should return true if mapMode is '2D' and deviceMode is 'Desktop'", () => {
-            expect(visibilityChecker.isModuleVisible("2D", "Desktop")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop"
+            })).to.be.true;
         });
 
         it("should return true if mapMode is '2D' and deviceMode is 'Mobile'", () => {
-            expect(visibilityChecker.isModuleVisible("2D", "Mobile")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Mobile"
+            })).to.be.true;
         });
 
         it("should return true if mapMode is '2D' and deviceMode is 'Table'", () => {
-            expect(visibilityChecker.isModuleVisible("2D", "Table")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Table"
+            })).to.be.true;
         });
 
         it("should return true if mapMode is '3D' and deviceMode is 'Table'", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Desktop")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Desktop"
+            })).to.be.true;
         });
 
         it("should return true if mapMode is '3D' and deviceMode is 'Mobile'", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Mobile")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Mobile"
+            })).to.be.true;
         });
 
         it("should return true if mapMode is '3D' and deviceMode is 'Table'", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Table")).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table"
+            })).to.be.true;
         });
 
         it("should return true if supportedMapModes and supportedDevices contains mapMode and deviceMode ", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Table", undefined, ["3D"], ["Table"])).to.be.true;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table",
+                supportedMapModes: ["3D"],
+                supportedDevices: ["Table"]
+            })).to.be.true;
         });
 
         it("should return false if supportedMapModes and supportedDevices doesn't contains mapMode and deviceMode ", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Table", undefined, ["2D"], ["Mobile"])).to.be.false;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table",
+                supportedMapModes: ["2D"],
+                supportedDevices: ["Mobile"]
+            })).to.be.false;
         });
 
         it("should return false if supportedTreeType doesn't contains treeType ", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Table", "light", ["3D"], ["Table"], ["auto"])).to.be.false;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table",
+                treeType: "light",
+                supportedMapModes: ["3D"],
+                supportedDevices: ["Table"],
+                supportedTreeTypes: ["auto"]
+            })).to.be.false;
         });
 
         it("should return false if one of supportedMapModes and supportedDevices doesn't contains mapMode and deviceMode ", () => {
-            expect(visibilityChecker.isModuleVisible("3D", "Table", ["3D"], ["Mobile"])).to.be.false;
-            expect(visibilityChecker.isModuleVisible("3D", "Table", ["2D"], ["Table"])).to.be.false;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table",
+                supportedMapModes: ["3D"],
+                supportedDevices: ["Mobile"]
+            })).to.be.false;
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "3D",
+                deviceMode: "Table",
+                supportedMapModes: ["2D"],
+                supportedDevices: ["Table"]
+            })).to.be.false;
         });
+    });
+    it("should return true if elements are provided and one element is valid for the mapMode", () => {
+        const elements = [
+            {supportedMapModes: ["2D"]},
+            {supportedMapModes: ["3D"]}
+        ];
+
+        expect(visibilityChecker.isModuleVisible({
+            mapMode: "2D",
+            deviceMode: "Desktop",
+            elements
+        })).to.be.true;
+    });
+
+    it("should return false if elements are provided and none of them are valid for the mapMode", () => {
+        const elements = [
+            {supportedMapModes: ["3D"]},
+            {supportedMapModes: ["3D"]}
+        ];
+
+        expect(visibilityChecker.isModuleVisible({
+            mapMode: "2D",
+            deviceMode: "Desktop",
+            elements
+        })).to.be.false;
+    });
+
+    it("should return true if no elements are provided (should fallback to default visibility check)", () => {
+        expect(visibilityChecker.isModuleVisible({
+            mapMode: "2D",
+            deviceMode: "Desktop",
+            elements: []
+        })).to.be.true;
+    });
+
+    it("should return true if elements are provided but no mapMode is defined (should fallback to default visibility check)", () => {
+        const elements = [
+            {supportedMapModes: ["2D"]},
+            {supportedMapModes: ["3D"]}
+        ];
+
+        expect(visibilityChecker.isModuleVisible({
+            mapMode: "2D",
+            deviceMode: "Desktop",
+            elements
+        })).to.be.true;
     });
 });

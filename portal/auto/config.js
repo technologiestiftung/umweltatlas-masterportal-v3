@@ -13,11 +13,12 @@ const Config = {
     alerting: {
         fetchBroadcastUrl: "./resources/example_newsFeedPortalAlerts.json"
     },
-    layerConf: "https://geodienste.hamburg.de/services-internet.json",
-    restConf: "https://geodienste.hamburg.de/lgv-config/rest-services-internet.json",
+    layerConf: "https://geodienste.hamburg.de/services-fhhnet.json",
+    restConf: "https://geodienste.hamburg.de/lgv-config/rest-services-fhhnet.json",
     styleConf: "https://geodienste.hamburg.de/lgv-config/style_v3.json",
+    gemarkungen: "https://geodienste.hamburg.de/lgv-config/gemarkung.json",
     wfsImgPath: "https://geodienste.hamburg.de/lgv-config/img/",
-    cesiumLibrary: "https://geoportal-hamburg.de/mastercode/cesium/1_95/Cesium.js"
+    cesiumLibrary: "https://geofos.fhhnet.stadt.hamburg.de/mastercode/cesium/latest/Cesium.js"
 };
 
 if (typeof module !== "undefined") {

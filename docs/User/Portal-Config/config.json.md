@@ -2038,6 +2038,36 @@ CustomMenuElement Module `execute` options.
 
 ***
 
+###### portalConfig.menu.sections.modules.customMenuElement.execute.viewpointActivation {data-toc-label='Viewpoint Activation'}
+
+The `Maps/activateViewpoint` action configures and activates a specific viewpoint on a map. It requires the `execute` object to include the following payload:
+
+|Name|Required|Type|Description|Expert|
+|----|--------|----|-----------|------|
+|layerIds|no|Array|List of IDs for the map layers to activate.|true|
+|heading|no|Number|The direction the map is facing, in radians.|true|
+|tilt|no|Number|Tilt angle of the map view, in radians.|true|
+|altitude|no|Number|Camera altitude in meters above ground.|true|
+|center|no|Array|[X, Y] coordinates of the center in the map's spatial reference system.|true|
+|zoom|no|Number|Zoom level of the map view.|true|
+
+**Example:**
+```json
+{
+    "action": "Maps/activateViewpoint",
+    "payload": {
+        "layerIds": ["4905", "4538"],
+        "heading": -0.30858728378862876,
+        "tilt": 0.9321791580603296,
+        "altitude": 272.3469798217454,
+        "center": [564028.7954571751, 5934555.967867207],
+        "zoom": 7.456437968949651
+    }
+}
+```
+
+***
+
 ##### portalConfig.menu.sections.modules.draw {data-toc-label='Draw'}
 
 [inherits]: # (portalConfig.menu.sections.modules)

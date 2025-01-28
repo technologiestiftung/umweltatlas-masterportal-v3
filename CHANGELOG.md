@@ -11,6 +11,9 @@
 - CompareFeatures: applied the functionality from version 2 to 3 and changed the data display to use shared table (TableComponent).
 - Modeler3D: Added filter & style function.
 - ShareView: Include existing URL query parameters into the generated share URL.
+- CustomMenuElement: 
+    - Added configuration support for 2D/3D viewpoints.
+    - Added the possibility to add layers to the map and displays them in layerTree.
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
