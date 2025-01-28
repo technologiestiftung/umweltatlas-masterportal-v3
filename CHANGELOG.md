@@ -20,7 +20,7 @@
 - OL: Changes in tests LayerPreview.spec.js after OL update.
 - Issue #1338: AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
 - dependencies:
-        - @masterportal/masterportalapi: 2.42.2 to 2.44.0
+        - @masterportal/masterportalapi: 2.42.2 to 2.45.0 (This also raised ol to version 10.3.1 and @cesium/engine to 13.0.0)
 
 ### Deprecated
 
