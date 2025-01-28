@@ -843,26 +843,24 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             });
 
             it("layer is contained in layerConfig - change visibility, new zIndex", () => {
-                const determineZIndexSpy = sinon.stub().returns(6),
-                    expectedConfig = {};
+                const expectedConfig = {};
 
                 getters = {
-                    layerConfigById: () => layerList[2],
-                    determineZIndex: determineZIndexSpy
+                    layerConfigById: () => layerList[2]
                 };
                 layerList[2].zIndex = 5;
                 layerList[2].visibility = true;
+                layerList[2].showInLayerTree = true;
 
                 expectedConfig.visibility = true;
                 expectedConfig.transparency = 0;
                 expectedConfig.showInLayerTree = true;
-                expectedConfig.zIndex = 6;
+                expectedConfig.zIndex = 5;
 
                 actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132", showInLayerTree: true});
                 expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfigs: [{id: "1132", layer: expectedConfig}]});
-                expect(determineZIndexSpy.calledOnce).to.be.true;
             });
 
         });

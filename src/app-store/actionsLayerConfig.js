@@ -144,11 +144,11 @@ export default {
             }
         }
         else {
-            if (newZIndex === null) {
+            if (newZIndex === null || newZIndex === undefined) {
                 newZIndex = layer.zIndex ?? newZIndex;
             }
 
-            if (layer.zIndex === null && !layer.showInLayerTree && visibility) {
+            if ((layer.zIndex === null || layer.zIndex === null) && !layer.showInLayerTree && visibility) {
                 newZIndex = getters.determineZIndex(layerId);
             }
             dispatch("replaceByIdInLayerConfig", {layerConfigs: [{
