@@ -88,7 +88,6 @@ export default {
             if (existingLayer?.zIndex === undefined && config.layer.zIndex === undefined && replacement.visibility) {
                 replacement.zIndex = getters.determineZIndex(id);
             }
-
             assigned = replacer.replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
 
             if (assigned.length > 1) {
