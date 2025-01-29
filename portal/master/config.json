@@ -1137,6 +1137,13 @@
           "visibility": false
         },
         {
+          "id": "27926",
+          "styleId": "8712",
+          "name": "Schulen (Layertyp OAF)",
+          "typ": "OAF",
+          "gfiTheme": "schulinfo"
+        },
+        {
           "id": "18104",
           "styleId": "18104",
           "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
