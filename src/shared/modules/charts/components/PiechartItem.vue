@@ -53,9 +53,11 @@ export default {
              * @see afterFit https://www.chartjs.org/docs/latest/axes/?h=afterfit
              * @returns {void}  -
              */
-            ChartJs.Legend.prototype.afterFit = function () {
-                this.height += 10;
-            };
+            if (ChartJs.Legend) {
+                ChartJs.Legend.prototype.afterFit = function () {
+                    this.height += 10;
+                };
+            }
 
             this.resetChart(this.data);
         });
