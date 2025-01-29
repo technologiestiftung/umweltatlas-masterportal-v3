@@ -45,6 +45,7 @@
 
 ### Fixed
 - Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1250: Loading the layer is accelerated.
 - Issue #1301: CustomMenuElement now also works in secondaryMenu.
 - Issue #1306: Layer names containing HTML-tags are rendered as HTML in Layer Tree.
 - Issue #1312: AddWMS: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
