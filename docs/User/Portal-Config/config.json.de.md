@@ -1609,6 +1609,7 @@ Folgende Events existieren. Welche Events konfiguriert werden können ist den Be
 [type:layerSlider]: # (portalConfig.menu.sections.modules.layerSlider)
 [type:login]: # (portalConfig.menu.sections.modules.login)
 [type:measure]: # (portalConfig.menu.sections.modules.measure)
+[type:modeler3D]: # (portalConfig.menu.sections.modules.modeler3D)
 [type:news]: # (portalConfig.menu.sections.modules.news)
 [type:openConfig]: # (portalConfig.menu.sections.modules.openConfig)
 [type:print]: # (portalConfig.menu.sections.modules.print)
@@ -1645,6 +1646,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |layerSlider|nein|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||Mit dem Layerslider lassen sich beliebige Dienste in einer Reihenfolge abspielen. Zum Beispiel geeignet für Luftbilder aus verschiedenen Jahrgängen.|false|
 |login|nein|**[login](#portalconfigmenusectionsmoduleslogin)**||Konfiguration der Anmeldung bei einem OIDC-Server.|false|
 |measure|nein|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Messwerkzeug um Flächen oder Strecken zu messen. Dabei kann zwischen den Einheiten m/km/nm bzw m²/ha/km² gewechselt werden.|false|
+|modeler3D|nein|**[modeler3D](#portalconfigmenusectionsmodulesmodeler3D)**||Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.|false|
 |news|nein|**[news](#portalconfigmenusectionsmodulesnews)**||Dieses Modul zeigt alle Meldungen aus der newsFeedPortalAlerts.json und der config.json des aktuellen Portals unabhängig des "gelesen" Status.|false|
 |openConfig|nein|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||Mit diesem Modul lässt sich eine Konfigurationsdatei (config.json) zur Laufzeit neu laden. Die Module und Karte werden an die neue Konfiguration angepasst.|false|
 |print|nein|**[print](#portalconfigmenusectionsmodulesprint)**||Druckmodul mit dem die Karte als PDF exportiert werden kann.|false|
@@ -2922,7 +2924,7 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 |pvoColors|nein|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Bestimmen Sie die Farben der PlanzeichenVO|false|
 |buildingSource|nein|String|"ALKIS"|Bestimmen Sie die Quelle der Gebäudefunktionsdaten (aktuell nur ALKIS).|false|
 |buildingFunctionURL|nein|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Bestimmen Sie die URL von welcher die Gebäudefunktionen bezogen werden sollen.|false|
-|type|nein|String|"modeler3D"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|type|ja|String|"modeler3D"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel**
 
@@ -3142,7 +3144,7 @@ Liste von Layouts und Formaten, welche die Antwort vom Druckdienst in der jeweil
 ***
 #### portalConfig.menu.sections.modules.compareFeatures {data-toc-label='Compare Features'}
 
-[inherits]: # (portalConfig.menu.tool)
+[inherits]: # (portalConfig.menu.sections.modules)
 
 Hier können Vector Features miteinander verglichen werden. Dazu werden vektorbasierte Daten aus WFS(❗) Diensten benötigt.
 
@@ -4529,8 +4531,8 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
 |searchBar|nein|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
-|searchInterfaceInstanceId|ja|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|true|
-|searchCategory|ja|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Die Kategorie der Suche.|true|
+|searchInterfaceInstanceId|nein|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|true|
+|searchCategory|nein|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Die Kategorie der Suche.|true|
 
 **Beispiel**
 
@@ -4988,6 +4990,7 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 ##### layerConfig.elements.layers.Group {data-toc-label='Group'}
 
 [inherits]: # (layerConfig.elements.layers)
+[type:children]: # (layerConfig.elements.layers)
 
 Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält. Siehe auch **[groupedLayers.md](../../Dev/groupedLayers.md)**.
 
@@ -4995,7 +4998,7 @@ Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält. Sie
 |----|-------------|---|-------|------------|------|
 |id|ja|String[]||Ids der zu gruppierenden Layer, diese müssen in der **[services.json](../Global-Config/services.json.md)** enthalten sein. Sie können unterschiedliche Typen haben (Attribut `typ`).|false|
 |typ|ja|String|"GROUP"|Setzt den Layertypen auf GROUP, welcher Layer gruppieren kann.|false|
-|children|nein|Object[]||In `children` können Attribute an den gruppierten Layern überschrieben werden. Ausnahme: `visibility` wird nicht überschrieben. Alle ids im id-Array müssen eine Entsprechung in den `children` haben. |true|
+|children|nein|**[children](#layerconfigelementslayers)**[]||In `children` können Attribute an den gruppierten Layern überschrieben werden. Ausnahme: `visibility` wird nicht überschrieben. Alle ids im id-Array müssen eine Entsprechung in den `children` haben. |false|
 
 
 
@@ -6086,13 +6089,15 @@ Die Konfiguration hängt vom Typ des Services ab.
 ***
 #### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
+[type:object]: # (Datatypes.Snippets.ChartConfig.Object)
+
 Ein Objekt, das ein Diagramm beschreibt. Für weitere informationen **[hier](https://www.chartjs.org/docs/latest/configuration/)** klicken.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|data|ja|Object||Die Daten. Für weitere Informationen klicken Sie **[hier](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
-|options|ja|Object||Optionen für die Erstellung des Diagramms.|false|
-|plugins|ja|Array||Inline-Plugins können in dieses Array aufgenommen werden. Dies ist ein alternativer Weg, um Plugins für einzelne Diagramme hinzuzufügen (im Gegensatz zur globalen Registrierung des Plugins). Mehr über Plugins in der **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
+|data|ja|**[object](#datatypessnippetschartconfigobject)**||Die Daten. Für weitere Informationen klicken Sie **[hier](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
+|options|ja|**[object](#datatypessnippetschartconfigobject)**||Optionen für die Erstellung des Diagramms.|false|
+|plugins|ja|enum[]||Inline-Plugins können in dieses Array aufgenommen werden. Dies ist ein alternativer Weg, um Plugins für einzelne Diagramme hinzuzufügen (im Gegensatz zur globalen Registrierung des Plugins). Mehr über Plugins in der **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
 |type|ja|String||Der Diagrammtyp bestimmt den Haupttyp des Diagramms.|false|
 
 **Beispiel**
@@ -6111,6 +6116,15 @@ Die Top-Level-Struktur der Chart.js-Konfiguration:
 ```
 
 ***
+
+##### Datatypes.Snippets.ChartConfig.Object {data-toc-label='ChartConfig Object'}
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|foo|nein|String||bar|false|
+
+***
+
 #### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
@@ -6678,6 +6692,10 @@ Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste.
 Mit der Angabe von `showAll` werden alle Attribute der gefundenen Feature in ihrer Ursprungsform dargestellt.
 Bei Verwendung eines Objektes können die darzustellenden Attribute festgelegt werden.
 Ein Schlüssel des Objektes muss eines der Attribute des Features wiedergeben, während durch den entsprechenden Wert die textliche Ausgabe dieses Attributes festgelegt wird.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|resultList|ja|String||Kann "showAll" oder ein Objekt enthalten.|false|
 
 **Beispiele**:
 

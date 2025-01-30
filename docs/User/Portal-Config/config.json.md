@@ -1684,7 +1684,7 @@ This module displays specific portal information like description, Masterportal 
 |----|-------------|---|-------|------------|------|
 |icon|no|String|"bi-info-circle"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|no|String|"common:modules.about.name"|Name of the module in the menu.|false|
-|type|no|String|"about"|The type of the module. Defines which module is configured.|false|
+|type|yes|String|"about"|The type of the module. Defines which module is configured.|false|
 |abstractText|no|String|""|Description of the portal|false|
 |contact|no|String|null|Metadata contact information|false|
 |cswUrl|no|String|""|Metadata URL|false|
@@ -2926,7 +2926,7 @@ These drawings can be exported and loaded back georeferenced into the map.
 |pvoColors|no|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
 |buildingSource|no|String|"ALKIS"|Define the source of buildings (currently only ALKIS supported)|false|
 |buildingFunctionURL|no|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Define the URL where the building types should be retrieved from.|false|
-|type|no|String|"modeler3D"|The type of the module. Defines which module is configured.|false|
+|type|yes|String|"modeler3D"|The type of the module. Defines which module is configured.|false|
 
 **Example**
 
@@ -5000,6 +5000,7 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 ##### layerConfig.elements.layers.Group {data-toc-label='Group'}
 
 [inherits]: # (layerConfig.elements.layers)
+[type:children]: # (layerConfig.elements.layers)
 
 A group layer is created that contains all layers of the specified ids.
 
@@ -5007,7 +5008,7 @@ A group layer is created that contains all layers of the specified ids.
 |----|--------|----|-------|-----------|------|
 |id|yes|String[]||Ids of the layers to be grouped, these must be contained in the **[services.json](../Global-Config/services.json.md)**. They can have different types (field `typ`).|false|
 |typ|yes|String|"GROUP"|Sets the layer typ to GROUP, which can group layers.|false|
-|children|no|Object[]||Attributes on the grouped layers can be overwritten in `children`. Exception: `visibility` is not overwritten. All ids in the id array must have an equivalent in the `children`.|false|
+|children|no|**[children](#layerconfigelementslayers)**[]||Attributes on the grouped layers can be overwritten in `children`. Exception: `visibility` is not overwritten. All ids in the id array must have an equivalent in the `children`.|false|
 
 
 **Example without children**
@@ -6097,13 +6098,15 @@ The configuration depends on the type of service.
 
 #### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
 
+[type:object]: # (Datatypes.Snippets.ChartConfig.Object)
+
 An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|data|yes|Object||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
-|options|yes|Object||Options for creating the diagram.|false|
-|plugins|yes|Array||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
+|data|yes|**[object](#datatypessnippetschartconfigobject)**||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
+|options|yes|**[object](#datatypessnippetschartconfigobject)**||Options for creating the diagram.|false|
+|plugins|yes|enum[]||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
 |type|yes|String||Chart type determines the main type of the chart.|false|
 
 **Example**
@@ -6122,6 +6125,15 @@ The top level structure of Chart.js configuration:
 ```
 
 ***
+
+##### Datatypes.Snippets.ChartConfig.Object {data-toc-label='ChartConfig Object'}
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|foo|no|String||bar|false|
+
+***
+
 
 #### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
 
@@ -6690,6 +6702,10 @@ Settings for the output of the found features in the result list.
 By specifying `showAll` all attributes of the found features are displayed in their original form.
 By using an object, a key of the object must represent one of the attributes of the feature,
 and the corresponding value defines the textual output of that attribute.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|resultList|yes|String||May contain "showAll" or an object.|false|
 
 **Examples**:
 
