@@ -2952,7 +2952,7 @@ These drawings can be exported and loaded back georeferenced into the map.
 
 ***
 
-###### portalConfig.menu.sections.modules.modeler3D.highlightStyle
+###### portalConfig.menu.sections.modules.modeler3D.highlightStyle  {data-toc-label='highlightStyle'}
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2972,7 +2972,7 @@ These drawings can be exported and loaded back georeferenced into the map.
 
 ***
 
-###### portalConfig.menu.sections.modules.modeler3D.pvoColors
+###### portalConfig.menu.sections.modules.modeler3D.pvoColors {data-toc-label='pvoColors'}
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -3567,7 +3567,7 @@ Routing-tool isochrones options.
 ```
 ***
 
-#### portalConfig.menu.sections.modules.routing.tsrSettings
+#### portalConfig.menu.sections.modules.routing.tsrSettings {data-toc-label='TSR Settings'}
 
 [type:StyleRoute]: # (Datatypes.StyleRoute)
 
@@ -4582,7 +4582,7 @@ Configuration of the addLayerButton to select layers.
 ```
 
 ***
-#### portalConfig.tree.addLayerButton.searchBar
+#### portalConfig.tree.addLayerButton.searchBar {data-toc-label='Searchbar in Topic Tree'}
 A topic search is enabled within the configured SearchInterface and SearchCategory.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -4611,7 +4611,7 @@ A topic search is enabled within the configured SearchInterface and SearchCatego
 ```
 
 ***
-#### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances
+#### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances {data-toc-label='Searchinterface Instances'}
 List of search interfaces from the searchbar that are to be used here.
 The search only works with interfaces that perform a topic search.
 
@@ -4997,7 +4997,7 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 
 ***
 
-##### layerConfig.elements.layers.Group {data-toc-label='Group'}
+#### layerConfig.elements.layers.Group {data-toc-label='Group'}
 
 [inherits]: # (layerConfig.elements.layers)
 [type:children]: # (layerConfig.elements.layers)

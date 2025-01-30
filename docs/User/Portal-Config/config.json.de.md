@@ -2950,7 +2950,7 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 
 ***
 
-###### portalConfig.menu.sections.modules.modeler3D.highlightStyle
+###### portalConfig.menu.sections.modules.modeler3D.highlightStyle {data-toc-label='highlightStyle'}
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -2970,7 +2970,7 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 
 ***
 
-###### portalConfig.menu.sections.modules.modeler3D.pvoColors
+###### portalConfig.menu.sections.modules.modeler3D.pvoColors {data-toc-label='pvoColors'}
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -3560,7 +3560,7 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
 ```
 ***
 
-#### portalConfig.menu.sections.modules.routing.tsrSettings
+#### portalConfig.menu.sections.modules.routing.tsrSettings {data-toc-label='TSR Settings'}
 
 [type:StyleRoute]: # (Datatypes.StyleRoute)
 
@@ -4987,7 +4987,7 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 ```
 
 ***
-##### layerConfig.elements.layers.Group {data-toc-label='Group'}
+#### layerConfig.elements.layers.Group {data-toc-label='Group'}
 
 [inherits]: # (layerConfig.elements.layers)
 [type:children]: # (layerConfig.elements.layers)
