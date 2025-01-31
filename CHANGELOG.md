@@ -9,6 +9,9 @@
 ### Added
 
 ### Changed
+- The following packages have been updated:
+    - dependencies:
+        - @masterportal/mpconfigparser: 1.4.0 to 2.0.0
 
 ### Deprecated
 
