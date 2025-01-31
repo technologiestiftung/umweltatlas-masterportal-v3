@@ -22,14 +22,17 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                 },
                 computed: {
                     featureIsOnCompareList: sinon.fake.returns(false),
-                    mode: sinon.fake.returns("2D")
+                    mode: sinon.fake.returns("2D"),
+                    configuredModules: sinon.fake.returns([{
+                        "type": "compareFeatures"
+                    }])
                 }
             });
         });
         afterEach(sinon.restore);
 
         it("should draw a star if the compareFeatures is configured", () => {
-            expect(wrapper.find("span").exists()).to.be.true;
+            expect(wrapper.find("span > i").exists()).to.be.true;
         });
         it("should render empty star button if feature is already on compare list", () => {
             expect(wrapper.find("span > i").classes("bi-star")).to.be.true;
@@ -56,13 +59,16 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                 },
                 computed: {
                     featureIsOnCompareList: sinon.fake.returns(true),
-                    mode: sinon.fake.returns("2D")
+                    mode: sinon.fake.returns("2D"),
+                    configuredModules: sinon.fake.returns([{
+                        "type": "compareFeatures"
+                    }])
                 }
             });
         });
         afterEach(sinon.restore);
 
-        it("should render star button if feature is already on compare list", () => {
+        it("should render filled star button if feature is already on compare list", () => {
             expect(wrapper.find("span > i").classes("bi-star")).to.be.false;
             expect(wrapper.find("span > i").classes("bi-star-fill")).to.be.true;
             const span = wrapper.find("span");
