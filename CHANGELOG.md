@@ -26,7 +26,7 @@
 - CompareFeatures: applied the functionality from version 2 to 3 and changed the data display to use shared table (TableComponent).
 - Modeler3D: Added filter & style function.
 - ShareView: Include existing URL query parameters into the generated share URL.
-- CustomMenuElement: 
+- CustomMenuElement:
     - Added configuration support for 2D/3D viewpoints.
     - Added the possibility to add layers to the map and displays them in layerTree.
 
@@ -50,7 +50,7 @@
 - Issue #1312: AddWMS: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
 - Issue #1313: AddWMS: Added WMS layers are now no longer initially visible.
 - Issue #1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
-- Issue #1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error. 
+- Issue #1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error.
 - Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
 - Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md).
 - Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
@@ -66,6 +66,7 @@
 - Migrator: Layergroups with attribute `children` in config.json are migrated to version 3 configuration.
 - Attributions: Attributions of 3D-layers are only shown in map mode 3D.
 - ShareView: Fixed wrong zIndex to avoid the order of layers being incorrect after opening shared link.
+- Filter: If the filter tool is closed, the open filter (accordions) lose their status and are closed the next time the tool is opened.
 
 ---
 
