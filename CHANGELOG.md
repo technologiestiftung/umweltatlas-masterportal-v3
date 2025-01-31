@@ -39,7 +39,7 @@
 - Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
 - Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md).
 - Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
-- Issue #1336: Fixed Comparefeatures star to be not always shown in gfiTheme.
+- Issue #1336: CompareFeatures: The star in GFI is only shown, if module compareFeatures ist available.
 - Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
