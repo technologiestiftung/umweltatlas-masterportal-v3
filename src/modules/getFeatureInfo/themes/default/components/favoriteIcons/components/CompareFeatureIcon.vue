@@ -21,7 +21,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/CompareFeatures", ["isFeatureSelected"]),
+        ...mapGetters("Modules/CompareFeatures", {isFeatureSelected: "isFeatureSelected", compareFeaturesType: "type"}),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters(["configuredModules"]),
         /**
@@ -73,7 +73,7 @@ export default {
 
 <template>
     <span
-        v-if="mode === '2D' && configuredModules.some(module => module.type === 'compareFeatures')"
+        v-if="mode === '2D' && configuredModules.some(module => module.type === compareFeaturesType)"
         class="bootstrap-icon"
         :title="featureIsOnCompareList ? $t('modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.fromCompareList') : $t('modules.getFeatureInfo.favoriteIcons.compareFeatureIcon.toCompareList')"
         role="button"
