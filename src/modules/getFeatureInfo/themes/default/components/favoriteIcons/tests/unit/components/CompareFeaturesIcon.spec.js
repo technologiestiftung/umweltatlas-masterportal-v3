@@ -25,7 +25,8 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                     mode: sinon.fake.returns("2D"),
                     configuredModules: sinon.fake.returns([{
                         "type": "compareFeatures"
-                    }])
+                    }]),
+                    compareFeaturesType: sinon.fake.returns("compareFeatures")
                 }
             });
         });
@@ -62,7 +63,8 @@ describe("src/modules/getFeatureInfo/themes/default/components/favoriteIcons/com
                     mode: sinon.fake.returns("2D"),
                     configuredModules: sinon.fake.returns([{
                         "type": "compareFeatures"
-                    }])
+                    }]),
+                    compareFeaturesType: sinon.fake.returns("compareFeatures")
                 }
             });
         });
