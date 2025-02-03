@@ -14,6 +14,7 @@
     - dependencies:
         - @masterportal/mpconfigparser: 1.4.0 to 2.0.0
 - Map: added a warning in console, if a listener is added to map for a function that binds this and no special key is provided.
+- Routing: TsrUpload and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
 
 ### Deprecated
 

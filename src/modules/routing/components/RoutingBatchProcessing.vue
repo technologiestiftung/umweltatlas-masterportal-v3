@@ -1,5 +1,6 @@
 <script>
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
 /**
  * Routing Batch Processing
  * @module modules/routing/components/RoutingBatchProcessing
@@ -18,7 +19,10 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  */
 export default {
     name: "RoutingBatchProcessing",
-    components: {IconButton},
+    components: {
+        IconButton,
+        FileUpload
+    },
     props: {
         settings: {
             type: Object,
@@ -44,7 +48,9 @@ export default {
     emits: ["cancelProcess", "filesadded"],
     data () {
         return {
-            dzIsDropHovering: false
+            dzIsDropHovering: false,
+            fileUploaded: false,
+            uploadedFiles: []
         };
     },
     computed: {
@@ -151,55 +157,12 @@ export default {
         </div>
 
 
-        <div
-            v-else
-            class="d-flex flex-column"
-        >
-            <div class="strukturtext d-flex flex-column bg-light-pink mb-2">
-                <div class="d-flex flex-column">
-                    <span>{{ $t('common:modules.routing.batchProcessing.structure') }}:</span>
-                    <b>{{ structureText }}</b>
-                </div>
-                <div class="d-flex mb-2">
-                    <span>{{ $t('common:modules.routing.batchProcessing.example') }}:</span>
-                    <span>{{ exampleText }}</span>
-                </div>
-            </div>
-
-            <div
-                class="vh-center-outer-wrapper drop-area-fake mb-2"
-                :class="dropZoneAdditionalClass"
-            >
-                <div
-                    class="vh-center-inner-wrapper"
-                >
-                    <p
-                        class="caption"
-                    >
-                        {{ $t('common:modules.routing.batchProcessing.placeFile') }}
-                    </p>
-                </div>
-
-                <div
-                    class="drop-area"
-                    role="presentation"
-                    @drop.prevent="onDrop($event)"
-                    @dragover.prevent
-                    @dragenter.prevent="onDZDragenter()"
-                    @dragleave="onDZDragend()"
-                />
-            </div>
-
-            <button
-                class="btn"
-                type="button flex-grow-1"
-                @click="startFileInput()"
-            >
-                {{ $t('common:modules.routing.batchProcessing.uploadFile') }}
-            </button>
-        </div>
-
-
+        <FileUpload
+            :id="'fileUpload'"
+            :keydown="(e) => triggerClickOnFileInput(e)"
+            :change="(e) => onInputChange(e)"
+            :drop="(e) => onDrop(e)"
+        />
         <label
             ref="fileInputLabel"
             class="d-none"
@@ -218,63 +181,4 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.bg-light-pink {
-    background: #e8c9c9;
-}
-
-.drop-area-fake {
-    background-color: $white;
-    border-radius: 12px;
-    border: 2px dashed $accent_disabled;
-    padding:24px;
-    transition: background 0.25s, border-color 0.25s;
-    &.dzReady {
-        background-color:$accent_hover;
-        border-color:transparent;
-        p.caption {
-            color: $white;
-        }
-    }
-    p.caption {
-        margin:0;
-        text-align:center;
-        transition: color 0.35s;
-        font-family: $font_family_accent;
-        font-size: $font-size-lg;
-        color: $accent_disabled;
-    }
-}
-.drop-area {
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:10;
-}
-.vh-center-outer-wrapper {
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    text-align:center;
-    position:relative;
-    &:before {
-        content:'';
-        display:inline-block;
-        height:100%;
-        vertical-align:middle;
-        margin-right:-0.25rem;
-    }
-}
-.vh-center-inner-wrapper {
-    text-align:left;
-    display:inline-block;
-    vertical-align:middle;
-    position:relative;
-}
-
-.strukturtext {
-    max-width: 350px;
-}
 </style>
