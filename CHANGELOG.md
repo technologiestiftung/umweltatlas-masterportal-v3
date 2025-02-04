@@ -127,6 +127,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
 - WMS features with geometry can be highlighted with polygon marker.
+- WMS-Time: Updated to ensure WMS-Time Layer compatibility with version 1.3.0. 
 
 ### Changed
 - The following packages have been updated:
