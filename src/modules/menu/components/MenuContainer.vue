@@ -98,13 +98,18 @@ export default {
             this.setCurrentMenuWidth({side: this.side, width: "100%"});
         }
     },
+    mounted () {
+        if (this.side === "secondaryMenu") {
+            this.updateLoginMenuProps();
+        }
+    },
     methods: {
         ...mapMutations("Menu", [
             "collapseMenues",
             "mergeMenuState",
             "setCurrentMenuWidth"
         ]),
-        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
+        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu", "updateLoginMenuProps"]),
         /**
          * Opens the searchbar module.
          * @returns {void}
