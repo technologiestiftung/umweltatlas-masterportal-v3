@@ -69,6 +69,7 @@ export default {
         new Tooltip(document.body, {
             selector: "[data-bs-toggle='tooltip']"
         });
+        console.log("App created V1.1");
     },
     unmounted () {
         window.removeEventListener("resize", this.onResize());
