@@ -99,9 +99,7 @@ export default {
         }
     },
     mounted () {
-        if (this.side === "secondaryMenu") {
             this.updateLoginMenuProps();
-        }
     },
     methods: {
         ...mapMutations("Menu", [
