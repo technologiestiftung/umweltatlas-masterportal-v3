@@ -13,6 +13,8 @@ export default {
     mounted () {
         if (!this.isLoggedIn()) {
             this.openLoginWindow();
+        }else{
+            this.updateLoginComponentProps();
         }
         setInterval(() => this.isLoggedIn(), 10_000);
     },
@@ -51,7 +53,6 @@ export default {
          */
         isLoggedIn () {
             this.checkLoggedIn();
-            this.updateLoginComponentProps();
             return this.loggedIn;
         },
 
