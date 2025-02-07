@@ -3,6 +3,13 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
+## 2025-02-07 v3.4.0
+
+### Added
+- updateLoginMenuProps: Method within actionsMenu to handle menu updates
+### Fixed
+- Updating menu item name from Login to Logout after a user is logged in and visa versa.
+
 ## 2024-11-06 v3.4.0
 
 ### Added
