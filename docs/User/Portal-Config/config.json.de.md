@@ -2028,7 +2028,7 @@ CustomMenuElement Module `execute` Optionen.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |action|ja|String||Name und ggf. Pfad der Aktion, die ausgeführt werden soll.|true|
-|payload|nein|**[Payload](#datatypespayload)**||Payload, der an die Aktion übergeben wird.|true|
+|payload|nein|**[Payload](#datatypespayload)**/**[viewpointActivation](#portalconfigmenusectionsmodulescustommenuelementexecuteviewpointactivation)**||Payload, der an die Aktion übergeben wird.|true|
 
 **Beispiel**
 
@@ -2047,11 +2047,11 @@ Die Aktion Maps/activateViewpoint konfiguriert und aktiviert einen bestimmten Ka
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|layerIds|nein|Array||Liste der IDs der Kartenebenen, die aktiviert werden sollen.|true|
+|layerIds|nein|String[]||Liste der IDs der Kartenebenen, die aktiviert werden sollen.|true|
 |heading|nein|Number||Die Richtung, in die die Karte ausgerichtet ist, in Radiant.|true|
 |tilt|nein|Number||Neigungswinkel der Kartenansicht, in Radiant.|true|
 |altitude|nein|Number||Kamerahöhe in Metern über dem Boden.|true|
-|center|nein|Array||[X, Y]-Koordinaten des Zentrums im räumlichen Bezugssystem der Karte.|true|
+|center|nein|Number[]||[X, Y]-Koordinaten des Zentrums im räumlichen Bezugssystem der Karte.|true|
 |zoom|nein|Number||Zoomstufe der Kartenansicht.|true|
 
 **Example:**

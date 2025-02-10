@@ -2025,7 +2025,7 @@ CustomMenuElement Module `execute` options.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |action|yes|String||Name and, if applicable, path of the action to be executed.|true|
-|payload|no|**[Payload](#datatypespayload)**||Payload that is transferred to the action.|true|
+|payload|no|**[Payload](#datatypespayload)**/[viewpointActivation](#portalconfigmenusectionsmodulescustommenuelementexecuteviewpointactivation)||Payload that is transferred to the action.|true|
 
 **Example**
 
@@ -2042,14 +2042,14 @@ CustomMenuElement Module `execute` options.
 
 The `Maps/activateViewpoint` action configures and activates a specific viewpoint on a map. It requires the `execute` object to include the following payload:
 
-|Name|Required|Type|Description|Expert|
-|----|--------|----|-----------|------|
-|layerIds|no|Array|List of IDs for the map layers to activate.|true|
-|heading|no|Number|The direction the map is facing, in radians.|true|
-|tilt|no|Number|Tilt angle of the map view, in radians.|true|
-|altitude|no|Number|Camera altitude in meters above ground.|true|
-|center|no|Array|[X, Y] coordinates of the center in the map's spatial reference system.|true|
-|zoom|no|Number|Zoom level of the map view.|true|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|layerIds|no|String[]||List of IDs for the map layers to activate.|true|
+|heading|no|Number||The direction the map is facing, in radians.|true|
+|tilt|no|Number||Tilt angle of the map view, in radians.|true|
+|altitude|no|Number||Camera altitude in meters above ground.|true|
+|center|no|Number[]||[X, Y] coordinates of the center in the map's spatial reference system.|true|
+|zoom|no|Number||Zoom level of the map view.|true|
 
 **Example:**
 ```json
