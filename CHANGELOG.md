@@ -181,6 +181,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
 - BuildPortal: Updated mastercodeVersionFolderName to prevent whitespaces and colons, ensuring correct CSS and JavaScript paths in index.html and common.json files. Added a timestamp (`_created_at_<createdAtDate>`) to the build folder name to ensure unique folder names for each build.
 - LayerSelection: fixed alphabetical sorting of subtopics.
+- WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 
 ---
 
