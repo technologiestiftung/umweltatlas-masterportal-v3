@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false
 
 ---
 
