@@ -27,7 +27,7 @@
 - Issue #1340: fixed duplicate menu entries in the mobile version.
 - layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
-- Issue #1299: change of textsize and rm of padding in NewsView Component.
+- WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 
 ---
 
@@ -181,7 +181,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
 - BuildPortal: Updated mastercodeVersionFolderName to prevent whitespaces and colons, ensuring correct CSS and JavaScript paths in index.html and common.json files. Added a timestamp (`_created_at_<createdAtDate>`) to the build folder name to ensure unique folder names for each build.
 - LayerSelection: fixed alphabetical sorting of subtopics.
-- WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 
 ---
 
