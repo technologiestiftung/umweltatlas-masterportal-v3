@@ -1,12 +1,15 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-
+import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
 /**
  * Module to load a config.json to runtime.
  * @module modules/OpenConfig
  */
 export default {
     name: "OpenConfig",
+    components: {
+        FileUpload
+    },
     computed: {
         ...mapGetters("Modules/OpenConfig", ["icon"])
     },
@@ -25,23 +28,11 @@ export default {
          */
         setFocusToFirstControl () {
             this.$nextTick(() => {
-                if (this.$refs["file-upload-label"]) {
-                    this.$refs["file-upload-label"].focus();
+                if (this.$refs["file-upload"]) {
+                    this.$refs["file-upload"].focus();
                 }
             });
         },
-
-        /**
-         * Triggers the file input.
-         * @param {Event} event The keyboard event.
-         * @returns {void}
-         */
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs["file-upload-input"].click();
-            }
-        },
-
         /**
          * Loads the config.json file
          * @param {Event} event The file input event.
@@ -56,7 +47,7 @@ export default {
                 reader.onload = (evt) => {
                     this.processConfigJsonOnload(evt);
                     this.addSingleAlert({
-                        category: "succes",
+                        category: "success",
                         content: this.$t("common:modules.openConfig.loadFileSuccess", {targetFileName: targetFile?.name})
                     });
                 };
@@ -82,27 +73,13 @@ export default {
             id="open-config-input-button"
             class="d-flex justify-content-center"
         >
-            <button
-                class="btn-transparent"
-                @keydown="triggerClickOnFileInput"
-            >
-                <label
-                    ref="file-upload-label"
-                    class="btn btn-secondary btn-icon"
-                >
-                    <input
-                        ref="file-upload-input"
-                        type="file"
-                        @change="loadFile"
-                    >
-                    <span
-                        aria-hidden="true"
-                    >
-                        <i :class="icon" />
-                    </span>
-                    {{ $t("common:modules.openConfig.openFile") }}
-                </label>
-            </button>
+            <FileUpload
+                id="file-upload"
+                ref="file-upload"
+                :keydown="setFocusToFirstControl"
+                :change="loadFile"
+                :drop="loadFile"
+            />
         </div>
     </div>
 </template>
