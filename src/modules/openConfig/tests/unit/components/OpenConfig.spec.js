@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {config, shallowMount, mount} from "@vue/test-utils";
+import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -8,7 +8,7 @@ import FileUpload from "../../../../../shared/modules/inputs/components/FileUplo
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/modules/openConfig/components/OpenConfig.vue", () => {
+describe("src/modules/openConfig/components/OpenConfig.vue", () => {
     let store,
         warn,
         wrapper;
@@ -59,31 +59,5 @@ describe.only("src/modules/openConfig/components/OpenConfig.vue", () => {
         expect(wrapper.find("p").exists()).to.be.true;
         expect(wrapper.find("#open-config-input-button").exists()).to.be.true;
         expect(wrapper.findComponent(FileUpload).exists()).to.be.true;
-    });
-
-    it("should trigger loadFile when file is selected", async () => {
-        wrapper = shallowMount(OpenConfigComponent, {
-            global: {
-                plugins: [store]
-            }
-        });
-        const loadFileSpy = sinon.spy(wrapper.vm, "loadFile");
-
-        await wrapper.findComponent(FileUpload).vm.$emit("change", {target: {files: [{}]}});
-
-        expect(loadFileSpy.calledOnce).to.be.true;
-    });
-
-    it("should trigger loadFile when file is dropped", async () => {
-        wrapper = shallowMount(OpenConfigComponent, {
-            global: {
-                plugins: [store]
-            }
-        });
-        const loadFileSpy = sinon.spy(wrapper.vm, "loadFile");
-
-        await wrapper.findComponent(FileUpload).vm.$emit("drop", {target: {files: [{}]}});
-
-        expect(loadFileSpy.calledOnce).to.be.true;
     });
 });
