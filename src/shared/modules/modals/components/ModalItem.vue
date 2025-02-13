@@ -104,6 +104,7 @@ export default {
                 ref="discard"
                 tabindex="0"
                 :style="modalInnerWrapperStyle"
+                class="modal-rounded-dialog"
             >
                 <IconButton
                     :class-array="['btn-light', 'bootstrap-icon']"
@@ -137,6 +138,10 @@ export default {
     // @todo
     // @import "~/css/mixins.scss";
     @import "~variables";
+
+    .modal-rounded-dialog {
+    border-radius: 0.3em;
+}
 
     #modal-1-container{
         display:none;

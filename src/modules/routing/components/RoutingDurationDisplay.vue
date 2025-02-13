@@ -2,7 +2,7 @@
 
 /**
  * RoutingDurationDisplay
- * @module modules/RoutingDurationDisplay
+ * @module modules/routing/components/RoutingDurationDisplay
  * @vue-prop {Number} duration - The duration of the trip.
  * @vue-computed {Number} minutes - The duration as minutes.
  * @vue-computed {Number} hours - The duration as hours.

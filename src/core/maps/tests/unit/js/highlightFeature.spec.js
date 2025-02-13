@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {Style, Fill, Stroke, Circle} from "ol/style.js";
-import {Polygon, MultiPolygon} from "ol/geom";
+import {Polygon, MultiPolygon, LineString} from "ol/geom";
 import highlightFeature from "../../../js/highlightFeature";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
@@ -18,7 +18,8 @@ describe("src/core/maps/js/highlightFeature", () => {
                 [[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]],
                 [[[2, 2], [2, 3], [3, 3], [3, 2], [2, 2]]]
             ],
-            multiPolygonGeom = new MultiPolygon(multiPolygonCoordinates);
+            multiPolygonGeom = new MultiPolygon(multiPolygonCoordinates),
+            lineGeom = new LineString([[0, 0], [1, 1], [2, 2]]);
 
         stylePoint = new Style({
             image: new Circle({
@@ -57,7 +58,7 @@ describe("src/core/maps/js/highlightFeature", () => {
 
         featureLine = {
             getId: () => "testLine",
-            getGeometry: sinon.stub(),
+            getGeometry: sinon.stub().returns(lineGeom),
             getStyle: sinon.stub().returns(styleGeoms),
             setStyle: sinon.stub()
         };
@@ -122,7 +123,7 @@ describe("src/core/maps/js/highlightFeature", () => {
 
                 highlightFeature.highlightFeature({dispatch}, highlightObject);
 
-                sinon.assert.calledWith(dispatch, "highlightLine", highlightObject);
+                sinon.assert.calledWith(dispatch, "highlightLineTypes", highlightObject);
             });
 
             it("should warn for unrecognized highlight type", () => {
@@ -203,7 +204,7 @@ describe("src/core/maps/js/highlightFeature", () => {
     });
 
 
-    describe("highlightLine", () => {
+    describe("highlightLineTypes", () => {
         it("should highlight a line feature with custom style", async () => {
             const highlightObject = {
                 type: "highlightLine",
@@ -214,17 +215,15 @@ describe("src/core/maps/js/highlightFeature", () => {
 
             dispatch = sinon.stub().resolves(styleGeoms);
 
-            await highlightFeature.highlightLine({commit, dispatch}, highlightObject);
+            await highlightFeature.highlightLineTypes({commit, dispatch}, highlightObject);
 
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeature", featureLine);
+            sinon.assert.calledWith(commit, "Maps/addHighlightedFeatureStyle", sinon.match.any);
             sinon.assert.calledWith(dispatch, "fetchAndApplyStyle", sinon.match({
                 highlightObject: highlightObject,
                 feature: featureLine
             }));
-            sinon.assert.calledWith(dispatch, "setHighlightStyleToFeature", sinon.match({
-                feature: featureLine,
-                clonedStyle: highlightObject.highlightStyle,
-                newStyle: highlightObject.highlightStyle
-            }));
+            sinon.assert.calledWith(featureLine.setStyle, sinon.match.instanceOf(Style));
         });
 
         it("should place a line marker if no highlightStyle is provided", async () => {
@@ -238,7 +237,7 @@ describe("src/core/maps/js/highlightFeature", () => {
 
             dispatch.withArgs("fetchAndApplyStyle", sinon.match.any).resolves(null);
 
-            await highlightFeature.highlightLine({commit, dispatch}, highlightObject);
+            await highlightFeature.highlightLineTypes({commit, dispatch}, highlightObject);
 
             sinon.assert.calledWith(dispatch, "Maps/placingPolygonMarker", featureLine, {root: true});
         });

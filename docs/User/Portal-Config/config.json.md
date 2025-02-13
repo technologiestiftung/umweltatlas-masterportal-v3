@@ -544,6 +544,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |icon|no|String|"bi-info-circle-fill"|CSS icon class. Icon is shown before the tool name.|false|
 |menuSide|no|String|"secondaryMenu"|Specifies in which menu the information should be displayed.|false|
 |name|yes|String|"common:modules.getFeatureInfo.name"|Name displayed in the menu.|false|
+|showPolygonMarkerForWMS|no|Boolean|false|If set to true, Polygonmarker will be shown for WMS features with geometry.|false|
 
 **Example of a GetFeatureInfo configuration**.
 
@@ -569,6 +570,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
             "scale": 2
         }
     },
+    "showPolygonMarkerForWMS": true,
     "hideMapMarkerOnVectorHighlight": true
 }
 ```
@@ -1026,6 +1028,7 @@ Here you can configure the menu items for the `mainMenu` (in the desktop view on
 |expanded|no|Boolean|false|Defines whether the respective menu is expanded or collapsed when the portal is started.|false|
 |width|no|String|"25%"|Sets the initial width of the respective menu as a percentage value.|false|
 |showDescription|no|Boolean||Defines whether a description of the modules should be displayed in the respective menu.|false|
+|showHeaderIcon|no|Boolean|false|Defines whether the icon of the current module is shown in the menu header|false|
 |searchBar|no|**[searchBar](#portalconfigmenusearchbar)**||The search bar allows requesting information from various search services at once.|false|
 |sections|no|**[sections](#portalconfigmenusections)**[]||Subdivision of modules in the menu.|false|
 |title|no|**[title](#portalconfigmenutitle)**||The portal's title and further elements to be shown in the main menu bar.|false|
@@ -1516,7 +1519,7 @@ Searching all topic selection tree layers.
 ```json
 {
     "type": "topicTree",
-    "searchInterfaceId": "topicTree" 
+    "searchInterfaceId": "topicTree"
 }
 ```
 
@@ -1590,6 +1593,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:addWMS]: # (portalConfig.menu.sections.modules)
 [type:bufferAnalysis]: # (portalConfig.menu.sections.modules)
 [type:contact]: # (portalConfig.menu.sections.modules)
+[type:compareFeatures]: # (portalConfig.menu.sections.modules)
 [type:compareMaps]: # (portalConfig.menu.sections.modules)
 [type:coordToolkit]: # (portalConfig.menu.sections.modules)
 [type:copyrightConstraints]: # (portalConfig.menu.sections.modules)
@@ -1603,6 +1607,7 @@ The following events exist. Which events can be configured can be found in the d
 [type:layerSlider]: # (portalConfig.menu.sections.modules)
 [type:login]: # (portalConfig.menu.sections.modules)
 [type:measure]: # (portalConfig.menu.sections.modules)
+[type:modeler3D]: # (portalConfig.menu.sections.modules)
 [type:news]: # (portalConfig.menu.sections.modules)
 [type:openConfig]: # (portalConfig.menu.sections.modules)
 [type:print]: # (portalConfig.menu.sections.modules)
@@ -1625,6 +1630,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
+|compareFeatures|no|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**||Offers a comparison option for vector features. The getFeatureInfo (GFI) window will offer a clickable star symbol to put elements on the comparison list. Works when used together with the GFI theme **Default**.|false|
 |compareMaps|no|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||This tool allows users to compare two map layers side by side using a layer swiper. |false|
 |coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
@@ -1638,6 +1644,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |layerSlider|no|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |login|no|**[login](#portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
 |measure|no|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
+|measure|no|**[modeler3D](#portalconfigmenusectionsmodulesmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
 |news|no|**[news](#portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
 |openConfig|no|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
 |print|no|**[print](#portalconfigmenusectionsmodulesprint)**||Printing module that can be used to export the map's current view as PDF.|false|
@@ -1680,17 +1687,18 @@ This module displays specific portal information like description, Masterportal 
 |type|no|String|"about"|The type of the module. Defines which module is configured.|false|
 |abstractText|no|String|""|Description of the portal|false|
 |contact|no|String|null|Metadata contact information|false|
-|cswUrl|no|String|"../../src/assets/img/Logo_Masterportal.svg"|Metadata URL|false|
-|logoLink|no|String|"https://masterportal.org"|Logo link|false|
-|logoText|no|String|"Masterportallogo"|Text if logo is not shown|false|
+|cswUrl|no|String|""|Metadata URL|false|
+|logo|no|Boolean/String|true|"../../src/assets/img/Logo_Masterportal.svg"|Path to the logo. With `false` the logo is hidden.|false|
+|logoLink|no|String|"https://masterportal.org"|Link that opens in a new tab when you click on the logo.|false|
+|logoText|no|String|"Masterportallogo"|Alternative text that is displayed if the logo cannot be displayed.|false|
 |metaDataCatalogueId|no|String|"2"|Id of the metadata service|false|
 |metaId|no|String|""|Id of the metadata object|false|
 |metaUrl|no|String|""|URL of the metadata object|false|
 |noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
 |showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
 |title|no|String|""|Metadata title |false|
-|version|no|String|""|Version information of the masterportal|false|
-|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link to the masterportal version|false|
+|version|no|Boolean/String|true|Version specification of the master portal. With `true` the master portal version is determined automatically. With `false` the version is hidden.|false|
+|versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link that opens in a new tab when you click on the version.|false|
 |ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
 |privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
 |privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
@@ -1715,22 +1723,30 @@ This module displays specific portal information like description, Masterportal 
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-The module allows for adding additional WMS layers via a provided URL. The [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) recommends setting up a CORS header, see chapter 4.7.1.   
-Schema for a WMS layer URL: `www.diensteurl/wmsdienste`. 
+The module allows for adding additional WMS layers via a provided URL. The [GDI-DE](https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf) recommends setting up a CORS header, see chapter 4.7.1.
+Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|featureCount|no|Number||Number of features to return on a GetFeatureInfo query.|false|
 |icon|no|String|"bi-cloud-plus"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.addWMS.name"|Name of the module in the menu.|false|
 |type|no|String|"addWMS"|The type of the module. Defines which module is configured.|false|
+|exampleURLs|no|String[]|[]|Example URLs displayed under the module.|false|
 
 **Example**
 
 ```json
 {
     "icon": "bi-cloud-plus",
+    "featureCount": 10,
     "name": "common:modules.addWMS.name",
-    "type": "addWMS"
+    "type": "addWMS",
+    "exampleURLs": [
+        "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
+        "https://sgx.geodatenzentrum.de/wms_landschaften",
+        "https://sgx.geodatenzentrum.de/wms_vg5000_0101"
+    ]
 }
 ```
 
@@ -2017,6 +2033,36 @@ CustomMenuElement Module `execute` options.
 {
     "action": "Alerting/addSingleAlert",
     "payload":  {"title":"to all people", "content": "Hallo world"}
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.customMenuElement.execute.viewpointActivation {data-toc-label='Viewpoint Activation'}
+
+The `Maps/activateViewpoint` action configures and activates a specific viewpoint on a map. It requires the `execute` object to include the following payload:
+
+|Name|Required|Type|Description|Expert|
+|----|--------|----|-----------|------|
+|layerIds|no|Array|List of IDs for the map layers to activate.|true|
+|heading|no|Number|The direction the map is facing, in radians.|true|
+|tilt|no|Number|Tilt angle of the map view, in radians.|true|
+|altitude|no|Number|Camera altitude in meters above ground.|true|
+|center|no|Array|[X, Y] coordinates of the center in the map's spatial reference system.|true|
+|zoom|no|Number|Zoom level of the map view.|true|
+
+**Example:**
+```json
+{
+    "action": "Maps/activateViewpoint",
+    "payload": {
+        "layerIds": ["4905", "4538"],
+        "heading": -0.30858728378862876,
+        "tilt": 0.9321791580603296,
+        "altitude": 272.3469798217454,
+        "center": [564028.7954571751, 5934555.967867207],
+        "zoom": 7.456437968949651
+    }
 }
 ```
 
@@ -2840,6 +2886,7 @@ The measure tool allows measuring distances and areas.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|color|no|Number[]|[255, 127, 0, 1.0]|Defines the color for the measured lines and polygons.|false|
 |earthRadius|no|Number|6378137|Earth radius in meters. Please mind that the earth radius should be chosen in accordance with the reference ellipsoid. E.g., GRS80 should be used for ETRS89 (EPSG:25832).|false|
 |icon|no|String|"bi-arrows-angle-expand"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |lineStringUnits|no|String[]|["m", "km"]|Indicates which units for length measurements will be selectable by users. Options are "m" (metres), "km" (kilometres), "nm" (nautical miles).|false|
@@ -2857,6 +2904,91 @@ The measure tool allows measuring distances and areas.
     "measurementAccuracy": "dynamic",
     "name": "common:modules.measure.name",
     "type": "measure"
+}
+```
+
+***
+
+##### portalConfig.menu.sections.modules.modeler3D {data-toc-label='3D Modeler'}
+
+[inherits]: # (portalConfig.menu.sections.modules)
+
+Can only be used in 3D mode!
+The 3D modeler allows to import 3D models in the formats .gltf, .dae and .obj, as well as to draw lines and extrudable 3D polygons.
+These drawings can be exported and loaded back georeferenced into the map.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|gmlIdPath|no|String|"gmlid"|Specify the path to the GML ID in the GFI for buildings in 3D Layers.|false|
+|updateAllLayers|no|Boolean|true|Specify, if all layers should be updated, when buildings are hidden.|false|
+|highlightStyle|no|**[highlightStyle](#markdown-header-portalConfigmenusectionsmodulesmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+|allowedAttributes|no|String[]|["Wertbezeichnung", "Gebaeudefunktion"]|Define which attributes should be available for the filtering function.|false|
+|pvoColors|no|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
+|buildingSource|no|String|"ALKIS"|Define the source of buildings (currently only ALKIS supported)|false|
+|buildingFunctionURL|no|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Define the URL where the building types should be retrieved from.|false|
+|type|no|String|"modeler3D"|The type of the module. Defines which module is configured.|false|
+
+**Example**
+
+```json
+{
+    "type": "modeler3D",
+    "gmlIdPath": "gmlId",
+    "updateAllLayers": false,
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    },
+    "allowedAttributes": ["Gebaeudefunktion", "Wertbezeichnung"],
+        "pvoColors": {
+            "housing": "#ff0000",
+            "commercial": "#666666",
+            "public": "#44ff44"
+        },
+        "buildingSource": "ALKIS",
+        "buildingFunctionURL": "https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.highlightStyle
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|silhouetteColor|no|String|"#E20D0F"|Specify the outline color for highlighting entities.|false|
+|silhouetteSize|no|Number|1|Specify the outline width for highlighting entities.|false|
+
+**Example**
+
+```json
+{
+    "highlightStyle": {
+        "silhouetteColor": "#E20D0F",
+        "silhouetteSize": 4
+    }
+}
+```
+
+***
+
+###### portalConfig.menu.sections.modules.modeler3D.pvoColors
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|housing|no|String|"#ff0000"|Define the pvo color of housing buildings.|false|
+|commercial|no|String|"#666666"|Define the pvo color of commercial buildings.|false|
+|public|no|String|"#44ff44"|Define the pvo color of public buildings.|false|
+
+**Example**
+
+```json
+{
+    "pvoColors": {
+        "housing": "#ff0000",
+        "commercial": "#666666",
+        "public": "#44ff44"
+    }
 }
 ```
 
@@ -3016,6 +3148,36 @@ List of layouts and formats that filters the response from the print service in 
 
 ***
 
+#### Portalconfig.menu.sections.modules.compareFeatures
+{data-toc-label='Compare Features'}
+
+[inherits]: # (Portalconfig.menu.sections.modules)
+
+This tool allows comparing vector features which are provided by WFS(❗) services.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|icon|no|String|"bi-star"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|name|no|String|"common:modules.compareFeatures.name"|Name of the module in the menu.|false|
+|numberOfAttributesToShow|no|Integer|12|Deprecated in next major release. Maximum amount of attributes initially shown. If more attributes are available, they can be shown and hidden by clicking a button.|false|
+|numberOfFeaturesToShow|no|Integer|3|Deprecated in next major release. Maximum amount of features selectable for comparison.|false|
+|type|no|String|"compareFeatures"|The type of the module. Defines which module is configured.|false|
+
+
+**Example**
+
+```json
+"compareFeatures": {
+    "icon": "bi-star",
+    "name": "common:modules.compareFeatures.title",
+    "numberOfAttributesToShow": 10,
+    "numberOfFeaturesToShow": 5,
+    "type": "compareFeatures"
+}
+```
+
+***
+
 ##### portalConfig.menu.sections.modules.routing {data-toc-label='Routing'}
 
 [inherits]: # (portalConfig.menu.sections.modules)
@@ -3031,6 +3193,8 @@ Routing module. Enables user to plan routes between multiple points with multipl
 |geosearchReverse|no|**[geosearchReverse](#portalconfigmenusectionsmodulesroutinggeosearchreverse)**||Geosearchreverseoptions|false|
 |directionsSettings|no|**[directionsSettings](#portalconfigmenusectionsmodulesroutingdirectionssettings)**||Directionsoptions|false|
 |isochronesSettings|no|**[isochronesSettings](#portalconfigmenusectionsmodulesroutingisochronessettings)**||Isochronesoptions|false|
+|tsrSettings|no|**[tsrSettings](#markdown-header-portalconfigmenusectionsmodulesroutingtsrsettings)**||Travelling Salesman Routing options|false|
+
 
 **Example**
 
@@ -3127,6 +3291,16 @@ Routing module. Enables user to plan routes between multiple points with multipl
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
+        }
+    },
+    "tsrSettings": {
+        "type": "TSR",
+        "serviceId": "bkg_tsr",
+        "speedProfile": "CAR",
+        "elevation": true,
+        "tsrPointLimit": 50,
+        "styleRoute": {
+        "fillColor": [50, 169, 232, 1.0]
         }
     }
 }
@@ -3263,6 +3437,7 @@ Routing-tool directions options.
 |serviceId|yes|String||Which service should be used for the request.|false|
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |preference|no|String|"RECOMMENDED"|Which type of directions should be used by default.|false|
+|elevation|no|Boolean|false|Possibility to activate the elevation profile of the route.|false|
 |customPreferences|no|**[CustomPreferences](#datatypescustompreferences)**||Possibility to define additional preferences for the different speed profiles (additionally to the BKG service)  (requires own modified backend)|false|
 |customAvoidFeatures|no|**[CustomAvoidFeatures](#datatypescustomavoidfeatures)**||Possibility to define own options for avoid traffic routes for the different speed profiles(additionally to the BKG service) (requires own modified backend)|false|
 |styleRoute|no|**[StyleRoute](#datatypesstyleroute)**||Stylerouteoptions|false|
@@ -3279,6 +3454,7 @@ Routing-tool directions options.
         "serviceId": "bkg_ors",
         "speedProfile": "CAR",
         "preference": "RECOMMENDED",
+        "elevation": true,
         "customPreferences": {
             "CYCLING": ["RECOMMENDED", "SHORTEST", "GREEN"]
         },
@@ -3386,6 +3562,40 @@ Routing-tool isochrones options.
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
+        }
+    }
+}
+```
+***
+
+#### portalConfig.menu.sections.modules.routing.tsrSettings
+
+[type:StyleRoute]: # (Datatypes.StyleRoute)
+
+TSR-tool options.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|type|yes|enum["TSR"]||Which type of service should be used for the request.|false|
+|serviceId|yes|String||Which service should be used for the request.|false|
+|speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
+|elevation|no|Boolean|false|Possibility to activate the elevation profile of the route.|false|
+|tsrPointLimit|no|Number|50|Limit of TSR points|false|
+|styleRoute|no|**[StyleRoute](#markdown-header-datatypesstyleroute)**||Stylerouteoptions|false|
+
+
+**Example**
+
+```json
+{
+    "tsrSettings": {
+        "type": "TSR",
+        "serviceId": "bkg_tsr",
+        "speedProfile": "CAR",
+        "elevation": true,
+        "tsrPointLimit": 50,
+        "styleRoute": {
+            "fillColor": [50, 169, 232, 1.0]
         }
     }
 }
@@ -4347,7 +4557,7 @@ Configuration of the addLayerButton to select layers.
                 {
                     "id":"elasticSearch_0",
                     "searchCategory": "Thema (externe Fachdaten)"
-                }, 
+                },
                 {
                     "id": "topicTree",
                     "searchCategory": "Thema"
@@ -4584,7 +4794,8 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |elements|no|**[elements](#layerconfigelements)**[]||Next layer with layers or folders under the type `folder`.|false|
-|name|no|String|""|Layer or folder name.|false|
+|name|no|String|""|Layer or folder name. Can contain HTML tags that will only be rendered in layer tree. |false|
+|shortname|no|String|""|shortened layer or folder name. If configured it will be displayed in layer tree instead of `name`. |false|
 |type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
 
 **Example baselayer**
@@ -4671,7 +4882,8 @@ Besides these attributes, there are also type-specific attributes for the differ
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |autoRefresh|no|Integer||Automatically reload layer every `autoRefresh` ms. Minimum value is 500.|false|
-|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false
+|capabilitiesUrl|no|String||**[services.json](../Global-Config/services.json.md)** value. Service's capabilities URL|false|
+|filterRefId|no|Integer||Referencing to a configured filter. It is the order (index) of Layer in filter. Starting with 0.|false|
 |fitCapabilitiesExtent|no|Boolean|false|**[services.json](../Global-Config/services.json.md)** value. When set to `true` and a `capabilitiesUrl` is specified in the configuration, the application will fit the map extent based on the bounding box information retrieved from the GetCapabilities document.|false|
 |id|yes|String/String[]||Id of the layer. The ids are resolved in **[services.json](../Global-Config/services.json.md)** and the necessary information is used. When configuring an array of Ids, a layer is created that contains the LAYERS parameter in the request with a comma-separated list of the contents of the `layers` attribute of the individual layers. Setting `minScale` and `maxScale` of each layer is required to be in the `services.json`. It is important here that the specified ids address the same URL, i.e. use the same service and are of same typ. With the special character `.` as suffix, a LayerId can be used multiple times. Each LayerId marked with a suffix creates its own entry in the topic tree.|false|
 |isPointLayer|no|Boolean|false|Whether the (vector) layer only consists of point features (only relevant for WebGL rendering)|false|
@@ -4694,7 +4906,8 @@ Besides these attributes, there are also type-specific attributes for the differ
             "name": "Example Layer",
             "typ": "WMS",
             "visibility": false,
-            "styleId": "3"
+            "styleId": "3",
+            "filterRefId": 0
         }
     ]
 }
@@ -4810,8 +5023,8 @@ A group layer is created that contains all layers of the specified ids.
 **Example with children**
 
 ```json
-{ 
-    "id": [ "27926", "1711", "18104"], 
+{
+    "id": [ "27926", "1711", "18104"],
     "typ": "GROUP",
     "name": "Group OAF, WFS, SensorThings",
     "visibility": false,
@@ -5693,7 +5906,7 @@ Example of a chart snippet. Queries the features from the configured "service" a
     "type": "chart",
     "title": "Phänogramm",
     "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
+    "tooltipUnit": " %",
     "chartConfig": {
         "type": "bar",
         "data": {

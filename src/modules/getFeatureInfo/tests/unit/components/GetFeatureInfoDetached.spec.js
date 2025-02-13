@@ -19,8 +19,10 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
         removeHighlightFeatureSpy,
         highlightFeatureSpy,
         highlightVectorRules,
+        showPolygonMarkerForWMS,
         getLayerByIdSpy,
         placingPointMarkerSpy,
+        removePolygonMarkerSpy,
         layer,
         showMarker = true,
         feature,
@@ -38,6 +40,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             currentFeature: () => sinon.stub(),
             menuSide: () => sinon.stub(),
             highlightVectorRules: () => highlightVectorRules,
+            showPolygonMarkerForWMS: () => showPolygonMarkerForWMS,
             showMarker: () => showMarker,
             hideMapMarkerOnVectorHighlight: () => sinon.stub()
         },
@@ -77,6 +80,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
         highlightFeatureSpy = sinon.spy();
         removeHighlightFeatureSpy = sinon.spy();
         placingPointMarkerSpy = sinon.spy();
+        removePolygonMarkerSpy = sinon.spy();
         highlightVectorRules = {
             image: {
                 scale: 10
@@ -104,6 +108,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                         removePointMarker: sinon.stub(),
                         setCenter: setCenterSpy,
                         removeHighlightFeature: removeHighlightFeatureSpy,
+                        removePolygonMarker: removePolygonMarkerSpy,
                         highlightFeature: highlightFeatureSpy
                     },
                     getters: {
@@ -504,6 +509,214 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
 
                 wrapper.vm.removeHighlighting();
                 expect(removeHighlightFeatureSpy.calledOnce).to.be.true;
+            });
+
+            describe("highlightWMSFeature", () => {
+                it("should do nothing, if showPolygonMarkerForWMS is not set to True", () => {
+                    showPolygonMarkerForWMS = false;
+                    highlightVectorRules = null;
+
+                    const wrapper = shallowMount(DetachedTemplate, {
+                        propsData: {
+                            feature: {
+                                getTheme: () => "DefaultTheme",
+                                getTitle: () => "Hallo",
+                                getMimeType: () => "text/xml",
+                                getGfiUrl: () => "",
+                                getLayerId: () => "layerId",
+                                getOlFeature: () => olFeature
+                            }
+                        },
+                        components: {
+                            DefaultTheme: {
+                                name: "DefaultTheme",
+                                template: "<span />"
+                            }
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                    wrapper.vm.highlightWMSFeature();
+                    expect(getLayerByIdSpy.notCalled).to.be.true;
+                    expect(highlightFeatureSpy.notCalled).to.be.true;
+                });
+
+                it("should call highlightFeature if feature's geometry is a point", () => {
+
+                    highlightVectorRules = null;
+                    showPolygonMarkerForWMS = true;
+
+                    olFeature.setGeometry(new Point([30, 10]));
+                    layer.attributes = {
+                        typ: "WMS"
+                    };
+
+                    const expectedArgs = {
+                        feature: olFeature,
+                        type: "highlightPoint",
+                        layer: {id: "layerId"}
+                    };
+
+                    shallowMount(DetachedTemplate, {
+                        propsData: {
+                            feature: {
+                                getTheme: () => "DefaultTheme",
+                                getTitle: () => "Hallo",
+                                getMimeType: () => "text/xml",
+                                getGfiUrl: () => "",
+                                getLayerId: () => "layerId",
+                                getOlFeature: () => olFeature
+                            }
+                        },
+                        components: {
+                            DefaultTheme: {
+                                name: "DefaultTheme",
+                                template: "<span />"
+                            }
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                    expect(getLayerByIdSpy.calledOnce).to.be.true;
+                    expect(removePolygonMarkerSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+                });
+
+                it("should call highlightFeature if feature's geometry is a polygon", () => {
+                    highlightVectorRules = null;
+                    showPolygonMarkerForWMS = true;
+
+                    olFeature.setGeometry(new Polygon([[[30, 10], [40, 40], [130, 130], [240, 40], [30, 10]]]));
+                    layer.attributes = {
+                        typ: "WMS"
+                    };
+
+                    const expectedArgs = {
+                        feature: olFeature,
+                        type: "highlightPolygon",
+                        layer: {id: "layerId"}
+                    };
+
+                    shallowMount(DetachedTemplate, {
+                        propsData: {
+                            feature: {
+                                getTheme: () => "DefaultTheme",
+                                getTitle: () => "Hallo",
+                                getMimeType: () => "text/xml",
+                                getGfiUrl: () => "",
+                                getLayerId: () => "layerId",
+                                getOlFeature: () => olFeature
+                            }},
+                        components: {
+                            DefaultTheme: {
+                                name: "DefaultTheme",
+                                template: "<span />"
+                            }},
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+
+                    expect(getLayerByIdSpy.calledOnce).to.be.true;
+                    expect(removePolygonMarkerSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+                });
+
+                it("should call highlightFeature if feature's geometry is a multipolygon", () => {
+                    const expectedArgs = {
+                        feature: olFeature,
+                        type: "highlightMultiPolygon",
+                        layer: {id: "layerId"}
+                    };
+
+                    highlightVectorRules = null;
+                    showPolygonMarkerForWMS = true;
+                    olFeature.setGeometry(new MultiPolygon([
+                        [
+                            [[30, 10], [40, 40], [130, 130], [240, 40], [30, 10]],
+                            [[20, 30], [35, 50], [100, 100], [220, 30], [20, 30]]
+                        ]
+                    ]));
+
+                    layer.attributes = {
+                        typ: "WMS"
+                    };
+
+                    shallowMount(DetachedTemplate, {
+                        propsData: {
+                            feature: {
+                                getTheme: () => "DefaultTheme",
+                                getTitle: () => "Hallo",
+                                getMimeType: () => "text/xml",
+                                getGfiUrl: () => "",
+                                getLayerId: () => "layerId",
+                                getOlFeature: () => olFeature
+                            }
+                        },
+                        components: {
+                            DefaultTheme: {
+                                name: "DefaultTheme",
+                                template: "<span />"
+                            }
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                    expect(getLayerByIdSpy.calledOnce).to.be.true;
+                    expect(removePolygonMarkerSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+                });
+
+                it("should call highlightFeature if feature's geometry is a linestring", () => {
+                    const expectedArgs = {
+                        feature: olFeature,
+                        type: "highlightLine",
+                        layer: {id: "layerId"}
+                    };
+
+                    highlightVectorRules = null;
+                    showPolygonMarkerForWMS = true;
+                    olFeature.setGeometry(new LineString([[30, 10], [40, 40], [130, 130], [240, 40]]));
+                    layer.attributes = {
+                        typ: "WMS"
+                    };
+                    shallowMount(DetachedTemplate, {
+                        propsData: {
+                            feature: {
+                                getTheme: () => "DefaultTheme",
+                                getTitle: () => "Hallo",
+                                getMimeType: () => "text/xml",
+                                getGfiUrl: () => "",
+                                getLayerId: () => "layerId",
+                                getOlFeature: () => olFeature
+                            }
+                        },
+                        components: {
+                            DefaultTheme: {
+                                name: "DefaultTheme",
+                                template: "<span />"
+                            }
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    });
+
+                    expect(getLayerByIdSpy.calledOnce).to.be.true;
+                    expect(removePolygonMarkerSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.calledOnce).to.be.true;
+                    expect(highlightFeatureSpy.firstCall.args[1]).to.be.deep.equals(expectedArgs);
+                });
             });
         });
 

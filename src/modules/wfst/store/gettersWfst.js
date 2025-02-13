@@ -64,7 +64,7 @@ const getters = {
      * @returns {String} Layer id.
      */
     currentLayerId (state) {
-        return state.layerIds[state.currentLayerIndex];
+        return state.layerInformation[state.currentLayerIndex]?.id;
     },
     /**
      * Gets select disabled status

@@ -16,6 +16,7 @@
  * @property {String} saveTo - parameters to write changes to the filter in the url
  * @property {Array}  layers - the layer configuration for filter
  * @property {Array} layerGroups - configuration of the related layers to be filtered
+ * @property {Array} layerConfigs - The merged configuration list of the layers and group layers for the filter
  * @property {Array} rulesOfFilters - contains rules for each filter
  * @property {String} serializedString -contains the serialized state (includes rules, filterHits, selectedAccordions)
  * @property {Array} selectedAccordions - contains the selected accordions
@@ -48,6 +49,7 @@ const state = {
     saveTo: "void",
     layers: [],
     layerGroups: [],
+    layerConfigs: [],
     rulesOfFilters: [],
     serializedString: "",
     selectedAccordions: [],

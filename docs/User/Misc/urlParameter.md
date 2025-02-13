@@ -69,3 +69,37 @@ List of obsolete URL parameters with examples. Current URL parameters are given 
 |ZOOMLEVEL|Sets the initial zoom level.|`&ZOOMLEVEL=2`|`MAPS={"zoom":0}`|
 
 ***
+
+## Adding URL Parameters through the ShareView Module
+
+The `shareView` component identifies and retains addon-specific parameters when the application modifies the URL.
+
+**Example: [https://localhost:9001/portal/master/?MAPS={"center":[567558.0717944179,5939099.392574146],"mode":"2D",
+"zoom":4}&LAYERS=[{"id":"453","visibility":true},{"id":"2426","visibility":true,"transparency":50}]&MENU={"main":
+{"currentComponent":"print","attributes":{"currentScale":5000,"dpiForPdf":"120"}},"secondary":
+{"currentComponent":"coordToolkit"}}](https://localhost:9001/portal/master/?MAPS={"center":[567558.0717944179,
+5939099.392574146],"mode":"2D","zoom":4}&LAYERS=[{"id":"453","visibility":true},{"id":"2426","visibility":true,
+"transparency":50}]&MENU={"main":{"currentComponent":"print","attributes":{"currentScale":5000,"dpiForPdf":"120"}},
+"secondary":{"currentComponent":"coordToolkit"}}&ADDON={"date":"01.01.2024"})**
+
+### Setting URL Parameters from inside an Addon
+
+```js
+const existingParameters = new URLSearchParams(window.location.search),
+    newParameter = JSON.stringify({
+        key: value
+    });
+
+existingParameters.set("ADDONNAME", newParameter);
+
+// Update existing URL Parameters
+history.replaceState(null, null, "?" + existingParameters.toString());
+```
+
+### Getting URL Parameters from inside an Addon
+
+```js
+const urlParameters = new URLSearchParams(window.location.search),
+    parameter = urlParameters.get("ADDONNAME"),
+    value = JSON.parse(parameter).value;
+```

@@ -486,7 +486,7 @@ export default {
                     defaultPointSize = 16,
                     defaultStrokeWidth = 1,
                     defaultCircleRadius = 300,
-                    geometryType = feature ? feature.getGeometry().getType() : "Cesium";
+                    geometryType = feature ? feature.getGeometry().getType() : "cesium";
 
                 if (geometryType === "Point" || geometryType === "MultiPoint") {
                     style = createDrawStyle(defaultColor, defaultColor, geometryType, defaultPointSize, 1, 1);
@@ -593,7 +593,7 @@ export default {
                 });
             }
             else if (!drawState && customStyles) {
-                const geometryType = feature ? feature.getGeometry().getType() : "Cesium",
+                const geometryType = feature ? feature.getGeometry().getType() : "cesium",
                     featureAttribute = feature.get(customStyles[0].attribute),
                     featureColor = customStyles.find(attribute => {
                         return attribute.attributeValue === featureAttribute || attribute.attributeValue === "none";

@@ -1,6 +1,6 @@
 # services.json
 
-All services available for display in the Masterportal (WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md), and more) are configured and maintained in this JSON file. The file is linked to from the *config.js* of each individual portal by the *layerConf* parameter. For an example, see the *services-internet.json* included in the *examples.zip* at *//examples/Basic/resources/*.
+All services available for display in the Masterportal (WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md), and more) are configured and maintained in this JSON file. The file is linked to from the *config.js* of each individual portal by the *layerConf* parameter. For an example, see the *services.json* included in the *examples.zip* at *//examples/Basic/resources/*.
 
 All layer information the portal needs to use the services is stored here. Configuration details differ between WMS, WFS, [SensorThings-API](../../Dev/sensorThings.md) and other services types. You may also use local GeoJSON files; see GeoJSON example.
 
@@ -763,8 +763,6 @@ Definition of parameters for GFI template `"default"`.
 | Name              | Required | Type                             | Default                                     | Description                                                                                                                                                                                                   |
 |-------------------|----------|----------------------------------|---------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | iframe            | no       | **[iframe](#iframe-parameters)** |                                             | Defines the size of the iframe. Only works if the infoFormat="text/html" is configured for the layer.                                                                                                         |
-| imageLinks        | no       | String/String[]                  | `["bildlink", "link_bild", "Bild", "bild"]` | Defines in which attribute an image reference is given. Attributes will be searched in given order, and the first hit will be used.                                                                           |
-| maxWidth          | no       | String                           | `"600px"`                                   | Defines the max width of the gfi content. The max width must be at least 280px.                                                                                                                               |
 | showFavoriteIcons | no       | Boolean                          | `true`                                      | Specifies whether an icon bar allowing tool access is to be displayed. The icons are only displayed if the corresponding tools are configured. Usable tools: `compareFeatures` (not yet implemented for WMS). |
 | beautifyKeys      | no       | Boolean                          | true                                        | Defines if the attribute keys are beautified (true) or not (false).                                                                                                                                           |
 | showObjectKeys    | no       | Boolean                          | false                                       | Displays attribute keys and values of objects in the data if set to true.                                                                                                                                     |
@@ -774,14 +772,6 @@ Definition of parameters for GFI template `"default"`.
     "gfiTheme": {
         "name": "default",
         "params": {
-            "imageLinks": [
-                "bildlink",
-                "link_bild",
-                "Bild",
-                "bild",
-                "My_image_tag"
-            ],
-            "maxWidth": "500px",
             "showFavoriteIcons": true,
             "beautifyKeys": true,
             "showObjectKeys": false

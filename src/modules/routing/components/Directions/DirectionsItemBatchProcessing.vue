@@ -6,7 +6,7 @@ import {RoutingTaskHandler} from "../../js/classes/routing-task-handler";
 
 /**
  * DirectionsItemBatchProcessing
- * @module modules/DirectionsItemBatchProcessing
+ * @module modules/routing/components/Directions/DirectionsItemBatchProcessing
  * @vue-prop {Object} settings - The settings.
  * @vue-data {Boolean} isProcessing - Shows if files are being processed.
  * @vue-data {Number} countFailed - The failed attempts fo get directions.

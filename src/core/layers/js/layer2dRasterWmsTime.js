@@ -80,8 +80,8 @@ Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, exte
 
     if (configuredDefault === "current" || extentDefault === "current") {
         const now = dayjs(),
-            firstGreater = timeRange.find(
-                timestamp => dayjs(timestamp).diff(now) >= 0
+            firstGreater = timeRange.findLast(
+                timestamp => dayjs(timestamp).diff(now) <= 0
             );
 
         return firstGreater || timeRange[timeRange.length - 1];

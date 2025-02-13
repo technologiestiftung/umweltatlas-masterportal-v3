@@ -118,7 +118,7 @@ export default {
             this.clickedMenuElement({
                 name: "common:modules.searchBar.searchResultList",
                 side: this.side,
-                type: "searchbar"
+                type: "searchBar"
             });
         }
     }

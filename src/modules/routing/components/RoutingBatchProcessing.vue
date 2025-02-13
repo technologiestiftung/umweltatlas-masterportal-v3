@@ -2,7 +2,7 @@
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 /**
  * Routing Batch Processing
- * @module modules/RoutingBatchProcessing
+ * @module modules/routing/components/RoutingBatchProcessing
  * @vue-prop {Object} settings - The settings for the element.
  * @vue-prop {Number} progress - The progress for the progress bar.
  * @vue-prop {Boolean} isProcessing - Shows if processing is active.

@@ -256,7 +256,8 @@ export default {
             ],
             source: "",
             allValues: false,
-            noChangeCounter: 0
+            noChangeCounter: 0,
+            searchedResult: undefined
         };
     },
     computed: {
@@ -796,6 +797,23 @@ export default {
                 return;
             }
             this.source = source;
+        },
+        /**
+         * Gets the searched result list according to the input text.
+         * @param {String} text The input text.
+         * @returns {void}
+         */
+        getSearchedResult (text) {
+            if (!Array.isArray(this.dropdownValueComputed) || !this.dropdownValueComputed.length) {
+                return;
+            }
+
+            if (text === "") {
+                this.searchedResult = undefined;
+                return;
+            }
+
+            this.searchedResult = this.dropdownValueComputed.filter(value => value.toLowerCase().includes(text.toLowerCase()));
         }
     }
 };
@@ -836,7 +854,7 @@ export default {
                     :id="'snippetSelectBox-' + snippetId"
                     v-model="dropdownSelected"
                     :aria-label="ariaLabelDropdown"
-                    :options="dropdownValueComputed"
+                    :options="typeof searchedResult !== 'undefined' ? searchedResult : dropdownValueComputed"
                     name="select-box"
                     :disabled="disable"
                     :multiple="multiselect"
@@ -852,6 +870,8 @@ export default {
                     :group-select="multiselect && addSelectAll"
                     :group-values="(multiselect && addSelectAll) ? 'list' : ''"
                     :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
+                    :internal-search="false"
+                    @search-change="getSearchedResult"
                     @remove="setCurrentSource('dropdown')"
                 >
                     <template #caret>

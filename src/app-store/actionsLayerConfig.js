@@ -85,7 +85,7 @@ export default {
                 lastVisibility = existingLayer?.visibility;
             let assigned = [];
 
-            if (existingLayer?.zIndex === undefined && config.zIndex === undefined && replacement.visibility) {
+            if (existingLayer?.zIndex === undefined && config.layer.zIndex === undefined && replacement.visibility) {
                 replacement.zIndex = getters.determineZIndex(id);
             }
             assigned = replacer.replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
@@ -103,7 +103,9 @@ export default {
                 layerCollection.getLayerById(id)?.visibilityChanged(replacement.visibility);
             }
 
-            dispatch("showLayerAttributions", config.layer);
+            if (getters["Maps/mode"] === "2D" && !config.layer.is3DLayer || getters["Maps/mode"] === "3D") {
+                dispatch("showLayerAttributions", config.layer);
+            }
         });
     },
 
@@ -141,11 +143,11 @@ export default {
             }
         }
         else {
-            if (!newZIndex) {
-                newZIndex = layer.zIndex;
+            if (newZIndex === null || newZIndex === undefined) {
+                newZIndex = layer.zIndex ?? newZIndex;
             }
 
-            if (!zIndex && !layer.showInLayerTree && visibility) {
+            if ((layer.zIndex === null || layer.zIndex === null) && !layer.showInLayerTree && visibility) {
                 newZIndex = getters.determineZIndex(layerId);
             }
             dispatch("replaceByIdInLayerConfig", {layerConfigs: [{

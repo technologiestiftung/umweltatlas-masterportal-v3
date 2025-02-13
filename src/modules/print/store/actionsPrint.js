@@ -314,8 +314,8 @@ const actions = {
         if (state.serviceUrl === "") {
             let serviceUrl;
 
-            if (state.mapfishServiceId !== "") {
-                serviceUrl = rootGetters.restServiceById(state.mapfishServiceId).url;
+            if (state.printServiceId !== "" && state.printServiceId !== undefined) {
+                serviceUrl = rootGetters.restServiceById(state.printServiceId).url;
             }
             else {
                 serviceUrl = rootGetters.restServiceById("mapfish").url;
@@ -352,7 +352,7 @@ const actions = {
             dispatch("waitForPrintJob", response.data);
         }
 
-        if (printJob.payload.attributes.is3dMode) {
+        if (printJob.payload?.attributes?.is3dMode) {
             trackMatomo("Print", "3D printjob created ", "Layout: " + printJob.payload.layout);
         }
         else {

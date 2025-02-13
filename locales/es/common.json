@@ -45,7 +45,8 @@
       "ifInExtent": "&#10060; Los geodatos proporcionados a través del WMS están fuera del área de visualización. No es posible añadir el servicio WMS.",
       "name": "Añadir WMS",
       "placeholder": "Introduzca aquí la WMS-URL.",
-      "textLoadLayer": "Cargar capa"
+      "textLoadLayer": "Cargar capa",
+      "examples": "Ejemplos:"
     },
     "alerting": {
       "alertWindowTitle": "",
@@ -745,8 +746,10 @@
     },
     "selectFeatures": {
       "name": "Seleccionar entidad",
-      "noFeatureChosen": "Ninguna entidad esta seleccionada. Seleccione las entidades manteniendo pulsada la tecla Ctrl y arrastrando un cuadro alrededor de las entidades a seleccionar.",
+      "noFeatureChosen": "No hay características seleccionadas. Seleccione características manteniendo pulsada la tecla Ctrl y arrastrando un cuadro alrededor de las características deseadas, o añada características individuales manteniendo pulsada la tecla Ctrl y haciendo clic con el botón izquierdo del ratón.",
       "propertylessFeature": "Elemento sin atributos",
+      "clearSelection":  "Borrar selección",
+      "deselectFeature": "Deseleccionar entidad",
       "zoomToFeature": "Acercar el zomm a esta entidad"
     },
     "shadow": {
@@ -854,7 +857,7 @@
           "biannually": "dos veces al año",
           "continual": "continuamente",
           "daily": "diario",
-          "fortnightly": "dos veces por semana",
+          "fortnightly": "quincenalmente",
           "irregular": "intervalos irregulares",
           "monthly": "mensual",
           "notPlanned": "no programado",

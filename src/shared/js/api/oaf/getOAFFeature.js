@@ -32,7 +32,12 @@ async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = unde
     }
     const url = `${baseUrl}/collections/${collection}/items?limit=${limit}`,
         result = [];
-    let extendedUrl = filter ? `${url}&filter=${filter}&filter-crs=${filterCrs}&crs=${crs}` : url;
+
+    let extendedUrl = filter ? `${url}&filter=${filter}&filter-crs=${filterCrs}` : `${url}`;
+
+    if (typeof crs === "string") {
+        extendedUrl += `&crs=${crs}`;
+    }
 
     if (Array.isArray(propertyNames)) {
         extendedUrl += `&properties=${propertyNames.join(",")}`;

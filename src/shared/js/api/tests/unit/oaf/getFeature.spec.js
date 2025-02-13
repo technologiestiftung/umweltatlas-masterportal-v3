@@ -87,6 +87,32 @@ describe("src/shared/js/api/oaf", () => {
             expect(oafRecursionHelperStub.calledWith([], `${param1}/collections/${param2}/items?limit=${defaultLimit}`)).to.be.true;
             sinon.restore();
         });
+        it("should call oafRecursionHelper with correct params, if crs is undefined", async () => {
+            const oafRecursionHelperStub = sinon.stub(getOAFFeature, "oafRecursionHelper"),
+                param1 = "baseUrl",
+                param2 = "collection",
+                param3 = 400,
+                param4 = "filter",
+                param5 = "filterCrs",
+                param6 = undefined;
+
+            await getOAFFeature.getOAFFeatureGet(param1, param2, param3, param4, param5, param6);
+            expect(oafRecursionHelperStub.calledWith([], `${param1}/collections/${param2}/items?limit=${param3}&filter=${param4}&filter-crs=${param5}`)).to.be.true;
+            sinon.restore();
+        });
+        it("should call oafRecursionHelper with correct params, if crs is defined", async () => {
+            const oafRecursionHelperStub = sinon.stub(getOAFFeature, "oafRecursionHelper"),
+                param1 = "baseUrl",
+                param2 = "collection",
+                param3 = 400,
+                param4 = "filter",
+                param5 = "filterCrs",
+                param6 = "crs";
+
+            await getOAFFeature.getOAFFeatureGet(param1, param2, param3, param4, param5, param6);
+            expect(oafRecursionHelperStub.calledWith([], `${param1}/collections/${param2}/items?limit=${param3}&filter=${param4}&filter-crs=${param5}&crs=${param6}`)).to.be.true;
+            sinon.restore();
+        });
     });
     describe("readAllOAFToGeoJSON", () => {
         it("should return the given param if it is not an array", () => {

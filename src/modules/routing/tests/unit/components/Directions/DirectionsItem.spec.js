@@ -6,6 +6,8 @@ import DirectionsComponent from "../../../../components/Directions/DirectionsIte
 import DirectionsItemBatchProcessingComponent from "../../../../components/Directions/DirectionsItemBatchProcessing.vue";
 import RoutingBatchProcessingCheckboxComponent from "../../../../components/RoutingBatchProcessingCheckbox.vue";
 import RoutingDownloadComponent from "../../../../components/RoutingDownload.vue";
+import RoutingRestrictionsInputComponent from "../../../../components/RoutingRestrictionsInput.vue";
+import RoutingElevationProfileComponent from "../../../../components/RoutingElevationProfile.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -16,6 +18,8 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         mapInteractionMode,
         routingDirections,
         setMapInteractionModeSpy,
+        activeSpeedProfile,
+        elevation,
         store,
         wrapper;
 
@@ -24,6 +28,8 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         batchProcessingEnabled = false;
         mapInteractionMode = "WAYPOINTS";
         routingDirections = null;
+        activeSpeedProfile = "CAR";
+        elevation = false;
 
         mapCollection.clear();
         mapCollection.addMap({
@@ -56,7 +62,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                         routingDirections: () => routingDirections,
                                         settings: () => {
                                             return {
-                                                speedProfile: "CAR"
+                                                speedProfile: activeSpeedProfile
                                             };
                                         },
                                         waypoints: () => [
@@ -87,6 +93,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                             getters: {
                                 directionsSettings: () => {
                                     return {
+                                        elevation: elevation,
                                         batchProcessing: {
                                             active: batchProcessingActive,
                                             enabled: batchProcessingEnabled
@@ -221,6 +228,54 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#routing-directions-result-directions").exists()).to.be.false;
         expect(wrapper.findComponent(RoutingDownloadComponent).exists()).to.be.false;
+    });
+
+    it("renders routing restrictions", async () => {
+        batchProcessingEnabled = false;
+        activeSpeedProfile = "HGV";
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(RoutingRestrictionsInputComponent).exists()).to.be.true;
+    });
+
+    it("doesn't render routing restrictions", async () => {
+        batchProcessingEnabled = false;
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(RoutingRestrictionsInputComponent).exists()).to.be.false;
+    });
+
+
+    it("renders elevation profile", async () => {
+        batchProcessingEnabled = false;
+        elevation = true;
+        routingDirections = {
+            duration: 10,
+            distance: 10,
+            segments: []
+        };
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(RoutingElevationProfileComponent).exists()).to.be.true;
+    });
+
+    it("doesn't render elevation profile", async () => {
+        batchProcessingEnabled = false;
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.findComponent(RoutingElevationProfileComponent).exists()).to.be.false;
     });
 
     describe("checks if findDirections are called", () => {

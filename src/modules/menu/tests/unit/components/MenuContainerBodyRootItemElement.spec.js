@@ -25,7 +25,14 @@ describe("src/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
 
     beforeEach(() => {
         menu = {
-            currentComponent: "componentType"
+            currentComponent: "componentType",
+            navigation: {
+                currentComponent: {
+                    props: {
+                        name: "testName"
+                    }
+                }
+            }
         };
         isModuleVisible = true;
         mapMode = "2D";
@@ -176,9 +183,9 @@ describe("src/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
                 });
 
             expect(wrapper.findComponent(LightButton).exists()).to.be.false;
-            expect(resetMenuSpy.calledOnce).to.be.true;
-            expect(resetMenuSpy.firstCall.args[1]).to.be.equals(path[0]);
+            expect(visibilityChecker.isModuleVisible.calledOnce).to.be.true;
+            expect(visibilityChecker.isModuleVisible.firstCall.args[0].supportedMapModes).to.deep.equal(["2D"]);
+            expect(visibilityChecker.isModuleVisible.firstCall.args[0].mapMode).to.equal("3D");
         });
     });
-
 });

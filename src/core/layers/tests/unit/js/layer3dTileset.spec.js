@@ -2,18 +2,25 @@ import {expect} from "chai";
 import sinon from "sinon";
 import Layer3dTileset from "../../../js/layer3dTileset";
 import layerCollection from "../../../js/layerCollection";
+import store from "../../../../../app-store";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 
 describe("src/core/js/layers/layer3dTileset.js", () => {
     let attributes,
         fromUrlSpy,
-        warn;
+        warn,
+        origGetters,
+        style;
 
     before(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
+        origGetters = store.getters;
     });
 
     beforeEach(() => {
+        style = {};
         attributes = {
             id: "id",
             name: "tilesetLayer",
@@ -29,6 +36,10 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
         global.Cesium = {};
         global.Cesium.Cesium3DTileset = () => { /* no content*/ };
         global.Cesium.Cesium3DTileset.fromUrl = () => sinon.stub();
+        global.Cesium.Cesium3DTileset.tileset = Promise.resolve({
+            style: "Styling",
+            readyPromise: Promise.resolve(true)
+        });
 
         fromUrlSpy = sinon.spy(global.Cesium.Cesium3DTileset, "fromUrl");
     });
@@ -36,6 +47,7 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
     afterEach(() => {
         sinon.restore();
         global.Cesium = null;
+        store.getters = origGetters;
     });
 
     describe("createLayer", () => {
@@ -102,6 +114,49 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
             checkLayer(layer, layer3dTileset, attributes, done);
             expect(addToHiddenObjectsSpy.calledOnce).to.be.true;
             expect(addToHiddenObjectsSpy.firstCall.args[0]).to.be.deep.equals(attributes.hiddenFeatures);
+        });
+    });
+    describe("style funtions", () => {
+        it("initStyle shall be called on creation and call createStyle if styleListLoaded=true", function () {
+            const createStyleSpy = sinon.spy(Layer3dTileset.prototype, "createStyle");
+
+            store.getters = {
+                styleListLoaded: true
+            };
+            attributes.styleId = "styleId";
+            new Layer3dTileset(attributes);
+
+            expect(createStyleSpy.calledOnce).to.be.true;
+        });
+
+        it("initStyle shall be called on creation and not call createStyle if styleListLoaded=false", function () {
+            const createStyleSpy = sinon.spy(Layer3dTileset.prototype, "createStyle");
+
+            store.getters = {
+                styleListLoaded: false
+            };
+            attributes.styleId = "styleId";
+            new Layer3dTileset(attributes);
+
+            expect(createStyleSpy.notCalled).to.be.true;
+        });
+
+        it("createStyle shall set the style at attributes nd at tileset", async function () {
+            style = [["true", "color"]];
+            global.Cesium.Cesium3DTileStyle = sinon.stub().returns(style);
+            sinon.stub(createStyle, "createStyle").returns(style);
+            sinon.stub(styleList, "returnStyleObject").returns({});
+            let layer3d = null,
+                layerStyle = null,
+                tileset = null;
+
+            attributes.styleId = "styleId";
+            layer3d = new Layer3dTileset(attributes);
+            layer3d.createStyle(attributes);
+            layerStyle = layer3d.get("style");
+            tileset = await layer3d.layer.tileset;
+            expect(tileset.style).to.be.deep.equals([["true", "color"]]);
+            expect(layerStyle).to.be.deep.equals([["true", "color"]]);
         });
     });
     describe("setVisible", function () {

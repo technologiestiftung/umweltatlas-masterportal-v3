@@ -1,10 +1,6 @@
-const replace = require("replace-in-file"),
-    path = require("path"),
-    rootPath = path.resolve(__dirname, "../../"),
-    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().split(path.sep).join("/");
+const replace = require("replace-in-file");
 
-
-module.exports = function (destination) {
+module.exports = function (destination, mastercodeVersionFolderName) {
     const replacements = [
         {
             "files": destination + "/js/masterportal.js",

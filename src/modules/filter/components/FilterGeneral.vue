@@ -51,7 +51,6 @@ export default {
                 setParserAttributeByLayerId: openlayerFunctions.setParserAttributeByLayerId,
                 getLayers: openlayerFunctions.getLayers
             }),
-            layerConfigs: [],
             preparedLayerGroups: [],
             flattenPreparedLayerGroups: [],
             layerLoaded: {},
@@ -93,7 +92,23 @@ export default {
         });
     },
     mounted () {
-        this.layerConfigs = compileLayers(this.layerGroups, this.layers, FilterApi);
+        if (this.layerConfigs?.length === 0) {
+            this.setLayerConfigs(compileLayers(this.layerGroups, this.layers, FilterApi));
+
+            if (Array.isArray(this.layerConfigs?.layers) && this.layerConfigs.layers.length > 0) {
+                const selectedFilterIds = [];
+
+                this.layerConfigs.layers.forEach(config => {
+                    if (typeof config?.active === "boolean" && config.active && typeof config?.filterId !== "undefined") {
+                        selectedFilterIds.push(config.filterId);
+                    }
+                });
+                if (selectedFilterIds.length > 0) {
+                    this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
+
+                }
+            }
+        }
 
         if (Array.isArray(this.layerConfigs.groups) && this.layerConfigs.groups.length > 0) {
             this.layerConfigs.groups.forEach(layerGroup => {
@@ -110,18 +125,6 @@ export default {
             }
         }
 
-        if (Array.isArray(this.layerConfigs?.layers) && this.layerConfigs.layers.length > 0) {
-            const selectedFilterIds = [];
-
-            this.layerConfigs.layers.forEach(config => {
-                if (typeof config?.active === "boolean" && config.active && typeof config?.filterId !== "undefined") {
-                    selectedFilterIds.push(config.filterId);
-                }
-            });
-            if (selectedFilterIds.length > 0) {
-                this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
-            }
-        }
         this.urlHandler.readFromUrlParams(this.appStoreUrlParams?.[this.type.toUpperCase()], this.layerConfigs, this.mapHandler, params => {
             this.handleStateForAlreadyActiveLayers(params);
             this.deserializeState({...params, setLateActive: true});
@@ -262,9 +265,9 @@ export default {
             if (!this.multiLayerSelector) {
                 selectedFilterIds = this.selectedAccordions.some(accordion => accordion.filterId === filterId) ? [] : [filterId];
                 this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
-
                 return;
             }
+
             this.preparedLayerGroups.forEach((layerGroup, groupIdx) => {
                 if (layerGroup.layers.some(layer => layer.filterId === filterId) && !this.selectedGroups.includes(groupIdx)) {
                     selectedGroups.push(groupIdx);
@@ -281,6 +284,7 @@ export default {
             else {
                 filterIdsOfAccordions.push(filterId);
             }
+
             this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], filterIdsOfAccordions));
         },
         /**
@@ -391,18 +395,18 @@ export default {
          * @returns {void}
          */
         registerMapMoveListeners () {
-            this.registerListener({type: "loadstart", listener: this.executeListeners.bind(this)});
-            this.registerListener({type: "loadend", listener: this.executeListeners.bind(this)});
-            this.registerListener({type: "moveend", listener: this.executeListeners.bind(this)});
+            this.registerListener({type: "loadstart", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadstart"});
+            this.registerListener({type: "loadend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadend"});
+            this.registerListener({type: "moveend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "moveend"});
         },
         /**
          * Unregistering this moveend, loadend and loadstart listener.
          * @returns {void}
          */
         unregisterMapMoveListeners () {
-            this.unregisterListener({type: "loadstart", listener: this.executeListeners.bind(this)});
-            this.unregisterListener({type: "loadend", listener: this.executeListeners.bind(this)});
-            this.unregisterListener({type: "moveend", listener: this.executeListeners.bind(this)});
+            this.unregisterListener({type: "loadstart", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadstart"});
+            this.unregisterListener({type: "loadend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "loadend"});
+            this.unregisterListener({type: "moveend", listener: this.executeListeners.bind(this), keyForBoundFunctions: this.executeListeners.toString() + "moveend"});
         },
         /**
          * Adds given listener callback to the mapMoveListeners list.

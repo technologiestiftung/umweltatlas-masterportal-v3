@@ -277,7 +277,7 @@ describe("src/modules/legend/js/legendDraw", function () {
 
             sinon.stub(legendDraw, "prepareNameForCesium").returns("NameForCesium");
             sinon.stub(legendDraw, "prepareLegendForCesium").returns("LegendForCesium");
-            result = legendDraw.prepare("Cesium", {}, "name");
+            result = legendDraw.prepare("cesium", {}, "name");
 
             expect(result).to.be.equals("LegendForCesium");
         });

@@ -6,7 +6,8 @@ describe("src/modules/routing/store/gettersRouting.js", () => {
 
     describe("filteredRoutingToolOptions", () => {
         it("should return all routingToolOptions", () => {
-            expect(gettersRouting.filteredRoutingToolOptions({routingToolOptions: []}).length).equal(2);
+            // expected value is 3 because of TSR, Routing, and Isochrones
+            expect(gettersRouting.filteredRoutingToolOptions({routingToolOptions: []}).length).to.equal(3);
         });
 
         it("should return only one valid routingToolOptions", () => {

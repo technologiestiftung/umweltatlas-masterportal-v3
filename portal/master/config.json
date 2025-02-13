@@ -163,6 +163,7 @@
         "toolTip": "Landesbetrieb Geoinformation und Vermessung"
       },
       "searchBar": {
+        "placeholder": "common:modules.searchBar.placeholder.addressTopic",
         "searchInterfaces": [
           {
             "type": "elasticSearch",
@@ -351,7 +352,6 @@
                 "propertyNames": [
                   "app:Name"
                 ],
-
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {
@@ -506,7 +506,7 @@
                   "action": "Maps/activateViewpoint",
                   "payload": {
                     "heading": -0.30858728378862876,
-                    "tilt": 0.9321791580603296,
+                    "tilt": -90,
                     "altitude": 272.3469798217454,
                     "center": [
                       564028.7954571751,
@@ -515,7 +515,7 @@
                     "zoom": 7.456437968949651
                   }
                 }
-            }
+              }
             ]
           }
         ]
@@ -527,6 +527,9 @@
         [
           {
             "type": "populationRequest"
+          },
+          {
+            "type": "compareFeatures"
           },
           {
             "type": "print",
@@ -592,6 +595,7 @@
               "type": "ORS",
               "serviceId": "bkg_ors",
               "speedProfile": "CAR",
+              "elevation": true,
               "batchProcessing": {
                 "enabled": false,
                 "active": false
@@ -604,6 +608,16 @@
               "batchProcessing": {
                 "enabled": false,
                 "active": false
+              }
+            },
+            "tsrSettings": {
+              "type": "TSR",
+              "serviceId": "bkg_tsr",
+              "speedProfile": "CAR",
+              "elevation": true,
+              "tsrPointLimit": 50,
+              "styleRoute": {
+                "fillColor": [50, 169, 232, 1.0]
               }
             }
           },
@@ -754,12 +768,12 @@
             {
               "id":"elasticSearch_0",
               "searchCategory": "Thema (externe Fachdaten)"
-            }, 
+            },
             {
               "id": "topicTree",
               "searchCategory": "Thema"
             }
-          ]         
+          ]
         }
       },
       "highlightedFeatures": {
@@ -820,16 +834,7 @@
           }
         },
         {
-          "id": [
-            "4736",
-            "12062",
-            "4745",
-            "4739",
-            "12061",
-            "4742",
-            "12060",
-            "12059"
-          ],
+          "id": "33787",
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
           "visibility": false
@@ -1013,7 +1018,8 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": true
+          "visibility": true,
+          "showInLayerTree": false
         },
         {
           "id": "2425",
@@ -1131,6 +1137,13 @@
           "visibility": false
         },
         {
+          "id": "27926",
+          "styleId": "8712",
+          "name": "Schulen (Layertyp OAF)",
+          "typ": "OAF",
+          "gfiTheme": "schulinfo"
+        },
+        {
           "id": "18104",
           "styleId": "18104",
           "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
@@ -1211,14 +1224,6 @@
           "styleId": "18106",
           "loadThingsOnlyInCurrentExtent": true,
           "urlIsVisible": true
-        },
-        {
-          "id": "27926",
-          "styleId": "8712",
-          "name": "Schulen (Layertyp OAF)",
-          "typ": "OAF",
-          "visibility": true,
-          "gfiTheme": "schulinfo"
         },
         {
           "id": "20625.90024",
@@ -1412,7 +1417,8 @@
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
-                  "visibility": true
+                  "visibility": true,
+                  "styleId": "3DTileSetStyle"
                 },
                 {
                   "id": "16100",
@@ -1431,6 +1437,7 @@
                   "name": "3D-Entities Testlayer",
                   "typ": "Entities3D",
                   "visibility": false,
+                  "layerAttribution": "Test 3D layerAttribution",
                   "entities": [
                     {
                       "url": "https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb",
