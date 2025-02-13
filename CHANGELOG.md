@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- common.json: added Nederlands language file
 
 ### Changed
 - The following packages have been updated:
