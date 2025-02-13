@@ -13,7 +13,7 @@ describe("src/app-store/actions.js", () => {
         state,
         initializeLayerListSpy,
         initializeStyleListSpy;
-    const restConf = "./resources/rest-services-internet.json",
+    const restConf = "./resources/rest-services.json",
         layerConf = "./services.json";
 
     beforeEach(() => {

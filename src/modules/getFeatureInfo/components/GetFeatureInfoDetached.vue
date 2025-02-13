@@ -4,6 +4,7 @@ import SensorTheme from "../themes/sensor/components/SensorTheme.vue";
 import getTheme from "../js/getTheme";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "../../../core/layers/js/layerCollection";
+import removeHtmlTags from "../../../shared/js/utils/removeHtmlTags";
 
 /**
  * Get Feature Info Detached
@@ -45,6 +46,7 @@ export default {
             "centerMapToClickPoint",
             "currentFeature",
             "highlightVectorRules",
+            "showPolygonMarkerForWMS",
             "menuSide",
             "showMarker",
             "hideMapMarkerOnVectorHighlight"
@@ -55,7 +57,7 @@ export default {
          * @returns {String} the title
          */
         title: function () {
-            return this.feature.getTitle();
+            return removeHtmlTags(this.feature.getTitle());
         },
 
         /**
@@ -74,11 +76,13 @@ export default {
     },
     mounted () {
         this.highlightVectorFeature();
+        this.highlightWMSFeature();
         this.setMarker();
     },
     updated: function () {
         if (this.isUpdated) {
             this.highlightVectorFeature();
+            this.highlightWMSFeature();
             this.setMarker();
             this.$emit("updateFeatureDone");
         }
@@ -87,6 +91,7 @@ export default {
         if (this.searchInput === "") {
             this.removePointMarker();
             this.removeHighlighting();
+            this.removePolygonMarker();
         }
     },
     methods: {
@@ -94,10 +99,12 @@ export default {
         ...mapActions("Maps", [
             "placingPointMarker",
             "removePointMarker",
+            "removePolygonMarker",
             "highlightFeature",
             "removeHighlightFeature",
             "setCenter"
         ]),
+        removeHtmlTags,
 
         /**
          * Sets the center of the view on the clickCoord and place the MapMarker on it
@@ -178,6 +185,14 @@ export default {
                             };
                             break;
                         }
+                        case "MultiLineString":
+                        {
+                            highlightObject.type = "highlightMultiLine";
+                            highlightObject.highlightStyle = {
+                                stroke: this.highlightVectorRules.stroke
+                            };
+                            break;
+                        }
                         default:
                             break;
                     }
@@ -186,6 +201,62 @@ export default {
                     this.highlightFeature(highlightObject);
                 }
                 this.lastFeature = this.feature;
+            }
+        },
+        /**
+         * Highlights a feature with a Polygon-Marker
+         * @returns {void}
+         */
+        highlightWMSFeature () {
+            if (this.showPolygonMarkerForWMS) {
+                const layer = layerCollection.getLayerById(this.feature.getLayerId()),
+                    highlightObject = {
+                        feature: this.feature.getOlFeature(),
+                        layer: {id: this.feature.getLayerId()}
+                    };
+
+                if (layer?.attributes?.typ?.toLowerCase() === "wms") {
+                    this.removePolygonMarker();
+
+                    if (this.hideMapMarkerOnVectorHighlight) {
+                        this.hideMarker();
+                    }
+
+                    if (this.feature.getOlFeature() && typeof this.feature.getOlFeature().getGeometry === "function") {
+                        switch (this.feature.getOlFeature().getGeometry()?.getType()) {
+                            case "Point": {
+                                highlightObject.type = "highlightPoint";
+                                break;
+                            }
+                            case "MultiPoint": {
+                                highlightObject.type = "highlightMultiPoint";
+                                break;
+                            }
+                            case "Polygon": {
+                                highlightObject.type = "highlightPolygon";
+                                break;
+                            }
+                            case "MultiPolygon": {
+                                highlightObject.type = "highlightMultiPolygon";
+                                break;
+                            }
+                            case "LineString": {
+                                highlightObject.type = "highlightLine";
+                                break;
+                            }
+                            case "MultiLineString": {
+                                highlightObject.type = "highlightMultiLine";
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+                    }
+                    if (highlightObject.type) {
+                        this.highlightFeature(highlightObject);
+                    }
+                    this.lastFeature = this.feature;
+                }
             }
         },
         /**

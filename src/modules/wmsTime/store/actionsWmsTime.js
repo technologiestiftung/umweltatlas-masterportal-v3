@@ -27,9 +27,6 @@ export default {
                     currentLayerId: visLayer.id,
                     playbackDelay: visLayer.time?.playbackDelay || 1
                 });
-                commit("setTimeSliderDefaultValue", {
-                    currentLayerId: visLayer.id
-                });
                 commit("setVisibility", true);
             }
         });
@@ -41,9 +38,6 @@ export default {
                             active: true,
                             currentLayerId: element.id,
                             playbackDelay: element.time?.playbackDelay || 1
-                        });
-                        commit("setTimeSliderDefaultValue", {
-                            currentLayerId: element.id
                         });
                         commit("setVisibility", true);
                     }
@@ -66,9 +60,6 @@ export default {
                         playing: false
                     });
                     commit("setVisibility", false);
-                    commit("setTimeSliderDefaultValue", {
-                        currentLayerId: ""
-                    });
                 }
             }
         }, {deep: true});

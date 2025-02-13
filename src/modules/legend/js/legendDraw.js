@@ -317,7 +317,7 @@ export default {
         else if (geometryType === "Polygon") {
             legendObj = this.prepareLegendForPolygon(legendObj, style);
         }
-        else if (geometryType === "Cesium") {
+        else if (geometryType === "cesium") {
             legendObj.name = this.prepareNameForCesium(style);
             legendObj = this.prepareLegendForCesium(legendObj, style);
         }

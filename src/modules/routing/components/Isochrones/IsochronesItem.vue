@@ -11,10 +11,11 @@ import IsochronesItemBatchProcessing from "./IsochronesItemBatchProcessing.vue";
 import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
 
 /**
- * DirectionsItemBatchProcessing
- * @module modules/DirectionsItemBatchProcessing
+ * IsochronesItem
+ * @module modules/routing/components/Isochrones/IsochronesItem
  * @vue-data {*} constants - The constants isochrones.
  * @vue-data {*} constantsRouting - The constants routing.
  * @vue-computed {Number} currentValue - The distance/time value for the current active slider.
@@ -30,7 +31,8 @@ export default {
         IsochronesItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput
     },
     data () {
         return {
@@ -284,6 +286,10 @@ export default {
         />
 
         <hr>
+
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput />
+        </div>
 
         <RoutingAvoidFeatures
             :settings="settings"

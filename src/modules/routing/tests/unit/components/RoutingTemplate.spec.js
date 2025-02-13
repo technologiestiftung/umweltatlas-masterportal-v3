@@ -100,6 +100,12 @@ describe("src/modules/routing/components/RoutingTemplate.vue", () => {
                                         component: {
                                             name: "IsochronesItem"
                                         }
+                                    },
+                                    {
+                                        id: "TSR",
+                                        component: {
+                                            name: "TsrItem"
+                                        }
                                     }
                                 ]
                             }
@@ -137,5 +143,15 @@ describe("src/modules/routing/components/RoutingTemplate.vue", () => {
             }});
 
         expect(wrapper.find("isochrones-item-stub").exists()).to.be.true;
+    });
+
+    it("renders tsr", () => {
+        activeRoutingToolOption = "TSR";
+        wrapper = shallowMount(RoutingComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.find("tsr-item-stub").exists()).to.be.true;
     });
 });

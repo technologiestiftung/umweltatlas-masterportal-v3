@@ -19,7 +19,7 @@ describe("src/core/js/layers/layerFactory.js", () => {
         layerConfig = [
             {
                 id: "453",
-                name: "Geobasiskarten (HamburgDE)",
+                name: "Geobasiskarten <br>(HamburgDE)",
                 visibility: true,
                 url: "https://geodienste.hamburg.de/HH_WMS_HamburgDE",
                 typ: "WMS",
@@ -74,6 +74,20 @@ describe("src/core/js/layers/layerFactory.js", () => {
             const terrainLayer = layerFactory.createLayer(layerConfig[2], "2D");
 
             expect(terrainLayer).to.be.undefined;
+        });
+
+        it("should create a new attribute htmlName", () => {
+            const wmsLayer = layerFactory.createLayer(layerConfig[0]);
+
+            expect(wmsLayer).not.to.be.undefined;
+            expect(wmsLayer.attributes.htmlName).to.equals("Geobasiskarten <br>(HamburgDE)");
+        });
+
+        it("should filter html tags from layer names", () => {
+            const wmsLayer = layerFactory.createLayer(layerConfig[0]);
+
+            expect(wmsLayer).not.to.be.undefined;
+            expect(wmsLayer.attributes.name).to.equals("Geobasiskarten (HamburgDE)");
         });
     });
 

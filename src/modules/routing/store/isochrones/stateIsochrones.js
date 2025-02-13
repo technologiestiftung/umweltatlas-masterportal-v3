@@ -24,6 +24,14 @@ export default {
         index: 0,
         source: isochronesPointSource
     }),
+    isochronesRestrictionsInputData: {
+        length: 10.0,
+        width: 2.4,
+        height: 2.8,
+        weight: 18,
+        axleload: 6,
+        hazmat: false
+    },
     // Routing Isochrones Result
     routingIsochrones: null,
     isLoadingIsochrones: false,

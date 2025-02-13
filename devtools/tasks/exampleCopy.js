@@ -5,7 +5,6 @@ const fs = require("fs-extra"),
     rootPath = path.resolve(__dirname, "../../"),
     getStableVersionNumber = require(path.resolve(rootPath, "devtools/tasks/getStableVersionNumber"))("."),
     mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))(),
-    destinationFolder = path.resolve(rootPath, "dist/examples_" + mastercodeVersionFolderName),
     zipFilename1 = path.resolve(rootPath, "dist/examples.zip"),
     zipFilename2 = path.resolve(rootPath, "dist/examples-" + getStableVersionNumber + ".zip"),
     // eslint-disable-next-line n/no-process-env
@@ -14,14 +13,18 @@ const fs = require("fs-extra"),
         name: "Basic",
         source: "./dist/basic" + appendix,
         mastercode: "./dist/mastercode"
-    };
+    },
+    destinationFolder = path.resolve(rootPath, "dist/examples_" + mastercodeVersionFolderName);
 
+if (!global.mastercodeVersionFolderName) {
+    global.mastercodeVersionFolderName = mastercodeVersionFolderName;
+}
 /**
  * Deletes unwanted css asset files from addons
  * @returns {void}
  */
 function removeAddonCssFiles () {
-    const folderToCheck = destinationFolder + "/mastercode/" + mastercodeVersionFolderName + "/css/";
+    const folderToCheck = destinationFolder + "/mastercode/" + global.mastercodeVersionFolderName + "/css/";
 
     try {
         fs.readdir(folderToCheck, async (err, files) => {
@@ -47,7 +50,7 @@ function removeAddonCssFiles () {
  * @returns {void}
  */
 function removeAddonJsFiles () {
-    const folderToCheck = destinationFolder + "/mastercode/" + mastercodeVersionFolderName + "/js/";
+    const folderToCheck = destinationFolder + "/mastercode/" + global.mastercodeVersionFolderName + "/js/";
 
     fs.readdir(folderToCheck, async (err, files) => {
         if (err) {
@@ -59,7 +62,7 @@ function removeAddonJsFiles () {
             }
         }
         zipAFolder.zip(destinationFolder, zipFilename1).then(() => {
-            fs.copyFileSync(zipFilename1, zipFilename2);
+            fs.copyFile(zipFilename1, zipFilename2);
         }).catch(err2 => console.error(err2));
     });
 
@@ -75,7 +78,7 @@ function createFolders () {
     fs.mkdir(destinationFolder).then(() => {
         fs.mkdir(destinationPortalFolder).then(() => {
             fs.copy(portal.source, destinationPortalFolder).then(() => {
-                fs.copy(portal.mastercode + "/" + mastercodeVersionFolderName, destinationFolder + "/mastercode/" + mastercodeVersionFolderName).then(() => {
+                fs.copy(portal.mastercode + "/" + global.mastercodeVersionFolderName, destinationFolder + "/mastercode/" + mastercodeVersionFolderName).then(() => {
                     removeAddonCssFiles();
                 }).catch(err => console.error(err));
             }).catch(err => console.error(err));
@@ -87,11 +90,10 @@ function createFolders () {
  * Deletes the folders if they already exist.
  * @returns {void}
  */
-function removeFolders () {
+module.exports = function removeFolders () {
     fs.remove(destinationFolder).then(() => {
         createFolders(destinationFolder, portal);
     }).catch(err => console.error(err));
-}
+};
 
 console.warn("create example folders, copy portal and dependencies");
-removeFolders();

@@ -13,6 +13,7 @@ import Layer2dGroup from "./layer2dGroup";
 import Layer3dEntities from "./layer3dEntities";
 import Layer3dTerrain from "./layer3dTerrain";
 import Layer3dTileset from "./layer3dTileset";
+import removeHtmlTags from "../../../shared/js/utils/removeHtmlTags";
 
 const layerTypes2d = {
         GEOJSON: Layer2dVectorGeojson,
@@ -58,6 +59,12 @@ function createLayer (layerConf, mapMode) {
     }
     else if (mapMode === "3D" && layerTypes3d[typ]) {
         layer = new layerTypes3d[typ](layerConf);
+    }
+    if (layer) {
+        const htmlName = layer.attributes.name;
+
+        layer.attributes.htmlName = htmlName;
+        layer.attributes.name = removeHtmlTags(htmlName);
     }
 
     return layer;

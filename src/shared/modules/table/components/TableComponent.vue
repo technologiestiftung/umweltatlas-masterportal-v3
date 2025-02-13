@@ -8,6 +8,9 @@ import IconButton from "../../buttons/components/IconButton.vue";
 import isObject from "../../../js/utils/isObject";
 import Multiselect from "vue-multiselect";
 import thousandsSeparator from "../../../js/utils/thousandsSeparator";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../src/shared/js/utils/isPhoneNumber.js";
+import {isWebLink} from "../../../../../src/shared/js/utils/urlHelper.js";
+import {isEmailAddress} from "../../../../../src/shared/js/utils/isEmailAddress.js";
 
 export default {
     name: "TableComponent",
@@ -114,9 +117,18 @@ export default {
             type: [Number, Boolean],
             required: false,
             default: false
+        },
+        removable: {
+            type: [Number, Boolean],
+            required: false,
+            default: false
+        },
+        maxAttributesToShow: {
+            type: Number,
+            default: 30
         }
     },
-    emits: ["columnSelected", "rowSelected", "setSortedRows"],
+    emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],
     data () {
         return {
             currentSorting: {
@@ -248,6 +260,13 @@ export default {
         }
     },
     methods: {
+        isPhoneNumber,
+        getPhoneNumberAsWebLink,
+        isWebLink,
+        isEmailAddress,
+        removeVerticalBar (value) {
+            return value.replaceAll("|", "<br>");
+        },
         thousandsSeparator,
 
         /**
@@ -258,16 +277,19 @@ export default {
         getSeparator (separatorType) {
             const numberWithGroupAndDecimalSeparator = 1000.1;
 
-            return Intl.NumberFormat(this.$i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
+            return Intl.NumberFormat(i18next.language).formatToParts(numberWithGroupAndDecimalSeparator).find(part => part.type === separatorType).value;
         },
 
         /**
          * Setups the table data. Call it to set fresh and new table.
+         * Headers which are set up as not visible are not displayed.
          * @returns {void}
          */
         setupTableData () {
-            this.visibleHeaders = this.data?.headers;
-            this.draggableHeader = this.data?.headers;
+            const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
+
+            this.visibleHeaders = visibleHeaders;
+            this.draggableHeader = visibleHeaders;
             if (typeof this.fixedColumn !== "undefined") {
                 this.fixedColumn = undefined;
             }
@@ -474,11 +496,13 @@ export default {
          * @returns {void}
          */
         resetAll () {
+            const visibleHeaders = this.data?.headers?.filter(header => header.visible !== false);
+
             this.visibleHeadersIndices = [];
-            this.data.headers?.forEach(header => {
+            visibleHeaders?.forEach(header => {
                 this.visibleHeadersIndices.push(header.index);
             });
-            this.draggableHeader = this.data?.headers;
+            this.draggableHeader = visibleHeaders;
             this.currentSorting.order = "origin";
 
             if (this.fixedColumn) {
@@ -673,6 +697,9 @@ export default {
         getClassForSelectedColumn (columnIdx) {
             return isObject(this.visibleHeaders[columnIdx]) && this.selectedColumn === this.visibleHeaders[columnIdx].name ? "selected" : "";
         },
+        remove (idFeature, idLayer) {
+            this.$emit("removeItem", idFeature, idLayer);
+        },
 
         /**
          * Parses given number to match the max decimal places.
@@ -832,13 +859,21 @@ export default {
             <thead>
                 <tr v-if="showHeader">
                     <th
+                        v-if="removable"
+                        class="p-0"
+                        :style="{ width: '3rem' }"
+                    />
+                    <th
                         v-for="(column, idx) in editedTable.headers"
+                        v-show="idx < maxAttributesToShow"
                         :key="idx"
                         class="filter-select-box-wrapper"
                         :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         @click="selectColumn(column, idx)"
                     >
-                        <div class="d-flex justify-content-between me-3">
+                        <div
+                            class="d-flex justify-content-between me-3"
+                        >
                             <span
                                 v-if="filterable"
                                 class="multiselect-dropdown w-100"
@@ -893,11 +928,63 @@ export default {
                     :key="idx"
                 >
                     <td
+                        v-if="removable"
+                        :class="['p-2', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', 'pull-left']"
+                    >
+                        <button
+                            class="remove-row"
+                            type="button"
+                            :title="$t('common:modules.compareFeatures.removeFromList')"
+                            @click="remove(item.id, item.idLayer)"
+                            @keydown.enter="remove(item.id, item.idLayer)"
+                        >
+                            <i class="bi-x-lg" />
+                        </button>
+                    </td>
+                    <td
                         v-for="(entry, columnIdx) in visibleHeaders"
+                        v-show="columnIdx < maxAttributesToShow"
                         :key="columnIdx"
                         :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
                     >
-                        {{ typeof item[entry.name] === 'number' ? thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) : parseDecimalPlaces(item[entry.name]) }}
+                        {{ item[entry.key] }}
+                        <p v-if="isWebLink(item[entry.name])">
+                            <a
+                                :href="item[entry.name]"
+                                target="_blank"
+                            >{{ item[entry.name] }}</a>
+                        </p>
+                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'true' || item[entry.name].toLowerCase() === 'yes')">
+                            <span>{{ $t('common:modules.compareFeatures.trueFalse.true') }}</span>
+                        </p>
+                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
+                            <span>{{ $t('common:modules.compareFeatures.trueFalse.false') }}</span>
+                        </p>
+                        <p v-else-if="isEmailAddress(item[entry.name])">
+                            <a :href="`mailto:${item[entry.name]}`">{{ item[entry.name] }}</a>
+                        </p>
+                        <p v-else-if="isPhoneNumber(item[entry.name])">
+                            <a :href="getPhoneNumberAsWebLink(item[entry.name])">{{ item[entry.name] }}</a>
+                        </p>
+                        <p
+                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('|')"
+                        >
+                            <span v-html="removeVerticalBar(item[entry.name])" />
+                        </p>
+                        <p
+                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('<br>')"
+                        >
+                            <span v-html="item[entry.name]" />
+                        </p>
+                        <p v-else-if="typeof item[entry.name] === 'number'">
+                            {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
+                        </p>
+                        <p v-else-if="typeof item[entry.name] === 'string'">
+                            {{ item[entry.name] || "" }}
+                        </p>
+                        <p v-else>
+                            {{ parseDecimalPlaces(item[entry.name]) }}
+                        </p>
                     </td>
                 </tr>
                 <template v-if="showTotalData">
@@ -1002,6 +1089,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     td {
+        word-wrap: break-word;
+        white-space: normal;
         &.total:not(.selected) {
             background: $light_blue;
             font-family: "MasterPortalFont Bold";
@@ -1159,5 +1248,10 @@ table {
     .multiselect__select {
         transition: transform .2s ease;
     }
+}
+.remove-row {
+        padding: 0;
+        border: none;
+        background: none;
 }
 </style>

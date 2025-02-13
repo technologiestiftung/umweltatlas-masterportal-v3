@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
-        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent", "unregisterListener"]),
+        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent"]),
 
         /**
          * Callback when close icon has been clicked.

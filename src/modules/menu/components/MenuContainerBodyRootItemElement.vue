@@ -112,9 +112,17 @@ export default {
             const supportedMapModes = this.properties.supportedMapModes,
                 supportedDevices = this.properties.supportedDevices,
                 supportedTreeTypes = this.properties.supportedTreeTypes,
-                showModule = visibilityChecker.isModuleVisible(this.mode, this.deviceMode, this.portalConfig?.tree?.type, supportedMapModes, supportedDevices, supportedTreeTypes);
+                showModule = visibilityChecker.isModuleVisible({
+                    mapMode: this.mode,
+                    deviceMode: this.deviceMode,
+                    treeType: this.portalConfig?.tree?.type,
+                    elements: this.properties.elements,
+                    supportedMapModes: supportedMapModes,
+                    supportedDevices: supportedDevices,
+                    supportedTreeTypes: supportedTreeTypes
+                });
 
-            if (!showModule && this.menu.currentComponent === this.type) {
+            if (!showModule && this.menu.currentComponent === this.type && this.menu.navigation.currentComponent.props.name === this.name) {
                 this.resetMenu(this.side);
             }
             return showModule;

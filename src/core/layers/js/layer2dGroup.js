@@ -35,7 +35,8 @@ Layer2dGroup.prototype = Object.create(Layer2d.prototype);
  */
 Layer2dGroup.prototype.createLayer = function (attributes) {
     const olLayers = [],
-        sourceLayers = [];
+        sourceLayers = [],
+        opacity = !isNaN(attributes.transparency) ? (100 - attributes.transparency) / 100 : 1;
     let groupLayer = null;
 
     attributes.children.forEach(rawLayer => {
@@ -44,7 +45,7 @@ Layer2dGroup.prototype.createLayer = function (attributes) {
         olLayers.push(layer.getLayer());
         sourceLayers.push(layer);
     });
-    groupLayer = new LayerGroup({layers: olLayers, zIndex: attributes.zIndex});
+    groupLayer = new LayerGroup({layers: olLayers, zIndex: attributes.zIndex, opacity: opacity});
     groupLayer.getSource = () => {
         return sourceLayers;
     };

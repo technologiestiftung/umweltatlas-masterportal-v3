@@ -98,7 +98,8 @@ export default {
                 avoidSpeedProfileOptions: selectedAvoidSpeedProfileOptions,
                 preference: state.settings.preference,
                 avoidPolygons: avoidPolygons,
-                instructions: instructions
+                instructions: instructions,
+                elevation: state.settings.elevation
             });
         }
         throw new Error("fetchDirections Type is not configured correctly.");
@@ -250,6 +251,7 @@ export default {
                 directionsWaypointsLayer,
                 directionsRouteLayer,
                 directionsAvoidLayer,
+                directionsElevationLayer,
                 directionsWaypointsDrawInteraction,
                 directionsAvoidDrawInteraction,
                 directionsAvoidSelectInteraction,
@@ -293,6 +295,9 @@ export default {
             dispatch("Maps/addLayer", toRaw(directionsAvoidLayer), {root: true});
         }
 
+        if (!isLayerAdded(directionsElevationLayer.get("id"))) {
+            dispatch("Maps/addLayer", toRaw(directionsElevationLayer), {root: true});
+        }
 
         dispatch("createInteractionFromMapInteractionMode");
     },
@@ -347,7 +352,7 @@ export default {
      * @returns {void}
      */
     async closeDirections ({state, dispatch}) {
-        const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer} = state,
+        const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer, directionsElevationLayer} = state,
             map = await mapCollection.getMap("2D");
 
         if (!state.keepRoutes) {
@@ -355,6 +360,7 @@ export default {
         }
         map.removeLayer(toRaw(directionsWaypointsLayer));
         map.removeLayer(toRaw(directionsAvoidLayer));
+        map.removeLayer(toRaw(directionsElevationLayer));
 
         dispatch("removeMapInteractions");
     },

@@ -44,6 +44,17 @@ Layer3d.prototype.updateLayerValues = function (attributes) {
 };
 
 /**
+ * Setter for style at attributes.
+ * @param {Object} value The style to set at ol layer. If value is null, undefined is set as style at layer to use defaultStyle.
+ * @returns {void}
+ */
+Layer3d.prototype.setStyle = function (value) {
+    const style = value === null ? undefined : value;
+
+    this.set("style", style);
+};
+
+/**
  * Creates the legend.
  * @returns {void}
  */

@@ -9,13 +9,15 @@ import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vu
 import RoutingDownload from "../RoutingDownload.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
+import RoutingElevationProfile from "../RoutingElevationProfile.vue";
 import * as constants from "../../store/directions/constantsDirections";
 import * as constantsRouting from "../../store/constantsRouting";
 
 
 /**
  * DirectionsItem
- * @module modules/DirectionsItem
+ * @module modules/routing/components/Directions/DirectionsItem
  * @vue-data {*} constants - The constants direction.
  * @vue-data {*} constantsRouting - The constants routing.
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasEdit - Shows if current map mode is "AVOID_AREAS".
@@ -32,7 +34,9 @@ export default {
         DirectionsItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput,
+        RoutingElevationProfile
     },
     data () {
         return {
@@ -48,6 +52,7 @@ export default {
             "isInputDisabled",
             "mapInteractionMode",
             "routingAvoidFeaturesOptions",
+            "routingRestrictionsInputData",
             "routingDirections",
             "settings",
             "waypoints",
@@ -154,6 +159,15 @@ export default {
             this.directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
             this.setRoutingDirections(null);
             this.directionsAvoidSource.clear();
+
+            if (this.settings.speedProfile === "HGV") {
+                this.routingRestrictionsInputData.length = 10.0;
+                this.routingRestrictionsInputData.width = 2.4;
+                this.routingRestrictionsInputData.height = 2.8;
+                this.routingRestrictionsInputData.weight = 18;
+                this.routingRestrictionsInputData.axleload = 6;
+                this.routingRestrictionsInputData.hazmat = false;
+            }
         },
         /**
          * Adds a new option to avoid when requesting directions afterwards
@@ -431,6 +445,10 @@ export default {
 
         <hr>
 
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput />
+        </div>
+
         <RoutingAvoidFeatures
             :settings="settings"
             :active-avoid-features-options="routingAvoidFeaturesOptions"
@@ -574,7 +592,13 @@ export default {
                     <b class="ms-2">{{ waypoints[waypoints.length - 1].getDisplayName() }}</b>
                 </button>
 
-                <hr class="mt-0">
+                <hr>
+
+                <div v-if="directionsSettings.elevation && routingDirections">
+                    <RoutingElevationProfile />
+                    <hr>
+                </div>
+
 
                 <RoutingDownload />
             </div>

@@ -12,6 +12,7 @@
         "getGeometryTypeFromOAFFetchfailedMessage": "Details: The API is not available.",
         "LinkMetadata": "Contact details and further information can be found <a href={{linkMetadata}} target=\"_blank\">here</a>.",
         "wrongStyleId": "No style object could be found with the specified StyleId: {{styleId}}. Please make sure that a style with the StyleId: {{styleId}} is configured in the Style.json used.",
+        "wrongLayerId": "Layer with ID: {{layerId}} not found. Please check the ID.",
         "403": "<strong>Access to {{layerName}}is not possible!</strong></br>Unfortunately, you are not authorised to view the data for {{layerName}}. The topic has been automatically deactivated.</br></br>Please contact the office responsible for this data for access authorisation.</br></br>"
       },
       "urlParamWarning": "The parameterized call is incorrect. The layer with the id: <b>{{layerId}}</b> does not exist and will be ignored."
@@ -56,7 +57,7 @@
     "addWMS": {
       "alertTitleSuccess": "Layer added successfully",
       "alreadyAdded": "The layers of the requested WMS have already been added.",
-      "completeMessage": "&#9989; The layers of the requested WMS were added to the topic tree under the menu item <strong>External Subject Data</strong>!",
+      "completeMessage": "The layers of the requested WMS were added to the topic tree and can be selected via <b>Add layer</b>!",
       "description": "Add a Web Map Service (WMS) to the topic tree",
       "errorHttpsMessage": "&#10060; The WMS you requested is located under a http-url. The master portal can only integrate WMS via https (SSL).",
       "errorMessage": "&#10060; The specified service could not be loaded. Please make sure that the URL was entered correctly.<br><br> If the problem persists, please contact the operator of the service with the following note:<br><strong>It should be ensured that a CORS header is set for the service. This is recommended by the <a target='_blank' href='https://www.gdi-de.org/download/AK_Geodienste_Architektur_GDI-DE_Bereitstellung_Darstellungsdienste.pdf'>GDI-DE</a> in chapter 4.7.1.</strong>",
@@ -64,7 +65,8 @@
       "ifInExtent": "&#10060; The geodata provided via the WMS are outside the displayable range. Adding WMS is not possible.",
       "name": "Add WMS",
       "placeholder": "Please enter the WMS-URL here.",
-      "textLoadLayer": "Load layer"
+      "textLoadLayer": "Load layer",
+      "examples": "Examples:"
     },
     "alerting": {
       "alertWindowTitle": "Information",
@@ -201,6 +203,32 @@
         "zoomOut": "Zoom Out"
       }
     },
+    "compareFeatures": {
+      "title": "Comparison list",
+      "description": "Compare selected objects in the table.",
+      "topicsSelection": "Topics selection",
+      "removeFromList": "Remove from list",
+      "noFeatures": {
+          "nothingSelected": "There are no {{objects}} selected for the comparison list.",
+          "objectName": "objects",
+          "info": "Click on an object on the map. A window opens with the respective factual information. In the upper right corner there is a star symbol {{iconEmptyStar}}. Click on this icon to add the object to the comparison list. The star icon will be colored yellow {{iconYellowStar}}. Click the star icon again to remove the object from the comparison list. ",
+          "info2": "Once an object is added to the comparison list, it will appear in the table, allowing you to easily compare it with other objects. To remove an object, you can also simply click the 'X' next to it on the left side of the table."
+
+      },
+      "feedback": {
+          "added": "The feature was added to the comparison list",
+          "addedWithName": "{{currentFeatureName}} was added to the comparison list",
+          "notAdded": "The feature could not be added to the comparison list",
+          "notAddedWithName": "{{currentFeatureName}} could not be added to the comparison list",
+          "limitReached": "The maximum number of objects in the comparison list has been reached.",
+          "removeObjects": "Please remove at least one object before proceeding.",
+          "goToComparisonlist": "To the comparison list"
+      },
+      "trueFalse": {
+          "true": "Yes",
+          "false": "No"
+      }
+  },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "Easting",
@@ -299,9 +327,11 @@
       "description": "Create important markers or identify areas. Download them here to reload them later",
       "doubleCirclePlaceholder": "Please enter a radius",
       "download": {
+        "allGeometryTypesNotSupported": "One or more drawn geometries cannot be downloaded in the selected format because the format does not support the geometry type.",
         "enterFilename": "Please enter filename",
         "filename": "Filename",
         "format": "Format",
+        "notSupportedGeometryType": "One or more drawn geometries cannot be downloaded in the selected format because the format does not support the geometry type.",
         "pleaseChoose": "Please choose",
         "unknownGeometry": "Unknown geometry: <strong>{{geometry}}</strong>"
       },
@@ -491,6 +521,12 @@
       "buttonBack": "Show previous information",
       "buttonForward": "Show further information",
       "errorMessage": "An error has occurred  during the information request (GetFeatureInfo).<br>Please try again later. If the problem persists, please contact the operator of the service.",
+      "favoriteIcons": {
+        "compareFeatureIcon": {
+            "toCompareList": "Add to compare list",
+            "fromCompareList": "Remove from compare list"
+        }
+      },
       "name": "Retrieve information",
       "themes": {
         "default": {
@@ -579,7 +615,8 @@
       "pointOfContact": "Point of contact",
       "contactInfoMessage": "Write to the point of contact of the topic ",
       "mailSubject": "Request to dataset ",
-      "mailOriginHint": "This request was sent to you through the contact form on "
+      "mailOriginHint": "This request was sent to you through the contact form on ",
+      "changeLayerInfo": "Choose layer infotext: "
     },
     "layerPills": {
       "next": "Show next layers",
@@ -759,6 +796,30 @@
           "rectangle": "Rectangle"
         }
       },
+      "filter": {
+        "captions": {
+            "abortStyle": "Cancel",
+            "addFilter": "Add Filter",
+            "applyStyle": "Apply",
+            "editFilter": "Edit Filter",
+            "fillColor": "Fill Color",
+            "filterList": "Filter List",
+            "filterName": "Filter Name",
+            "info": "Information",
+            "introInfo": "You can color buildings by attributes to visualize their usage with the Filter & Style function.",
+            "introInfo2": "To do this, select the desired layer and the attribute you want to visualize. Then you can adjust the color of the buildings.",
+            "noFilter": "No filters available.",
+            "optionsTitle": "Filter Options",
+            "pvoCheck": "Color all values according to the PlanzeichenVO",
+            "resetStyle": "Reset",
+            "selectLayer": "Select Layer",
+            "selectAttribute": "Select Attribute",
+            "title": "Filter & Style Function",
+            "styleSettingsTitle": "Color Settings",
+            "value": "Value"
+        },
+        "errorLoadingData": "Error loading the values for the attribute 'BuildingFunctionType'"
+    },
       "options": {
         "captions": {
           "enableFunction": "Enable/Disable Function",
@@ -772,6 +833,7 @@
       },
       "nav": {
         "drawTitle": "Draw",
+        "filterTitle": "Filter & Style",
         "importTitle": "Import",
         "options": "Options"
       },
@@ -886,10 +948,25 @@
         "filenamePlaceholder": "Please enter file name",
         "format": "Format",
         "header": "Download",
-        "saveResult": "Save Result"
+        "saveResult": "Save Result",
+        "error": {
+          "header": "Invalid filename",
+          "fileNameTooLong": "Filename is too long. No more than 40 characters are allowed",
+          "fileNameContainsWhiteSpace": "Filename contains white space",
+          "fileNameContainsInvalidChars": "Filename contains invalid characters"
+        }
       },
       "endpoint": "Endpoint",
+      "elevationProfile": {
+        "titleCollapse": "Elevation Profile",
+        "titleChart": "Elevation Profile along the route",
+        "yAxis": "Height in m",
+        "xAxis": "Distance in km",
+        "titleTooltipMeters": "Height after {{distance}} meters",
+        "titleTooltipKilometers": "Height after {{distance}} kilometers"
+      },
       "errors": {
+        "titleErrorRouteFetch": "Failed to calculate route",
         "avoidAreaBig": "The barrier areas specified are too large. Please correct your input.",
         "errorIsochronesFetch": "Error while calculating reachability",
         "errorRouteFetch": "Error while calculating route",
@@ -920,8 +997,24 @@
       },
       "moveWaypointDown": "Move waypoint down",
       "moveWaypointUp": "Move waypoint up",
+      "startIndex": "S",
+      "endIndex": "Z",
       "name": "Route planner",
       "resetSettings": "Reset settings",
+      "restrictions": {
+        "header": "HGV Parameter",
+        "length": "Length",
+        "lengthTooltip": "Truck length. Accepted values: 0 to 30 meters",
+        "width": "Width",
+        "widthTooltip": "Truck width. Accepted values: 0 to 3.5 meters",
+        "height": "Height",
+        "heightTooltip": "Truck height. Accepted values: 0 to 5 meters",
+        "weight": "Weight",
+        "weightTooltip": "Truck weight. Accepted values: 0 to 65 tons",
+        "axleload": "Axleload",
+        "axleloadTooltip": "Truck axle load. Accepted values: 0 to 19 tons",
+        "hazmat": "Hazardous materials"
+      },
       "speedprofiles": {
         "CAR": "Car",
         "CYCLING": "Bike",
@@ -932,7 +1025,54 @@
       "startpoint": "Startpoint",
       "tabs": {
         "DIRECTIONS": "Route Planning",
-        "ISOCHRONES": "Reachability"
+        "ISOCHRONES": "Reachability",
+        "TSR": "Travelling Salesman"
+      },
+      "tsr": {
+        "header": "Change route options",
+        "calculate": "Calculate TSR Route",
+        "upload": {
+          "header": "Upload waypoints",
+          "description": "Choose a csv file that contains your own TSR waypoints. The required coordinate system is WGS84 (EPSG:4326). Please use the following format:",
+          "csvHeaders": "File contains header",
+          "help": "Help",
+          "divider": "or",
+          "failTitle": "File upload failed",
+          "successTitle": "File upload successful",
+          "successInfo": "The uploaded waypoints are now available in the list."
+        },
+        "backToTSR": "Routing",
+        "modifyWaypointsTSR": "Modify waypoints",
+        "outputHeaderTSR": "Fastest route",
+        "downloadOutputTSR": "Download TSR route",
+        "downloadCsv": {
+          "header": "*** Travelling Salesman Routing ***",
+          "descriptionRoundTrip": "startpoint: {{start}} to: round trip",
+          "descriptionNoRoundTrip": "startpoint: {{start}} to: {{end}}",
+          "optimalOrder": "optimal {{profile}} order:",
+          "waypoint" : "{{pos}}) {{displayName}};{{lon}};{{lat}}"
+        },
+        "selectedPoints": "Selected waypoint",
+        "structure":"ID;lon;lat",
+        "tsrEndpoint": "If not specified: round trip",
+        "tsrDuration": "Duration: ",
+        "tsrDistance": "Distance: ",
+        "errors": {
+          "wrongFileType": "Wrong file format. Please upload a CSV-File.",
+          "errorNoEntries": "No entries in the CSV-File",
+          "errorToManyEntriesInFile": "Exceeded maximum number of TSR waypoints ({{limit}}).",
+          "wrongNEntriesInRow": "Wrong number of attributes in row {{row}}. Please check the format(ID;lon;lat) and the separator (Semicolon).",
+          "rowContainsEntriesNoNumber": "Coordinates in row {{row}} do not contain numbers.",
+          "emptyRow": "File contains at least one empty row.",
+          "emptyEntriesInRow": "Missing data in row {{row}}. Please check the data and the separator (Semicolon).",
+          "invalidCoordinateRange": "Coordinates have invalid values in row {{row}}. Valid values are -180 - 180 (Longitude) and -90 - 90 (Latitude).",
+          "attributeTooLong": "Attributes in row {{row}} contain more than 25 characters.",
+          "errorCalculation": "The calculation could not be started.",
+          "notEnoughPoints": "Please add a start point and at least two waypoints.",
+          "emptyPoint": "At least one point is empty. Please check the points in the list.",
+          "duplicatePoints": "The uploaded waypoints are now available in the list. Duplicates were ignored.",
+          "unreachablePoint": "Unfortunately, no route could be calculated for at least one of the selected points."
+        }
       },
       "waypoint": "Waypoint"
     },
@@ -948,6 +1088,7 @@
         "unknownProjection": "Result provided within a unknown coordinate system"
       },
       "placeholder": {
+        "searchFor": "Search for",
         "address": "Search for Address",
         "addressDistrict": "Search address, district",
         "addressHospitalBplan": "Search for Address/Hospital/B-Plan",
@@ -999,8 +1140,10 @@
     "selectFeatures": {
       "description": "Get information about objects you select on the map",
       "name": "Select features",
-      "noFeatureChosen": "No feature chosen. Select features dragging a box around the features to choose.(Or holding down Ctrl+drag)",
+      "noFeatureChosen": "No features selected. Select features by holding the Ctrl key and dragging a box around the desired features, or add individual features by holding the Ctrl key and clicking with the left mouse button.",
       "propertylessFeature": "Element without attributes",
+      "clearSelection": "Clear selection",
+      "deselectFeature": "Deselect feature",
       "zoomToFeature": "Zoom to this feature"
     },
     "statisticDashboard": {

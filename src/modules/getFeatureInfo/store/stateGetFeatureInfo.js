@@ -29,6 +29,7 @@ export default {
     hasMouseMapInteractions: true,
     hideMapMarkerOnVectorHighlight: false,
     highlightVectorRules: null,
+    showPolygonMarkerForWMS: false,
     icon: "bi-info-circle-fill",
     initialMenuSide: "secondaryMenu",
     menuSide: "secondaryMenu",

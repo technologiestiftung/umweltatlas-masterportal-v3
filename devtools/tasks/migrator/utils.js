@@ -100,13 +100,19 @@ function deleteTranslateInName (toolConfig) {
  */
 function migrateIdWithSuffix (layers) {
     layers?.forEach(layer => {
-        if (typeof layer.id === "object") {
+        if (typeof layer.id === "object" && !Array.isArray(layer.id)) {
             const idCopy = {...layer.id};
 
             layer.id = idCopy.layerId + "." + idCopy.suffix;
         }
+        else if (Array.isArray(layer.id)) {
+            layer.id = layer.id.map(id => {
+                return id;
+            });
+        }
     });
 }
+
 
 module.exports = {
     copyDir,

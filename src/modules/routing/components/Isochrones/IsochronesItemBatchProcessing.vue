@@ -4,6 +4,14 @@ import mutations from "../../store/isochrones/mutationsIsochrones";
 import RoutingBatchProcessing from "../RoutingBatchProcessing.vue";
 import {RoutingTaskHandler} from "../../js/classes/routing-task-handler";
 
+/**
+ * IsochronesItemBatchProcessing
+ * @module modules/routing/components/Isochrones/IsochronesItemBatchProcessing
+ * @vue-prop {Object} settings - The settings.
+ * @vue-data {Boolean} isProcessing - Shows if files are being processed.
+ * @vue-data {Number} countFailed - The failed attempts fo get directions.
+ * @vue-data {Number} serviceRequests
+ */
 export default {
     name: "IsochronesItemBatchProcessing",
     components: {

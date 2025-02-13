@@ -5,6 +5,7 @@ import {RoutingIsochronesArea} from "../classes/routing-isochrones-area";
 import routingOrsSpeedProfile from "../speedprofiles/routing-ors-speedprofiles";
 import state from "./../../store/stateRouting";
 import store from "../../../../app-store";
+import stateIsochrones from "../../store/isochrones/stateIsochrones";
 
 /**
  * Translates the optimization in the corresponding value for the service
@@ -63,7 +64,7 @@ async function fetchRoutingOrsIsochrones ({
         response = null;
 
     try {
-        response = await axios.post(url, {
+        const postParams = {
             // 15 Min * 60 Sek || 15km * 1000m // interval steps
             interval,
             locations: [coordinates],
@@ -75,10 +76,23 @@ async function fetchRoutingOrsIsochrones ({
             options: {
                 ...avoidSpeedProfileOptions.length > 0 && {avoid_features: avoidSpeedProfileOptions.map(o => routingOrsAvoidOption(o.id))}
             },
-
             area_units: "m",
             units: "m"
-        });
+        };
+
+        if (speedProfile === "HGV") {
+            postParams.options.profile_params = {};
+            postParams.options.profile_params.restrictions = {
+                length: stateIsochrones.isochronesRestrictionsInputData.length,
+                width: stateIsochrones.isochronesRestrictionsInputData.width,
+                height: stateIsochrones.isochronesRestrictionsInputData.height,
+                weight: stateIsochrones.isochronesRestrictionsInputData.weight,
+                axleload: stateIsochrones.isochronesRestrictionsInputData.axleload,
+                hazmat: stateIsochrones.isochronesRestrictionsInputData.hazmat
+            };
+        }
+
+        response = await axios.post(url, postParams);
     }
     catch (error) {
         const message = error.response?.data?.error?.message ? error.response?.data?.error?.message : i18next.t("common:modules.routing.errors.errorIsochronesFetch");

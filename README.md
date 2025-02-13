@@ -49,9 +49,8 @@ Current LTS Version: 3.3.0
 ## User section
 
 * [Download](https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/)
-* [Quick start for users](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/setup.md)
-* [Remote interface](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/remoteInterface/remoteInterface.md)
-* [User documentation](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/doc.md)
+* [Quick start for users](./docs/Setup/setup.md)
+* [User documentation](./docs/User/About.md)
 * [User documentation online](https://www.masterportal.org/dokumentation)
 * [Community board (User forum and issue tracker)](https://trello.com/c/qajdXkMa/110-willkommen)
 
@@ -60,8 +59,8 @@ Current LTS Version: 3.3.0
 * [Community board (Developer forum and issue tracker)](https://trello.com/c/qajdXkMa/110-willkommen)
 ### Contributing
 * Contributors to the Masterportal are expected to act respectfully toward others in accordance with the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for open source projects.
-* Follow our [Developer documentation](doc/devdoc.md)
-* First steps in the code: [Tutorial 01: Creating a new module (Scale switcher)](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/tutorial.md)
+* Follow our [Developer documentation](./docs/Dev/About.md)
+* First steps in the code: [Tutorial 01: Creating a new module (Scale switcher)](./docs/Dev/Tutorials/tutorial.md)
 
 #### Pull requests
 * Your pull request must have:
@@ -73,4 +72,4 @@ Current LTS Version: 3.3.0
     * Unit tests for new functions or updated tests for bugfixes
 
 #### Contributor License Agreement
-* Your contribution will be under [MIT License](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/License.txt)
+* Your contribution will be under [MIT License](./License.txt)

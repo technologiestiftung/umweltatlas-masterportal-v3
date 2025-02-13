@@ -6,6 +6,7 @@ import BaselayerSwitcher from "../baselayerSwitcher/store/indexBaselayerSwitcher
 import BufferAnalysis from "../bufferAnalysis/store/indexBufferAnalysis";
 import Contact from "../contact/store/indexContact";
 import CompareMaps from "../compareMaps/store/indexCompareMaps";
+import CompareFeatures from "../compareFeatures/store/indexCompareFeatures";
 import CoordToolkit from "../coordToolkit/store/indexCoordToolkit";
 import CopyrightConstraints from "../copyrightConstraints/store/indexCopyrightConstraints";
 import Draw from "../draw/store/indexDraw";
@@ -57,6 +58,7 @@ export default {
         Contact: {...Contact},
         CoordToolkit: {...CoordToolkit},
         CompareMaps: {...CompareMaps},
+        CompareFeatures: {...CompareFeatures},
         CopyrightConstraints: {...CopyrightConstraints},
         Draw: {...Draw},
         Draw_old: {...Draw_old},

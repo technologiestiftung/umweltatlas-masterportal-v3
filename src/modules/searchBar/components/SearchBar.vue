@@ -150,10 +150,10 @@ export default {
                     this.$refs?.searchInput.blur();
                     if (newVal === "root") {
                         this.setSearchResultsActive(false);
+                        this.setShowAllResults(false);
+                        this.setShowSearchResultsInTree(false);
+                        this.setCurrentActionEvent("");
                         this.navigateBack(this.currentSide);
-                        if (this.side) {
-                            this.switchToRoot(this.side);
-                        }
                     }
                 }
                 if (newVal === "layerSelection" && this.addLayerButtonSearchActive === true) {
@@ -162,6 +162,7 @@ export default {
                 else {
                     this.layerSelectionPlaceHolder = this.placeholder;
                 }
+                this.setGlobalPlaceholder(this.layerSelectionPlaceHolder);
             },
             deep: true
         },
@@ -179,6 +180,12 @@ export default {
                 }
             },
             deep: true
+        },
+        /**
+         * Watcher for value of placeholder.
+         */
+        placeholder (newValue) {
+            this.layerSelectionPlaceHolder = newValue;
         }
     },
     mounted () {
@@ -205,7 +212,11 @@ export default {
             "navigateBack"
         ]),
         ...mapMutations("Modules/SearchBar", [
+            "setGlobalPlaceholder",
             "addSuggestionItem",
+            "setCurrentActionEvent",
+            "setShowAllResults",
+            "setShowSearchResultsInTree",
             "setSearchInput",
             "setSearchResultsActive",
             "setSearchSuggestions",
@@ -215,7 +226,6 @@ export default {
             "switchToRoot",
             "switchToPreviousComponent",
             "setCurrentComponentBySide",
-            "setNavigationHistoryBySide",
             "setCurrentComponentPropsName"
         ]),
         /**
@@ -247,6 +257,9 @@ export default {
         checkCurrentComponent (currentComponentType) {
             if (currentComponentType === "root") {
                 this.clickAction();
+                if (this.searchInputValue.length >= this.minCharacters) {
+                    this.startSearch();
+                }
             }
             else if (currentComponentType === "layerSelection") {
                 if (this.searchInputValue?.length === 0) {
@@ -279,6 +292,10 @@ export default {
                     }
                 });
             }
+        },
+        clearSearch () {
+            this.searchInputValue = "";
+            this.$refs.searchInput.focus();
         }
     }
 };
@@ -298,12 +315,21 @@ export default {
                 @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
             >
             <button
+                v-if="searchInputValue"
+                class="btn-icon input-icon reset-button"
+                type="button"
+                aria-label="Clear search"
+                @click="clearSearch"
+            >
+                <i class="bi-x-lg fs-6" />
+            </button>
+            <button
                 id="search-button"
                 class="btn btn-primary"
                 :disabled="!searchActivated"
                 :aria-label="$t(placeholder)"
                 type="button"
-                @click="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
+                @click="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
             >
                 <i
                     class="bi-search"
@@ -324,6 +350,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+    .input-group {
+        position: relative;
+    }
     #search-bar {
         #search-button {
             border-top-right-radius: 5px;
@@ -333,6 +362,40 @@ export default {
             color: $placeholder-color;
         }
     }
+    input[type="search"] {
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-search-cancel-button {
+        display: none;
+    }
+    }
+    .btn-icon {
+        position: absolute;
+        position: absolute;
+        right: 40px;
+        top: 40%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        padding: 5px 0 0 10px;
+        z-index: 5;
+    }
+
+    .input-icon {
+        margin-left: -37px;
+    }
+
+    .reset-button {
+        cursor: pointer;
+    }
+
+    li:hover, li.active {
+        cursor: pointer;
+        background: $light-grey;
+        font-size: $font-size-base;
+    }
+
     .overflowHidden{
         overflow: hidden;
         text-overflow: ellipsis;

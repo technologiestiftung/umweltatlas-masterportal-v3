@@ -83,6 +83,7 @@ export default class FilterApi {
             featureNS = layerModel.featureNS,
             url = layerModel.url,
             featureType = layerModel.featureType,
+            version = layerModel.version,
             isSecured = layerModel.isSecured;
 
         if (type === "wfs") {
@@ -91,12 +92,13 @@ export default class FilterApi {
                 extern,
                 layerId,
                 url,
+                version,
                 isSecured,
                 typename: featureType,
                 namespace: featureNS,
                 srsName: openlayerFunctions.getMapProjection(),
                 featureNS: featureNS.substr(0, featureNS.lastIndexOf("/")),
-                featurePrefix: featureNS.substr(featureNS.lastIndexOf("/") + 1),
+                featurePrefix: featureNS.lastIndexOf("/") > -1 ? featureNS.substr(featureNS.lastIndexOf("/") + 1) : "",
                 featureTypes: [featureType]
             };
         }

@@ -136,6 +136,9 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             },
             directionsAvoidLayer: {
                 get: sinon.stub().returns("directions_avoid_layer")
+            },
+            directionsElevationLayer: {
+                get: sinon.stub().returns("directions_elevation_layer")
             }
         };
     });
@@ -246,7 +249,6 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
 
     it("should initDirections without mapListenerAdded", async () => {
         state.mapListenerAdded = false;
-
         await actionsDirections.initDirections({state, getters, commit, dispatch, rootState});
         expect(dispatchSpy.args).to.deep.equal([
             ["initWaypoints"],
@@ -256,6 +258,7 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             ["Maps/addLayer", state.directionsRouteLayer, {root: true}],
             ["Maps/addLayer", state.directionsWaypointsLayer, {root: true}],
             ["Maps/addLayer", state.directionsAvoidLayer, {root: true}],
+            ["Maps/addLayer", state.directionsElevationLayer, {root: true}],
             ["createInteractionFromMapInteractionMode"]
         ]);
 
@@ -274,6 +277,7 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             ["Maps/addLayer", state.directionsRouteLayer, {root: true}],
             ["Maps/addLayer", state.directionsWaypointsLayer, {root: true}],
             ["Maps/addLayer", state.directionsAvoidLayer, {root: true}],
+            ["Maps/addLayer", state.directionsElevationLayer, {root: true}],
             ["createInteractionFromMapInteractionMode"]
         ]);
     });

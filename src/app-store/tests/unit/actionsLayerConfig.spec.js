@@ -18,7 +18,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         setIdsAtFoldersSpy,
         replaceInNestedValuesSpy,
         buildSpy;
-    const restConf = "./resources/rest-services-internet.json",
+    const restConf = "./resources/rest-services.json",
         layerConf = "./services.json";
 
     beforeEach(() => {
@@ -645,7 +645,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         });
 
         describe("replaceByIdInLayerConfig", () => {
-            it("replaceByIdInLayerConfig layer is contained in layerConfig", () => {
+            it("replaceByIdInLayerConfig layer is contained in layerConfig, mode is 2D and showLayerAttributions are called", () => {
                 const toReplace = {
                         id: "453",
                         visibility: true,
@@ -659,7 +659,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
 
                 getters = {
                     layerConfigById: () => sinon.stub(),
-                    determineZIndex: determineZIndexSpy
+                    determineZIndex: determineZIndexSpy,
+                    "Maps/mode": "2D"
                 };
 
                 state.layerConfig = layerConfig;
@@ -683,6 +684,54 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expect(state.layerConfig[treeSubjectsKey]?.elements[1].id).to.be.equals("10220");
                 expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[1]).length).to.be.equals(1);
                 expect(determineZIndexSpy.calledOnce).to.be.true;
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("showLayerAttributions");
+            });
+
+            it("replaceByIdInLayerConfig layer is contained in layerConfig, mode is 3D and showLayerAttributions are called", () => {
+                const toReplace = {
+                        id: "453",
+                        visibility: true,
+                        att1: "bla",
+                        att2: [{
+                            foo: "foo",
+                            bar: "bar"
+                        }],
+                        is3DLayer: true
+                    },
+                    determineZIndexSpy = sinon.spy();
+
+                getters = {
+                    layerConfigById: () => sinon.stub(),
+                    determineZIndex: determineZIndexSpy,
+                    "Maps/mode": "3D"
+                };
+
+                state.layerConfig = layerConfig;
+
+                actions.replaceByIdInLayerConfig({dispatch, getters, state}, {layerConfigs: [{layer: toReplace, id: "453"}]});
+
+                expect(state.layerConfig[treeBaselayersKey].elements).to.be.an("array");
+                expect(state.layerConfig[treeBaselayersKey].elements.length).to.be.equals(2);
+                expect(Object.keys(state.layerConfig[treeBaselayersKey]?.elements[0]).length).to.be.equals(6);
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].id).to.be.equals("453");
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].visibility).to.be.true;
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].att1).to.be.equals("bla");
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].att2).to.be.deep.equals(toReplace.att2);
+                expect(state.layerConfig[treeBaselayersKey]?.elements[1].id).to.be.equals("452");
+                expect(Object.keys(state.layerConfig[treeBaselayersKey]?.elements[1]).length).to.be.equals(1);
+
+                expect(state.layerConfig[treeSubjectsKey]?.elements).to.be.an("array");
+                expect(state.layerConfig[treeSubjectsKey]?.elements.length).to.be.equals(2);
+                expect(state.layerConfig[treeSubjectsKey]?.elements[0].id).to.be.equals("1132");
+                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[0]).length).to.be.equals(3);
+                expect(state.layerConfig[treeSubjectsKey]?.elements[1].id).to.be.equals("10220");
+                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[1]).length).to.be.equals(1);
+                expect(determineZIndexSpy.calledOnce).to.be.true;
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("showLayerAttributions");
             });
 
             it("replaceByIdInLayerConfig layer is not contained in layerConfig", () => {
@@ -803,17 +852,18 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 };
                 layerList[2].zIndex = 5;
                 layerList[2].visibility = true;
+                layerList[2].showInLayerTree = true;
 
                 expectedConfig.visibility = true;
                 expectedConfig.transparency = 0;
                 expectedConfig.showInLayerTree = true;
-                expectedConfig.zIndex = 6;
+                expectedConfig.zIndex = 5;
 
                 actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132", showInLayerTree: true});
                 expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfigs: [{id: "1132", layer: expectedConfig}]});
-                expect(determineZIndexSpy.calledOnce).to.be.true;
+                expect(determineZIndexSpy.notCalled).to.be.true;
             });
 
         });

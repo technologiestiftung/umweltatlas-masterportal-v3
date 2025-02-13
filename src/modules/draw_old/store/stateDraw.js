@@ -16,6 +16,7 @@ const symbol = {
      * @property {Object[]} deactivatedDrawInteractions Array of draw interactions which are deactivated in the process of the tool. Can be used to reactivate them from another point.
      * @property {String} download.dataString Data that will be written to the file for the Download.
      * @property {module:ol/Feature[]} download.features Features that are drawn on the Map.
+     * @property {Boolean} download.featuresNotSupported Contains whether the type selected for download supports the geometry type of the feature.
      * @property {String} download.file Name of the file including thr suffix.
      * @property {String} download.fileName Name for the to be downloaded file.
      * @property {String} download.fileUrl The URL encoded dataString.
@@ -110,6 +111,7 @@ const symbol = {
             dataString: "",
             enabled: true,
             features: [],
+            featuresNotSupported: false,
             file: "",
             fileName: "",
             fileUrl: "",

@@ -2,6 +2,7 @@
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
 import EntityList from "./ui/EntityList.vue";
 import ModelerDraw from "./Modeler3DDraw.vue";
+import ModelerFilter from "./Modeler3DFilter.vue";
 import ModelerImport from "./Modeler3DImport.vue";
 import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
 import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
@@ -31,6 +32,7 @@ export default {
         AccordionItem,
         EntityList,
         ModelerDraw,
+        ModelerFilter,
         ModelerImport,
         NavTab,
         SwitchInput
@@ -866,36 +868,46 @@ export default {
     <div
         id="module-modeler3D"
     >
-        <ul
-            id="modeler-tabs"
-            class="nav nav-tabs nav-justified mb-3"
-            role="tablist"
-        >
-            <NavTab
-                id="import-tab"
-                :class="{'disabled': isDrawing}"
-                :active="currentView === 'modeler-import'"
-                :target="''"
-                :label="'common:modules.modeler3D.nav.importTitle'"
-                :interaction="() => {setCurrentView('modeler-import'); povActive ? escapePedView(undefined) : '';}"
-            />
-            <NavTab
-                id="draw-tab"
-                :class="{'disabled': isDrawing}"
-                :active="currentView === 'modeler-draw'"
-                :target="'#draw-pane'"
-                :label="'common:modules.modeler3D.nav.drawTitle'"
-                :interaction="() => {setCurrentView('modeler-draw'); povActive ? escapePedView(undefined) : ''}"
-            />
-            <NavTab
-                id="options-tab"
-                :class="{'disabled': isDrawing}"
-                :active="currentView === ''"
-                :target="'#options-pane'"
-                :label="'common:modules.modeler3D.nav.options'"
-                :interaction="() => {setCurrentView(''); povActive ? escapePedView(undefined) : ''}"
-            />
-        </ul>
+        <div id="modeler-tabs-container">
+            <ul
+                id="modeler-tabs"
+                class="nav nav-tabs nav-justified mb-3"
+                role="tablist"
+            >
+                <NavTab
+                    id="import-tab"
+                    :class="{'disabled': isDrawing}"
+                    :active="currentView === 'modeler-import'"
+                    :target="''"
+                    :label="'common:modules.modeler3D.nav.importTitle'"
+                    :interaction="() => {setCurrentView('modeler-import'); povActive ? escapePedView(undefined) : '';}"
+                />
+                <NavTab
+                    id="draw-tab"
+                    :class="{'disabled': isDrawing}"
+                    :active="currentView === 'modeler-draw'"
+                    :target="'#draw-pane'"
+                    :label="'common:modules.modeler3D.nav.drawTitle'"
+                    :interaction="() => {setCurrentView('modeler-draw'); povActive ? escapePedView(undefined) : ''}"
+                />
+                <NavTab
+                    id="filter-tab"
+                    :class="{'disabled': isDrawing}"
+                    :active="currentView === 'modeler-filter'"
+                    :target="'#filter-pane'"
+                    :label="'common:modules.modeler3D.nav.filterTitle'"
+                    :interaction="() => {setCurrentView('modeler-filter'); povActive ? escapePedView(undefined) : ''}"
+                />
+                <NavTab
+                    id="options-tab"
+                    :class="{'disabled': isDrawing}"
+                    :active="currentView === ''"
+                    :target="'#options-pane'"
+                    :label="'common:modules.modeler3D.nav.options'"
+                    :interaction="() => {setCurrentView(''); povActive ? escapePedView(undefined) : ''}"
+                />
+            </ul>
+        </div>
         <component
             :is="currentView"
             v-if="currentView"
@@ -972,6 +984,24 @@ export default {
 
 .text-with-newlines {
     white-space: pre-wrap;
+}
+
+#modeler-tabs-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+#modeler-tabs {
+    display: contents;
+}
+
+#modeler-tabs li {
+    list-style: none;
+}
+
+#modeler-tabs .nav-item {
+    flex: 1;
 }
 
 </style>

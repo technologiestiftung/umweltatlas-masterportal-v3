@@ -45,7 +45,8 @@
       "ifInExtent": "&#10060; Die über den WMS bereitgestellten Geodaten liegen außerhalb des darstellbaren Bereichs. WMS hinzufügen ist nicht möglich.",
       "name": "WMS doartodoan",
       "placeholder": "Hier bidde de WMS-URL ingeven.",
-      "textLoadLayer": "Layer Laden"
+      "textLoadLayer": "Layer Laden",
+      "examples": "Beispiele:"
     },
     "alerting": {
       "alertWindowTitle": "",
@@ -119,6 +120,24 @@
       "backForward": {
         "stepBackward": "Letzte Ansicht",
         "stepForward": "Nächste Ansicht"
+      },
+    "compareFeatures": {
+        "title": "Verglieksliss",
+        "topicsSelection": "Themen Utwahl",
+        "removeFromList": "Vun de List wegmaken",
+        "noFeatures": {
+            "nothingSelected": "Es sind keine {{objects}} für die Vergleichsliste ausgewählt.",
+            "objectName": "Objekte",
+            "info": "Klicken Sie auf ein Objekt in der Karte. Es öffnet sich ein Fenster mit den jeweiligen Sachinformationen. In der rechten oberen Ecke befindet sich ein Sternsymbol {{iconEmptyStar}}. Klicken Sie auf dieses Symbol, um das Objekt zur Vergleichsliste hinzuzufügen. Das Sternsymbol wird gelb eingefärbt {{iconYellowStar}}. Ein erneuter Klick auf das Sternsymbol entfernt das Objekt wieder von der Vergleichsliste."
+        },
+        "feedback": {
+            "added": "Das Feature wurde zur Vergleichsliste hinzugefügt",
+            "addedWithName": "{{currentFeatureName}} wurde zur Vergleichsliste hinzugefügt",
+            "notAdded": "Das Feature konnte nicht zur Vergleichsliste hinzugefügt werden",
+            "notAddedWithName": "{{currentFeatureName}} konnte nicht zur Vergleichsliste hinzugefügt werden",
+            "removeObjects": "Bitte entfernen Sie zuerst mindestens ein Objekt bevor Sie fortfahren.",
+            "goToComparisonlist": "To de Vergliekslist"
+        }
       },
       "button3d": {
         "buttonTitle2d": "2D",
@@ -745,8 +764,10 @@
     },
     "selectFeatures": {
       "name": "Features utwählen",
-      "noFeatureChosen": "Keine Features ausgewählt. Wählen Sie Features durch Halten von Strg und Ziehen einer Box um die auszuwählenden Features.",
+      "noFeatureChosen": "Keene Features utsöcht. Söök Föögsels ut, indem du de Strg-Taste hollst un en Box üm de gewünsten Features treckst, oder föög eenige Features dör dat Holten vun de Strg-Taste un greep mit den linken Mood to.",
       "propertylessFeature": "Element ohne Attribute",
+      "clearSelection": "Auswahl opheben",
+      "deselectFeature": "Feature ut de Auswahl nähmen",
       "zoomToFeature": "Auf dieses Feature zoomen"
     },
     "shadow": {
@@ -870,7 +891,7 @@
           "biannually": "Twee mal int Jahr",
           "continual": "Al Tied",
           "daily": "Al Daag",
-          "fortnightly": "Twee mal al Week",
+          "fortnightly": "Veerteihndaagig",
           "irregular": "Ungeregelte Intervalle",
           "monthly": "Al Maant",
           "notPlanned": "Nich plant",
