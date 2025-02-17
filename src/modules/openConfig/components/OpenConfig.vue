@@ -59,6 +59,42 @@ export default {
                     content: this.$t("common:modules.openConfig.loadFileFailed", {targetFileName: targetFile?.name, targetFileFormat: targetFile?.name.split(".")[1]})
                 });
             }
+        },
+        /**
+         * Handles the drop event
+         * @param {Event} event The drop event.
+         * @returns {void}
+         */
+        handleDrop (event) {
+            event.preventDefault();
+            const targetFile = event.dataTransfer.files[0];
+
+            if (targetFile && targetFile.type === "application/json") {
+                const reader = new FileReader();
+
+                reader.onload = (evt) => {
+                    this.processConfigJsonOnload(evt);
+                    this.addSingleAlert({
+                        category: "success",
+                        content: this.$t("common:modules.openConfig.loadFileSuccess", {targetFileName: targetFile.name})
+                    });
+                };
+
+                reader.onerror = () => {
+                    this.addSingleAlert({
+                        category: "error",
+                        content: this.$t("common:modules.openConfig.loadFileFailed", {targetFileName: targetFile.name})
+                    });
+                };
+
+                reader.readAsText(targetFile);
+            }
+            else {
+                this.addSingleAlert({
+                    category: "error",
+                    content: this.$t("common:modules.openConfig.loadFileFailed", {targetFileName: targetFile?.name, targetFileFormat: targetFile?.name.split(".")[1]})
+                });
+            }
         }
     }
 };
@@ -78,7 +114,7 @@ export default {
                 ref="file-upload"
                 :keydown="setFocusToFirstControl"
                 :change="loadFile"
-                :drop="loadFile"
+                :drop="handleDrop"
             />
         </div>
     </div>
