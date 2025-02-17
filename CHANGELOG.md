@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
-- common.json: added Nederlands language file
+- i18next: added Nederlands language language.
 
 ### Changed
 - The following packages have been updated:
