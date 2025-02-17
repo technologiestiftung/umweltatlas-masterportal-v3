@@ -8,7 +8,7 @@ import FileUpload from "../../../../../shared/modules/inputs/components/FileUplo
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/modules/openConfig/components/OpenConfig.vue", () => {
+describe("src/modules/openConfig/components/OpenConfig.vue", () => {
     let store,
         warn,
         wrapper;
