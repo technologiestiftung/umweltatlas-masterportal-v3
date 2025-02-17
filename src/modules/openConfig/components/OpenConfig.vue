@@ -33,11 +33,13 @@ export default {
                 }
             });
         },
+
         /**
          * Loads the config.json file
          * @param {Event} event The file input event.
          * @returns {void}
          */
+
         loadFile (event) {
             const targetFile = event.target.files[0];
 
