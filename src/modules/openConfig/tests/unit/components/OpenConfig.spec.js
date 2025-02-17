@@ -48,10 +48,7 @@ describe("src/modules/openConfig/components/OpenConfig.vue", () => {
     it("renders the openConfig", () => {
         wrapper = shallowMount(OpenConfigComponent, {
             global: {
-                plugins: [store],
-                stubs: {
-                    FileUpload: false
-                }
+                plugins: [store]
             }
         });
 
