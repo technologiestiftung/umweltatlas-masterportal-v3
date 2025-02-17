@@ -71,7 +71,7 @@ export default {
         </p>
         <div
             id="open-config-input-button"
-            class="d-flex justify-content-center"
+            class="row d-flex mb-1"
         >
             <FileUpload
                 id="file-upload"
