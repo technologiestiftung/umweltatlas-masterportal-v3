@@ -31,7 +31,6 @@
 ### Added
 - LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
 - CompareFeatures: applied the functionality from version 2 to 3 and changed the data display to use shared table (TableComponent).
-- i18next: added Nederlands language. 
 - Modeler3D: Added filter & style function.
 - ShareView: Include existing URL query parameters into the generated share URL.
 - CustomMenuElement:
