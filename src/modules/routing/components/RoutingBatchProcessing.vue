@@ -46,22 +46,6 @@ export default {
         }
     },
     emits: ["cancelProcess", "filesadded"],
-    data () {
-        return {
-            dzIsDropHovering: false,
-            fileUploaded: false,
-            uploadedFiles: []
-        };
-    },
-    computed: {
-        /**
-         * Gets the class for the file drop element
-         * @returns {String} class to display
-         */
-        dropZoneAdditionalClass: function () {
-            return this.dzIsDropHovering ? "dzReady" : "";
-        }
-    },
     watch: {
         /**
          * Resets the HTML File input after it has been read
@@ -92,27 +76,6 @@ export default {
          */
         addFiles (files) {
             this.$emit("filesadded", files);
-        },
-        /**
-         * Called to open the file select dialog in the browser
-         * @returns {void}
-         */
-        startFileInput () {
-            this.$refs.fileInputLabel.click();
-        },
-        /**
-         * Called when user starts dragging a file over the upload container
-         * @returns {void}
-         */
-        onDZDragenter () {
-            this.dzIsDropHovering = true;
-        },
-        /**
-         * Called when user stops dragging a file over the upload container
-         * @returns {void}
-         */
-        onDZDragend () {
-            this.dzIsDropHovering = false;
         },
         /**
          * Called when user drops a file in the upload container
