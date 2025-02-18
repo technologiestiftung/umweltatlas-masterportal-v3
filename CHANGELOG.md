@@ -7,7 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
-- i18next: added Nederlands language language.
+- i18next: added Nederlands language.
 
 ### Changed
 - The following packages have been updated:
