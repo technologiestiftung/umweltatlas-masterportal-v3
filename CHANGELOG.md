@@ -34,6 +34,7 @@
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 - BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.  
 - LayerTree: Corrected order of layers styled by `layerIDsToStyle`.
+- TimeSlider: Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one. 
 
 ---
 
