@@ -23,7 +23,7 @@
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
-- Issue #1357: Fixed missing cookie header in requests by adding withCredentials support.
+- Issue #1357: Fixed unauthorized errors by restoring credentials: include in utilsAxios to ensure cookies with login information are properly attached to requests.
 
 ---
 
