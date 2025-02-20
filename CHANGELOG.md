@@ -8,10 +8,13 @@
 ### __Breaking Changes__
 
 ### Added
+- URL-Parameter: added url-Parameter to set the width of menu and secondary menu (menuwidth/secondarywidth).
 
 ### Changed
 - Coding Conventions: updated.
 - Filter: Im WFS-Request wurden die Parameter featureNS und featurePrefix entfernt, da dort bei manchen Layern ungültige Werte gesetzt wurden und diese Parameter nicht erforderlich sind.
+- Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
+- secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
 
 ### Deprecated
 
@@ -58,7 +61,7 @@
         - sinon: 18.0.0 to 19.0.2
         - zip-a-folder: 3.1.1 to 3.1.8
 - Map: added a warning in console, if a listener is added to map for a function that binds this and no special key is provided.
-- Routing: TsrUpload, OpenConfig and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
+- Routing: TsrUpload and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
 - OpenConfig: Now uses sharedComponent FileUpload.
 
 ### Fixed

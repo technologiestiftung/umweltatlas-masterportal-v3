@@ -697,7 +697,8 @@
     "menu": {
       "ariaLabelClose": "$t(menu.name) schließen",
       "ariaLabelOpen": "$t(menu.name) öffnen",
-      "name": "Menü"
+      "name": "Menü",
+      "widthUrlParamError": "Der Url-Parameter zur Einstellung der Breite des Menüs ist fehlerhaft und konnte nicht angewendet werden. Bitte wählen sie einen Wert zwischen 5 und 90."
     },
     "modalItem": {
       "close": "Fenster schließen"
