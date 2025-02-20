@@ -22,6 +22,7 @@
 
 ### Fixed
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
+- Issue #1299: change of textsize and rm of padding in NewsView Component.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
 - layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 

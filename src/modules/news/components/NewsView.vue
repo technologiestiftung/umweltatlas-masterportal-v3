@@ -59,13 +59,13 @@ export default {
             <div
                 v-if="aNews.category && aNews.category.trim().length > 0"
                 :id="'news_category_'+ index"
-                class="medium-text bold"
+                class="p-2 bold"
             >
                 {{ aNews.category }}
             </div>
             <div
                 :id="'news_content_'+ index"
-                class="medium-text"
+                class="p-2 mb-5"
                 v-html="aNews.content"
             />
         </template>
@@ -77,12 +77,5 @@ export default {
 @import "~variables";
 .title{
     font-size: $font-size-lg;
-}
-.medium-text {
-    font-size: font-size-base;
-    margin-bottom: 0rem
-}
-.small-text {
-    font-size: $font-size-sm;
 }
 </style>
