@@ -118,7 +118,21 @@ export default {
                 />
             </div>
         </div>
-
+        <div
+            v-else
+            class="d-flex flex-column"
+        >
+            <div class="strukturtext d-flex flex-column mb-2">
+                <div class="d-flex flex-column">
+                    <span>{{ $t('common:modules.routing.batchProcessing.structure') }}:</span>
+                    <b>{{ structureText }}</b>
+                </div>
+                <div class="d-flex mb-2">
+                    <span>{{ $t('common:modules.routing.batchProcessing.example') }}:</span>
+                    <span>{{ exampleText }}</span>
+                </div>
+            </div>
+        </div>
 
         <FileUpload
             :id="'fileUpload'"
@@ -143,5 +157,28 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+
+.strukturtext {
+    max-width: 400px;
+    padding: 2px 5px;
+    margin: 0 auto;
+    background: $accent;
+}
+
+.vh-center-outer-wrapper {
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    text-align:center;
+    position:relative;
+    &:before {
+        content:'';
+        display:inline-block;
+        height:100%;
+        vertical-align:middle;
+        margin-right:-0.25rem;
+    }
+}
 
 </style>
