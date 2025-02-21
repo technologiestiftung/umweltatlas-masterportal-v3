@@ -10,6 +10,7 @@
 ### Added
 
 ### Changed
+- Coding Conventions: updated.
 
 ### Deprecated
 
