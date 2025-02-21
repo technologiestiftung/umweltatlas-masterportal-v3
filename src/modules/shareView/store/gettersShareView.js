@@ -1,7 +1,6 @@
 import {generateSimpleGetters} from "../../../shared/js/utils/generators";
 import shareViewState from "./stateShareView";
 import stateSearchBar from "../../searchBar/store/stateSearchBar";
-import stateBoris from "../../../../addons/boris/store/stateBoris";
 import layerSelectionState from "../../layerSelection/store/stateLayerSelection";
 
 /**
@@ -33,7 +32,7 @@ const simpleGetters = {
         const layerParams = rootGetters.layerUrlParams,
             mapParams = rootGetters["Maps/urlParams"],
             menuParams = rootGetters["Menu/urlParams"],
-            componentTypes = [shareViewState.type, layerSelectionState.type, stateSearchBar.type, stateBoris.type];
+            componentTypes = [shareViewState.type, layerSelectionState.type, stateSearchBar.type, "borisComponent"];
         let shareUrl = location.origin + location.pathname + "?";
 
         if (componentTypes.includes(menuParams.main.currentComponent)) {

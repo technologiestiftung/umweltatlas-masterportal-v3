@@ -14,6 +14,7 @@
     - dependencies:
         - @masterportal/mpconfigparser: 1.4.0 to 2.0.0
 - Map: added a warning in console, if a listener is added to map for a function that binds this and no special key is provided.
+- Routing: TsrUpload and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
 
 ### Deprecated
 
@@ -23,6 +24,8 @@
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
+- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 
+- ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 
 ---
 
