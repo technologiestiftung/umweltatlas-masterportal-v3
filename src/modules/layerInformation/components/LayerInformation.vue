@@ -83,7 +83,7 @@ export default {
             if (this.layerInfo.typ === "GROUP" && Array.isArray(this.layerInfo.layers)) {
                 const selectedLayer = this.layerInfo.layers[this.selectedOption];
 
-                return selectedLayer?.url && this.showUrlGlobal !== false;
+                return selectedLayer?.url && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
             }
             return this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
         },
