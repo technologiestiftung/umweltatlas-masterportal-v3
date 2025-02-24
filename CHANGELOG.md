@@ -28,6 +28,7 @@
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
+- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect. 
 - layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.

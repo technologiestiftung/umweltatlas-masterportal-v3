@@ -85,7 +85,7 @@ export default {
 
                 return selectedLayer?.url && this.showUrlGlobal !== false;
             }
-            return this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal !== false;
+            return this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
         },
         showAttachFile () {
             return this.downloadLinks?.length > 1;
