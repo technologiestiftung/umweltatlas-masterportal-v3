@@ -1096,7 +1096,8 @@
         "addressDistrict": "Suche Adresse, Stadtteil",
         "addressHospitalBplan": "Suche nach Adresse/Krankenhaus/B-Plan",
         "addressTopic": "Suche Adresse, Stadtteil, Thema",
-        "addressTopicParcel": "Suche Adresse, Stadtteil, Thema, Flurstück"
+        "addressTopicParcel": "Suche Adresse, Stadtteil, Thema, Flurstück",
+        "startWithAddress": "Hier mit Adresse starten!"
       },
       "showAllResults": "alle Ergebnisse anzeigen",
       "searchResults": "Suchergebnisse",
