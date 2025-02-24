@@ -29,6 +29,32 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/mpconfigparser: 1.4.0 to 2.0.0
+        - axios: 1.7.7 to 1.7.9
+        - chart.js: 4.4.4 to 4.4.8
+        - i18next: 23.15.1 to 24.2.2
+        - i18next-browser-languagedetector: 8.0.0 to 8.0.3
+        - i18next-http-backend: 2.6.1 to 2.7.3
+        - jsts: 2.11.3 to 2.12.1
+        - three: 0.168.0 to 0.173.0
+        - vue-multiselect: 3.0.0 to 3.2.0
+    - devDependencies:
+        - @eslint/js: 9.10.0 to 9.20.0
+        - @sinonjs/fake-timers: 13.0.1 to 14.0.0
+        - @stylistic/eslint-plugin-js: 2.8.0 to 2.13.0
+        - @vue/compiler-sfc: 3.5.4 to 3.5.13
+        - @vue/devtools-api: 6.6.4 to 7.7.2
+        - chai: 5.1.1 to 5.2.0
+        - esbuild-loader: 4.1.0 to 4.3.0
+        - eslint-plugin-jsdoc: 50.2.2 to 50.6.3
+        - eslint-plugin-vue: 9.28.0 to 9.32.0
+        - fs-extra: 11.2.0 to 11.3.0
+        - globals: 15.9.0 to 15.15.0
+        - husky: 9.0.11 to 9.1.7
+        - jsdoc: 4.0.3 to 4.0.4
+        - mocha: 10.7.3 to 10.8.2
+        - mochapack: 2.1.4 to 2.1.5
+        - sinon: 18.0.0 to 19.0.2
+        - zip-a-folder: 3.1.1 to 3.1.8
 - Map: added a warning in console, if a listener is added to map for a function that binds this and no special key is provided.
 - Routing: TsrUpload, OpenConfig and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
 - OpenConfig: Now uses sharedComponent FileUpload.
