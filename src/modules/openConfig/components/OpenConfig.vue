@@ -28,8 +28,10 @@ export default {
          */
         setFocusToFirstControl () {
             this.$nextTick(() => {
-                if (this.$refs["file-upload"]) {
-                    this.$refs["file-upload"].focus();
+                const fileUploadComponent = this.$refs["file-upload"];
+
+                if (fileUploadComponent && fileUploadComponent.$refs["upload-input-file"]) {
+                    fileUploadComponent.$refs["upload-input-file"].focus();
                 }
             });
         },
