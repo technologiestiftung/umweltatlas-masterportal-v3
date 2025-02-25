@@ -146,6 +146,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
+- Measure-Tool: Now available in 3D mode (migrated from v2)
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
 - WMS features with geometry can be highlighted with polygon marker.
 
