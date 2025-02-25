@@ -197,6 +197,7 @@ export default {
     @import "~variables";
 
     #baselayer-switcher {
+        display: block;
         pointer-events: all;
         max-height: 80vh;
         overflow: scroll;
