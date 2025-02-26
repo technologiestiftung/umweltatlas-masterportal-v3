@@ -33,6 +33,7 @@
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 - BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.  
+- LayerTree: Corrected order of layers styled by `layerIDsToStyle`.
 
 ---
 
