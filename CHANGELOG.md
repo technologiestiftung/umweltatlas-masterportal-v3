@@ -23,11 +23,12 @@
 
 ### Fixed
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
+- Issue #1190: Print: legends for json layer with geometry type lineString can now be printed.
 - Issue #1299: change of textsize and rm of padding in NewsView Component.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
-- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 
+- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 
@@ -44,7 +45,7 @@
 - CustomMenuElement:
     - Added configuration support for 2D/3D viewpoints.
     - Added the possibility to add layers to the map and displays them in layerTree.
-- WMS-Time: Updated to ensure WMS-Time Layer compatibility with version 1.3.0. 
+- WMS-Time: Updated to ensure WMS-Time Layer compatibility with version 1.3.0.
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
