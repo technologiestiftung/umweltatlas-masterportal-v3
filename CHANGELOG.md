@@ -27,6 +27,7 @@
 ### Fixed
 - LayerInformation: empty contact accordion was shown, if metadata contains no contact.
 - LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
+- Loading the layer is accelerated by fixing generation of folder ids
 
 ---
 
