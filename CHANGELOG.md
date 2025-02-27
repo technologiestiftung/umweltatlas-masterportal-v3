@@ -20,6 +20,7 @@
   - gfiAttributes nested object handling
 - Filter: Added parameter questionLink. Can be configured to open a URL with information about the tool.
 - LayerSelection: added "deactivateShowAllCheckbox" configuration, to disable the "Show All Checkbox" inside folders.
+- LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the layerSequence prop.
 
 ### Changed
 - Coding Conventions: updated.
