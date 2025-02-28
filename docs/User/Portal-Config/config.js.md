@@ -112,7 +112,8 @@ Settings for multilingualism of the portal interface.
             pt: "Português",
             ru: "Русский",
             tr: "Türkçe",
-            ua: "Українська"
+            ua: "Українська",
+            nl: "Nederlands"
         },
         fallbackLanguage: "de",
         changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]
@@ -141,15 +142,16 @@ Optional remote interface configuration.
 ***
 ## login
 This module allows the user to login with an OIDC server. The retrieved access token is stored in cookies which can be used by the backend to deliver user-specific data (e.g. layers). Since the cookies are technically required to implement the login functionality, there is not corresponding cookie notice.
+
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|oidcAuthorizationEndpoint|yes|String||The oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth".|
-|oidcRevocationEndpoint|yes|String||The oidc revoke endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/revoke".|
-|oidcTokenEndpoint|yes|String||The oidc token endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token".|
-|oidcClientId|yes|String||The oidc client, e.g. "masterportal" (must be created in your IDM, e.g. keycloak).|
-|oidcScope|yes|String||The scope used for oidc, defaults to "profile email openid".|
-|oidcRedirectUri|yes|String||The url to redirect the oidc process to - after login.|
-|interceptorUrlRegex|yes|String||An regexp pattern that allows to specify urls the oidc token will be attached to.|
+|oidcAuthorizationEndpoint|yes|String|The oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth".|
+|oidcRevocationEndpoint|yes|String|The oidc revoke endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/revoke".|
+|oidcTokenEndpoint|yes|String|The oidc token endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token".|
+|oidcClientId|yes|String|The oidc client, e.g. "masterportal" (must be created in your IDM, e.g. keycloak).|
+|oidcScope|yes|String|The scope used for oidc, defaults to "profile email openid".|
+|oidcRedirectUri|yes|String|The url to redirect the oidc process to - after login.|
+|interceptorUrlRegex|yes|String|An regexp pattern that allows to specify urls the oidc token will be attached to.|
 Make sure in keycloak the client is configured as follows:
 ```
 Access Type: public
