@@ -79,6 +79,7 @@
 - Issue #1218: Fixed the missing bbox in request for filter module if the param `searchInMapExtent` and `extern` is true.
 - Issue #1299: change of textsize and rm of padding in NewsView Component.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
+- Issue #1331: Show group layers in right order.
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
 - Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
