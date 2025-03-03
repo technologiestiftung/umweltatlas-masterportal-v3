@@ -25,7 +25,8 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         addLayerButton,
         treeType,
         removeLayerSpy,
-        setRemoveOnSpillSpy;
+        setRemoveOnSpillSpy,
+        allowBaselayerDrag;
 
     beforeEach(() => {
         mapMode = "2D";
@@ -34,6 +35,7 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
         addLayerButton = {
             active: false
         };
+        allowBaselayerDrag = false;
         treeType = "";
         layer2D_1 = {
             id: "1",
@@ -183,7 +185,8 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                     return {
                         tree: {
                             type: treeType,
-                            addLayerButton: addLayerButton
+                            addLayerButton: addLayerButton,
+                            allowBaselayerDrag: allowBaselayerDrag
                         }
                     };
                 },
@@ -287,6 +290,125 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
             wrapper.vm.removeLayerOnSpill({oldIndex: 1});
             expect(removeLayerSpy.calledOnce).to.be.true;
             expect(setRemoveOnSpillSpy.notCalled).to.be.true;
+        });
+        it("checkMove - should always allow moving base layer over base layer", () => {
+            const checkMoveSpy = sinon.spy(wrapper.vm, "checkMove"),
+                draggedLayer = {id: "1", baselayer: true},
+                targetLayer = {id: "2", baselayer: true},
+                event = {
+                    draggedContext: {element: draggedLayer},
+                    relatedContext: {element: targetLayer}
+                },
+                result = wrapper.vm.checkMove(event);
+
+            expect(result).to.be.true;
+            expect(checkMoveSpy.calledOnce).to.be.true;
+        });
+        it("checkMove - should not allow dragging base layer over non-base layer, when allowBaselayerDrag is false", () => {
+            const checkMoveSpy = sinon.spy(wrapper.vm, "checkMove"),
+                draggedLayer = {id: "1", baselayer: true},
+                targetLayer = {id: "2", baselayer: false},
+                event = {
+                    draggedContext: {element: draggedLayer},
+                    relatedContext: {element: targetLayer}
+                },
+                result = wrapper.vm.checkMove(event);
+
+            expect(result).to.be.false;
+            expect(checkMoveSpy.calledOnce).to.be.true;
+        });
+        it("checkMove - should allow dragging non-base layer over base layer, when allowBaselayerDrag is true", () => {
+            allowBaselayerDrag = true;
+
+            store = createStore({
+                modules: {
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            namespaced: true,
+                            LayerTreeNode,
+                            LayerInformation: {
+                                namespaced: true,
+                                getters: {
+                                    icon: sinon.stub(),
+                                    pointOfContact: () => "ABC Kontakt",
+                                    publisher: () => ""
+                                }
+                            },
+                            LayerTree: {
+                                namespaced: true,
+                                getters: {
+                                    delay: () => 500,
+                                    delayOnTouchOnly: () => true,
+                                    removeOnSpill: () => true,
+                                    touchStartThreshold: () => 3
+                                },
+                                actions: {
+                                    removeLayer: removeLayerSpy
+                                },
+                                mutations: {
+                                    setRemoveOnSpill: setRemoveOnSpillSpy
+                                }
+                            },
+                            LayerSelection: {
+                                namespaced: true,
+                                getters: {
+                                    highlightLayerId: sinon.stub()
+                                }
+                            },
+                            Contact: {
+                                namespaced: true,
+                                getters: {
+                                    name: () => "Contactname",
+                                    type: () => "contact"
+                                }
+                            }
+                        }
+                    },
+                    Maps: {
+                        namespaced: true,
+                        getters: {
+                            mode: () => mapMode
+                        }
+                    }
+                },
+                getters: {
+                    isModuleAvailable: () => () => true,
+                    allLayerConfigs: () => layersBG.concat(subjectDataLayers),
+                    layerConfig: () => ({
+                        [treeSubjectsKey]: {elements: subjectDataLayers},
+                        [treeBaselayersKey]: {elements: layersBG}
+                    }),
+                    layerConfigsByAttributes: () => () => [],
+                    portalConfig: () => ({
+                        tree: {
+                            type: treeType,
+                            addLayerButton: addLayerButton,
+                            allowBaselayerDrag: allowBaselayerDrag // Now set to true
+                        }
+                    }),
+                    showLayerAddButton: () => addLayerButton.active,
+                    showFolderPath: () => true
+                }
+            });
+
+            wrapper = mount(LayerTreeNode, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            const checkMoveSpy = sinon.spy(wrapper.vm, "checkMove"),
+                draggedLayer = {id: "1", baselayer: false},
+                targetLayer = {id: "2", baselayer: true},
+                event = {
+                    draggedContext: {element: draggedLayer},
+                    relatedContext: {element: targetLayer}
+                },
+                result = wrapper.vm.checkMove(event);
+
+            expect(result).to.be.true;
+            expect(checkMoveSpy.calledOnce).to.be.true;
         });
     });
 });

@@ -13,6 +13,7 @@
 - Searchbar:
     - Topic tree search can now output baselayer as search category.
     - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
+- LayerTree: added checkMove function to validate dragged layer movement based on allowBaselayerDrag configuration.
 
 ### Changed
 - Coding Conventions: updated.
