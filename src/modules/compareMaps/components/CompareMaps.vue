@@ -92,6 +92,7 @@ export default {
         this.initialize();
         this.setActive(true);
         this.updateVisibleLayers(this.visibleLayerConfigs);
+        this.setLayerSwiperSplitDirection(this.splitDirection);
 
         mapCollection.getMap("2D").on("moveend", this.handleMapMove);
     },
