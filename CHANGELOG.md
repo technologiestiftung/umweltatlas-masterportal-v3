@@ -40,7 +40,6 @@
 ---
 
 ## 2025-02-05 v3.7.0
-### __Breaking Changes__
 
 ### Added
 - LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
@@ -59,7 +58,6 @@
 - dependencies:
         - @masterportal/masterportalapi: 2.42.2 to 2.45.0 (This also raised ol to version 10.3.1 and @cesium/engine to 13.0.0)
 
-### Deprecated
 
 ### Removed
 - setupDev.md: Removed unneeded Python instructions.
@@ -122,17 +120,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Portal Master: Fixed error in console by updating layer id.
 
 ---
-## 2024-12-12 v3.3.3 (LTS)
-
-### Fixed
-- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
-- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
-- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
-- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
-- Searchbar: the search in search results shows results and no error occurs.
-- wfst: layers that are not in services.json are supported.
-
----
 
 ## 2024-12-05 v3.5.1
 
@@ -143,7 +130,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ---
 
 ## 2024-12-04 v3.5.0
-### __Breaking Changes__
 
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
@@ -157,7 +143,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
 - WMS gfi responses with mimeType json/application are parsed as GeoJSON.
 
-### Deprecated
 
 ### Removed
 - Issue #1300: Migrator: The following attributes are removed from the search interface bkg when migrating, as they have no effect: `minCharacters`, `suggestCount`, `suggestServiceId`, `zoomLevel`, `zoomToResultOnClick` and `zoomToResultOnHover`.
@@ -760,7 +745,6 @@ In certain circumstances this means that you have to update your portal files (i
 - Layerinformation: different labels have been updated.
 - Migrated the tool `login` to MP3.0.0
 
-### Deprecated
 
 ### Removed
 - The following NPM packages have been removed:
