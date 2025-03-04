@@ -113,7 +113,6 @@ describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
                 visibleSubjectDataLayerConfigs: () => {
                     return allLayerConfigs;
                 }
-
             }
         });
     });
@@ -164,7 +163,7 @@ describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
         allLayerConfigs = [];
         store.commit("Modules/Wfst/setLayerIds", layerIds);
         store.commit("Modules/Wfst/setLayerInformation", [{...exampleLayerOne, visibility: false}, exampleLayerTwo]);
-        store.commit("Modules/Wfst/setFeatureProperties");
+        // store.commit("Modules/Wfst/setFeatureProperties");
 
 
         wrapper = shallowMount(WfsTransaction, {

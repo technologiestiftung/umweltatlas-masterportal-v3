@@ -1289,6 +1289,12 @@
         "onlyNumbersAllowed": "The input only allows numbers.",
         "requiredPropertiesNotSet": "Please enter a valid value for the required properties {{properties}}."
       },
+      "mandatoryInputError": {
+                    "text": "Regular text characters and special characters like , . / \\ [ ] space and German characters ö ä ü Ö Ä Ü ß and not only numbers are required",
+                    "number": "Number, partial number or negative number is required",
+                    "date": "Full date is required",
+                    "datetime-local": "Full date and hour is required"
+                },
       "form": {
         "discard": "Discard",
         "save": "Save"
@@ -1303,6 +1309,7 @@
       "layerSelectLabel": "Current layer:",
       "name": "WFS-T Tool",
       "polygonHint": "To move a polygon, hold down the Ctrl key and move your mouse while holding the mouse button down.",
+      "fieldRequired": "Field required",
       "transaction": {
         "error": {
           "axios": "$t(common:modules.wfst.transaction.error.genericFailedTransaction)",

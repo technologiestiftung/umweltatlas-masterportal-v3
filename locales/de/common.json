@@ -1291,6 +1291,12 @@
         "onlyNumbersAllowed": "Das Eingabefeld erlaubt nur Zahlen.",
         "requiredPropertiesNotSet": "Bitte geben Sie einen validen Wert für die verpflichtenden Felder {{properties}} ein."
       },
+      "mandatoryInputError": {
+                    "text": "Normale Textzeichen und Sonderzeichen wie , . / \\ [ ] Leerzeichen und deutsche Zeichen ö ä ü Ö Ä Ü ß und nicht nur Zahlen sind erforderlich.",
+                    "number": "Zahl, Teilzahl oder negative Zahl ist erforderlich.",
+                    "date": "Das vollständige Datum ist erforderlich.",
+                    "datetime-local": "Vollständiges Datum und Uhrzeit sind erforderlich."
+                },
       "form": {
         "discard": "Verwerfen",
         "save": "Speichern"
@@ -1305,6 +1311,7 @@
       "layerSelectLabel": "Aktueller Layer:",
       "name": "WFS-T Tool",
       "polygonHint": "Halten Sie die Strg-Taste und bewegen Sie die Maus mit gedrückter Maustaste, um ein Polygon zu bewegen.",
+      "fieldRequired": "Pflichtfeld",
       "transaction": {
         "error": {
           "axios": "Das Speichern bzw. Löschen der Geometrie und ihrer Parameter ist leider fehlgeschlagen. Bitte wenden Sie sich an Ihren Administrator.",
