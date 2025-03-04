@@ -28,13 +28,14 @@
 - Issue #1320: Fixed long url when sharing a view with open search bar.
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
-- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect. 
+- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
 - layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
-- BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.  
+- BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.
 - LayerTree: Corrected order of layers styled by `layerIDsToStyle`.
-- TimeSlider: Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one. 
+- TimeSlider: Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one.
+-  Menu: Navigating back from layerinformation to the previous menu item add subject.
 
 ---
 
