@@ -145,13 +145,13 @@ This module allows the user to login with an OIDC server. The retrieved access t
 
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
-|oidcAuthorizationEndpoint|yes|String|The oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth".|
-|oidcRevocationEndpoint|yes|String|The oidc revoke endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/revoke".|
-|oidcTokenEndpoint|yes|String|The oidc token endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token".|
-|oidcClientId|yes|String|The oidc client, e.g. "masterportal" (must be created in your IDM, e.g. keycloak).|
-|oidcScope|yes|String|The scope used for oidc, defaults to "profile email openid".|
-|oidcRedirectUri|yes|String|The url to redirect the oidc process to - after login.|
-|interceptorUrlRegex|yes|String|An regexp pattern that allows to specify urls the oidc token will be attached to.|
+|oidcAuthorizationEndpoint|yes|String||The oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth".|
+|oidcRevocationEndpoint|yes|String||The oidc revoke endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/revoke".|
+|oidcTokenEndpoint|yes|String||The oidc token endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/token".|
+|oidcClientId|yes|String||The oidc client, e.g. "masterportal" (must be created in your IDM, e.g. keycloak).|
+|oidcScope|yes|String||The scope used for oidc, defaults to "profile email openid".|
+|oidcRedirectUri|yes|String||The url to redirect the oidc process to - after login.|
+|interceptorUrlRegex|yes|String||An regexp pattern that allows to specify urls the oidc token will be attached to.|
 
 Make sure in keycloak the client is configured as follows:
 ```
