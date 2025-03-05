@@ -190,13 +190,45 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 originalLocation = global.location,
                 state = {},
                 getters = {},
-                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=\"LAYER=layerValue\"&ADDONPARAM=addonValue";
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU=%7B%22main%22%3A%7B%22currentComponent%22%3A%22root%22%7D%2C%22secondary%22%3A%7B%22currentComponent%22%3A%22root%22%7D%7D&LAYERS=%22LAYER%3DlayerValue%22&ADDONPARAM=addonValue";
 
             global.location = {
                 ...originalLocation,
                 origin: "https://self.example.org",
                 pathname: "/portal/",
                 search: mockAddonUrlParams
+            };
+
+            expect(ShareView.getters.url(state, getters, {}, rootGetters)).to.equal(expectedURL);
+            global.location = originalLocation;
+        });
+        it("ignore existing basic URL parameters in the share URL", () => {
+            const mockLayerUrlParams = "LAYER=layerValue",
+                mockMapUrlParams = "MAP=mapValue",
+                mockMenuUrlParams = {
+                    main: {
+                        currentComponent: "root"
+                    },
+                    secondary: {
+                        currentComponent: "root"
+                    }
+                },
+                mockExistingParams = "MAP=oldMapValue&LAYERS=oldLayerValue&MENU=oldMenuValue&ADDONPARAM=addonValue",
+                rootGetters = {
+                    layerUrlParams: mockLayerUrlParams,
+                    "Maps/urlParams": mockMapUrlParams,
+                    "Menu/urlParams": mockMenuUrlParams
+                },
+                originalLocation = global.location,
+                state = {},
+                getters = {},
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU=%7B%22main%22%3A%7B%22currentComponent%22%3A%22root%22%7D%2C%22secondary%22%3A%7B%22currentComponent%22%3A%22root%22%7D%7D&LAYERS=%22LAYER%3DlayerValue%22&ADDONPARAM=addonValue";
+
+            global.location = {
+                ...originalLocation,
+                origin: "https://self.example.org",
+                pathname: "/portal/",
+                search: mockExistingParams
             };
 
             expect(ShareView.getters.url(state, getters, {}, rootGetters)).to.equal(expectedURL);

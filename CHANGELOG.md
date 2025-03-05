@@ -20,6 +20,7 @@
 - Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
+- ShareView: url paramter are uri encoded now.
 
 ### Deprecated
 
@@ -29,6 +30,7 @@
 - LayerInformation: empty contact accordion was shown, if metadata contains no contact.
 - LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
 - Loading the layer is accelerated by fixing generation of folder ids
+- ShareView: duplicated url params are filtered.
 
 ---
 
