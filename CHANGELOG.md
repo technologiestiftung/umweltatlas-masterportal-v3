@@ -14,6 +14,10 @@
     - Topic tree search can now output baselayer as search category.
     - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
 - LayerTree: added checkMove function to validate dragged layer movement based on allowBaselayerDrag configuration.
+- WFST-Tool: Added WFS-T improvements
+  - correct transactionFeature properties order
+  - input validation
+  - gfiAttributes nested object handling
 
 ### Changed
 - Coding Conventions: updated.
