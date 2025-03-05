@@ -26,7 +26,10 @@ export default {
             "selectedInteraction",
             "showConfirmModal",
             "showInteractionsButtons",
-            "transactionProcessing"
+            "transactionProcessing",
+            "isFormDisabled",
+            "active",
+            "deactivateGFI"
         ]),
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
@@ -47,7 +50,7 @@ export default {
     },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setFeatureProperty", "setFeatureProperties", "sendTransaction", "isFormDisabled"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setActive", "setFeatureProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
@@ -61,7 +64,6 @@ export default {
             if ((this.currentLayerIndex === -1 && firstActiveLayer > -1) ||
                 (this.currentLayerIndex > -1 && firstActiveLayer === -1) ||
                 (currentLayerDeactivated && firstActiveLayer > -1)) {
-                console.warn("Find!", firstActiveLayer);
                 this.setCurrentLayerIndex(firstActiveLayer);
             }
             if (currentLayerDeactivated) {

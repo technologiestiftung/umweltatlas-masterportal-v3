@@ -346,6 +346,8 @@ const actions = {
      * @returns {void}
      */
     validateForm ({commit}, featureProperties) {
+        console.warn("Validating Form");
+        console.warn(featureProperties.find(f => f.type !== "geometry" && f.required && f.valid !== true));
         const isFormInvalid = featureProperties.find(f => f.type !== "geometry" && f.required && f.valid !== true);
 
         commit("setIsFormDisabled", Boolean(isFormInvalid));
@@ -357,6 +359,8 @@ const actions = {
      * @returns {void}
      */
     updateFeatureProperty ({dispatch, commit, getters: {featureProperties}}, feature) {
+        console.warn("UpdateFeatureProp", feature);
+        console.warn("Feature Required?", feature.required);
         if (feature.required) {
             dispatch("validateInput", feature);
             dispatch("validateForm", featureProperties);
@@ -384,15 +388,11 @@ const actions = {
      * @returns {void}
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation, useProxy}}) {
-        console.warn("Yo", currentLayerIndex);
-        console.warn("Info:", layerInformation);
         if (currentLayerIndex === -1) {
             commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.allLayersNotSelected"));
             return;
         }
         const layer = layerInformation[currentLayerIndex];
-
-        console.warn(layer.isSelected);
 
         if (!Object.prototype.hasOwnProperty.call(layer, "featurePrefix")) {
             commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotConfiguredCorrectly"));

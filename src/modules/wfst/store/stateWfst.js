@@ -24,6 +24,8 @@
  * @property {TransactionLayer[]} layerInformation Information about the different WFS-T layers configured for the tool.
  * @property {("LineString"|"Point"|"Polygon"|"delete"|"updated"|"selectedUpdate"|null)} selectedInteraction Which selection is currently active, if any.
  * @property {Boolean} isFormDisabled if true then feature form inputs are invalid and form data cannot be saved to backend
+ * @property {Boolean} active Whether the tool is currently active.
+ * @property {Boolean} deactivateGFI Whether the gfi tool should be deactivated when this tool is started.
  */
 const state = {
     // General configuration
@@ -50,7 +52,9 @@ const state = {
     featureProperties: [],
     layerInformation: [],
     selectedInteraction: null,
-    isFormDisabled: false
+    isFormDisabled: false,
+    active: false,
+    deactivateGFI: true
 };
 
 export default state;
