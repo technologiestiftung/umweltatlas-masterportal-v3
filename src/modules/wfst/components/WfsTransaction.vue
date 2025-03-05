@@ -61,6 +61,7 @@ export default {
             if ((this.currentLayerIndex === -1 && firstActiveLayer > -1) ||
                 (this.currentLayerIndex > -1 && firstActiveLayer === -1) ||
                 (currentLayerDeactivated && firstActiveLayer > -1)) {
+                console.warn("Find!", firstActiveLayer);
                 this.setCurrentLayerIndex(firstActiveLayer);
             }
             if (currentLayerDeactivated) {
@@ -194,7 +195,7 @@ export default {
                         v-if="featureProperties.find(prop => prop.required)"
                         class="mb-2"
                     >
-                        <span><span class="form-label-info"> - </span>{{ $t("common:modules.tools.wfsTransaction.fieldRequired") }}</span>
+                        <span><span class="form-label-info"> - </span>{{ $t("common:modules.tools.wfst.fieldRequired") }}</span>
                     </p>
                     <form id="tool-wfs-transaction-form">
                         <template v-for="property of featureProperties">
@@ -228,7 +229,7 @@ export default {
                                         'form-control__invalid': property.valid === false
                                     }"
                                     :step="property.type === 'decimal' ? getDecimalStep(property.type, property.value) : null"
-                                    :title="property.required && !property.valid ? $t(`common:modules.tools.wfsTransaction.mandatoryInputError.${getInputType(property.type)}`): ''"
+                                    :title="property.required && !property.valid ? $t(`common:modules.tools.wfst.mandatoryInputError.${getInputType(property.type)}`): ''"
                                     :type="getInputType(property.type)"
                                     :required="property.required"
                                     :value="property.value"

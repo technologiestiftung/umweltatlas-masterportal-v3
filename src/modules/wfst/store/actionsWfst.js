@@ -299,6 +299,7 @@ const actions = {
      */
     setActive ({commit, dispatch, getters: {layerIds}}, active) {
         commit("setActive", active);
+        console.warn("Setting Active");
         if (active) {
             const layerInformation = getLayerInformationModule.getLayerInformation(layerIds);
 
@@ -369,7 +370,7 @@ const actions = {
             dispatch("Alerting/addSingleAlert", {
                 category: "Info",
                 displayClass: "info",
-                content: i18next.t("common:modules.tools.wfsTransaction.error.onlyNumbersAllowed"),
+                content: i18next.t("common:modules.tools.wfst.error.onlyNumbersAllowed"),
                 mustBeConfirmed: false
             }, {root: true});
             return;
@@ -383,18 +384,22 @@ const actions = {
      * @returns {void}
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation, useProxy}}) {
+        console.warn("Yo", currentLayerIndex);
+        console.warn("Info:", layerInformation);
         if (currentLayerIndex === -1) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfsTransaction.error.allLayersNotSelected"));
+            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.allLayersNotSelected"));
             return;
         }
         const layer = layerInformation[currentLayerIndex];
 
+        console.warn(layer.isSelected);
+
         if (!Object.prototype.hasOwnProperty.call(layer, "featurePrefix")) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfsTransaction.error.layerNotConfiguredCorrectly"));
+            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotConfiguredCorrectly"));
             return;
         }
         if (!layer.isSelected) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfsTransaction.error.layerNotSelected"));
+            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotSelected"));
             return;
         }
         commit("setFeatureProperties", await prepareFeaturePropertiesModule.prepareFeatureProperties(layer, useProxy));
