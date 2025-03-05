@@ -398,7 +398,7 @@ const actions = {
             commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotConfiguredCorrectly"));
             return;
         }
-        if (!layer.isSelected) {
+        if (!layer.visibility) {
             commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotSelected"));
             return;
         }
