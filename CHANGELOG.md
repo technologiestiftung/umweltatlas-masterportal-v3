@@ -4,7 +4,23 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+
 ### __Breaking Changes__
+
+### Added
+
+### Changed
+- Coding Conventions: updated.
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+
+## 2025-03-05 v3.8.0
 
 ### Added
 - i18next: added Nederlands language.
@@ -13,19 +29,51 @@
 - The following packages have been updated:
     - dependencies:
         - @masterportal/mpconfigparser: 1.4.0 to 2.0.0
+        - axios: 1.7.7 to 1.7.9
+        - chart.js: 4.4.4 to 4.4.8
+        - i18next: 23.15.1 to 24.2.2
+        - i18next-browser-languagedetector: 8.0.0 to 8.0.3
+        - i18next-http-backend: 2.6.1 to 2.7.3
+        - jsts: 2.11.3 to 2.12.1
+        - three: 0.168.0 to 0.173.0
+        - vue-multiselect: 3.0.0 to 3.2.0
+    - devDependencies:
+        - @eslint/js: 9.10.0 to 9.20.0
+        - @sinonjs/fake-timers: 13.0.1 to 14.0.0
+        - @stylistic/eslint-plugin-js: 2.8.0 to 2.13.0
+        - @vue/compiler-sfc: 3.5.4 to 3.5.13
+        - @vue/devtools-api: 6.6.4 to 7.7.2
+        - chai: 5.1.1 to 5.2.0
+        - esbuild-loader: 4.1.0 to 4.3.0
+        - eslint-plugin-jsdoc: 50.2.2 to 50.6.3
+        - eslint-plugin-vue: 9.28.0 to 9.32.0
+        - fs-extra: 11.2.0 to 11.3.0
+        - globals: 15.9.0 to 15.15.0
+        - husky: 9.0.11 to 9.1.7
+        - jsdoc: 4.0.3 to 4.0.4
+        - mocha: 10.7.3 to 10.8.2
+        - mochapack: 2.1.4 to 2.1.5
+        - sinon: 18.0.0 to 19.0.2
+        - zip-a-folder: 3.1.1 to 3.1.8
 - Map: added a warning in console, if a listener is added to map for a function that binds this and no special key is provided.
-- Routing: TsrUpload and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
-
-### Deprecated
-
-### Removed
+- Routing: TsrUpload, OpenConfig and RoutingBatchProcessing now use sharedComponent FileUpload for uploading files.
+- OpenConfig: Now uses sharedComponent FileUpload.
 
 ### Fixed
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
+- Issue #1190: Print: legends for json layer with geometry type lineString can now be printed.
+- Issue #1299: change of textsize and rm of padding in NewsView Component.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
+- Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
-- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 
+- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
+- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
+- WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
+- BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.
+- LayerTree: Corrected order of layers styled by `layerIDsToStyle`.
+- TimeSlider: Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one.
+-  Menu: Navigating back from layerinformation to the previous menu item add subject.
 
 ---
 
@@ -38,7 +86,6 @@
 - Updating menu item name from Login to Logout after a user is logged in and visa versa.
 
 ## 2025-02-05 v3.7.0
-### __Breaking Changes__
 
 ### Added
 - LayerTree: added a new parameter at layer `filterRefId` as an index of a configured filter Layer.
@@ -48,7 +95,7 @@
 - CustomMenuElement:
     - Added configuration support for 2D/3D viewpoints.
     - Added the possibility to add layers to the map and displays them in layerTree.
-- WMS-Time: Updated to ensure WMS-Time Layer compatibility with version 1.3.0. 
+- WMS-Time: Updated to ensure WMS-Time Layer compatibility with version 1.3.0.
 
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
@@ -57,7 +104,6 @@
 - dependencies:
         - @masterportal/masterportalapi: 2.42.2 to 2.45.0 (This also raised ol to version 10.3.1 and @cesium/engine to 13.0.0)
 
-### Deprecated
 
 ### Removed
 - setupDev.md: Removed unneeded Python instructions.
@@ -120,17 +166,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Portal Master: Fixed error in console by updating layer id.
 
 ---
-## 2024-12-12 v3.3.3 (LTS)
-
-### Fixed
-- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
-- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
-- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
-- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
-- Searchbar: the search in search results shows results and no error occurs.
-- wfst: layers that are not in services.json are supported.
-
----
 
 ## 2024-12-05 v3.5.1
 
@@ -141,10 +176,10 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ---
 
 ## 2024-12-04 v3.5.0
-### __Breaking Changes__
 
 ### Added
 - Measure-Tool: Added config parameter color for the measured lines and polygons.
+- Measure-Tool: Now available in 3D mode (migrated from v2)
 - Menu: new config parameter showHeaderIcon to show the icon of the current component in the menu header.
 - WMS features with geometry can be highlighted with polygon marker.
 
@@ -154,7 +189,6 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
         - @masterportal/masterportalapi: 2.41.0 to 2.42.1 (This also raised ol to version 10.2.1 and @cesium/engine to 12.0.1)
 - WMS gfi responses with mimeType json/application are parsed as GeoJSON.
 
-### Deprecated
 
 ### Removed
 - Issue #1300: Migrator: The following attributes are removed from the search interface bkg when migrating, as they have no effect: `minCharacters`, `suggestCount`, `suggestServiceId`, `zoomLevel`, `zoomToResultOnClick` and `zoomToResultOnHover`.
@@ -757,7 +791,6 @@ In certain circumstances this means that you have to update your portal files (i
 - Layerinformation: different labels have been updated.
 - Migrated the tool `login` to MP3.0.0
 
-### Deprecated
 
 ### Removed
 - The following NPM packages have been removed:

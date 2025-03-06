@@ -1094,7 +1094,8 @@
         "addressDistrict": "Search address, district",
         "addressHospitalBplan": "Search for Address/Hospital/B-Plan",
         "addressTopic": "Search address, district, topics",
-        "addressTopicParcel": "Search address, district, topics, parcel"
+        "addressTopicParcel": "Search address, district, topics, parcel",
+        "startWithAddress": "Start here with address!"
       },
       "actions": {
         "activateLayerInTopicTree": "Show layer in topic tree",
