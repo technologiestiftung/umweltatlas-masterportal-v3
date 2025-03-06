@@ -3737,6 +3737,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 ***
 
 ###### portalConfig.menu.sections.modules.shadow.shadowTime {data-toc-label='Shadow Time'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |month|no|String||month|false|
@@ -6059,6 +6060,7 @@ An object that describes a service for a snippet. All service types that the fil
 The configuration depends on the type of service.
 
 **WFS**
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |collection|yes|String||The collection that will be loaded. Only for OAF|false|

@@ -122,16 +122,29 @@ export default {
             });
         },
         removeDuplicateMenuEntries (sections) {
-            const seen = new Set();
+            const seenFolders = new Set(),
+                seenTypes = new Set();
 
             return sections.filter(section => {
                 if (!section.type) {
                     return true;
                 }
-                if (seen.has(section.type)) {
+
+                if (section.type.toLowerCase() === "folder") {
+                    if (!section.name) {
+                        return true;
+                    }
+
+                    if (seenFolders.has(section.name)) {
+                        return false;
+                    }
+                    seenFolders.add(section.name);
+                    return true;
+                }
+                if (seenTypes.has(section.type)) {
                     return false;
                 }
-                seen.add(section.type);
+                seenTypes.add(section.type);
                 return true;
             });
         }
