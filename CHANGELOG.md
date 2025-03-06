@@ -11,6 +11,7 @@
 
 ### Changed
 - Coding Conventions: updated.
+- Filter: Im WFS-Request wurden die Parameter featureNS und featurePrefix entfernt, da dort bei manchen Layern ungültige Werte gesetzt wurden und diese Parameter nicht erforderlich sind.
 
 ### Deprecated
 

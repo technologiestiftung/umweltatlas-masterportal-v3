@@ -77,8 +77,6 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         isSecured: undefined,
                         namespace: "foob/boof",
                         srsName: "foo",
-                        featureNS: "foob",
-                        featurePrefix: "boof",
                         featureTypes: ["bar"]
                     };
 
@@ -106,28 +104,12 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         isSecured: undefined,
                         namespace: "foob/boof",
                         srsName: "foo",
-                        featureNS: "foob",
-                        featurePrefix: "boof",
                         featureTypes: ["bar"]
                     };
 
                 openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
                 filterApi.setServiceByLayerModel(0, layerModel, false);
                 expect(filterApi.service).to.deep.equal(expected);
-                sinon.restore();
-            });
-            it("featurePrefix should be empty if namespace have no slash", () => {
-                const filterApi = new FilterApi(0),
-                    layerModel = {
-                        typ: "WFS",
-                        featureNS: "foob",
-                        url: "foo",
-                        featureType: "bar"
-                    };
-
-                openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
-                filterApi.setServiceByLayerModel(0, layerModel, false);
-                expect(filterApi.service.featurePrefix).to.be.equals("");
                 sinon.restore();
             });
             it("should set the service for oaf", () => {
