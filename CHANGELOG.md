@@ -45,6 +45,7 @@
 - Loading the layer is accelerated by fixing generation of folder ids
 - ShareView: duplicated url params are filtered.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
+- layer2dVector: The style type "nominal" works on single features in clustered layers now.
 
 ---
 
