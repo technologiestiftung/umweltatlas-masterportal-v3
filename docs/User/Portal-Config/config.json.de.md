@@ -6051,6 +6051,7 @@ Ein Objekt das einen Service für ein Snippet beschreibt. Alle Servicetypen, die
 Die Konfiguration hängt vom Typ des Services ab.
 
 **WFS**
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |collection|ja|String||Die Collection die geladen wird. Nur bei OAF.|false|
