@@ -220,7 +220,7 @@ function parseDownloadLinks (json) {
  */
 function parseContactByRole (json, role) {
     const pointOfContacts = getMdIdentification(json)?.pointOfContact;
-    let dateValue = {};
+    let dateValue = null;
 
     if (Array.isArray(pointOfContacts)) {
         pointOfContacts.forEach(contact => {

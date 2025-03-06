@@ -17,6 +17,7 @@
 ### Removed
 
 ### Fixed
+- LayerInformation: empty contact accordion was shown, if metadata contains no contact.
 
 ---
 
@@ -67,7 +68,7 @@
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
 - Issue #1357: Fixed unauthorized errors by restoring credentials: include in utilsAxios to ensure cookies with login information are properly attached to requests.
-- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance. 
+- layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
 - Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
