@@ -83,15 +83,16 @@ export default {
             });
         }
     },
-    created () {
+
+    mounted () {
         getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
             if (!Array.isArray(additionalGeometries) || !additionalGeometries.length) {
                 return;
             }
+
             this.setAdditionalGeometries({additionalGeometries});
         });
-    },
-    mounted () {
+
         if (this.layerConfigs?.length === 0) {
             this.setLayerConfigs(compileLayers(this.layerGroups, this.layers, FilterApi));
 
