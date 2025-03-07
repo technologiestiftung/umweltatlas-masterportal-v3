@@ -128,6 +128,10 @@ function parseAbstract (json) {
         abstractData = abstractData.replace(/(?:\r\n|\r|\n)/g, "<br>").replace(/(<br ?\/?>)+/gi, "<br>").replace(/(<br ?\/?>)+/gi, "</p><p>");
     }
 
+    if (abstractData === undefined) {
+        return "<p>" + i18next.t("common:modules.layerInformation.noMetadataLoaded") + "<p>";
+    }
+
     return "<p>" + abstractData + "</p>";
 }
 
