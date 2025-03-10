@@ -1512,6 +1512,7 @@ Searching all topic selection tree layers.
 |resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
 |searchInterfaceId|no|String|"topicTree"|Id, which is used to link to the searchbar in the topic search.|false|
 |searchType|no|String|""|Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". The default value is unset so the name will be searched.|false|
+|toolTip|no|String|""|If `path` is specified here, the path to the topic/folder found is displayed in the tooltip of the search hit. The name is displayed by default.|false|
 |type|yes|String|"topicTree"|Search interface type. Defines which search interface is configured.|false|
 
 **Example**

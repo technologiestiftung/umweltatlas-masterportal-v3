@@ -10,6 +10,9 @@
 ### Added
 - URL-Parameter: added url-Parameter to set the width of menu and secondary menu (menuwidth/secondarywidth).
 - New function getOAFFeature.getTemporalExtent for requesting the temporal extent of a collection.
+- Searchbar:
+    - Topic tree search can now output baselayer as search category.
+    - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
 
 ### Changed
 - Coding Conventions: updated.

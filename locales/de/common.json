@@ -1118,7 +1118,8 @@
         "parcel": "Flurstück",
         "street": "Straße",
         "subject": "Thema",
-        "topic": "Thema (Fachdaten)"
+        "topic": "Thema (Fachdaten)",
+        "topicBaselayer": "Thema (Hintergrundkarten)"
       },
       "specialWFS": {
         "ongoing": "im Verfahren",
