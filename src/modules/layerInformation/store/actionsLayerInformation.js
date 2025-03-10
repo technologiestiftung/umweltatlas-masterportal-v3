@@ -108,7 +108,7 @@ export default {
                 metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
             }
             catch (error) {
-                console.error("Errortext", error);
+                console.error(i18next.t("common:modules.layerInformation.noMetadataLoadedConsole"));
             }
         }
         // use default csw_url from rest-services.json if csw_url not stated in the specific service
