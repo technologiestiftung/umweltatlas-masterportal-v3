@@ -20,6 +20,8 @@
 - Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
+- dependencies:
+        - @masterportal/masterportalapi: 2.45.0 to 2.46.0 (This also raised ol to version 10.4.0)
 
 ### Deprecated
 
