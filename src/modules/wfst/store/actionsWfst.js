@@ -299,7 +299,6 @@ const actions = {
      */
     setActive ({commit, dispatch, getters: {layerIds}}, active) {
         commit("setActive", active);
-        console.warn("Setting Active");
         if (active) {
             const layerInformation = getLayerInformationModule.getLayerInformation(layerIds);
 
@@ -346,8 +345,6 @@ const actions = {
      * @returns {void}
      */
     validateForm ({commit}, featureProperties) {
-        console.warn("Validating Form");
-        console.warn(featureProperties.find(f => f.type !== "geometry" && f.required && f.valid !== true));
         const isFormInvalid = featureProperties.find(f => f.type !== "geometry" && f.required && f.valid !== true);
 
         commit("setIsFormDisabled", Boolean(isFormInvalid));
@@ -359,8 +356,6 @@ const actions = {
      * @returns {void}
      */
     updateFeatureProperty ({dispatch, commit, getters: {featureProperties}}, feature) {
-        console.warn("UpdateFeatureProp", feature);
-        console.warn("Feature Required?", feature.required);
         if (feature.required) {
             dispatch("validateInput", feature);
             dispatch("validateForm", featureProperties);

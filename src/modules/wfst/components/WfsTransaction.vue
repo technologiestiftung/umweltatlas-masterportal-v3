@@ -206,6 +206,7 @@ export default {
                                     :key="`${property.key}-label`"
                                     :for="`tool-wfs-transaction-form-input-${property.key}`"
                                     class="form-label"
+                                    :class="{'form-label__required': property.required && getInputType(property.type) !== 'checkbox'}"
                                 >
                                     {{ $t(property.label) }}
                                 </label>
