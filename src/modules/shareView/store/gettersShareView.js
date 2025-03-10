@@ -61,7 +61,7 @@ const simpleGetters = {
             });
         }
 
-        return shareUrl.href;
+        return shareUrl.origin + shareUrl.pathname + "?" + Array.from(shareUrl.searchParams).map(searchParam => searchParam[0] + "=" + searchParam[1]).join("&");
     }
 };
 
