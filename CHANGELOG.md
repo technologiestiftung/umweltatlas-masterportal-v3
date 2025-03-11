@@ -33,6 +33,7 @@
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
 - dependencies:
         - @masterportal/masterportalapi: 2.45.0 to 2.46.0 (This also raised ol to version 10.4.0)
+- FullScreen: Using the FullScreen control in an iFrame keeps the current state (center, zoom, layers etc.) now.
 
 ### Deprecated
 
