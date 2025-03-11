@@ -22,7 +22,6 @@ describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => 
     beforeEach(() => {
         dispatch = sinon.spy();
         commit = sinon.spy();
-        console.error = sinon.spy();
     });
 
     afterEach(() => {
@@ -405,8 +404,10 @@ describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => 
                     cswUrl: "e",
                     customMetadata: "",
                     metaId: ""
-                };
+                },
+                consoleError = console.error;
 
+            console.error = sinon.spy();
             sinon.stub(getCswRecordById, "getRecordById").throws();
 
             await actions.getAbstractInfo({commit, dispatch, state, rootGetters}, metaInfo);
@@ -431,6 +432,8 @@ describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => 
             expect(commit.getCall(7).args[1]).to.be.deep.equals("");
             expect(commit.getCall(8).args[0]).to.equal("setDateRevision");
             expect(commit.getCall(8).args[1]).to.be.deep.equals("");
+
+            console.error = consoleError;
         });
     });
 });
