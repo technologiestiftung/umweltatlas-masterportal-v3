@@ -13,9 +13,9 @@
 
 ### Changed
 - Coding Conventions: updated.
-- Filter: Im WFS-Request wurden die Parameter featureNS und featurePrefix entfernt, da dort bei manchen Layern ungültige Werte gesetzt wurden und diese Parameter nicht erforderlich sind.
 - Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
+- Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
 
 ### Deprecated
 
