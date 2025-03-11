@@ -903,7 +903,8 @@
         "UNPAVEDROADS": "Unbefestigte Straßen",
         "MIXEDTRAFFIC": "Mischverkehr Tempo 50",
         "COBBLESTONE": "Kopfsteinpflaster",
-        "NARROWWAYS": "Engstellen"
+        "NARROWWAYS": "Engstellen",
+        "BORDERS": "Grenzen"
       },
       "batchProcessing": {
         "cancel": "Stapelverarbeitung abbrechen",

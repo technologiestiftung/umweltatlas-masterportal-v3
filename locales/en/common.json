@@ -901,7 +901,8 @@
         "UNPAVEDROADS": "Unpaved roads",
         "MIXEDTRAFFIC": "Mixed traffic Speed 50",
         "COBBLESTONE": "Cobblestone",
-        "NARROWWAYS": "Narrow ways"
+        "NARROWWAYS": "Narrow ways",
+        "BORDERS": "Borders"
       },
       "batchProcessing": {
         "cancel": "Cancel batch processing",

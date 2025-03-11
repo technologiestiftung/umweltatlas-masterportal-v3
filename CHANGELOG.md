@@ -10,6 +10,7 @@
 ### Added
 - URL-Parameter: added url-Parameter to set the width of menu and secondary menu (menuwidth/secondarywidth).
 - New function getOAFFeature.getTemporalExtent for requesting the temporal extent of a collection.
+- Routing: option to avoid borders for directions and isochrones
 
 ### Changed
 - Coding Conventions: updated.
