@@ -6,7 +6,7 @@ import getCswRecordById from "../../../../../shared/js/api/getCswRecordById";
 
 const {startLayerInformation, setMetadataURL} = actions;
 
-describe.only("src/modules/layerInformation/store/actionsLayerInformation.js", () => {
+describe("src/modules/layerInformation/store/actionsLayerInformation.js", () => {
     let getters = {},
         rootGetters,
         commit,
