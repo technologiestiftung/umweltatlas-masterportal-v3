@@ -28,8 +28,10 @@
 ### Removed
 
 ### Fixed
-- LayerInformation: empty contact accordion was shown, if metadata contains no contact.
-- LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
+- LayerInformation: 
+  - empty contact accordion was shown, if metadata contains no contact.
+  - Fixed wrong or undefined metadata showing when current Layer has no metadata.
+  - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - Loading the layer is accelerated by fixing generation of folder ids
 - ShareView: duplicated url params are filtered.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
