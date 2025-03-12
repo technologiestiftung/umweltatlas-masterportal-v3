@@ -611,6 +611,7 @@
       "legend": "Legend",
       "name": "Information and legend",
       "noMetadataLoaded": "No metadata could be loaded!",
+      "noMetadataLoadedConsole": "Metadata for this layer could not be loaded. There seems to be a problem with the provided services.json.",
       "periodicityTitle": "Data update",
       "publicationCreation": "Publication / Creation",
       "pointOfContact": "Point of contact",
@@ -1127,7 +1128,8 @@
         "parcel": "parcel",
         "street": "street",
         "subject": "subject (external topics)",
-        "topic": "issues & topics"
+        "topic": "issues & topics",
+        "topicBaselayer": "Theme (baselayer)"
       },
       "specialWFS": {
         "ongoing": "in process",

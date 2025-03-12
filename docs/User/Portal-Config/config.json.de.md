@@ -1514,6 +1514,7 @@ Alle Layer, die im Themenbaum des Portals sind, werden durchsucht.
 |resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["activateLayerInTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "activateLayerInTopicTree", "showInTree", "showLayerInfo".|false|
 |searchInterfaceId|nein|String|"topicTree"|Id, die zur Verknüpfung mit der searchbar in der Themensuche dient.|false|
 |searchType|nein|String|""|Entscheidet, ob die Metadaten oder der Name eines Layers durchsucht werden soll. Möglicher Wert: "metadata". Default ist es nicht gesetzt, sodass der Name durchsucht wird.|false|
+|toolTip|nein|String|""|Wenn hier `path` angegeben wird, wird im Tooltip der Suchtreffer der Pfad zum gefundenen Thema/Ordner angezeigt. Per Default wird der Name angezeigt.|false|
 |type|ja|String|"topicTree"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
 
 **Beispiel**

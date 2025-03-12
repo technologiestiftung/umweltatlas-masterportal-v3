@@ -610,6 +610,7 @@
       "legend": "Legende",
       "name": "Informationen und Legende",
       "noMetadataLoaded": "Es konnten keine Metadaten geladen werden!",
+      "noMetadataLoadedConsole": "Die Metadaten für diesen Layer konnten nicht abgerufen werden. Dies deutet auf ein Problem mit der eingebundenen services.json hin.",
       "periodicityTitle": "Datenaktualisierung",
       "publicationCreation": "Publikation / Erstellung",
       "pointOfContact": "Ansprechpartner",
@@ -1118,7 +1119,8 @@
         "parcel": "Flurstück",
         "street": "Straße",
         "subject": "Thema",
-        "topic": "Thema (Fachdaten)"
+        "topic": "Thema (Fachdaten)",
+        "topicBaselayer": "Thema (Hintergrundkarten)"
       },
       "specialWFS": {
         "ongoing": "im Verfahren",

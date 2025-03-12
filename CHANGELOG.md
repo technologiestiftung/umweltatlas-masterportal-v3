@@ -11,12 +11,15 @@
 - URL-Parameter: added url-Parameter to set the width of menu and secondary menu (menuwidth/secondarywidth).
 - New function getOAFFeature.getTemporalExtent for requesting the temporal extent of a collection.
 - Routing: option to avoid borders for directions and isochrones
+- Searchbar:
+    - Topic tree search can now output baselayer as search category.
+    - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
 
 ### Changed
 - Coding Conventions: updated.
-- Filter: Im WFS-Request wurden die Parameter featureNS und featurePrefix entfernt, da dort bei manchen Layern ungültige Werte gesetzt wurden und diese Parameter nicht erforderlich sind.
 - Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
+- Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
 
 ### Deprecated
 
@@ -24,6 +27,8 @@
 
 ### Fixed
 - LayerInformation: empty contact accordion was shown, if metadata contains no contact.
+- LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
+- Loading the layer is accelerated by fixing generation of folder ids
 
 ---
 
