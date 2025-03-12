@@ -14,6 +14,7 @@
 - Searchbar:
     - Topic tree search can now output baselayer as search category.
     - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
+- LayerTree: added checkMove function to validate dragged layer movement based on allowBaselayerDrag configuration.
 
 ### Changed
 - Coding Conventions: updated.
@@ -29,6 +30,8 @@
 - LayerInformation: empty contact accordion was shown, if metadata contains no contact.
 - LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
 - Loading the layer is accelerated by fixing generation of folder ids
+- ShareView: duplicated url params are filtered.
+- Issue #1348: BaselayerSwitcher: use preview settings from config.
 
 ---
 

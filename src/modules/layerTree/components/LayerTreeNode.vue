@@ -98,6 +98,32 @@ export default {
             if (this.showLayerAddButton) {
                 this.removeLayer(this.sortedLayerConfig[event.oldIndex]);
             }
+        },
+
+        /**
+         * Validates the movement of a dragged layer to a target layer.
+         * Ensures that base layers cannot be moved above non-base layers and vice versa.
+         *
+         * @param {Object} event - The event object containing information about the drag-and-drop operation.
+         * @return {boolean} Returns true if the move is valid; otherwise, returns false.
+         */
+        checkMove (event) {
+            if (this.portalConfig.tree.allowBaselayerDrag !== false) {
+                return true;
+            }
+
+            const draggedLayer = event.draggedContext.element,
+                targetLayer = event.relatedContext.element;
+
+            if (draggedLayer.baselayer && !targetLayer.baselayer) {
+                return false;
+            }
+
+            if (!draggedLayer.baselayer && targetLayer.baselayer) {
+                return false;
+            }
+
+            return true;
         }
     }
 };
@@ -118,6 +144,7 @@ export default {
         :remove-on-spill="removeOnSpill"
         :touch-start-threshold="touchStartThreshold"
         :onSpill="removeLayerOnSpill"
+        :move="checkMove"
     >
         <template #item="{ element }">
             <li>
