@@ -4801,6 +4801,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
 |name|no|String|""|Layer or folder name. Can contain HTML tags that will only be rendered in layer tree. |false|
 |shortname|no|String|""|shortened layer or folder name. If configured it will be displayed in layer tree instead of `name`. |false|
 |type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
+|deactivateShowAllCheckbox|no|Boolean|false|Deactivates the "Show All" Checkbox, when the type is a folder|false|
 
 **Example baselayer**
 
@@ -4847,6 +4848,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
                 {
                 "name": "Folder level 2",
                 "type": "folder",
+                "deactivateShowAllCheckbox": true,
                 "elements": [
                         {
                             "id": "2431"

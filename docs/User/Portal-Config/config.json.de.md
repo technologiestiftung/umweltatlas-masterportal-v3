@@ -4792,6 +4792,7 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#layerconfi
 |name|nein|String|""|Name des Layers oder Ordners. Kann HTLM enthalten, welches nur im Layerbaum dargestellt wird. |false|
 |shortname|nein|String|""|Verkürzter Name des Layers oder Ordners. Falls konfiguriert wird er im Layerbaum anstelle von `name` angezeigt. |false|
 |type|nein|String|"layer"|Typ des Elements: "layer" für Layer oder "folder" für Ordner|false|
+|deactivateShowAllCheckbox|nein|Boolean|false|Deaktiviert die "Alle hinzufügen" Checkbox, wenn der Type ein `folder` ist|false|
 
 **Beispiel baselayer**
 
@@ -4838,6 +4839,7 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#layerconfi
                 {
                 "name": "Ordner Ebene 2",
                 "type": "folder",
+                "deactivateShowAllCheckbox": true,
                 "elements": [
                         {
                             "id": "2431"

@@ -19,6 +19,7 @@
   - input validation
   - gfiAttributes nested object handling
 - Filter: Added parameter questionLink. Can be configured to open a URL with information about the tool.
+- LayerSelection: added "deactivateShowAllCheckbox" configuration, to disable the "Show All Checkbox" inside folders.
 
 ### Changed
 - Coding Conventions: updated.
