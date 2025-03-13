@@ -2514,6 +2514,7 @@ Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten au
 |linkText|no|String|""|Linktext für URL-Link zur aktuellen Filtereinstellung, oder leerer String wenn kein solcher Link angezeigt werden soll. Erfordert "saveTo": "url"|false|
 |type|nein|String|"filter"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |closeGfi|nein|Boolean|false|Wenn closeGfi auf `true` gesetzt ist und ein GFI-Fenster geöffnet ist, wird das GFI-Fenster nach neue Filterung geschlossen.|false|
+|questionLink|nein|String|""|Die URL für den Werkzeuginfo-Button (Fragezeichen)|false|
 
 **Beispiel**
 
@@ -2528,6 +2529,7 @@ Beispiel für die Konfiguration eines Filters mit einem einzigen Layer. Der Laye
         "visible": true
     },
     "closeGfi": false,
+    "questionLink": "https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/cosi/manuals/005filter.md",
     "layerGroups":
     [
         {

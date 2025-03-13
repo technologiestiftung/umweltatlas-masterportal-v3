@@ -437,7 +437,8 @@
         "sliderRange": {
           "max": "Slider max für {{param}}",
           "min": "Slider min für {{param}}"
-        }
+        },
+        "toolInfo": "Werkzeuginformationen (Link in neuem Tab öffnen)"
       },
       "button": {
         "confirm": "Bestätigen",

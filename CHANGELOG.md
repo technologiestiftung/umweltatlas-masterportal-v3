@@ -18,6 +18,7 @@
   - correct transactionFeature properties order
   - input validation
   - gfiAttributes nested object handling
+- Filter: Added parameter questionLink. Can be configured to open a URL with information about the tool.
 
 ### Changed
 - Coding Conventions: updated.

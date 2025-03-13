@@ -2515,6 +2515,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |linkText|no|String|""|Link text at the bottom containing a url link to the current filter setting, or empty string if no such link should be displayed. Requires "saveTo": "url"|false|
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
+|questionLink|no|String|""|The URL for the tool information button (questionmark)|false|
 
 **Example**
 
@@ -2529,6 +2530,7 @@ The following example uses only a layer id to generate the filter automatically.
         "visible": true
     },
     "closeGfi": false,
+    "questionLink": "https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/cosi/manuals/005filter.md",
     "layerGroups":
     [
         {

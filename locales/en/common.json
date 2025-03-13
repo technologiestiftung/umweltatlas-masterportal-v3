@@ -438,7 +438,8 @@
         "sliderRange": {
           "max": "Slider max for {{param}}",
           "min": "Slider min for {{param}}"
-        }
+        },
+        "toolInfo": "Tool information (opens link in new tab)"
       },
       "button": {
         "confirm": "Confirm",

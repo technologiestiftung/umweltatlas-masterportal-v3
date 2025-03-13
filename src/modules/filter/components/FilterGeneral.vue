@@ -463,6 +463,15 @@ export default {
             else if (typeof layerFilterComp?.resetsSnippetsAndRules === "function") {
                 layerFilterComp.resetsSnippetsAndRules();
             }
+        },
+
+        /**
+         * Opens the link in a new window.
+         * @param {String} url the link url.
+         * @returns {void}
+         */
+        openLink (url) {
+            window.open(url);
         }
     }
 };
@@ -472,6 +481,17 @@ export default {
     <div
         id="filter"
     >
+        <div
+            v-if="typeof questionLink === 'string' && questionLink !== ''"
+            class="d-flex flex-row-reverse"
+        >
+            <IconButton
+                :class-array="['btn-light']"
+                :aria="$t('common:modules.filter.ariaLabel.toolInfo')"
+                icon="bi bi-question-circle"
+                :interaction="() => openLink(questionLink)"
+            />
+        </div>
         <GeometryFilter
             v-if="isGeometrySelectorVisible()"
             :circle-sides="geometrySelectorOptions.circleSides"
