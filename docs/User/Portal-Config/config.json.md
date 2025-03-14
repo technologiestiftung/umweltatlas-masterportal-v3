@@ -2516,6 +2516,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
 |questionLink|no|String|""|The URL for the tool information button (questionmark)|false|
+|closeDropdownOnSelect|no|Boolean|true|Enable/disable closing dropdown list after selecting an option.|false|
 
 **Example**
 
@@ -2526,6 +2527,7 @@ The following example uses only a layer id to generate the filter automatically.
     "type": "filter",
     "icon": "bi-funnel-fill",
     "layerSelectorVisible": false,
+    "closeDropdownOnSelect": true,
     "geometrySelectorOptions": {
         "visible": true
     },

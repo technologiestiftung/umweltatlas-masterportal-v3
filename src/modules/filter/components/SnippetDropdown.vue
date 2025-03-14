@@ -267,11 +267,13 @@ export default {
             source: "",
             allValues: false,
             noChangeCounter: 0,
-            searchedResult: undefined
+            searchedResult: undefined,
+            selectedValue: undefined,
+            isLoading: true
         };
     },
     computed: {
-        ...mapGetters("Modules/Filter", ["preventAdjust"]),
+        ...mapGetters("Modules/Filter", ["closeDropdownOnSelect", "preventAdjust"]),
         ariaLabelDropdown () {
             return this.$t("common:modules.filter.ariaLabel.dropdown", {param: this.attrName});
         },
@@ -437,7 +439,13 @@ export default {
             });
         },
         disabled (value) {
-            this.disable = typeof value === "boolean" ? value : true;
+            if (typeof this.selectedValue === "undefined") {
+                this.disable = typeof value === "boolean" ? value : true;
+            }
+            else {
+                this.disable = false;
+            }
+            this.isLoading = typeof value === "boolean" ? value : true;
         },
         legendsInfo: {
             handler (value) {
@@ -462,6 +470,7 @@ export default {
                 this.$nextTick(() => {
                     this.isInitializing = false;
                     this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked();
                 });
             }
@@ -471,6 +480,7 @@ export default {
                 this.$nextTick(() => {
                     this.isInitializing = false;
                     this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
             }
@@ -486,6 +496,7 @@ export default {
                 this.$nextTick(() => {
                     this.isInitializing = false;
                     this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
             }
@@ -844,6 +855,15 @@ export default {
             }
 
             this.searchedResult = this.dropdownValueComputed.filter(value => value.toLowerCase().includes(text.toLowerCase()));
+        },
+
+        /**
+         * Sets the current selected value.
+         * @param {String|Array|Object} val The selected option.
+         * @returns {void}
+         */
+        onSelect (val) {
+            this.selectedValue = val;
         }
     }
 };
@@ -894,7 +914,7 @@ export default {
                     :options-limit="optionsLimit"
                     :hide-selected="hideSelected"
                     :allow-empty="allowEmptySelection"
-                    :close-on-select="true"
+                    :close-on-select="typeof closeDropdownOnSelect === 'boolean' ? closeDropdownOnSelect: true"
                     :clear-on-select="false"
                     :loading="disable"
                     :group-select="multiselect && addSelectAll"
@@ -903,6 +923,7 @@ export default {
                     :internal-search="false"
                     @search-change="getSearchedResult"
                     @remove="setCurrentSource('dropdown')"
+                    @select="onSelect"
                 >
                     <template #caret>
                         <div

@@ -18,10 +18,12 @@
   - correct transactionFeature properties order
   - input validation
   - gfiAttributes nested object handling
-- Filter: Added parameter questionLink. Can be configured to open a URL with information about the tool.
 - LayerSelection: added "deactivateShowAllCheckbox" configuration, to disable the "Show All Checkbox" inside folders.
 - LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the layerSequence prop.
 - SliderItem: Added markers functionality for visual indication of key points along the slider range.
+- Filter:
+  - Added parameter questionLink. Can be configured to open a URL with information about the tool.
+  - A new parameter "closeDropdownOnSelect" to enable/disable closing list after selecting an option in multiselect dropdown list.
 
 ### Changed
 - Coding Conventions: updated.
@@ -36,7 +38,7 @@
 ### Removed
 
 ### Fixed
-- LayerInformation: 
+- LayerInformation:
   - empty contact accordion was shown, if metadata contains no contact.
   - Fixed wrong or undefined metadata showing when current Layer has no metadata.
   - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
