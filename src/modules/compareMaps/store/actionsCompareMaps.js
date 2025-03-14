@@ -29,6 +29,9 @@ export default {
      * @returns {void}
      */
     activateSwiper ({state, commit}) {
+        if (state.selectedLayer1Id === state.selectedLayer2Id) {
+            return;
+        }
         const firstLayer = layerCollection.getLayers().find(layer => layer.get("id") === state.selectedLayer1Id),
             secondLayer = layerCollection.getLayers().find(layer => layer.get("id") === state.selectedLayer2Id),
             appendix = "_secondLayer";
