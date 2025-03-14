@@ -33,12 +33,26 @@ export default {
             secondLayer = layerCollection.getLayers().find(layer => layer.get("id") === state.selectedLayer2Id),
             appendix = "_secondLayer";
 
-        if (!secondLayer.getLayer().values_.id.endsWith(appendix)) {
-            secondLayer.getLayer().values_.id = secondLayer.getLayer().values_.id + appendix;
-        }
+        updateLayerId(firstLayer, false, appendix);
+        updateLayerId(secondLayer, true, appendix);
 
         commit("Modules/LayerSwiper/setActive", true, {root: true});
         commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", firstLayer, {root: true});
         commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", secondLayer, {root: true});
     }
 };
+
+/**
+ * Updates the layerId of the given layer by adding or removing a given appendix.
+ * @param {Object} layer - The layer to update.
+ */
+function updateLayerId (layer, shouldAppend, appendix) {
+    const layerId = layer.getLayer().values_.id;
+
+    if (shouldAppend && !layerId.endsWith(appendix)) {
+        layer.getLayer().values_.id = layerId + appendix;
+    }
+    else if (!shouldAppend && layerId.endsWith(appendix)) {
+        layer.getLayer().values_.id = layerId.replace(appendix, "");
+    }
+}
