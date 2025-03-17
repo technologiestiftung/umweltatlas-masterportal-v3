@@ -21,6 +21,7 @@
 - Filter: Added parameter questionLink. Can be configured to open a URL with information about the tool.
 - LayerSelection: added "deactivateShowAllCheckbox" configuration, to disable the "Show All Checkbox" inside folders.
 - LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the layerSequence prop.
+- SliderItem: Added markers functionality for visual indication of key points along the slider range.
 
 ### Changed
 - Coding Conventions: updated.

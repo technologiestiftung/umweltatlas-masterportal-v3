@@ -230,6 +230,7 @@ export default {
             :min-width="0"
             :max-width="0.95"
             :min-height="1"
+            :side="side"
             @resizing="eventData => onResize(eventData)"
         >
             &#8942;
