@@ -107,7 +107,9 @@ export default {
             setLayerSwiperActive: "setActive",
             setLayerSwiperSourceLayer: "setLayerSwiperSourceLayer",
             setLayerSwiperTargetLayer: "setLayerSwiperTargetLayer",
-            setLayerSwiperSplitDirection: "setSplitDirection"
+            setLayerSwiperSplitDirection: "setSplitDirection",
+            setLayerSwiperValueY: "setLayerSwiperValueY",
+            setLayerSwiperValueX: "setLayerSwiperValueX"
         }),
         ...mapActions("Modules/LayerSwiper", ["updateMap"]),
         ...mapMutations("Modules/CompareMaps", Object.keys(mutations)),
@@ -141,6 +143,8 @@ export default {
             this.setLayerSwiperActive(false);
             this.setLayerSwiperSourceLayer(null);
             this.setLayerSwiperTargetLayer(null);
+            this.setLayerSwiperValueX(null);
+            this.setLayerSwiperValueY(null);
         },
         /**
          * Handle map move event to trigger spinner and layer updates
