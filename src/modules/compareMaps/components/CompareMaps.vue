@@ -105,6 +105,7 @@ export default {
     },
     methods: {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
+        ...mapActions("Alerting", ["addSingleAlert"]),
         ...mapMutations("Modules/LayerSwiper", {
             setLayerSwiperActive: "setActive",
             setLayerSwiperSourceLayer: "setLayerSwiperSourceLayer",
@@ -163,6 +164,16 @@ export default {
          * @returns {void}
          */
         handleLoadend () {
+            if (this.selectedLayer1Id === this.selectedLayer2Id) {
+                this.spinnerActive = false;
+                this.addSingleAlert({
+                    content: "es wurde zweimal die gleiche Karte ausgewählt",
+                    category: "info",
+                    title: "compareMap"
+                });
+                this.resetSelection();
+                return;
+            }
             this.spinnerActive = true;
             this.updateMap();
             mapCollection.getMap("2D").once("loadend", () => {
