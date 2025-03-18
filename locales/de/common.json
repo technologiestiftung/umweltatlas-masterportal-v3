@@ -109,6 +109,7 @@
       "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
       "name": "Karten vergleichen",
       "reset": "Zurücksetzen",
+      "sameLayerSelected": "Es wurde der selbe Layer zweimal ausgewählt. Die Auswahl wurde zurückgesetzt.",
       "secondLayer": "Zweiter Layer",
       "selectLayerOneFirst": "Bitte wählen Sie zuerst den ersten Layer",
       "splitDirection": "Ausrichtung: ",

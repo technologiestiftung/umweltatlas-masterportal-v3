@@ -109,6 +109,7 @@
       "loadingWait": "Please wait, the tool is loading the comparison maps",
       "name": "Compare Maps",
       "reset": "Reset",
+      "sameLayerSelected": "The same layer has been selected twice. The selection has been reset.",
       "secondLayer": "Second Layer",
       "selectLayerOneFirst": "Please select the first layer first",
       "splitDirection": "Direction: ",

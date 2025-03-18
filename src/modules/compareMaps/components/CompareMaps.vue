@@ -165,9 +165,8 @@ export default {
          */
         handleLoadend () {
             if (this.selectedLayer1Id === this.selectedLayer2Id) {
-                this.spinnerActive = false;
                 this.addSingleAlert({
-                    content: "es wurde zweimal die gleiche Karte ausgewählt",
+                    content: this.$t("common:modules.compareMaps.sameLayerSelected"),
                     category: "info",
                     title: "compareMap"
                 });
