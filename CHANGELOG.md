@@ -46,6 +46,7 @@
   - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - Loading the layer is accelerated by fixing generation of folder ids
 - ShareView: duplicated url params are filtered.
+- Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
 
