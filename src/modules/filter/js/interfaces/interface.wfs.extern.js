@@ -745,8 +745,10 @@ export default class InterfaceWfsExtern {
         else if (searchInMapExtent && typeof geometryName === "string" && typeof this.getCurrentExtent === "function") {
             args.push(bboxFilter(geometryName, this.getCurrentExtent()));
         }
-
-        if (args.length === 1) {
+        if (args.length === 0) {
+            return undefined;
+        }
+        else if (args.length === 1) {
             return args[0];
         }
         return andFilter(...args);

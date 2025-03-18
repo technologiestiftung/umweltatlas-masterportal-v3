@@ -246,7 +246,7 @@ export default {
             });
         },
         filterGeometry () {
-            if (this.isLayerFilterSelected === true) {
+            if (this.isLayerFilterSelected === true || typeof this.isLayerFilterSelected === "function" && this.isLayerFilterSelected(this.layerConfig.filterId)) {
                 this.handleActiveStrategy();
             }
         },
