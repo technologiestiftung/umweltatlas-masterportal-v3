@@ -167,8 +167,7 @@ export default {
             if (this.selectedLayer1Id === this.selectedLayer2Id) {
                 this.addSingleAlert({
                     content: this.$t("common:modules.compareMaps.sameLayerSelected"),
-                    category: "info",
-                    title: "compareMap"
+                    category: "info"
                 });
                 this.resetSelection();
                 return;
