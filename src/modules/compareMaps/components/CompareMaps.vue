@@ -22,7 +22,10 @@ export default {
             "initialBaseLayer",
             "selectedLayer1Id",
             "selectedLayer2Id"
-        ])
+        ]),
+        selectionLayers () {
+            return this.visibleLayers.filter(layer => layer.id !== this.selectedLayer1Id);
+        }
     },
     watch: {
         /**
@@ -165,11 +168,8 @@ export default {
          */
         handleLoadend () {
             if (this.selectedLayer1Id === this.selectedLayer2Id) {
-                this.addSingleAlert({
-                    content: this.$t("common:modules.compareMaps.sameLayerSelected"),
-                    category: "info"
-                });
-                this.resetSelection();
+                this.selectedLayer2Id = "";
+                this.selectedLayer2 = null;
                 return;
             }
             this.spinnerActive = true;
@@ -262,7 +262,7 @@ export default {
                         :disabled="!selectedLayer1"
                     >
                         <option
-                            v-for="layer in visibleLayers"
+                            v-for="layer in selectionLayers"
                             :key="layer.name"
                             :value="layer"
                         >
