@@ -84,7 +84,9 @@ export default {
         splitDirection (newValue) {
             if (newValue) {
                 this.setLayerSwiperSplitDirection(newValue);
+                this.spinnerActive = true;
                 this.updateMap();
+                this.spinnerActive = false;
             }
         }
     },
@@ -153,7 +155,6 @@ export default {
         handleMapMove () {
             if (this.selectedLayer2) {
                 this.setLayerSwiperActive(false);
-                this.spinnerActive = true;
                 this.handleLoadend();
             }
         },
@@ -162,11 +163,12 @@ export default {
          * @returns {void}
          */
         handleLoadend () {
+            this.spinnerActive = true;
             this.updateMap();
             mapCollection.getMap("2D").once("loadend", () => {
-                this.spinnerActive = false;
                 this.activateSwiper();
                 this.updateMap();
+                this.spinnerActive = false;
             });
         }
     }
