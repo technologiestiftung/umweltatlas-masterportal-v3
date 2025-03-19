@@ -19,7 +19,6 @@ export default {
         ...mapGetters(["visibleLayerConfigs"]),
         ...mapGetters("Modules/CompareMaps", [
             "layerNames",
-            "initialBaseLayer",
             "selectedLayer1Id",
             "selectedLayer2Id"
         ]),
@@ -94,7 +93,6 @@ export default {
         }
     },
     mounted () {
-        this.initialize();
         this.setActive(true);
         this.updateVisibleLayers(this.visibleLayerConfigs);
         this.setLayerSwiperSplitDirection(this.splitDirection);
