@@ -95,7 +95,7 @@ export default {
             resolution = rootGetters["Maps/resolution"],
             projection = rootGetters["Maps/projection"],
             gfiFeaturesAtPixel = getters.gfiFeaturesAtPixel,
-            gfiWmsLayerList = getVisibleWmsLayersAtResolution(resolution, rootGetters.visibleSubjectDataLayerConfigs).filter(layer => {
+            gfiWmsLayerList = getVisibleWmsLayersAtResolution(resolution, rootGetters.visibleSubjectDataLayerConfigs.concat(rootGetters.visibleBaselayerConfigs)).filter(layer => {
                 return layer.get("gfiAttributes") !== "ignore";
             });
 
@@ -112,7 +112,6 @@ export default {
 
                 url = newUrl;
             }
-
             return getWmsFeaturesByMimeType(layer, url);
         }))
             .then(gfiFeatures => {
