@@ -49,6 +49,7 @@
 - Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
+- layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
 
 ---
 

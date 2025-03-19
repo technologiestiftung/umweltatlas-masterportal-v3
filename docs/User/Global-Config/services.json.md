@@ -1400,6 +1400,7 @@ With these confurations a url in the feature properties can be displayed either 
 | url                    | yes      | String                                                                                             |                     | Dienste URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `"https://geodienste.hamburg.de/buildings_lod2"` |
 | cesium3DTilesetOptions | no       | **[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)** |                     | Cesium 3D tileset options directly forwarded to the cesium tileset object. E.g. `maximumScreenSpaceError` can be used for distance visibility.                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | useProxy               | no       | Boolean                                                                                            | `false`             | _Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Only used for GFI requests. The request will contain the requested URL as path, with dots replaced by underscores.                                                                                                                                                                                                                                                                                                                                              | `false`                                          |
+|sceneOptions|no|Object||This can be used to change the depthTestAgainstTerrain parameter on the Cesium Scene. By default, this is set to false in the mpApi so that layers do not disappear under the terrain. However, this is desired for special layers such as 3D Mesh, as they would otherwise be covered by the surface. For this purpose, an object globe{depthTestAgainstTerrain: true} can be added to the layer, as in the example.|`false`|
 
 **Tileset example:**
 
@@ -1415,6 +1416,11 @@ With these confurations a url in the feature properties can be displayed either 
     "hiddenFeatures": ["id1", "id2"],
     "cesium3DTilesetOptions": {
         "maximumScreenSpaceError": 6
+    },
+    "sceneOptions": {
+        "globe": {
+            "depthTestAgainstTerrain": true
+        }
     },
     "datasets": [
         {
