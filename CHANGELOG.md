@@ -15,23 +15,38 @@
     - Topic tree search can now output baselayer as search category.
     - Topic tree search can be configured whether the path of the layer is displayed in the tooltip.
 - LayerTree: added checkMove function to validate dragged layer movement based on allowBaselayerDrag configuration.
+- WFST-Tool: Added WFS-T improvements
+  - correct transactionFeature properties order
+  - input validation
+  - gfiAttributes nested object handling
+- LayerSelection: added "deactivateShowAllCheckbox" configuration, to disable the "Show All Checkbox" inside folders.
+- LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the layerSequence prop.
+- SliderItem: Added markers functionality for visual indication of key points along the slider range.
+- Filter:
+  - Added parameter questionLink. Can be configured to open a URL with information about the tool.
+  - A new parameter "closeDropdownOnSelect" to enable/disable closing list after selecting an option in multiselect dropdown list.
 
 ### Changed
 - Coding Conventions: updated.
 - Menus: Increased maximum width of menu and secondary menu to 95% of viewport.
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
+- dependencies:
+        - @masterportal/masterportalapi: 2.45.0 to 2.46.0 (This also raised ol to version 10.4.0)
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- LayerInformation: empty contact accordion was shown, if metadata contains no contact.
-- LayerInformation: Fixed wrong or undefined metadata showing when current Layer has no metadata.
+- LayerInformation:
+  - empty contact accordion was shown, if metadata contains no contact.
+  - Fixed wrong or undefined metadata showing when current Layer has no metadata.
+  - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - Loading the layer is accelerated by fixing generation of folder ids
 - ShareView: duplicated url params are filtered.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
+- layer2dVector: The style type "nominal" works on single features in clustered layers now.
 
 ---
 
@@ -80,6 +95,7 @@
 - Issue #1218: Fixed the missing bbox in request for filter module if the param `searchInMapExtent` and `extern` is true.
 - Issue #1299: change of textsize and rm of padding in NewsView Component.
 - Issue #1320: Fixed long url when sharing a view with open search bar.
+- Issue #1331: Show group layers in right order.
 - Issue #1337: Fixed loading javascript addons missing import.
 - Issue #1340: fixed duplicate menu entries in the mobile version.
 - Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.

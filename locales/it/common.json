@@ -834,6 +834,7 @@
       "layerSelectLabel": "Layer corrente:",
       "name": "Strumento WFS-T",
       "polygonHint": "Tenere premuto il tasto Ctrl e muovere il mouse con il pulsante premuto per spostare un poligono.",
+      "fieldRequired": "Campo obbligatorio",
       "transaction": {
         "error": {
           "axios": "$t(common:modules.wfst.transaction.error.genericFailedTransaction)",

@@ -2515,6 +2515,8 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |linkText|no|String|""|Link text at the bottom containing a url link to the current filter setting, or empty string if no such link should be displayed. Requires "saveTo": "url"|false|
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
+|questionLink|no|String|""|The URL for the tool information button (questionmark)|false|
+|closeDropdownOnSelect|no|Boolean|true|Enable/disable closing dropdown list after selecting an option.|false|
 
 **Example**
 
@@ -2525,10 +2527,12 @@ The following example uses only a layer id to generate the filter automatically.
     "type": "filter",
     "icon": "bi-funnel-fill",
     "layerSelectorVisible": false,
+    "closeDropdownOnSelect": true,
     "geometrySelectorOptions": {
         "visible": true
     },
     "closeGfi": false,
+    "questionLink": "https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/cosi/manuals/005filter.md",
     "layerGroups":
     [
         {
@@ -4799,6 +4803,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
 |name|no|String|""|Layer or folder name. Can contain HTML tags that will only be rendered in layer tree. |false|
 |shortname|no|String|""|shortened layer or folder name. If configured it will be displayed in layer tree instead of `name`. |false|
 |type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
+|deactivateShowAllCheckbox|no|Boolean|false|Deactivates the "Show All" Checkbox, when the type is a folder|false|
 
 **Example baselayer**
 
@@ -4845,6 +4850,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
                 {
                 "name": "Folder level 2",
                 "type": "folder",
+                "deactivateShowAllCheckbox": true,
                 "elements": [
                         {
                             "id": "2431"

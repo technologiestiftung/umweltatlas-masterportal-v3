@@ -103,7 +103,7 @@ export default {
         let metadata;
 
         commit("setDownloadLinks", null);
-        if (metaInfo.cswUrl !== null && typeof metaInfo.metaId !== "undefined") {
+        if (metaInfo.cswUrl && typeof metaInfo.metaId !== "undefined") {
             try {
                 metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
             }
