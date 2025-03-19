@@ -140,7 +140,6 @@ export default {
          * @returns {void}
          */
         resetSelection () {
-            this.changeVisibility({layerId: this.initialBaseLayer.id, value: true});
 
             this.selectedLayer1 = null;
             this.selectedLayer2 = null;
@@ -151,6 +150,8 @@ export default {
             this.setLayerSwiperTargetLayer(null);
             this.setLayerSwiperValueX(null);
             this.setLayerSwiperValueY(null);
+
+            this.updateMap();
         },
         /**
          * Handle map move event to trigger spinner and layer updates
