@@ -7,10 +7,12 @@ export default {
      * Updates menu properties based on login status
      * @param {Object} param store context
      * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
      * @param {Object} param.rootGetters the rootGetters
      * @returns {void}
      */
-    updateLoginMenuProps ({commit, rootGetters}) {
+    async setLoginMenuProps ({commit, dispatch, rootGetters}) {
+        await dispatch("Modules/Login/checkLoggedIn", null, {root: true});
         const isLoggedIn = rootGetters["Modules/Login/loggedIn"],
             iconType = isLoggedIn ? rootGetters["Modules/Login/iconLogged"] : rootGetters["Modules/Login/iconLogin"],
             componentName = isLoggedIn ? "common:modules.login.logout" : "common:modules.login.login";

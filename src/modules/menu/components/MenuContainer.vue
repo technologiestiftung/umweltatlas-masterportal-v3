@@ -104,8 +104,9 @@ export default {
         }
     },
     async mounted () {
-        await this.checkLoggedIn();
-        this.updateLoginMenuProps();
+        if (this.$store.getters.isModuleAvailable("login")) {
+            await this.setLoginMenuProps();
+        }
     },
     methods: {
         ...mapMutations("Menu", [
@@ -113,7 +114,7 @@ export default {
             "mergeMenuState",
             "setCurrentMenuWidth"
         ]),
-        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu", "updateLoginMenuProps"]),
+        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu", "setLoginMenuProps"]),
         ...mapActions("Modules/Login", ["checkLoggedIn"]),
         /**
          * Opens the searchbar module.
