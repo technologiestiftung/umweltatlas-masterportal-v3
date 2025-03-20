@@ -743,5 +743,29 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(commit.firstCall.args[1]).to.equal(side);
             });
         });
+        it("should change width of menu if urlParams are used", () => {
+            const params = {
+                    MENUWIDTH: 20
+                },
+                s = params.MENUWIDTH + "%";
+
+            actions.setCurrentMenuWidth({commit}, {type: "mainMenu", attributes: {width: params.MENUWIDTH}});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentMenuWidth");
+            expect(commit.firstCall.args[1]).to.deep.equal({side: "mainMenu", width: s});
+        });
+        it("should change width of secondary menu if urlParams are used", () => {
+            const params = {
+                    SECONDARYWIDTH: 12
+                },
+                s = params.SECONDARYWIDTH + "%";
+
+            actions.setCurrentMenuWidth({commit}, {type: "secondaryMenu", attributes: {width: params.SECONDARYWIDTH}});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentMenuWidth");
+            expect(commit.firstCall.args[1]).to.deep.equal({side: "secondaryMenu", width: s});
+        });
     });
 });
