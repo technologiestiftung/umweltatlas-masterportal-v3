@@ -24,7 +24,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["isModuleAvailable"]),
+        ...mapGetters(["isModuleAvailable", "portalConfig"]),
         ...mapGetters("Modules/LayerInformation", [
             "layerInfo",
             "pointOfContact",
@@ -37,7 +37,7 @@ export default {
         ]),
         /**
          * Returns contact details from pointOfContact if given otherwise from publisher from meta data information.
-         * @returns {String} Contanct details.
+         * @returns {String} Contact details.
          */
         contact () {
             return this.pointOfContact || this.publisher || null;
@@ -54,6 +54,10 @@ export default {
          * @returns {String} info message.
          */
         infoMessage () {
+            if (this.portalConfig.tree.contactPublisherName && this.contact.name) {
+                return this.$t("common:modules.layerInformation.contactPublisher") + this.contact.name;
+            }
+
             return this.$t("common:modules.layerInformation.contactInfoMessage") + this.layerName;
         },
         /**

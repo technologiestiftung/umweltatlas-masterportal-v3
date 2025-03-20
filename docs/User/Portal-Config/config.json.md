@@ -4538,6 +4538,7 @@ Possibility to make settings for the topic selection tree.
 |datalayerHeaderText|no|String||Alternativ datalayer headline. If set, a none empty string is required. An empty string will output the default i18n string/ translation.|false|
 |subMenuContactButton|no|Boolean|true|Defines if the button to open the contact form with layer specific parameters is shown|false|
 |allowBaselayerDrag|no|Boolean|true|Determines whether base layers can be moved over data layers.|false|
+|contactPublisherName|no|Boolean|false|If enabled and a publisher is available, the contact message will display the publisher's name instead of the layer name.|false|
 
 **Example type auto**
 

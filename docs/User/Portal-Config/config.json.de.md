@@ -4529,6 +4529,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen.
 |datalayerHeaderText|nein|String||Alternative Überschrift für datalayer. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard i18n-Zeichenfolge/ Übersetzung aus.|false|
 |subMenuContactButton|nein|Boolean|true|Legt fest, ob der Button zum Öffnen des Kontaktformulars mit layerspezifischen Paramentern im LayerSubMenu eingestellt ist|false|
 |allowBaselayerDrag|nein|Boolean|true|Legt fest, ob Baselayer über Datalayer geschoben werden können.|false|
+|contactPublisherName|nein|Boolean|false|Falls aktiviert und ein Ansprechpartner (Publisher) vorhanden ist, wird in der Kontakt-Nachricht der Name des Publishers anstelle des Layer-Namens angezeigt.|false|
 
 **Beispiel type auto**
 

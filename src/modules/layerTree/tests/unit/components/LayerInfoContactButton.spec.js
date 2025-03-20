@@ -9,7 +9,8 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
     let store,
         pointOfContact,
         publisher,
-        isModuleAvailable;
+        isModuleAvailable,
+        contactPublisherName;
 
     const propsData = {
         layerName: "Layer XYZ",
@@ -64,7 +65,14 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
                 }
             },
             getters: {
-                isModuleAvailable: () => () => isModuleAvailable
+                isModuleAvailable: () => () => isModuleAvailable,
+                portalConfig: () => {
+                    return {
+                        tree: {
+                            contactPublisherName: () => contactPublisherName
+                        }
+                    };
+                }
             }
         });
     });
@@ -129,5 +137,18 @@ describe("src/modules/layerTree/components/LayerInfoContactButton.vue", () => {
         });
 
         expect(wrapper.find(".openContactButton").exists()).to.be.false;
+    });
+
+    it("should return contact message with publisher name when contactPublisherName is true and contactName exists", () => {
+        contactPublisherName = true;
+
+        const wrapper = mount(LayerInfoContactButton, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.componentVM.infoMessage).to.equal("common:modules.layerInformation.contactPublisherBehörde ABC");
     });
 });

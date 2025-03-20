@@ -9,6 +9,7 @@
 ### Added
 - MapMarker: Added the ability to additionally highlight polygons
 - FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame
+- LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
 
 ### Changed
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
