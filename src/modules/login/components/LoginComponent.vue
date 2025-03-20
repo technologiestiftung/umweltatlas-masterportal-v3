@@ -25,7 +25,6 @@ export default {
             "checkLoggedIn",
             "getAuthCodeUrl"
         ]),
-        ...mapActions("Menu", ["updateLoginMenuProps"]),
         translateKeyWithPlausibilityCheck,
 
         /**
