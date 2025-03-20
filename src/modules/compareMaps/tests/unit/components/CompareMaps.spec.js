@@ -49,7 +49,10 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                             mutations: {
                                 setActive: sinon.spy(),
                                 setLayerSwiperSourceLayer: sinon.spy(),
-                                setLayerSwiperTargetLayer: sinon.spy()
+                                setLayerSwiperTargetLayer: sinon.spy(),
+                                setSplitDirection: sinon.spy(),
+                                setLayerSwiperValueY: sinon.spy(),
+                                setLayerSwiperValueX: sinon.spy()
                             }
                         },
                         LayerSelection: {
