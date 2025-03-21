@@ -50,6 +50,8 @@
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
 - layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
+- ShareView: Fixed sharing 3D map.
+- UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 
 ---
 
