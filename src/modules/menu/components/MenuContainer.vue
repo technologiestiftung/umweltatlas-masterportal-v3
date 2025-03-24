@@ -147,6 +147,26 @@ export default {
                 seenTypes.add(section.type);
                 return true;
             });
+        },
+        /**
+         * Hides or Displays layerPills and Footer depending on width of secondary Menu.
+         * @param {object} eventData emitted Data from ResizeHandle Event
+         */
+        onResize (eventData) {
+            if (this.side === "secondaryMenu" && this.uiStyle === "DEFAULT") {
+                const secondaryMenuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth,
+                    hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
+                    footer = document.getElementById("module-portal-footer"),
+                    layerPills = document.getElementById("layer-pills");
+
+
+                if (layerPills) {
+                    layerPills.style.display = secondaryMenuPercentWidth > hideElementBreakPoint ? "none" : "";
+                }
+                if (footer) {
+                    footer.style.display = secondaryMenuPercentWidth > hideElementBreakPoint ? "none" : "";
+                }
+            }
         }
     }
 };
@@ -208,8 +228,10 @@ export default {
             :handle-position="handlePosition"
             :mutation="setCurrentMenuWidth"
             :min-width="0"
-            :max-width="0.6"
+            :max-width="0.95"
             :min-height="1"
+            :side="side"
+            @resizing="eventData => onResize(eventData)"
         >
             &#8942;
         </ResizeHandle>
