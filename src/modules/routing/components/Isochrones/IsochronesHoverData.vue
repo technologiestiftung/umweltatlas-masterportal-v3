@@ -88,7 +88,7 @@ export default {
             // get already existing hover menu
             this.hoverMenu = Popover.getInstance(this.overlay.getElement());
 
-            // dispose old context menu if it exists
+            // dispose old hover menu if it exists
             if (this.hoverMenu) {
                 this.hoverMenu.dispose();
             }
