@@ -34,7 +34,7 @@
 - secondary Menu: Increasing width of secondary Menu over 70% of viewport (50% for viewwidth < 1000px) now temporarily hides layerpills and footer to show the secondary Menu at a maximum width of 95% of viewport.
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
 - dependencies:
-        - @masterportal/masterportalapi: 2.45.0 to 2.46.0 (This also raised ol to version 10.4.0)
+        - @masterportal/masterportalapi: 2.45.0 to 2.47.0 (This also raised ol to version 10.4.0 and @cesium/engine to version 15.0.0)
 - FullScreen: Using the FullScreen control in an iFrame keeps the current state (center, zoom, layers etc.) now.
 
 ### Deprecated
@@ -48,8 +48,12 @@
   - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - Loading the layer is accelerated by fixing generation of folder ids
 - ShareView: duplicated url params are filtered.
+- Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
+- layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
+- ShareView: Fixed sharing 3D map.
+- UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 
 ---
 
@@ -148,7 +152,7 @@
 - Issue #1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
 - Issue #1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error.
 - Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
-- Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/User/Global-Config/style.json.md).
+- Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/User/Global-Config/style.json.md).
 - Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
 - Issue #1336: CompareFeatures: The star in GFI is only shown, if module compareFeatures ist available.
 - Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
@@ -271,7 +275,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
     - Added checkbox to determine if routes stay visible after closing the routing tool
     - HGV-Routing with additional restrictions
     - Travelling Salesman Routing (TSR) with VROOM
-- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md).
+- Login: Documentation was added to [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md).
 - Filter supports secure WFS request.
 - ShareView: Added hashtag to shared link to share link correctly.
 - LayerInformation: Added last revision date to Layer Information.
@@ -289,7 +293,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
 - Corrected link for geodata infrastructure information pdf by GDI-DE.
 - Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
-- Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/Dev/groupedLayers.md).
+- Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/Dev/groupedLayers.md).
 - Issue #1276: Duplicate icons StartModule in expandable ControlBar.
 - Issue #1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
 - Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
@@ -308,7 +312,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ## 2024-11-05 v3.3.2 (LTS)
 
 ### Added
-- Issue #1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/docs/groupedLayers.md).
+- Issue #1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/groupedLayers.md).
 
 ### Fixed
 - Print: Group layers of different `typ` are printed.
@@ -446,7 +450,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
     - Extended region filter
     - Button "All" for selecting all the regions and all in dropdown of districts and cities.
 - OAF: Added scheme request function in the api folder for the getOAFFeature file. This can be used for an easy and fast way to gather unique values.
-- ViewPoint: Migrated from dev to dev_vue.
+- ViewPoint: Migrated from dev to dev.
 - Matomo: Added Support for analytics via matomo.
 - Migrator: supports ids with suffix.
 - InputText: Added change event handler property and disabled property.
@@ -751,7 +755,7 @@ In certain circumstances this means that you have to update your portal files (i
 
 ### Added
 - Add roadmap information to the readme file.
-- Add documentation for the [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.js.md) and [config.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/doc/config.json.md).
+- Add documentation for the [config.js](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.js.md) and [config.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/config.json.md).
 - Configurable searchBar for the layerselection.
 - To manage dependencies of dependencies "overrides" for cesium are added to package.json and create dummy packages for it.
 - New config.json parameter `sldVersion` for legend configuration to define a `Styled Layer Descriptor` for the GetLegendGraphic requests.
@@ -806,7 +810,7 @@ In certain circumstances this means that you have to update your portal files (i
 
 - SearchBar: styled the input field.
 - Print: styled loading button.
-- The roadmap dates have been updated. See [Readme](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev_vue/README.md).
+- The roadmap dates have been updated. See [Readme](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/README.md).
 - Layers are only displayed on the 2D-map, if layers attributes minScale and maxScale are in maps scale-range. The layer is grayed out in the topic tree if it is not displayed on the map.
 - Main Menu: added margin so scrollbar is visible on desktop.
 - Search results: layers can now be added/removed directly to/from the map by activating the checkbox. The add layer button has been removed.
