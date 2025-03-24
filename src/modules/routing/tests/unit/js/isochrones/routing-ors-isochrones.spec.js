@@ -45,7 +45,9 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                                     center: [
                                         6.582012174621497,
                                         51.331735245847746
-                                    ]
+                                    ],
+                                    total_pop: 1000,
+                                    area: 500
                                 },
                                 geometry: {
                                     coordinates: [
@@ -117,8 +119,8 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                 ]);
 
             expectedResult.addArea(
-                new RoutingIsochronesArea(
-                    [
+                new RoutingIsochronesArea({
+                    coordinates: [
                         [
                             [6.577318, 51.33017],
                             [6.577483, 51.32985],
@@ -135,15 +137,17 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                             [6.577318, 51.33017]
                         ]
                     ],
-                    0,
-                    60,
-                    60,
-                    60,
-                    "CAR",
-                    "TIME",
-                    [],
-                    1
-                )
+                    groupIndex: 0,
+                    value: 60,
+                    maximum: 60,
+                    interval: 60,
+                    speedProfile: "CAR",
+                    optimization: "TIME",
+                    avoidSpeedProfileOptions: [],
+                    displayValue: 1,
+                    population: 1000,
+                    area: 500
+                })
             );
 
             expect(result).deep.to.equal(expectedResult);

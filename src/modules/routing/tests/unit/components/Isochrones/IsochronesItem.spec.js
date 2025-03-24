@@ -7,6 +7,7 @@ import IsochronesItemBatchProcessingComponent from "../../../../components/Isoch
 import RoutingBatchProcessingCheckboxComponent from "../../../../components/RoutingBatchProcessingCheckbox.vue";
 import RoutingSliderInputComponent from "../../../../components/RoutingSliderInput.vue";
 import RoutingDownloadComponent from "../../../../components/RoutingDownload.vue";
+import IsochronesHoverDataComponent from "../../../../components/Isochrones/IsochronesHoverData.vue";
 import mutations from "../../../../store/mutationsRouting";
 import actions from "../../../../store/actionsRouting";
 import mutationsIsochrones from "../../../../store/isochrones/mutationsIsochrones";
@@ -63,7 +64,8 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
                                         batchProcessing: {
                                             active: batchProcessingActive,
                                             enabled: batchProcessingEnabled
-                                        }
+                                        },
+                                        attributes: ["area", "total_pop"]
                                     };
                                 }
                             }
@@ -225,6 +227,14 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#routing-isochrones-result-isochrones").exists()).to.be.false;
         expect(wrapper.findComponent(RoutingDownloadComponent).exists()).to.be.false;
+    });
+
+    it("renders hover data menu", async () => {
+        wrapper = shallowMount(IsochronesComponent, {global: {
+            plugins: [store]
+        }});
+
+        expect(wrapper.findComponent(IsochronesHoverDataComponent).exists()).to.be.true;
     });
 
     it("computes currentValue depending on method option", () => {

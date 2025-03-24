@@ -12,6 +12,7 @@ import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vu
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
 import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
+import IsochronesHoverData from "./IsochronesHoverData.vue";
 
 /**
  * IsochronesItem
@@ -32,7 +33,8 @@ export default {
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
         RoutingSpeedProfileIcon,
-        RoutingRestrictionsInput
+        RoutingRestrictionsInput,
+        IsochronesHoverData
     },
     data () {
         return {
@@ -339,6 +341,7 @@ export default {
 
                     <RoutingDownload hide-gpx />
                 </div>
+                <IsochronesHoverData v-if="isochronesSettings.attributes.length > 0" />
             </div>
         </template>
     </div>

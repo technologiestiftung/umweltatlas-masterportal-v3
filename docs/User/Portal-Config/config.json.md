@@ -3295,7 +3295,9 @@ Routing module. Enables user to plan routes between multiple points with multipl
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
-        }
+        },
+        "attributes": ["area", "total_pop"],
+        "areaUnit": "km"
     },
     "tsrSettings": {
         "type": "TSR",
@@ -3529,6 +3531,8 @@ Routing-tool isochrones options.
 |styleCenter|no|**[StyleCenter](#datatypesstylecenter)**||Stylecenteroptions|false|
 |styleIsochrones|no|**[StyleIsochrones](#datatypesstyleisochrones)**||Styleisochronesoptions|false|
 |batchProcessing|no|**[BatchProcessing](#datatypesstyleisochrones)**||Batchprocessingoptions|false|
+|attributes|no|String[]|[]|Which additional attributes should be considered in request.|false|
+|areaUnit|no|enum["m","km","mi"]|"km"|Which unit is used for area attribute.|false|
 
 **Example**
 
@@ -3566,7 +3570,9 @@ Routing-tool isochrones options.
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
-        }
+        },
+        "attributes": ["area", "total_pop"],
+        "areaUnit": "km"
     }
 }
 ```

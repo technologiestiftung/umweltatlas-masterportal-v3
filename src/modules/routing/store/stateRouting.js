@@ -115,6 +115,8 @@ const state = {
         intervalValue: 15,
         minInterval: 3,
         maxInterval: 30,
+        attributes: [],
+        areaUnit: "km",
         styleCenter: {
             lineColor: [255, 127, 0],
             lineWidth: 4,

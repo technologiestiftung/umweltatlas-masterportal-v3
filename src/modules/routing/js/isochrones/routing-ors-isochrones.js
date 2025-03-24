@@ -58,7 +58,8 @@ async function fetchRoutingOrsIsochrones ({
         rangeValue = optimization === "TIME" ? state.Isochrones.settings.timeValue : state.Isochrones.settings.distanceValue,
         optimizationMultiplicator = routingOrsOptimizationMultiplicator(optimization),
         range = rangeValue * optimizationMultiplicator,
-        interval = state.Isochrones.settings.intervalValue * optimizationMultiplicator;
+        interval = state.Isochrones.settings.intervalValue * optimizationMultiplicator,
+        attributes = state.isochronesSettings.attributes;
     let result = null,
         first = null,
         second = null,
@@ -79,8 +80,8 @@ async function fetchRoutingOrsIsochrones ({
                 ...avoidSpeedProfileOptions.length > 0 && {avoid_features: avoidSpeedProfileOptions.map(o => routingOrsAvoidOption(o.id))},
                 ...avoidBorders && {avoid_borders: "all"}
             },
-            area_units: "m",
-            units: "m"
+            ...attributes.length > 0 && {attributes: attributes},
+            area_units: state.isochronesSettings.areaUnit
         };
 
         if (speedProfile === "HGV") {
@@ -137,17 +138,19 @@ async function fetchRoutingOrsIsochrones ({
             }
         }
         isochrones.addArea(
-            new RoutingIsochronesArea(
-                [localCoordinates],
-                feature.properties.group_index,
-                feature.properties.value,
-                range,
-                interval,
-                speedProfile,
-                optimization,
-                avoidSpeedProfileOptions.map(option => option.id),
-                feature.properties.value / optimizationMultiplicator
-            )
+            new RoutingIsochronesArea({
+                coordinates: [localCoordinates],
+                groupIndex: feature.properties.group_index,
+                value: feature.properties.value,
+                maximum: range,
+                interval: interval,
+                speedProfile: speedProfile,
+                optimization: optimization,
+                avoidSpeedProfileOptions: avoidSpeedProfileOptions.map(option => option.id),
+                displayValue: feature.properties.value / optimizationMultiplicator,
+                population: feature.properties.total_pop,
+                area: feature.properties.area
+            })
         );
     }
     return isochrones;

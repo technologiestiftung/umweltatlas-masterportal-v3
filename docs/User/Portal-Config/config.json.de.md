@@ -3288,7 +3288,9 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
-        }
+        },
+        "attributes": ["area", "total_pop"],
+        "areaUnit": "km"
     },
     "tsrSettings": {
         "type": "TSR",
@@ -3522,6 +3524,8 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
 |styleCenter|nein|**[StyleCenter](#datatypesstylecenter)**||Stylecenteroptionen|false|
 |styleIsochrones|nein|**[StyleIsochrones](#datatypesstyleisochrones)**||Styleisochronesoptionen|false|
 |batchProcessing|nein|**[BatchProcessing](#datatypesbatchprocessing)**||Batchprocessingoptionen|false|
+|attributes|nein|String[]|[]|Welche zusätzlichen Attribute im Request berücksichtigt werden sollen.|false|
+|areaUnit|nein|enum["m","km","mi"]|"km"|Welche Einheit für das Flächenattribut benutzt werden soll.|false|
 
 **Beispiel**
 
@@ -3559,7 +3563,9 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
             "active": false,
             "limit": 1000,
             "maximumConcurrentRequests": 3
-        }
+        },
+        "attributes": ["area", "total_pop"],
+        "areaUnit": "km"
     }
 }
 ```

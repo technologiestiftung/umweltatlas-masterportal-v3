@@ -989,6 +989,10 @@
           "structure": "ID;lon(Startpoint);lat(Startpoint)"
         },
         "calculate": "Calculate",
+        "hoverMenu": {
+          "population": "Population:",
+          "area": "Area:"
+        },
         "interval": "Interval",
         "legend": "Legend",
         "maxDistance": "Maximum distance",

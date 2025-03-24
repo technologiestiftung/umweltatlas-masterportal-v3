@@ -991,6 +991,10 @@
           "structure": "ID;lon(Startpunkt);lat(Startpunkt)"
         },
         "calculate": "Berechnen",
+        "hoverMenu": {
+          "population": "Bevölkerung:",
+          "area": "Fläche:"
+        },
         "interval": "Intervall",
         "legend": "Legende",
         "maxDistance": "Maximale Entfernung",

@@ -36,7 +36,9 @@ export default {
                         speedProfile: area.getSpeedProfile(),
                         optimization: area.getOptimization(),
                         color: area.getColor(),
-                        avoidSpeedProfileOptions: area.getAvoidSpeedProfileOptions()
+                        avoidSpeedProfileOptions: area.getAvoidSpeedProfileOptions(),
+                        ...area.getPopulation() && {population: area.getPopulation()},
+                        ...area.getArea() && {area: area.getArea()}
                     })
                 )
             );
