@@ -16,7 +16,7 @@ import {toRaw} from "vue";
  * @vue-data {Object} overlay - openlayers overlay
  * @vue-data {Object} hoverMenu - hover menu of displayed data as bootstrap popover
  * @vue-data {Array<Number>} coordinates - position of hover menu
- * @vue-data {Object} selectedAreaInteraction - openlayers select interaction
+ * @vue-data {Object} selectAreaInteraction - openlayers select interaction
  * @vue-data {Object} selectedArea - current selected isochrone feature
  */
 export default {
@@ -85,7 +85,7 @@ export default {
             this.coordinates = this.map.getEventCoordinate(event);
             this.overlay.setPosition(this.coordinates);
 
-            // create new hover menu
+            // get already existing hover menu
             this.hoverMenu = Popover.getInstance(this.overlay.getElement());
 
             // dispose old context menu if it exists
@@ -93,7 +93,7 @@ export default {
                 this.hoverMenu.dispose();
             }
 
-            // create new context menu
+            // create new hover menu
             this.hoverMenu = new Popover(this.overlay.getElement(), {
                 animation: false,
                 container: this.overlay.getElement(),
