@@ -8,6 +8,9 @@ export default {
      * @return {void}
      */
     setUpTokenRefreshInterval ({dispatch}) {
+        // Initial check
+        dispatch("checkLoggedIn");
+        // Set up interval periodically check
         setInterval(() => {
             dispatch("checkLoggedIn");
         }, 10_000);
