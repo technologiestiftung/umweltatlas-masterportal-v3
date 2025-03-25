@@ -32,6 +32,7 @@ export default {
             "allConfigsLoaded",
             "configJs",
             "deviceMode",
+            "isModuleAvailable",
             "mapViewSettings",
             "uiStyle",
             "visibleLayerConfigs"
@@ -69,7 +70,7 @@ export default {
         new Tooltip(document.body, {
             selector: "[data-bs-toggle='tooltip']"
         });
-        if (this.$store.getters.isModuleAvailable("login")) {
+        if (this.isModuleAvailable("login")) {
             // Start periodic check to verify if user token is still valid
             this.setUpTokenRefreshInterval();
         }
@@ -90,7 +91,7 @@ export default {
             "loadRestServicesJson",
             "loadServicesJson"
         ]),
-        ...mapActions("Modules/Login", ["checkLoggedIn", "startLoginTimer"]),
+        ...mapActions("Modules/Login", ["checkLoggedIn", "setUpTokenRefreshInterval"]),
 
         /**
          * Sets global variables.
