@@ -893,10 +893,7 @@ export default {
 
         .titleWrapper {
             position: relative;
-            height: 16px;
             .title {
-                position: absolute;
-                left: 0;
                 padding-right: 15px;
             }
             .info {

@@ -48,10 +48,12 @@
 - ShareView: duplicated url params are filtered.
 - Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
+- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
 - layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
 - ShareView: Fixed sharing 3D map.
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
+- specialWfs search: Add hover/zoomTo support for linestring geometries.
 
 ---
 
