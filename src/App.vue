@@ -32,7 +32,6 @@ export default {
             "allConfigsLoaded",
             "configJs",
             "deviceMode",
-            "isModuleAvailable",
             "mapViewSettings",
             "uiStyle",
             "visibleLayerConfigs"
@@ -58,6 +57,12 @@ export default {
                 initializeLayers(this.visibleLayerConfigs);
                 startProcessUrlParams();
                 this.initializeOther();
+
+                // Check if login module is available after configs are loaded
+                if (this.$store?.getters?.isModuleAvailable?.("login")) {
+                    // Start periodic check to verify if user token is still valid
+                    this.setUpTokenRefreshInterval();
+                }
             }
         }
     },
@@ -70,10 +75,6 @@ export default {
         new Tooltip(document.body, {
             selector: "[data-bs-toggle='tooltip']"
         });
-        if (this.isModuleAvailable("login")) {
-            // Start periodic check to verify if user token is still valid
-            this.setUpTokenRefreshInterval();
-        }
     },
     unmounted () {
         window.removeEventListener("resize", this.onResize());
