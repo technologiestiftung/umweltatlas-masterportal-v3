@@ -3,6 +3,17 @@ import OIDC from "../js/utilsOIDC";
 
 export default {
     /**
+     * Starts a timer to periodically check if the user is still logged in
+     * @param {Object} context the context Vue instance
+     * @return {void}
+     */
+    setUpTokenRefreshInterval ({dispatch}) {
+        setInterval(() => {
+            dispatch("checkLoggedIn");
+        }, 10_000);
+    },
+
+    /**
      * Returns authentication URL
      *
      * @param {Object} context the context Vue instance

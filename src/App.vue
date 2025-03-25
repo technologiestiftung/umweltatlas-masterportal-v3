@@ -71,9 +71,7 @@ export default {
         });
         if (this.$store.getters.isModuleAvailable("login")) {
             // Start periodic check to verify if user token is still valid
-            setInterval(() => {
-                this.checkLoggedIn();
-            }, 10_000);
+            this.setUpTokenRefreshInterval();
         }
     },
     unmounted () {
@@ -92,7 +90,7 @@ export default {
             "loadRestServicesJson",
             "loadServicesJson"
         ]),
-        ...mapActions("Modules/Login", ["checkLoggedIn"]),
+        ...mapActions("Modules/Login", ["checkLoggedIn", "startLoginTimer"]),
 
         /**
          * Sets global variables.
