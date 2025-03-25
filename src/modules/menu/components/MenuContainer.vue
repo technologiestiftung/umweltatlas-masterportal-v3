@@ -103,19 +103,13 @@ export default {
             this.setCurrentMenuWidth({side: this.side, width: "100%"});
         }
     },
-    async mounted () {
-        if (this.$store.getters.isModuleAvailable("login")) {
-            await this.setLoginMenuProps();
-        }
-    },
     methods: {
         ...mapMutations("Menu", [
             "collapseMenues",
             "mergeMenuState",
             "setCurrentMenuWidth"
         ]),
-        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu", "setLoginMenuProps"]),
-        ...mapActions("Modules/Login", ["checkLoggedIn"]),
+        ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
         /**
          * Opens the searchbar module.
          * @returns {void}

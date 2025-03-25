@@ -5,9 +5,7 @@
 
 ## Unreleased - in development
 
-## 2025-02-07 v3.4.0
-### Added
-- setLoginMenuProps: Method within actionsMenu to handle menu updates
+## 2025-02-07
 ### Fixed
 - Updating menu item name from Login to Logout after a user is logged in and visa versa.
 

@@ -80,6 +80,9 @@ export default {
         commit("setUsername", Cookie.get("username"));
         commit("setEmail", Cookie.get("email"));
 
+        // Set login props after checking login status
+        commit("setIcon", loggedIn ? "bi-door-closed" : "bi-door-open");
+        commit("setName", loggedIn ? "common:modules.login.logout" : "common:modules.login.login");
         return loggedIn;
     }
 };
