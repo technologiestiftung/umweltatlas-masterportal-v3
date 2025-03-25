@@ -58,11 +58,15 @@ export default {
                 startProcessUrlParams();
                 this.initializeOther();
 
+                // Wait until next tick to ensure that the menu components is rendered
+                await this.$nextTick();
+
                 // Check if login module is available after configs are loaded
                 if (this.$store?.getters?.isModuleAvailable?.("login")) {
                     // Start periodic check to verify if user token is still valid
-                    this.setUpTokenRefreshInterval();
+                    await this.setUpTokenRefreshInterval();
                 }
+
             }
         }
     },

@@ -7,9 +7,9 @@ export default {
      * @param {Object} context the context Vue instance
      * @return {void}
      */
-    setUpTokenRefreshInterval ({dispatch}) {
+    async setUpTokenRefreshInterval ({dispatch}) {
         // Initial check
-        dispatch("checkLoggedIn");
+        await dispatch("checkLoggedIn");
         // Set up interval periodically check
         setInterval(() => {
             dispatch("checkLoggedIn");
