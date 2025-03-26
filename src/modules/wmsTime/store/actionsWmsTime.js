@@ -81,6 +81,9 @@ export default {
             layerId = rootGetters["Modules/LayerSwiper/active"] ? id : secondId,
             layer = layerCollection.getLayerById(layerId);
 
+        commit("Modules/LayerSwiper/setSourceLayerId", id, {root: true});
+        commit("Modules/LayerSwiper/setTargetLayerId", secondId, {root: true});
+
         if (rootGetters["Modules/LayerSwiper/active"]) {
             const {name, time, url, level, layers, version, parentId, gfiAttributes, featureCount} = layer.attributes;
 
@@ -124,8 +127,10 @@ export default {
             commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", layerCollection.getLayerById(secondId), {root: true});
         }
         else {
-            state.targetLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-            state.targetLayer?.getLayer().un("postrender", ({context}) => {
+            const targetLayer = layerCollection.getLayerById(state.targetLayerId);
+
+            targetLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+            targetLayer?.getLayer().un("postrender", ({context}) => {
                 context.restore();
             });
             // If the button of the "original" window is clicked, it is assumed, that the time value selected in the added window is desired to be further displayed.

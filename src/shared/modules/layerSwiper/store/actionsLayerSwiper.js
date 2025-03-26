@@ -1,5 +1,6 @@
 import {getRenderPixel} from "ol/render";
 import getPosition from "../utils/getPosition";
+import layerCollection from "../../../../core/layers/js/layerCollection";
 
 /**
  * The actions for the LayerSwiper.
@@ -41,16 +42,19 @@ const actions = {
      * @returns {void}
      */
     async updateMap ({state, rootGetters, dispatch}) {
+        const targetLayer = layerCollection.getLayerById(state.targetLayerId),
+            sourceLayer = layerCollection.getLayerById(state.sourceLayerId);
+
         if (!rootGetters["Modules/WmsTime/TimeSlider/playing"]) {
             await mapCollection.getMap(rootGetters["Maps/mode"]).render();
         }
-        state.targetLayer?.getLayer().on("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.targetLayer?.getLayer().on("postrender", ({context}) => {
+        targetLayer?.getLayer().on("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+        targetLayer?.getLayer().on("postrender", ({context}) => {
             context.restore();
         });
 
-        state.sourceLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.sourceLayer?.getLayer().once("postrender", ({context}) => {
+        sourceLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+        sourceLayer?.getLayer().once("postrender", ({context}) => {
             context.restore();
             if (!state.active) {
                 mapCollection.getMap(rootGetters["Maps/mode"]).render();

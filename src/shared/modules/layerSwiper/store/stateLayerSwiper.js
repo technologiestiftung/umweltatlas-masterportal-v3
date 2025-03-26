@@ -14,8 +14,8 @@ const state = {
     currentTimeSliderObject: null,
     isMoving: false,
     swiper: null,
-    targetLayer: null,
-    sourceLayer: null,
+    sourceLayerId: null,
+    targetLayerId: null,
     valueX: null,
     valueY: null,
     splitDirection: "vertical"

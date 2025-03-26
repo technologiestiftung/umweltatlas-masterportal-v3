@@ -53,7 +53,8 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
                 gfiAttributes: ["name", "time"],
                 featureCount: 100
             },
-            updateTime: sinon.spy()
+            updateTime: sinon.spy(),
+            getLayer: () => ({once: sinon.stub(), on: sinon.stub(), un: sinon.stub()})
         });
     });
 
