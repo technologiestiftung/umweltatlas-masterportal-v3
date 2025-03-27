@@ -177,6 +177,9 @@ export default {
                 }
                 else {
                     this.checkCurrentComponent(this.currentComponentSide);
+                    this.$nextTick(() => {
+                        document.getElementById("searchInput").focus();
+                    });
                 }
             },
             deep: true
@@ -195,7 +198,6 @@ export default {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
         this.overwriteDefaultValues();
         this.instantiateSearchInterfaces(this.$searchInterfaceAddons);
-        this.focusInput();
     },
     methods: {
         ...mapActions(["initializeModule"]),
@@ -241,13 +243,6 @@ export default {
                 this.setSearchResultsActive(true);
                 this.search({searchInput: this.searchInputValue});
             }
-        },
-        /**
-         * Sets the focus to the searchbar input.
-         * @returns {void}
-         */
-        focusInput () {
-            this.$refs.searchInput.focus();
         },
         /**
          * Handles the input action behavior of the search
