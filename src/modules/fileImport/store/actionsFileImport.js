@@ -28,7 +28,7 @@ const defaultFont = "16px Arial",
                     rotation: 0,
                     scale: 1,
                     size: [16, 16],
-                    src: `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg`
+                    src: window.location.origin.includes("localhost") ? `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg` : `${window.location.origin}/img/tools/draw/circle_blue.svg`
                 }),
                 text: new Text({
                     fill: new Fill({
