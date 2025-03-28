@@ -40,6 +40,11 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
         );
         sinon.stub(layerCollection, "getLayerById").returns({
             getLayerSource: () => ({params_: {TIME: "2020"}, updateParams: sinon.spy()}),
+            getLayer: sinon.stub().returns({
+                once: sinon.stub(),
+                on: sinon.stub(),
+                un: sinon.stub()
+            }),
             attributes: {
                 name: "bester Layer der Welt",
                 id: "123",
@@ -53,8 +58,7 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
                 gfiAttributes: ["name", "time"],
                 featureCount: 100
             },
-            updateTime: sinon.spy(),
-            getLayer: () => ({once: sinon.stub(), on: sinon.stub(), un: sinon.stub()})
+            updateTime: sinon.spy()
         });
     });
 
@@ -71,7 +75,7 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
             await actions.toggleSwiper({commit, state, dispatch, rootGetters}, "someId");
 
             expect(commit.calledWith("Modules/LayerSwiper/setActive", true, {root: true})).to.be.true;
-            expect(commit.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer")).to.be.true;
+            expect(commit.calledWith("Modules/LayerSwiper/setTargetLayerId", null, {root: true})).to.be.true;
         });
 
         it("should deactivate LayerSwiper if currently active", async () => {

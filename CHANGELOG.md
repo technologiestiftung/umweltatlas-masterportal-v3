@@ -27,6 +27,7 @@
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - LayerInformation: Fixed console error if clicked on contact.
+- WMS-Time: Listeners are now removed from Layers when compare maps is ended. 
 
 ---
 
@@ -81,7 +82,6 @@
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 - specialWfs search: Add hover/zoomTo support for linestring geometries.
 - Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
-- WMS-Time: Listeners are now removed from Layers when compare maps is ended. 
 
 ---
 

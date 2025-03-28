@@ -26,7 +26,7 @@ describe("modules/compareMaps/store/actionsCompareMaps", () => {
         actions.activateSwiper({state, commit});
 
         expect(commit.calledWith("Modules/LayerSwiper/setActive", true, {root: true})).to.be.true;
-        expect(commit.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer", sinon.match.any, {root: true})).to.be.true;
-        expect(commit.calledWith("Modules/LayerSwiper/setLayerSwiperTargetLayer", sinon.match.any, {root: true})).to.be.true;
+        expect(commit.calledWith("Modules/LayerSwiper/setSourceLayerId", sinon.match.any, {root: true})).to.be.true;
+        expect(commit.calledWith("Modules/LayerSwiper/setTargetLayerId", sinon.match.any, {root: true})).to.be.true;
     });
 });

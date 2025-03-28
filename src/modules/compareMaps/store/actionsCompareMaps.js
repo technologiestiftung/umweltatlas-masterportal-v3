@@ -21,8 +21,8 @@ export default {
         updateLayerId(secondLayer, true, appendix);
 
         commit("Modules/LayerSwiper/setActive", true, {root: true});
-        commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", firstLayer, {root: true});
-        commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", secondLayer, {root: true});
+        commit("Modules/LayerSwiper/setSourceLayerId", state.selectedLayer1Id, {root: true});
+        commit("Modules/LayerSwiper/setTargetLayerId", state.selectedLayer2Id, {root: true});
     }
 };
 

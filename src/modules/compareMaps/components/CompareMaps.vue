@@ -108,9 +108,9 @@ export default {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
         ...mapActions("Alerting", ["addSingleAlert"]),
         ...mapMutations("Modules/LayerSwiper", {
+            setSourceLayerId: "setSourceLayerId",
+            setTargetLayerId: "setTargetLayerId",
             setLayerSwiperActive: "setActive",
-            setLayerSwiperSourceLayer: "setLayerSwiperSourceLayer",
-            setLayerSwiperTargetLayer: "setLayerSwiperTargetLayer",
             setLayerSwiperSplitDirection: "setSplitDirection",
             setLayerSwiperValueY: "setLayerSwiperValueY",
             setLayerSwiperValueX: "setLayerSwiperValueX"
@@ -143,9 +143,9 @@ export default {
             this.selectedLayer2 = null;
             this.setSelectedLayer1Id("");
             this.setSelectedLayer2Id("");
+            this.setSourceLayerId("");
+            this.setTargetLayerId("");
             this.setLayerSwiperActive(false);
-            this.setLayerSwiperSourceLayer(null);
-            this.setLayerSwiperTargetLayer(null);
             this.setLayerSwiperValueX(null);
             this.setLayerSwiperValueY(null);
 

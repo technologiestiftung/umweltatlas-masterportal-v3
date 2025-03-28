@@ -48,8 +48,8 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                             },
                             mutations: {
                                 setActive: sinon.spy(),
-                                setLayerSwiperSourceLayer: sinon.spy(),
-                                setLayerSwiperTargetLayer: sinon.spy(),
+                                setSourceLayerId: sinon.spy(),
+                                setTargetLayerId: sinon.spy(),
                                 setSplitDirection: sinon.spy(),
                                 setLayerSwiperValueY: sinon.spy(),
                                 setLayerSwiperValueX: sinon.spy()
@@ -122,8 +122,8 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
 
         expect(rootCommitSpy.calledWith("Modules/CompareMaps/setSelectedLayer1Id", "", undefined)).to.be.true;
         expect(rootCommitSpy.calledWith("Modules/CompareMaps/setSelectedLayer2Id", "", undefined)).to.be.true;
+        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setSourceLayerId", "", undefined)).to.be.true;
+        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setTargetLayerId", "", undefined)).to.be.true;
         expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setActive", false, undefined)).to.be.true;
-        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer", null, undefined)).to.be.true;
-        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setLayerSwiperTargetLayer", null, undefined)).to.be.true;
     });
 });

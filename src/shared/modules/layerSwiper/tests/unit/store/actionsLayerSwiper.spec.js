@@ -2,6 +2,7 @@ import sinon from "sinon";
 import {expect} from "chai";
 import actions from "../../../store/actionsLayerSwiper";
 import {JSDOM} from "jsdom";
+import layerCollection from "../../../../../../core/layers/js/layerCollection";
 
 describe("actions", () => {
     let commit, dispatch, state, rootGetters, jsdom, map, originalDocument, originalWindow, originalKeyboardEvent, originalMouseEvent;
@@ -34,14 +35,22 @@ describe("actions", () => {
             valueX: 100,
             currentTimeSliderObject: {keyboardMovement: 5},
             active: true,
-            targetLayer: {getLayer: () => ({once: sinon.stub(), on: sinon.stub(), un: sinon.stub()})},
-            sourceLayer: {getLayer: () => ({once: sinon.stub(), on: sinon.stub(), un: sinon.stub()})}
+            targetLayerId: "123",
+            sourceLayerId: "456"
         };
         rootGetters = {
             "Modules/WmsTime/TimeSlider/playing": false,
             "Maps/mode": "2D",
             "Modules/WmsTime/layerAppendix": "_appendix"
         };
+        sinon.stub(layerCollection, "getLayerById").callsFake(id => ({
+            id,
+            getLayer: sinon.stub().returns({
+                once: sinon.stub(),
+                on: sinon.stub(),
+                un: sinon.stub()
+            })
+        }));
     });
 
     afterEach(() => {

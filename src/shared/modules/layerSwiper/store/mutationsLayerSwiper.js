@@ -69,26 +69,6 @@ const mutations = {
     },
 
     /**
-     * Sets the target layer for the LayerSwiper.
-     * @param {Object} state - The Vuex state object.
-     * @param {Object} layer - The target layer.
-     * @returns {void}
-     */
-    setLayerSwiperTargetLayer (state, layer) {
-        state.targetLayer = layer;
-    },
-
-    /**
-     * Sets the source layer for the LayerSwiper.
-     * @param {Object} state - The Vuex state object.
-     * @param {Object} layer - The source layer.
-     * @returns {void}
-     */
-    setLayerSwiperSourceLayer (state, layer) {
-        state.sourceLayer = layer;
-    },
-
-    /**
      * Sets the split direction for the LayerSwiper.
      * @param {Object} state - The Vuex state object.
      * @param {string} direction - The new split direction.

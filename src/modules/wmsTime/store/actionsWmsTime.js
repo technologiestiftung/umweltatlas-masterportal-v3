@@ -81,13 +81,11 @@ export default {
             layerId = rootGetters["Modules/LayerSwiper/active"] ? id : secondId,
             layer = layerCollection.getLayerById(layerId);
 
-        commit("Modules/LayerSwiper/setSourceLayerId", id, {root: true});
-        commit("Modules/LayerSwiper/setTargetLayerId", secondId, {root: true});
-
         if (rootGetters["Modules/LayerSwiper/active"]) {
             const {name, time, url, level, layers, version, parentId, gfiAttributes, featureCount} = layer.attributes;
 
-            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", layer, {root: true});
+            commit("Modules/LayerSwiper/setSourceLayerId", id, {root: true});
+            commit("Modules/LayerSwiper/setTargetLayerId", secondId, {root: true});
 
             if (!layerCollection.getLayerById(secondId)) {
                 await dispatch("addLayerToLayerConfig", {
@@ -123,11 +121,9 @@ export default {
                     }]
                 }, {root: true});
             }
-
-            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", layerCollection.getLayerById(secondId), {root: true});
         }
         else {
-            const targetLayer = layerCollection.getLayerById(state.targetLayerId);
+            const targetLayer = layerCollection.getLayerById(secondId);
 
             targetLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
             targetLayer?.getLayer().un("postrender", ({context}) => {
@@ -163,8 +159,8 @@ export default {
                 }]
             }, {root: true});
 
-            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", null, {root: true});
-            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", null, {root: true});
+            commit("Modules/LayerSwiper/setSourceLayerId", null, {root: true});
+            commit("Modules/LayerSwiper/setTargetLayerId", null, {root: true});
         }
     }
 };
