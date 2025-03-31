@@ -5,10 +5,6 @@
 
 ## Unreleased - in development
 
-## 2025-02-07
-### Fixed
-- Updating menu item name from Login to Logout after a user is logged in and visa versa.
-
 ### __Breaking Changes__
 
 ### Added
@@ -58,6 +54,7 @@
 - ShareView: Fixed sharing 3D map.
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 - specialWfs search: Add hover/zoomTo support for linestring geometries.
+- Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 
 ---
 
