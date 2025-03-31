@@ -140,8 +140,12 @@ export default {
                 }
             })
             .catch(error => {
-                console.warn(error);
-                dispatch("Alerting/addSingleAlert", i18next.t("common:modules.getFeatureInfo.errorMessage"), {root: true});
+                if (error.message.includes("The request is not allowed")) {
+                    console.warn(error);
+                }
+                else {
+                    dispatch("Alerting/addSingleAlert", i18next.t("common:modules.getFeatureInfo.errorMessage"), {root: true});
+                }
             });
     },
 
