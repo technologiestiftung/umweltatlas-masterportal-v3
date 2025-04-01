@@ -118,7 +118,6 @@ function removeMapMarker (layerId) {
  * @returns {ol/layer/Vector} The map marker layer.
  */
 function getMapmarkerLayerById (layerId) {
-    console.warn("Y");
     return mapCollection.getMap("2D")?.getLayers().getArray()?.find(layer => layer.get("id") === layerId);
 }
 

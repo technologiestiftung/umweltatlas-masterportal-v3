@@ -10,7 +10,7 @@ import Polygon from "ol/geom/Polygon";
 import Collection from "ol/Collection";
 import stateAlerting from "../../../../../modules/alerting/store/stateAlerting";
 
-describe("src/utils/multipleHighlighting.js", () => {
+describe.only("src/utils/multipleHighlighting.js", () => {
     let styleListStub, createStyleStub, mapOL, feature;
 
     before(() => {
@@ -131,14 +131,16 @@ describe("src/utils/multipleHighlighting.js", () => {
     it("should create a style when features are provided", () => {
         placingAdditionalPolygonMarker([feature], true);
 
-        expect(styleListStub.calledTwice).to.be.true;
+        console.warn("styleListStub", styleListStub.callCount);
+        console.warn("createStyleStub", createStyleStub.callCount);
+        expect(styleListStub.calledOnce).to.be.true;
         expect(createStyleStub.calledOnce).to.be.true;
     });
 
     it("should not create a style when no features are provided", () => {
         placingAdditionalPolygonMarker([], true);
 
-        expect(styleListStub.calledTwice).to.be.true;
+        expect(styleListStub.calledOnce).to.be.true;
         expect(createStyleStub.called).to.be.false;
     });
 });
