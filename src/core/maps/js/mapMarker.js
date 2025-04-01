@@ -83,13 +83,15 @@ function createPolygonMarker (styleId = "defaultMapMarkerPolygon") {
  * @returns {void}
  */
 function addFeatureToMapMarkerLayer (layerId, feature) {
-    const markerLayer = getMapmarkerLayerById(layerId),
-        styleId = markerLayer.get("styleId"),
-        styleObject = styleList.returnStyleObject(styleId),
-        featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
+    if (getMapmarkerLayerById(layerId) !== undefined) {
+        const markerLayer = getMapmarkerLayerById(layerId),
+            styleId = markerLayer.get("styleId"),
+            styleObject = styleList.returnStyleObject(styleId),
+            featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
-    feature.setStyle(featureStyle);
-    markerLayer.getSource().addFeature(feature);
+        feature.setStyle(featureStyle);
+        markerLayer.getSource().addFeature(feature);
+    }
 }
 
 /**
@@ -116,6 +118,7 @@ function removeMapMarker (layerId) {
  * @returns {ol/layer/Vector} The map marker layer.
  */
 function getMapmarkerLayerById (layerId) {
+    console.warn("Y");
     return mapCollection.getMap("2D")?.getLayers().getArray()?.find(layer => layer.get("id") === layerId);
 }
 

@@ -780,6 +780,7 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 |----|--------|----|-------|-----------|------|
 |pointStyleId|no|String|"defaultMapMarkerPoint"|StyleId to refer to a `style.json` point style. If not set, the `img/mapMarker.svg` is used.|false|
 |polygonStyleId|no|String|"defaultMapMarkerPolygon"|StyleId to refer to a `style.json` polygon style.|false|
+|additionalPolygonStyleId|no|String|"defaultAdditionalMapMarkerPolygon"| StyleId to refer to an additional `style.json` polygon style.|false|
 
 **Example:**
 
@@ -787,7 +788,8 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 {
     "mapMarker": {
         "pointStyleId": "customMapMarkerPoint",
-        "polygonStyleId": "customMapMarkerPolygon"
+        "polygonStyleId": "customMapMarkerPolygon",
++        "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
     }
 }
 ```
