@@ -789,7 +789,7 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
     "mapMarker": {
         "pointStyleId": "customMapMarkerPoint",
         "polygonStyleId": "customMapMarkerPolygon",
-+       "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
+        "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
     }
 }
 ```

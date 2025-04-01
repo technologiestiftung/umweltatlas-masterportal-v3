@@ -782,6 +782,7 @@ Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, 
 |----|-------------|---|-------|------------|------|
 |pointStyleId|nein|String|"defaultMapMarkerPoint"|StyleId, um auf einen `style.json`-Punktstyle zu verweisen. Ist sie nicht gesetzt, wird die Datei `img/mapMarker.svg` verwendet.|false|
 |polygonStyleId|nein|String|"defaultMapMarkerPolygon"|StyleId zum Verweis auf einen `style.json`-Polygonstyle.|false|
+|additionalPolygonStyleId|no|String|"defaultAdditionalMapMarkerPolygon"| StyleId to refer to an additional `style.json` polygon style.|false|
 
 **Beispiel:**
 
@@ -789,7 +790,8 @@ Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, 
 {
     "mapMarker": {
         "pointStyleId": "customMapMarkerPoint",
-        "polygonStyleId": "customMapMarkerPolygon"
+        "polygonStyleId": "customMapMarkerPolygon",
+        "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
     }
 }
 ```
