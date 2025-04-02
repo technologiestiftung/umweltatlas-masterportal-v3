@@ -35,6 +35,7 @@
 - Filter: Parameters featureNS and featurePrefix removed from WFS-request due to redundancy and invalid values at specific layers.
 - dependencies:
         - @masterportal/masterportalapi: 2.45.0 to 2.47.0 (This also raised ol to version 10.4.0 and @cesium/engine to version 15.0.0)
+        - @masterportal/masterportalapi: 2.47.0 to 2.48.0
 - FullScreen: Using the FullScreen control in an iFrame keeps the current state (center, zoom, layers etc.) now.
 
 ### Deprecated
@@ -50,10 +51,13 @@
 - ShareView: duplicated url params are filtered.
 - Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
 - Issue #1348: BaselayerSwitcher: use preview settings from config.
+- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
 - layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
 - ShareView: Fixed sharing 3D map.
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
+- specialWfs search: Add hover/zoomTo support for linestring geometries.
+- Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
 
 ---
 
