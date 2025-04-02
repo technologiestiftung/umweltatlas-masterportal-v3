@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Fix OIDC Token Auto-Refresh After Initial Login
 
 ---
 
@@ -128,11 +129,6 @@
 -  Menu: Navigating back from layerinformation to the previous menu item add subject.
 
 ---
-
-## 2025-02-07 v3.7.0
-
-### Fixed
-- Fix OIDC Token Auto-Refresh After Initial Login
 
 ## 2025-02-05 v3.7.0
 
