@@ -64,6 +64,10 @@ describe("src/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
                 }
             },
             getters: {
+                visibleLayerConfigs: () => [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ],
                 deviceMode: () => "Desktop",
                 portalConfig: () => mockConfigJson.portalConfig
             }
@@ -186,6 +190,45 @@ describe("src/modules/menu/MenuContainerBodyRootItemElement.vue", () => {
             expect(visibilityChecker.isModuleVisible.calledOnce).to.be.true;
             expect(visibilityChecker.isModuleVisible.firstCall.args[0].supportedMapModes).to.deep.equal(["2D"]);
             expect(visibilityChecker.isModuleVisible.firstCall.args[0].mapMode).to.equal("3D");
+        });
+        it("checkIsVisible hides element when required layers are not visible", () => {
+            const wrapper = shallowMount(MenuContainerBodyRootItemElement, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    icon: "bi-file-plus",
+                    name: "awesomeName",
+                    path: ["mainMenu", "componentType"],
+                    properties: {
+                        type: "componentType",
+                        showOnlyByLayersVisible: ["layer1", "layer2"]
+                    }
+                }
+            });
+
+            expect(wrapper.findComponent(LightButton).exists()).to.be.false;
+        });
+
+        it("checkIsVisible shows element if child elements have visible layers", () => {
+            const wrapper = shallowMount(MenuContainerBodyRootItemElement, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    icon: "bi-file-plus",
+                    name: "awesomeName",
+                    path: ["mainMenu", "componentType"],
+                    properties: {
+                        type: "componentType",
+                        elements: [{
+                            showOnlyByLayersVisible: ["layer1"] // A child element with a required layer
+                        }]
+                    }
+                }
+            });
+
+            expect(wrapper.findComponent(LightButton).exists()).to.be.true;
         });
     });
 });

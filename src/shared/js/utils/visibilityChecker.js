@@ -14,11 +14,13 @@ export default {
      * @param {String[]} [params.supportedMapModes=["2D", "3D"]] Supported map modes.
      * @param {String[]} [params.supportedDevices=["Desktop", "Mobile", "Table"]] The supported devices.
      * @param {String[]} [params.supportedTreeTypes=["auto"]] The supported tree types.
+     * @param {Object[]} params.visibleLayerConfigs The list of visible layer configurations, used to check if required layers are visible for an element.
      * @returns {Boolean} The module is shown.
      */
     isModuleVisible ({
         mapMode, deviceMode, treeType, elements = [], supportedMapModes = ["2D", "3D"],
-        supportedDevices = ["Desktop", "Mobile", "Table"], supportedTreeTypes = ["auto"]
+        supportedDevices = ["Desktop", "Mobile", "Table"], supportedTreeTypes = ["auto"],
+        visibleLayerConfigs
     }) {
         let isVisible = false;
 
@@ -27,13 +29,24 @@ export default {
              && (supportedTreeTypes.includes(treeType) || treeType === undefined)
         ) {
             if (elements.length > 0) {
-                const validElements = elements.filter(element => {
-                    const elementSupportedMapModes = element.supportedMapModes || ["2D", "3D"];
+                const validElementsSupportedMapModes = elements.filter(element => {
+                        const elementSupportedMapModes = element.supportedMapModes || ["2D", "3D"];
 
-                    return elementSupportedMapModes.includes(mapMode);
-                });
+                        return elementSupportedMapModes.includes(mapMode);
+                    }),
 
-                isVisible = validElements.length > 0;
+                    validElementsAllRequiredLayersVisible = validElementsSupportedMapModes.filter(element => {
+                        if (element.showOnlyByLayersVisible && Array.isArray(element.showOnlyByLayersVisible)) {
+                            const visibleLayerIds = visibleLayerConfigs
+                                .filter(layer => layer.visibility === true)
+                                .map(layer => layer.id);
+
+                            return element.showOnlyByLayersVisible.every(layerId => visibleLayerIds.includes(layerId));
+                        }
+                        return true;
+                    });
+
+                isVisible = validElementsAllRequiredLayersVisible.length > 0;
             }
             else {
                 isVisible = true;

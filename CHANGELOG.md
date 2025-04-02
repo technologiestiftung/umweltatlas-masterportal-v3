@@ -45,6 +45,8 @@
 - Filter:
   - Added parameter questionLink. Can be configured to open a URL with information about the tool.
   - A new parameter "closeDropdownOnSelect" to enable/disable closing list after selecting an option in multiselect dropdown list.
+- CustomMenuElement: Added configuration "showOnlyByLayersVisible" to specify a list of layer IDs that must be visible for the module to appear.
+- Folder in menu: "showEntryDirectly" to directly open and display entries based on configuration and active layers.
 
 ### Changed
 - Coding Conventions: updated.
