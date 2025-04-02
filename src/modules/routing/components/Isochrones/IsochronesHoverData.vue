@@ -23,7 +23,6 @@ export default {
     name: "IsochronesHoverData",
     data () {
         return {
-            map: null,
             overlay: null,
             hoverMenu: null,
             coordinates: null,
@@ -36,13 +35,12 @@ export default {
         ...mapGetters("Modules/Routing/Isochrones", ["isochronesAreaLayer"])
     },
     mounted () {
-        this.map = mapCollection.getMap("2D");
         this.overlay = new Overlay({
             id: "routing-hover-menu",
             element: this.$refs.routingHoverMenu
         });
 
-        this.map.addOverlay(this.overlay);
+        this.getMap().addOverlay(this.overlay);
 
         this.selectAreaInteraction = new Select({
             layers: [this.isochronesAreaLayer],
@@ -59,15 +57,15 @@ export default {
             }
         });
 
-        this.map.addInteraction(this.selectAreaInteraction);
+        this.getMap().addInteraction(this.selectAreaInteraction);
 
-        this.map.getViewport().addEventListener("mousemove", this.setHoverMenu);
+        this.getMap().getViewport().addEventListener("mousemove", this.setHoverMenu);
 
     },
     unmounted () {
-        this.map.removeOverlay(this.map.getOverlayById("routing-hover-menu"));
-        this.map.getViewport().removeEventListener("mousemove", this.setHoverMenu);
-        this.map.removeInteraction(toRaw(this.selectAreaInteraction));
+        this.getMap().removeOverlay(this.getMap().getOverlayById("routing-hover-menu"));
+        this.getMap().getViewport().removeEventListener("mousemove", this.setHoverMenu);
+        this.getMap().removeInteraction(toRaw(this.selectAreaInteraction));
     },
     methods: {
         /**
@@ -78,7 +76,7 @@ export default {
         setHoverMenu (event) {
             event.preventDefault();
 
-            this.coordinates = this.map.getEventCoordinate(event);
+            this.coordinates = this.getMap().getEventCoordinate(event);
             this.overlay.setPosition(this.coordinates);
 
             this.hoverMenu = Popover.getInstance(this.overlay.getElement());
@@ -122,7 +120,7 @@ export default {
         },
 
         /**
-         * Get style of selected Feature
+         * Gets style of selected Feature
          * @param {Feature} feature of isochrone area
          * @returns {Style} style of selected feature
          */
@@ -138,6 +136,14 @@ export default {
             });
 
             return style;
+        },
+
+        /**
+         * Gets map on which the popover should be displayed on
+         * @returns {Object} map on which the popover should be displayed on
+         */
+        getMap () {
+            return mapCollection.getMap("2D");
         }
     }
 };
