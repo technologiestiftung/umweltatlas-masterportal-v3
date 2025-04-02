@@ -6,7 +6,7 @@ import RoutingRestrictionsInputComponent from "../../../components/RoutingRestri
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/routing/components/RoutingRestrictionsInput.vue", () => {
+describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
     let store,
         wrapper,
 

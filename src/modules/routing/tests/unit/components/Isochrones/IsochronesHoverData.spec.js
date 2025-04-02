@@ -7,7 +7,7 @@ import VectorLayer from "ol/layer/Vector.js";
 
 config.global.mocks.$t = key => key;
 
-describe("src_3_0_0/modules/routing/components/Isochrones/IsochronesHoverData.vue", () => {
+describe("src/modules/routing/components/Isochrones/IsochronesHoverData.vue", () => {
     let isochronesAreaLayer,
         store,
         wrapper;
