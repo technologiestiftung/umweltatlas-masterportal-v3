@@ -7,7 +7,6 @@ import Fill from "ol/style/Fill.js";
 import Stroke from "ol/style/Stroke.js";
 import {pointerMove} from "ol/events/condition.js";
 import {Popover} from "bootstrap";
-import {toRaw} from "vue";
 
 /**
  * IsochronesHoverData
@@ -95,27 +94,6 @@ export default {
 
             if (this.selectedArea) {
                 this.hoverMenu.show();
-                this.configHoverMenu();
-            }
-        },
-
-        /**
-         * Applies some configuration options on the hover menu
-         * @returns {void}
-         */
-        configHoverMenu () {
-            this.$refs.routingHoverMenu.querySelector(".popover").style.width = "200px";
-
-            if (this.isochronesSettings.attributes.includes("total_pop")) {
-                // set population data
-                this.$refs.populationDescription.innerHTML = i18next.t("common:modules.routing.isochrones.hoverMenu.population");
-                this.$refs.populationValue.innerHTML = this.selectedArea.values_.population.toLocaleString();
-            }
-
-            if (this.isochronesSettings.attributes.includes("area")) {
-                // set area data
-                this.$refs.areaDescription.innerHTML = i18next.t("common:modules.routing.isochrones.hoverMenu.area");
-                this.$refs.areaValue.innerHTML = `${Math.round(this.selectedArea.values_.area).toLocaleString()} ${this.isochronesSettings.areaUnit}²`;
             }
         },
 
@@ -165,13 +143,13 @@ export default {
                 <b>
                     <span
                         id="population-description"
-                        ref="populationDescription"
+                        v-html="$t('common:modules.routing.isochrones.hoverMenu.population')"
                     />
                 </b>
                 <b>
                     <span
                         id="population-value"
-                        ref="populationValue"
+                        v-html="selectedArea ? selectedArea.values_.population.toLocaleString() : ''"
                     />
                 </b>
             </div>
@@ -183,13 +161,13 @@ export default {
                 <b>
                     <span
                         id="area-description"
-                        ref="areaDescription"
+                        v-html="$t('common:modules.routing.isochrones.hoverMenu.area')"
                     />
                 </b>
                 <b>
                     <span
                         id="area-value"
-                        ref="areaValue"
+                        v-html="selectedArea ? `${Math.round(selectedArea.values_.area).toLocaleString()} ${isochronesSettings.areaUnit}²` : ''"
                     />
                 </b>
             </div>
@@ -204,4 +182,7 @@ export default {
     display: none;
 }
 
+:deep(.popover) {
+    width: 200px;
+}
 </style>
