@@ -36,7 +36,6 @@ export default {
         ...mapGetters("Modules/Routing/Isochrones", ["isochronesAreaLayer"])
     },
     mounted () {
-        // get map and create overlay
         this.map = mapCollection.getMap("2D");
         this.overlay = new Overlay({
             id: "hover-menu",
@@ -45,7 +44,6 @@ export default {
 
         this.map.addOverlay(this.overlay);
 
-        // create mouseover interaction with isochrones area layer in order to get isochrone area
         this.selectAreaInteraction = new Select({
             layers: [this.isochronesAreaLayer],
             style: this.setSelectedStyle,
@@ -63,7 +61,6 @@ export default {
 
         this.map.addInteraction(this.selectAreaInteraction);
 
-        // create mouseover listener
         this.map.getViewport().addEventListener("mousemove", this.setHoverMenu);
 
     },
@@ -81,19 +78,15 @@ export default {
         setHoverMenu (event) {
             event.preventDefault();
 
-            // set overlay position
             this.coordinates = this.map.getEventCoordinate(event);
             this.overlay.setPosition(this.coordinates);
 
-            // get already existing hover menu
             this.hoverMenu = Popover.getInstance(this.overlay.getElement());
 
-            // dispose old hover menu if it exists
             if (this.hoverMenu) {
                 this.hoverMenu.dispose();
             }
 
-            // create new hover menu
             this.hoverMenu = new Popover(this.overlay.getElement(), {
                 animation: false,
                 container: this.overlay.getElement(),
@@ -102,7 +95,6 @@ export default {
                 placement: "top"
             });
 
-            // show hover menu if mouse is over isochrone area
             if (this.selectedArea) {
                 this.hoverMenu.show();
                 this.configHoverMenu();
@@ -130,11 +122,11 @@ export default {
         },
 
         /**
-         * Set style of selected Feature
+         * Get style of selected Feature
          * @param {Feature} feature of isochrone area
          * @returns {Style} style of selected feature
          */
-        setSelectedStyle (feature) {
+        getSelectedStyle (feature) {
             const style = new Style({
                 fill: new Fill({
                     color: feature.values_.color
