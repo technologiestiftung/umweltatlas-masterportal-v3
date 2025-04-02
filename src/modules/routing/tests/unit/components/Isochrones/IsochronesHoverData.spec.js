@@ -73,7 +73,7 @@ describe("src/modules/routing/components/Isochrones/IsochronesHoverData.vue", ()
         }});
 
         expect(wrapper.findComponent(IsochronesHoverDataComponent).exists()).to.be.true;
-        expect(wrapper.find("#hover-menu").exists()).to.be.true;
+        expect(wrapper.find("#routing-hover-menu").exists()).to.be.true;
     });
 
 });

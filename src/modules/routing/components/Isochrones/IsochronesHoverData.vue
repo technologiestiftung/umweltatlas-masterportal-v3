@@ -65,7 +65,7 @@ export default {
     unmounted () {
         this.getMap().removeOverlay(this.getMap().getOverlayById("routing-hover-menu"));
         this.getMap().getViewport().removeEventListener("mousemove", this.setHoverMenu);
-        this.getMap().removeInteraction(toRaw(this.selectAreaInteraction));
+        this.getMap().removeInteraction(this.selectAreaInteraction);
     },
     methods: {
         /**
