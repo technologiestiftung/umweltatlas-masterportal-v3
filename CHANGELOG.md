@@ -15,6 +15,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 
 ---
 
@@ -64,7 +65,6 @@
 - ShareView: Fixed sharing 3D map.
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 - specialWfs search: Add hover/zoomTo support for linestring geometries.
-- Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
 
 ---
