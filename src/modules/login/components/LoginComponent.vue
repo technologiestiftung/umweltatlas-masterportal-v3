@@ -10,11 +10,11 @@ export default {
         ...mapGetters(["isMobile"]),
         ...mapGetters("Modules/Login", ["loggedIn", "screenName", "email", "iconLogin", "iconLogged"])
     },
-    mounted () {
-        if (!this.isLoggedIn()) {
+    async mounted () {
+        if (!await this.isLoggedIn()) {
             this.openLoginWindow();
         }
-        setInterval(() => this.isLoggedIn(), 10_000);
+        setInterval(async () => this.isLoggedIn(), 10_000);
     },
     methods: {
         ...mapActions("Modules/Login", [
@@ -46,8 +46,8 @@ export default {
          * Returns true if user is logged in, else false
          * @return {Boolean} logged in
          */
-        isLoggedIn () {
-            this.checkLoggedIn();
+        async isLoggedIn () {
+            await this.checkLoggedIn();
             return this.loggedIn;
         },
 
