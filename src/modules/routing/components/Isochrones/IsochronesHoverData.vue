@@ -38,15 +38,15 @@ export default {
     mounted () {
         this.map = mapCollection.getMap("2D");
         this.overlay = new Overlay({
-            id: "hover-menu",
-            element: this.$refs.hoverMenu
+            id: "routing-hover-menu",
+            element: this.$refs.routingHoverMenu
         });
 
         this.map.addOverlay(this.overlay);
 
         this.selectAreaInteraction = new Select({
             layers: [this.isochronesAreaLayer],
-            style: this.setSelectedStyle,
+            style: this.getSelectedStyle,
             condition: pointerMove
         });
 
@@ -65,7 +65,7 @@ export default {
 
     },
     unmounted () {
-        this.map.removeOverlay(this.map.getOverlayById("hover-menu"));
+        this.map.removeOverlay(this.map.getOverlayById("routing-hover-menu"));
         this.map.getViewport().removeEventListener("mousemove", this.setHoverMenu);
         this.map.removeInteraction(toRaw(this.selectAreaInteraction));
     },
@@ -90,7 +90,7 @@ export default {
             this.hoverMenu = new Popover(this.overlay.getElement(), {
                 animation: false,
                 container: this.overlay.getElement(),
-                content: this.$refs.hoverMenuContent.innerHTML,
+                content: this.$refs.routingHoverMenuContent.innerHTML,
                 html: true,
                 placement: "top"
             });
@@ -106,7 +106,7 @@ export default {
          * @returns {void}
          */
         configHoverMenu () {
-            this.$refs.hoverMenu.querySelector(".popover").style.width = "200px";
+            this.$refs.routingHoverMenu.querySelector(".popover").style.width = "200px";
 
             if (this.isochronesSettings.attributes.includes("total_pop")) {
                 // set population data
@@ -145,12 +145,12 @@ export default {
 
 <template>
     <div
-        id="hover-menu"
-        ref="hoverMenu"
+        id="routing-hover-menu"
+        ref="routingHoverMenu"
     >
         <div
-            id="hover-menu-content"
-            ref="hoverMenuContent"
+            id="routing-hover-menu-content"
+            ref="routingHoverMenuContent"
         >
             <div
                 v-if="isochronesSettings.attributes.includes('total_pop')"
@@ -194,7 +194,7 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-#hover-menu-content {
+#routing-hover-menu-content {
     display: none;
 }
 
