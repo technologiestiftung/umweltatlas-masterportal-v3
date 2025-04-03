@@ -2,7 +2,6 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
 import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
-// import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import SelectTypeButtons from "./SelectTypeButtons.vue";
 
 
@@ -13,12 +12,6 @@ import SelectTypeButtons from "./SelectTypeButtons.vue";
 export default {
     name: "WfsTransaction",
     components: {LightButton, ModalItem, SelectTypeButtons},
-    data () {
-        return {
-            selectedSelectInteraction: "select",
-            previousSelectType: null
-        };
-    },
     computed: {
         ...mapGetters("Modules/Wfst", [
             "currentInteractionConfig",
@@ -67,7 +60,7 @@ export default {
     },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
@@ -210,6 +203,7 @@ export default {
                             :text="config.text"
                             :icon="config.icon"
                             class="interaction-button"
+                            customclasstitle="btn-title-long"
                             :interaction="() => prepareInteraction(key)"
                         />
                     </template>
@@ -239,7 +233,6 @@ export default {
                         class="d-flex"
                     >
                         <SelectTypeButtons
-                            :selected-select-interaction="selectedSelectInteraction"
                             :select-types="selectTypes"
                             :select-icons="selectIcons"
                         />
@@ -314,7 +307,7 @@ export default {
                         </template>
                         <div class="tool-wfs-transaction-form-buttons">
                             <LightButton
-                                :interaction="reset"
+                                :interaction="resetCancel"
                                 text="common:modules.wfst.form.discard"
                                 class="form-button"
                             />
@@ -326,9 +319,20 @@ export default {
                             />
                         </div>
                     </form>
+                    <!-- Cancel button in case of no form diplayed -->
+                    <div
+                        v-else-if="featurePropertiesBatch.length == 0 &&selectedUpdate==='multiUpdate'"
+                        class="tool-wfs-transaction-cancel-button"
+                    >
+                        <LightButton
+                            :interaction="resetCancel"
+                            text="common:modules.wfst.form.discard"
+                            class="form-button"
+                        />
+                    </div>
                     <!-- Individual feature update form -->
                     <form
-                        v-else-if="selectedUpdate==='singleUpdate' || selectedInteraction==='insert'"
+                        v-if="selectedUpdate==='singleUpdate' || selectedInteraction==='insert'"
                         id="tool-wfs-transaction-form"
                     >
                         <template v-for="property in featureProperties">
@@ -378,7 +382,7 @@ export default {
                         </template>
                         <div class="tool-wfs-transaction-form-buttons">
                             <LightButton
-                                :interaction="reset"
+                                :interaction="resetCancel"
                                 text="common:modules.wfst.form.discard"
                                 class="form-button"
                             />
@@ -441,6 +445,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+.tool-wfs-transaction-cancel-button {
+    margin-top: 20px;
+    display: inline-block;
+    text-align: right;
+}
+
 #delete:focus, #update:focus,  #multiUpdate:focus {
     background-color:$light_blue;
 }

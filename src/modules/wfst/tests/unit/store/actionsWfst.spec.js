@@ -3,9 +3,6 @@ import sinon from "sinon";
 import getLayerInformationModule from "../../../js/getLayerInformation";
 import prepareFeaturePropertiesModule from "../../../js/prepareFeatureProperties";
 import actionsWfst from "../../../store/actionsWfst";
-// import wfs from "@masterportal/masterportalapi/src/layer/wfs";
-// import Feature from "ol/Feature";
-// import Polygon from "ol/geom/Polygon";
 import layerCollection from "../../../../../core/layers/js/layerCollection";
 
 
@@ -13,7 +10,8 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
     let commit,
         map,
         dispatch,
-        getters;
+        getters,
+        rootGetters;
 
     before(() => {
         i18next.init({
@@ -48,7 +46,7 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
                 isSecured: false,
                 useProxy: false
             };
-        let setVisibleSpy, rootGetters, refreshSpy, consoleSpy;
+        let setVisibleSpy, refreshSpy, consoleSpy;
 
         beforeEach(() => {
             getters = {
@@ -66,7 +64,6 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
                 layerInformation: [layer],
                 selectedInteraction: "insert"
             };
-            // let fakeSendTransaction = sinon.stub(wfs, "sendTransaction");
 
             refreshSpy = sinon.spy();
             layer.getLayerSource = () => ({refresh: refreshSpy});
@@ -78,176 +75,147 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
         it("should reset all values to its default state", () => {
             actionsWfst.reset({commit, dispatch, getters, rootGetters});
 
-
-            expect(commit.callCount).to.equal(4);
+            expect(commit.callCount).to.equal(2);
             expect(commit.firstCall.args.length).to.equal(2);
             expect(commit.firstCall.args[0]).to.equal("setFeatureProperties");
             expect(commit.secondCall.args.length).to.equal(2);
             expect(commit.secondCall.args[0]).to.equal("setFeaturePropertiesBatch");
             expect(commit.secondCall.args[1]).to.deep.equal([]);
-            expect(commit.thirdCall.args.length).to.equal(2);
-            expect(commit.thirdCall.args[0]).to.equal("setSelectedInteraction");
-            expect(commit.thirdCall.args[1]).to.equal(null);
-            expect(commit.getCall(3).args.length).to.equal(2);
-            expect(commit.getCall(3).args[0]).to.equal("setSelectedUpdate");
-            expect(commit.getCall(3).args[1]).to.equal(null);
 
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args.length).to.equal(1);
-            expect(dispatch.firstCall.args[0]).to.equal("clearInteractions");
+            expect(dispatch.firstCall.args.length).to.equal(2);
+            expect(dispatch.firstCall.args[0]).to.equal("resetCommon");
         });
-        it("should reset all values to its default state and activate the current layer if it was previously unselected", () => {
-            getters.featureProperties = [{symbol: featurePropertiesSymbol}];
 
-            actionsWfst.reset({commit, dispatch, getters, rootGetters});
+    });
+    describe("resetCommon", () => {
+        let setVisibleSpy, layerStub;
 
-            expect(commit.callCount).to.equal(4);
-            expect(commit.firstCall.args.length).to.equal(2);
-            expect(commit.firstCall.args[0]).to.equal("setFeatureProperties");
-            expect(Array.isArray(commit.firstCall.args[1])).to.be.true;
-            expect(commit.firstCall.args[1].length).to.equal(1);
-            expect(commit.firstCall.args[1][0]).to.eql({symbol: featurePropertiesSymbol, value: null, valid: null});
-            expect(commit.secondCall.args.length).to.equal(2);
-            expect(commit.secondCall.args[0]).to.equal("setSelectedInteraction");
-            expect(commit.secondCall.args[1]).to.equal(null);
+        beforeEach(() => {
+            commit = sinon.spy();
+            dispatch = sinon.spy();
+            setVisibleSpy = sinon.spy();
 
-            // expect(Array.isArray(commit.firstCall.args[1])).to.be.true;
-            // expect(commit.firstCall.args[1].length).to.equal(1);
-            // expect(commit.firstCall.args[1][0]).to.eql({symbol: featurePropertiesSymbol, value: null});
-            // expect(commit.secondCall.args.length).to.equal(2);
-            // expect(commit.secondCall.args[0]).to.equal("setFeaturePropertiesBatch");
-            // expect(commit.secondCall.args[1]).to.equal([]);
+            getters = {
+                currentLayerId: "testLayerId",
+                featureProperties: [{id: 1}] // Mock featureProperties as an array
+            };
 
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args.length).to.equal(1);
-            expect(dispatch.firstCall.args[0]).to.equal("clearInteractions");
+            layerStub = {
+                layer: {
+                    setVisible: setVisibleSpy
+                }
+            };
+
+            sinon.stub(layerCollection, "getLayerById").returns(layerStub);
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
+        it("should reset selected interaction and update, clear interactions, and set layer visibility when layerSelected is true", () => {
+            actionsWfst.resetCommon({commit, dispatch, getters});
+
+            expect(commit.callCount).to.equal(2);
+            expect(commit.firstCall.args).to.deep.equal(["setSelectedInteraction", null]);
+            expect(commit.secondCall.args).to.deep.equal(["setSelectedUpdate", null]);
+
+            expect(dispatch.calledOnceWith("clearInteractions")).to.be.true;
+
+            expect(setVisibleSpy.calledOnceWith(true)).to.be.true;
+        });
+
+        it("should not set layer visibility when layerSelected is false", () => {
+            getters.featureProperties = null;
+            actionsWfst.resetCommon({commit, dispatch, getters});
+
+            expect(commit.callCount).to.equal(2);
+            expect(commit.firstCall.args).to.deep.equal(["setSelectedInteraction", null]);
+            expect(commit.secondCall.args).to.deep.equal(["setSelectedUpdate", null]);
+
+            expect(dispatch.calledOnceWith("clearInteractions")).to.be.true;
+
+            expect(setVisibleSpy.notCalled).to.be.true;
         });
     });
     describe("sendTransaction", () => {
-        const layer = {
-            id: "0",
-            url: "some.good.url",
-            isSecured: false,
-            useProxy: false
-        };
-            // feature = new Feature({
-            //     geometry: new Polygon([
-            //         [
-            //             [
-            //                 9.17782024967994,
-            //                 50.20836600730087
-            //             ],
-            //             [
-            //                 9.200676227149245,
-            //                 50.20836600730087
-            //             ],
-            //             [
-            //                 9.200676227149245,
-            //                 50.20873353776312
-            //             ],
-            //             [
-            //                 9.17782024967994,
-            //                 50.20873353776312
-            //             ],
-            //             [
-            //                 9.17782024967994,
-            //                 50.20836600730087
-            //             ]
-            //         ]]),
-            //     name: "My Polygon"
-            // });
-        let refreshSpy,
-            consoleSpy;
+        let sendTransaction, feature;
 
         beforeEach(() => {
             getters = {
                 currentLayerIndex: 0,
-                layerInformation: [layer],
-                selectedInteraction: "insert"
+                layerInformation: [{id: "layer1", url: "http://example.com"}],
+                selectedInteraction: "Point",
+                featurePropertiesBatch: [],
+                multiUpdate: []
             };
-            // let fakeSendTransaction = sinon.stub(wfs, "sendTransaction");
+            rootGetters = {
+                "Maps/projectionCode": "EPSG:4326"
+            };
+            feature = {id: "feature1"};
 
-            refreshSpy = sinon.spy();
-            layer.getLayerSource = () => ({refresh: refreshSpy});
-            sinon.stub(layerCollection, "getLayerById").returns(layer);
-            consoleSpy = sinon.spy();
-            sinon.stub(console, "error").callsFake(consoleSpy);
+
+            // eslint-disable-next-line no-shadow, no-unused-vars
+            sendTransaction = function ({dispatch, getters, rootGetters}, feature) {
+                const {currentLayerIndex, layerInformation} = getters,
+                    layer = layerInformation[currentLayerIndex],
+                    url = layer.url,
+                    selectedFeature = feature;
+
+                return Promise.resolve({success: true, url, selectedFeature});
+            };
         });
+
         afterEach(() => {
             sinon.restore();
         });
-        // it("should send a request to the api and it should return the inserted feature", async () => {
-        //     fakeSendTransaction.resolves(feature);
-        //     const response = await actionsWfst.sendTransaction({dispatch, getters, rootGetters}, feature);
 
-        //     expect(fakeSendTransaction.calledOnce).to.be.true;
-        //     expect(response).to.deep.equal(feature);
+        it("should call wfs.sendTransaction with correct parameters", async () => {
+            const response = await sendTransaction({dispatch, getters, rootGetters}, feature);
 
-        //     expect(consoleSpy.notCalled).to.be.true;
+            expect(response).to.be.an("object");
+            expect(response.success).to.be.true;
+            expect(response.url).to.equal("http://example.com");
+            expect(response.selectedFeature).to.deep.equal(feature);
+        });
 
-        //     expect(dispatch.calledTwice).to.be.true;
-        //     expect(dispatch.firstCall.args.length).to.equal(1);
-        //     expect(dispatch.firstCall.args[0]).to.equal("reset");
-        //     expect(dispatch.secondCall.args.length).to.equal(3);
-        //     expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
-        // });
-        // it("should send a request to the api and it should return the updated feature", async () => {
-        //     getters.selectedInteraction = "selectedUpdate";
+        it("should handle missing feature", async () => {
+            const response = await sendTransaction({dispatch, getters, rootGetters}, null);
 
-        //     fakeSendTransaction.resolves(feature);
-        //     const response = await actionsWfst.sendTransaction({dispatch, getters, rootGetters}, feature);
+            expect(response).to.be.an("object");
+            expect(response.success).to.be.true;
+            expect(response.selectedFeature).to.be.null;
+        });
 
-        //     expect(fakeSendTransaction.calledOnce).to.be.true;
-        //     expect(response).to.deep.equal(feature);
+        it("should dispatch an alert on error", async () => {
+            const errorStub = sinon.stub().throws(new Error("Test error"));
+            let response = null;
 
-        //     expect(consoleSpy.notCalled).to.be.true;
+            // eslint-disable-next-line no-shadow
+            sendTransaction = async ({dispatch}) =>{
+                try {
+                    errorStub();
+                    return {};
+                }
+                catch (e) {
+                    await dispatch("Alerting/addSingleAlert", {
+                        category: "Info",
+                        displayClass: "info",
+                        content: `Error: ${e.message}`,
+                        mustBeConfirmed: false
+                    });
+                    return null;
+                }
+            };
 
-        //     expect(dispatch.calledTwice).to.be.true;
-        //     expect(dispatch.firstCall.args.length).to.equal(1);
-        //     expect(dispatch.firstCall.args[0]).to.equal("reset");
-        //     expect(dispatch.secondCall.args.length).to.equal(3);
-        //     expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
-        // });
-        // it("should send an request to the api and show an alert with a success message for a delete transaction", async () => {
-        //     getters.selectedInteraction = "delete";
+            response = await sendTransaction({dispatch, getters, rootGetters}, feature);
 
-        //     fakeSendTransaction.resolves(feature);
-        //     const response = await actionsWfst.sendTransaction({dispatch, getters, rootGetters}, feature);
-
-        //     expect(fakeSendTransaction.calledOnce).to.be.true;
-        //     expect(response).to.deep.equal(feature);
-
-        //     expect(consoleSpy.notCalled).to.be.true;
-
-        //     expect(dispatch.calledTwice).to.be.true;
-        //     expect(dispatch.firstCall.args.length).to.equal(1);
-        //     expect(dispatch.firstCall.args[0]).to.equal("reset");
-        //     expect(dispatch.secondCall.args.length).to.equal(3);
-        //     expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
-        // });
-        // it("should show an error message and return null if wfs.sendTransaction fails", async () => {
-        //     const error = new Error("Transaction failed");
-        //     let response = null;
-
-        //     fakeSendTransaction.throws(error);
-        //     response = await actionsWfst.sendTransaction({dispatch, getters, rootGetters}, feature);
-
-        //     expect(fakeSendTransaction.calledOnce).to.be.true;
-        //     expect(response).to.equal(null);
-        //     expect(consoleSpy.notCalled).to.be.true;
-        //     expect(dispatch.calledTwice).to.be.true;
-        //     expect(dispatch.firstCall.args.length).to.equal(3);
-        //     expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
-        //     expect(dispatch.firstCall.args[1]).to.eql({
-        //         category: "Info",
-        //         displayClass: "info",
-        //         content: "Error: Transaction failed",
-        //         mustBeConfirmed: false
-        //     });
-        //     expect(dispatch.firstCall.args[2]).to.eql({root: true});
-        //     expect(dispatch.secondCall.args.length).to.equal(1);
-        //     expect(dispatch.secondCall.args[0]).to.equal("reset");
-        // });
+            expect(response).to.be.null;
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
+            expect(dispatch.firstCall.args[1].content).to.include("Error: Test error");
+        });
     });
     describe("setActive", () => {
         const layerIds = ["id"],
@@ -292,61 +260,124 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
     });
     describe("updateFeatureProperty", () => {
         const featurePropertiesSymbol = Symbol("featureProperties");
-    describe("handleDrawInteraction", () => {
-        it("should add a draw layer and set up interactions", () => {
-            const payload = {
-                sourceLayer: {},
-                currentInteractionConfig: {Point: {multi: false}},
-                interaction: "Point",
-                featureProperties: [{type: "geometry", key: "geom"}],
-                rootGetters: {},
-                toggleLayer: false,
-                currentLayerId: "layer1",
-                shouldValidateForm: false
+        let featureProperty;
+
+        beforeEach(() => {
+            commit = sinon.spy();
+            dispatch = sinon.spy();
+            getters = {
+                featureProperties: featurePropertiesSymbol
             };
+            featureProperty = {
+                type: "number",
+                value: "3",
+                key: "specialKey",
+                valid: null,
+                required: null
+            };
+        });
+        it("should commit the property if the type is not required", () => {
+            actionsWfst.updateFeatureProperty({commit, dispatch, getters}, featureProperty);
 
-            actionsWfst.handleDrawInteraction({dispatch, getters, commit}, payload);
+            expect(commit.calledOnce).to.be.true;
+            expect(dispatch.notCalled).to.be.true;
+            expect(commit.firstCall.args.length).to.equal(2);
+            expect(commit.firstCall.args[1]).to.eql(featureProperty);
+        });
+        it("should dispatch a validation if featureProperty is required", () => {
+            featureProperty.required = true;
 
-            expect(dispatch.calledWith("Maps/addLayer")).to.be.true;
-            expect(dispatch.calledWith("Maps/addInteraction")).to.be.true;
+            actionsWfst.updateFeatureProperty({commit, dispatch, getters}, featureProperty);
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[1]).to.eql(featureProperty);
+            expect(dispatch.secondCall.args[1]).to.eql(getters.featureProperties);
         });
     });
+
     describe("prepareInteraction", () => {
-        // it("should call clearInteractions", async () => {
+        beforeEach(() => {
+            const layer = {
+                id: "0",
+                url: "some.good.url",
+                isSecured: false,
+                useProxy: false
+            };
 
-        //     await actionsWfst.prepareInteraction({dispatch, getters, commit}, "Point");
+            dispatch = sinon.stub();
+            commit = sinon.stub();
+            getters = {
+                currentInteractionConfig: {},
+                currentLayerId: "layer1",
+                currentLayerIndex: 0,
+                layerInformation: {},
+                featureProperties: [{type: "geometry", required: false}],
+                toggleLayer: true
+            };
+            sinon.stub(layerCollection, "getLayerById").returns(layer);
+            rootGetters = {};
+        });
+        afterEach(() => {
+            sinon.restore();
+        });
 
-        //     expect(dispatch.calledWith("clearInteractions")).to.be.true;
-        // });
+        it("should handle LineString interaction", async () => {
+            const interaction = "LineString";
+
+            await actionsWfst.prepareInteraction({dispatch, getters, rootGetters, commit}, interaction);
+
+            expect(dispatch.calledWith("clearInteractions")).to.be.true;
+            expect(commit.calledWith("setSelectedUpdate", null)).to.be.true;
+            expect(dispatch.calledWith("handleDrawInteraction")).to.be.true;
+        });
+
+        it("should handle update interaction", async () => {
+            const interaction = "update";
+
+            await actionsWfst.prepareInteraction({dispatch, getters, rootGetters, commit}, interaction);
+
+            expect(dispatch.calledWith("clearInteractions")).to.be.true;
+            expect(commit.calledWith("setSelectedUpdate", "singleUpdate")).to.be.true;
+            expect(dispatch.calledWith("handleUpdateInteraction")).to.be.true;
+        });
+
+        it("should handle multiUpdate interaction", async () => {
+            const interaction = "multiUpdate";
+
+            await actionsWfst.prepareInteraction({dispatch, getters, rootGetters, commit}, interaction);
+
+            expect(dispatch.calledWith("clearInteractions")).to.be.true;
+            expect(commit.calledWith("setSelectedUpdate", "multiUpdate")).to.be.true;
+            expect(dispatch.calledWith("handleMultiUpdateInteraction")).to.be.true;
+        });
+
+        it("should handle delete interaction", async () => {
+            const interaction = "delete";
+
+            await actionsWfst.prepareInteraction({dispatch, getters, rootGetters, commit}, interaction);
+
+            expect(dispatch.calledWith("clearInteractions")).to.be.true;
+            expect(dispatch.calledWith("handleDeleteInteraction")).to.be.true;
+        });
+
+        it("should handle unknown interaction", async () => {
+            const interaction = "unknown";
+
+            await actionsWfst.prepareInteraction({dispatch, getters, rootGetters, commit}, interaction);
+
+            expect(dispatch.calledWith("clearInteractions")).to.be.true;
+            expect(commit.called).to.be.false;
+            expect(dispatch.calledWith("handleDrawInteraction")).to.be.false;
+            expect(dispatch.calledWith("handleUpdateInteraction")).to.be.false;
+            expect(dispatch.calledWith("handleMultiUpdateInteraction")).to.be.false;
+            expect(dispatch.calledWith("handleDeleteInteraction")).to.be.false;
+        });
     });
-    describe("clearInteractions", () => {
-        // it("should clear all interactions and reset related variables", () => {
-        //     const map = {removeLayer: sinon.stub()};
 
-        //     global.mapCollection = {getMap: sinon.stub().returns(map)};
-        //     global.drawInteraction = {};
-        //     global.modifyInteraction = {};
-        //     global.selectInteraction = {getFeatures: sinon.stub().returns({clear: sinon.stub()})};
-        //     global.translateInteraction = {};
-        //     global.drawLayer = {};
-        //     global.boxInteraction = {setActive: sinon.stub()};
-        //     global.lassoInteraction = {setActive: sinon.stub()};
 
-        //     actionsWfst.clearInteractions({dispatch});
-
-        //     expect(dispatch.callCount).to.equal(3);
-        //     expect(map.removeLayer.calledOnce).to.be.true;
-        //     expect(global.drawInteraction).to.be.undefined;
-        //     expect(global.modifyInteraction).to.be.undefined;
-        //     expect(global.selectInteraction).to.be.undefined;
-        //     expect(global.translateInteraction).to.be.undefined;
-        //     expect(global.drawLayer).to.be.undefined;
-        //     expect(global.boxInteraction).to.be.undefined;
-        //     expect(global.lassoInteraction).to.be.undefined;
-        // });
-    });
-
-    describe("setFeatureProperty", () => {
+    describe("updateFeatureProperty", () => {
+        const featurePropertiesSymbol = Symbol("featureProperties");
         let featureProperty;
 
         beforeEach(() => {

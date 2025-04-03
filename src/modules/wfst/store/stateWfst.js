@@ -20,8 +20,8 @@
  * @property {Boolean} transactionProcessing Flag if a process like delete, update is currently active with axios post,get.
  * @property {Boolean} showConfirmModal Flag if the modal dialog should be shown.
  * @property {Boolean} toggleLayer Whether the already added features should be displayed while inserting new features.
- * @property {String[]} configAttributes
- * @property {String[]} controlAttributes
+ * @property {String[]} configAttributes Attributes that are visible when objects are selected in multiple update mode.
+ * @property {String[]} controlAttributes Attributes that user can edit in multiple update mode.
  * @property {Number} currentLayerIndex Index of the currently selected layer.
  * @property {FeatureProperty[]} featureProperties Possible properties to be set on a feature for the current layer.
  * @property {TransactionLayer[]} layerInformation Information about the different WFS-T layers configured for the tool.
@@ -71,7 +71,6 @@ const state = {
     },
     selectTypes: ["pen", "box"],
     selectedUpdate: null
-    // selectedSelectInteraction: "select"
 };
 
 export default state;

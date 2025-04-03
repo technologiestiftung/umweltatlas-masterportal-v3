@@ -26,7 +26,7 @@ let drawInteraction,
 const actions = {
     /**
      * Clears all map interactions and resets related variables.
-     *
+     * @param {Object} dispatch - The dispatch object.
      * @returns {void}
      */
     clearInteractions ({dispatch}) {
@@ -50,12 +50,9 @@ const actions = {
         modifyInteraction = undefined;
         selectInteraction?.getFeatures().clear();
         selectInteraction = undefined;
-        if (boxInteraction) {
-            boxInteraction.setActive(false);
-        }
-        if (lassoInteraction) {
-            lassoInteraction.setActive(false);
-        }
+        boxInteraction?.setActive(false);
+        lassoInteraction?.setActive(false);
+
         lassoInteraction = undefined;
         boxInteraction = undefined;
         translateInteraction = undefined;
@@ -66,7 +63,12 @@ const actions = {
      * to be able to send a transaction to the service.
      *
      * @param {("LineString"|"Point"|"Polygon"|"delete"|"update"|"multiUpdate")} interaction Identifier of the selected interaction.
-     * @returns {void}
+     * @param {Object} context - The context object.
+     * @param {Function} context.dispatch - The dispatch function to trigger actions.
+     * @param {Function} context.getters - The getters function to access state values.
+     * @param {Function} context.rootGetters - The root getters function to access state values.
+     * @param {Function} context.commit - The commit function to trigger mutations.
+    * @returns {void}
      */
     async prepareInteraction ({dispatch, getters, rootGetters, commit}, interaction) {
         dispatch("clearInteractions");
@@ -74,50 +76,57 @@ const actions = {
             sourceLayer = layerCollection.getLayerById(currentLayerId).layer,
             shouldValidateForm = featureProperties.find(featProp => featProp.type !== "geometry" && featProp.required);
 
-
-        if (["LineString", "Point", "Polygon"].includes(interaction)) {
-            commit("setSelectedUpdate", null);
-            dispatch("handleDrawInteraction", {
-                sourceLayer,
-                currentInteractionConfig,
-                interaction,
-                featureProperties,
-                currentLayerIndex,
-                layerInformation,
-                rootGetters,
-                toggleLayer,
-                currentLayerId,
-                shouldValidateForm
-            });
-        }
-        else if (interaction === "update") {
-            commit("setSelectedUpdate", "singleUpdate");
-            dispatch("handleUpdateInteraction", {
-                sourceLayer,
-                featureProperties,
-                shouldValidateForm
-            });
-        }
-        else if (interaction === "multiUpdate") {
-            commit("setSelectedUpdate", "multiUpdate");
-            dispatch("handleMultiUpdateInteraction", {
-                sourceLayer,
-                featureProperties
-            });
-        }
-        else if (interaction === "delete") {
-            dispatch("handleDeleteInteraction", {
-                sourceLayer
-            });
+        switch (interaction) {
+            case "LineString":
+            case "Point":
+            case "Polygon":
+                commit("setSelectedUpdate", null);
+                dispatch("handleDrawInteraction", {
+                    sourceLayer,
+                    currentInteractionConfig,
+                    interaction,
+                    featureProperties,
+                    currentLayerIndex,
+                    layerInformation,
+                    rootGetters,
+                    toggleLayer,
+                    currentLayerId,
+                    shouldValidateForm
+                });
+                break;
+            case "update":
+                commit("setSelectedUpdate", "singleUpdate");
+                dispatch("handleUpdateInteraction", {
+                    sourceLayer,
+                    featureProperties,
+                    shouldValidateForm
+                });
+                break;
+            case "multiUpdate":
+                commit("setSelectedUpdate", "multiUpdate");
+                dispatch("handleMultiUpdateInteraction", {
+                    sourceLayer,
+                    featureProperties
+                });
+                break;
+            case "delete":
+                dispatch("handleDeleteInteraction", {
+                    sourceLayer
+                });
+                break;
+            default:
+                break;
         }
     },
     /**
      * Handles draw interaction for a single feature.
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     handleDrawInteraction (context, payload) {
         const {commit, dispatch} = context,
-            {sourceLayer, currentInteractionConfig, interaction, featureProperties, rootGetters, toggleLayer, currentLayerId, shouldValidateForm} = payload;
-            // style = layerInformation[currentLayerIndex];
+            {sourceLayer, currentInteractionConfig, interaction, featureProperties, rootGetters, toggleLayer, currentLayerId, shouldValidateForm, layerInformation, currentLayerIndex} = payload,
+            {style} = layerInformation[currentLayerIndex];
         let drawOptions = {};
 
         drawLayer = new VectorLayer({
@@ -137,9 +146,9 @@ const actions = {
             geometryName: featureProperties.find(({type}) => type === "geometry")?.key
         };
 
-        // if (interaction === "Point") {
-        //     drawOptions.style = style;
-        // }
+        if (interaction === "Point") {
+            drawOptions.style = style;
+        }
 
         drawInteraction = new Draw(drawOptions);
 
@@ -152,7 +161,7 @@ const actions = {
             layers: [drawLayer],
             condition: event => primaryAction(event) && platformModifierKeyOnly(event)
         });
-        // drawLayer.setStyle(style);
+        drawLayer.setStyle(style);
 
         if (toggleLayer) {
             sourceLayer?.setVisible(false);
@@ -164,7 +173,7 @@ const actions = {
             sourceLayer.getSource().addFeature(event.feature);
             drawLayer.getSource().clear();
 
-            dispatch("validateFeatureScale", {dispatch, rootGetters, currentLayerId});
+            dispatch("validateMinMaxScale", {dispatch, rootGetters, currentLayerId});
             dispatch("Maps/removeInteraction", drawInteraction, {root: true});
             dispatch("Maps/addInteraction", modifyInteraction, {root: true});
             dispatch("Maps/addInteraction", translateInteraction, {root: true});
@@ -177,6 +186,8 @@ const actions = {
     },
     /**
      * Handles update interaction for a single feature.
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     handleUpdateInteraction (context, payload) {
         const {commit, dispatch} = context,
@@ -223,6 +234,8 @@ const actions = {
     },
     /**
      * Handles multi update interaction for multiple features.
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     handleMultiUpdateInteraction (context, payload) {
         const {commit, dispatch, state} = context,
@@ -246,7 +259,7 @@ const actions = {
         });
 
         commit("setSelectedInteraction", "selectedUpdate");
-
+        // feature selection
         selectedFeatures.on("add", (event) => {
             target = event.target;
             selectedFeature = event.element;
@@ -257,10 +270,10 @@ const actions = {
                 dispatch("processSelectedFeature", {newSelectedFeature, featureProperties, target});
             });
         });
+        // feature deselection
         selectedFeatures.on("remove", (event) => {
             removedFeature = event.element;
 
-            removedFeature.set("click", 0);
             removedFeature.set("selected", false);
             index = modifyFeatureArray.findIndex(feature => feature.getId() === removedFeature.getId());
 
@@ -275,6 +288,8 @@ const actions = {
     },
     /**
      * Handles lasso selection.
+     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} getters - The getters object.
      */
     handleLassoInteraction ({dispatch, getters}) {
         const lassoSource = new VectorSource(),
@@ -317,16 +332,14 @@ const actions = {
                     selectedFeatures.push(feature);
                 }
             });
-
-            setTimeout(() => {
-                lassoSource.clear();
-            }, 500);
         });
 
         dispatch("Maps/addInteraction", lassoInteraction, {root: true});
     },
     /**
      * Handles rectangle selection.
+     * @param {Object} context - The context object.
+     * @param {Object} getters - The getters object.
      */
     handleBoxInteraction ({dispatch, getters}) {
         const boxSource = new VectorSource(),
@@ -383,26 +396,22 @@ const actions = {
     /**
      * Activates one interaction and disables other interactions.
      * @param {Object} context - The context object.
-     * @param {Function} context.commit - The commit function to trigger mutations.
-     * @param {Object} context.state - The state object.
      * @param {Object} payload - The payload object.
-     * @param {Object} payload.interactionToActivate - The interaction to activate.
-     * @param {Array} payload.interactionsToDeactivate - The interactions to deactivate.
+     * @param {Object} payload.interactionToActivate - The interaction which is set to active.
+     * @param {Array} payload.interactionsToDeactivate - The interactions which are set to inactive.
      */
     handleSelectInteraction (context, payload) {
         const {interactionToActivate, interactionsToDeactivate} = payload;
 
         interactionToActivate.setActive(true);
         interactionsToDeactivate.forEach(interaction => {
-            if (interaction) {
-                interaction.setActive(false);
-            }
+            interaction?.setActive(false);
         });
     },
     /**
      *
-     * @param {*} context
-     * @param {*} payload
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     processSelectedFeature (context, payload) {
         const {commit, state} = context,
@@ -433,6 +442,8 @@ const actions = {
 
     /**
      * Handles delete interaction.
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     handleDeleteInteraction (context, payload) {
         const {commit, dispatch} = context,
@@ -453,6 +464,10 @@ const actions = {
 
     /**
      * Adds modify and translate interactions to the selected features.
+     * modify - allows moving the feature with the mouse without any special key
+     * translate - adds the different icon for the mouse when moving the feature
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
      */
     addModifyAndTranslateInteractions (context, payload) {
         const {dispatch} = context,
@@ -472,18 +487,21 @@ const actions = {
         dispatch("Maps/addInteraction", translateInteraction, {root: true});
     },
     /**
+     * Validates if the current map scale is within the min and max scale range of the specified layer.
+     * If the scale is out of range, it clears the draw layer source and triggers an error alert.
      *
-     * @param {*} context
-     * @param {*} payload
+     * @param {Object} context - The context object.
+     * @param {Object} payload - The payload object.
+     * @returns {void}
      */
-    validateFeatureScale (context, payload) {
+    validateMinMaxScale (context, payload) {
         const {dispatch, rootGetters} = context,
             {currentLayerId} = payload,
             currentLayer = layerCollection.getLayerById(currentLayerId),
             mapScale = rootGetters["Maps/scale"];
 
-        if ((currentLayer.minScale && mapScale < currentLayer.minScale) ||
-            (currentLayer.maxScale && mapScale > currentLayer.maxScale)) {
+        if ((currentLayer.get("minScale") && mapScale < currentLayer.get("minScale")) ||
+            (currentLayer.get("maxScale") && mapScale > currentLayer.get("maxScale"))) {
             drawLayer.getSource().once("change", () => drawLayer.getSource().clear());
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
@@ -494,13 +512,15 @@ const actions = {
     },
     /**
      * Resets all values from selected layer, all interaction, any modified feature.
+     * @param {Object} context - The context object.
+     * @param {Object} dispatch - The dispatch object.
      * @returns {void}
      */
     reset ({commit, dispatch, getters}) {
         const sourceLayer = layerCollection.getLayerById(getters.currentLayerId)?.layer,
             layerSelected = Array.isArray(getters.featureProperties);
 
-        layerCollection.getLayerById(getters.currentLayerId).getLayerSource().refresh();
+        dispatch("resetCommon", true);
 
         commit("setFeatureProperties",
             layerSelected
@@ -508,12 +528,6 @@ const actions = {
                 : getters.featureProperties
         );
         commit("setFeaturePropertiesBatch", []);
-        commit("setSelectedInteraction", null);
-        commit("setSelectedUpdate", null);
-        dispatch("clearInteractions");
-        if (layerSelected) {
-            sourceLayer?.setVisible(true);
-        }
         if (modifyFeature) {
             sourceLayer
                 ?.getSource().getFeatures()
@@ -528,9 +542,35 @@ const actions = {
         }
     },
     /**
+     * Resets all values from selected layer after canceling the transaction.
+     * @param {Object} dispatch - The dispatch object.
+     * @returns {void}
+     */
+    resetCancel ({dispatch}) {
+        dispatch("resetCommon", false);
+    },
+    /**
+     * Helper function to reset common values.
+     * @param {Object} context - The context object.
+     * @returns {void}
+     */
+    resetCommon (context) {
+        const {commit, dispatch, getters} = context,
+            sourceLayer = layerCollection.getLayerById(getters.currentLayerId)?.layer,
+            layerSelected = Array.isArray(getters.featureProperties);
+
+        commit("setSelectedInteraction", null);
+        commit("setSelectedUpdate", null);
+        dispatch("clearInteractions");
+        if (layerSelected) {
+            sourceLayer?.setVisible(true);
+        }
+    },
+    /**
      * Checks whether all required values have been set and a feature is present
      * and either dispatches an alert or sends a transaction.
-     *
+     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} getters - The getters object.
      * @returns {void}
      */
     async save ({dispatch, getters}) {
@@ -575,7 +615,8 @@ const actions = {
     /**
      * Checks whether all required values have been set and a feature is present
      * and either dispatches an alert or sends a transaction -it does it in the loop for all features.
-     *
+     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} getters - The getters object.
      * @returns {void}
      */
     async saveMulti ({dispatch, getters}) {
@@ -649,7 +690,9 @@ const actions = {
      * Sends a transaction to the API and processes the response.
      * Either a message is displayed to the user in case of an error, depending on the response,
      * or the layer is refreshed and the stored feature is displayed.
-     *
+     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} getters - The getters object.
+     * @param {Object} rootGetters - The root getters object.
      * @param {module:ol/Feature} feature Feature to by inserted / updated / deleted.
      * @returns {Promise} Promise containing the feature to be added, updated or deleted if transaction was successful. If transaction fails it returns null
      */
@@ -663,6 +706,7 @@ const actions = {
                 : selectedInteraction,
             messageKey = `success.${transactionMethod}`,
             transaction = i18next.t("common:modules.wfst.transaction." + messageKey);
+
         let response, configValues, changes, combinedValues, LayerConfigAttributes, LayerControlAttributes;
 
         try {
@@ -696,7 +740,7 @@ const actions = {
                                     const controlItem = batchItem.find(item => item.key === attr);
 
                                     if (controlItem) {
-                                        return `${controlItem.key}-> ${controlItem.value}`;
+                                        return `${controlItem.key} "${controlItem.value}"`;
                                     }
                                     return null;
                                 })
@@ -727,8 +771,10 @@ const actions = {
     /**
      * Sets the active property of the state to the given value.
      * Also starts processes if the tool is activated (active === true).
-     * @param {Object} context actions context object.
-     * @param {Boolean} active Value deciding whether the tool gets activated or deactivated.
+     * @param {Object} commit - actions commit object.
+     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} getters - The getters object.
+     * @param {Boolean} active - Value deciding whether the tool gets activated or deactivated.
      * @returns {void}
      */
     setActive ({commit, dispatch, getters: {layerIds}}, active) {
@@ -746,6 +792,7 @@ const actions = {
     },
     /**
      * Validates the user-input sets the error messages.
+     * @param {Object} commit - The commit object.
      * @param {Object} property property that is validated based on it's type
      * @returns {void}
      */
@@ -774,6 +821,7 @@ const actions = {
     },
     /**
      * Validates whole form based on the list of received properties.
+     * @param {Object} commit - The commit object.
      * @param {Object} featureProperties a list of properties
      * @returns {void}
      */
@@ -785,7 +833,8 @@ const actions = {
     /**
      * Sets actual feature property based on the user action on an input.
      * @param {Object} feature of a feature with it's key, type and value
-     *
+     * @param {Object} commit - The commit object.
+     * @param {Object} dispatch - The dispatch object.
      * @returns {void}
      */
     updateFeatureProperty ({dispatch, commit, getters: {featureProperties}}, feature) {
@@ -799,7 +848,8 @@ const actions = {
     },
     /**
      * Sets the feature property
-     *
+     * @param {Object} commit - The commit object.
+     * @param {Object} dispatch - The dispatch object.
      * @param {Object} payload property key, type, value
      * @returns {void}
      */
@@ -817,7 +867,8 @@ const actions = {
     },
     /**
      * Sets the feature property in the batch
-     *
+     * @param {Object} commit - The commit object.
+     * @param {Object} dispatch - The dispatch object.
      * @param {Object} payload property key, type, value
      * @returns {void}
      */
@@ -835,6 +886,8 @@ const actions = {
     },
     /**
      * Sets all feature properties based on actual layer
+     * @param {Object} commit - The commit object.
+     * @param {Object} getters - The getters object.
      * @returns {void}
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation, useProxy}}) {

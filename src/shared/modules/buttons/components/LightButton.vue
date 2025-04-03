@@ -27,6 +27,11 @@ export default {
             default: null,
             required: false
         },
+        customclasstitle: {
+            type: String,
+            default: null,
+            required: false
+        },
         description: {
             type: String,
             default: null,
@@ -60,7 +65,12 @@ export default {
         <span
             class="col lh-1 btn-texts row py-2"
         >
-            <span class="btn-title">
+            <span
+                class="btn-title"
+                :class="[
+                    customclasstitle
+                ]"
+            >
                 {{ decodeHtmlEntites($t(text)) }}
             </span>
             <span
@@ -126,5 +136,9 @@ export default {
 .mp-btn-light {
     margin-left: 0;
     margin-right: 0;
+}
+
+.btn-title.btn-title-long {
+    text-overflow: unset;
 }
 </style>

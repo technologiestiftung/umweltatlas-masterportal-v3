@@ -116,18 +116,6 @@
             "update": true,
             "multiUpdate": [
               {
-                "layerId": "waermeplanung",
-                "available": true,
-                "configAttributes": ["adresse"],
-                "controlAttributes": ["technik", "brennstoff", "bj_heizung"]
-              },
-              {
-                "layerId": "lgvpolygon",
-                "available": true,
-                "configAttributes": ["name"],
-                "controlAttributes": ["gemeinde"]
-              },
-              {
                 "layerId": "lgvpoint",
                 "available": true,
                 "configAttributes": ["name"],
@@ -138,7 +126,8 @@
             "name": "WFS-T Tool",
             "layerIds": [
               "lgvpolygon",
-              "lgvpoint"
+              "lgvpoint",
+              "lgvline"
             ],
             "toggleLayer": false,
             "lineButton": [
@@ -148,10 +137,6 @@
               }
             ],
             "pointButton": [
-              {
-                "layerId":"waermeplanung",
-                "available": false
-              },
               {
                 "layerId": "lgvpoint",
                 "available": true
@@ -254,41 +239,6 @@
           "showInLayerTree": true
         },
         {
-          "id": "waermeplanung",
-          "name": "Wärmeplanung",
-          "isSecured": true,
-          "renderer": "webgl",
-          "loadingStrategy": "bbox",
-          "visibility": true,
-          "isPointLayer": true,
-          "typ": "WFS",
-          "style":[
-            {
-              "style": {
-                "circle-fill-color": ["match", ["get", "selected"], 1, "#cc9966", ["match",
-                  ["get", "brennstoff"],
-                  "test", "#008000",
-                  "test2", "#8F00FF",
-                  "#006688"]],
-                "circle-radius": [
-                        "interpolate",
-                        ["exponential", 1.5],
-                        ["zoom"],
-                        3, 1,
-                        6, 6,
-                        9, 15,
-                        12, 35,
-                        15, 60,
-                        18, 110
-                    ],
-                "circle-rotate-with-view": false,
-                "circle-displacement": [0, 0],
-                "circle-opacity": 0.6
-              }
-            }
-          ]
-        },
-        {
           "id": "lgvline",
           "name": "wfst_linie_test",
           "visibility": false,
@@ -297,7 +247,7 @@
         {
           "id": "lgvpoint",
           "name": "wfst_punkt_test",
-          "visibility": true,
+          "visibility": false,
           "typ": "WFS"
         },
         {
