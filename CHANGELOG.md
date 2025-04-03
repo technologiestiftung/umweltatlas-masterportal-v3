@@ -18,7 +18,7 @@
 ### Fixed
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Fix OIDC Token Auto-Refresh After Initial Login
-- Draw/Write: KML-export now uses the correct url for cirlce-icon.
+- Draw/Write: KML-export now uses the correct url for circle-icon.
 
 ---
 
