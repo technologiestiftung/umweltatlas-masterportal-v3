@@ -142,13 +142,13 @@ export default {
             >
                 <b>
                     <span
-                        id="population-description"
+                        id="routing-hover-menu-population-description"
                         v-html="$t('common:modules.routing.isochrones.hoverMenu.population')"
                     />
                 </b>
                 <b>
                     <span
-                        id="population-value"
+                        id="routing-hover-menu-population-value"
                         v-html="selectedArea ? selectedArea.values_.population.toLocaleString() : ''"
                     />
                 </b>
@@ -160,13 +160,13 @@ export default {
             >
                 <b>
                     <span
-                        id="area-description"
+                        id="routing-hover-menu-area-description"
                         v-html="$t('common:modules.routing.isochrones.hoverMenu.area')"
                     />
                 </b>
                 <b>
                     <span
-                        id="area-value"
+                        id="routing-hover-menu-area-value"
                         v-html="selectedArea ? `${Math.round(selectedArea.values_.area).toLocaleString()} ${isochronesSettings.areaUnit}²` : ''"
                     />
                 </b>
