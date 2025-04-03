@@ -18,6 +18,7 @@
 ### Fixed
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Fix OIDC Token Auto-Refresh After Initial Login
+- Draw/Write: KML-export now uses the correct url for cirlce-icon.
 
 ---
 
@@ -68,7 +69,6 @@
 - UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
 - specialWfs search: Add hover/zoomTo support for linestring geometries.
 - Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
-- Draw/Write: KML-export now uses the correct url for icons.
 
 ---
 
