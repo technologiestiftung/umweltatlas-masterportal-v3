@@ -1312,7 +1312,23 @@
         "line": "Add line",
         "point": "Add point",
         "polygon": "Add area",
-        "update": "Edit geometry"
+        "update": "Edit",
+        "multiUpdate": "Multiple edit"
+      },
+      "multiUpdate": {
+        "oneSelected": "Object was selected:",
+        "multipleSelected": "Objects were selected:",
+        "noItemsSelected": "No objects were selected",
+        "buttonIcon": {
+          "active":{
+            "pen": "deactivate lasso selection",
+            "box": "deactivate rectangle selection"
+            },
+            "notActive": {
+              "pen": "activate lasso selection",
+              "box": "activate rectangle selection"
+            }
+        }
       },
       "layerSelectLabel": "Current layer:",
       "name": "WFS-T Tool",
@@ -1329,9 +1345,12 @@
         },
         "success": {
           "baseSuccess": "{{transaction}} the geometry and its parameters was successful.",
-          "delete": "$t(common:modules.wfst.transaction.success.baseSuccess, {\"transaction\": 'Deletion of'})",
-          "insert": "$t(common:modules.wfst.transaction.success.baseSuccess, {\"transaction\": 'Insertion of'})",
-          "selectedUpdate": "$t(common:modules.wfst.transaction.success.baseSuccess, {\"transaction\": 'Updating'})"
+          "delete": "Deletion of",
+          "insert": "Insertion of",
+          "selectedUpdate": "Updating",
+          "batchInfoOne": " Object of the Layer {{layer}} was updated:</br>",
+          "batchInfo": " Objects of the layer {{layer}} were updated:</br>"
+
         }
       }
     },

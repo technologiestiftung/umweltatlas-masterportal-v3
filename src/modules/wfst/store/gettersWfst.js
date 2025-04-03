@@ -18,7 +18,7 @@ const getters = {
     currentInteractionConfig (state, {currentLayerId}) {
         const configuration = deepCopy(defaultInteractionConfig);
 
-        ["LineString", "Point", "Polygon", "update", "delete"].forEach(val => {
+        ["LineString", "Point", "Polygon", "update", "multiUpdate", "delete"].forEach(val => {
             const isGeometryConfiguration = ["LineString", "Point", "Polygon"].includes(val);
             let interactionConfiguration,
                 layerConfiguration = null;
@@ -106,7 +106,7 @@ const getters = {
      * @returns {Boolean} Interaction Button status
      */
     showInteractionsButtons (state) {
-        return [null, "delete", "update"].includes(state.selectedInteraction);
+        return [null, "delete", "update", "multiUpdate"].includes(state.selectedInteraction);
     }
 };
 

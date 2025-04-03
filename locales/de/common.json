@@ -1314,7 +1314,24 @@
         "line": "Linie erfassen",
         "point": "Punkt erfassen",
         "polygon": "Fläche erfassen",
-        "update": "Geometrie bearbeiten"
+        "update": "Bearbeiten",
+        "multiUpdate": "Mehrfachbearbeitung"
+      },
+      "multiUpdate": {
+        "oneSelected": "Objekt wurde ausgewählt:",
+        "multipleSelected": "Objekte wurden ausgewählt:",
+        "noItemsSelected": "Keine Objekte wurden ausgewählt",
+        "buttonIcon": {
+          "active":{
+            "pen": "Lassoauswahl deaktivieren",
+            "box": "Rechteckauswahl deaktivieren"
+          },
+          "notActive": {
+            "pen": "Lassoauswahl aktivieren",
+            "box": "Rechteckauswahl aktivieren"
+          }
+
+        }
       },
       "layerSelectLabel": "Aktueller Layer:",
       "name": "WFS-T Tool",
@@ -1333,7 +1350,9 @@
           "baseSuccess": "Das {{transaction}} der Geometrie und ihrer Parameter war erfolgreich.",
           "delete": "Löschen",
           "insert": "Speichern",
-          "selectedUpdate ": "Bearbeiten"
+          "selectedUpdate": "Bearbeiten",
+          "batchInfoOne": " Objekt des Layers {{layer}} wurde aktualisiert:</br>",
+          "batchInfo": " Objekte des Layers {{layer}} wurden aktualisiert:</br>"
         }
       }
     },

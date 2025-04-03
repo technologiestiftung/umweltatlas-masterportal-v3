@@ -15,6 +15,14 @@ const mutations = {
         featureProperties.find(property => property.key === key).value = value;
         featureProperties.find(property => property.key === key).valid = valid;
         featureProperties.find(property => property.key === key).required = required;
+    },
+    /**
+     * Sets selected value in every feature from the batch.
+     */
+    setFeaturesBatchProperty ({featurePropertiesBatch}, {key, value}) {
+        featurePropertiesBatch.forEach(featureProperties => {
+            featureProperties.find(property => property.key === key).value = value;
+        });
     }
 };
 

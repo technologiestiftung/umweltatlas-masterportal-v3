@@ -87,12 +87,16 @@ function isDisposed () {
  * If renderer is webgl don't do anything
  * @returns {void}
  */
+// function setStyle () {
+//     /**
+//      * execute empty
+//      * @todo enable future update of style?
+//      */
+// }
 function setStyle () {
-    /**
-     * execute empty
-     * @todo enable future update of style?
-     */
+    // execute empty
 }
+
 
 /**
  * Sets the necessary class methods/properties if layer uses webgl renderer
@@ -106,7 +110,9 @@ function setLayerProperties (layerObject) {
     // override layer methods
     layerObject.isDisposed = isDisposed;
     layerObject.visibilityChanged = visibilityChanged;
-    layerObject.setStyle = setStyle;
+
+    layerObject.isPointLayer = layerObject?.layer?.values_?.isPointLayer;
+
     // todo inka: these functions are not implemented in layers at the moment - delete?
     layerObject.hideAllFeatures = hideAllFeatures;
     layerObject.showAllFeatures = showAllFeatures;

@@ -1,25 +1,31 @@
 import {Vector as VectorLayer} from "ol/layer";
 import {Draw, Modify, Select, Translate} from "ol/interaction";
 import VectorSource from "ol/source/Vector";
-import {platformModifierKeyOnly, primaryAction} from "ol/events/condition";
+import {platformModifierKeyOnly, primaryAction, click} from "ol/events/condition";
 import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature";
 import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
 import getLayerInformationModule from "../js/getLayerInformation";
 import layerCollection from "../../../core/layers/js/layerCollection";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
+import DragBox from "ol/interaction/DragBox";
 
 let drawInteraction,
     featureToDelete,
     drawLayer,
     modifyInteraction,
     modifyFeature,
+    modifyFeatureArray = [],
     modifyFeatureSaveId,
+    modifyFeatureSaveIdArray = [],
     selectInteraction,
-    translateInteraction;
+    lassoInteraction,
+    boxInteraction,
+    translateInteraction,
+    selectedFeatures;
 
 const actions = {
     /**
-     * Clear all map interactions.
+     * Clears all map interactions and resets related variables.
      *
      * @returns {void}
      */
@@ -44,6 +50,14 @@ const actions = {
         modifyInteraction = undefined;
         selectInteraction?.getFeatures().clear();
         selectInteraction = undefined;
+        if (boxInteraction) {
+            boxInteraction.setActive(false);
+        }
+        if (lassoInteraction) {
+            lassoInteraction.setActive(false);
+        }
+        lassoInteraction = undefined;
+        boxInteraction = undefined;
         translateInteraction = undefined;
         drawLayer = undefined;
     },
@@ -51,125 +65,431 @@ const actions = {
      * Prepares everything so that the user can interact with features or draw features
      * to be able to send a transaction to the service.
      *
-     * @param {("LineString"|"Point"|"Polygon"|"delete"|"update")} interaction Identifier of the selected interaction.
+     * @param {("LineString"|"Point"|"Polygon"|"delete"|"update"|"multiUpdate")} interaction Identifier of the selected interaction.
      * @returns {void}
      */
-    async prepareInteraction ({commit, dispatch, getters, rootGetters}, interaction) {
+    async prepareInteraction ({dispatch, getters, rootGetters, commit}, interaction) {
         dispatch("clearInteractions");
         const {currentInteractionConfig, currentLayerId, currentLayerIndex, layerInformation, featureProperties, toggleLayer} = getters,
-
             sourceLayer = layerCollection.getLayerById(currentLayerId).layer,
             shouldValidateForm = featureProperties.find(featProp => featProp.type !== "geometry" && featProp.required);
 
-        if (interaction === "LineString" || interaction === "Point" || interaction === "Polygon") {
-            commit("setSelectedInteraction", "insert");
-            drawLayer = new VectorLayer({
-                id: "module/wfsTransaction/wfsTransaction/vectorLayer",
-                name: "module/wfsTransaction/wfsTransaction/vectorLayer",
-                source: new VectorSource(),
-                alwaysOnTop: true,
-                zIndex: 10
+
+        if (["LineString", "Point", "Polygon"].includes(interaction)) {
+            commit("setSelectedUpdate", null);
+            dispatch("handleDrawInteraction", {
+                sourceLayer,
+                currentInteractionConfig,
+                interaction,
+                featureProperties,
+                currentLayerIndex,
+                layerInformation,
+                rootGetters,
+                toggleLayer,
+                currentLayerId,
+                shouldValidateForm
             });
-
-            dispatch("Maps/addLayer", drawLayer, {root: true});
-
-            const {style} = layerInformation[currentLayerIndex],
-                drawOptions = {
-                    source: drawLayer.getSource(),
-                    type: (currentInteractionConfig[interaction].multi ? "Multi" : "") + interaction,
-                    stopClick: true,
-                    geometryName: featureProperties.find(({type}) => type === "geometry")?.key
-                };
-
-            if (interaction === "Point") {
-                drawOptions.style = style;
-            }
-            drawInteraction = new Draw(drawOptions);
-            modifyInteraction = new Modify({
-                source: drawLayer.getSource(),
-                condition: event => primaryAction(event) && !platformModifierKeyOnly(event)
-            });
-            translateInteraction = new Translate({
-                layers: [drawLayer],
-                condition: event => primaryAction(event) && platformModifierKeyOnly(event)
-            });
-            drawLayer.setStyle(style);
-
-            if (toggleLayer) {
-                sourceLayer?.setVisible(false);
-            }
-
-            drawInteraction.on("drawend", (event) => {
-                sourceLayer.getSource().addFeature(event.feature);
-                drawLayer.getSource().clear();
-                const currentLayer = layerCollection.getLayerById(currentLayerId),
-                    mapScale = rootGetters["Maps/scale"];
-
-                if ((currentLayer.minScale && mapScale < currentLayer.minScale) || (currentLayer.maxScale && mapScale > currentLayer.maxScale)) {
-                    drawLayer.getSource().once("change", () => drawLayer.getSource().clear());
-                    dispatch("Alerting/addSingleAlert", {
-                        category: "error",
-                        content: i18next.t("common:modules.wfst.error.geometryOutOfRange"),
-                        mustBeConfirmed: false
-                    }, {root: true});
-                    return;
-                }
-                dispatch("Maps/removeInteraction", drawInteraction, {root: true});
-                dispatch("Maps/addInteraction", modifyInteraction, {root: true});
-                dispatch("Maps/addInteraction", translateInteraction, {root: true});
-            });
-            dispatch("Maps/addInteraction", drawInteraction, {root: true});
-            if (shouldValidateForm) {
-                dispatch("validateForm", featureProperties);
-            }
         }
         else if (interaction === "update") {
-            commit("setSelectedInteraction", "update");
-            selectInteraction = new Select({
-                layers: [sourceLayer]
+            commit("setSelectedUpdate", "singleUpdate");
+            dispatch("handleUpdateInteraction", {
+                sourceLayer,
+                featureProperties,
+                shouldValidateForm
             });
-
-            selectInteraction.getFeatures().on("add", (event) => {
-                commit("setSelectedInteraction", "selectedUpdate");
-                modifyFeature = event.target.getArray()[0].clone();
-
-                modifyFeatureSaveId = event.target.getArray()[0].getId();
-                modifyInteraction = new Modify({
-                    features: event.target,
-                    condition: e => primaryAction(e) && !platformModifierKeyOnly(e)
-                });
-                translateInteraction = new Translate({
-                    features: event.target,
-                    condition: e => primaryAction(e) && platformModifierKeyOnly(e)
-                });
-
-                dispatch("Maps/removeInteraction", selectInteraction, {root: true});
-                dispatch("Maps/addInteraction", modifyInteraction, {root: true});
-                dispatch("Maps/addInteraction", translateInteraction, {root: true});
-                commit(
-                    "setFeatureProperties",
-                    featureProperties
-                        .map(property => ({...property, value: modifyFeature.get(property.key), valid: true}))
-                );
-                if (shouldValidateForm) {
-                    dispatch("validateForm", featureProperties);
-                    commit("setIsFormDisabled", false);
-                }
+        }
+        else if (interaction === "multiUpdate") {
+            commit("setSelectedUpdate", "multiUpdate");
+            dispatch("handleMultiUpdateInteraction", {
+                sourceLayer,
+                featureProperties
             });
-            dispatch("Maps/addInteraction", selectInteraction, {root: true});
         }
         else if (interaction === "delete") {
-            commit("setSelectedInteraction", "delete");
-            selectInteraction = new Select({
-                layers: [sourceLayer]
+            dispatch("handleDeleteInteraction", {
+                sourceLayer
             });
-            selectInteraction.on("select", event => {
-                featureToDelete = event.selected[0];
-                commit("setShowConfirmModal", true);
-                dispatch("Maps/removeInteraction", selectInteraction, {root: true});
+        }
+    },
+    /**
+     * Handles draw interaction for a single feature.
+     */
+    handleDrawInteraction (context, payload) {
+        const {commit, dispatch} = context,
+            {sourceLayer, currentInteractionConfig, interaction, featureProperties, rootGetters, toggleLayer, currentLayerId, shouldValidateForm} = payload;
+            // style = layerInformation[currentLayerIndex];
+        let drawOptions = {};
+
+        drawLayer = new VectorLayer({
+            id: "module/wfsTransaction/wfsTransaction/vectorLayer",
+            name: "module/wfsTransaction/wfsTransaction/vectorLayer",
+            source: new VectorSource(),
+            alwaysOnTop: true,
+            zIndex: 10
+        });
+
+        dispatch("Maps/addLayer", drawLayer, {root: true});
+
+        drawOptions = {
+            source: drawLayer.getSource(),
+            type: (currentInteractionConfig[interaction].multi ? "Multi" : "") + interaction,
+            stopClick: true,
+            geometryName: featureProperties.find(({type}) => type === "geometry")?.key
+        };
+
+        // if (interaction === "Point") {
+        //     drawOptions.style = style;
+        // }
+
+        drawInteraction = new Draw(drawOptions);
+
+        modifyInteraction = new Modify({
+            source: drawLayer.getSource(),
+            condition: event => primaryAction(event) && !platformModifierKeyOnly(event)
+        });
+
+        translateInteraction = new Translate({
+            layers: [drawLayer],
+            condition: event => primaryAction(event) && platformModifierKeyOnly(event)
+        });
+        // drawLayer.setStyle(style);
+
+        if (toggleLayer) {
+            sourceLayer?.setVisible(false);
+        }
+
+        drawInteraction.on("drawend", (event) => {
+            commit("setSelectedInteraction", "insert");
+
+            sourceLayer.getSource().addFeature(event.feature);
+            drawLayer.getSource().clear();
+
+            dispatch("validateFeatureScale", {dispatch, rootGetters, currentLayerId});
+            dispatch("Maps/removeInteraction", drawInteraction, {root: true});
+            dispatch("Maps/addInteraction", modifyInteraction, {root: true});
+            dispatch("Maps/addInteraction", translateInteraction, {root: true});
+        });
+
+        dispatch("Maps/addInteraction", drawInteraction, {root: true});
+        if (shouldValidateForm) {
+            dispatch("validateForm", featureProperties);
+        }
+    },
+    /**
+     * Handles update interaction for a single feature.
+     */
+    handleUpdateInteraction (context, payload) {
+        const {commit, dispatch} = context,
+            {sourceLayer, featureProperties, shouldValidateForm} = payload;
+        let lastSelectedFeature, selectedFeature, target;
+
+        selectInteraction = new Select({
+            layers: [sourceLayer]
+        });
+
+        selectedFeatures = selectInteraction.getFeatures();
+
+        selectedFeatures.on("add", (event) => {
+            commit("setSelectedInteraction", "selectedUpdate");
+
+            selectedFeature = event.element;
+            target = event.target;
+
+            if (lastSelectedFeature && lastSelectedFeature !== selectedFeature) {
+                lastSelectedFeature.set("selected", false);
+            }
+
+            selectedFeature.set("selected", true);
+
+            modifyFeature = selectedFeature.clone();
+            modifyFeatureSaveId = selectedFeature.getId();
+            modifyFeature.setId(modifyFeatureSaveId);
+
+            dispatch("addModifyAndTranslateInteractions", {dispatch, target});
+
+            commit("setFeatureProperties", featureProperties.map(property => ({
+                ...property,
+                value: modifyFeature.get(property.key),
+                valid: true
+            })));
+            if (shouldValidateForm) {
+                dispatch("validateForm", featureProperties);
+                commit("setIsFormDisabled", false);
+            }
+            lastSelectedFeature = selectedFeature;
+        });
+
+        dispatch("Maps/addInteraction", selectInteraction, {root: true});
+    },
+    /**
+     * Handles multi update interaction for multiple features.
+     */
+    handleMultiUpdateInteraction (context, payload) {
+        const {commit, dispatch, state} = context,
+            {sourceLayer, featureProperties} = payload;
+        let selectedFeature, target, removedFeature, index;
+
+        // === SINGLE CLICK SELECTION ===
+        selectInteraction = new Select({
+            condition: click,
+            multi: true,
+            layers: [sourceLayer],
+            addCondition: click,
+            removeCondition: click
+        });
+
+        selectedFeatures = selectInteraction.getFeatures();
+
+        dispatch("handleSelectInteraction", {
+            interactionToActivate: selectInteraction,
+            interactionsToDeactivate: [lassoInteraction, boxInteraction]
+        });
+
+        commit("setSelectedInteraction", "selectedUpdate");
+
+        selectedFeatures.on("add", (event) => {
+            target = event.target;
+            selectedFeature = event.element;
+
+            selectedFeature.set("selected", true);
+
+            selectedFeatures.getArray().forEach((newSelectedFeature) => {
+                dispatch("processSelectedFeature", {newSelectedFeature, featureProperties, target});
             });
-            dispatch("Maps/addInteraction", selectInteraction, {root: true});
-            featureToDelete = null;
+        });
+        selectedFeatures.on("remove", (event) => {
+            removedFeature = event.element;
+
+            removedFeature.set("click", 0);
+            removedFeature.set("selected", false);
+            index = modifyFeatureArray.findIndex(feature => feature.getId() === removedFeature.getId());
+
+            if (index !== -1) {
+                modifyFeatureArray.splice(index, 1);
+                modifyFeatureSaveIdArray.splice(index, 1);
+                state.featurePropertiesBatch.splice(index, 1);
+            }
+
+        });
+        dispatch("Maps/addInteraction", selectInteraction, {root: true});
+    },
+    /**
+     * Handles lasso selection.
+     */
+    handleLassoInteraction ({dispatch, getters}) {
+        const lassoSource = new VectorSource(),
+            lassoLayer = new VectorLayer({source: lassoSource}),
+            {currentLayerId} = getters,
+            sourceLayer = layerCollection.getLayerById(currentLayerId)?.layer;
+        let lassoGeometry, lassoFeatures;
+
+        lassoInteraction = new Draw({
+            source: lassoSource,
+            multi: true,
+            type: "Polygon",
+            freehand: true
+
+        });
+
+        dispatch("Maps/addLayer", lassoLayer, {root: true});
+
+        dispatch("handleSelectInteraction", {
+            interactionToActivate: lassoInteraction,
+            interactionsToDeactivate: [selectInteraction, boxInteraction]
+        });
+
+        selectedFeatures = selectInteraction.getFeatures();
+
+        lassoInteraction.on("drawend", (event) => {
+
+            if (!event.feature) {
+                console.warn("No feature drawn in the event.");
+                return;
+            }
+
+            lassoGeometry = event.feature.getGeometry();
+
+            lassoFeatures = sourceLayer.getSource().getFeatures().filter(feature => lassoGeometry.intersectsExtent(feature.getGeometry().getExtent())
+            );
+
+            lassoFeatures.forEach(feature => {
+                if (!selectedFeatures.getArray().includes(feature)) {
+                    selectedFeatures.push(feature);
+                }
+            });
+
+            setTimeout(() => {
+                lassoSource.clear();
+            }, 500);
+        });
+
+        dispatch("Maps/addInteraction", lassoInteraction, {root: true});
+    },
+    /**
+     * Handles rectangle selection.
+     */
+    handleBoxInteraction ({dispatch, getters}) {
+        const boxSource = new VectorSource(),
+            boxLayer = new VectorLayer({source: boxSource}),
+            {currentLayerId} = getters,
+            sourceLayer = layerCollection.getLayerById(currentLayerId)?.layer;
+
+
+        boxInteraction = new DragBox({
+            layers: [sourceLayer]
+        });
+
+        dispatch("Maps/addLayer", boxLayer, {root: true});
+
+        dispatch("handleSelectInteraction", {
+            interactionToActivate: boxInteraction,
+            interactionsToDeactivate: [selectInteraction, lassoInteraction]
+        });
+
+        selectedFeatures = selectInteraction.getFeatures();
+
+        boxInteraction.on("boxend", () => {
+
+            const boxExtent = boxInteraction.getGeometry().getExtent(),
+
+                boxFeatures = sourceLayer.getSource().getFeatures().filter(feature => boxExtent && feature.getGeometry().intersectsExtent(boxExtent)
+                );
+
+            boxFeatures.forEach(feature => {
+                if (!selectedFeatures.getArray().includes(feature)) {
+                    selectedFeatures.push(feature);
+                }
+            });
+        });
+
+        boxInteraction.on("boxstart", () => {
+            boxSource.clear();
+        });
+
+        dispatch("Maps/addInteraction", boxInteraction, {root: true});
+    },
+    /**
+     * Activates click interaction and disables other interactions.
+     */
+    handleClickInteraction () {
+        selectInteraction.setActive(true);
+        if (boxInteraction) {
+            boxInteraction.setActive(false);
+        }
+        if (lassoInteraction) {
+            lassoInteraction.setActive(false);
+        }
+    },
+    /**
+     * Activates one interaction and disables other interactions.
+     * @param {Object} context - The context object.
+     * @param {Function} context.commit - The commit function to trigger mutations.
+     * @param {Object} context.state - The state object.
+     * @param {Object} payload - The payload object.
+     * @param {Object} payload.interactionToActivate - The interaction to activate.
+     * @param {Array} payload.interactionsToDeactivate - The interactions to deactivate.
+     */
+    handleSelectInteraction (context, payload) {
+        const {interactionToActivate, interactionsToDeactivate} = payload;
+
+        interactionToActivate.setActive(true);
+        interactionsToDeactivate.forEach(interaction => {
+            if (interaction) {
+                interaction.setActive(false);
+            }
+        });
+    },
+    /**
+     *
+     * @param {*} context
+     * @param {*} payload
+     */
+    processSelectedFeature (context, payload) {
+        const {commit, state} = context,
+            {newSelectedFeature, featureProperties} = payload;
+        let updatedFeatureProperties;
+
+        commit("setSelectedInteraction", "selectedUpdate");
+        modifyFeatureSaveId = newSelectedFeature.getId();
+        modifyFeature = newSelectedFeature.clone();
+        modifyFeature.setId(modifyFeatureSaveId);
+
+        if (!modifyFeatureArray.some(feature => feature.getId() === modifyFeature.getId())) {
+            modifyFeatureArray.push(modifyFeature);
+            modifyFeatureSaveIdArray.push(modifyFeatureSaveId);
+
+            updatedFeatureProperties = featureProperties.map(property => ({
+                ...property,
+                value: modifyFeatureArray[modifyFeatureArray.length - 1]?.get(property.key)
+            }));
+
+            commit("setFeatureProperties", updatedFeatureProperties);
+
+            if (!state.featurePropertiesBatch.includes(updatedFeatureProperties)) {
+                state.featurePropertiesBatch.push(updatedFeatureProperties);
+            }
+        }
+    },
+
+    /**
+     * Handles delete interaction.
+     */
+    handleDeleteInteraction (context, payload) {
+        const {commit, dispatch} = context,
+            {sourceLayer} = payload;
+
+        commit("setSelectedInteraction", "delete");
+        selectInteraction = new Select({layers: [sourceLayer]});
+
+        selectInteraction.on("select", (event) => {
+            featureToDelete = event.selected[0];
+            commit("setShowConfirmModal", true);
+            dispatch("Maps/removeInteraction", selectInteraction, {root: true});
+        });
+
+        dispatch("Maps/addInteraction", selectInteraction, {root: true});
+        featureToDelete = null;
+    },
+
+    /**
+     * Adds modify and translate interactions to the selected features.
+     */
+    addModifyAndTranslateInteractions (context, payload) {
+        const {dispatch} = context,
+            {target} = payload;
+
+        modifyInteraction = new Modify({
+            features: target,
+            condition: e => primaryAction(e) && !platformModifierKeyOnly(e)
+        });
+
+        translateInteraction = new Translate({
+            features: target,
+            condition: e => primaryAction(e) && platformModifierKeyOnly(e)
+        });
+
+        dispatch("Maps/addInteraction", modifyInteraction, {root: true});
+        dispatch("Maps/addInteraction", translateInteraction, {root: true});
+    },
+    /**
+     *
+     * @param {*} context
+     * @param {*} payload
+     */
+    validateFeatureScale (context, payload) {
+        const {dispatch, rootGetters} = context,
+            {currentLayerId} = payload,
+            currentLayer = layerCollection.getLayerById(currentLayerId),
+            mapScale = rootGetters["Maps/scale"];
+
+        if ((currentLayer.minScale && mapScale < currentLayer.minScale) ||
+            (currentLayer.maxScale && mapScale > currentLayer.maxScale)) {
+            drawLayer.getSource().once("change", () => drawLayer.getSource().clear());
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                content: i18next.t("common:modules.wfst.error.geometryOutOfRange"),
+                mustBeConfirmed: false
+            }, {root: true});
         }
     },
     /**
@@ -180,12 +500,16 @@ const actions = {
         const sourceLayer = layerCollection.getLayerById(getters.currentLayerId)?.layer,
             layerSelected = Array.isArray(getters.featureProperties);
 
+        layerCollection.getLayerById(getters.currentLayerId).getLayerSource().refresh();
+
         commit("setFeatureProperties",
             layerSelected
-                ? getters.featureProperties.map(property => ({...property, value: null, valid: null}))
+                ? getters.featureProperties.map(property => ({...property, value: null}))
                 : getters.featureProperties
         );
+        commit("setFeaturePropertiesBatch", []);
         commit("setSelectedInteraction", null);
+        commit("setSelectedUpdate", null);
         dispatch("clearInteractions");
         if (layerSelected) {
             sourceLayer?.setVisible(true);
@@ -198,6 +522,9 @@ const actions = {
             sourceLayer?.getSource().refresh();
             modifyFeature = undefined;
             modifyFeatureSaveId = undefined;
+
+            modifyFeatureArray = [];
+            modifyFeatureSaveIdArray = [];
         }
     },
     /**
@@ -242,8 +569,82 @@ const actions = {
             "sendTransaction",
             featureWithProperties
         );
+        dispatch("reset");
     },
 
+    /**
+     * Checks whether all required values have been set and a feature is present
+     * and either dispatches an alert or sends a transaction -it does it in the loop for all features.
+     *
+     * @returns {void}
+     */
+    async saveMulti ({dispatch, getters}) {
+        const {
+                currentLayerIndex,
+                featurePropertiesBatch,
+                featureProperties,
+                layerInformation,
+                selectedInteraction,
+                layerIds
+            } = getters,
+            currentLayerId = layerIds[currentLayerIndex],
+            features = modifyFeatureArray ? modifyFeatureArray : drawLayer.getSource().getFeatures();
+        let geometryFeature,
+            index = 0,
+            currentIndex;
+
+        for (const feature of features) {
+
+            const error = getters.savingErrorMessage(feature);
+
+            if (error.length > 0) {
+                dispatch("Alerting/addSingleAlert", {
+                    category: "Info",
+                    displayClass: "info",
+                    content: error,
+                    mustBeConfirmed: false
+                }, {root: true});
+                continue;
+            }
+
+            currentIndex = index;
+            if (modifyFeatureArray[currentIndex]) {
+                const currentId = modifyFeatureSaveIdArray[currentIndex];
+
+                if (currentId !== -1) {
+                    geometryFeature = layerCollection
+                        .getLayerById(currentLayerId)
+                        .getLayerSource()
+                        .getFeatures()
+                        .find(workFeature => workFeature.getId() === currentId);
+                }
+            }
+            else {
+                geometryFeature = feature;
+            }
+
+            if (index < featurePropertiesBatch.length) {
+
+                const featureWithProperties = await addFeaturePropertiesToFeature(
+                    {
+                        id: feature.getId() || modifyFeatureSaveIdArray[index],
+                        geometryName: feature.getGeometryName(),
+                        geometry: geometryFeature.getGeometry()
+                    },
+                    featureProperties,
+                    selectedInteraction === "selectedUpdate",
+                    layerInformation[currentLayerIndex].featurePrefix
+                );
+
+                await dispatch("sendTransaction", featureWithProperties);
+            }
+            else {
+                console.warn(`No properties found for feature at index ${index}`);
+            }
+            index++;
+        }
+        dispatch("reset");
+    },
     /**
      * Sends a transaction to the API and processes the response.
      * Either a message is displayed to the user in case of an error, depending on the response,
@@ -253,15 +654,16 @@ const actions = {
      * @returns {Promise} Promise containing the feature to be added, updated or deleted if transaction was successful. If transaction fails it returns null
      */
     async sendTransaction ({dispatch, getters, rootGetters}, feature) {
-        const {currentLayerIndex, layerInformation, selectedInteraction} = getters,
+        const {currentLayerIndex, layerInformation, selectedInteraction, featurePropertiesBatch, multiUpdate} = getters,
             layer = layerInformation[currentLayerIndex],
             selectedFeature = feature && featureToDelete !== null ? feature : featureToDelete,
             url = layer.url,
             transactionMethod = ["LineString", "Point", "Polygon"].includes(selectedInteraction)
                 ? "insert"
                 : selectedInteraction,
-            messageKey = `success.${transactionMethod}`;
-        let response;
+            messageKey = `success.${transactionMethod}`,
+            transaction = i18next.t("common:modules.wfst.transaction." + messageKey);
+        let response, configValues, changes, combinedValues, LayerConfigAttributes, LayerControlAttributes;
 
         try {
             response = await wfs.sendTransaction(rootGetters["Maps/projectionCode"], selectedFeature, url, layer, selectedInteraction);
@@ -276,20 +678,52 @@ const actions = {
             response = null;
         }
         finally {
-            const transaction = i18next.t("common:modules.wfst.transaction." + messageKey);
+            let additionalInfo = "";
 
-            await dispatch("reset");
-            layerCollection.getLayerById(layer.id).getLayerSource().refresh();
+            if (featurePropertiesBatch.length > 0) {
+                LayerConfigAttributes = multiUpdate.find(item => item.layerId === layer.id).configAttributes;
+                LayerControlAttributes = multiUpdate.find(item => item.layerId === layer.id).controlAttributes;
+
+                additionalInfo = "</br></br>" + featurePropertiesBatch.length + i18next.t("common:modules.wfst.transaction.success.batchInfo", {layer: layer.name}) + "<ul>" +
+                    featurePropertiesBatch
+                        .map(batchItem => {
+                            configValues = LayerConfigAttributes
+                                .map(attr => batchItem.find(item => item.key === attr)?.value)
+                                .filter(value => value !== undefined);
+
+                            changes = LayerControlAttributes
+                                .map(attr => {
+                                    const controlItem = batchItem.find(item => item.key === attr);
+
+                                    if (controlItem) {
+                                        return `${controlItem.key}-> ${controlItem.value}`;
+                                    }
+                                    return null;
+                                })
+                                .filter(item => item !== null);
+                            combinedValues = changes.join(", ");
+
+                            return combinedValues ? `<li>${configValues}: ${combinedValues}</li>` : "";
+                        })
+                        .join("") +
+                    "</ul>";
+            }
+            if (selectedInteraction !== "selectedUpdate") {
+                layerCollection.getLayerById(layer.id).getLayerSource().refresh();
+            }
+
             if (response !== null) {
                 dispatch("Alerting/addSingleAlert", {
                     category: "success",
-                    content: i18next.t("common:modules.wfst.transaction.success.baseSuccess", {transaction: transaction})
+                    content: i18next.t("common:modules.wfst.transaction.success.baseSuccess", {transaction: transaction}) + additionalInfo
                 }, {root: true});
+            }
+            if (selectedInteraction !== "selectedUpdate") {
+                await dispatch("reset");
             }
         }
         return response;
     },
-
     /**
      * Sets the active property of the state to the given value.
      * Also starts processes if the tool is activated (active === true).
@@ -310,7 +744,6 @@ const actions = {
             dispatch("reset");
         }
     },
-
     /**
      * Validates the user-input sets the error messages.
      * @param {Object} property property that is validated based on it's type
@@ -364,6 +797,12 @@ const actions = {
             commit("setFeatureProperty", {...feature, key: feature.key, value: feature.value});
         }
     },
+    /**
+     * Sets the feature property
+     *
+     * @param {Object} payload property key, type, value
+     * @returns {void}
+     */
     setFeatureProperty ({commit, dispatch}, {key, type, value}) {
         if (type === "number" && !Number.isFinite(parseFloat(value))) {
             dispatch("Alerting/addSingleAlert", {
@@ -376,10 +815,26 @@ const actions = {
         }
         commit("setFeatureProperty", {key, value});
     },
+    /**
+     * Sets the feature property in the batch
+     *
+     * @param {Object} payload property key, type, value
+     * @returns {void}
+     */
+    setFeaturesBatchProperty ({commit, dispatch}, {key, type, value}) {
+        if (type === "number" && !Number.isFinite(parseFloat(value))) {
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                content: i18next.t("common:modules.wfst.error.onlyNumbersAllowed"),
+                mustBeConfirmed: false
+            }, {root: true});
+            return;
+        }
 
+        commit("setFeaturesBatchProperty", {key, value});
+    },
     /**
      * Sets all feature properties based on actual layer
-     *
      * @returns {void}
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation, useProxy}}) {

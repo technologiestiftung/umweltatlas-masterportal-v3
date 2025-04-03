@@ -10,6 +10,7 @@
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {String[]} supportedMapModes Map mode in which this module can be used.
  * @property {(ButtonConfig[]|Boolean)} update Whether it should be possible to update features of the WFS-T layers.
+ * @property {(ButtonConfig[]|Boolean)} multiUpdate Whether it should be possible to update features of the group of WFS-T layers.
  * @property {(ButtonConfig[]|Boolean)} delete Whether it should be possible to delete features of the WFS-T layers.
  * @property {String[]} layerIds Ids of the configured WFS-T layers.
  * @property {String} layerSelectLabel Label used for the layer select
@@ -19,6 +20,8 @@
  * @property {Boolean} transactionProcessing Flag if a process like delete, update is currently active with axios post,get.
  * @property {Boolean} showConfirmModal Flag if the modal dialog should be shown.
  * @property {Boolean} toggleLayer Whether the already added features should be displayed while inserting new features.
+ * @property {String[]} configAttributes
+ * @property {String[]} controlAttributes
  * @property {Number} currentLayerIndex Index of the currently selected layer.
  * @property {FeatureProperty[]} featureProperties Possible properties to be set on a feature for the current layer.
  * @property {TransactionLayer[]} layerInformation Information about the different WFS-T layers configured for the tool.
@@ -26,6 +29,7 @@
  * @property {Boolean} isFormDisabled if true then feature form inputs are invalid and form data cannot be saved to backend
  * @property {Boolean} active Whether the tool is currently active.
  * @property {Boolean} deactivateGFI Whether the gfi tool should be deactivated when this tool is started.
+ * @property {("singleUpdate"|"multiUpdate"|null)} selectedUpdate Which update is currently active, if any.
  */
 const state = {
     // General configuration
@@ -38,6 +42,7 @@ const state = {
     supportedMapModes: ["2D"],
     // Module specific configuration
     update: false,
+    multiUpdate: [],
     delete: false,
     layerIds: [],
     layerSelectLabel: "common:modules.wfst.layerSelectLabel",
@@ -47,14 +52,26 @@ const state = {
     transactionProcessing: false,
     showConfirmModal: false,
     toggleLayer: false,
+    // multiupdate attributes
+    configAttributes: [],
+    controlAttributes: [],
     // Actual state
     currentLayerIndex: -1,
     featureProperties: [],
+    featurePropertiesBatch: [],
     layerInformation: [],
     selectedInteraction: null,
     isFormDisabled: false,
     active: false,
-    deactivateGFI: true
+    deactivateGFI: true,
+    // buttons interaction
+    selectIcons: {
+        box: "bi-square",
+        pen: "bi-pencil-fill"
+    },
+    selectTypes: ["pen", "box"],
+    selectedUpdate: null
+    // selectedSelectInteraction: "select"
 };
 
 export default state;

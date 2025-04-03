@@ -2,6 +2,9 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
 import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
+// import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import SelectTypeButtons from "./SelectTypeButtons.vue";
+
 
 /**
  * Wfs Transaction
@@ -9,7 +12,13 @@ import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
  */
 export default {
     name: "WfsTransaction",
-    components: {LightButton, ModalItem},
+    components: {LightButton, ModalItem, SelectTypeButtons},
+    data () {
+        return {
+            selectedSelectInteraction: "select",
+            previousSelectType: null
+        };
+    },
     computed: {
         ...mapGetters("Modules/Wfst", [
             "currentInteractionConfig",
@@ -29,7 +38,14 @@ export default {
             "transactionProcessing",
             "isFormDisabled",
             "active",
-            "deactivateGFI"
+            "deactivateGFI",
+            "featurePropertiesBatch",
+            "configAttributes",
+            "controlAttributes",
+            "multiUpdate",
+            "selectIcons",
+            "selectTypes",
+            "selectedUpdate"
         ]),
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
@@ -44,13 +60,14 @@ export default {
             },
             deep: true
         }
+
     },
     created () {
         this.initializeLayers();
     },
     methods: {
-        ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setActive", "setFeatureProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
+        ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
@@ -79,6 +96,7 @@ export default {
         layerChanged (index) {
             this.setCurrentLayerIndex(index);
             this.setFeatureProperties();
+            this.setFeaturePropertiesBatch();
             this.reset();
         },
         /**
@@ -127,6 +145,16 @@ export default {
                 return value + ".0";
             }
             return value;
+        },
+        getControlAttributes (layerId) {
+            const layerData = this.multiUpdate.find(item => item.layerId === layerId);
+
+            return layerData ? layerData.controlAttributes : [];
+        },
+        getConfigAttributes (layerId) {
+            const layerData = this.multiUpdate.find(item => item.layerId === layerId);
+
+            return layerData ? layerData.configAttributes : [];
         }
     }
 };
@@ -135,6 +163,7 @@ export default {
 <template lang="html">
     <div>
         <div id="tool-wfs-transaction-container">
+            <!-- Layer selection -->
             <div class="layer-select-container">
                 <label
                     id="tool-wfs-transaction-layer-select-label"
@@ -157,11 +186,13 @@ export default {
                     </option>
                 </select>
             </div>
+            <!-- Error message if feature properties are a string -->
             <template v-if="typeof featureProperties === 'string'">
                 <div class="tool-wfs-transaction-layer-failure mt-5">
                     {{ $t(featureProperties) }}
                 </div>
             </template>
+            <!-- Interaction buttons -->
             <div
                 v-else-if="showInteractionsButtons"
                 class="tool-wfs-transaction-interaction-select-container btn-toolbar"
@@ -184,8 +215,11 @@ export default {
                     </template>
                 </div>
             </div>
+            <!-- Feature/Features properties form -->
             <template v-else>
-                <div class="tool-wfs-transaction-form-container">
+                <div
+                    class="tool-wfs-transaction-form-container"
+                >
                     <hr>
                     <p
                         v-if="currentInteractionConfig.Polygon.available"
@@ -199,8 +233,105 @@ export default {
                     >
                         <span><span class="form-label-info"> - </span>{{ $t("common:modules.tools.wfst.fieldRequired") }}</span>
                     </p>
-                    <form id="tool-wfs-transaction-form">
-                        <template v-for="property of featureProperties">
+                    <!-- Select type bottons -->
+                    <div
+                        v-if="selectedUpdate==='multiUpdate'"
+                        class="d-flex"
+                    >
+                        <SelectTypeButtons
+                            :selected-select-interaction="selectedSelectInteraction"
+                            :select-types="selectTypes"
+                            :select-icons="selectIcons"
+                        />
+                    </div>
+
+                    <p v-if="featurePropertiesBatch.length !== 0">
+                        {{ featurePropertiesBatch.length }}
+                        {{ featurePropertiesBatch.length === 1
+                            ? $t("common:modules.wfst.multiUpdate.oneSelected")
+                            : $t("common:modules.wfst.multiUpdate.multipleSelected")
+                        }}
+                    </p>
+                    <p v-else-if="selectedUpdate==='multiUpdate'">
+                        {{ $t("common:modules.wfst.multiUpdate.noItemsSelected") }}
+                    </p>
+                    <!-- Scrollable list of features -->
+                    <div
+                        v-if="selectedUpdate==='multiUpdate'"
+                        class="scrollable-list"
+                    >
+                        <ul>
+                            <li
+                                v-for="(batchItem, index) in featurePropertiesBatch"
+                                :key="`batch-${index}`"
+                            >
+                                <strong>
+                                    {{
+                                        batchItem
+                                            .filter(property => getConfigAttributes(layerInformation[currentLayerIndex].id).includes(property.key))
+                                            .map(property => property.value)
+                                            .join(" ")
+                                    }}
+                                </strong>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Multi update form -->
+                    <form
+                        v-if="featurePropertiesBatch.length !== 0"
+                        id="tool-wfs-transaction-form"
+                    >
+                        <template
+                            v-for="property in featurePropertiesBatch[0].filter(p => getControlAttributes(layerInformation[currentLayerIndex].id).includes(p.key))"
+                            :key="`common-${property.key}`"
+                        >
+                            <template v-if="property.type !== 'geometry'">
+                                <label
+                                    :key="`${property.key}-label`"
+                                    :for="`tool-wfs-transaction-form-input-${property.key}`"
+                                    class="form-label"
+                                >
+                                    {{ $t(property.label) }}
+                                </label>
+                                <input
+                                    v-if="getInputType(property.type) === 'checkbox'"
+                                    :id="`tool-wfs-transaction-form-input-${property.key}`"
+                                    :key="`${property.key}-checkbox-input`"
+                                    :type="getInputType(property.type)"
+                                    :checked="['true', true].includes(property.value) ? true : false"
+                                    class="form-control-checkbox"
+                                    @input="event => setFeaturesBatchProperty({key: property.key, type: getInputType(property.type), value: event.target.checked})"
+                                >
+                                <input
+                                    :id="`tool-wfs-transaction-form-input-${property.key}`"
+                                    :key="`${property.key}-input`"
+                                    class="form-control"
+                                    :type="getInputType(property.type)"
+                                    :required="property.required"
+                                    @input="event => setFeaturesBatchProperty({key: property.key, type: getInputType(property.type), value: event.target.value})"
+                                >
+                            </template>
+                        </template>
+                        <div class="tool-wfs-transaction-form-buttons">
+                            <LightButton
+                                :interaction="reset"
+                                text="common:modules.wfst.form.discard"
+                                class="form-button"
+                            />
+                            <LightButton
+                                :interaction="saveMulti"
+                                text="common:modules.wfst.form.save"
+                                type="button"
+                                class="form-button"
+                            />
+                        </div>
+                    </form>
+                    <!-- Individual feature update form -->
+                    <form
+                        v-else-if="selectedUpdate==='singleUpdate' || selectedInteraction==='insert'"
+                        id="tool-wfs-transaction-form"
+                    >
+                        <template v-for="property in featureProperties">
                             <template v-if="property.type !== 'geometry'">
                                 <label
                                     :key="`${property.key}-label`"
@@ -310,8 +441,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-
-#delete:focus, #update:focus {
+#delete:focus, #update:focus,  #multiUpdate:focus {
     background-color:$light_blue;
 }
 .spinner-border {
@@ -337,6 +467,23 @@ h3 {
 #confirmation-button-container {
     overflow:hidden;
     margin-top:12px;
+}
+.scrollable-list {
+  height: 110px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 70%;
+  background-color: #f9f9f9;
+  border-radius: 2px;
+}
+.scrollable-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.scrollable-list li {
+  padding: 2px 0;
 }
 #modal-button-left {
     float:left;

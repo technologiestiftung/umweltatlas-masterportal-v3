@@ -22,6 +22,11 @@ export const defaultInteractionConfig = {
             icon: "bi-pencil-square",
             text: "common:modules.wfst.interactionSelect.update"
         },
+        multiUpdate: {
+            available: false,
+            icon: "bi-pencil-square",
+            text: "common:modules.wfst.interactionSelect.multiUpdate"
+        },
         delete: {
             available: false,
             icon: "bi-trash",
