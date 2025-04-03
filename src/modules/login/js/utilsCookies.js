@@ -48,25 +48,14 @@ export function get (name) {
 }
 
 /**
- * Deletes a cookie by setting its expiration date to the past
- * Makes sure to delete both domain and non-domain variants
+ * Delete cookie with given name
  *
- * @param {string} name - The name of the cookie to delete
+ * @param {String} name of cookie to delete
+ * @return {void}
  */
 export function erase (name) {
-
-    // // Create expired date in the past
-    // const pastDate = new Date(),
     const domain = window.location.hostname;
 
-    // pastDate.setTime(pastDate.getTime() - (24 * 60 * 60 * 1000)); // Set to yesterday
-
-    // // Ignore eslint rule to ensure code readability
-    // // eslint-disable-next-line one-var
-    // const expires = "; expires=" + pastDate.toUTCString();
-
-
-    // Delete cookie without domain
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/; SameSite=None; Secure; domain=" + domain;
 }
 
