@@ -5,7 +5,7 @@ module.exports = function (destination, mastercodeVersionFolderName) {
         {
             "files": destination + "/js/masterportal.js",
             "from": /\/src\/assets\/img\/tools\/draw\/circle_/g,
-            "to": "/mastercode/" + mastercodeVersionFolderName + "/src/assets/img/tools/draw/circle_"
+            "to": "/mastercode/" + mastercodeVersionFolderName + "/img/tools/draw/circle_"
         },
         {
             "files": destination + "/index.html",
