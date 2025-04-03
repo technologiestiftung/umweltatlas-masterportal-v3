@@ -14,7 +14,6 @@ export default {
         if (!await this.isLoggedIn()) {
             this.openLoginWindow();
         }
-        setInterval(async () => this.isLoggedIn(), 10_000);
     },
     methods: {
         ...mapActions("Modules/Login", [

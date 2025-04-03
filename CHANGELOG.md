@@ -16,6 +16,7 @@
 
 ### Fixed
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
+- Fix OIDC Token Auto-Refresh After Initial Login
 
 ---
 
