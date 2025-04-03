@@ -7,6 +7,7 @@
 ### __Breaking Changes__
 
 ### Added
+- MapMarker: Added the ability to additionally highlight polygons
 
 ### Changed
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
@@ -43,7 +44,6 @@
 - Filter:
   - Added parameter questionLink. Can be configured to open a URL with information about the tool.
   - A new parameter "closeDropdownOnSelect" to enable/disable closing list after selecting an option in multiselect dropdown list.
-  - Added the ability to additionally highlight polygons
 
 ### Changed
 - Coding Conventions: updated.
