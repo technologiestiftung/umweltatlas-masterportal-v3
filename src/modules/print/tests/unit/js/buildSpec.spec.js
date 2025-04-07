@@ -18,6 +18,9 @@ import BuildSpec from "../../../js/buildSpec";
 import Circle from "ol/geom/Circle.js";
 import CircleStyle from "ol/style/Circle";
 import IconStyle from "ol/style/Icon";
+import {createStore} from "vuex";
+
+import store from "../../../../../app-store";
 
 describe("src/modules/print/js/buildSpec", function () {
     let buildSpec,
@@ -412,6 +415,143 @@ describe("src/modules/print/js/buildSpec", function () {
                     svg: "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M 05 30 L 30 05' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='4' stroke-dasharray='20 10' fill='none'/></svg>"
                 }
             ]);
+        });
+    });
+
+    describe("BuildSpec", function () {
+        describe("buildLegend", function () {
+            let getResponseStub,
+                mockStore;
+
+            /**
+             * Returns the default print settings used for initializing the print store state.
+             *
+             * @returns {Object} The default print configuration including visible layers, layout, map attributes, legend, and output format.
+             */
+            function getDefaultPrintSettings () {
+                return {
+                    visibleLayerIds: ["layer1", "layer2"],
+                    layout: "A4 Hochformat",
+                    attributes: {
+                        title: "TestTitel",
+                        map: {
+                            dpi: 96,
+                            projection: "EPSG:25832",
+                            center: [0, 0],
+                            scale: 40000
+                        },
+                        legend: {layers: []}
+                    },
+                    outputFormat: "pdf"
+                };
+            }
+
+            /**
+             * Creates a Vuex mock store with predefined Legend and Print modules.
+             *
+             * @param {Array<Object>} legends - An array of legend objects, each containing at least an `id`, `name`, and `legend` array.
+             * @returns {Object} A Vuex store instance configured for unit testing.
+             */
+            function createMockStore (legends) {
+                return createStore({
+                    modules: {
+                        Modules: {
+                            namespaced: true,
+                            modules: {
+                                Legend: {
+                                    namespaced: true,
+                                    getters: {
+                                        legends: () => legends,
+                                        sldVersion: () => "1.1.0"
+                                    }
+                                },
+                                Print: {
+                                    namespaced: true,
+                                    state: {
+                                        defaults: getDefaultPrintSettings()
+                                    },
+                                    actions: {
+                                        createPrintJob: sinon.stub()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            beforeEach(() => {
+                const legends = [
+                    {id: "layer1", name: "Layer 1", legend: ["image1.png"]},
+                    {id: "layer2", name: "Layer 2", legend: ["image2.png"]}
+                ];
+
+                mockStore = createMockStore(legends);
+
+                buildSpec.store = mockStore;
+                buildSpec.defaults = getDefaultPrintSettings();
+
+                getResponseStub = sinon.stub().resolves({});
+                sinon.stub(buildSpec, "hashImage").callsFake(async (url) => {
+                    return url === "image1.png" ? "hash1" : "hash2";
+                });
+                sinon.stub(buildSpec, "getMetaData").resolves();
+            });
+
+            afterEach(() => {
+                sinon.restore();
+            });
+
+            it("should generate legend object with unique images", async () => {
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, true, getResponseStub, 1);
+
+                expect(buildSpec.hashImage.callCount).to.equal(2);
+                expect(mockStore._actions["Modules/Print/createPrintJob"]).to.exist;
+            });
+
+            it("should skip adding duplicate images to the legend", async () => {
+                const legends = [
+                        {id: "layer1", name: "Layer 1", legend: ["image1.png"]},
+                        {id: "layer2", name: "Layer 2", legend: ["image1.png"]}
+                    ],
+                    duplicateStore = createMockStore(legends);
+
+                buildSpec.store = duplicateStore;
+                store.getters = duplicateStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                buildSpec.hashImage.restore();
+                sinon.stub(buildSpec, "hashImage").resolves("sameHash");
+
+                await buildSpec.buildLegend(true, false, getResponseStub, 1);
+
+                expect(buildSpec.hashImage.callCount).to.equal(2);
+                expect(buildSpec.defaults.attributes.legend.layers).to.have.lengthOf(1);
+            });
+
+            it("should handle metadata retrieval when available", async () => {
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, true, getResponseStub, 1);
+
+                expect(buildSpec.getMetaData.called).to.be.true;
+            });
+
+            it("should not crash if image hashing fails", async () => {
+                buildSpec.hashImage.restore();
+                sinon.stub(buildSpec, "hashImage").resolves(null);
+
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, false, getResponseStub, 1);
+
+                expect(mockStore._actions["Modules/Print/createPrintJob"]).to.exist;
+            });
         });
     });
 

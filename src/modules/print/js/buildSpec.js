@@ -1267,6 +1267,7 @@ const BuildSpecModel = {
 
         return valuesArray;
     },
+
     /**
      * Gets legend from legend vue store and builds legend object for mapfish print
      * The legend is only print if the related layer is visible.
@@ -1277,14 +1278,15 @@ const BuildSpecModel = {
      * @param {Object} legends the available legends
      * @return {void}
      */
-    buildLegend: function (isLegendSelected, isMetaDataAvailable, getResponse, index) {
+    buildLegend: async function (isLegendSelected, isMetaDataAvailable, getResponse, index) {
         const legendObject = {},
             metaDataLayerList = [],
-            legends = store.getters["Modules/Legend/legends"];
+            legends = store.getters["Modules/Legend/legends"],
+            hashMap = {};
 
         if (isLegendSelected && legends.length > 0) {
             legendObject.layers = [];
-            legends.forEach(legendObj => {
+            for (const legendObj of legends) {
                 if (layerCollection.getLayerById(legendObj.id)?.get("children")?.length > 0) {
                     legendObj.id = layerCollection.getLayerById(legendObj.id).get("children")[0].id;
                 }
@@ -1298,24 +1300,30 @@ const BuildSpecModel = {
                     if (legendContainsPdf) {
                         store.dispatch("Alerting/addSingleAlert", {
                             category: "info",
-                            content: "<b>The layer \"" + legendObj.name + "\" contains a pre-defined Legend. " +
-                            "This legens cannot be added to the print.</b><br>" +
-                            "You can download the pre-defined legend from the download menu seperately.",
+                            content: `<b>The layer "${legendObj.name}" contains a pre-defined Legend. 
+                                      This legend cannot be added to the print.</b><br>
+                                      You can download the pre-defined legend from the download menu separately.`,
                             displayClass: "info",
                             kategorie: "alert-info"
                         });
                     }
                     else {
-                        legendObject.layers.push({
-                            layerName: legendObj.name,
-                            values: this.prepareLegendAttributes(legendObj.legend, store.getters["Modules/Legend/sldVersion"])
-                        });
+                        await this.processLegendImage(legendObj, hashMap);
                     }
                 }
-            });
+            }
+
+            for (const hash in hashMap) {
+                legendObject.layers.push({
+                    layerName: hashMap[hash].names.join(" / "),
+                    values: hashMap[hash].values
+                });
+            }
         }
+
         this.setShowLegend(isLegendSelected);
         this.setLegend(legendObject);
+
         if (isMetaDataAvailable && metaDataLayerList.length > 0) {
             metaDataLayerList.forEach((layerName) => {
                 this.getMetaData(layerName, getResponse, index);
@@ -1331,6 +1339,54 @@ const BuildSpecModel = {
             store.dispatch("Modules/Print/createPrintJob", printJob);
         }
     },
+
+    /**
+     * Processes a legend image by hashing it and adding it to the hash map.
+     * If an image with the same hash already exists, the layer name is appended to the existing entry.
+     * @param {Object} legendObj - The legend object containing image details.
+     * @param {Object} hashMap - The hash map storing unique legend images.
+     * @return {Promise<void>}
+     */
+    async processLegendImage (legendObj, hashMap) {
+        if (legendObj.legend?.[0]) {
+            const imageUrl = legendObj.legend[0],
+                hash = await this.hashImage(imageUrl);
+
+            if (hash) {
+                if (hashMap[hash]) {
+                    hashMap[hash].names.push(legendObj.name);
+                }
+                else {
+                    hashMap[hash] = {
+                        names: [legendObj.name],
+                        values: this.prepareLegendAttributes(legendObj.legend, store.getters["Modules/Legend/sldVersion"])
+                    };
+                }
+            }
+        }
+    },
+
+    /**
+     * Generates a SHA-256 hash for a given image URL.
+     * @param {String} imageUrl - The URL of the image to be hashed.
+     * @return {Promise<String|null>} - The hash of the image, or null if an error occurs.
+     */
+    async hashImage (imageUrl) {
+        try {
+            const response = await fetch(imageUrl),
+                arrayBuffer = await response.arrayBuffer(),
+                hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, "0"))
+                .join("");
+        }
+        catch (error) {
+            console.error(`Error hashing image ${imageUrl}:`, error);
+            return null;
+        }
+    },
+
     /**
      * Checks if the legend url is a pdf.
      * @param {String} legend contains the legend url
