@@ -31,6 +31,7 @@
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - LayerInformation: Fixed console error if clicked on contact.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
+- buildSpec: Added hash check to include only unique legend images in print output.
 
 ---
 
