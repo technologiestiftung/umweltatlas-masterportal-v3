@@ -4,6 +4,7 @@ import layerCollection from "../../../core/layers/js/layerCollection";
 import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
+import isMobile from "../../../shared/js/utils/isMobile";
 
 export default {
     name: "TimeSlider",
@@ -32,6 +33,9 @@ export default {
         },
         selectedTime () {
             return this.timeRange[this.sliderValue];
+        },
+        isMobile () {
+            return isMobile();
         }
     },
     watch: {
@@ -136,14 +140,14 @@ export default {
             class="timeSlider-control-row"
         >
             <div
-                v-if="minWidth"
+                v-if="!isMobile"
                 class="timeSlider-innerWrapper"
             >
                 <FlatButton
                     :id="'timeSlider-activate-layerSwiper-' + layerId"
                     :aria-label="$t('common:modules.wmsTime.timeSlider.buttons')"
                     :interaction="() => toggleSwiper(layerId)"
-                    :text="$t(minWidth && layerSwiperActive ? 'common:modules.wmsTime.timeSlider.buttons.deactivateLayerSwiper' : 'common:modules.wmsTime.timeSlider.buttons.layerSwiper')"
+                    :text="$t(!isMobile && layerSwiperActive ? 'common:modules.wmsTime.timeSlider.buttons.deactivateLayerSwiper' : 'common:modules.wmsTime.timeSlider.buttons.layerSwiper')"
                 />
             </div>
             <div class="timeSlider-innerWrapper-interactions">
@@ -221,7 +225,7 @@ export default {
     $bigger-margin: calc(#{$base-margin} * 3);
 
     position: absolute;
-    bottom: 6em;
+    bottom: 2em;
     left: 50%;
     z-index: 3;
 
@@ -257,6 +261,22 @@ export default {
         justify-content: space-between;
         align-items: center;
         margin: $bigger-margin;
+
+    }
+}
+@include media-breakpoint-down(md) {
+    .timeSlider-wrapper {
+        .timeSlider-innerWrapper-interactions {
+            margin: 0.5em auto;
+                button {
+                    width: 2.25rem;
+                    height: 2.25rem;
+                    font-size: calc(2.25rem - 0.35 * 2.25rem);
+                }
+            }
+        .timeSlider-input-range-label {
+            margin: 0 calc(0.25em * 3) 0;
+        }
     }
 }
 </style>

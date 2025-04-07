@@ -1,6 +1,7 @@
 import store from "../../../app-store";
 import changeCase from "../../../shared/js/utils/changeCase";
 import processUrlParams from "../../../shared/js/utils/processUrlParams";
+import isMobile from "../../../shared/js/utils/isMobile";
 
 /**
  * Here the urlParams for the menu are processed.
@@ -13,12 +14,17 @@ import processUrlParams from "../../../shared/js/utils/processUrlParams";
  * - https://localhost:9001/portal/master/?STARTUPMODUL=fileimport
  * - https://localhost:9001/portal/master/?secondaryWidth=77&mainWidth=20
  * - https://localhost:9001/portal/master/?mainWidth=20
+ * - https://localhost:9001/portal/master/?secondaryclosed=true
+ * - https://localhost:9001/portal/master/?mainclosed=true&secondaryclosed=true
+ * - https://localhost:9001/portal/master/?mainclosed=false&secondaryclosed=false
  */
 
 const menuUrlParams = {
         MENU: setAttributesToComponent,
         MAINWIDTH: setMenuWidth,
-        SECONDARYWIDTH: setSecondaryMenuWidth
+        SECONDARYWIDTH: setSecondaryMenuWidth,
+        MAINCLOSED: setMainMenuClosed,
+        SECONDARYCLOSED: setSecondaryMenuClosed
     },
     legacyMenuUrlParams = {
         ISINITOPEN: isInitOpen,
@@ -157,7 +163,7 @@ function findElement (elements, searchType) {
  * @returns {void}
  */
 function setMenuWidth (params) {
-    if (params.MAINWIDTH) {
+    if (params.MAINWIDTH && !isMobile()) {
         store.dispatch("Menu/setCurrentMenuWidth", {type: "mainMenu", attributes: {width: params.MAINWIDTH}}, {root: true});
     }
 }
@@ -168,8 +174,40 @@ function setMenuWidth (params) {
  * @returns {void}
  */
 function setSecondaryMenuWidth (params) {
-    if (params.SECONDARYWIDTH) {
+    if (params.SECONDARYWIDTH && !isMobile()) {
         store.dispatch("Menu/setCurrentMenuWidth", {type: "secondaryMenu", attributes: {width: params.SECONDARYWIDTH}}, {root: true});
+    }
+}
+
+/**
+ * Closes Main Menu according to URL-Param
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setMainMenuClosed (params) {
+    if (!isMobile()) {
+        const shouldBeClosed = params.MAINCLOSED === "true",
+            isCurrentlyExpanded = store.getters["Menu/mainExpanded"];
+
+        if (shouldBeClosed === isCurrentlyExpanded) {
+            store.dispatch("Menu/toggleMenu", "mainMenu");
+        }
+    }
+}
+
+/**
+ * Closes Secondary Menu according to URL-Param
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setSecondaryMenuClosed (params) {
+    if (!isMobile()) {
+        const shouldBeClosed = params.SECONDARYCLOSED === "true",
+            isCurrentlyExpanded = store.getters["Menu/secondaryExpanded"];
+
+        if (shouldBeClosed === isCurrentlyExpanded) {
+            store.dispatch("Menu/toggleMenu", "secondaryMenu");
+        }
     }
 }
 
@@ -181,5 +219,7 @@ export default {
     findInSections,
     findElement,
     setMenuWidth,
-    setSecondaryMenuWidth
+    setSecondaryMenuWidth,
+    setMainMenuClosed,
+    setSecondaryMenuClosed
 };
