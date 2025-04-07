@@ -16,8 +16,8 @@
 ### Removed
 
 ### Fixed
+- Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
-- Fix OIDC Token Auto-Refresh After Initial Login
 - Issue #1389: Set and remove cookies with domain flag
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 
