@@ -126,6 +126,11 @@ export default {
         maxAttributesToShow: {
             type: Number,
             default: 30
+        },
+        runSelectRowOnMount: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],
@@ -255,7 +260,7 @@ export default {
         if (this.selectMode === "column" && Array.isArray(this.data?.headers)) {
             this.selectColumn(this.data.headers[1], 1);
         }
-        else if (this.selectMode === "row" && Array.isArray(this.data?.items)) {
+        else if (this.runSelectRowOnMount && this.selectMode === "row" && Array.isArray(this.data?.items)) {
             this.selectRow(this.data.items[0]);
         }
     },
@@ -579,6 +584,9 @@ export default {
         getStringifiedRow (row) {
             return row.join("");
         },
+        processedRow (row) {
+            return Array.isArray(row) ? this.getStringifiedRow(row) : row;
+        },
         /**
          * Selects the row.
          * @emits rowSelected The row stringified.
@@ -589,10 +597,15 @@ export default {
             if (this.selectMode !== "row") {
                 return;
             }
-            const stringifiedRow = this.getStringifiedRow(row);
+            this.selectedRow = this.processedRow(row);
 
-            this.selectedRow = stringifiedRow;
-            this.$emit("rowSelected", stringifiedRow);
+            this.$emit("rowSelected", this.selectedRow);
+        },
+        selectAndEmitRawRow (row) {
+            if (this.selectMode !== "row") {
+                return;
+            }
+            this.$emit("rowSelected", row);
         },
         /**
          * Selects the column.
@@ -926,6 +939,7 @@ export default {
                 <tr
                     v-for="(item, idx) in editedTable.items"
                     :key="idx"
+                    @click="selectRow(item)"
                 >
                     <td
                         v-if="removable"
@@ -1007,7 +1021,7 @@ export default {
                     <tr
                         v-for="(row, idx) in fixedData.items"
                         :key="'fixed-'+idx"
-                        :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === getStringifiedRow(row) ? 'selected' : '', 'fixed']"
+                        :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === processedRow(row) ? 'selected' : '', 'fixed']"
                     >
                         <td
                             v-for="(entry, columnIdx) in row"
