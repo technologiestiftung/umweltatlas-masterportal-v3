@@ -17,6 +17,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
 - Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Issue #1389: Set and remove cookies with domain flag
