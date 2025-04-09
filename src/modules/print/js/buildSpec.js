@@ -983,6 +983,10 @@ const BuildSpecModel = {
         const strokeColor = style.getColor();
 
         obj.strokeColor = convertColor(strokeColor, "hex");
+
+        if (Array.isArray(strokeColor) && strokeColor.length === 4) {
+            obj.strokeOpacity = strokeColor[3];
+        }
         if (typeof style.getWidth === "function" && style.getWidth() !== undefined) {
             obj.strokeWidth = style.getWidth();
         }
