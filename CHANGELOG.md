@@ -18,13 +18,14 @@
 
 ### Fixed
 - Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
-- Issue #1345: Opacity of circleStrokeColor is now taken into account when printing. 
+- Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
 - Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Issue #1388: In a menu section are several modules of same type allowed.
 - Issue #1389: Set and remove cookies with domain flag
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
+- In the documentation for the config.json under `portalConfig.portalFooter.urls` the attribute `alias_mobil` has been changed to `alias_mobile`.
 
 ---
 
@@ -33,7 +34,7 @@
 ### Added
 - URL-Parameter: added url-Parameter to set the width of menu and secondary menu (menuwidth/secondarywidth).
 - New function getOAFFeature.getTemporalExtent for requesting the temporal extent of a collection.
-- Routing: 
+- Routing:
     - Added option to avoid borders for directions and isochrones.
     - Added tooltip to get additional information of isochrones while hovering over it on map.
 - Searchbar:

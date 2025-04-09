@@ -4488,7 +4488,7 @@ Eine Url kann unterschiedlich definiert werden.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |alias|ja|String||Angezeigter Name des Links in der Desktop-Ansicht.|false|
-|alias_mobil|nein|String||Angezeigter Name des Links in der Mobile-Ansicht. Falls nicht angegeben, wird der Link in der Mobilen Ansicht nicht angezeigt.|false|
+|alias_mobile|nein|String||Angezeigter Name des Links in der Mobile-Ansicht. Falls nicht angegeben, wird der Link in der Mobilen Ansicht nicht angezeigt.|false|
 |bezeichnung|nein|String||Angezeigte Bezeichnung vor dem Link.|false|
 |url|ja|String||Die Url für den Link.|false|
 

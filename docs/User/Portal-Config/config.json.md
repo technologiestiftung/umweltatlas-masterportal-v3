@@ -4497,7 +4497,7 @@ A Url can be defined in various ways.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |alias|yes|String||Displayed name of the link in desktop-view.|false|
-|alias_mobil|no|String||Displayed name of the link in mobile-view. If this is not specified, the link will not be displayed in mobile-view.|false|
+|alias_mobile|no|String||Displayed name of the link in mobile-view. If this is not specified, the link will not be displayed in mobile-view.|false|
 |bezeichnung|no|String||Displayed description next to the link.|false|
 |url|yes|String||The Url for the link.|false|
 
