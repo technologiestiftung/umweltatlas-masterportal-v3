@@ -113,8 +113,10 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // Padding, so the Ü dots are visible
+        // Padding-top, so the Ü dots are visible
         padding-top: 2px;
+        // Padding-bottom, so the g is fully visible
+        padding-bottom: 1px;
     }
 }
 .btn-description {
