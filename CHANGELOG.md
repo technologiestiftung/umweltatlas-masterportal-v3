@@ -25,7 +25,7 @@
 - Issue #1389: Set and remove cookies with domain flag
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
-- In the documentation for the config.json under `portalConfig.portalFooter.urls` the attribute `alias_mobil` has been changed to `alias_mobile`.
+- PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 
 ---
 
