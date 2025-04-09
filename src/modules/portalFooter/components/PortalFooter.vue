@@ -33,7 +33,7 @@ export default {
          */
         aliasLength () {
             if (this.isMobile) {
-                return this.urls.filter(url => url.alias_mobil).length;
+                return this.urls.filter(url => url.alias_mobile).length;
             }
 
             return this.urls.filter(url => url.alias).length;

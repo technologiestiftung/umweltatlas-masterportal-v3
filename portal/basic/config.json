@@ -28,7 +28,7 @@
           "bezeichnung": "common:modules.portalFooter.designation",
           "url": "https://geoinfo.hamburg.de/",
           "alias": "Landesbetrieb Geoinformation und Vermessung",
-          "alias_mobil": "LGV"
+          "alias_mobile": "LGV"
         }
       ]
     },
@@ -224,7 +224,7 @@
     "subjectlayer": {
       "elements": [
         {
-          "id": [ "3302", "4561"], 
+          "id": [ "3302", "4561"],
           "name": "WMS-Gruppe Trinkwasser und Eventlotse (min-/maxScale 1:1.000 - 1:10.000)",
           "typ": "GROUP",
           "visibility": true,
