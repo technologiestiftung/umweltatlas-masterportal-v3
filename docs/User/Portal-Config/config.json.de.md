@@ -782,6 +782,7 @@ Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, 
 |----|-------------|---|-------|------------|------|
 |pointStyleId|nein|String|"defaultMapMarkerPoint"|StyleId, um auf einen `style.json`-Punktstyle zu verweisen. Ist sie nicht gesetzt, wird die Datei `img/mapMarker.svg` verwendet.|false|
 |polygonStyleId|nein|String|"defaultMapMarkerPolygon"|StyleId zum Verweis auf einen `style.json`-Polygonstyle.|false|
+|additionalPolygonStyleId|no|String|"defaultAdditionalMapMarkerPolygon"| StyleId to refer to an additional `style.json` polygon style.|false|
 
 **Beispiel:**
 
@@ -789,7 +790,8 @@ Setzt die Standardwerte des Map Markers außer Kraft. Nützlich für 3D-Marker, 
 {
     "mapMarker": {
         "pointStyleId": "customMapMarkerPoint",
-        "polygonStyleId": "customMapMarkerPolygon"
+        "polygonStyleId": "customMapMarkerPolygon",
+        "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
     }
 }
 ```
@@ -1674,7 +1676,42 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 |supportedDevices|nein|String||Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 |supportedMapModes|nein|String||Karten modi in denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 |type|nein|String||Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|showEntryDirectly|nein|Boolean||Kann **nur für Module vom Typ `folder`** gesetzt werden und **nur für einen solchen Ordner im gesamten Projekt**. Der Ordner öffnet sich automatisch, wenn **mindestens ein Element** im Ordner `showOnlyByLayersVisible` verwendet (ausgelöst, wenn **alle Layer** im Array `showOnlyByLayersVisible` sichtbar sind) **und dessen Aktion `"Maps/activateViewpoint"` ist**. Hinweis: Der Ordner öffnet sich nur einmal pro einzigartiger Kombination sichtbarer Layer in showOnlyByLayersVisible.|false|
 
+**Beispiel**
+
+```json
+{
+    "name": "Ansichten",
+    "icon": "bi-binoculars-fill",
+    "type": "folder",
+    "showEntryDirectly": true,
+    "elements": [
+        {
+            "name": "Gebäude für Handel und Dienstleistungen",
+            "icon": "bi-bullseye",
+            "type": "customMenuElement",
+            "supportedMapModes": [
+                "3D"
+            ],
+            "showOnlyByLayersVisible": ["16102"],
+            "execute": {
+                "action": "Maps/activateViewpoint",
+                "payload": {
+                    "heading": -0.30858728378862876,
+                    "tilt": -90,
+                    "altitude": 272.3469798217454,
+                    "center": [
+                        564028.7954571751,
+                        5934555.967867207
+                    ],
+                    "zoom": 7.456437968949651
+                }
+            }
+        }
+    ]
+}
+```
 ***
 
 ##### portalConfig.menu.sections.modules.about {data-toc-label='About'}
@@ -1991,6 +2028,7 @@ Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen D
 |name|nein|String||Name des Moduls im Menü.|false|
 |openURL|nein|String||Url die mit dem Klick auf den Menü-Eintrag in einem neuen Tab geöffnet werden soll.|false|
 |pathToContent|nein|String||Pfad zu einer Datei, die HTML enthält, das in dem Modul angezeigt wird. Das HTML wird nicht validiert, die Verantwortung für die Sicherheit des HTMLs liegt beim Betreiber des Portals.|false|
+|showOnlyByLayersVisible|nein|String[]||Liste von Layer-IDs, die sichtbar sein müssen, damit das Modul erscheint. Wenn nicht angegeben, wird das Modul standardmäßig angezeigt.|false|
 |type|ja|String|"customMenuElement"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel**
@@ -2014,6 +2052,22 @@ Dieses Modul kann einen Link öffnen, HTML aus config.json oder einer externen D
     "execute":{
         "action": "Alerting/addSingleAlert",
         "payload":  {"title":"An alle Menschen", "content": "Hallo Welt"}
+    }
+},
+{
+    "type": "customMenuElement",
+    "name": "Aktiviere Aussichtspunkt",
+    "showOnlyByLayersVisible": ["16102", "33362"],
+    "execute": {
+        "action": "Maps/activateViewpoint",
+        "payload": {
+            "layerIds": ["4905", "4538"],
+            "heading": -0.30858728378862876,
+            "tilt": 0.9321791580603296,
+            "altitude": 272.3469798217454,
+            "center": [564028.7954571751, 5934555.967867207],
+            "zoom": 7.456437968949651
+        }
     }
 }
 ```

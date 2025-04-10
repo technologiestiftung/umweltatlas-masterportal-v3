@@ -7,15 +7,22 @@
 ### __Breaking Changes__
 
 ### Added
+- MapMarker: Added the ability to additionally highlight polygons
 
 ### Changed
+- getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- Fix OIDC Token Auto-Refresh After Initial Login
+- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
+- Issue #1345: Opacity of circleStrokeColor is now taken into account when printing. 
+- Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
+- Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
+- Issue #1389: Set and remove cookies with domain flag
+- Draw/Write: KML-export now uses the correct url for circle-icon.
 
 ---
 
@@ -41,6 +48,8 @@
 - Filter:
   - Added parameter questionLink. Can be configured to open a URL with information about the tool.
   - A new parameter "closeDropdownOnSelect" to enable/disable closing list after selecting an option in multiselect dropdown list.
+- CustomMenuElement: Added configuration "showOnlyByLayersVisible" to specify a list of layer IDs that must be visible for the module to appear.
+- Folder in menu: "showEntryDirectly" to directly open and display entries based on configuration and active layers.
 
 ### Changed
 - Coding Conventions: updated.

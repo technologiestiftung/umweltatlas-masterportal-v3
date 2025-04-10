@@ -17,7 +17,7 @@ module.exports = function (destination, stableVersionNumber) {
     replacements.push({
         "files": destination + "/js/masterportal.js",
         "from": /\/src\/assets\/img\/tools\/draw\/circle_/g,
-        "to": "/Mastercode/" + stableVersionNumber + "/src/assets/img/tools/draw/circle_"
+        "to": "/Mastercode/" + stableVersionNumber + "/img/tools/draw/circle_"
     });
 
 

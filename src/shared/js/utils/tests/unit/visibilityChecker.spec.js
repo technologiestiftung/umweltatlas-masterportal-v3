@@ -24,7 +24,7 @@ describe("src/shared/js/utils/isModuleVisible", () => {
             })).to.be.true;
         });
 
-        it("should return true if mapMode is '3D' and deviceMode is 'Table'", () => {
+        it("should return true if mapMode is '3D' and deviceMode is 'Desktop'", () => {
             expect(visibilityChecker.isModuleVisible({
                 mapMode: "3D",
                 deviceMode: "Desktop"
@@ -88,7 +88,157 @@ describe("src/shared/js/utils/isModuleVisible", () => {
                 supportedDevices: ["Table"]
             })).to.be.false;
         });
+        it("should return true if an element is visible based on the visibleLayerConfigs", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer1"]
+                    }
+                ],
+
+                visibleLayerConfigs = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.true;
+        });
+
+        it("should return false if an element requires a visible layer but the required layer is not visible", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer1"]
+                    }
+                ],
+
+                visibleLayerConfigs = [
+                    {id: "layer1", visibility: false},
+                    {id: "layer2", visibility: false}
+                ];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.false;
+        });
+
+        it("should return true if an element is visible when no layers are specified in visibleLayerConfigs", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"]
+                    }
+                ],
+
+                visibleLayerConfigs = [];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.true;
+        });
+
+        it("should return false if an element requires a visible layer but no matching visibleLayerConfigs are provided", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer1"]
+                    }
+                ],
+
+                visibleLayerConfigs = [];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.false;
+        });
+
+        it("should return true if an element has no showOnlyByLayersVisible property", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"]
+                    }
+                ],
+
+                visibleLayerConfigs = [
+                    {id: "layer1", visibility: true}
+                ];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.true;
+        });
+
+        it("should return true if no elements are provided and visibleLayerConfigs is empty", () => {
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements: [],
+                visibleLayerConfigs: []
+            })).to.be.true;
+        });
+
+        it("should return false if elements have showOnlyByLayersVisible property and required layers are not visible", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer1"]
+                    }
+                ],
+
+                visibleLayerConfigs = [
+                    {id: "layer1", visibility: false}
+                ];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.false;
+        });
+
+        it("should return true if one of the elements' required layers is visible", () => {
+            const elements = [
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer1"]
+                    },
+                    {
+                        supportedMapModes: ["2D"],
+                        showOnlyByLayersVisible: ["layer2"]
+                    }
+                ],
+
+                visibleLayerConfigs = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ];
+
+            expect(visibilityChecker.isModuleVisible({
+                mapMode: "2D",
+                deviceMode: "Desktop",
+                elements,
+                visibleLayerConfigs
+            })).to.be.true;
+        });
     });
+
     it("should return true if elements are provided and one element is valid for the mapMode", () => {
         const elements = [
             {supportedMapModes: ["2D"]},

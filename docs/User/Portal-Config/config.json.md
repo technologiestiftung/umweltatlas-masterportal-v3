@@ -780,6 +780,7 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 |----|--------|----|-------|-----------|------|
 |pointStyleId|no|String|"defaultMapMarkerPoint"|StyleId to refer to a `style.json` point style. If not set, the `img/mapMarker.svg` is used.|false|
 |polygonStyleId|no|String|"defaultMapMarkerPolygon"|StyleId to refer to a `style.json` polygon style.|false|
+|additionalPolygonStyleId|no|String|"defaultAdditionalMapMarkerPolygon"| StyleId to refer to an additional `style.json` polygon style.|false|
 
 **Example:**
 
@@ -787,7 +788,8 @@ Overrides the map marker module's default values. Useful for 3D markers since Op
 {
     "mapMarker": {
         "pointStyleId": "customMapMarkerPoint",
-        "polygonStyleId": "customMapMarkerPolygon"
+        "polygonStyleId": "customMapMarkerPolygon",
+        "additionalPolygonStyleId": "customAdditionalMapMarkerPolygon"
     }
 }
 ```
@@ -1672,7 +1674,42 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |supportedDevices|no|String||Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String||Map modes in which the module can be used and is displayed in the menu.|false|
 |type|no|String||The type of the module. Defines which module is configured.|false|
+|showEntryDirectly|no|Boolean||Can **only be set for modules of type `folder`**, and **only for one such folder in the entire project**. The folder opens automatically if **at least one element** in the folder uses `showOnlyByLayersVisible` (triggered when **all layers** in the array `showOnlyByLayersVisible` are visible) **and its action is `"Maps/activateViewpoint"`**. Note: The folder opens only once per unique combination of visible layers defined in showOnlyByLayersVisible.|false|
 
+**Example**
+
+```json
+{
+    "name": "Viewpoints",
+    "icon": "bi-binoculars-fill",
+    "type": "folder",
+    "showEntryDirectly": true,
+    "elements": [
+        {
+            "name": "Buildings for Trade and Services",
+            "icon": "bi-bullseye",
+            "type": "customMenuElement",
+            "supportedMapModes": [
+                "3D"
+            ],
+            "showOnlyByLayersVisible": ["16102"],
+            "execute": {
+                "action": "Maps/activateViewpoint",
+                "payload": {
+                    "heading": -0.30858728378862876,
+                    "tilt": -90,
+                    "altitude": 272.3469798217454,
+                    "center": [
+                        564028.7954571751,
+                        5934555.967867207
+                    ],
+                    "zoom": 7.456437968949651
+                }
+            }
+        }
+    ]
+}
+```
 ***
 
 ##### portalConfig.menu.sections.modules.about {data-toc-label='About'}
@@ -1988,6 +2025,7 @@ This module can open a link, display HTML from config.json or an external file, 
 |name|no|String||Name of the module in the menu.|false|
 |openURL|no|String||Url that is to be opened in a new tab by clicking on the menu item.|false|
 |pathToContent|no|String||Path to a file containing HTML displayed in the module. The HTML is not validated, the responsibility for the security of the HTML lies with the operator of the portal.|false|
+|showOnlyByLayersVisible|no|String[]||List of layer IDs that must be visible for the module to appear. If not specified, the module will be visible by default.|false|
 |type|yes|String|"customMenuElement"|The type of the module. Defines which module is configured.|false|
 
 **Example**
@@ -2011,6 +2049,22 @@ This module can open a link, display HTML from config.json or an external file, 
     "execute":{
         "action": "Alerting/addSingleAlert",
         "payload":  {"title":"to all people", "content": "Hallo world"}
+    }
+},
+{
+    "type": "customMenuElement",
+    "name": "Activate Viewpoint",
+    "showOnlyByLayersVisible": ["16102", "33362"],
+    "execute": {
+        "action": "Maps/activateViewpoint",
+        "payload": {
+            "layerIds": ["4905", "4538"],
+            "heading": -0.30858728378862876,
+            "tilt": 0.9321791580603296,
+            "altitude": 272.3469798217454,
+            "center": [564028.7954571751, 5934555.967867207],
+            "zoom": 7.456437968949651
+        }
     }
 }
 ```

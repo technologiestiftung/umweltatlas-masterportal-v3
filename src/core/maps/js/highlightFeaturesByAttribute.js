@@ -15,11 +15,13 @@ export default {
      * @property {String} pointStyleId The id references the style.json for a point highlight features.
      * @property {String} polygonStyleId The id references the style.json for a polygon highlight features.
      * @property {String} lineStyleId The id references the style.json for a line highlight features.
+     * @property {String} additionalPolygonStyleId The id references the style.json for an additional polygon map marker to the default map marker.
      */
     settings: {
         pointStyleId: "defaultHighlightFeaturesPoint",
         polygonStyleId: "defaultHighlightFeaturesPolygon",
-        lineStyleId: "defaultHighlightFeaturesLine"
+        lineStyleId: "defaultHighlightFeaturesLine",
+        additionalPolygonStyleId: "defaultAdditionalMapMarkerPolygon"
     },
 
     /**
