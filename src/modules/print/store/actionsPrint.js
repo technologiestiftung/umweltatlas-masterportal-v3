@@ -33,7 +33,6 @@ const actions = {
             dispatch(String(serviceRequest.onSuccess), response.data);
         });
     },
-
     /**
      * sets the printStarted to activie for the Add Ons
      * @param {Object} param.commit the commit
@@ -455,7 +454,7 @@ const actions = {
         }
 
         // Error processing...
-        if (response.status === "error") {
+        if (response.status === "error" || response.data.status === "error") {
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
                 content: i18next.t("common:modules.print.waitForPrintErrorMessage")
