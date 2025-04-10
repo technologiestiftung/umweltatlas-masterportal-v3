@@ -460,6 +460,7 @@ const actions = {
                 content: i18next.t("common:modules.print.waitForPrintErrorMessage")
             }, {root: true});
             console.error("Error: " + response.error);
+            commit("setFileDownloads", []);
         }
         else if (response.done) {
             commit("setProgressWidth", "width: 100%");
