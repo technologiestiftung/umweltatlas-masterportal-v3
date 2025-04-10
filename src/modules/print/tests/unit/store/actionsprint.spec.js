@@ -157,6 +157,50 @@ describe("src/modules/print/store/actionsPrint", function () {
                 {type: "sendRequest", payload: serviceRequest, dispatch: true}
             ], {}, done);
         });
+        it("should trigger addSingleAlert when response.status is 'error'", done => {
+            const state = {
+                    serviceUrl: "https://geodienste.hamburg.de/mapfish_print_internet/print/",
+                    printAppId: "master"
+                },
+                response = {
+                    status: "error"
+                },
+                expectedActions = [
+                    {
+                        type: "Alerting/addSingleAlert",
+                        payload: {
+                            category: "error",
+                            content: i18next.t("common:modules.print.waitForPrintErrorMessage")
+                        },
+                        dispatch: true
+                    }
+                ];
+
+            testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
+        });
+    });
+    it("should trigger addSingleAlert when response.data.status is 'error'", done => {
+        const state = {
+                serviceUrl: "https://geodienste.hamburg.de/mapfish_print_internet/print/",
+                printAppId: "master"
+            },
+            response = {
+                data: {
+                    status: "error"
+                }
+            },
+            expectedActions = [
+                {
+                    type: "Alerting/addSingleAlert",
+                    payload: {
+                        category: "error",
+                        content: i18next.t("common:modules.print.waitForPrintErrorMessage")
+                    },
+                    dispatch: true
+                }
+            ];
+
+        testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
     });
 
     describe("waitForPrintJobSuccess", function () {
