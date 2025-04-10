@@ -33,7 +33,7 @@ export default {
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/Contact", {contactType: "type", contactName: "name"}),
         ...mapGetters("Modules/BaselayerSwitcher", [
-            "topBaselayerId"
+            "topBaselayer"
         ]),
         /**
          * Returns contact details from pointOfContact if given otherwise from publisher from meta data information.
@@ -70,7 +70,7 @@ export default {
         mailOriginHint () {
             const layerInfo = `{"layerInfo":{"id":"${this.layerInfo.id}"}}`;
 
-            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayerId}","visibility":true}]`);
+            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayer?.id}","visibility":true}]`);
         }
     },
     methods: {

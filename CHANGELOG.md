@@ -26,6 +26,7 @@
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
+- LayerInformation: Fixed console error if clicked on contact.
 
 ---
 
