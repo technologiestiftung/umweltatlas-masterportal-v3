@@ -92,12 +92,7 @@ export default {
         }
     },
     created () {
-        const menuConfig = this.menuFromConfig(this.side);
-
-        if (menuConfig?.sections && menuConfig.sections[0]) {
-            menuConfig.sections[0] = this.removeDuplicateMenuEntries(menuConfig.sections[0]);
-        }
-        this.mergeMenuState({menu: menuConfig, side: this.side});
+        this.mergeMenuState({menu: this.menuFromConfig(this.side), side: this.side});
         if (this.isMobile) {
             this.collapseMenues();
             this.setCurrentMenuWidth({side: this.side, width: "100%"});
@@ -119,33 +114,6 @@ export default {
                 name: "common:modules.searchBar.searchResultList",
                 side: this.side,
                 type: "searchBar"
-            });
-        },
-        removeDuplicateMenuEntries (sections) {
-            const seenFolders = new Set(),
-                seenTypes = new Set();
-
-            return sections.filter(section => {
-                if (!section.type) {
-                    return true;
-                }
-
-                if (section.type.toLowerCase() === "folder") {
-                    if (!section.name) {
-                        return true;
-                    }
-
-                    if (seenFolders.has(section.name)) {
-                        return false;
-                    }
-                    seenFolders.add(section.name);
-                    return true;
-                }
-                if (seenTypes.has(section.type)) {
-                    return false;
-                }
-                seenTypes.add(section.type);
-                return true;
             });
         },
         /**

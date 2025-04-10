@@ -21,6 +21,7 @@
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing. 
 - Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
+- Issue #1388: In a menu section are several modules of same type allowed.
 - Issue #1389: Set and remove cookies with domain flag
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
