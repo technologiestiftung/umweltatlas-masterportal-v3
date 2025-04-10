@@ -454,7 +454,7 @@ const actions = {
         }
 
         // Error processing...
-        if (response.status === "error" || response.data.status === "error") {
+        if (response.status === "error" || response.data?.status === "error") {
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
                 content: i18next.t("common:modules.print.waitForPrintErrorMessage")
