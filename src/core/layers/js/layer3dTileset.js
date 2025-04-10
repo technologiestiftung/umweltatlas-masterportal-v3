@@ -79,7 +79,7 @@ Layer3dTileset.prototype.setCesiumSceneOptions = function (sceneOptions, map) {
         }, {root: true});
         api.map.olcsMap.setCesiumSceneParams(map.getCesiumScene(), sceneOptions);
     }
-    else if (this.attributes?.defaultDepthTestAgainstTerrain?.globe?.depthTestAgainstTerrain !== map.getCesiumScene().globe?.depthTestAgainstTerrain) {
+    else if (this.attributes.defaultDepthTestAgainstTerrain && this.attributes?.defaultDepthTestAgainstTerrain?.globe?.depthTestAgainstTerrain !== map.getCesiumScene().globe?.depthTestAgainstTerrain) {
         api.map.olcsMap.setCesiumSceneParams(map.getCesiumScene(), this.attributes.defaultDepthTestAgainstTerrain);
         store.dispatch("replaceByIdInLayerConfig", {
             layerConfigs: [{

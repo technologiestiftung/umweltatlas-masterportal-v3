@@ -361,6 +361,31 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
             tilesetLayer.setCesiumSceneOptions(sceneOptions, map);
             expect(dispatchCalls.replaceByIdInLayerConfig).to.deep.equal(replaceByIdInLayerConfig);
         });
+        it("setCesiumSceneOptions doesn't update the scene options depthTestAgainstTerrain of the cesium map if defaultDepthTestAgainstTerrrain is undefined", function () {
+            attributes.visibility = true;
+            const tilesetLayer = new Layer3dTileset(attributes),
+                dispatchCalls = {},
+                sceneOptions = {
+                    globe: {
+                        depthTestAgainstTerrain: false
+                    }
+                },
+                map = {
+                    getCesiumScene: () => {
+                        return {
+                            globe: {
+                                depthTestAgainstTerrain: false
+                            }
+                        };
+                    }
+                };
+
+            store.dispatch = (action, payload) => {
+                dispatchCalls[action] = payload;
+            };
+            tilesetLayer.setCesiumSceneOptions(sceneOptions, map);
+            expect(Object.keys(dispatchCalls).length).to.be.equals(0);
+        });
     });
     describe("featureExists", function () {
         it("featureExists shall return true", function () {
