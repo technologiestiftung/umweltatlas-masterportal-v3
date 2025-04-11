@@ -80,7 +80,7 @@ describe("src/modules/routing/components/RoutingCoordinateInput.vue", () => {
             },
             props: props
         });
-        const button = wrapper.find(".button-up");
+        const button = wrapper.find("button");
 
         button.trigger("click");
         await wrapper.vm.$nextTick();

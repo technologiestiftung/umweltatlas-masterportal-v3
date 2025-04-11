@@ -9,7 +9,8 @@
 
 ### Added
 - GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
-- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection. 
+- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection.
+- IconButton extended by further property label. If a label is given, it will be displayed under the button.
 
 ### Changed
 

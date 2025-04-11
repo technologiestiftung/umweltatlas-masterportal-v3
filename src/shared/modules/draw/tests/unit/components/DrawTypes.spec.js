@@ -262,6 +262,78 @@ describe("src/shared/modules/draw/components/DrawTypes.vue", () => {
             expect(addInteractionSpy.calledOnce).to.be.true;
         });
 
+        describe("getButtonLabel", () => {
+            it("Should return a empty string, if the given button type is not correct", () => {
+                wrapper = shallowMount(DrawTypesComponent, {
+                    propsData: {
+                        currentLayout,
+                        setSelectedDrawType,
+                        source
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getButtonLabel("")).equal("");
+                expect(wrapper.vm.getButtonLabel(null)).equal("");
+                expect(wrapper.vm.getButtonLabel({})).equal("");
+                expect(wrapper.vm.getButtonLabel([])).equal("");
+                expect(wrapper.vm.getButtonLabel(123)).equal("");
+                expect(wrapper.vm.getButtonLabel(true)).equal("");
+            });
+            it("Should return a empty string, if the given button type does not exist in the list", () => {
+                wrapper = shallowMount(DrawTypesComponent, {
+                    propsData: {
+                        currentLayout,
+                        setSelectedDrawType,
+                        source
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getButtonLabel("abc")).equal("");
+            });
+            it("Should return the label of the button type pen", () => {
+                const drawType = "pen",
+                    label = "additional:modules.tools.simulationTool.freeForm";
+
+                wrapper = shallowMount(DrawTypesComponent, {
+                    propsData: {
+                        currentLayout,
+                        setSelectedDrawType,
+                        source,
+                        drawTypeLabels: [{type: "pen", label: "additional:modules.tools.simulationTool.freeForm"}, {type: "geometries", label: "additional:modules.tools.simulationTool.rectangle"}, {type: "symbols", label: ""}]
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getButtonLabel(drawType)).equal(label);
+            });
+            it("Should return the label of the button type geometries", () => {
+                const drawType = "geometries",
+                    label = "additional:modules.tools.simulationTool.rectangle";
+
+                wrapper = shallowMount(DrawTypesComponent, {
+                    propsData: {
+                        currentLayout,
+                        setSelectedDrawType,
+                        source,
+                        drawTypeLabels: [{type: "pen", label: "additional:modules.tools.simulationTool.freeForm"}, {type: "geometries", label: "additional:modules.tools.simulationTool.rectangle"}, {type: "symbols", label: ""}]
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                expect(wrapper.vm.getButtonLabel(drawType)).equal(label);
+            });
+        });
+
         it("should emit start-drawing events", async () => {
             const drawType = "circle";
 
