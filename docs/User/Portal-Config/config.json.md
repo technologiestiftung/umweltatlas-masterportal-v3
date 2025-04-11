@@ -4445,7 +4445,7 @@ The menu bar allows showing a portal name and portal image.
 |----|--------|----|-------|-----------|------|
 |link|no|String||URL of an external website to link to.|false|
 |logo|no|String||Path to an external image file. If no image is set, the title will be shown without an accompanying logo.|false|
-|text|no|String||Portal name.|false|
+|text|no|String||Portal name, if not set only the logo will be shown with 80% width.|false|
 |toolTip|no|String||Shown on hovering the portal logo.|false|
 
 **Example portalTitle**

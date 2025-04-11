@@ -4436,7 +4436,7 @@ Im Menü kann der Portalname und ein Bild angezeigt werden.
 |----|-------------|---|-------|------------|------|
 |link|nein|String||URL der externen Seite, auf die verlinkt wird.|false|
 |logo|nein|String||URL zur externen Bilddatei. Wird kein logo gesetzt, so wird nur der Titel ohne Bild dargestellt.|false|
-|text|nein|String||Name des Portals.|false|
+|text|nein|String||Name des Portals, wenn nicht gesetzt dann wird nur das Logo mit 80% Breite angezeigt.|false|
 |toolTip|nein|String||Tooltip, der beim Hovern über das Portallogo angezeigt wird.|false|
 
 **Beispiel portalTitle**

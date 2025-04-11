@@ -21,7 +21,7 @@ export default {
         text: {
             type: String,
             required: false,
-            default: ""
+            default: null
         },
         /** URL of an external website to link to */
         link: {
@@ -55,8 +55,9 @@ export default {
             v-if="logo"
             :src="logo"
             :alt="toolTip || text"
+            :class="{'logoOnly': text === null}"
         >
-        <h1>{{ $t(text) }}</h1>
+        <h1 v-if="text !== null">{{ $t(text) }}</h1>
     </a>
 </template>
 
@@ -74,6 +75,11 @@ export default {
             max-height: 30px;
             flex-grow: 0;
             flex-shrink: 0;
+
+            &.logoOnly {
+                max-width: 80%;
+                max-height: 80px;
+            }
         }
 
         h1 {
@@ -90,7 +96,6 @@ export default {
         img {
             max-height: 40px;
         }
-
     }
 }
 
