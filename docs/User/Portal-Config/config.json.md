@@ -197,6 +197,7 @@ Allows the user to view the portal in full screen mode by clicking a button with
 |----|--------|----|-------|-----------|------|
 |iconArrow|no|String|"arrows-fullscreen"|Using the iconArrow parameter, another icon can be used for the button to switch on fullscreen mode.|false|
 |iconExit|no|String|"fullscreen-exit"|Using the iconExit parameter, another icon can be used for the button to exit fullscreen mode.|false|
+|newTabFromFrame|no|Boolean|true|If set to false gesetzt, using the control in an iFrame switch to full screen mode and don't open a new tab.|false|
 |supportedDevices|no|String|["Desktop"]|Devices on which the module can be used and is displayed in the menu.|false|
 |supportedMapModes|no|String|["2D", "3D"]|Map modes in which the module can be used and is displayed in the menu.|false|
 
@@ -205,7 +206,8 @@ Allows the user to view the portal in full screen mode by clicking a button with
 ```json
 "fullScreen" : {
     "iconArrow": "arrows-fullscreen",
-    "iconExit": "fullscreen-exit"
+    "iconExit": "fullscreen-exit",
+    "newTabFromFrame": true
 },
 ```
 

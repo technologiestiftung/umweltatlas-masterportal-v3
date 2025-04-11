@@ -198,6 +198,7 @@ Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleist
 |----|-------------|---|-------|------------|------|
 |iconArrow|nein|String|"arrows-fullscreen"|Über den Parameter iconArrow kann ein anderes Icon für den Button zum Einschalten des Vollbildmodus verwendet werden.|false|
 |iconExit|nein|String|"fullscreen-exit"|Über den Parameter iconExit kann ein anderes Icon für den Button zum beenden des Vollbildmodus verwendet werden.|false|
+|newTabFromFrame|nein|Boolean|true|Wenn der Parameter auf false gesetzt wird, wird aus einem iFrame in den Vollbildmodus gewechselt und kein neuer Tab geöffnet.|false|
 |supportedDevices|nein|String|["Desktop"]|Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 |supportedMapModes|nein|String|["2D", "3D"]|Karten modi in denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
 
@@ -206,7 +207,8 @@ Ermöglicht dem User die Darstellung im Vollbildmodus (ohne Tabs und Adressleist
 ```json
 "fullScreen" : {
     "iconArrow": "arrows-fullscreen",
-    "iconExit": "fullscreen-exit"
+    "iconExit": "fullscreen-exit",
+    "newTabFromFrame": true
 },
 ```
 

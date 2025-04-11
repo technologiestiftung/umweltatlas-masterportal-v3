@@ -8,6 +8,7 @@
 
 ### Added
 - MapMarker: Added the ability to additionally highlight polygons
+- FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame
 
 ### Changed
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
@@ -27,7 +28,7 @@
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - LayerInformation: Fixed console error if clicked on contact.
-- WMS-Time: Listeners are now removed from Layers when compare maps is ended. 
+- WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 
 ---
 

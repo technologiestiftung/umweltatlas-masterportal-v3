@@ -21,8 +21,17 @@ describe("src/modules/controls/fullScreen/components/FullScreen.vue", () => {
                     modules: {
                         FullScreen: {
                             namespaced: true,
+                            state: {
+                                newTabFromFrame: true
+                            },
                             getters: {
-                                iconArrow: sinon.stub()
+                                iconArrow: sinon.stub(),
+                                newTabFromFrame: state => state.newTabFromFrame
+                            },
+                            mutations: {
+                                setNewTabFromFrame: (state, newTabFromFrame) => {
+                                    state.newTabFromFrame = newTabFromFrame;
+                                }
                             }
                         }
                     }
@@ -77,5 +86,23 @@ describe("src/modules/controls/fullScreen/components/FullScreen.vue", () => {
         expect(windowOpenSpy.calledOnce).to.be.true;
         expect(windowOpenSpy.firstCall.args[0]).to.be.equals("shareViewURL");
         expect(windowOpenSpy.firstCall.args[1]).to.be.equals("_blank");
+    });
+
+    it("do not open new window", () => {
+        global.window = {
+            top: "https://outerpage/location",
+            self: "https://masterportal/location",
+            open: windowOpenSpy
+        };
+        store.commit("Controls/FullScreen/setNewTabFromFrame", false);
+
+        const wrapper = mount(FullScreen, {
+            global: {
+                plugins: [store]
+            }});
+
+        wrapper.vm.toggleFullScreen();
+
+        expect(windowOpenSpy.notCalled).to.be.true;
     });
 });

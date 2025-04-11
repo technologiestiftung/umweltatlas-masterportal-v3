@@ -86,7 +86,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Controls/FullScreen", ["iconArrow", "iconExit"]),
+        ...mapGetters("Controls/FullScreen", ["iconArrow", "iconExit", "newTabFromFrame"]),
         ...mapGetters("Modules/ShareView", ["url"])
     },
     mounted () {
@@ -117,7 +117,7 @@ export default {
          */
         toggleFullScreen () {
             // if portal is in an iframe, it can't be set to fullscreen - open new tab for better access
-            if (window.self !== window.top) {
+            if (this.newTabFromFrame && window.self !== window.top) {
                 window.open(this.url, "_blank");
                 return;
             }
