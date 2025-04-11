@@ -230,6 +230,7 @@ export default {
             this.currentDrawInteraction = drawInteraction.createDrawInteraction(drawType, this.source);
 
             if (this.currentDrawInteraction !== null) {
+                this.currentDrawInteraction.on("drawstart", () => this.$emit("drawstart"));
                 if (drawType === "circle" || drawType === "doubleCircle") {
                     this.regulateStaticCircleInteraction(drawType);
                 }
