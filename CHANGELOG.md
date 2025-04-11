@@ -50,8 +50,9 @@
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
 - WFST-Tool: Saving objects now works correctly after layer reordering.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
-- extendLayers: Adjusted initial z-index values to ensure correct layer order on map load.
+- Initial loading of layers: Adjusted initial z-index values to ensure correct layer order on map load.
 - Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing. 
+- LayerInformation: fixed creating url to portal contained in contact.
 
 ---
 

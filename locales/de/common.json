@@ -635,6 +635,7 @@
       "name": "Themenauswahl",
       "backgrounds": "Hintergründe",
       "datalayer": "Fachdaten",
+      "externalSubjectLayer": "Externe Fachdaten",
       "selectAll": "Alle hinzufügen",
       "deselectAll": "Alle entfernen",
       "selectedSubjectsCount_other": "Bitte wählen sie ein Thema aus",

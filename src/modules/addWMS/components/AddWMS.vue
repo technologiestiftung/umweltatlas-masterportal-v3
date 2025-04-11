@@ -6,6 +6,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {deleteParams} from "../../../shared/js/utils/deleteUrlParams";
+import buildTreeStructure from "../../../app-store/js/buildTreeStructure";
 
 /**
  * Adds WMS
@@ -132,6 +133,7 @@ export default {
                             currentExtent = this.mapViewSettings?.extent,
                             folder = {
                                 type: "folder",
+                                isExternal: true,
                                 name: "",
                                 elements: []
                             };
@@ -162,6 +164,7 @@ export default {
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
                             this.parseLayerStructure(folder, layer, 1);
                         });
+                        buildTreeStructure.setIdsAtFolders([folder]);
                         this.addLayerToTopicTree(folder);
                     }
                     catch (e) {
@@ -259,6 +262,7 @@ export default {
                     version: this.version,
                     visibility: false,
                     type: "layer",
+                    isExternal: true,
                     featureCount: this.featureCount,
                     infoFormat: this.infoFormat,
                     showInLayerTree: false,
