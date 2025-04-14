@@ -782,7 +782,9 @@
           "alias": "common:modules.portalFooter.mapDiscrepancy"
         }
       ],
-      "scaleLine": true
+      "scaleLine": true,
+      "impressumLinkName": "Impressum",
+      "showImpressumLink": true
     },
     "tree": {
       "singleBaselayer": false,

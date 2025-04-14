@@ -18,7 +18,9 @@ const state = {
     scaleLineWidth: 2,
     seperator: "&nbsp;|&nbsp;",
     type: "portalFooter",
-    urls: []
+    urls: [],
+    impressumLinkName: "Impressum",
+    showImpressumLink: true
 };
 
 export default state;

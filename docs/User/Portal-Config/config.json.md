@@ -4471,6 +4471,8 @@ Possibility to configure the content of the portal footer.
 |scaleLineWidth|no|Number|2|Width of the scale line in cm.|false|
 |seperator|no|String|"` \| `"|The seperator between urls.|false|
 |urls|no|**[urls](#portalconfigportalfooterurls)**[]|[]|Urls, that should be displayed in the footer.|false|
+|impressumLinkName|no|String|"`Impressum`"|Name of the impressum link pointing to the about module (e.g., Privacy).|false|
+|showImpressumLink|no|Boolean|true|If false, no impressum link to the about module is shown in the footer.|false|
 
 **Beispiel**
 
@@ -4488,7 +4490,9 @@ Possibility to configure the content of the portal footer.
         "alias": "common:modules.portalFooter.mapDiscrepancy"
     }
     ],
-    "scaleLine": true
+    "scaleLine": true,
+    "impressumLinkName": "Privacy",
+    "showImpressumLink": true
 }
 ```
 

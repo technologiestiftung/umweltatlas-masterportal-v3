@@ -31,7 +31,9 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                                 seperator: () => true,
                                 urls: () => urls,
                                 type: () => sinon.stub(),
-                                configPaths: () => sinon.stub()
+                                configPaths: () => sinon.stub(),
+                                impressumLinkName: () => "Impressum",
+                                showImpressumLink: () => true
                             }
                         }
                     }
