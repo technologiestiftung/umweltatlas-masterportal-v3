@@ -119,7 +119,8 @@ describe("src/modules/menu/MenuContainerBody.vue", () => {
         menuType = "component";
         const wrapper = shallowMount(MenuContainerBody, {
                 global: {
-                    plugins: [store]
+                    plugins: [store],
+                    stubs: {"keep-alive": false}
                 },
                 propsData: {side: "mainMenu"}
             }),
