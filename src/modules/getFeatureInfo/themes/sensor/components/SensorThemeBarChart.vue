@@ -82,7 +82,7 @@ export default {
          * Today has the index 0.
          * @returns {String} The weekday.
          */
-        weekday: function () {
+        weekday () {
             return this.momentLocale.localeData().weekdays(dayjs().add(this.weekdayIndex, "day"));
         }
     },

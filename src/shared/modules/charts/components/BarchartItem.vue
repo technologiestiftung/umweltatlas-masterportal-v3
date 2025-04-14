@@ -17,7 +17,7 @@ export default {
         },
         /**
          * the data for the piechart to hand over to chartJS data attribute
-         * @see https://www.chartjs.org/docs/latest/charts/doughnut.html
+         * @see https://www.chartjs.org/docs/latest/charts/bar.html
          */
         data: {
             type: Object,
