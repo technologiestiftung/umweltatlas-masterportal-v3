@@ -19,6 +19,8 @@
     "start:ssl": "webpack-dev-server --config devtools/webpack.dev.js --https --cert devtools/certificate/localhost.pem --key devtools/certificate/localhost.key",
     "test": "mochapack --recursive --webpack-config devtools/webpack.test.js --file devtools/tests/setupUnitTests.js \"./src/**/*.spec.js\" \"./addons/*/!(node_modules)/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",
+    "lint": "eslint \"./**/*.{vue,js}\"",
+    "lint:fix": "eslint --fix \"./**/*.{vue,js}\"",
     "migrateConfig": "node devtools/tasks/migrator/migrate.js",
     "build": "node devtools/tasks/build.js",
     "buildPortal": "node devtools/tasks/buildPortal.js",
