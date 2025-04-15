@@ -30,7 +30,9 @@
           "alias": "Landesbetrieb Geoinformation und Vermessung",
           "alias_mobile": "LGV"
         }
-      ]
+      ],
+      "impressumLinkName": "Impressum",
+      "showImpressumLink": true
     },
     "tree": {
       "highlightedFeatures": {
