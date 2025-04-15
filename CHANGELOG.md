@@ -35,6 +35,7 @@
 - LayerInformation: Fixed console error if clicked on contact.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 - buildSpec: Added hash check to include only unique legend images in print output.
+- Charts: Fixed wrong link and modernized method declaration syntax for weekday function 
 
 ---
 
