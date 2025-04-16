@@ -209,9 +209,9 @@ const actions = {
     async save ({dispatch, getters}) {
         let featureWithProperties = null;
         const feature = modifyFeature ? modifyFeature : drawLayer.getSource().getFeatures()[0],
-            {currentLayerIndex, featureProperties, layerInformation, selectedInteraction, layerIds} = getters,
+            {currentLayerIndex, featureProperties, layerInformation, selectedInteraction} = getters,
             error = getters.savingErrorMessage(feature),
-            currentLayerId = layerIds[currentLayerIndex],
+            currentLayerId = layerInformation[currentLayerIndex].id,
             geometryFeature = modifyFeature
                 ? layerCollection.getLayerById(currentLayerId).getLayerSource().getFeatures()
                     .find((workFeature) => workFeature.getId() === modifyFeatureSaveId)
