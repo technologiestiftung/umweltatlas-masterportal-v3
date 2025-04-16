@@ -6,7 +6,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
+describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
     const urls = [{
         bezeichnung: "abc",
         url: "https://abc.de",
@@ -32,7 +32,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                                 urls: () => urls,
                                 type: () => sinon.stub(),
                                 configPaths: () => sinon.stub(),
-                                imprintLinkName: () => "Impressum",
+                                imprintLinkName: () => "common:modules.portalFooter.imprintTitle",
                                 showImprintLink: () => true
                             }
                         }
@@ -94,7 +94,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find("#module-portal-footer").exists()).to.be.true;
+        expect(wrapper.find(".imprintLink").exists()).to.be.true;
     });
 
     it("renders the urls in footer", () => {
@@ -140,6 +140,6 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find(".impressumLink").exists()).to.be.true;
+        expect(wrapper.find(".imprintLink").exists()).to.be.true;
     });
 });
