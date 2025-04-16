@@ -1037,8 +1037,6 @@ Here you can configure the menu items for the `mainMenu` (in the desktop view on
 |sections|no|**[sections](#portalconfigmenusections)**[]||Subdivision of modules in the menu.|false|
 |title|no|**[title](#portalconfigmenutitle)**||The portal's title and further elements to be shown in the main menu bar.|false|
 
-|keepAliveComponents|no|Array|[]|List of modules, which should be cached via Vue [keep-alive](https://vuejs.org/guide/built-ins/keep-alive) feature.|false|
-
 ***
 
 #### portalConfig.menu.searchBar {data-toc-label='Search Bar'}

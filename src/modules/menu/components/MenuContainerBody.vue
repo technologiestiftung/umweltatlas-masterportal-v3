@@ -56,29 +56,33 @@ export default {
             if (current !== "root" && current !== this.defaultComponent) {
                 current = this.componentMap[current];
             }
+
             return current;
         },
-
         /**
-         * Defined in the config.json, keepAliveComponents contains an array of modules,
-         * which should be cached via the Vue keep-alive feature.
-         * The MenuComponentKeepAlivePlaceholder component is added in order to be cached too.
+         * Modules that are to be cached using Vue's keep-alive feature must implement
+         * the keep-alive-specific lifecycle hooks "activated()" and "deactivated()".
+         * Only if both hooks are found, the component is cached via keep-alive.
+         * See documentation: docs/Dev/vueComponents/ToolCaching.md
          *
          * @returns {Array} Returns a list of component names for keep-alive
          */
         keepAliveComponents () {
             const
-                componentNames = this.menu?.keepAliveComponents ?? [],
-                mappedComponentNames = componentNames.map(item => this.componentMap[item].name);
+                keepAliveComponents = Object.keys(this.componentMap).filter((type) => {
+                    return typeof this.componentMap[type]?.activated === "function"
+                        && typeof this.componentMap[type]?.deactivated === "function";
+                }),
+                componentNames = keepAliveComponents.map(type => this.componentMap[type].name);
 
-            mappedComponentNames.push("MenuComponentKeepAlivePlaceholder");
+            componentNames.push("MenuComponentKeepAlivePlaceholder");
 
-            return mappedComponentNames;
+            return componentNames;
         },
         /**
-         * The Vue keep-alive feature only works, if a component is included at all times.
-         * Conditionally skipping components using v-if is not possible.
-         * Because of this, we have to use an empty placeholder component for root and getFeatureInfo.
+         * The Vue keep-alive feature only works if a component is always included.
+         * Conditional skipping of components using v-if is not possible.
+         * Therefore, we need to use an empty placeholder component for root and getFeatureInfo.
          *
          * @returns {*|string} Name of the component to render
          */

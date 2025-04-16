@@ -15,6 +15,7 @@
 - Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
+- Menus: Module caching implemented via KeepAlive lifecycle hooks.
 
 ### Changed
 - WMS-Time: Shrunk wms-time slider for mobile views, adjusted Position on desktop.
@@ -50,8 +51,8 @@
 - WFST-Tool: Saving objects now works correctly after layer reordering.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
 - Initial loading of layers: Adjusted initial z-index values to ensure correct layer order on map load.
-- Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing. 
-- LayerInformation: 
+- Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing.
+- LayerInformation:
     - Fixed console error if clicked on contact.
     - Fixed creating url to portal contained in contact.
 - AddWMS: Added layers are displayed in layer selection under the headline 'external subject data'.
