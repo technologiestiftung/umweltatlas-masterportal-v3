@@ -7,8 +7,8 @@
 ### __Breaking Changes__
 
 ### Added
-- MapMarker: Added the ability to additionally highlight polygons
-- FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame
+- MapMarker: Added the ability to additionally highlight polygons.
+- FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame.
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
 - UrlParams: Added URL-Params mainclosed and secondaryclosed to have the menus initially closed when set to true and opened when set to false.
 
@@ -24,18 +24,18 @@
 - Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
 - Issue #1295: Extend error processing for error responses from MapFish server.
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
-- Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login
+- Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login.
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
 - Issue #1382: Icon Info button can now be conditionally hidden based on layer configuration.
 - Issue #1388: In a menu section are several modules of same type allowed.
-- Issue #1389: Set and remove cookies with domain flag
+- Issue #1389: Set and remove cookies with domain flag.
 - Draw/Write: KML-export now uses the correct url for circle-icon.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - LayerInformation: Fixed console error if clicked on contact.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 - buildSpec: Added hash check to include only unique legend images in print output.
-- Charts: Fixed wrong link and modernized method declaration syntax for weekday function 
+- Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
 
 ---
 
