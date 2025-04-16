@@ -20,8 +20,8 @@ export default {
             "seperator",
             "type",
             "urls",
-            "impressumLinkName",
-            "showImpressumLink"
+            "imprintLinkName",
+            "showImprintLink"
         ]),
         ...mapGetters("Menu", [
             "mainExpanded",
@@ -58,8 +58,8 @@ export default {
 
             return null;
         },
-        hasImpressumInUrls () {
-            return this.urls.some(url => url.bezeichnung === this.impressumLinkName);
+        hasImprintInUrls () {
+            return this.urls.some(url => this.$t(url.bezeichnung) === this.$t(this.impressumLinkName));
         }
     },
     mounted () {
@@ -98,14 +98,14 @@ export default {
         class="portal-footer px-2 py-1"
     >
         <a
-            v-if="showImpressumLink && aboutModuleSide && !hasImpressumInUrls"
-            class="impressumLink"
+            v-if="showImprintLink && aboutModuleSide && !hasImprintInUrls"
+            class="imprintLink"
             role="button"
             tabindex="0"
             @click="openImprint"
             @keydown="openImprint"
         >
-            {{ impressumLinkName }}
+            {{ $t('common:modules.portalFooter.imprintTitle') }}
         </a>
         <div class="footer-links">
             <template

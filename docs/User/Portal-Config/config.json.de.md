@@ -4462,8 +4462,8 @@ Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.
 |scaleLineWidth|nein|Number|2|Die Breite der Maßstabsanzeige in cm.|false|
 |seperator|nein|String|"` \| `"|Die Trennung zwischen einzelnen Links.|false|
 |urls|nein|**[urls](#portalconfigportalfooterurls)**[]|[]|Urls, die im Footer angezeit werden sollen.|false|
-|impressumLinkName|nein|String|"`Impressum`"|Name des Impressum-Links, der zum about-Modul führt (z.B. Datenschutz).|false|
-|showImpressumLink|nein|Boolean|true|Wenn false, wird kein Impressum-Link zum about-Modul im Footer erzeugt.|false|
+|imprintLinkName|nein|String|"`Impressum`"|Name des Impressum-Links, der zum about-Modul führt (z.B. Datenschutz).|false|
+|showImprintLink|nein|Boolean|true|Wenn false, wird kein Impressum-Link zum about-Modul im Footer erzeugt.|false|
 
 **Beispiel**
 

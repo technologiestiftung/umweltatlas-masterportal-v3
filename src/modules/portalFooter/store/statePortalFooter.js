@@ -19,8 +19,8 @@ const state = {
     seperator: "&nbsp;|&nbsp;",
     type: "portalFooter",
     urls: [],
-    impressumLinkName: "Impressum",
-    showImpressumLink: true
+    imprintLinkName: "common:modules.portalFooter.imprintTitle",
+    showImprintLink: true
 };
 
 export default state;
