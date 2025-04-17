@@ -173,7 +173,9 @@ describe("src/modules/print/store/actionsPrint", function () {
                             content: i18next.t("common:modules.print.waitForPrintErrorMessage")
                         },
                         dispatch: true
-                    }
+                    },
+                    {type: "setPrintStarted", payload: false, commit: true},
+                    {type: "setFileDownloads", payload: [], commit: true}
                 ];
 
             testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
@@ -197,7 +199,9 @@ describe("src/modules/print/store/actionsPrint", function () {
                         content: i18next.t("common:modules.print.waitForPrintErrorMessage")
                     },
                     dispatch: true
-                }
+                },
+                {type: "setPrintStarted", payload: false, commit: true},
+                {type: "setFileDownloads", payload: [], commit: true}
             ];
 
         testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
