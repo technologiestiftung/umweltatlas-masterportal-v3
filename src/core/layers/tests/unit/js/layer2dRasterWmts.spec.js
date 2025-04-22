@@ -116,7 +116,7 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
         it("createLegend with no optionsFromCapabilities does nothing", async () => {
             const layerWrapper = new Layer2dRasterWmts(attributes);
 
-            expect(await layerWrapper.createLegend()).to.be.true;
+            expect(await layerWrapper.createLegend()).to.deep.equals([true]);
         });
     });
 });

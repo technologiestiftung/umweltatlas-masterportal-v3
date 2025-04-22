@@ -67,6 +67,19 @@ Layer2dRasterWmts.prototype.getLayerParams = function (attributes) {
 Layer2dRasterWmts.prototype.createLegend = async function () {
     let legend = this.inspectLegendUrl();
 
+    if (this.get("legend")) {
+        if (this.get("legend") === "") {
+            legend = true;
+        }
+        else if (this.get("legend") === "ignore") {
+            legend = false;
+        }
+        else {
+            legend = this.get("legend");
+            legend = Array.isArray(legend) ? legend : [legend];
+        }
+    }
+
     if ((this.get("optionsFromCapabilities") === undefined) && (legend === true)) {
         console.error("WMTS: No legendURL is specified for the layer!");
     }

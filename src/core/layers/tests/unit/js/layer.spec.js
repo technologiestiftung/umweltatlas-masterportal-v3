@@ -85,7 +85,7 @@ describe("src/core/js/layers/layer.js", () => {
         });
 
         it("inspectLegendUrl with filled legendURL", () => {
-            attributes.legendURL = "https://legendURL";
+            attributes.legendURL = ["https://legendURL"];
             const layerWrapper = new Layer(attributes);
 
             expect(layerWrapper.inspectLegendUrl()).to.be.equals(attributes.legendURL);

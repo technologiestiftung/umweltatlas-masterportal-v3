@@ -22,6 +22,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
 - Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
 - Issue #1295: Extend error processing for error responses from MapFish server.
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
@@ -37,7 +38,7 @@
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 - buildSpec: Added hash check to include only unique legend images in print output.
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
-- WFST-Tool: Saving objects now works correctly after layer reordering. 
+- WFST-Tool: Saving objects now works correctly after layer reordering.
 
 ---
 
