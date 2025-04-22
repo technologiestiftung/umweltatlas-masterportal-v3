@@ -4,6 +4,7 @@ import Feature from "ol/Feature.js";
 import Point from "ol/geom/Point.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {WFS} from "ol/format.js";
+import store from "../../../app-store";
 
 import layerCollection from "../../layers/js/layerCollection";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
@@ -79,6 +80,14 @@ export default {
                     featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
                 iconFeature.setProperties(feature.getProperties());
+                rootGetters.ignoredKeys.forEach(key => {
+                    if (feature.get(key)) {
+                        iconFeature.unset(key);
+                    }
+                    else if (feature.get(key.toLowerCase())) {
+                        iconFeature.unset(key.toLowerCase());
+                    }
+                });
                 iconFeature.setStyle(featureStyle);
                 highlightFeatures.push(iconFeature);
             }
@@ -102,9 +111,10 @@ export default {
     showLayer: async function (layerId, highlightFeatures, styleId, rawLayer, name, dispatch, rootGetters) {
         const highlightLayer = await this.createVectorLayer(styleId, layerId, rootGetters.treeHighlightedFeatures?.layerName || name, rawLayer.gfiAttributes, dispatch);
 
+        highlightLayer.set("styleId", styleId);
         highlightLayer.getSource().addFeatures(highlightFeatures);
 
-        dispatch("Maps/zoomToExtent", {extent: highlightLayer.getSource().getExtent()}, {root: true});
+        dispatch("Maps/zoomToExtent", {extent: highlightLayer.getSource().getExtent(), options: {duration: 0}}, {root: true});
     },
 
     /**
@@ -120,7 +130,7 @@ export default {
      * @returns {void}
     */
     highlightLineOrPolygonFeature: async function (styleId, layerId, name, geometryRequested, rawLayer, features, dispatch, rootGetters) {
-        const styleObject = styleList.returnStyleObject(styleId),
+        const styleObject = await styleList.returnStyleObject(styleId),
             highlightFeatures = [];
         let hasGeometry = false;
 
@@ -135,6 +145,14 @@ export default {
                     featureStyle = createStyle.createStyle(styleObject, newFeature, false, Config.wfsImgPath);
 
                 newFeature.setProperties(feature.getProperties());
+                rootGetters.ignoredKeys.forEach(key => {
+                    if (feature.get(key)) {
+                        newFeature.unset(key);
+                    }
+                    else if (feature.get(key.toLowerCase())) {
+                        newFeature.unset(key.toLowerCase());
+                    }
+                });
                 newFeature.setStyle(featureStyle);
                 highlightFeatures.push(newFeature);
             }
@@ -183,10 +201,21 @@ export default {
                 return;
             }
         }
+        if (rootGetters.styleListLoaded) {
+            this.highlightPointFeature(this.settings.pointStyleId, "highlight_point_layer", "highlightPoint", highlightFeaturesLayer, features, dispatch, rootGetters);
+            this.highlightLineOrPolygonFeature(this.settings.polygonStyleId, "highlight_polygon_layer", "highlightPolygon", "Polygon", highlightFeaturesLayer, features, dispatch, rootGetters);
+            this.highlightLineOrPolygonFeature(this.settings.lineStyleId, "highlight_line_layer", "highlightLine", "LineString", highlightFeaturesLayer, features, dispatch, rootGetters);
+        }
+        else {
+            store.watch((state, getters) => getters.styleListLoaded, value => {
+                if (value) {
+                    this.highlightPointFeature(this.settings.pointStyleId, "highlight_point_layer", "highlightPoint", highlightFeaturesLayer, features, dispatch, rootGetters);
+                    this.highlightLineOrPolygonFeature(this.settings.polygonStyleId, "highlight_polygon_layer", "highlightPolygon", "Polygon", highlightFeaturesLayer, features, dispatch, rootGetters);
+                    this.highlightLineOrPolygonFeature(this.settings.lineStyleId, "highlight_line_layer", "highlightLine", "LineString", highlightFeaturesLayer, features, dispatch, rootGetters);
+                }
+            });
+        }
 
-        this.highlightPointFeature(this.settings.pointStyleId, "highlight_point_layer", "highlightPoint", highlightFeaturesLayer, features, dispatch, rootGetters);
-        this.highlightLineOrPolygonFeature(this.settings.polygonStyleId, "highlight_polygon_layer", "highlightPolygon", "Polygon", highlightFeaturesLayer, features, dispatch, rootGetters);
-        this.highlightLineOrPolygonFeature(this.settings.lineStyleId, "highlight_line_layer", "highlightLine", "LineString", highlightFeaturesLayer, features, dispatch, rootGetters);
     },
 
     /**

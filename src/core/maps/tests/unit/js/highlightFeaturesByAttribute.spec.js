@@ -134,24 +134,28 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                 {
                     id: "123",
                     getGeometry: () => new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 },
                 {
                     id: "456",
                     getGeometry: () => new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 }
             ],
             lineFeatures = [
                 {
                     id: "123",
                     getGeometry: () => new LineString([[0, 0], [1000, 0]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 },
                 {
                     id: "456",
                     getGeometry: () => new LineString([[0, 0], [1000, 0]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 }
             ],
             styleObject = {
@@ -191,7 +195,7 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: null, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: null, treeType: undefined};
 
             highlightFeaturesByAttribute.highlightPointFeature("defaultHighlightFeaturesPoint", "highlight_point_layer", "highlightPoint", layer, pointFeatures, dispatch, rootGetters);
 
@@ -211,9 +215,9 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: {active: false}, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: {active: false}, treeType: undefined};
 
-            highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
+            await highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
 
             expect(showLayerSpy.calledOnce).to.be.true;
             expect(showLayerSpy.firstCall.args[0]).to.equals("highlight_polygon_layer");
@@ -231,9 +235,9 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: {active: false}, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: {active: false}, treeType: undefined};
 
-            highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
+            await highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
 
             expect(showLayerSpy.calledOnce).to.be.true;
             expect(showLayerSpy.firstCall.args[0]).to.equals("highlight_line_layer");

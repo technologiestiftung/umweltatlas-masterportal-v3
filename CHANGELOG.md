@@ -12,6 +12,7 @@
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
 - UrlParams: Added URL-Params mainclosed and secondaryclosed to have the menus initially closed when set to true and opened when set to false.
 - Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
+- HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 
 ### Changed
 - WMS-Time: Shrunk wms-time slider for mobile views, adjusted Position on desktop.
