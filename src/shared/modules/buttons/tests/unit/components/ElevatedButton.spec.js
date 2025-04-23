@@ -14,7 +14,7 @@ describe("src/shared/components/ElevatedButton.vue", () => {
 
     afterEach(sinon.restore);
 
-    it("should render a button with an icon and trigger the given interaction on click", () => {
+    it("should render a button with an icon and trigger the given interaction on click", async () => {
         const iconString = "bi-list",
             text = "My super nice elevated Button",
             wrapper = mount(ElevatedButton, {
@@ -31,7 +31,7 @@ describe("src/shared/components/ElevatedButton.vue", () => {
         expect(icon.classes()).to.eql([iconString]);
         expect(icon.attributes("role")).to.equal("img");
 
-        button.trigger("click");
+        await button.trigger("click");
 
         expect(interactionSpy.calledOnce).to.be.true;
     });

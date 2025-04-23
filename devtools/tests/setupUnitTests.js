@@ -4,6 +4,17 @@ const sinon = require("sinon");
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
+const originalWarn = console.warn;
+
+console.warn = (...args) => {
+    if (args[0]?.toString().includes("A plugin must either be")) {
+        console.log("🔍 Warnung gefunden:");
+        console.trace(...args);
+    }
+    originalWarn(...args);
+};
+
+
 /**
  * Mock for web worker
  */

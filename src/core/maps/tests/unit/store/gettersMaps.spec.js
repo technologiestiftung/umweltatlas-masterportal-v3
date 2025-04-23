@@ -67,7 +67,7 @@ describe("src/core/maps/store/gettersMap.js", () => {
         });
     });
 
-    describe("isMaxZoomDisplayed", async () => {
+    describe("isMaxZoomDisplayed", () => {
         it("returns false for isMaxZoomDisplayed from stateMaps and true for local state", () => {
             const state = {
                 maxZoom: 10,
@@ -91,7 +91,7 @@ describe("src/core/maps/store/gettersMap.js", () => {
         });
     });
 
-    describe("urlParams", async () => {
+    describe("urlParams", () => {
         it("returns urlParams for local state", () => {
             const state = {
                     center: [5, 8],
