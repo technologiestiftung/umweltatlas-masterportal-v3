@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "Порівняти дві карти поруч або одну над одною",
-      "firstLayer": "Перший шар",
       "horizontal": "горизонтально",
+      "leftLayer": "Лівий шар",
       "loadingWait": "Будь ласка, зачекайте, інструмент завантажує карти для порівняння",
+      "lowerLayer": "Нижній шар",
       "name": "Порівняти карти",
       "reset": "Скинути",
+      "rightLayer": "Правий шар",
       "sameLayerSelected": "Той самий шар було виділено двічі. Виділення було скинуто.",
-      "secondLayer": "Другий шар",
-      "selectLayerOneFirst": "Будь ласка, спочатку виберіть перший шар",
+      "selectLeftLayerFirst": "Будь ласка, спочатку виберіть лівий шар",
+      "selectUpperLayerFirst": "Будь ласка, спочатку виберіть верхній шар",
       "splitDirection": "Напрямок: ",
+      "upperLayer": "Верхній шар",
       "vertical": "вертикально"
     },
     "contact": {

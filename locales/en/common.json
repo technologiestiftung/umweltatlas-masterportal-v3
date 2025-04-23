@@ -104,15 +104,18 @@
     },
     "compareMaps": {
       "description": "Compare two maps side by side or on top of each other",
-      "firstLayer": "First Layer",
       "horizontal": "horizontal",
+      "leftLayer": "Left Layer",
       "loadingWait": "Please wait, the tool is loading the comparison maps",
+      "lowerLayer": "Lower Layer",
       "name": "Compare Maps",
       "reset": "Reset",
+      "rightLayer": "Right Layer",
       "sameLayerSelected": "The same layer has been selected twice. The selection has been reset.",
-      "secondLayer": "Second Layer",
-      "selectLayerOneFirst": "Please select the first layer first",
+      "selectLeftLayerFirst": "Please select the left layer first",
+      "selectUpperLayerFirst": "Please select the upper layer first",
       "splitDirection": "Direction: ",
+      "upperLayer": "Upper Layer",
       "vertical": "vertical"
     },
     "contact": {

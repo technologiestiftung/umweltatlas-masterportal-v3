@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "Confrontare due mappe affiancate o una sopra l'altra",
-      "firstLayer": "Primo strato",
       "horizontal": "orizzontale",
+      "leftLayer": "Strato sinistro",
       "loadingWait": "Attendere, lo strumento sta caricando le mappe di confronto",
+      "lowerLayer": "Strato inferiore",
       "name": "Confronta mappe",
       "reset": "Reimposta",
+      "rightLayer": "Strato destro",
       "sameLayerSelected": "Lo stesso livello è stato selezionato due volte. La selezione è stata ripristinata.",
-      "secondLayer": "Secondo strato",
-      "selectLayerOneFirst": "Si prega di selezionare prima il primo strato",
+      "selectLeftLayerFirst": "Si prega di selezionare prima il strato sinistro",
+      "selectUpperLayerFirst": "Si prega di selezionare prima il strato superiore",
       "splitDirection": "Direzione: ",
+      "upperLayer": "Strato superiore",
       "vertical": "verticale"
     },
     "contact": {

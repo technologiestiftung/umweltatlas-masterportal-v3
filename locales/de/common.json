@@ -104,15 +104,18 @@
     },
     "compareMaps": {
       "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
-      "firstLayer": "Erster Layer",
       "horizontal": "horizontal",
+      "leftLayer": "Linker Layer",
       "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
+      "lowerLayer": "Unterer Layer",
       "name": "Karten vergleichen",
       "reset": "Zurücksetzen",
+      "rightLayer": "Rechter Layer",
       "sameLayerSelected": "Es wurde der selbe Layer zweimal ausgewählt. Die Auswahl wurde zurückgesetzt.",
-      "secondLayer": "Zweiter Layer",
-      "selectLayerOneFirst": "Bitte wählen Sie zuerst den ersten Layer",
+      "selectLeftLayerFirst": "Bitte wählen Sie zuerst den linken Layer",
+      "selectUpperLayerFirst": "Bitte wählen Sie zuerst den oberen Layer",
       "splitDirection": "Ausrichtung: ",
+      "upperLayer": "Oberer Layer",
       "vertical": "vertikal"
     },
     "contact": {

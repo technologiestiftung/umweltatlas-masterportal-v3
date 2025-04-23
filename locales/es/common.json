@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "Comparar dos mapas lado a lado o uno encima del otro",
-      "firstLayer": "Primera capa",
       "horizontal": "horizontal",
+      "leftLayer": "Capa izquierda",
       "loadingWait": "Por favor, espere, la herramienta está cargando los mapas de comparación",
+      "lowerLayer": "Capa inferior",
       "name": "Comparar mapas",
       "reset": "Restablecer",
+      "rightLayer": "Capa derecha",
       "sameLayerSelected": "Se ha seleccionado dos veces la misma capa. La selección se ha restablecido.",
-      "secondLayer": "Segunda capa",
-      "selectLayerOneFirst": "Por favor, seleccione primero la primera capa",
+      "selectLeftLayerFirst": "Por favor, seleccione primero la capa izquierda",
+      "selectUpperLayerFirst": "Por favor, seleccione primero la capa superior",
       "splitDirection": "Dirección: ",
+      "upperLayer": "Capa superior",
       "vertical": "vertical"
     },
     "contact": {

@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "Twee Karten neveneen oder übereen vergelieken",
-      "firstLayer": "Eerste Layer",
       "horizontal": "horizontal",
+      "leftLayer": "Linker Layer",
       "loadingWait": "Bitte warten Sie, dat Tool laadt de Vergleichskarten",
+      "lowerLayer": "Unterer Layer",
       "name": "Karten vergelieken",
       "reset": "Resetten",
+      "rightLayer": "Rechter Layer",
       "sameLayerSelected": "Dat is tweemal utwählt worrn. De Utwahl is torüchsett worrn.",
-      "secondLayer": "Tweede Layer",
-      "selectLayerOneFirst": "Bitte eerst den eersten Layer utsöken",
+      "selectLeftLayerFirst": "Bitte wählen Sie zuerst den linken Layer",
+      "selectUpperLayerFirst": "Bitte wählen Sie zuerst den oberen Layer",
       "splitDirection": "Richtung: ",
+      "upperLayer": "Oberer Layer",
       "vertical": "vertikal"
     },
     "contact": {

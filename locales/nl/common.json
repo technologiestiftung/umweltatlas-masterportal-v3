@@ -102,15 +102,18 @@
       },
       "compareMaps": {
         "description": "Vergelijk twee kaarten naast elkaar of op elkaar",
-        "firstLayer": "Eerste laag",
         "horizontal": "horizontaal",
+        "leftLayer": "Linkerlaag",
         "loadingWait": "Een ogenblik geduld terwijl de tool de vergelijkingskaarten laadt",
+        "lowerLayer": "Onderste laag",
         "name": "Vergelijk kaarten",
         "reset": "Opnieuw instellen",
+        "rightLayer": "Rechterlaag",
         "sameLayerSelected": "Dezelfde laag is twee keer geselecteerd. De selectie is opnieuw ingesteld.",
-        "secondLayer": "Tweede laag",
-        "selectLayerOneFirst": "Selecteer eerst de eerste laag",
+        "selectLeftLayerFirst": "Selecteer eerst de linkerlaag",
+        "selectUpperLayerFirst": "Selecteer eerst de bovenste laag",
         "splitDirection": "Oriëntatie: ",
+        "upperLayer": "Bovenste laag",
         "vertical": "verticaal"
       },
       "contact": {

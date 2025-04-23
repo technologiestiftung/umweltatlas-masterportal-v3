@@ -250,7 +250,7 @@ export default {
                         id="module-compareMaps-select-label"
                         for="module-compareMaps-select-layer1"
                     >
-                        {{ $t("common:modules.compareMaps.firstLayer") }}
+                        {{ splitDirection === "vertical" ? $t("common:modules.compareMaps.leftLayer") : $t("common:modules.compareMaps.upperLayer") }}
                     </label>
                 </div>
                 <div class="form-floating mb-3">
@@ -272,7 +272,7 @@ export default {
                         id="module-compareMaps-select-label"
                         for="module-compareMaps-select-layer2"
                     >
-                        {{ !selectedLayer1 ? $t("common:modules.compareMaps.selectLayerOneFirst") : $t("common:modules.compareMaps.secondLayer") }}
+                        {{ !selectedLayer1 ? (splitDirection === "vertical" ? $t("common:modules.compareMaps.selectLeftLayerFirst") : $t("common:modules.compareMaps.selectUpperLayerFirst")) : (splitDirection === "vertical" ? $t("common:modules.compareMaps.rightLayer") : $t("common:modules.compareMaps.lowerLayer")) }}
                     </label>
                 </div>
             </div>

@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "İki haritayı yan yana veya üst üste karşılaştırın",
-      "firstLayer": "Birinci Katman",
       "horizontal": "yatay",
+      "leftLayer": "Sol Katman",
       "loadingWait": "Lütfen bekleyin, araç karşılaştırma haritalarını yüklüyor",
+      "lowerLayer": "Alt Katman",
       "name": "Haritaları Karşılaştır",
       "reset": "Sıfırla",
+      "rightLayer": "Sağ Katman",
       "sameLayerSelected": "Aynı katman iki kez seçildi. Seçim sıfırlandı.",
-      "secondLayer": "İkinci Katman",
-      "selectLayerOneFirst": "Lütfen önce birinci katmanı seçin",
+      "selectLeftLayerFirst": "Lütfen önce sol katmanı seçin",
+      "selectUpperLayerFirst": "Lütfen önce üst katmanı seçin",
       "splitDirection": "Yön: ",
+      "upperLayer": "Üst Katman",
       "vertical": "dikey"
     },
     "contact": {

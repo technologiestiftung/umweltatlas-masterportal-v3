@@ -126,4 +126,31 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
         expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setTargetLayerId", "", undefined)).to.be.true;
         expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setActive", false, undefined)).to.be.true;
     });
+
+    it("render labels for vertical split", async () => {
+        wrapper = shallowMount(CompareMaps, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#module-compareMaps-select-layer1").element.labels[0].textContent).to.equal("common:modules.compareMaps.leftLayer");
+        expect(wrapper.find("#module-compareMaps-select-layer2").element.labels[0].textContent).to.equal("common:modules.compareMaps.rightLayer");
+    });
+
+    it("render labels for horizontal split", async () => {
+        wrapper = shallowMount(CompareMaps, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        wrapper.vm.splitDirection = "horizontal";
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#module-compareMaps-select-layer1").element.labels[0].textContent).to.equal("common:modules.compareMaps.upperLayer");
+        expect(wrapper.find("#module-compareMaps-select-layer2").element.labels[0].textContent).to.equal("common:modules.compareMaps.lowerLayer");
+    });
 });

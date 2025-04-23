@@ -76,15 +76,18 @@
     },
     "compareMaps": {
       "description": "Comparar dois mapas lado a lado ou um sobre o outro",
-      "firstLayer": "Primeira camada",
       "horizontal": "horizontal",
+      "leftLayer": "Camada esquerda",
       "loadingWait": "Por favor, aguarde, a ferramenta está carregando os mapas de comparação",
+      "lowerLayer": "Camada inferior",
       "name": "Comparar Mapas",
       "reset": "Redefinir",
+      "rightLayer": "Camada direita",
       "sameLayerSelected": "A mesma camada foi selecionada duas vezes. A seleção foi reposta.",
-      "secondLayer": "Segunda camada",
-      "selectLayerOneFirst": "Por favor, selecione primeiro a primeira camada",
+      "selectLeftLayerFirst": "Por favor, selecione primeiro a camada esquerda",
+      "selectUpperLayerFirst": "Por favor, selecione primeiro a camada superior",
       "splitDirection": "Direção: ",
+      "upperLayer": "Camada superior",
       "vertical": "vertical"
     },
     "contact": {
