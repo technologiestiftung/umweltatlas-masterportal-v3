@@ -239,28 +239,28 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         global.URL = globalURL;
     });
 
-    describe.skip("renders Modeler3DDraw", () => {
+    describe("renders Modeler3DDraw", () => {
         it("renders the main elements", () => {
             expect(wrapper.find("#modeler3D-draw").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-geometry").exists()).to.be.true;
-            expect(wrapper.find("#modeler3D-draw-name").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-transparency").exists()).to.be.true;
+            expect(wrapper.find("#tool-modeler3D-draw-models").exists()).to.be.true;
+            expect(wrapper.find("#tool-modeler3d-draw-types").exists()).to.be.true;
             expect(wrapper.find("#clampToGroundSwitch").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-modelling-interaction").exists()).to.be.true;
+            expect(wrapper.find("#dimensionsSwitch").exists()).to.be.true;
         });
 
-        it("renders the template for the polygon attributes", () => {
-            expect(wrapper.find("#tool-modeler3D-extrudedHeight").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-fill-color").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-outline-color").exists()).to.be.true;
-        });
-        it("renders the template for the polyline attributes", () => {
-            store.commit("Modules/Modeler3D/setSelectedGeometry", "polygon");
+        it("renders the draw types", () => {
 
-            expect(wrapper.find("#tool-modeler3D-lineWidth").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-extrudedHeight").exists()).to.be.false;
-            expect(wrapper.find("#tool-modeler3D-fill-color").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-outline-color").exists()).to.be.false;
+            expect(wrapper.find("#draw-polygon").exists()).to.be.true;
+            expect(wrapper.find("#draw-line").exists()).to.be.true;
+            expect(wrapper.find("#draw-rectangle").exists()).to.be.true;
+        });
+        it("renders the template for the polyline attributes", async () => {
+            store.commit("Modules/Modeler3D/setSelectedDrawType", "polygon");
+
+            await nextTick();
+            const polygonButton = wrapper.find("#draw-polygon");
+
+            expect(polygonButton.classes()).contain("active");
         });
     });
     describe("Modeler3DDraw.vue methods", () => {
