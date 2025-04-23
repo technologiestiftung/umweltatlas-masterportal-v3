@@ -86,23 +86,32 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
             const styleId = "defaultHighlightFeaturesPoint",
                 layerId = "highlight_point_layer",
                 layerName = "highlight features point layer",
-                gfiAttributes = "showAll",
+                rawLayer = {
+                    gfiAttributes: "showAll",
+                    featureType: "gesundheit_krankenhaeuser",
+                    url: "https://testurl.de",
+                    version: "1.1.0"
+
+                },
                 dispatch = sinon.spy();
 
-            highlightFeaturesByAttribute.createVectorLayer(styleId, layerId, layerName, gfiAttributes, dispatch);
+            highlightFeaturesByAttribute.createVectorLayer(styleId, layerId, layerName, rawLayer, dispatch);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerConfig: {
-                    gfiAttributes: gfiAttributes,
+                    gfiAttributes: rawLayer.gfiAttributes,
                     id: layerId,
                     name: layerName,
                     showInLayerTree: true,
                     styleId: styleId,
                     typ: "VECTORBASE",
                     type: "layer",
-                    visibility: true
+                    visibility: true,
+                    featureType: rawLayer.featureType,
+                    url: rawLayer.url,
+                    version: rawLayer.version
                 },
                 parentKey: "subjectlayer"
             });

@@ -30,21 +30,24 @@ export default {
      * @param {String} styleId The style Id
      * @param {String} layerId The layer Id
      * @param {String} name Layer name
-     * @param {Object} gfiAttributes GFI attributes configuration
+     * @param {Object} rawLayer the raw layer
      * @param {Function} dispatch dispatch function
      * @returns {Object} the created VectorLayer
     */
-    createVectorLayer: async function (styleId, layerId, name, gfiAttributes, dispatch) {
+    createVectorLayer: async function (styleId, layerId, name, rawLayer, dispatch) {
         await dispatch("addLayerToLayerConfig", {
             layerConfig: {
-                gfiAttributes: gfiAttributes,
+                gfiAttributes: rawLayer.gfiAttributes,
                 id: layerId,
                 name: name,
                 showInLayerTree: true,
                 styleId: styleId,
                 typ: "VECTORBASE",
                 type: "layer",
-                visibility: true
+                visibility: true,
+                version: rawLayer.version,
+                url: rawLayer.url,
+                featureType: rawLayer.featureType
             },
             parentKey: treeSubjectsKey
         }, {root: true});
@@ -109,7 +112,7 @@ export default {
      * @returns {void}
      */
     showLayer: async function (layerId, highlightFeatures, styleId, rawLayer, name, dispatch, rootGetters) {
-        const highlightLayer = await this.createVectorLayer(styleId, layerId, rootGetters.treeHighlightedFeatures?.layerName || name, rawLayer.gfiAttributes, dispatch);
+        const highlightLayer = await this.createVectorLayer(styleId, layerId, rootGetters.treeHighlightedFeatures?.layerName || name, rawLayer, dispatch);
 
         highlightLayer.set("styleId", styleId);
         highlightLayer.getSource().addFeatures(highlightFeatures);
