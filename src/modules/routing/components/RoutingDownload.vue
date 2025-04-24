@@ -90,26 +90,30 @@ export default {
          * @returns {module:ol/Feature[]} openlayers features
          */
         styleFeatures (features) {
+            const clonedFeatures = [];
             let routeStyle = null;
 
             for (const feature of features) {
+                const clonedFeature = feature.clone();
 
                 if (["DIRECTIONS", "ISOCHRONES"].includes(this.activeRoutingToolOption)) {
-                    routeStyle = directionsRouteStyle(feature);
+                    routeStyle = directionsRouteStyle.createDirectionsRouteStyle(feature);
 
                     if (routeStyle[1]) {
-                        feature.setStyle(routeStyle[1]);
+                        clonedFeature.setStyle(routeStyle[1]);
                     }
                 }
                 else if (this.activeRoutingToolOption === "TSR") {
-                    routeStyle = tsrRouteStyle(feature);
+                    routeStyle = tsrRouteStyle.createtsrRouteStyle(feature);
 
                     if (routeStyle[0]) {
-                        feature.setStyle(routeStyle[0]);
+                        clonedFeature.setStyle(routeStyle[0]);
                     }
                 }
+                clonedFeatures.push(clonedFeature);
             }
-            return features;
+
+            return clonedFeatures;
         },
         /**
          * Converts the features from OpenLayers Features to features in the chosen format.

@@ -27,6 +27,7 @@
 
 ### Fixed
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
+- Issue #1220: Routing: Calculated accessibility displayed on the map remains after exporting the result.
 - Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
 - Issue #1295: Extend error processing for error responses from MapFish server.
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.

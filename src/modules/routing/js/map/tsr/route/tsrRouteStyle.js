@@ -6,7 +6,7 @@ import stateRouting from "../../../../store/stateRouting";
  * @param {ol/Feature} feature for the current style
  * @returns {ol/Style} style function
  */
-export default function createtsrRouteStyle () {
+function createtsrRouteStyle () {
     const styleSetting = stateRouting.tsrSettings.styleRoute ? stateRouting.tsrSettings.styleRoute : stateRouting.tsr.settings.styleRoute;
 
     return [
@@ -18,3 +18,6 @@ export default function createtsrRouteStyle () {
         })
     ];
 }
+export default {
+    createtsrRouteStyle
+};

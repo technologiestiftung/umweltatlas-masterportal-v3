@@ -7,6 +7,9 @@ import mutations from "../../../store/mutationsRouting";
 import actions from "../../../store/actionsRouting";
 import Directions from "../../../store/directions/indexDirections";
 import Isochrones from "../../../store/isochrones/indexIsochrones";
+import directionsRouteStyle from "../../../js/map/directions/route/directionsRouteStyle";
+import tsrRouteStyle from "../../../js/map/tsr/route/tsrRouteStyle";
+import {Stroke, Style} from "ol/style.js";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
 
@@ -227,5 +230,85 @@ describe("src/modules/routing/components/RoutingDownload.vue", () => {
         await wrapper.vm.getDownloadStringInFormat();
 
         expect(convertTSRResultToCsv.calledOnce).to.be.true;
+    });
+    describe("Methods", () => {
+        describe("styleFeatures", () => {
+            it("should return and style the features with the second style if activeRoutingToolOption is DIRECTIONS for export", async () => {
+                const features = [
+                    new Feature({
+                        geometry: new LineString([[8, 52], [9, 53]])
+                    })
+                ];
+
+                wrapper = shallowMount(RoutingDownloadComponent, {
+                    global: {
+                        plugins: [store]
+                    },
+                    props: props
+                });
+                sinon.stub(directionsRouteStyle, "createDirectionsRouteStyle").callsFake(function () {
+                    return [
+                        new Style({
+                            stroke: new Stroke({
+                                color: "#008000",
+                                width: 5
+                            })
+                        }),
+                        new Style({
+                            stroke: new Stroke({
+                                color: "#FF0000",
+                                width: 1
+                            })
+                        })
+                    ];
+                });
+
+                await expect(wrapper.vm.styleFeatures(features)[0].getStyle()).to.deep.equal(new Style({
+                    stroke: new Stroke({
+                        color: "#FF0000",
+                        width: 1
+                    })
+                }));
+            });
+            it("should return and style the features with the first style  if activeRoutingToolOption is TSR for export", async () => {
+                const features = [
+                    new Feature({
+                        geometry: new LineString([[8, 52], [9, 53]])
+                    })
+                ];
+
+                activeRoutingToolOption = "TSR";
+
+                wrapper = shallowMount(RoutingDownloadComponent, {
+                    global: {
+                        plugins: [store]
+                    },
+                    props: props
+                });
+                sinon.stub(tsrRouteStyle, "createtsrRouteStyle").callsFake(function () {
+                    return [
+                        new Style({
+                            stroke: new Stroke({
+                                color: "#008000",
+                                width: 5
+                            })
+                        }),
+                        new Style({
+                            stroke: new Stroke({
+                                color: "#FF0000",
+                                width: 1
+                            })
+                        })
+                    ];
+                });
+
+                await expect(wrapper.vm.styleFeatures(features)[0].getStyle()).to.deep.equal(new Style({
+                    stroke: new Stroke({
+                        color: "#008000",
+                        width: 5
+                    })
+                }));
+            });
+        });
     });
 });

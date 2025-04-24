@@ -4,7 +4,7 @@ import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({
     source: tsrRouteSource,
-    style: tsrRouteStyle,
+    style: tsrRouteStyle.createtsrRouteStyle,
     name: "tsr_route_layer",
     alwaysOnTop: true
 });
