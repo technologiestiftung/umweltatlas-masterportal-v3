@@ -68,4 +68,18 @@ describe("src/modules/menu/MenuContainerBodyRootLogo.vue", () => {
         expect(wrapper.find("#mp-menu-logo-idAppendix > img").attributes("alt")).to.be.equals(props.toolTip);
         expect(wrapper.find("#mp-menu-logo-idAppendix > h1").exists()).to.be.false;
     });
+
+    it("renders html in title", () => {
+        const props = {
+            idAppendix: "idAppendix",
+            text: "<b>text</b>"
+        };
+
+        wrapper = mount(MenuContainerBodyRootLogo,
+            {global: {},
+                propsData: props
+            });
+
+        expect(wrapper.find("#mp-menu-logo-idAppendix > h1").element.innerHTML).to.be.equals(props.text);
+    });
 });

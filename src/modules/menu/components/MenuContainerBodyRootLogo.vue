@@ -57,7 +57,10 @@ export default {
             :alt="toolTip || text"
             :class="{'logoOnly': text === null}"
         >
-        <h1 v-if="text !== null">{{ $t(text) }}</h1>
+        <h1
+            v-if="text !== null"
+            v-html="$t(text)"
+        />
     </a>
 </template>
 
