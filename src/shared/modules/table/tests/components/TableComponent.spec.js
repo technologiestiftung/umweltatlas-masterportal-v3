@@ -1040,21 +1040,21 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.preventMoveAboveFixedColumn({draggedContext: {futureIndex: 0}})).to.be.true;
             });
         });
-        describe("getUniqueValuesByColumnName", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
-                        items: [
-                            ["foo", "bar", "buz"]
-                        ]
+        describe("getUniqueValuesByColumnName", () => {
+
+            it("should return an empty array if first param is not a string", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                            items: [
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
                     }
-                }
-            });
+                });
 
-            await wrapper.vm.$nextTick();
-
-            it("should return an empty array if first param is not a string", () => {
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getUniqueValuesByColumnName(undefined)).to.deep.equal([]);
                 expect(wrapper.vm.getUniqueValuesByColumnName(null)).to.deep.equal([]);
                 expect(wrapper.vm.getUniqueValuesByColumnName({})).to.deep.equal([]);
@@ -1064,7 +1064,19 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getUniqueValuesByColumnName(1234)).to.deep.equal([]);
             });
 
-            it("should return an empty array if second param is not an array", () => {
+            it("should return an empty array if second param is not an array", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                            items: [
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getUniqueValuesByColumnName("foo", {})).to.deep.equal([]);
                 expect(wrapper.vm.getUniqueValuesByColumnName("foo", "string")).to.deep.equal([]);
                 expect(wrapper.vm.getUniqueValuesByColumnName("foo", 1234)).to.deep.equal([]);
@@ -1074,11 +1086,23 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getUniqueValuesByColumnName("foo", null)).to.deep.equal([]);
             });
 
-            it("should return an empty array if second param is an empty array", () => {
+            it("should return an empty array if second param is an empty array", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                            items: [
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getUniqueValuesByColumnName("foo", [])).to.deep.equal([]);
             });
 
-            it("should return an empty array if given head is not found in objects of the array", () => {
+            it("should return an empty array if given head is not found in objects of the array", async () => {
                 const rows = [
                         {
                             foo: "bar",
@@ -1089,12 +1113,23 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             fuz: "buz"
                         }
                     ],
-                    head = "fow";
+                    head = "fow",
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
 
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getUniqueValuesByColumnName(head, rows)).to.deep.equal([]);
             });
 
-            it("should return an array with keys as strings", () => {
+            it("should return an array with keys as strings", async () => {
                 const rows = [
                         {
                             foo: "bar",
@@ -1105,80 +1140,113 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             fuz: "buz"
                         }
                     ],
-                    head = "foo";
+                    head = "foo",
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
 
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getUniqueValuesByColumnName(head, rows)).to.deep.equal(["bar"]);
             });
         });
-        describe("addFilter", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
-                        items: [
-                            ["foo", "bar", "buz"]
-                        ]
-                    }
-                }
-            });
+        describe("addFilter", () => {
+            it("should not update the filterObject property", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    }),
+                    copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
 
-            await wrapper.vm.$nextTick();
-            it("should not update the filterObject property", () => {
-                const copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
-
+                await wrapper.vm.$nextTick();
                 wrapper.vm.addFilter();
                 expect(wrapper.vm.filterObject).to.deep.equal(copy);
             });
 
-            it("should update the filterObject property", () => {
-                const result = {foo: {bar: true}};
+            it("should update the filterObject property", async () => {
+                const result = {foo: {bar: true}},
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
 
+                await wrapper.vm.$nextTick();
                 wrapper.vm.addFilter("bar", "foo");
                 expect(wrapper.vm.filterObject).to.deep.equal(result);
             });
         });
-        describe("removeFilter", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
-                        items: [
-                            ["foo", "bar", "buz"]
-                        ]
-                    }
-                }
-            });
+        describe("removeFilter", () => {
+            it("should not update the filterObject property", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    }),
+                    copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
 
-            await wrapper.vm.$nextTick();
-            it("should not update the filterObject property", () => {
-                const copy = JSON.parse(JSON.stringify(wrapper.vm.filterObject));
+                await wrapper.vm.$nextTick();
 
                 wrapper.vm.removeFilter();
                 expect(wrapper.vm.filterObject).to.deep.equal(copy);
             });
 
-            it("should update the filterObject property", () => {
-                const result = {foo: {bar: true}};
+            it("should update the filterObject property", async () => {
+                const result = {foo: {bar: true}},
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
+
+                await wrapper.vm.$nextTick();
 
                 wrapper.vm.filterObject = {foo: {bar: true, buz: true}};
                 wrapper.vm.removeFilter("buz", "foo");
                 expect(wrapper.vm.filterObject).to.deep.equal(result);
             });
         });
-        describe("getFilteredRows", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
-                        items: [
-                            ["foo", "bar", "buz"]
-                        ]
+        describe("getFilteredRows", () => {
+            it("should return an empty array if first param is not an object", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                            items: [
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
                     }
-                }
-            });
+                });
 
-            await wrapper.vm.$nextTick();
-            it("should return an empty array if first param is not an object", () => {
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getFilteredRows(undefined)).to.be.an("array").and.to.be.empty;
                 expect(wrapper.vm.getFilteredRows(null)).to.be.an("array").and.to.be.empty;
                 expect(wrapper.vm.getFilteredRows(true)).to.be.an("array").and.to.be.empty;
@@ -1188,7 +1256,19 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getFilteredRows([])).to.be.an("array").and.to.be.empty;
             });
 
-            it("should return an empty array if the second param is not an array", () => {
+            it("should return an empty array if the second param is not an array", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {
+                            headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                            items: [
+                                ["foo", "bar", "buz"]
+                            ]
+                        }
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getFilteredRows({}, undefined)).to.be.an("array").and.to.be.empty;
                 expect(wrapper.vm.getFilteredRows({}, null)).to.be.an("array").and.to.be.empty;
                 expect(wrapper.vm.getFilteredRows({}, {})).to.be.an("array").and.to.be.empty;
@@ -1198,55 +1278,99 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getFilteredRows({}, 1234)).to.be.an("array").and.to.be.empty;
             });
 
-            it("should return an array of found elements", () => {
+            it("should return an array of found elements", async () => {
                 const filterObject = {foo: {bar: true}},
                     rows = [
                         {foo: "bar", fow: "wow"},
                         {foo: "baz", fow: "wow"}
                     ],
-                    expected = [{foo: "bar", fow: "wow"}];
+                    expected = [{foo: "bar", fow: "wow"}],
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
+
+                await wrapper.vm.$nextTick();
 
                 expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.deep.equals(expected);
             });
-            it("should return an array of found elements", () => {
+            it("should return an array of found elements", async () => {
                 const filterObject = {foo: {bar: true}, fow: {wow: true}},
                     rows = [
                         {foo: "bar", fow: "wow"},
                         {foo: "bar", fow: "pow"},
                         {foo: "baz", fow: "wow"}
                     ],
-                    expected = [{foo: "bar", fow: "wow"}];
+                    expected = [{foo: "bar", fow: "wow"}],
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
 
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.deep.equals(expected);
             });
-            it("should return an empty array if no elements found", () => {
+            it("should return an empty array if no elements found", async () => {
                 const filterObject = {foob: {bar: true}, foww: {wow: true}},
                     rows = [
                         {foo: "bar", fow: "wow"},
                         {foo: "bar", fow: "pow"},
                         {foo: "baz", fow: "wow"}
-                    ];
+                    ],
+                    wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {
+                                headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
+                                items: [
+                                    ["foo", "bar", "buz"]
+                                ]
+                            }
+                        }
+                    });
 
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getFilteredRows(filterObject, rows)).to.be.an("array").and.to.be.empty;
             });
         });
-        describe("checkTotalHint", async () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {}
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
+        describe("checkTotalHint", () => {
+            it("should return false if there is no hint text", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
 
-            await wrapper.vm.$nextTick();
-            it("should return false if there is no hint text", () => {
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint(true, true)).to.be.false;
                 expect(wrapper.vm.checkTotalHint(false, true)).to.be.false;
             });
 
-            it("should return false if the hint text is not string", () => {
+            it("should return false if the hint text is not string", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: {}})).to.be.false;
                 expect(wrapper.vm.checkTotalHint({hintText: false})).to.be.false;
                 expect(wrapper.vm.checkTotalHint({hintText: []})).to.be.false;
@@ -1254,12 +1378,32 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.checkTotalHint({hintText: undefined})).to.be.false;
             });
 
-            it("should return false if the total data is not shown", () => {
+            it("should return false if the total data is not shown", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: "test"}, false)).to.be.false;
                 expect(wrapper.vm.checkTotalHint({hintText: "test"}, false)).to.be.false;
             });
 
-            it("should return true", () => {
+            it("should return true", async () => {
+                const wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {}
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: "test"}, true)).to.be.true;
             });
         });

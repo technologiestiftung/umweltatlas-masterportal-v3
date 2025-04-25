@@ -6,6 +6,7 @@ import SnippetCheckboxFilterInMapExtent from "../../../components/SnippetCheckbo
 import {expect} from "chai";
 import MapHandler from "../../../utils/mapHandler.js";
 import openlayerFunctions from "../../../utils/openlayerFunctions.js";
+import gettersFilter from "../../../store/gettersFilter.js";
 import sinon from "sinon";
 
 
@@ -35,6 +36,15 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                     namespaced: true,
                     getters: {
                         scale: sinon.stub()
+                    }
+                },
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        Filter: {
+                            namespaced: true,
+                            getters: gettersFilter
+                        }
                     }
                 }
             }
@@ -460,10 +470,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.find(".filter-result").exists()).to.be.true;
             expect(wrapper.find(".filter-result").text()).contain("common:modules.filter.filterResult.unit", "3");
         });
-        describe("setSnippetValueByState", async () => {
-            await wrapper.setData({
-                snippets
-            });
+        describe("setSnippetValueByState", () => {
             const filterRules = [
                     {
                         snippetId: 0,
@@ -491,7 +498,10 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                     prechecked: ["Altona"]
                 }];
 
-            it("should not set prechecked value if param is not an array", () => {
+            it("should not set prechecked value if param is not an array", async () => {
+                await wrapper.setData({
+                    snippets
+                });
                 wrapper.vm.setSnippetValueByState(undefined);
                 wrapper.vm.setSnippetValueByState(null);
                 wrapper.vm.setSnippetValueByState(123456);
@@ -500,8 +510,11 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                 wrapper.vm.setSnippetValueByState({});
                 expect(wrapper.vm.snippets).to.deep.equal(snippets);
             });
-            it("should not set prechecked value if given structure is not a rule", () => {
-                const isRuleStub = sinon.stub(LayerFilterSnippet, "isRule").returns(false),
+            it("should not set prechecked value if given structure is not a rule", async () => {
+                await wrapper.setData({
+                    snippets
+                });
+                const isRuleStub = sinon.stub(wrapper.vm, "isRule").returns(false),
                     noRule = [
                         {
                             something: "something"
@@ -513,17 +526,17 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                 expect(isRuleStub.called).to.be.true;
                 sinon.restore();
             });
-            it("should set prechecked value if correct filter rule is given", () => {
+            it("should set prechecked value if correct filter rule is given", async () => {
+                await wrapper.setData({
+                    snippets
+                });
                 wrapper.vm.setSnippetValueByState(filterRules);
                 expect(wrapper.vm.snippets).to.deep.equal(precheckedSnippets);
             });
         });
     });
 
-    describe("setSnippetValueByState", async () => {
-        await wrapper.setData({
-            snippets
-        });
+    describe("setSnippetValueByState", () => {
         const filterRules = [
                 {
                     snippetId: 0,
@@ -551,7 +564,10 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                 prechecked: ["Altona"]
             }];
 
-        it("should not set prechecked value if param is not an array", () => {
+        it("should not set prechecked value if param is not an array", async () => {
+            await wrapper.setData({
+                snippets
+            });
             wrapper.vm.setSnippetValueByState(undefined);
             wrapper.vm.setSnippetValueByState(null);
             wrapper.vm.setSnippetValueByState(123456);
@@ -560,8 +576,11 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             wrapper.vm.setSnippetValueByState({});
             expect(wrapper.vm.snippets).to.deep.equal(snippets);
         });
-        it("should not set prechecked value if given structure is not a rule", () => {
-            const isRuleStub = sinon.stub(LayerFilterSnippet, "isRule").returns(false),
+        it("should not set prechecked value if given structure is not a rule", async () => {
+            await wrapper.setData({
+                snippets
+            });
+            const isRuleStub = sinon.stub(wrapper.vm, "isRule").returns(false),
                 noRule = [
                     {
                         something: "something"
@@ -573,7 +592,10 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(isRuleStub.called).to.be.true;
             sinon.restore();
         });
-        it("should set prechecked value if correct filter rule is given", () => {
+        it("should set prechecked value if correct filter rule is given", async () => {
+            await wrapper.setData({
+                snippets
+            });
             wrapper.vm.setSnippetValueByState(filterRules);
             expect(wrapper.vm.snippets).to.deep.equal(precheckedSnippets);
         });
