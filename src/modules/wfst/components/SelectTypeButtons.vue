@@ -2,10 +2,11 @@
 import {mapActions} from "vuex";
 import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
 
-
 /**
  * Wfs Transaction
  * @module modules/WfsTransaction
+ * @description This module handles the selection interactions for WFS transactions,
+ * providing buttons for different selection types (e.g., select, box, pen).
  */
 export default {
     name: "SelectTypeButtons",
@@ -33,8 +34,10 @@ export default {
     methods: {
         ...mapActions("Modules/Wfst", ["handleLassoInteraction", "handleBoxInteraction", "handleClickInteraction"]),
         /**
-         * Regulate the select interactions.
-         * @param {String} selectType The current select.
+         * Regulates the select interactions based on the selected type.
+         * Updates the `selectedSelectInteraction` and calls `updateInteractions`.
+         * @param {string} selectType - The type of interaction selected.
+         * @param {number} key - The key of the selected interaction.
          * @returns {void}
          */
         selectSelectInteraction (selectType, key) {
@@ -49,6 +52,11 @@ export default {
 
             this.updateInteractions(key);
         },
+        /**
+         * Updates the interactions based on the currently selected interaction type.
+         * Calls the appropriate handler method for the selected interaction.
+         * @returns {void}
+         */
         updateInteractions () {
             if (this.selectedSelectInteraction === "box") {
                 this.handleBoxInteraction();
@@ -81,6 +89,5 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import "~variables";
 
 </style>

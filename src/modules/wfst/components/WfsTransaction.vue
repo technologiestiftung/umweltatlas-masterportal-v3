@@ -17,7 +17,6 @@ export default {
             "currentInteractionConfig",
             "currentLayerIndex",
             "featureProperties",
-            "deactivateGFI",
             "icon",
             "id",
             "layerIds",
@@ -31,7 +30,6 @@ export default {
             "transactionProcessing",
             "isFormDisabled",
             "active",
-            "deactivateGFI",
             "featurePropertiesBatch",
             "configAttributes",
             "controlAttributes",
@@ -139,11 +137,25 @@ export default {
             }
             return value;
         },
+        /**
+         * Retrieves the control attributes for a specific layer.
+         *
+         * @param {string} layerId - The ID of the layer to retrieve control attributes for
+         * @returns {Array} An array of control attributes for the specified layer
+         * If the layer is not found, returns an empty array.
+         */
         getControlAttributes (layerId) {
             const layerData = this.multiUpdate.find(item => item.layerId === layerId);
 
             return layerData ? layerData.controlAttributes : [];
         },
+        /**
+         * Retrieves the configuration attributes for a specific layer.
+         *
+         * @param {string} layerId - The ID of the layer to retrieve configuration attributes for.
+         * @returns {Array} An array of configuration attributes for the specified layer
+         * If the layer is not found, returns an empty array.
+         */
         getConfigAttributes (layerId) {
             const layerData = this.multiUpdate.find(item => item.layerId === layerId);
 
@@ -225,9 +237,9 @@ export default {
                         v-if="featureProperties.find(prop => prop.required)"
                         class="mb-2"
                     >
-                        <span><span class="form-label-info"> - </span>{{ $t("common:modules.tools.wfst.fieldRequired") }}</span>
+                        <span><span class="form-label-info"> - </span>{{ $t("common:modules.wfst.fieldRequired") }}</span>
                     </p>
-                    <!-- Select type bottons -->
+                    <!-- Select type buttons -->
                     <div
                         v-if="selectedUpdate==='multiUpdate'"
                         class="d-flex"
@@ -367,7 +379,7 @@ export default {
                                         'form-control__invalid': property.valid === false
                                     }"
                                     :step="property.type === 'decimal' ? getDecimalStep(property.type, property.value) : null"
-                                    :title="property.required && !property.valid ? $t(`common:modules.tools.wfst.mandatoryInputError.${getInputType(property.type)}`): ''"
+                                    :title="property.required && !property.valid ? $t(`common:modules.wfst.mandatoryInputError.${getInputType(property.type)}`): ''"
                                     :type="getInputType(property.type)"
                                     :required="property.required"
                                     :value="property.value"

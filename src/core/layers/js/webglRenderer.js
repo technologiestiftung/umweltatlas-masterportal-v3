@@ -107,7 +107,7 @@ function setLayerProperties (layerObject) {
     layerObject.isDisposed = isDisposed;
     layerObject.visibilityChanged = visibilityChanged;
 
-    layerObject.setStyle = setStyle; // ?
+    layerObject.setStyle = setStyle;
     layerObject.isPointLayer = layerObject?.layer?.values_?.isPointLayer;
 
     // todo inka: these functions are not implemented in layers at the moment - delete?

@@ -445,7 +445,7 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args.length).to.equal(2);
             expect(commit.firstCall.args[0]).to.equal("setFeatureProperties");
-            expect(commit.firstCall.args[1]).to.equal("modules.tools.wfst.error.allLayersNotSelected");
+            expect(commit.firstCall.args[1]).to.equal("modules.wfst.error.allLayersNotSelected");
             expect(prepareFeaturePropertiesSpy.notCalled).to.be.true;
         });
         it("should commit an error message if the currently selected layer has no featurePrefix configured", async () => {
@@ -454,7 +454,7 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args.length).to.equal(2);
             expect(commit.firstCall.args[0]).to.equal("setFeatureProperties");
-            expect(commit.firstCall.args[1]).to.equal("modules.tools.wfst.error.layerNotConfiguredCorrectly");
+            expect(commit.firstCall.args[1]).to.equal("modules.wfst.error.layerNotConfiguredCorrectly");
             expect(prepareFeaturePropertiesSpy.notCalled).to.be.true;
         });
         it("should commit an error message if the currently selected layer is not selected in the layer tree", async () => {
@@ -466,7 +466,7 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args.length).to.equal(2);
             expect(commit.firstCall.args[0]).to.equal("setFeatureProperties");
-            expect(commit.firstCall.args[1]).to.equal("modules.tools.wfst.error.layerNotSelected");
+            expect(commit.firstCall.args[1]).to.equal("modules.wfst.error.layerNotSelected");
             expect(prepareFeaturePropertiesSpy.notCalled).to.be.true;
         });
     });

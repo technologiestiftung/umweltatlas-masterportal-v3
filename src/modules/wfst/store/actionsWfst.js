@@ -62,13 +62,13 @@ const actions = {
      * Prepares everything so that the user can interact with features or draw features
      * to be able to send a transaction to the service.
      *
-     * @param {("LineString"|"Point"|"Polygon"|"delete"|"update"|"multiUpdate")} interaction Identifier of the selected interaction.
      * @param {Object} context - The context object.
      * @param {Function} context.dispatch - The dispatch function to trigger actions.
      * @param {Function} context.getters - The getters function to access state values.
      * @param {Function} context.rootGetters - The root getters function to access state values.
      * @param {Function} context.commit - The commit function to trigger mutations.
-    * @returns {void}
+     * @param {("LineString"|"Point"|"Polygon"|"delete"|"update"|"multiUpdate")} interaction Identifier of the selected interaction.
+     * @returns {void}
      */
     async prepareInteraction ({dispatch, getters, rootGetters, commit}, interaction) {
         dispatch("clearInteractions");
@@ -122,6 +122,7 @@ const actions = {
      * Handles draw interaction for a single feature.
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     handleDrawInteraction (context, payload) {
         const {commit, dispatch} = context,
@@ -188,6 +189,7 @@ const actions = {
      * Handles update interaction for a single feature.
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     handleUpdateInteraction (context, payload) {
         const {commit, dispatch} = context,
@@ -236,6 +238,7 @@ const actions = {
      * Handles multi update interaction for multiple features.
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     handleMultiUpdateInteraction (context, payload) {
         const {commit, dispatch, state} = context,
@@ -287,9 +290,11 @@ const actions = {
         dispatch("Maps/addInteraction", selectInteraction, {root: true});
     },
     /**
-     * Handles lasso selection.
-     * @param {Object} dispatch - The dispatch object.
-     * @param {Object} getters - The getters object.
+    * Handles lasso selection.
+    * @param {Object} context the vuex context
+    * @param {Object} context.dispatch the dispatch
+    * @param {Object} context.getters the getters
+    * @returns {void}
      */
     handleLassoInteraction ({dispatch, getters}) {
         const lassoSource = new VectorSource(),
@@ -324,8 +329,7 @@ const actions = {
 
             lassoGeometry = event.feature.getGeometry();
 
-            lassoFeatures = sourceLayer.getSource().getFeatures().filter(feature => lassoGeometry.intersectsExtent(feature.getGeometry().getExtent())
-            );
+            lassoFeatures = sourceLayer.getSource().getFeatures().filter(feature => lassoGeometry.intersectsExtent(feature.getGeometry().getExtent()));
 
             lassoFeatures.forEach(feature => {
                 if (!selectedFeatures.getArray().includes(feature)) {
@@ -338,8 +342,10 @@ const actions = {
     },
     /**
      * Handles rectangle selection.
-     * @param {Object} context - The context object.
-     * @param {Object} getters - The getters object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.getters the getters
+     * @returns {void}
      */
     handleBoxInteraction ({dispatch, getters}) {
         const boxSource = new VectorSource(),
@@ -365,8 +371,7 @@ const actions = {
 
             const boxExtent = boxInteraction.getGeometry().getExtent(),
 
-                boxFeatures = sourceLayer.getSource().getFeatures().filter(feature => boxExtent && feature.getGeometry().intersectsExtent(boxExtent)
-                );
+                boxFeatures = sourceLayer.getSource().getFeatures().filter(feature => boxExtent && feature.getGeometry().intersectsExtent(boxExtent));
 
             boxFeatures.forEach(feature => {
                 if (!selectedFeatures.getArray().includes(feature)) {
@@ -383,6 +388,7 @@ const actions = {
     },
     /**
      * Activates click interaction and disables other interactions.
+     * @returns {void}
      */
     handleClickInteraction () {
         selectInteraction.setActive(true);
@@ -399,6 +405,7 @@ const actions = {
      * @param {Object} payload - The payload object.
      * @param {Object} payload.interactionToActivate - The interaction which is set to active.
      * @param {Array} payload.interactionsToDeactivate - The interactions which are set to inactive.
+     * @returns {void}
      */
     handleSelectInteraction (context, payload) {
         const {interactionToActivate, interactionsToDeactivate} = payload;
@@ -412,6 +419,7 @@ const actions = {
      *
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     processSelectedFeature (context, payload) {
         const {commit, state} = context,
@@ -444,6 +452,7 @@ const actions = {
      * Handles delete interaction.
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     handleDeleteInteraction (context, payload) {
         const {commit, dispatch} = context,
@@ -468,6 +477,7 @@ const actions = {
      * translate - adds the different icon for the mouse when moving the feature
      * @param {Object} context - The context object.
      * @param {Object} payload - The payload object.
+     * @returns {void}
      */
     addModifyAndTranslateInteractions (context, payload) {
         const {dispatch} = context,
@@ -690,9 +700,10 @@ const actions = {
      * Sends a transaction to the API and processes the response.
      * Either a message is displayed to the user in case of an error, depending on the response,
      * or the layer is refreshed and the stored feature is displayed.
-     * @param {Object} dispatch - The dispatch object.
-     * @param {Object} getters - The getters object.
-     * @param {Object} rootGetters - The root getters object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch the dispatch
+     * @param {Object} context.getters the getters
+     * @param {Object} context.rootGetters the root getters
      * @param {module:ol/Feature} feature Feature to by inserted / updated / deleted.
      * @returns {Promise} Promise containing the feature to be added, updated or deleted if transaction was successful. If transaction fails it returns null
      */
@@ -821,7 +832,8 @@ const actions = {
     },
     /**
      * Validates whole form based on the list of received properties.
-     * @param {Object} commit - The commit object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.commit the commit
      * @param {Object} featureProperties a list of properties
      * @returns {void}
      */
@@ -833,8 +845,10 @@ const actions = {
     /**
      * Sets actual feature property based on the user action on an input.
      * @param {Object} feature of a feature with it's key, type and value
-     * @param {Object} commit - The commit object.
-     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch context.dispatch the dispatch
+     * @param {Object} context.commit - context.commit the commit
+     * @param {Object} context.getters - context.getters the getters
      * @returns {void}
      */
     updateFeatureProperty ({dispatch, commit, getters: {featureProperties}}, feature) {
@@ -848,9 +862,11 @@ const actions = {
     },
     /**
      * Sets the feature property
-     * @param {Object} commit - The commit object.
-     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch context.dispatch the dispatch
+     * @param {Object} context.commit - context.commit the commit
      * @param {Object} payload property key, type, value
+     * @returns {void}
      * @returns {void}
      */
     setFeatureProperty ({commit, dispatch}, {key, type, value}) {
@@ -858,7 +874,7 @@ const actions = {
             dispatch("Alerting/addSingleAlert", {
                 category: "Info",
                 displayClass: "info",
-                content: i18next.t("common:modules.tools.wfst.error.onlyNumbersAllowed"),
+                content: i18next.t("common:modules.wfst.error.onlyNumbersAllowed"),
                 mustBeConfirmed: false
             }, {root: true});
             return;
@@ -867,8 +883,9 @@ const actions = {
     },
     /**
      * Sets the feature property in the batch
-     * @param {Object} commit - The commit object.
-     * @param {Object} dispatch - The dispatch object.
+     * @param {Object} context the vuex context
+     * @param {Object} context.dispatch context.dispatch the dispatch
+     * @param {Object} context.commit - context.commit the commit
      * @param {Object} payload property key, type, value
      * @returns {void}
      */
@@ -892,17 +909,17 @@ const actions = {
      */
     async setFeatureProperties ({commit, getters: {currentLayerIndex, layerInformation, useProxy}}) {
         if (currentLayerIndex === -1) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.allLayersNotSelected"));
+            commit("setFeatureProperties", i18next.t("common:modules.wfst.error.allLayersNotSelected"));
             return;
         }
         const layer = layerInformation[currentLayerIndex];
 
         if (!Object.prototype.hasOwnProperty.call(layer, "featurePrefix")) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotConfiguredCorrectly"));
+            commit("setFeatureProperties", i18next.t("common:modules.wfst.error.layerNotConfiguredCorrectly"));
             return;
         }
         if (!layer.visibility) {
-            commit("setFeatureProperties", i18next.t("common:modules.tools.wfst.error.layerNotSelected"));
+            commit("setFeatureProperties", i18next.t("common:modules.wfst.error.layerNotSelected"));
             return;
         }
         commit("setFeatureProperties", await prepareFeaturePropertiesModule.prepareFeatureProperties(layer, useProxy));
