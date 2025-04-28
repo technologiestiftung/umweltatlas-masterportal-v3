@@ -46,6 +46,7 @@
 - buildSpec: Added hash check to include only unique legend images in print output.
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
 - WFST-Tool: Saving objects now works correctly after layer reordering.
+- Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
 
 ---
 

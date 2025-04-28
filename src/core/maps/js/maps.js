@@ -77,12 +77,13 @@ function load3DMap () {
  */
 function create3DMap () {
     const map3d = api.map.createMap({
-        cesiumParameter: store.getters.map3dParameter,
-        map2D: mapCollection.getMap("2D"),
-        shadowTime: function () {
-            return this.time || Cesium.JulianDate.fromDate(new Date());
-        }
-    }, "3D");
+            cesiumParameter: store.getters.map3dParameter,
+            map2D: mapCollection.getMap("2D"),
+            shadowTime: function () {
+                return this.time || Cesium.JulianDate.fromDate(new Date());
+            }
+        }, "3D"),
+        view = mapCollection.getMapView("2D");
 
     markRaw(map3d);
 
@@ -94,6 +95,11 @@ function create3DMap () {
     map3d.setEnabled(store.getters.startingMapMode === "3D");
 
     mapCollection.addMap(map3d, "3D");
+
+    if (store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
+        view.setZoom(store.getters["Maps/initialZoom"]);
+        view.setCenter(store.getters["Maps/initialCenter"]);
+    }
 }
 
 module.exports = {
