@@ -10,7 +10,10 @@ describe("src/modules/language/components/LanguageItem.vue", () => {
     let store;
 
     beforeEach(() => {
-        config.global.mocks.$t = key => key;
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
         config.global.mocks.$i18next = {
             language: "de",
             options: {
