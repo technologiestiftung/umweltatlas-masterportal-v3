@@ -51,6 +51,7 @@
 - WFST-Tool: Saving objects now works correctly after layer reordering.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
 - extendLayers: Adjusted initial z-index values to ensure correct layer order on map load.
+- Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing. 
 
 ---
 
