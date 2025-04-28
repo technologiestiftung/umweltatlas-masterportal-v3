@@ -35,7 +35,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", (
         it("should create a regular expression from searchInput", () => {
             const searchInput = "Überschwemmungsgebiete (alkis)";
 
-            expect(String(SearchInterface1.createRegExp(searchInput))).to.equals(String(/Überschwemmungsgebiete\(alkis\)/i));
+            expect(String(SearchInterface1.createRegExp(searchInput))).to.equals(String(/Überschwemmungsgebiete \(alkis\)/i));
         });
     });
 
