@@ -61,8 +61,7 @@ SearchInterfaceTopicTree.prototype.search = async function (searchInput) {
  * @return {String} The search input as regExp String.
  */
 SearchInterfaceTopicTree.prototype.createRegExp = function (searchInput) {
-    const string = searchInput.replace(/ /g, ""),
-        searchInputRegExp = new RegExp(string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
+    const searchInputRegExp = new RegExp(searchInput.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
 
     return searchInputRegExp;
 };
