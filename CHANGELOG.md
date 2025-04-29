@@ -15,12 +15,19 @@
 - Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
+- Routing: 
+    - added avoid points, avoid area import and export
+    - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
 
 ### Changed
 - WMS-Time: Shrunk wms-time slider for mobile views, adjusted Position on desktop.
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
 - Menutitle: Allow html in title text.
 - CompareMaps: layer selection fields are labeled left/right or upper/lower layer instead of first/second layer.
+- Routing: 
+    - button for adding a new waypoint was moved between start and endpoint 
+    - reset button was moved to the bottom of the menu
+    - consistent button design in avoid area menu
 
 ### Deprecated
 
