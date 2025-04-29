@@ -411,9 +411,7 @@ export default {
                         <a
                             href="#"
                             :aria-label="$t('common:modules.routing.importAvoidAreas.help')"
-                        >
-                            <i class="bi bi-info-circle" />
-                        </a>
+                        />
                     </h1>
                     <button
                         type="button"
