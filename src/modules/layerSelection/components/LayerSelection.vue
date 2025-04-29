@@ -352,7 +352,7 @@ export default {
 
                     <div v-if="filterExternalSubjectDataLayer().length > 0">
                         <hr
-                            v-if="lastFolderNames.length === 1 && filterExternalSubjectDataLayer().length > 0"
+                            v-if="lastFolderNames.length === 1"
                             class="m-2"
                         >
                         <h5
