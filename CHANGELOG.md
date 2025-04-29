@@ -44,7 +44,6 @@
 - Issue #1389: Set and remove cookies with domain flag.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
-- LayerInformation: Fixed console error if clicked on contact.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 - buildSpec: Added hash check to include only unique legend images in print output.
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
@@ -52,7 +51,9 @@
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
 - Initial loading of layers: Adjusted initial z-index values to ensure correct layer order on map load.
 - Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing. 
-- LayerInformation: fixed creating url to portal contained in contact.
+- LayerInformation: 
+    - Fixed console error if clicked on contact.
+    - Fixed creating url to portal contained in contact.
 - AddWMS: Added layers are displayed in layer selection under the headline 'external subject data'.
 
 ---
