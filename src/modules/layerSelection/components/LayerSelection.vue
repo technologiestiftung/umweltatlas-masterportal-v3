@@ -179,18 +179,18 @@ export default {
             return this.baselayerConfs;
         },
         /**
-         * Filters subjectdata layers.
+         * Filters subjectData layers.
          * @returns {Array} list of filtered layers
          */
-        filterSubjectdataLayer () {
+        filterSubjectDataLayer () {
             return this.subjectDataLayerConfs.filter(conf => !conf.isExternal);
         },
 
         /**
-         * Filters external subjectdata layers.
+         * Filters external subjectData layers.
          * @returns {Array} list of filtered layers
          */
-        filterExternalSubjectdataLayer () {
+        filterExternalSubjectDataLayer () {
             return this.subjectDataLayerConfs.filter(conf => conf.isExternal);
         },
 
@@ -339,7 +339,7 @@ export default {
                         </ol>
                     </nav>
                     <template
-                        v-for="(conf, idx) in filterSubjectdataLayer()"
+                        v-for="(conf, idx) in filterSubjectDataLayer()"
                         :key="idx"
                     >
                         <LayerSelectionTreeNode
@@ -350,9 +350,9 @@ export default {
                         />
                     </template>
 
-                    <div v-if="filterExternalSubjectdataLayer().length > 0">
+                    <div v-if="filterExternalSubjectDataLayer().length > 0">
                         <hr
-                            v-if="lastFolderNames.length === 1 && filterExternalSubjectdataLayer().length > 0"
+                            v-if="lastFolderNames.length === 1 && filterExternalSubjectDataLayer().length > 0"
                             class="m-2"
                         >
                         <h5
@@ -362,7 +362,7 @@ export default {
                             {{ $t("common:modules.layerSelection.externalSubjectLayer") }}
                         </h5>
                         <template
-                            v-for="(conf, idx) in filterExternalSubjectdataLayer()"
+                            v-for="(conf, idx) in filterExternalSubjectDataLayer()"
                             :key="idx"
                         >
                             <LayerSelectionTreeNode
