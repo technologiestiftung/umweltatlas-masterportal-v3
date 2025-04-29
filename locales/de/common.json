@@ -953,7 +953,14 @@
           "GREEN": "Grüne Route"
         },
         "preferenceLabel": "Präferenz",
-        "restrictedAreas": "Sperrflächen"
+        "restrictedAreas": "Sperrflächen",
+        "avoidAreas": {
+          "avoidArea": "Sperrfläche",
+          "avoidPoint": "Sperrpunkt",
+          "delete": "Löschen",
+          "export": "Export",
+          "import": "Import"
+        }
       },
       "download": {
         "filename": "Dateiname",
@@ -984,6 +991,41 @@
         "errorRouteFetch": "Fehler bei Abfrage der Route",
         "fetchingCoordinates": "Fehler bei Abfrage der Koordinaten",
         "noRouteFound": "Leider konnte keine Route gefunden werden"
+      },
+      "exportAvoidAreas": {
+        "header": "Export der Sperrflächen",
+        "type": "Dateityp",
+        "tooltip": "Sperrflächen exportieren",
+        "download": "Herunterladen",
+        "filename": "Dateiname",
+        "filenamePlaceholder": "Bitte Dateinamen angeben",
+        "format": "Format",
+        "error": {
+          "header": "Fehler beim Export der Sperrflächen",
+          "noAvoidArea": "Keine Sperrflächen / Sperrpunkte vorhanden."
+        }
+      },
+      "importAvoidAreas": {
+        "header": "Sperrflächen importieren",
+        "help": "Dateityp",
+        "tooltip": "Sperrflächen importieren",
+        "description": "Wählen Sie eine GeoJSON oder KML-Datei aus, die eigene Sperrflächen beinhaltet. Dabei sind folgende Features erlaubt:",
+        "structure": "Polygon, Multipolygon",
+        "filenamePlaceholder": "Bitte Dateinamen angeben",
+        "format": "Format",
+        "error": {
+          "header": "Fehler beim Import der Sperrflächen",
+          "noAvoidArea": "Keine Sperrflächen / Sperrpunkte vorhanden.",
+          "formatError": "Die Datei konnte nicht gelesen werden. Bitte prüfen Sie, ob die Datei das Format *.kml oder *.geojson hat.",
+          "parseError": "Fehler beim parsen der {{type}}-Datei.",
+          "polygonFormatError": "Die Datei enthält ungültige Geometrien. Nur Polygon und MultiPolygon werden unterstützt.",
+          "polygonEmpty": "Eine der importierten Sperrflächen enthält keine Koordinaten.",
+          "polygonNotClosed": "Eine importierte Sperrfläche ist nicht geschlossen. Die erste und letzte Koordinate einer jeden Sperrfläche muss identisch sein.",
+          "polygonNotEnoughPoints": "Sperrflächen müssen aus mindestens 3 Punkten bestehen.",
+          "tooManyFeatures": "Zu viele Sperrflächen. Maximal sind {{maxFeatures}} Sperrflächen erlaubt.",
+          "areaTooBig": "Eine der importierten Sperrflächen ist zu groß: {{area}} km². Maximal sind {{maxArea}} km² pro Sperrfläche erlaubt.",
+          "sideTooLong": "Eine Seitenlänge des Polygons überschreitet die maximale erlaubte Länge von {{maxSideLength}} km. Seitenlänge: {{distance}} km."
+        }
       },
       "isochrones": {
         "batchProcessing": {

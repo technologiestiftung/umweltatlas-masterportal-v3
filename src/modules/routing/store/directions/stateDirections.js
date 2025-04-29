@@ -16,6 +16,14 @@ import directionsAvoidSnapInteraction from "../../js/map/directions/avoid/direct
 import directionsAvoidDrawInteraction from "../../js/map/directions/avoid/directionsAvoidDraw";
 import directionsAvoidSelectInteraction from "../../js/map/directions/avoid/directionsAvoidSelect";
 
+import directionsAvoidPointSource from "../../js/map/directions/avoid/directionsAvoidPointSource";
+import directionsAvoidPointLayer from "../../js/map/directions/avoid/directionsAvoidPointLayer";
+
+import directionsAvoidPointDrawInteraction from "../../js/map/directions/avoid/directionsAvoidPointDraw";
+import directionsAvoidPointTranslateInteraction from "../../js/map/directions/avoid/directionsAvoidPointTranslate";
+import directionsAvoidPointSelectInteraction from "../../js/map/directions/avoid/directionsAvoidPointSelect";
+
+
 import directionsElevationSource from "../../js/map/directions/elevation/directionsElevationSource";
 import directionsElevationLayer from "../../js/map/directions/elevation/directionsElevationLayer";
 
@@ -31,6 +39,9 @@ export default {
 
     directionsAvoidSource,
     directionsAvoidLayer,
+
+    directionsAvoidPointSource,
+    directionsAvoidPointLayer,
 
     directionsElevationSource,
     directionsElevationLayer,
@@ -48,6 +59,10 @@ export default {
     directionsAvoidDrawInteraction,
     directionsAvoidSelectInteraction,
 
+    directionsAvoidPointDrawInteraction,
+    directionsAvoidPointTranslateInteraction,
+    directionsAvoidPointSelectInteraction,
+
     // Directions Parameter
     waypoints: [],
     routingAvoidFeaturesOptions: [],
@@ -59,7 +74,11 @@ export default {
         axleload: 6,
         hazmat: false
     },
-
+    // addStartEndPoint defines whether a waypoint,
+    // startpoint or endpoint is to be added.
+    // -1: default, no input field selected
+    // >= 0: index of waypoint with input field selected
+    addStartEndPoint: -1,
     keepRoutes: true,
     // Routing Directions Result
     routingDirections: null,

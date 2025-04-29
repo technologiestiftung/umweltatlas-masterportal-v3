@@ -42,7 +42,8 @@ export default {
         "moveWaypointUp",
         "searchResultSelected",
         "removeWaypoint",
-        "addStartEnd"
+        "addStartEnd",
+        "removeAvoidInteraction"
     ],
     data () {
         return {
@@ -234,6 +235,13 @@ export default {
                 return this.$t("common:modules.routing.tsr.tsrEndpoint");
             }
             return this.$t("common:modules.routing.waypoint");
+        },
+        /**
+         * Remove avoid draw interaction when clicking into input field
+         * @returns {void}
+         */
+        removeAvoidInteraction () {
+            this.$emit("removeAvoidInteraction");
         }
     }
 };
@@ -256,6 +264,7 @@ export default {
                     autocomplete="off"
                     @focus="isFocused = true"
                     @blur="isFocused = false"
+                    @click="removeAvoidInteraction"
                 >
                 <button
                     v-if="search.length > 0 && search !== waypointDisplayName"

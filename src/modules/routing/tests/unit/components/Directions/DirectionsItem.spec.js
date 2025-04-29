@@ -15,6 +15,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
     let batchProcessingActive,
         batchProcessingEnabled,
         directionsAvoidSource,
+        directionsAvoidPointSource,
         mapInteractionMode,
         routingDirections,
         setMapInteractionModeSpy,
@@ -51,6 +52,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                     namespaced: true,
                                     getters: {
                                         directionsAvoidSource: () => directionsAvoidSource,
+                                        directionsAvoidPointSource: () => directionsAvoidPointSource,
                                         directionsRouteSource: () => {
                                             return {
                                                 getFeatures: () => []
@@ -81,6 +83,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                     },
                                     mutations: {
                                         setDirectionsAvoidSource: sinon.stub(),
+                                        setDirectionsAvoidPointSource: sinon.stub(),
                                         setMapInteractionMode: sinon.stub(),
                                         setRoutingDirections: sinon.stub()
                                     },
@@ -102,7 +105,8 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                 }
                             },
                             mutations: {
-                                setDirectionsAvoidSource: sinon.stub()
+                                setDirectionsAvoidSource: sinon.stub(),
+                                setDirectionsAvoidPointSource: sinon.stub()
                             }
                         }
                     }
@@ -377,13 +381,69 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         expect(setMapInteractionModeSpy.firstCall.args[0]).to.equals("DELETE_AVOID_AREAS");
     });
 
+    it("should toggle mapInteractionMode WAYPOINTS => AVOID_POINTS", async () => {
+        mapInteractionMode = "WAYPOINTS";
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        setMapInteractionModeSpy = sinon.spy(wrapper.vm, "setMapInteractionMode");
+        wrapper.vm.changeMapInteractionModeAvoidPointsEdit();
+
+        expect(setMapInteractionModeSpy.calledOnce).to.be.true;
+        expect(setMapInteractionModeSpy.firstCall.args[0]).to.equals("AVOID_POINTS");
+    });
+
+    it("should toggle mapInteractionMode AVOID_POINTS => WAYPOINTS", async () => {
+        mapInteractionMode = "AVOID_POINTS";
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        setMapInteractionModeSpy = sinon.spy(wrapper.vm, "setMapInteractionMode");
+        wrapper.vm.changeMapInteractionModeAvoidPointsEdit();
+
+        expect(setMapInteractionModeSpy.calledOnce).to.be.true;
+        expect(setMapInteractionModeSpy.firstCall.args[0]).to.equals("WAYPOINTS");
+    });
+
+    it("should toggle mapInteractionMode AVOID_POINTS => AVOID_AREAS", async () => {
+        mapInteractionMode = "AVOID_POINTS";
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        setMapInteractionModeSpy = sinon.spy(wrapper.vm, "setMapInteractionMode");
+        wrapper.vm.changeMapInteractionModeAvoidAreasEdit();
+
+        expect(setMapInteractionModeSpy.calledOnce).to.be.true;
+        expect(setMapInteractionModeSpy.firstCall.args[0]).to.equals("AVOID_AREAS");
+    });
+
+    it("should toggle mapInteractionMode AVOID_AREAS => AVOID_POINTS", async () => {
+        mapInteractionMode = "AVOID_AREAS";
+        wrapper = shallowMount(DirectionsComponent, {global: {
+            plugins: [store]
+        }});
+
+        setMapInteractionModeSpy = sinon.spy(wrapper.vm, "setMapInteractionMode");
+        wrapper.vm.changeMapInteractionModeAvoidPointsEdit();
+
+        expect(setMapInteractionModeSpy.calledOnce).to.be.true;
+        expect(setMapInteractionModeSpy.firstCall.args[0]).to.equals("AVOID_POINTS");
+    });
+
     it("should reset all user settings", async () => {
         const removeWaypoint = sinon.spy(),
             setRoutingDirections = sinon.spy(),
-            clearDirectionsAvoidSource = sinon.spy();
+            clearDirectionsAvoidSource = sinon.spy(),
+            clearDirectionsAvoidPointSource = sinon.spy();
 
         directionsAvoidSource = {
             clear: clearDirectionsAvoidSource
+        };
+        directionsAvoidPointSource = {
+            clear: clearDirectionsAvoidPointSource
         };
 
         wrapper = shallowMount(DirectionsComponent, {global: {
@@ -397,5 +457,6 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         expect(removeWaypoint.calledTwice).to.be.true;
         expect(setRoutingDirections.calledOnce).to.be.true;
         expect(clearDirectionsAvoidSource.calledOnce).to.be.true;
+        expect(clearDirectionsAvoidPointSource.calledOnce).to.be.true;
     });
 });

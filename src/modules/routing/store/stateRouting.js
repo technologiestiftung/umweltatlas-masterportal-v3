@@ -62,6 +62,7 @@ const state = {
         speedProfile: "CAR",
         preference: "RECOMMENDED",
         elevation: false,
+        avoidRadius: 0.005,
         styleRoute: {
             fillColor: [255, 44, 0, 1],
             width: 6,
@@ -99,6 +100,11 @@ const state = {
             active: false,
             limit: 1000,
             maximumConcurrentRequests: 3
+        },
+        avoidAreaOptions: {
+            maxFeatures: 50,
+            maxArea: 200000,
+            maxSideLength: 20000
         }
     },
     isochronesSettings: {
