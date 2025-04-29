@@ -179,18 +179,18 @@ export default {
             return this.baselayerConfs;
         },
         /**
-         * Filters external subjectdata layers.
-         * @returns {Array} list of filtered baselayers
+         * Filters subjectdata layers.
+         * @returns {Array} list of filtered layers
          */
         filterSubjectdataLayer () {
             return this.subjectDataLayerConfs.filter(conf => !conf.isExternal);
         },
 
-          /**
+        /**
          * Filters external subjectdata layers.
-         * @returns {Array} list of filtered baselayers
+         * @returns {Array} list of filtered layers
          */
-         filterExternalSubjectdataLayer () {
+        filterExternalSubjectdataLayer () {
             return this.subjectDataLayerConfs.filter(conf => conf.isExternal);
         },
 
@@ -349,28 +349,29 @@ export default {
                             @show-node="folderClicked"
                         />
                     </template>
-                    <hr
-                    v-if="filterExternalSubjectdataLayer().length > 0"
-                    class="m-2"
-                >
+
                     <div v-if="filterExternalSubjectdataLayer().length > 0">
+                        <hr
+                            v-if="lastFolderNames.length === 1 && filterExternalSubjectdataLayer().length > 0"
+                            class="m-2"
+                        >
                         <h5
-                            v-if="lastFolderNames.length === 1 && datalayerHeaderText !== false"
+                            v-if="lastFolderNames.length === 1"
                             class="layer-selection-subheadline"
                         >
-                            {{ datalayerHeaderText ?? $t("common:modules.layerSelection.externalSubjectLayer") }}
+                            {{ $t("common:modules.layerSelection.externalSubjectLayer") }}
                         </h5>
                         <template
-                        v-for="(conf, idx) in filterExternalSubjectdataLayer()"
-                        :key="idx"
-                    >
-                        <LayerSelectionTreeNode
-                            :conf="conf"
-                            :show-select-all-check-box="selectAllConfId === conf.id && !deactivateShowAllCheckbox"
-                            :select-all-configs="selectAllConfigs"
-                            @show-node="folderClicked"
-                        />
-                    </template>
+                            v-for="(conf, idx) in filterExternalSubjectdataLayer()"
+                            :key="idx"
+                        >
+                            <LayerSelectionTreeNode
+                                :conf="conf"
+                                :show-select-all-check-box="selectAllConfId === conf.id && !deactivateShowAllCheckbox"
+                                :select-all-configs="selectAllConfigs"
+                                @show-node="folderClicked"
+                            />
+                        </template>
                     </div>
                 </div>
             </div>

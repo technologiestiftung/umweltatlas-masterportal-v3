@@ -53,6 +53,7 @@
 - Initial loading of layers: Adjusted initial z-index values to ensure correct layer order on map load.
 - Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing. 
 - LayerInformation: fixed creating url to portal contained in contact.
+- AddWMS: Added layers are displayed in layer selection under the headline 'external subject data'.
 
 ---
 
