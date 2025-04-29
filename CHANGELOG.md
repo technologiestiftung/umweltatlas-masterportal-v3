@@ -21,6 +21,8 @@
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
 - Menutitle: Allow html in title text.
 - CompareMaps: layer selection fields are labeled left/right or upper/lower layer instead of first/second layer.
+- dependencies:
+        - @masterportal/masterportalapi: 2.48.0 to 2.49.0
 
 ### Deprecated
 
