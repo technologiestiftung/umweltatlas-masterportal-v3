@@ -946,6 +946,7 @@
         },
         "deleteRestrictedAreas": "Sperrflächen löschen",
         "editRestrictedAreas": "Sperrflächen zeichnen/bearbeiten",
+        "editRestrictedPoints": "Sperrpunkte zeichnen/bearbeiten",
         "keepRoutesAfterClose": "Die Route nach dem Schließen beibehalten",
         "preference": {
           "RECOMMENDED": "Empfohlene Route",
