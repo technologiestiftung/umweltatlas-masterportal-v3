@@ -44,7 +44,8 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                                 accessibilityUrl: () => "https://accessibilityStatementUrl"
                             },
                             actions: {
-                                initializeAboutInfo: () => sinon.stub()
+                                initializeAboutInfo: () => sinon.stub(),
+                                currentMasterportalVersionNumber: () => sinon.stub()
                             }
                         }
                     }
