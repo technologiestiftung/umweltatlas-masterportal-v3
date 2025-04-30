@@ -24,6 +24,7 @@ import * as constantsRouting from "../../store/constantsRouting";
  * @vue-data {*} constantsRouting - The constants routing.
  * @vue-data {*} avoidRadius - Radius of avoid points.
  * @vue-data {*} maxAvoidRadius - maximum Radius of avoid points.
+ * @vue-data {*} defaultAvoidRadius - default avoid radius from config.
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasEdit - Shows if current map mode is "AVOID_AREAS".
  * @vue-computed {Boolean} isMapInteractionModeAvoidPointsEdit - Shows if current map mode is "AVOID_POINTS".
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasDelete - Shows if current map mode is "DELETE_AVOID_AREAS".
@@ -52,6 +53,7 @@ export default {
             constantsRouting,
             preferencesFromConfig: null,
             avoidRadius: 0,
+            defaultAvoidRadius: 0,
             maxAvoidRadius: 12,
             showAvoidAreaButtons: false
         };
@@ -124,6 +126,7 @@ export default {
         this.setMapInteractionMode("WAYPOINTS");
         this.createInteractionFromMapInteractionMode();
         this.avoidRadius = this.settings.avoidRadius;
+        this.defaultAvoidRadius = this.settings.avoidRadius;
     },
     methods: {
         ...mapMutations("Modules/Routing/Directions", [
@@ -236,7 +239,7 @@ export default {
                 this.routingRestrictionsInputData.axleload = 6;
                 this.routingRestrictionsInputData.hazmat = false;
             }
-            this.avoidRadius = 0.005;
+            this.avoidRadius = this.defaultAvoidRadius;
         },
         /**
          * Adds a new option to avoid when requesting directions afterwards
