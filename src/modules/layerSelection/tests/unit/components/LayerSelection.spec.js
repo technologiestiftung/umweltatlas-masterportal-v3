@@ -606,7 +606,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             expect(filtered[2]).to.deep.equals(layerBG_3);
         });
 
-        it("test method filterSubjectdataLayer with external subject data", () => {
+        it("test method filterSubjectDataLayer with external subject data", () => {
             mapMode = "2D";
             subjectDataLayers.push(externalSubjectdata);
             store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
@@ -615,13 +615,13 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                     plugins: [store]
                 }});
 
-            const filtered = wrapper.vm.filterSubjectdataLayer();
+            const filtered = wrapper.vm.filterSubjectDataLayer();
 
             expect(filtered.length).to.be.equals(1);
             expect(filtered[0]).to.deep.equals(layersWithFolder[0]);
         });
 
-        it("test method filterExternalSubjectdataLayer with external subject data", () => {
+        it("test method filterExternalSubjectDataLayer with external subject data", () => {
             mapMode = "2D";
             subjectDataLayers.push(externalSubjectdata);
             store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
@@ -630,7 +630,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                     plugins: [store]
                 }});
 
-            const filtered = wrapper.vm.filterExternalSubjectdataLayer();
+            const filtered = wrapper.vm.filterExternalSubjectDataLayer();
 
             expect(filtered.length).to.be.equals(1);
             expect(filtered[0]).to.deep.equals(externalSubjectdata);
