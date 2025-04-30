@@ -136,7 +136,6 @@ export default {
         },
         /**
          * Lets you build and then copy the url to the clipboard.
-         * ToDo: add "link copied" Hinweis
          * @returns {void}
          */
         buildAndCopyUrl () {

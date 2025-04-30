@@ -2696,7 +2696,7 @@ Die Konfiguration eines Layers.
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewegung dynamisch gefiltert. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
 |filterOnOpen|nein|Boolean||Wenn auf `true` eingestellt, wird der Filter bei Klick auf das accordeon ausgelöst.|false|
 |geometryName|nein|String|""|Nur für `extern: true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
-|labelFilterButton|nein|String|"common:modules.tools.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendete Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
+|labelFilterButton|nein|String|"common:modules.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendete Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
 |layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `layerconfig` konfigurierten Id des Layers.|false|
 |maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als `maxZoom` ist, wird der aktuelle Filter deaktiviert.|false|
 |minZoom|nein|Number||Die minimale Zoomstufe. Wenn die aktuelle Zoomstufe kleiner als `minZoom` ist, wird der aktuelle Filter deaktiviert.|false|
@@ -2930,7 +2930,7 @@ Konfigurationsoptionen für die Legende.
 ```json
 {
     "type": "login",
-    "name": "translate#common:modules.login.login",
+    "name": "common:modules.login.login",
     "icon": "bi-door-open"
 }
 ```
@@ -3254,7 +3254,7 @@ Routing-Werkzeug. Ermöglicht Nutzern das Planen von Routen zwischen mehreren Pu
 ```json
 {
     "type": "routing",
-    "name": "common:modules.tools.routing",
+    "name": "common:modules.routing",
     "icon": "bi-signpost-2",
     "activeRoutingToolOption": "DIRECTONS",
     "routingToolOptions": ["DIRECTONS", "ISOCHRONES"],
@@ -3822,7 +3822,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|name|ja|String|"translate#common:menu.statisticDashboard"|Der Name des StatisticDashboard Werkzeug.|false|
+|name|ja|String|"common:menu.statisticDashboard"|Der Name des StatisticDashboard Werkzeug.|false|
 |subtitle|nein|String|"common:modules.statisticDashboard.headings.mrhstatistics"|Der Untertitle zu zeigen|false|
 |icon|nein|String|"bi-speedometer"|Das Icon des Tools.|false|
 |colorScheme|ja|**[colorScheme](#portalconfigmenusectionsmodulesstatisticdashboardcolorscheme)**|""|Definiert die Farben der Features in statisticdashboard.|false|
@@ -3840,7 +3840,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 
 ```json
 {
-    "name": "translate#common:menu.statisticDashboard",
+    "name": "common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
     "downloadFilename": "Downloaded_Data",

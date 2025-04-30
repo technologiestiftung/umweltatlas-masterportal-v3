@@ -45,6 +45,9 @@
 - dependencies:
         - @masterportal/masterportalapi: 2.48.0 to 2.49.0
 
+### Removed
+- Removed since version 3 not used state property `deactivateGFI` and `translate#`,`.tools.` in language-keys.
+
 ### Fixed
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
 - Issue #1220: Routing: Calculated accessibility displayed on the map remains after exporting the result.

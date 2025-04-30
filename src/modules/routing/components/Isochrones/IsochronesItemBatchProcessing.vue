@@ -105,7 +105,6 @@ export default {
                 downloadFilename = this.createDownloadFilename(filename);
 
             if (typeof navigator.msSaveOrOpenBlob === "function") {
-                // TODO übersetzung des Downloadtypes  GEOJSON nach json/geojson?
                 window.navigator.msSaveOrOpenBlob(new Blob([downloadString], {
                     type: "application/geo+json;charset=utf-8"
                 }), downloadFilename);

@@ -157,7 +157,7 @@ The language files can be found under `./addons/{addon-name}/locales/{language}/
 A translation is implemented this way:
 
 ```js
-i18next.t("additional:modules.tools.example.title"),
+i18next.t("additional:modules.example.title"),
 ```
 
 [See this for an example.](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/populationRequest/)

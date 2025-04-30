@@ -855,7 +855,7 @@ This theme allows the visualization of historical data regarding a SensorThings-
                         "color": "rgba(220, 0, 0, 1)"
                     },
                     "outoforder": {
-                        "title": "common:modules.tools.gfi.themes.sensor.chargingStations.outoforder",
+                        "title": "common:modules.getFeatureInfo.sensor.chargingStations.outoforder",
                         "color": "rgba(175, 175, 175, 1)"
                     }
                 }
@@ -942,9 +942,9 @@ Layout definition for each result's chart.
 ```json
 {
     "charging": {
-        "title": "common:modules.tools.gfi.themes.sensor.chargingStations.charging",
+        "title": "common:modules.getFeatureInfo.sensor.chargingStations.charging",
         "color": "rgba(220, 0, 0, 1)",
-        "noticeText": "common:modules.tools.gfi.themes.sensor.sensorBarChart.noticeTextCharging"
+        "noticeText": "common:modules.getFeatureInfo.sensor.sensorBarChart.noticeTextCharging"
     }
 }
 ```
@@ -1149,8 +1149,8 @@ If the gfiAttributes are given as an object, a key's value may also be an object
          "condition": "contains",
          "type": "boolean",
          "format": {
-            "true": "common:modules.tools.gfi.boolean.yes",
-            "false": "common:modules.tools.gfi.boolean.no"
+            "true": "common:modules.getFeatureInfo.boolean.yes",
+            "false": "common:modules.getFeatureInfo.boolean.no"
          }
       }
    }

@@ -144,8 +144,7 @@ export default {
         background-color: $menu-background-color;
         box-shadow: 0 -6px 12px $shadow;
         font-family: $font_family_narrow;
-        // font-size: $font-size-sm;
-        font-size: 12px; // todo rem auf welcher Grudnlage 14 oder 16px???
+        font-size: 12px;
         flex-wrap: nowrap;
         margin-top: auto;
         pointer-events: auto;

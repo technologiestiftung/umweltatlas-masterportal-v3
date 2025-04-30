@@ -403,7 +403,7 @@ describe("src/app-store/getters.js", () => {
             expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true})).to.be.deep.equals([bgLayer, greenLayer]);
             expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true, id: "1132"}).length).to.be.equals(1);
             expect(getters.layerConfigsByAttributes(null, myGetters)({visibility: true, id: "453"}).length).to.be.equals(1);
-            // @todo testen
+            // @todo test
             // expect(getters.layerConfigsByAttributes(state)({ gfiAttributes : {
             //     "standort" : "Standort",
             //     "adresse" : "Adresse"

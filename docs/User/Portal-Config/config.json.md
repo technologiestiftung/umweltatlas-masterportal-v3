@@ -2697,7 +2697,7 @@ An object to define a layer to filter with.
 |filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |filterOnOpen|no|Boolean||If set to `true`, the filter is triggered when the accorden is clicked.|false|
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
-|labelFilterButton|no|String|"common:modules.tools.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
+|labelFilterButton|no|String|"common:modules.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
 |layerId|no|String||The layer id of the layer to filter. Must be configured in the `layerconfig`.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 |minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
@@ -2932,7 +2932,7 @@ Legend configuration options.
 ```json
 {
     "type": "login",
-    "name": "translate#common:modules.login.login",
+    "name": "common:modules.login.login",
     "icon": "bi-door-open"
 }
 ```
@@ -3831,7 +3831,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|name|yes|String|"translate#common:menu.statisticDashboard"|The Name of the Tool.|false|
+|name|yes|String|"common:menu.statisticDashboard"|The Name of the Tool.|false|
 |subtitle|no|String|"common:modules.statisticDashboard.headings.mrhstatistics"|The subtitle to display|false|
 |icon|no|String|"bi-speedometer"|The icon of the Tool|false|
 |colorScheme|yes|**[colorScheme](#portalconfigmenusectionsmodulesstatisticdashboardcolorscheme)**|""|Defines the colours of the features in statisticdashboard.|false|
@@ -3849,7 +3849,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 ```json
 {
-    "name": "translate#common:menu.statisticDashboard",
+    "name": "common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
     "downloadFilename": "Downloaded_Data",

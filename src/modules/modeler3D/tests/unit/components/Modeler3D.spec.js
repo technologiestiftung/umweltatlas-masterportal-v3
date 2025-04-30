@@ -24,7 +24,7 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
                     Modules: {
                         children: {
                             modeler3D: {
-                                "name": "translate#common:menu.modeler3D",
+                                "name": "common:menu.modeler3D",
                                 "icon": "bi-bounding-box"
                             }
                         }

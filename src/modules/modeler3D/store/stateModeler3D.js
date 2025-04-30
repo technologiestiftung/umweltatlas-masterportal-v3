@@ -15,7 +15,6 @@
  * @property {Cartesian3}   currentModelPosition - position of the currently selected or added model
  * @property {Object}       currentProjection - the currently selected projection
  * @property {String}       cylinderId - the id of the currently selected cylinder
- * @property {Boolean}      deactivateGFI - if true, component activation deactivates gfi component
  * @property {String}       drawName name of drawing model
  * @property {Number}       drawRotation angle of a selected drawn entity
  * @property {Object[]}     drawnModels - a list of currently active drawn models

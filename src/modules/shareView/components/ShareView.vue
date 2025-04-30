@@ -96,7 +96,6 @@ export default {
         },
         /**
          * Lets you copy the url to the clipboard.
-         * ToDo: add "link copied" Hinweis
          * @returns {void}
          */
         copyToClipboard () {
