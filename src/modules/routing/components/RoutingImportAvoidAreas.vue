@@ -2,7 +2,6 @@
 import {mapGetters, mapActions} from "vuex";
 import GeoJSON from "ol/format/GeoJSON";
 import KML from "ol/format/KML";
-import actions from "../store/directions/actionsDirections";
 import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";
 import MultiPolygon from "ol/geom/MultiPolygon";
@@ -51,7 +50,7 @@ export default {
     },
     methods: {
         ...mapActions("Alerting", ["addSingleAlert"]),
-        ...mapActions("Modules/Routing/Directions", Object.keys(actions)),
+        ...mapActions("Modules/Routing/Directions", ["displayImportedAvoidAreas"]),
         ...mapActions("Modules/Routing", ["transformCoordinatesWgs84ToLocalProjection"]),
 
         /**
@@ -403,7 +402,8 @@ export default {
         class="modal fade"
         tabindex="-1"
         aria-labelledby="importAvoidAreasModalLabel"
-        aria-hidden="true"
+        aria-hidden="false"
+        aria-modal="true"
     >
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
