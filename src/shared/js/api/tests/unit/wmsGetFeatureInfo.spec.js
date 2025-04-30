@@ -12,7 +12,7 @@ describe("src/shared/js/api/wmsGetFeatureInfo.js", () => {
         sinon.stub(console, "warn").callsFake(warn);
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 

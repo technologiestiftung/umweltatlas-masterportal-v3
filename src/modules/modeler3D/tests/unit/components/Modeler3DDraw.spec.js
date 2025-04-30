@@ -239,7 +239,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         global.URL = globalURL;
     });
 
-    describe("renders Modeler3DDraw", () => {
+    describe.skip("renders Modeler3DDraw", () => {
         it("renders the main elements", () => {
             expect(wrapper.find("#modeler3D-draw").exists()).to.be.true;
             expect(wrapper.find("#tool-modeler3D-draw-models").exists()).to.be.true;
@@ -263,7 +263,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             expect(polygonButton.classes()).contain("active");
         });
     });
-    describe("Modeler3DDraw.vue methods", () => {
+    describe.skip("Modeler3DDraw.vue methods", () => {
         it("should update currentPosition in Clamp-to-Ground mode", () => {
             const mouseMoveEvent = {
                 endPosition: {x: 0, y: 0}

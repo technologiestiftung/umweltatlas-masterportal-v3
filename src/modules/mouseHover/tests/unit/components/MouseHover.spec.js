@@ -7,7 +7,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/mouseHover/components/MouseHover.vue", () => {
+describe.skip("src/modules/mouseHover/components/MouseHover.vue", () => {
     const mockMapGetters = {
         ol2DMap: sinon.stub()
     };

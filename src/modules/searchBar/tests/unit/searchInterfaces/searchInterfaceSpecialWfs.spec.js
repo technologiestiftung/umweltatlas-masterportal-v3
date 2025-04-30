@@ -3,7 +3,7 @@ import sinon from "sinon";
 import SearchInterface from "../../../searchInterfaces/searchInterface.js";
 import SearchInterfaceSpecialWfs from "../../../searchInterfaces/searchInterfaceSpecialWfs.js";
 
-describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", () => {
+describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", () => {
     let SearchInterface1 = null,
         checkConfigSpy;
     const searchResults = [

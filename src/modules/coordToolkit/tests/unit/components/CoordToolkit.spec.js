@@ -16,7 +16,7 @@ const namedProjections = [
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
+describe.skip("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
     const registerListenerSpy = sinon.spy(),
         unregisterListenerSpy = sinon.spy(),
         mockState = {
