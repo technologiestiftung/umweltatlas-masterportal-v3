@@ -53,6 +53,7 @@
 - Issue #1383: LightButton: Added padding-bottom, so the theme names are fully visible.
 - Issue #1388: In a menu section are several modules of same type allowed.
 - Issue #1389: Set and remove cookies with domain flag.
+- Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
