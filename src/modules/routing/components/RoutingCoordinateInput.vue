@@ -237,7 +237,7 @@ export default {
             return this.$t("common:modules.routing.waypoint");
         },
         /**
-         * Remove avoid draw interaction when clicking into input field
+         * Remove avoid draw interaction when clicking into coordinate input field.
          * @returns {void}
          */
         removeAvoidInteraction () {

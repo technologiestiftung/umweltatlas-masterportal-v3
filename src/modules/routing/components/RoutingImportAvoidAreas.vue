@@ -376,6 +376,11 @@ export default {
                 }
             }
         },
+        /**
+         * ad alert for validation error.
+         * @param {String} errorMessage error message
+         * @returns {void}
+         */
         addValidationErrorAlert (errorMessage) {
             this.dataIsValid = false;
             this.hideModalAfterValidation();

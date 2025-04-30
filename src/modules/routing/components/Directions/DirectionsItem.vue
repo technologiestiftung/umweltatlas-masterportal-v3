@@ -194,7 +194,6 @@ export default {
                 this.setMapInteractionMode("WAYPOINTS");
             }
             else {
-                // get last set avoid radius
                 this.avoidRadius = this.settings.avoidRadius;
                 this.setMapInteractionMode("AVOID_POINTS");
             }
@@ -213,6 +212,10 @@ export default {
             }
             this.createInteractionFromMapInteractionMode();
         },
+        /**
+         * Reset mapInteractionMode to "Waypoints".
+         * @returns {void}
+         */
         resetMapInteractionMode () {
             this.setMapInteractionMode("WAYPOINTS");
             this.directionsSettings.isAvoid = false;
