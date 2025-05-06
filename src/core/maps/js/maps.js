@@ -83,7 +83,13 @@ function create3DMap () {
                 return this.time || Cesium.JulianDate.fromDate(new Date());
             }
         }, "3D"),
-        view = mapCollection.getMapView("2D");
+        view = mapCollection.getMapView("2D"),
+        currentCenter = store.getters["Maps/center"],
+        currentZoom = store.getters["Maps/zoom"],
+        initialZoom = store.getters["Maps/initialZoom"],
+        initialCenter = store.getters["Maps/initialCenter"],
+        isCenterChanged = JSON.stringify(currentCenter) !== JSON.stringify(initialCenter),
+        isZoomChanged = currentZoom !== initialZoom;
 
     markRaw(map3d);
 
@@ -96,7 +102,7 @@ function create3DMap () {
 
     mapCollection.addMap(map3d, "3D");
 
-    if (store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
+    if (store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D" && !isCenterChanged && !isZoomChanged) {
         view.setZoom(store.getters["Maps/initialZoom"]);
         view.setCenter(store.getters["Maps/initialCenter"]);
     }

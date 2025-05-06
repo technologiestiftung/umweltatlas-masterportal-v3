@@ -887,7 +887,7 @@
       "invisibleLayer": "Folgende Themen können im ausgewählten Druckmaßstab {{scale}} nicht gedruckt werden:",
       "improveResolution": "Auflösung verbessern",
       "layoutLabel": "Layout",
-      "name": "Karte Drucken",
+      "name": "Karte drucken",
       "outputfileTitleLabel": "Dateiname",
       "printLabel": "Datei erstellen",
       "scaleLabel": "Druckmaßstab",
