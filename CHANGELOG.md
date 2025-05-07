@@ -8,6 +8,20 @@
 ### __Breaking Changes__
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+---
+
+## 2025-05-07 v3.10.0
+
+### Added
 - MapMarker: Added the ability to additionally highlight polygons.
 - FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame.
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
@@ -24,10 +38,6 @@
 - CompareMaps: layer selection fields are labeled left/right or upper/lower layer instead of first/second layer.
 - dependencies:
         - @masterportal/masterportalapi: 2.48.0 to 2.49.0
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
