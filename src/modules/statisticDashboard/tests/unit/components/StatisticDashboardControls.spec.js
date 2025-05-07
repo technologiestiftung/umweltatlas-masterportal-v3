@@ -7,7 +7,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/statiscticDashboard/components/StatisticDashboardControls.vue", () => {
+describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.vue", () => {
     const descriptions = [{
             title: "TitleOne",
             content: "ContentOne"
@@ -23,6 +23,13 @@ describe.skip("src/modules/statiscticDashboard/components/StatisticDashboardCont
         referenceData = {};
 
     let store;
+
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
 
     beforeEach(() => {
         store = createStore({

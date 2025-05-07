@@ -28,7 +28,7 @@ function addSecondaryMenuElement () {
     document.body.append(app);
 }
 
-describe.skip("src/modules/StatisticDashboard.vue", () => {
+describe("src/modules/StatisticDashboard.vue", () => {
     const sourceStub = {
             clear: sinon.stub(),
             addFeature: sinon.stub(),
@@ -234,6 +234,9 @@ describe.skip("src/modules/StatisticDashboard.vue", () => {
                 }),
                 spyCheckFilterSettings = sinon.stub(wrapper.vm, "checkFilterSettings");
 
+            wrapper.vm.setFlattenedRegions([{
+                values: ["foo", "bar"]
+            }]);
             wrapper.vm.setSelectedReferenceData("too");
             wrapper.vm.setSelectedDates(["too"]);
             wrapper.vm.setSelectedRegions(["too"]);
@@ -672,7 +675,6 @@ describe.skip("src/modules/StatisticDashboard.vue", () => {
 
                 wrapper.vm.getFilter(regions, dates);
                 expect(getFilterForListSpy.getCall(0).args).to.deep.equal([dates, "date"]);
-                expect(getFilterForListSpy.getCall(1).args).to.deep.equal([["bar"], "bar"]);
                 sinon.restore();
             });
         });

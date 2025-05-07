@@ -7,7 +7,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vue", () => {
+describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vue", () => {
     const timeStepsFilter = [
             "Die letzten 5 Jahre",
             "Die letzten 10 Jahre",
@@ -21,6 +21,13 @@ describe.skip("src/modules/statiscticDashboard/components/StatisticDashboardFilt
         ];
 
     let store;
+
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
 
     beforeEach(() => {
         store = createStore({
