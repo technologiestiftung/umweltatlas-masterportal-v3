@@ -18,11 +18,16 @@
 
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
-- Issue #1366: SpecialWfs: Fixes search for coordinates with different format. 
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
-- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
+
+---
+
+## 2025-05-15 v3.10.1
+### Fixed
+- Issue #1366: SpecialWfs: Fixes search for coordinates with different format. 
+- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 
 ---
 
@@ -33,7 +38,7 @@
 - FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame.
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
 - UrlParams: Added URL-Params mainclosed and secondaryclosed to have the menus initially closed when set to true and opened when set to false.
-- Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
+- Menutitle: Added ability to show only a logo without portal title (do not set option 'text').
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
 - Menus: Module caching implemented via KeepAlive lifecycle hooks.
