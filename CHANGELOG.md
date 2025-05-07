@@ -49,7 +49,6 @@
 - buildSpec: Added hash check to include only unique legend images in print output.
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
 - WFST-Tool: Saving objects now works correctly after layer reordering.
-- Initial loading of layers: Adjusted initial z-index values to ensure correct layer order on map load.
 - Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing.
 - LayerInformation:
     - Fixed console error if clicked on contact.
