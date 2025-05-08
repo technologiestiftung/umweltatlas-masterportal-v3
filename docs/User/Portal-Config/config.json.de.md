@@ -1455,7 +1455,7 @@ Die WFS 2 query wird dabei dynamisch durch das Masterportal erstellt. Die Konfig
 
 ```json
 {
-    "type": "specialWFS",
+    "type": "specialWFs",
     "definitions": [
         {
             "url": "https://geodienste.hamburgde/MRH_WFS_Rotenburg",

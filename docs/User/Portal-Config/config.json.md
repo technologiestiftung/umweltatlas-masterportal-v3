@@ -1453,7 +1453,7 @@ The WFS 2.0 query is dynamically created by the Masterportal. No stored query co
 
 ```json
 {
-    "type": "specialWFS",
+    "type": "specialWFs",
     "definitions": [
         {
             "url": "https://geodienste.hamburg.de/MRH_WFS_Rotenburg",
