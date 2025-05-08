@@ -15,7 +15,9 @@ export default {
     data () {
         return {
             scrolled: 0,
-            showRightbutton: false
+            showRightbutton: false,
+            showAllLayers: false,
+            showMorePill: true
         };
     },
     computed: {
@@ -27,7 +29,17 @@ export default {
             "type",
             "visibleSubjectDataLayers"
         ]),
-        ...mapGetters("Maps", ["mode"])
+        ...mapGetters("Maps", ["mode"]),
+        visibleLayers () {
+            if (this.showAllLayers) {
+                return this.visibleSubjectDataLayers;
+            }
+
+            const containerWidth = this.$el?.offsetWidth || 0,
+                maxVisibleCount = Math.floor(containerWidth / 120);
+
+            return this.visibleSubjectDataLayers.slice(0, maxVisibleCount);
+        }
     },
     watch: {
         /**
@@ -109,6 +121,9 @@ export default {
                     this.setVisibleSubjectDataLayers(visibleLayers);
                 }
             }
+        },
+        toggleLayerVisibility () {
+            this.showAllLayers = !this.showAllLayers;
         },
         /**
          * Removes Layer from List of Buttons
@@ -217,6 +232,7 @@ export default {
             name="list"
             tag="ul"
             class="nav nav-pills"
+            :class="{ collapsed: !showAllLayers }"
         >
             <li
                 v-for="(layer) in visibleSubjectDataLayers"
@@ -244,6 +260,24 @@ export default {
                 />
             </li>
         </TransitionGroup>
+        <div
+            key="more-pill"
+            class="nav-item shadow layer-pills-toggle-button"
+        >
+            <button
+                class="nav-link"
+                @click="toggleLayerVisibility"
+            >
+                <i
+                    v-if="showAllLayers"
+                    class="bi bi-chevron-up"
+                />
+                <i
+                    v-else
+                    class="bi bi-three-dots"
+                />
+            </button>
+        </div>
         <IconButton
             v-if="!isMobile"
             :id="'layerpills-right-button'"
@@ -264,14 +298,20 @@ export default {
         display: flex;
         justify-content: left;
         pointer-events: all;
-        overflow: hidden;
         margin: 0 auto 0 auto;
         border-radius: 19px;
     }
 
     .nav-pills {
         display: flex;
-        flex: none;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-pills.collapsed {
+        max-height: 40px;
+        overflow: hidden;
+        flex-wrap: wrap;
     }
 
     .nav-item {
@@ -283,9 +323,21 @@ export default {
         max-height: fit-content;
     }
 
+    .layer-pills-toggle-button {
+        height: 35px;
+        button {
+            background: white;
+            border-radius: 19px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+            padding-inline: 1rem
+        }
+    }
+
     .nav-link {
         color: $black;
-        margin: 5px;
+        margin: 2px 5px;
         padding: 0 0 0 1rem;
         width: 110px;
         white-space: nowrap;
@@ -337,13 +389,14 @@ export default {
 
     @media (max-width: 767px) {
         .nav-pills {
-        display: flex;
-        flex-wrap: nowrap;
-        flex: unset;
-        overflow-x: auto;
-        scrollbar-width: none; /* for firefox */
-        width: 320px;
-    }
+            display: flex;
+            flex-wrap: wrap;
+            flex: unset;
+            overflow-x: auto;
+            scrollbar-width: none; /* for firefox */
+            width: 320px;
+        }
+
         .nav-pills::-webkit-scrollbar {
             display: none; /* for chrome */
         }
@@ -353,5 +406,14 @@ export default {
         }
 
     }
+
+    @media (max-width: 400px) {
+        .layer-pills-container {
+            max-width: 100%;
+            overflow-x: hidden;
+            padding-inline: 0.25rem;
+        }
+    }
+
 
 </style>
