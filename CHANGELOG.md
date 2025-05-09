@@ -18,6 +18,7 @@
 
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
+- Issue #1366: SpecialWfs: Fixes search for coordinates with different format. 
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
 - Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
