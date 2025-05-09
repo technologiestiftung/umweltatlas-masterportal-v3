@@ -184,7 +184,7 @@ export default {
                         {{ contact.street }}
                     </p>
                     <p>
-                        {{ contact.postalCode + " " + contact.city }}
+                        {{ contact.postalCode }} {{ contact.city }}
                     </p>
                     <a
                         :href="'mailto:' + contact.email"
