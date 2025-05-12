@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
 
 ### Changed
 

@@ -6,6 +6,7 @@ import GraphicalSelect from "../../../store/indexGraphicalSelect.js";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
+import Polygon from "ol/geom/Polygon.js";
 
 config.global.mocks.$t = key => key;
 
@@ -158,6 +159,33 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             expect(wrapper.vm.circleOverlay.element.innerHTML).to.equal("");
             expect(map.removeOverlay.calledWith(wrapper.vm.circleOverlay)).to.be.true;
             expect(map.removeOverlay.calledWith(wrapper.vm.tooltipOverlay)).to.be.true;
+        });
+    });
+
+    describe("use existing geometry", () => {
+        it("should add a layer using the geometry from the startGeometry prop", () => {
+            const startGeometry = new Polygon([[[0, 0],
+                    [10, 0],
+                    [10, 10],
+                    [0, 10],
+                    [0, 0]]]),
+                wrapper = shallowMount(GraphicalSelectComponent, {
+                    global: {
+                        plugins: [store]
+                    },
+                    props: {
+                        startGeometry
+                    }
+                });
+
+            // Assert that the layer contains the geometry from startGeometry
+            // eslint-disable-next-line
+            const addedLayer = wrapper.vm.layer,
+                features = addedLayer.getSource().getFeatures();
+
+            expect(features).to.have.lengthOf(1);
+            expect(features[0].getGeometry().getType()).to.equal("Polygon");
+            expect(features[0].getGeometry().getCoordinates()).to.deep.equal(startGeometry.getCoordinates());
         });
     });
 });
