@@ -18,6 +18,7 @@
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
+- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
 
@@ -55,7 +56,6 @@
 - Issue #1378: KML-export now uses the correct url for circle-icon.
 - Issue #1382: Icon Info button can now be conditionally hidden based on layer configuration.
 - Issue #1383: LightButton: Added padding-bottom, so the theme names are fully visible.
-- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 - Issue #1388: In a menu section are several modules of same type allowed.
 - Issue #1389: Set and remove cookies with domain flag.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
