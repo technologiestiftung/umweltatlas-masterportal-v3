@@ -17,7 +17,7 @@
 
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
-- Issue #1398: SearchBar/Special WFs: fix SpecialWFs type name.
+- Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 
 ---
 
