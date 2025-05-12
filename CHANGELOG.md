@@ -19,6 +19,7 @@
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
+- Issue #1371: Footer: Fixded rendering issue on menu expand.
 
 ---
 
