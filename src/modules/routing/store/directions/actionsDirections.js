@@ -616,7 +616,7 @@ export default {
             }
         }
         // set point with input field selected
-        if (state.addStartEndPoint >= 0) {
+        if (feature && state.addStartEndPoint >= 0) {
 
             state.waypoints[state.addStartEndPoint].setCoordinates(feature.getGeometry().getCoordinates());
             state.waypoints[state.addStartEndPoint].setDisplayName(displayName);
