@@ -275,19 +275,19 @@ Layer2d.prototype.errorHandling = function (errorCode, layerName) {
             + linkMetadata;
 
         store.dispatch("Alerting/addSingleAlert", {content: alertingContent, multipleAlert: true});
-    }
-    store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
-        store.dispatch("replaceByIdInLayerConfig", {
-            layerConfigs: [{
-                id: this.attributes.id,
-                layer: {
+        store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
+            store.dispatch("replaceByIdInLayerConfig", {
+                layerConfigs: [{
                     id: this.attributes.id,
-                    visibility: showTheModal,
-                    showInLayerTree: false
-                }
-            }]
-        }, {root: true});
-    });
+                    layer: {
+                        id: this.attributes.id,
+                        visibility: showTheModal,
+                        showInLayerTree: false
+                    }
+                }]
+            }, {root: true});
+        });
+    }
 };
 
 
