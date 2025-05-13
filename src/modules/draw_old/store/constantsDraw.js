@@ -36,9 +36,9 @@ const colorOptions = [
         {caption: "km", value: "km"}
     ],
     keyStore = {
-        getters: Object.keys(getters),
-        mutations: Object.keys(mutations),
-        actions: Object.keys(actions)
+        getters: Object.keys(getters || {}),
+        mutations: Object.keys(mutations || {}),
+        actions: Object.keys(actions || {})
     },
     pointSizeOptions = [
         {caption: "6 px", value: 6},

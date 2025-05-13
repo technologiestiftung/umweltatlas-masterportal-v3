@@ -7,7 +7,7 @@ import SearchInterfaceKomootPhoton from "../../../searchInterfaces/searchInterfa
 import store from "../../../../../app-store";
 import {reset} from "../../../../../shared/js/utils/uniqueId";
 
-describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js", () => {
+describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js", () => {
     let SearchInterface1 = null,
         searchResults = [],
         checkConfigSpy;

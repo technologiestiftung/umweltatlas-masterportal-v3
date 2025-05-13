@@ -33,7 +33,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
         sinon.restore();
     });
 
-    describe("toggleShowDownload", async () => {
+    describe("toggleShowDownload", () => {
         beforeEach(() => {
             wrapper = shallowMount(SnippetDownload, {
                 propsData: {
@@ -83,7 +83,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
         });
     });
 
-    describe("enableDownloadBtn", async () => {
+    describe("enableDownloadBtn", () => {
         beforeEach(() => {
             wrapper = shallowMount(SnippetDownload, {
                 propsData: {
@@ -198,7 +198,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
         });
     });
 
-    describe("enableFileDownload", async () => {
+    describe("enableFileDownload", () => {
         beforeEach(() => {
             wrapper = shallowMount(SnippetDownload, {
                 propsData: {

@@ -9,11 +9,13 @@ config.global.mocks.$t = key => key;
 describe("src/modules/about/components/AboutModule.vue", () => {
     let logo,
         store,
-        version;
+        version,
+        contact;
 
     beforeEach(() => {
         logo = "../../src/assets/img/Logo_Masterportal.svg";
         version = "3.0.0";
+        contact = null;
 
         store = createStore({
             namespaced: true,
@@ -27,7 +29,7 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                             namespaced: true,
                             getters: {
                                 abstractText: () => "Test",
-                                contact: () => null,
+                                contact: () => contact,
                                 logo: () => logo,
                                 logoLink: () => "",
                                 logoText: () => "Masterportallogo",
@@ -44,7 +46,8 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                                 accessibilityUrl: () => "https://accessibilityStatementUrl"
                             },
                             actions: {
-                                initializeAboutInfo: () => sinon.stub()
+                                initializeAboutInfo: () => sinon.stub(),
+                                currentMasterportalVersionNumber: () => sinon.stub()
                             }
                         }
                     }
@@ -174,5 +177,21 @@ describe("src/modules/about/components/AboutModule.vue", () => {
 
         expect(wrapper.find("button.openContactButton").exists()).to.be.true;
         expect(wrapper.find("button.openContactButton").text()).to.equals("common:modules.about.contactButton");
+    });
+
+
+    it("should not show undefined for missing address information", async () => {
+        contact = {
+            "name": "Behörde ABC",
+            "email": "test@gv.hamburg.de"
+        };
+
+        const wrapper = mount(AboutComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#imprint").html()).to.not.contains("undefined");
     });
 });

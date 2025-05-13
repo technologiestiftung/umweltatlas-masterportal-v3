@@ -1,9 +1,11 @@
 import {expect} from "chai";
-import {shallowMount} from "@vue/test-utils";
+import {shallowMount, config} from "@vue/test-utils";
 import CompareFeaturesComponent from "../../../components/CompareFeatures.vue";
 import TableComponent from "../../../../../shared/modules/table/components/TableComponent.vue";
 import {createStore} from "vuex";
 import sinon from "sinon";
+
+config.global.mocks.$t = key => key;
 
 describe("CompareFeatures.vue", () => {
     let store, hasMultipleLayersValue, hasFeaturesValue;
@@ -31,6 +33,12 @@ describe("CompareFeatures.vue", () => {
             removeFeature: sinon.stub()
         };
 
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
     beforeEach(() => {
 
         store = createStore({

@@ -2,6 +2,13 @@ import {expect} from "chai";
 import StatisticHandler from "../../../js/handleStatistics";
 
 describe("src/modules/statisticDashboard/utils/handleStatistics.js", () => {
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     describe("hasOneGroup", () => {
         it("should return true if at least one category group is present in the statistics.", () => {
             const statisticsAttributes = {

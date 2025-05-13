@@ -60,10 +60,11 @@ export default {
     },
     mounted () {
         this.initializeAboutInfo();
+        this.currentMasterportalVersionNumber();
     },
 
     methods: {
-        ...mapActions("Modules/About", ["initializeAboutInfo"]),
+        ...mapActions("Modules/About", ["initializeAboutInfo", "currentMasterportalVersionNumber"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
         /**
          * Opens the privacy statement URL in a new tab.
@@ -183,7 +184,7 @@ export default {
                         {{ contact.street }}
                     </p>
                     <p>
-                        {{ contact.postalCode + " " + contact.city }}
+                        {{ contact.postalCode }} {{ contact.city }}
                     </p>
                     <a
                         :href="'mailto:' + contact.email"

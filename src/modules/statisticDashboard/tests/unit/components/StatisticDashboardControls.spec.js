@@ -24,6 +24,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
     let store;
 
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     beforeEach(() => {
         store = createStore({
             namespaced: true,

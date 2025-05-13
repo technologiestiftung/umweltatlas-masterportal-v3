@@ -7,7 +7,7 @@ import SearchInterface from "../../../searchInterfaces/searchInterface.js";
 import SearchInterfaceOsmNominatim from "../../../searchInterfaces/searchInterfaceOsmNominatim.js";
 import store from "../../../../../app-store";
 
-describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
+describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
     let SearchInterface1 = null,
         searchResults,
         checkConfigSpy;

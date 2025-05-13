@@ -27,7 +27,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         store,
         subjectDataLayers,
         wrapper,
-        treeType;
+        treeType,
+        externalSubjectdata;
 
     beforeEach(() => {
         lastFolderNames = [];
@@ -115,6 +116,23 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                     }
                 ]
             }];
+        externalSubjectdata = {
+            name: "external subject data",
+            type: "folder",
+            isExternal: true,
+            elements: [
+                {
+                    name: "external subject data Ebene 2",
+                    type: "folder",
+                    elements: [layer2D_1, layer2D_2,
+                        {
+                            name: "external subject data Ebene 3",
+                            type: "folder",
+                            elements: [layer2D_3]
+                        }]
+                }
+            ]
+        };
         subjectDataLayers = layersWithFolder;
         addLayerButtonSearchActive = true;
         showInTree = false;
@@ -241,6 +259,19 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(1);
     });
 
+    it("checks for external subject data (from addWMS)", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+        subjectDataLayers.push(externalSubjectdata);
+        store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(2);
+    });
+
     it("renders the LayerSelection without categories", () => {
         categories = undefined;
         wrapper = shallowMount(LayerSelectionComponent, {
@@ -287,6 +318,24 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         expect(listResult.length).to.be.equals(2);
         expect(listResult.at(0).text()).to.be.equals("custom backgrounds header text in test");
         expect(listResult.at(1).text()).to.be.equals("custom datalayers text in test");
+    });
+
+    it("checks for custom headlines with external subject data (from addWMS) for LayerSelection", () => {
+        showAllResults = false;
+        LayerSelection.state.lastFolderNames = ["root"];
+        subjectDataLayers.push(externalSubjectdata);
+        store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
+        wrapper = shallowMount(LayerSelectionComponent, {
+            global: {
+                plugins: [store]
+            }});
+
+        const listResult = wrapper.findAll("h5");
+
+        expect(listResult.length).to.be.equals(3);
+        expect(listResult.at(0).text()).to.be.equals("custom backgrounds header text in test");
+        expect(listResult.at(1).text()).to.be.equals("custom datalayers text in test");
+        expect(listResult.at(2).text()).to.be.equals("common:modules.layerSelection.externalSubjectLayer");
     });
 
 
@@ -555,6 +604,36 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             expect(filtered[0]).to.deep.equals(layerBG_1);
             expect(filtered[1]).to.deep.equals(layerBG_2);
             expect(filtered[2]).to.deep.equals(layerBG_3);
+        });
+
+        it("test method filterSubjectDataLayer with external subject data", () => {
+            mapMode = "2D";
+            subjectDataLayers.push(externalSubjectdata);
+            store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
+            wrapper = shallowMount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            const filtered = wrapper.vm.filterSubjectDataLayer();
+
+            expect(filtered.length).to.be.equals(1);
+            expect(filtered[0]).to.deep.equals(layersWithFolder[0]);
+        });
+
+        it("test method filterExternalSubjectDataLayer with external subject data", () => {
+            mapMode = "2D";
+            subjectDataLayers.push(externalSubjectdata);
+            store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
+            wrapper = shallowMount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }});
+
+            const filtered = wrapper.vm.filterExternalSubjectDataLayer();
+
+            expect(filtered.length).to.be.equals(1);
+            expect(filtered[0]).to.deep.equals(externalSubjectdata);
         });
 
         it("toggleShowAllCheckbox: should deactivate 'Show All' checkbox if parent folder has" +

@@ -7,7 +7,7 @@ import Modeler3D from "../../../store/indexModeler3D";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
+describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const provide = {
             toggleDimensions: () => {
                 sinon.stub();

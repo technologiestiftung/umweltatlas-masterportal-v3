@@ -636,6 +636,7 @@
       "name": "Topic selection",
       "baselayers": "Baselayers",
       "datalayer": "Subject data",
+      "externalSubjectLayer": "External subject data",
       "selectAll": "Add all",
       "deselectAll": "Remove all",
       "selectedSubjectsCount_other": "Please select a topic",

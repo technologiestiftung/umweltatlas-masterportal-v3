@@ -102,28 +102,30 @@ export default {
         >
             {{ $t("common:modules.about.imprintTitle") }}
         </a>
-        <div
-            v-for="(url, index) in urls"
-            :key="`portal-footer-url-${index}`"
-        >
-            <span>
-                {{ $t(url.bezeichnung) }}
-                <a
-                    :href="url.url"
-                    target="_blank"
-                    class="p-0 footerUrl"
-                >
-                    {{ $t(isMobile ? $t(url.alias_mobile) : $t(url.alias)) }}
-                </a>
-                <span
-                    v-if="index < aliasLength - 1"
-                    class="d-md-inline-block px-2"
-                >
-                    <b
-                        v-html="seperator"
-                    />
+        <div class="footer-links">
+            <template
+                v-for="(url, index) in urls"
+                :key="`portal-footer-url-${index}`"
+            >
+                <span>
+                    {{ $t(url.bezeichnung) }}
+                    <a
+                        :href="url.url"
+                        target="_blank"
+                        class="p-0 footerUrl"
+                    >
+                        {{ $t(isMobile ? $t(url.alias_mobile) : $t(url.alias)) }}
+                    </a>
+                    <span
+                        v-if="index < aliasLength - 1"
+                        class="d-md-inline-block px-2"
+                    >
+                        <b
+                            v-html="seperator"
+                        />
+                    </span>
                 </span>
-            </span>
+            </template>
         </div>
         <span
             class="spacer"
@@ -169,6 +171,12 @@ export default {
             &:hover{
                 @include primary_action_hover;
             }
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
         }
     }
 

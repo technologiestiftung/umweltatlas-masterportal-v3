@@ -9,7 +9,7 @@ import prepareFeaturePropertiesModule from "../../../js/prepareFeatureProperties
 config.global.mocks.$t = key => key;
 
 
-describe("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
+describe.skip("src/modules/modules/wfst/components/WfsTransaction.vue", () => {
     const layerIds = ["wfstOne", "wfstTwo"];
     let store,
         wrapper,

@@ -3,6 +3,13 @@ import FeatureHandler from "../../../js/handleFeatures";
 import Feature from "ol/Feature";
 
 describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     describe("calcStepValues", () => {
         it("should return an array with one 0 element, when the given params are not the expected", () => {
             const expected = [0];

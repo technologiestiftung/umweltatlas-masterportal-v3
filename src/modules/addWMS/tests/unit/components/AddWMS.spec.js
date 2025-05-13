@@ -185,6 +185,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                     {
                         datasets: [],
                         id: "geb_sum",
+                        isExternal: true,
                         layers: ["geb_sum"],
                         legendURL: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png",
                         maxScale: undefined,
@@ -260,6 +261,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                                 showInLayerTree: false,
                                 featureCount: 5,
                                 infoFormat: "text/xml",
+                                isExternal: true,
                                 typ: "WMS",
                                 type: "layer",
                                 url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",

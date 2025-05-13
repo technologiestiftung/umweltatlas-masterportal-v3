@@ -20,13 +20,20 @@ description:
     genericName: 'Masterportal '
     localisedName: Masterportal
     longDescription: |2
-       Das Masterportal ist ein flexibler Baukasten für Geoportale im Web. In Hamburg kommt das Masterportal immer dann zum Einsatz, wenn webbasierte Kartenanwendungen benötigt werden – als eigenständige Anwendung oder als Teil einer E-Government-Lösung. Auch in anderen Städten und Kreisen wird das [++Masterportal++] eingesetzt und in einer Kooperation von mehr als 30 Partnern aus der Verwaltung weiterentwickelt. Das Masterportal ist Open-Source-Software. Es ist unter der [++MIT-Lizenz++](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/License.txt) veröffentlicht.
+       Das Masterportal ist ein flexibler Baukasten für Geoportale im Web. In Hamburg kommt das Masterportal immer dann zum Einsatz, wenn webbasierte Kartenanwendungen benötigt werden – als eigenständige Anwendung oder als Teil einer E-Government-Lösung. Auch in anderen Städten und Kreisen wird das [++Masterportal++] eingesetzt und in einer Kooperation von mehr als 50 Partnern aus der Verwaltung weiterentwickelt. Das Masterportal ist Open-Source-Software. Es ist unter der [++MIT-Lizenz++](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/License.txt) veröffentlicht.
     shortDescription: ' Das Masterportal ist ein flexibler Baukasten für Geoportale im Web.'
 developmentStatus: stable
 intendedAudience:
   countries:
     - de
-    - gb
+    - en
+    - es
+    - it
+    - pt
+    - ru
+    - tr
+    - ua
+    - nl
   scope:
     - welfare
     - agriculture
@@ -83,8 +90,8 @@ maintenance:
 name: Masterportal
 platforms:
   - web
-releaseDate: '2025-04-02'
+releaseDate: '2025-05-07'
 roadmap: 'https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/'
 softwareType: standalone/web
-softwareVersion: 3.9.0
+softwareVersion: 3.10.0
 url: 'https://bitbucket.org/geowerkstatt-hamburg/masterportal.git'

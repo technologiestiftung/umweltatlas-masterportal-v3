@@ -47,7 +47,7 @@ Layer2dRasterWms.prototype.createLayer = function (attributes) {
             this.requestCapabilitiesToFitExtent();
         }
     }
-    this.setLayer(wms.createLayer(rawLayerAttributes, layerParams, options));
+    this.setLayer(wms.createLayer(rawLayerAttributes, {layerParams, options}));
 };
 
 /**

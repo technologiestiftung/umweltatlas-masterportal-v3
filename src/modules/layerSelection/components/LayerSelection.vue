@@ -178,6 +178,21 @@ export default {
             }
             return this.baselayerConfs;
         },
+        /**
+         * Filters subjectData layers.
+         * @returns {Array} list of filtered layers
+         */
+        filterSubjectDataLayer () {
+            return this.subjectDataLayerConfs.filter(conf => !conf.isExternal);
+        },
+
+        /**
+         * Filters external subjectData layers.
+         * @returns {Array} list of filtered layers
+         */
+        filterExternalSubjectDataLayer () {
+            return this.subjectDataLayerConfs.filter(conf => conf.isExternal);
+        },
 
         /**
          * Toggles the state of the show-all checkbox based on the configuration provided.
@@ -324,7 +339,7 @@ export default {
                         </ol>
                     </nav>
                     <template
-                        v-for="(conf, idx) in subjectDataLayerConfs"
+                        v-for="(conf, idx) in filterSubjectDataLayer()"
                         :key="idx"
                     >
                         <LayerSelectionTreeNode
@@ -334,6 +349,30 @@ export default {
                             @show-node="folderClicked"
                         />
                     </template>
+
+                    <div v-if="filterExternalSubjectDataLayer().length > 0">
+                        <hr
+                            v-if="lastFolderNames.length === 1"
+                            class="m-2"
+                        >
+                        <h5
+                            v-if="lastFolderNames.length === 1"
+                            class="layer-selection-subheadline"
+                        >
+                            {{ $t("common:modules.layerSelection.externalSubjectLayer") }}
+                        </h5>
+                        <template
+                            v-for="(conf, idx) in filterExternalSubjectDataLayer()"
+                            :key="idx"
+                        >
+                            <LayerSelectionTreeNode
+                                :conf="conf"
+                                :show-select-all-check-box="selectAllConfId === conf.id && !deactivateShowAllCheckbox"
+                                :select-all-configs="selectAllConfigs"
+                                @show-node="folderClicked"
+                            />
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>

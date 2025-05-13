@@ -8,6 +8,24 @@
 ### __Breaking Changes__
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
+- Issue #1371: Footer: Fixded rendering issue on menu expand.
+- Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
+- AboutModule: fixed undefined in imprint.
+
+---
+
+## 2025-05-07 v3.10.0
+
+### Added
 - MapMarker: Added the ability to additionally highlight polygons.
 - FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame.
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
@@ -15,6 +33,7 @@
 - Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
+- Menus: Module caching implemented via KeepAlive lifecycle hooks.
 - Routing: 
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
@@ -28,10 +47,8 @@
     - button for adding a new waypoint was moved between start and endpoint 
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
-
-### Deprecated
-
-### Removed
+- dependencies:
+        - @masterportal/masterportalapi: 2.48.0 to 2.49.0
 
 ### Fixed
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
@@ -49,12 +66,15 @@
 - Issue #1389: Set and remove cookies with domain flag.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
-- LayerInformation: Fixed console error if clicked on contact.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
 - buildSpec: Added hash check to include only unique legend images in print output.
 - Charts: Fixed wrong link and modernized method declaration syntax for weekday function.
 - WFST-Tool: Saving objects now works correctly after layer reordering.
-- Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D.
+- Tests: Refactored tests, fixed asynchronous describe blocks and other tests that were failing.
+- LayerInformation:
+    - Fixed console error if clicked on contact.
+    - Fixed creating url to portal contained in contact.
+- AddWMS: Added layers are displayed in layer selection under the headline 'external subject data'.
 
 ---
 

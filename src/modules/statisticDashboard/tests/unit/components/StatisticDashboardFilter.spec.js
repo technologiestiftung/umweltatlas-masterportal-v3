@@ -22,6 +22,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
 
     let store;
 
+    before(() => {
+        i18next.init({
+            lng: "cimode",
+            debug: false
+        });
+    });
+
     beforeEach(() => {
         store = createStore({
             namespaced: true,
