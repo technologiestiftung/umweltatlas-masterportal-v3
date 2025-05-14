@@ -9,6 +9,7 @@
 
 ### Added
 - GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
+- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection. 
 
 ### Changed
 

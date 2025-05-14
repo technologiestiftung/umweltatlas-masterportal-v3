@@ -635,10 +635,9 @@ const actions = {
                 featurePropertiesBatch,
                 featureProperties,
                 layerInformation,
-                selectedInteraction,
-                layerIds
+                selectedInteraction
             } = getters,
-            currentLayerId = layerIds[currentLayerIndex],
+            currentLayerId = layerInformation[currentLayerIndex].id,
             features = modifyFeatureArray ? modifyFeatureArray : drawLayer.getSource().getFeatures();
         let geometryFeature,
             index = 0,
