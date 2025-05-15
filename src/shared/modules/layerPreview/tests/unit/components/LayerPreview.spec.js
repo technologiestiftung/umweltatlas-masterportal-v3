@@ -259,7 +259,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         const props = {
                 layerId: "WMTS"
             },
-            expectedURL = "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/_empty/EPSG:3857/EPSG:3857:0/0/0?format=image/png";
+            expectedURL = "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/_empty/EPSG:3857/" + encodeURIComponent("EPSG:3857:0") + "/0/0?format=image/png";
 
         sinon.stub(LayerPreviewComponent.methods, "getPreviewUrl").returns(layerWMTS.capabilitiesUrl);
         wrapper = shallowMount(LayerPreviewComponent, {
