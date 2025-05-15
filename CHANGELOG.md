@@ -15,7 +15,6 @@
 ### Deprecated
 
 ### Removed
-## 2025-05-15 v3.10.1
 
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
