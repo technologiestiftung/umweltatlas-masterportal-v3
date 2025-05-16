@@ -178,12 +178,12 @@ function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
  * @param {HTMLInputElement} event.currentTarget The HTML input element for the name of the file.
  * @returns {void}
  */
-function setDownloadFileName ({commit, dispatch}, {currentTarget}) {
-    const {value} = currentTarget;
-
+function setDownloadFileName ({commit, dispatch}, value) {
     commit("setDownloadFileName", value);
 
-    if (main.getApp().config.globalProperties.$layer.getSource().getFeatures().length > 0) {
+    const features = main.getApp().config.globalProperties?.$layer?.getSource()?.getFeatures?.() || [];
+
+    if (features.length > 0) {
         dispatch("prepareDownload");
     }
 }
@@ -211,14 +211,15 @@ async function setDownloadSelectedFormat ({commit, dispatch}, value) {
  * @returns {String} Returns the filename including the suffix of the chosen format; returns and empty String if either the filename or the format has not been chosen yet.
  */
 function validateFileName ({state}) {
-    const {fileName, selectedFormat} = state.download;
+    const {fileName, selectedFormat} = state.download,
+        suffix = `.${selectedFormat.toLowerCase()}`;
 
-    if (fileName.length > 0 && selectedFormat.length > 0) {
-        const suffix = `.${selectedFormat.toLowerCase()}`;
-
-        return fileName.toLowerCase().endsWith(suffix) ? fileName : fileName + suffix;
+    if (!fileName || !selectedFormat) {
+        return "";
     }
-    return "";
+
+
+    return fileName.toLowerCase().endsWith(suffix) ? fileName : fileName + suffix;
 }
 
 export {

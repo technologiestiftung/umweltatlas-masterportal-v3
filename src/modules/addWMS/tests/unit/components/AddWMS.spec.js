@@ -1,9 +1,10 @@
 import {createStore} from "vuex";
-import {config, shallowMount} from "@vue/test-utils";
+import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import crs from "@masterportal/masterportalapi/src/crs";
 import sinon from "sinon";
 import AddWMSComponent from "@modules/addWMS/components/AddWMS.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -79,7 +80,8 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         }
         wrapper = shallowMount(AddWMSComponent, {
             global: {
-                plugins: [store]
+                plugins: [store],
+                components: {InputText}
             },
             data: componentData,
             attachTo: elem
@@ -94,7 +96,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         expect(wrapper.find("#addWMS").exists()).to.be.true;
     });
 
-    it("renders the iput field", () => {
+    it("renders the input field", () => {
         expect(wrapper.find("#wmsUrl").exists()).to.be.true;
     });
 
@@ -103,6 +105,14 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
     });
 
     it("sets focus to first input control", async () => {
+        wrapper = mount(AddWMSComponent, {
+            global: {
+                plugins: [store],
+                components: {InputText}
+            },
+            data: componentData,
+            attachTo: document.body
+        });
         wrapper.vm.setFocusToFirstControl();
         await wrapper.vm.$nextTick();
         expect(wrapper.find("#wmsUrl").element).to.equal(document.activeElement);

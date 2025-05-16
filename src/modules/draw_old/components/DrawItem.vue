@@ -7,6 +7,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import main from "../js/main";
 import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 import VectorSource from "ol/source/Vector";
 import {Vector as VectorLayer} from "ol/layer";
 
@@ -45,7 +46,8 @@ export default {
         DrawItemFeaturesFilter,
         DrawItemAttributes,
         DownloadItem,
-        SwitchInput
+        SwitchInput,
+        InputText
     },
     data () {
         return {
@@ -184,8 +186,13 @@ export default {
          * computed property for the text of the current drawType
          * @returns {String} the current text
          */
-        textComputed () {
-            return this.styleSettings?.text;
+        textComputed: {
+            get () {
+                return this.styleSettings?.text;
+            },
+            set (value) {
+                this.setText(value);
+            }
         },
         /**
          * computed property for the font-size of the current drawType
@@ -642,12 +649,12 @@ export default {
                     <input
                         id="tool-draw-circleRadius"
                         v-model="circleRadiusComputed"
+                        :disabled="drawCircleMethods"
                         class="form-control form-control-sm"
                         :style="{borderColor: innerBorderColor}"
                         type="number"
                         step="1"
                         :placeholder="$t('common:modules.draw_old.doubleCirclePlaceholder')"
-                        :disabled="drawCircleMethods"
                         min="0"
                     >
                 </div>
@@ -666,11 +673,11 @@ export default {
                     <input
                         id="tool-draw-circleOuterRadius"
                         v-model="circleOuterRadiusComputed"
+                        :disabled="drawCircleMethods"
                         class="form-control form-control-sm"
                         :style="{borderColor: outerBorderColor}"
                         type="number"
                         :placeholder="$t('common:modules.draw_old.doubleCirclePlaceholder')"
-                        :disabled="drawCircleMethods"
                         min="0"
                     >
                 </div>
@@ -714,15 +721,15 @@ export default {
                     {{ $t("common:modules.draw_old.text") }}
                 </label>
                 <div class="col-md-7">
-                    <input
+                    <InputText
                         id="tool-draw-text"
-                        class="form-control form-control-sm"
-                        type="text"
+                        v-model="textComputed"
+                        label="common:modules.draw_old.text"
                         :placeholder="$t('common:modules.draw_old.clickToPlaceText')"
                         :disabled="drawHTMLElementsModifyFeature"
-                        :value="textComputed"
-                        @input="setText"
-                    >
+                        type="text"
+                        :class-obj="['form-control-sm']"
+                    />
                 </div>
             </div>
             <div

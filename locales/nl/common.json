@@ -611,8 +611,7 @@
         "serviceFour": "Dienst 4",
         "sliderTypeHandle": "Slider-modus",
         "sliderTypePlayer": "Spelermodus",
-        "title": "Simulatie van voorbeelddiensten",
-        "titleNotConfigured": "Titel niet geconfigureerd"
+        "title": "Simulatie van voorbeelddiensten"
       },
       "layerTree": {
         "addLayer": "Voeg onderwerpen toe",

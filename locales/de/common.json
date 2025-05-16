@@ -296,8 +296,10 @@
         "attributeDuplicatedKeyError": "Der Attribut-Schlüssel existiert bereits.",
         "attributeKeyError": "Bitte einen Schlüssel fürs Attribut angeben.",
         "input": {
-          "key": "Neuer Schlüssel",
-          "value": "Neuer Wert"
+          "key": "Attributschlüssel",
+          "value": "Attributwert",
+          "newKey": "Neuer Schlüssel",
+          "newValue": "Neuer Wert"
         },
         "noFeatureSelected": "Derzeit ist noch kein Feature ausgewählt. Bitte wählen Sie ein Feature aus!",
         "remove": "Löschen",
@@ -653,8 +655,7 @@
       "serviceFour": "Dienst 4",
       "sliderTypeHandle": "Slider-Modus",
       "sliderTypePlayer": "Player-Modus",
-      "title": "Simulation von Beispiel-Diensten",
-      "titleNotConfigured": "Titel nicht konfiguriert"
+      "title": "Simulation von Beispiel-Diensten"
     },
     "layerTree": {
       "addLayer": "Themen hinzufügen",

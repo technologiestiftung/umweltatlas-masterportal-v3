@@ -296,15 +296,22 @@ function setSymbol ({state, commit, dispatch}, {target}) {
 }
 /**
  * Sets the text of the current drawType.
+ * Supports both direct string values via v-model and legacy event-based values.
  *
  * @param {Object} context actions context object.
- * @param {Event} event event fired by changing the input for the text.
- * @param {HTMLInputElement} event.target The HTML input element for the text.
+ * @param {String|Object} payload The new text or the old event
  * @returns {void}
  */
-function setText ({getters, commit, dispatch}, {target}) {
-    const text = target.value,
-        {styleSettings} = getters;
+function setText ({getters, commit, dispatch}, payload) {
+    let text;
+
+    if (payload && typeof payload === "object" && payload.target) {
+        text = payload.target.value;
+    }
+    else {
+        text = payload;
+    }
+    const {styleSettings} = getters;
 
     styleSettings.text = text;
 

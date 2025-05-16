@@ -297,8 +297,10 @@
         "attributeDuplicatedKeyError": "Key already exists!",
         "attributeKeyError": "Attribute key must be set!",
         "input": {
-          "key": "New attribute key",
-          "value": "New attribute value"
+          "key": "Attribute Key",
+          "value": "Attribute Value",
+          "newKey": "New attribute key",
+          "newValue": "New attribute value"
         },
         "noFeatureSelected": "Please select a feature!",
         "remove": "Delete",
@@ -654,8 +656,7 @@
       "serviceFour": "Service 4",
       "sliderTypeHandle": "Slidermode",
       "sliderTypePlayer": "Playermode",
-      "title": "Simulation of example services",
-      "titleNotConfigured": "Title not configured"
+      "title": "Simulation of example services"
     },
     "layerTree": {
       "addLayer": "Add layer",

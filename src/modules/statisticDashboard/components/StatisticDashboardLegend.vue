@@ -200,8 +200,8 @@ export default {
                     :placeholder="$t('common:modules.statisticDashboard.legend.range')"
                     type="number"
                     :disabled="index > stepValues.length + 1"
-                    :value="stepValues[index - 1]?.toString()"
-                    :change="value => changeStepValues(index - 1, value)"
+                    :model-value="stepValues[index - 1]?.toString()"
+                    @update:modelValue="value => changeStepValues(index - 1, value)"
                 />
                 <div
                     class="col col-auto align-self-center my-0"
@@ -219,8 +219,8 @@ export default {
                     :placeholder="$t('common:modules.statisticDashboard.legend.range')"
                     type="number"
                     :disabled="index > stepValues.length"
-                    :value="stepValues[index]?.toString()"
-                    :change="value => changeStepValues(index, value)"
+                    :model-value="stepValues[index]?.toString()"
+                    @update:modelValue="value => changeStepValues(index, value)"
                 />
                 <InputText
                     :id="'color-range' + index"
@@ -229,8 +229,8 @@ export default {
                     :placeholder="$t('common:modules.statisticDashboard.legend.color')"
                     type="color"
                     :disabled="index > stepValues.length"
-                    :value="convertColor(colorPalette?.[index - 1], 'hex')"
-                    :input="value => changeOneColor(index - 1, convertColor(value, 'rgb'))"
+                    :model-value="convertColor(colorPalette?.[index - 1], 'hex')"
+                    @update:modelValue="value => changeOneColor(index - 1, convertColor(value, 'rgb'))"
                 />
             </div>
             <div

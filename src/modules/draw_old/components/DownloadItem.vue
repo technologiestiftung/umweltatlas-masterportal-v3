@@ -1,6 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 
 /**
  * Draw Download Item
@@ -8,12 +9,11 @@ import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
  */
 export default {
     name: "DownloadItem",
-    components: {FlatButton},
+    components: {FlatButton, InputText},
     computed: {
         ...mapGetters("Modules/Draw_old", [
             "dataString",
             "features",
-            "file",
             "fileName",
             "fileUrl",
             "download",
@@ -24,10 +24,6 @@ export default {
             "disableFileDownload"
         ])
     },
-    mounted () {
-        this.setDownloadSelectedFormat(this.download.preSelectedFormat);
-        this.setDownloadFeatures();
-    },
     methods: {
         ...mapActions("Modules/Draw_old", [
             "setDownloadSelectedFormat",
@@ -36,15 +32,20 @@ export default {
             "fileDownloaded",
             "validateFileName"
         ]),
-        startDownload (button, downloadUrl, filename) {
-            const link = document.createElement("a");
+        startDownload (button, downloadUrl) {
+            this.validateFileName().then(validName => {
+                const link = document.createElement("a");
 
-            link.href = downloadUrl;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            this.fileDownloaded();
+                link.href = downloadUrl;
+                link.download = validName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                this.fileDownloaded();
+            });
+        },
+        onFormatChange (event) {
+            this.setDownloadSelectedFormat(event.target.value);
         }
     }
 };
@@ -73,7 +74,7 @@ export default {
                     <select
                         id="tool-draw-download-format"
                         class="form-select form-select-sm"
-                        @change="setDownloadSelectedFormat($event.target.value)"
+                        @change="onFormatChange"
                     >
                         <option value="none">
                             {{ $t("common:modules.draw_old.download.pleaseChoose") }}
@@ -97,13 +98,13 @@ export default {
                     {{ $t("common:modules.draw_old.download.filename") }}
                 </label>
                 <div class="col-md-7">
-                    <input
+                    <InputText
                         id="tool-draw-download-filename"
-                        type="text"
-                        class="form-control form-control-sm"
+                        v-model="download.fileName"
+                        :class-obj="['form-control-sm']"
                         :placeholder="$t('common:modules.draw_old.download.enterFilename')"
-                        @keyup="setDownloadFileName"
-                    >
+                        :label="$t('common:modules.draw_old.download.filename')"
+                    />
                 </div>
             </div>
             <div class="form-group form-group-sm row">
@@ -111,7 +112,7 @@ export default {
                     <FlatButton
                         id="downloadBtn"
                         :aria-label="$t('common:modules.draw_old.button.saveDrawing')"
-                        :interaction="($event) => startDownload($event.target, download.fileUrl, download.file)"
+                        :interaction="($event) => startDownload($event.target, download.fileUrl, download.fileName)"
                         :text="$t('common:modules.draw_old.button.saveDrawing')"
                         :icon="'bi-save'"
                         :class="{disabled: disableFileDownload}"

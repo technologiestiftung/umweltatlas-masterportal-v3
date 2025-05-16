@@ -158,6 +158,14 @@ export default {
                 this.setFilename(value);
                 this.isValid(value);
             }
+        },
+        titleComputed: {
+            get () {
+                return this.title;
+            },
+            set (value) {
+                this.setTitle(value);
+            }
         }
     },
     watch: {
@@ -510,10 +518,9 @@ export default {
             <div>
                 <InputText
                     :id="'docTitle'"
+                    v-model="titleComputed"
                     :label="$t('common:modules.print.titleLabel')"
                     :placeholder="$t('common:modules.print.titleLabel')"
-                    :value="title"
-                    :input="setTitle"
                 />
             </div>
             <div
@@ -521,10 +528,9 @@ export default {
             >
                 <InputText
                     :id="subtitle"
+                    v-model="subtitle"
                     :label="$t('common:modules.print.subtitleLabel')"
                     :placeholder="$t('common:modules.print.subtitleLabel')"
-                    :value="subtitle"
-                    :input="setSubtitle"
                     :max-length="'60'"
                 />
             </div>
@@ -551,10 +557,9 @@ export default {
             >
                 <InputText
                     :id="author"
+                    v-model="author"
                     :label="$t('common:modules.print.authorLabel')"
                     :placeholder="$t('common:modules.print.authorLabel')"
-                    :value="author"
-                    :input="setAuthor"
                     :max-length="'60'"
                 />
             </div>

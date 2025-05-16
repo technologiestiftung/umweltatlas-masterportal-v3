@@ -19,7 +19,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         it("should render correctly with default values", () => {
             const wrapper = shallowMount(SnippetInput, {});
 
-            expect(wrapper.find("input").classes("snippetInput")).to.be.true;
+            expect(wrapper.findComponent({name: "InputText"}).exists()).to.be.true;
         });
         it("should render hidden if visible is false", () => {
             const wrapper = shallowMount(SnippetInput, {
@@ -32,14 +32,16 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render but also be disabled", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
-                    disabled: true
-                }
-            });
+                    propsData: {
+                        disabled: true
+                    }
+                }),
 
-            expect(wrapper.find(".snippetInput").exists()).to.be.true;
+                input = wrapper.findComponent({name: "InputText"});
+
+            expect(input.exists()).to.be.true;
             expect(wrapper.vm.disabled).to.be.true;
-            expect(wrapper.find(".snippetInput").element.disabled).to.be.true;
+            expect(input.props("disabled")).to.be.true;
         });
         it("should render snippet with placeholder", () => {
             const wrapper = shallowMount(SnippetInput, {
@@ -48,16 +50,18 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 }
             });
 
-            expect(wrapper.find(".snippetInput").attributes("placeholder")).to.be.equal("this is a placeholder");
+            expect(wrapper.findComponent({name: "InputText"}).props("placeholder")).to.be.equal("this is a placeholder");
         });
         it("should render with a title if the title is a string", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
-                    title: "foobar"
-                }
-            });
+                    propsData: {
+                        title: "foobar"
+                    }
+                }),
+                inputText = wrapper.findComponent({name: "InputText"});
 
-            expect(wrapper.find(".snippetInputLabel").text()).to.be.equal("foobar");
+            expect(inputText.exists()).to.be.true;
+            expect(inputText.props("label")).to.be.equal("foobar");
         });
         it("should render without a title if title is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
