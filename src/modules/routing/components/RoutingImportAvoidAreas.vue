@@ -6,6 +6,7 @@ import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";
 import MultiPolygon from "ol/geom/MultiPolygon";
 import {Modal} from "bootstrap";
+import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
 
 /**
  * RoutingImportAvoidAreas
@@ -24,6 +25,10 @@ import {Modal} from "bootstrap";
 
 export default {
     name: "RoutingImportAvoidAreas",
+    components: {
+        FileUpload
+    },
+    emits: ["afterFileValidation"],
     data () {
         return {
             avoidPolygons: {type: "MultiPolygon", coordinates: []},
@@ -36,17 +41,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing", ["directionsSettings"]),
-        dropZoneAdditionalClass () {
-            return this.dzIsDropHovering ? "dzReady" : "";
-        }
+        ...mapGetters("Modules/Routing", ["directionsSettings"])
     },
     async mounted () {
-        this.appendModalToBody();
         this.setRestrictions();
-    },
-    beforeUnmount () {
-        document.body.removeChild(document.getElementById("importAvoidAreasModal"));
     },
     methods: {
         ...mapActions("Alerting", ["addSingleAlert"]),
@@ -58,7 +56,7 @@ export default {
          * @returns {void}
          */
         appendModalToBody () {
-            document.body.appendChild(document.getElementById("importAvoidAreasModal"));
+            document.body.appendChild(document.getElementById("fileUpload"));
         },
         /**
          * Sets restrictions for maximum area, side length, and feature count
@@ -88,31 +86,6 @@ export default {
             }
         },
         /**
-         * Called when user starts dragging a file over the upload container
-         * @returns {void}
-         */
-        onDZDragenter () {
-            this.dzIsDropHovering = true;
-        },
-        /**
-         * Called when user stops dragging a file over the upload container
-         * @returns {void}
-         */
-        onDZDragend () {
-            this.dzIsDropHovering = false;
-        },
-        /**
-         * Called when user drops a file in the upload container
-         * @param {HTMLInputEvent} e event with the files
-         * @returns {void}
-         */
-        onDrop (e) {
-            this.dzIsDropHovering = false;
-            if (e.dataTransfer.files) {
-                this.addFiles(e.dataTransfer.files);
-            }
-        },
-        /**
          * Called when files are added by the user to process
          * loading animation is shown while processing and an error is shown to the user if something happens while processing
          * @param {File[]} files to process
@@ -139,6 +112,7 @@ export default {
             };
 
             reader.readAsText(file);
+            this.$emit("afterFileValidation");
         },
         /**
          * Parses and validates GeoJSON content
@@ -365,7 +339,7 @@ export default {
          * @returns {void}
          */
         hideModalAfterValidation () {
-            const modalElement = document.getElementById("importAvoidAreasModal");
+            const modalElement = document.getElementById("fileUpload");
 
             if (modalElement) {
                 const modal = Modal.getInstance(modalElement);
@@ -388,6 +362,11 @@ export default {
                 content: errorMessage,
                 title: this.$t("common:modules.routing.importAvoidAreas.error.header")
             });
+        },
+        onDrop (e) {
+            if (e.dataTransfer.files !== undefined) {
+                this.addFiles(e.dataTransfer.files);
+            }
         }
 
     }
@@ -396,99 +375,27 @@ export default {
 
 
 <template>
-    <!-- Modal -->
-    <div
-        id="importAvoidAreasModal"
-        class="modal fade"
-        tabindex="-1"
-        aria-labelledby="importAvoidAreasModalLabel"
-        aria-hidden="false"
-        aria-modal="true"
-    >
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1
-                        id="importAvoidAreasModalLabel"
-                        class="modal-title fs-5"
-                    >
-                        {{ $t('common:modules.routing.importAvoidAreas.header') }}
-                        <a
-                            href="#"
-                            :aria-label="$t('common:modules.routing.importAvoidAreas.help')"
-                        />
-                    </h1>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    />
-                </div>
-                <div class="modal-body">
-                    <div class="mt-2 col-md-12">
-                        {{ $t('common:modules.routing.importAvoidAreas.description') }}
-                    </div>
-                    <div class="mt-2 mb-2 col-md-12">
-                        {{ $t('common:modules.routing.importAvoidAreas.structure') }}
-                        <hr>
-                        <div class="d-flex justify-content-center">
-                            <div
-                                class="vh-center-outer-wrapper drop-area-fake mb-2"
-                                :class="dropZoneAdditionalClass"
-                            >
-                                <div
-                                    class="vh-center-inner-wrapper"
-                                >
-                                    <p
-                                        class="caption"
-                                    >
-                                        {{ $t('common:modules.routing.batchProcessing.placeFile') }}
-                                    </p>
-                                </div>
-
-                                <div
-                                    class="drop-area"
-                                    role="presentation"
-                                    @drop.prevent="onDrop($event)"
-                                    @dragover.prevent
-                                    @dragenter.prevent="onDZDragenter()"
-                                    @dragleave="onDZDragend()"
-                                />
-                            </div>
-                        </div>
-                        <div class="divider">
-                            {{ $t('common:modules.routing.tsr.upload.divider') }}
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button
-                                id="btn-file-input"
-                                class="btn btn-primary"
-                                type="button"
-                                @click="startFileInput()"
-                            >
-                                <i class="bi bi-upload" />
-                                {{ $t('common:modules.routing.importAvoidAreas.header') }}
-                            </button>
-                        </div>
-
-                        <label
-                            ref="fileInputLabel"
-                            class="d-none mt-2 mb-2 col-md-12"
-                        >
-                            <input
-                                ref="fileInput"
-                                type="file"
-                                accept=".geojson, .kml, .shp"
-                                @change="onInputChange($event)"
-                            >
-
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="justify-content-center">
+        <FileUpload
+            :id="'fileUpload'"
+            :keydown="(e) => triggerClickOnFileInput(e)"
+            :change="(e) => onInputChange(e)"
+            :drop="(e) => onDrop(e)"
+        />
     </div>
+
+    <label
+        ref="fileInputLabel"
+        class="d-none mt-2 mb-2 col-md-12"
+    >
+        <input
+            ref="fileInput"
+            type="file"
+            accept=".geojson, .kml"
+            @change="onInputChange($event)"
+        >
+
+    </label>
 </template>
 
 

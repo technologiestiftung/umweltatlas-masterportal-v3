@@ -16,6 +16,7 @@ import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
 import RoutingElevationProfile from "../RoutingElevationProfile.vue";
 import * as constants from "../../store/directions/constantsDirections";
 import * as constantsRouting from "../../store/constantsRouting";
+import {Modal} from "bootstrap";
 
 /**
  * DirectionsItem
@@ -121,8 +122,10 @@ export default {
     },
     beforeUnmount () {
         this.closeDirections();
+        this.removeModalFromBody();
     },
     mounted () {
+        this.appendModalToBody();
         this.setMapInteractionMode("WAYPOINTS");
         this.createInteractionFromMapInteractionMode();
         this.avoidRadius = this.settings.avoidRadius;
@@ -281,6 +284,30 @@ export default {
         removeAvoidInteraction () {
             this.setMapInteractionMode("WAYPOINTS");
             this.createInteractionFromMapInteractionMode();
+        },
+        /**
+         * Called after file validation of upload
+         * @returns {void}
+         */
+        afterFileValidation () {
+            const modalElement = document.getElementById("uploadModal"),
+                modal = Modal.getInstance(modalElement);
+
+            modal.hide();
+        },
+        /**
+         * Appends modal to body in order to place modal correctly
+         * @returns {void}
+         */
+        appendModalToBody () {
+            document.body.appendChild(document.getElementById("uploadModal"));
+        },
+        /**
+         * Removes modal from body
+         * @returns {void}
+         */
+        removeModalFromBody () {
+            document.body.removeChild(document.getElementById("uploadModal"));
         }
     }
 };
@@ -426,6 +453,7 @@ export default {
                             >{{ $t('common:modules.routing.directions.avoidAreas.avoidPoint') }}</label>
                         </div>
 
+                        <!-- delete avoid area -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
                                 id="deleteAvoidArea"
@@ -463,46 +491,85 @@ export default {
 
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
-                                id="import-avoidareas"
+                                id="export-avoidareas"
                                 class="mx-2"
                                 :aria="$t('common:modules.routing.importAvoidAreas.tooltip')"
                                 :class-array="['btn-light']"
                                 :icon="'bi-upload fs-7'"
                                 data-bs-toggle="modal"
-                                data-bs-target="#importAvoidAreasModal"
+                                data-bs-target="#uploadModal"
                             />
-                            <RoutingImportAvoidAreas />
+                            <RoutingExportAvoidAreas />
                             <label
-                                id="addAvoidCircle"
                                 for="import-avoidareas"
                                 class="btn-description"
                             >{{ $t('common:modules.routing.directions.avoidAreas.import') }}</label>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <div />
-                        <div
-                            v-if="isMapInteractionModeAvoidPointsEdit"
-                            id="avoidPoint"
-                            class="d-flex"
+                </div>
+                <!-- radius input -->
+                <div class="d-flex justify-content-between">
+                    <div
+                        v-if="isMapInteractionModeAvoidPointsEdit"
+                        id="avoidPoint"
+                        class="d-flex"
+                    >
+                        <span class="radius-unit">r=</span>
+                        <input
+                            v-model="avoidRadius"
+                            type="number"
+                            class="form-control"
+                            autocomplete="off"
+                            size="4"
+                            min="0"
+                            step="0.1"
+                            :max="maxAvoidRadius"
+                            @keydown.enter="$event.target.blur()"
                         >
-                            <span class="radius-unit">r=</span>
-                            <input
-                                v-model="avoidRadius"
-                                type="number"
-                                class="form-control"
-                                autocomplete="off"
-                                size="4"
-                                min="0"
-                                step="0.1"
-                                :max="maxAvoidRadius"
-                                @keydown.enter="$event.target.blur()"
-                            >
-                            <span class="radius-unit">km</span>
+                        <span class="radius-unit">km</span>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div
+                    id="uploadModal"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-labelledby="uploadModalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1
+                                    id="uploadModalLabel"
+                                    class="modal-title fs-5"
+                                >
+                                    {{ $t('common:modules.routing.importAvoidAreas.header') }}
+                                    <a
+                                        href="#"
+                                        :aria-label="$t('common:modules.routing.importAvoidAreas.help')"
+                                    />
+                                </h1>
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                />
+                            </div>
+                            <div class="modal-body">
+                                <div class="mt-2 col-md-12">
+                                    {{ $t('common:modules.routing.importAvoidAreas.description') }}
+                                </div>
+                                <div class="mt-2 mb-2 col-md-12">
+                                    {{ $t('common:modules.routing.importAvoidAreas.structure') }}
+                                    <hr>
+                                    <RoutingImportAvoidAreas
+                                        @after-file-validation="afterFileValidation()"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div />
-                        <div />
-                        <div />
                     </div>
                 </div>
             </div>
