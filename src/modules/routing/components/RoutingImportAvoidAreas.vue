@@ -128,6 +128,11 @@ export default {
                 if (this.dataIsValid) {
                     this.validateAndExtractPolygons(features);
                 }
+                this.addSingleAlert({
+                    category: "info",
+                    content: this.$t("common:modules.routing.importAvoidAreas.uploadSuccess"),
+                    title: this.$t("common:modules.routing.importAvoidAreas.uploadSuccessTitle")
+                });
             }
             catch (error) {
                 this.addValidationErrorAlert(this.$t("common:modules.routing.importAvoidAreas.error.parseError", {type: "GeoJSON"}));

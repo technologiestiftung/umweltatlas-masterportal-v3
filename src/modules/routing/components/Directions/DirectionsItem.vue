@@ -418,6 +418,7 @@ export default {
                     class="mt-2"
                 >
                     <div class="d-flex justify-content-between">
+                        <!-- avoid area -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
                                 id="addAvoidAreaBtn"
@@ -450,13 +451,14 @@ export default {
                                 id="addAvoidPoint"
                                 for="addAvoidPointBtn"
                                 class="btn-description"
-                            >{{ $t('common:modules.routing.directions.avoidAreas.avoidPoint') }}</label>
+                            >{{ $t('common:modules.routing.directions.avoidAreas.avoidPoint') }}
+                            </label>
                         </div>
 
                         <!-- delete avoid area -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
-                                id="deleteAvoidArea"
+                                id="deletAvoidAreaBtn"
                                 class="mx-2"
                                 :aria="$t('common:modules.routing.directions.deleteRestrictedAreas')"
                                 :icon="'bi-x-square fs-7'"
@@ -465,15 +467,16 @@ export default {
                                 @keydown.enter="changeMapInteractionModeAvoidAreasDelete()"
                             />
                             <label
-                                id="addAvoidCircle"
-                                for="deleteAvoidArea"
+                                id="deletAvoidArea"
+                                for="deletAvoidAreaBtn"
                                 class="btn-description"
-                            >{{ $t('common:modules.routing.directions.avoidAreas.delete') }}</label>
+                            >{{ $t('common:modules.routing.directions.avoidAreas.delete') }}
+                            </label>
                         </div>
-
+                        <!-- export avoid area -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
-                                id="export-avoidareas"
+                                id="exportAvoidAreasBtn"
                                 class="mx-2"
                                 :aria="$t('common:modules.routing.exportAvoidAreas.tooltip')"
                                 :class-array="['btn-light']"
@@ -483,15 +486,15 @@ export default {
                             />
                             <RoutingExportAvoidAreas />
                             <label
-                                id="addAvoidCircle"
-                                for="export-avoidareas"
+                                id="exportAvoidAreas"
+                                for="exportAvoidAreasBtn"
                                 class="btn-description"
                             >{{ $t('common:modules.routing.directions.avoidAreas.export') }}</label>
                         </div>
-
+                        <!-- import avoid areas -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
-                                id="export-avoidareas"
+                                id="importAvoidAreasBtn"
                                 class="mx-2"
                                 :aria="$t('common:modules.routing.importAvoidAreas.tooltip')"
                                 :class-array="['btn-light']"
@@ -501,7 +504,8 @@ export default {
                             />
                             <RoutingExportAvoidAreas />
                             <label
-                                for="import-avoidareas"
+                                id="importAvoidAreas"
+                                for="importAvoidAreasBtn"
                                 class="btn-description"
                             >{{ $t('common:modules.routing.directions.avoidAreas.import') }}</label>
                         </div>
@@ -509,6 +513,7 @@ export default {
                 </div>
                 <!-- radius input -->
                 <div class="d-flex justify-content-between">
+                    <div />
                     <div
                         v-if="isMapInteractionModeAvoidPointsEdit"
                         id="avoidPoint"
@@ -528,6 +533,9 @@ export default {
                         >
                         <span class="radius-unit">km</span>
                     </div>
+                    <div />
+                    <div />
+                    <div />
                 </div>
                 <!-- Modal -->
                 <div
