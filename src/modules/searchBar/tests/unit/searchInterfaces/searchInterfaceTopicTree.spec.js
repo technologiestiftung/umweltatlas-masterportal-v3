@@ -4,7 +4,7 @@ import SearchInterface from "../../../searchInterfaces/searchInterface.js";
 import SearchInterfaceTopicTree from "../../../searchInterfaces/searchInterfaceTopicTree.js";
 import store from "../../../../../app-store";
 
-describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", () => {
+describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", () => {
     let SearchInterface1 = null,
         checkConfigSpy;
 

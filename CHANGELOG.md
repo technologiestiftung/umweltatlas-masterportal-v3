@@ -20,6 +20,7 @@
 ### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
 - Issue #1360: Fixed Errorhandling for 2D-layers.
+- Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
@@ -29,7 +30,7 @@
 ## 2025-05-15 v3.10.1
 
 ### Fixed
-- Issue #1366: SpecialWfs: Fixes search for coordinates with different format. 
+- Issue #1366: SpecialWfs: Fixes search for coordinates with different format.
 - Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 
 ---
