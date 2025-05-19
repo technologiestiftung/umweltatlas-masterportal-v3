@@ -53,7 +53,7 @@ const mutations = {
      * @returns {void}
      */
     resetToThemeChooser: (state) => {
-        state.selectedFeatureIndex = null;
+        state.selectedRow = null;
         state.layer = null;
         state.layerListView = true;
         state.featureListView = false;

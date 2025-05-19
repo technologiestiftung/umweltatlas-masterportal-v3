@@ -23,7 +23,8 @@ import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 export default {
     name: "FeatureLister",
     components: {
-        FlatButton
+        FlatButton,
+        TableComponent
     },
     data () {
         return {
@@ -43,17 +44,38 @@ export default {
             "shownFeatures",
             "featureListView",
             "featureDetailView",
-            "selectedFeatureIndex",
+            "headers",
             "featureProperties",
-            "featureDetails",
-            "headers"
+            "selectedRow",
+            "gfiFeaturesOfLayer"
         ]),
+        tableData () {
+            return {
+                headers: this.headers,
+                items: this.featureProperties.slice(0, this.shownFeatures)
+            };
+        },
+        featureDetails () {
+            const feature = this.gfiFeaturesOfLayer.find(f => f.id === this.selectedRow.id),
+                attributes = Object.values(feature.getAttributesToShow());
+
+            let attributeValues = [];
+
+            if (attributes === "showAll") {
+                return this.selectedRow;
+            }
+            attributeValues = Object.values(attributes);
+
+            return Object.fromEntries(
+                Object.entries(this.selectedRow).filter(([key]) => attributeValues.includes(key)
+                )
+            );
+        },
         themeTabClasses: function () {
             return this.layerListView ? this.activeTabClass : this.defaultTabClass;
         },
         listTabClasses: function () {
             if (this.featureListView) {
-                this.sortItems();
                 return this.activeTabClass;
             }
             if (this.featureDetailView) {
@@ -65,7 +87,7 @@ export default {
             if (this.featureDetailView) {
                 return this.activeTabClass;
             }
-            if (this.selectedFeatureIndex !== null) {
+            if (this.selectedRow !== null) {
                 return this.defaultTabClass;
             }
             return this.disabledTabClass;
@@ -103,7 +125,6 @@ export default {
         ...mapMutations("Modules/FeatureLister", [
             "resetToThemeChooser"
         ]),
-        beautifyKey,
         isWebLink,
         isPhoneNumber,
         getPhoneNumberAsWebLink,
@@ -238,42 +259,16 @@ export default {
                 <div
                     class="table-responsive feature-lister-list-table-container"
                 >
-                    <table
+                    <TableComponent
                         id="feature-lister-list-table"
-                        class="table  table-hover table-condensed table-bordered"
-                    >
-                        <tbody>
-                            <tr class="feature-lister-list-table-tr">
-                                <th
-                                    v-for="(header, index) in headers"
-                                    :key="'module-feature-lister-' + index"
-                                    class="feature-lister-list-table-th"
-                                >
-                                    <span class="bi-sort-alpha-down" />
-                                    {{ header.value }}
-                                </th>
-                            </tr>
-                            <tr
-                                v-for="(feature, index) in featureProperties"
-                                :id="'module-feature-lister-feature-' + index"
-                                :key="'module-feature-lister-' + index"
-                                class="feature-lister-list-table-tr"
-                                @click="clickOnFeature(index)"
-                                @mouseover="hoverOverFeature(index)"
-                                @focus="hoverOverFeature(index)"
-                            >
-                                <template v-if="index < shownFeatures">
-                                    <td
-                                        v-for="(property, i) in feature"
-                                        :key="'module-feature-lister-' + i"
-                                        class="feature-lister-list-table-td"
-                                    >
-                                        {{ property }}
-                                    </td>
-                                </template>
-                            </tr>
-                        </tbody>
-                    </table>
+                        :data="tableData"
+                        :sortable="true"
+                        select-mode="row"
+                        :run-select-row-on-mount="false"
+                        :run-select-on-hover="true"
+                        @rowSelected="row => clickOnFeature(row)"
+                        @rowOnHover="row => hoverOverFeature(row)"
+                    />
                 </div>
                 <div
                     class="panel-footer feature-lister-list-footer"
@@ -307,45 +302,45 @@ export default {
                 class="panel panel-default feature-lister-details"
             >
                 <ul
-                    v-for="(feature, key) in featureDetails"
+                    v-for="(value, key) in featureDetails"
                     :key="'module-feature-lister-' + key"
                     class="list-group feature-lister-details-ul"
                 >
                     <li class="list-group-item feature-lister-details-li">
                         <strong>
-                            {{ beautifyKey(feature[0]) }}
+                            {{ key }}
                         </strong>
                     </li>
                     <li class="list-group-item feature-lister-details-li">
-                        <p v-if="isWebLink(feature[1])">
+                        <p v-if="isWebLink(value)">
                             <a
-                                :href="feature[1]"
+                                :href="value"
                                 target="_blank"
-                            >{{ feature[1] }}</a>
+                            >{{ value }}</a>
                         </p>
-                        <p v-else-if="isPhoneNumber(feature[1])">
-                            <a :href="getPhoneNumberAsWebLink(feature[1])">{{ feature[1] }}</a>
+                        <p v-else-if="isPhoneNumber(value)">
+                            <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
                         </p>
-                        <p v-else-if="isEmailAddress(feature[1])">
-                            <a :href="`mailto:${feature[1]}`">{{ feature[1] }}</a>
-                        </p>
-                        <p
-                            v-else-if="typeof feature[1] === 'string' && feature[1].includes(';')"
-                        >
-                            <span v-html="toBold(feature[1], key)" />
+                        <p v-else-if="isEmailAddress(value)">
+                            <a :href="`mailto:${value}`">{{ value }}</a>
                         </p>
                         <p
-                            v-else-if="typeof feature[1] === 'string' && feature[1].includes('|')"
+                            v-else-if="typeof value === 'string' && value.includes(';')"
                         >
-                            <span v-html="removeVerticalBar(feature[1])" />
+                            <span v-html="toBold(value, key)" />
                         </p>
                         <p
-                            v-else-if="typeof feature[1] === 'string' && feature[1].includes('<br>')"
+                            v-else-if="typeof value === 'string' && value.includes('|')"
                         >
-                            <span v-html="feature[1]" />
+                            <span v-html="removeVerticalBar(value)" />
+                        </p>
+                        <p
+                            v-else-if="typeof value === 'string' && value.includes('<br>')"
+                        >
+                            <span v-html="value" />
                         </p>
                         <p v-else>
-                            {{ feature[1] }}
+                            {{ value }}
                         </p>
                     </li>
                 </ul>

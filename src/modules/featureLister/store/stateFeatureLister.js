@@ -19,7 +19,7 @@
  * @property {Boolean} nestedFeatures some features have features themself, if true they get recognized
  * @property {Boolean} featureDetailView if true the detail page of the selected feature gets displayed
  * @property {Array} headers list of headings in list
- * @property {Number} selectedFeatureIndex index of the selected feature in list of gfiFeatures
+ * @property {Object} selectedRow the selected row of the table of gfiFeatures
  * @property {Object} highlightVectorRulesPolygon default style for highlighting polygons
  * @property {Object} highlightVectorRulesPointLine default style for highlighting lines and points
  */
@@ -32,7 +32,6 @@ const state = {
     icon: "bi-list",
     maxFeatures: 20,
     // featureLister state
-    layerlist: [],
     layer: null,
     layerListView: true,
     gfiFeaturesOfLayer: [],
@@ -42,7 +41,7 @@ const state = {
     nestedFeatures: false,
     featureDetailView: false,
     headers: [],
-    selectedFeatureIndex: null,
+    selectedRow: null,
     highlightVectorRulesPolygon: {
         "fill": {
             "color": [255, 0, 255, 0.9]

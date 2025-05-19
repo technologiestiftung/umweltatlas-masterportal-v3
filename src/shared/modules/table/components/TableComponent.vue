@@ -151,9 +151,14 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        runSelectOnHover: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
-    emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem"],
+    emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem", "rowOnHover"],
     data () {
         return {
             currentSorting: {
@@ -195,6 +200,10 @@ export default {
 
             table.items = table.items.map(item => {
                 const newItem = {};
+
+                if (item.id) {
+                    newItem.id = item.id;
+                }
 
                 this.visibleHeaders.forEach(header => {
                     newItem[header.name] = item[header.name] ?? "";
@@ -705,11 +714,12 @@ export default {
 
             this.$emit("rowSelected", this.selectedRow);
         },
-        selectAndEmitRawRow (row) {
-            if (this.selectMode !== "row") {
+        selectOnHover (row) {
+            if (!this.runSelectOnHover) {
                 return;
             }
-            this.$emit("rowSelected", row);
+            this.selectedRow = this.processedRow(row);
+            this.$emit("rowOnHover", this.selectedRow);
         },
         /**
          * Selects the column.
@@ -1203,6 +1213,8 @@ export default {
                     v-for="(item, idx) in editedTable.items"
                     :key="idx"
                     @click="selectRow(item)"
+                    @mouseenter="selectOnHover(item)"
+                    @focus="selectOnHover(item)"
                 >
                     <td
                         v-if="removable"

@@ -4,22 +4,22 @@ import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js
 export default {
 
     /**
-     * Click event that gets triggered when clicking on a feature in the list view.
+     * Click event that gets triggered when clicking on a row in the list view.
      * @param {Object} param.state the state
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters
      * @param {Object} param.rootGetters the rootGetters
-     * @param {String} featureIndex index of the clicked Feature
+     * @param {String} row information of the selected row
      * @returns {void}
      */
-    clickOnFeature ({state, commit, dispatch, getters, rootGetters}, featureIndex) {
-        if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
-            const feature = getters.selectedFeature(featureIndex),
+    clickOnFeature ({state, commit, dispatch, getters, rootGetters}, row) {
+        if (row) {
+            const feature = getters.selectedFeature(row.id),
                 featureGeometry = feature.getGeometry(),
                 styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
 
-            commit("setSelectedFeatureIndex", featureIndex);
+            commit("setSelectedRow", row);
             dispatch("switchToDetails");
 
             if (styleObj && styleObj.zoomLevel) {
@@ -43,12 +43,12 @@ export default {
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters
-     * @param {String} featureIndex index of the clicked Feature
+     * @param {String} row index of the clicked Feature
      * @returns {void}
      */
-    hoverOverFeature ({state, dispatch, getters}, featureIndex) {
-        if (featureIndex !== "" && featureIndex >= 0 && featureIndex <= state.shownFeatures) {
-            const feature = getters.selectedFeature(featureIndex);
+    hoverOverFeature ({dispatch, getters}, row) {
+        if (row && row.id) {
+            const feature = getters.selectedFeature(row.id);
 
             dispatch("highlightFeature", feature);
         }
@@ -129,7 +129,7 @@ export default {
      * @returns {void}
      */
     switchToDetails ({state, commit}) {
-        if (state.selectedFeatureIndex !== null) {
+        if (state.selectedRow !== null) {
             commit("setLayerListView", false);
             commit("setFeatureListView", false);
             commit("setFeatureDetailView", true);
@@ -141,7 +141,8 @@ export default {
      * @param {Object} param.dispatch the dispatch
      * @returns {void}
      */
-    switchToThemes ({commit}) {
+    switchToThemes ({commit, dispatch}) {
+        dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         commit("resetToThemeChooser");
     },
     /**
