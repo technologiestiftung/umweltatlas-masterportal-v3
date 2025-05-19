@@ -3,9 +3,7 @@ import {expect} from "chai";
 import actionsDirections from "../../../../store/directions/actionsDirections";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
-import Polygon from "ol/geom/Polygon";
-// eslint-disable-next-line no-duplicate-imports
-import {fromCircle} from "ol/geom/Polygon";
+import Polygon, {fromCircle} from "ol/geom/Polygon";
 import Point from "ol/geom/Point";
 import Circle from "ol/geom/Circle";
 import VectorSource from "ol/source/Vector";
