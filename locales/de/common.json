@@ -1015,6 +1015,8 @@
         "structure": "Polygon, Multipolygon",
         "filenamePlaceholder": "Bitte Dateinamen angeben",
         "format": "Format",
+        "uploadSuccessTitle": "Die Sperrflächen wurden erfolgreich hochgeladen.",
+        "uploadSuccess": "Die hochgeladenen Sperrflächen stehen Ihnen nun zur Verfügung.",
         "error": {
           "header": "Fehler beim Import der Sperrflächen",
           "noAvoidArea": "Keine Sperrflächen / Sperrpunkte vorhanden.",

@@ -955,8 +955,8 @@
         "restrictedAreas": "Barrier areas",
         "GREEN": "Green",
         "avoidAreas": {
-          "avoidArea": "Avoid area",
-          "avoidPoint": "Avoid point",
+          "avoidArea": "Barrier Area",
+          "avoidPoint": "Barrier Point",
           "delete": "Delete",
           "export": "Export",
           "import": "Import"
@@ -993,37 +993,39 @@
         "noRouteFound": "No Route found"
       },
       "exportAvoidAreas": {
-        "header": "Export of avoid areas",
+        "header": "Export barrier areas",
         "type": "File type",
-        "tooltip": "Export avoid areas",
+        "tooltip": "Export barrier areas",
         "download": "Download",
         "filename": "Filename",
         "filenamePlaceholder": "Please enter filename",
         "format": "Format",
         "error": {
-          "header": "Failed to export avoid areas",
-          "noAvoidArea": "No avoid areas / avoid points available."
+          "header": "Failed to export barrier areas",
+          "noAvoidArea": "No barrier areas / barrier points available."
         }
       },
       "importAvoidAreas": {
-        "header": "Import avoid areas",
+        "header": "Import barrier areas",
         "help": "File type",
-        "tooltip": "Import avoid areas",
-        "description": "Select a GeoJSON or KML file that contains your own avoid areas. The following features are permitted:",
+        "tooltip": "Import barrier areas",
+        "description": "Select a GeoJSON or KML file that contains your own barrier areas. The following features are permitted:",
         "structure": "Polygon, Multipolygon",
         "filenamePlaceholder": "Please enter the file name",
         "format": "Format",
+        "uploadSuccessTitle": "Barrier areas were successfully uploaded.",
+        "uploadSuccess": "The uploaded barrier areas are now available.",
         "error": {
-          "header": "Error while importing avoid areas",
-          "noAvoidArea": "No avoid areas / avoid points available.",
+          "header": "Error while importing barrier areas",
+          "noAvoidArea": "No barrier areas / barrier points available.",
           "formatError": "The file could not be read. Please check whether the file has the format *.kml or *.geojson.",
           "parseError": "Error parsing the {{type}} file.",
           "polygonFormatError": "The file contains invalid geometries. Only Polygon and MultiPolygon are supported.",
-          "polygonEmpty": "One of the imported avoid areas does not contain any coordinates..",
-          "polygonNotClosed": "An imported avoid area is not closed. The first and last coordinates of each avoid area must be identical.",
-          "polygonNotEnoughPoints": "Avoid areas must consist of at least 3 points.",
-          "tooManyFeatures": "Too many avoid areas. A maximum of {{maxFeatures}} avoid areas are allowed.",
-          "areaTooBig": "One of the imported avoid areas is too large: {{area}} km². A maximum of {{maxArea}} km² is permitted per avoid area.",
+          "polygonEmpty": "One of the imported barrier areas does not contain any coordinates..",
+          "polygonNotClosed": "An imported barrier area is not closed. The first and last coordinates of each barrier area must be identical.",
+          "polygonNotEnoughPoints": "Barrier areas must consist of at least 3 points.",
+          "tooManyFeatures": "Too many barrier areas. A maximum of {{maxFeatures}} barrier areas are allowed.",
+          "areaTooBig": "One of the imported barrier areas is too large: {{area}} km². A maximum of {{maxArea}} km² is permitted per barrier area.",
           "sideTooLong": "A side length of the polygon exceeds the maximum permitted length of {{maxSideLength}} km. Side length: {{distance}} km."
         }
       },
