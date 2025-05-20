@@ -52,7 +52,7 @@ export default {
         return {
             constants,
             constantsRouting,
-            preferencesFromConfig: null,
+            defaultPreference: null,
             avoidRadius: 0,
             defaultAvoidRadius: 0,
             maxAvoidRadius: 12,
@@ -118,7 +118,7 @@ export default {
     },
     async created () {
         this.initDirections();
-        this.preferencesFromConfig = this.directionsSettings?.customPreferences;
+        this.defaultPreference = this.directionsSettings?.preference;
     },
     beforeUnmount () {
         this.closeDirections();
@@ -246,6 +246,9 @@ export default {
                 this.routingRestrictionsInputData.hazmat = false;
             }
             this.avoidRadius = this.defaultAvoidRadius;
+
+            this.routingAvoidFeaturesOptions.length = 0;
+            this.settings.preference = this.defaultPreference;
         },
         /**
          * Adds a new option to avoid when requesting directions afterwards
@@ -597,7 +600,7 @@ export default {
             @change="changePreference($event.target.value)"
         >
             <option
-                v-for="option in preferencesFromConfig?.hasOwnProperty(settings.speedProfile) ? preferencesFromConfig[settings.speedProfile] : constants.preferenceOptions"
+                v-for="option in constants.preferenceOptions"
                 :id="option"
                 :key="'routing-directions-preference-' + option"
                 :value="option"
