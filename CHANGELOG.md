@@ -28,6 +28,32 @@
 
 ---
 
+## 2025-02-21 v3.3.5 (LTS)
+
+### Fixed
+- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
+- Issue #1331: Show group layers in right order.
+- Issue #1356: ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
+- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
+- Issue #1388: In a menu section are several modules of same type allowed.
+- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
+- LayerInformation: Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
+- ShareView: 
+    - Url parameter are uri encoded now.
+    - Duplicated url params are filtered.
+- WMS-Time: 
+    - GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
+    - Updated to ensure WMS-Time Layer compatibility with version 1.3.0.
+    - Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one.
+- Menu: Navigating back from layerinformation to the previous menu item add subject.
+- Loading the layer is accelerated by fixing generation of folder ids.
+- LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the `layerSequence` prop.
+- extendLayers: Adjusted initial z-index values to ensure correct layer order on map load.
+- UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
+- Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
+
+---
+
 ## 2025-05-15 v3.10.1
 
 ### Fixed
@@ -203,6 +229,24 @@
 
 ---
 
+## 2025-02-21 v3.3.4 (LTS)
+
+### Fixed
+- Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1250: Loading the layer is accelerated.
+- Issue #1301: CustomMenuElement now also works in secondaryMenu.
+- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
+- Issue #1309: fixed translation of periodicity.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue #1320: Fixed long url when sharing a view with open search bar.
+- Issue #1340: fixed duplicate menu entries in the mobile version.
+- LayerInformation: Added LayerInfo for each layer within a GROUP layer.
+- Login-Module: Fix interceptor for login-secured services.
+- Addons: Added missing import on loading javascript addons.
+- SensorThings-Layer: problem with not visible features after move of map was solved.
+
+---
+
 ## 2025-02-05 v3.7.0
 
 ### Added
@@ -284,6 +328,19 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Portal Master: Fixed error in console by updating layer id.
 
 ---
+
+## 2024-12-12 v3.3.3 (LTS)
+
+### Fixed
+- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Searchbar: the search in search results shows results and no error occurs.
+- wfst: layers that are not in services.json are supported.
+
+---
+
 
 ## 2024-12-05 v3.5.1
 
