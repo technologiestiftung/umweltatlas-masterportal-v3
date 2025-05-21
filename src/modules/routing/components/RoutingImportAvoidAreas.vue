@@ -129,7 +129,7 @@ export default {
                     this.validateAndExtractPolygons(features);
                 }
                 this.addSingleAlert({
-                    category: "info",
+                    category: "success",
                     content: this.$t("common:modules.routing.importAvoidAreas.uploadSuccess"),
                     title: this.$t("common:modules.routing.importAvoidAreas.uploadSuccessTitle")
                 });
