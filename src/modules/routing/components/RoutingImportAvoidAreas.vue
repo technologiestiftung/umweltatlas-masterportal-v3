@@ -83,6 +83,7 @@ export default {
         onInputChange (e) {
             if (e.target.files) {
                 this.addFiles(e.target.files);
+                e.target.value = null;
             }
         },
         /**
