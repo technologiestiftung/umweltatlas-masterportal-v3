@@ -461,7 +461,7 @@ export default {
                         <!-- delete avoid area -->
                         <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
                             <IconButton
-                                id="deletAvoidAreaBtn"
+                                id="deleteAvoidAreaBtn"
                                 class="mx-2"
                                 :aria="$t('common:modules.routing.directions.deleteRestrictedAreas')"
                                 :icon="'bi-x-square fs-7'"
@@ -470,8 +470,8 @@ export default {
                                 @keydown.enter="changeMapInteractionModeAvoidAreasDelete()"
                             />
                             <label
-                                id="deletAvoidArea"
-                                for="deletAvoidAreaBtn"
+                                id="deleteAvoidArea"
+                                for="deleteAvoidAreaBtn"
                                 class="btn-description"
                             >{{ $t('common:modules.routing.directions.avoidAreas.delete') }}
                             </label>
