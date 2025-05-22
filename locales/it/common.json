@@ -969,6 +969,7 @@
         "selectByCircle": "Alza cerchio",
         "selectByPolygon": "Disegna area",
         "selectBySquare": "Alza rettangolo",
+        "selectByLine": "Disegna linea",
         "tooltipMessage": "Clicca per avviare e arrestare",
         "tooltipMessagePolygon": "Clicca per aggiungere un punto"
       },

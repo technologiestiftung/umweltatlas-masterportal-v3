@@ -983,6 +983,7 @@
         "selectByCircle": "Kreis optrecken",
         "selectByPolygon": "Fläche teken",
         "selectBySquare": "Rechteck optrecken",
+        "selectByLine": "Linie teken",
         "tooltipMessage": "Klicken zum Starten und Beenden",
         "tooltipMessagePolygon": "Klicken um Stützpunkt hinzuzufügen"
       },

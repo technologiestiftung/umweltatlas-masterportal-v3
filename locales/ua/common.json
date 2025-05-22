@@ -968,6 +968,7 @@
         "selectByCircle": "Намалюйте коло",
         "selectByPolygon": "Намалюйте поверхню",
         "selectBySquare": "Намалюйте прямокутник",
+        "selectByLine": "Намалюйте лінію",
         "tooltipMessage": "Клацніть мишею, щоб почати і вийти",
         "tooltipMessagePolygon": "Клацніть мишею, щоб додати точку"
       },

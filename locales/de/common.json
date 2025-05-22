@@ -1590,6 +1590,7 @@
         "selectByCircle": "Kreis aufziehen",
         "selectByPolygon": "Fläche zeichnen",
         "selectBySquare": "Rechteck aufziehen",
+        "selectByLine": "Linie zeichnen",
         "tooltipMessage": "Klicken zum Starten und Beenden",
         "tooltipMessagePolygon": "Klicken um Stützpunkt hinzuzufügen"
       },

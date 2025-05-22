@@ -967,6 +967,7 @@
         "selectByCircle": "Нарисуйте круг",
         "selectByPolygon": "Нарисуйте площадь",
         "selectBySquare": "Нарисуйте прямоугольник",
+        "selectByLine": "Нарисуйте линию",
         "tooltipMessage": "Нажмите для запуска и остановки",
         "tooltipMessagePolygon": "Нажмите, чтобы добавить основание"
       },

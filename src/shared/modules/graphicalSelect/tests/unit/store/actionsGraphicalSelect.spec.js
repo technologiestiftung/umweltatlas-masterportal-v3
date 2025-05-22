@@ -22,7 +22,7 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
 
     beforeEach(() => {
         commit = sinon.spy();
-        dispatch = sinon.spy();
+        dispatch = sinon.stub();
     });
 
     afterEach(sinon.restore);
@@ -38,14 +38,102 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
                 type: "Polygon",
                 geometryFunction: undefined
             }),
-            payload = {layer: layer, interaction: interaction};
+            payload = {layer: layer, interaction: interaction, vm: {selectedOptionData: "Polygon"}};
 
         await actions.updateDrawInteractionListener({dispatch, commit}, payload);
 
         expect(payload.interaction.listeners_.drawstart).to.have.length(1);
         expect(payload.interaction.listeners_.drawend).to.have.length(1);
-
     });
+
+    it("updateDrawInteractionListener should handle Line type differently", async () => {
+        const layer = new VectorLayer({
+                name: "Geometry-Selection",
+                source: new VectorSource(),
+                alwaysOnTop: true
+            }),
+            interaction = new Draw({
+                source: "",
+                type: "LineString",
+                geometryFunction: undefined
+            }),
+            vm = {
+                selectedOptionData: "Line",
+                $parent: {
+                    $emit: sinon.spy()
+                }
+            },
+            payload = {layer: layer, interaction: interaction, vm: vm};
+
+        // Mock dispatch als stub, um resolves zu unterstützen
+        dispatch.withArgs("featureToGeoJson", sinon.match.any).resolves({
+            type: "LineString",
+            coordinates: [[0, 0], [10, 10]]
+        });
+
+        await actions.updateDrawInteractionListener({dispatch, commit}, payload);
+
+        // Simuliere das drawend-Event
+        if (payload.interaction.listeners_.drawend) {
+            const drawEndListener = payload.interaction.listeners_.drawend[0],
+                mockFeature = new Feature({
+                    geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 0]]])
+                });
+
+            await drawEndListener({feature: mockFeature});
+        }
+
+        // Prüfe, ob commit aufgerufen wurde
+        expect(commit.calledWith("setSelectedAreaGeoJson", sinon.match.object)).to.be.true;
+
+        // Prüfe, ob bei Line-Typ kein Event ausgelöst wird (da dies in der Komponente passiert)
+        expect(vm.$parent.$emit.called).to.be.false;
+    });
+
+    it("updateDrawInteractionListener should emit event for non-Line types", async () => {
+        const layer = new VectorLayer({
+                name: "Geometry-Selection",
+                source: new VectorSource(),
+                alwaysOnTop: true
+            }),
+            interaction = new Draw({
+                source: "",
+                type: "Polygon",
+                geometryFunction: undefined
+            }),
+            vm = {
+                selectedOptionData: "Polygon",
+                $parent: {
+                    $emit: sinon.spy()
+                }
+            },
+            payload = {layer: layer, interaction: interaction, vm: vm};
+
+        // Mock dispatch als stub, um resolves zu unterstützen
+        dispatch.withArgs("featureToGeoJson", sinon.match.any).resolves({
+            type: "Polygon",
+            coordinates: [[[0, 0], [10, 0], [10, 10], [0, 0]]]
+        });
+
+        await actions.updateDrawInteractionListener({dispatch, commit}, payload);
+
+        // Simuliere das drawend-Event
+        if (payload.interaction.listeners_.drawend) {
+            const drawEndListener = payload.interaction.listeners_.drawend[0],
+                mockFeature = new Feature({
+                    geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 0]]])
+                });
+
+            await drawEndListener({feature: mockFeature});
+        }
+
+        // Prüfe, ob commit aufgerufen wurde
+        expect(commit.calledWith("setSelectedAreaGeoJson", sinon.match.object)).to.be.true;
+
+        // Prüfe, ob bei Nicht-Line-Typen das Event ausgelöst wird
+        expect(vm.$parent.$emit.calledWith("onDrawEnd", sinon.match.object)).to.be.true;
+    });
+
     it("featureToGeoJson accepts ol feature and returns it as GeoJSON", async () => {
         const polygon = new Polygon([[
                 [11.549606597773037, 48.17285700012215],
@@ -61,6 +149,7 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             type: "Polygon",
             coordinates: [[[11.549606597773037, 48.17285700012215], [11.600757126507961, 48.179280978813836], [11.57613610823175, 48.148267667042006], [11.549606597773037, 48.17285700012215]]]});
     });
+
     it("showTooltipOverlay sets tooltipOverlay text for polygon", async () => {
         const state = {
                 tooltipOverlay: new Overlay({
@@ -79,8 +168,8 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
         await actions.showTooltipOverlay({state, rootState});
 
         expect(definitionsGraphicalSelect.tooltipOverlay.element.innerHTML).to.eql(state.tooltipMessagePolygon);
-
     });
+
     it("showTooltipOverlay sets tooltipOverlay position coordinates", async () => {
         const state = {
                 tooltipOverlay: new Overlay({
@@ -99,8 +188,8 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
         await actions.showTooltipOverlay({state, rootState});
 
         expect(definitionsGraphicalSelect.tooltipOverlay.getPosition()).to.eql(rootState.Maps.mouseCoordinate);
-
     });
+
     it("createDomOverlay creates div with id", () => {
         const payload = {
             id: "1",
@@ -112,6 +201,5 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
         actions.createDomOverlay(context, payload);
         expect(payload.overlay.element.tagName).to.eql("DIV");
         expect(payload.overlay.element.id).to.eql("1");
-
     });
 });

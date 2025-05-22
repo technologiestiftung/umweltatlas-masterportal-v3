@@ -23,10 +23,14 @@ const actions = {
         payload.interaction.on("drawend", async function (evt) {
             const geoJson = await dispatch("featureToGeoJson", evt.feature);
 
-            commit("setSelectedAreaGeoJson", geoJson);
-            payload.vm.$parent.$emit("onDrawEnd", geoJson);
+            if (payload.vm.selectedOptionData === "Line") {
+                commit("setSelectedAreaGeoJson", geoJson);
+            }
+            else {
+                commit("setSelectedAreaGeoJson", geoJson);
+                payload.vm.$parent.$emit("onDrawEnd", geoJson);
+            }
         });
-
     },
     /**
     * Converts a feature to a geojson.

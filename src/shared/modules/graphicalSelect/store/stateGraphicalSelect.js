@@ -9,12 +9,13 @@
      * @property {String} snippetType="graphicalSelect" type of the dropdown values
      * @property {Object} drawInteraction=undefined the interaction to draw a square, circle or polygon
      * @property {Object} selectionElements=["Dropdown"] available gui selection elements
-     * @property {Object} geographicValues={"Rechteck aufziehen": "Box", "Kreis aufziehen": "Circle", "Fläche zeichnen": "Polygon"} possible values
-     * @property {String} currentValue="" contains the current geographic value for "Box",  "Circle" or "Polygon"
+     * @property {Object} geographicValues={"Rechteck aufziehen": "Box", "Kreis aufziehen": "Circle", "Fläche zeichnen": "Polygon", "Linie zeichnen": "Line"} possible values
+     * @property {String} currentValue="" contains the current geographic value for "Box",  "Circle", "Polygon" or "Line"
      * @property {String} tooltipMessage="Klicken zum Starten und Beenden" Meassage for tooltip
      * @property {String} tooltipMessagePolygon="Klicken um Stützpunkt hinzuzufügen" Message for tooltip
      * @property {ol.geojson} selectedAreaGeoJson={} the selected area as GeoJSON
      * @property {String} defaultSelection="" initiliazed value of the dropdown selection
+     * @property {Number} bufferDistance=100 distance in meters for buffer around line
      */
 const state = {
     active: false,
@@ -23,12 +24,13 @@ const state = {
     displayName: "common:shared.modules.graphicalSelect.displayName",
     snippetType: "graphicalSelect",
     selectionElements: ["Dropdown"],
-    geographicValues: ["Box", "Circle", "Polygon"],
+    geographicValues: ["Box", "Circle", "Polygon", "Line"],
     currentValue: "",
     tooltipMessage: "common:shared.modules.graphicalSelect.tooltipMessage",
     tooltipMessagePolygon: "common:shared.modules.graphicalSelect.tooltipMessagePolygon",
     selectedAreaGeoJson: undefined,
-    defaultSelection: ""
+    defaultSelection: "",
+    bufferDistance: 100
 };
 
 export default state;

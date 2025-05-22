@@ -4,8 +4,12 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import {Circle} from "ol/geom.js";
+import {Circle, Polygon} from "ol/geom.js";
 import Feature from "ol/Feature.js";
+import GeoJSON from "ol/format/GeoJSON.js";
+import GeoJSONReader from "jsts/org/locationtech/jts/io/GeoJSONReader.js";
+import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
+import GeoJSONWriter from "jsts/org/locationtech/jts/io/GeoJSONWriter.js";
 
 export default {
     name: "GraphicalSelect",
@@ -53,6 +57,12 @@ export default {
             type: Object,
             required: false,
             default: undefined
+        },
+        // Buffer distance for line geometries in meters
+        bufferDistance: {
+            type: Number,
+            required: false,
+            default: 100
         }
     },
     data () {
@@ -60,7 +70,10 @@ export default {
             selectedOptionData: this.selectedOption,
             circleOverlay: definitionsGraphicalSelect.circleOverlay,
             tooltipOverlay: definitionsGraphicalSelect.tooltipOverlay,
-            drawInteraction: definitionsGraphicalSelect.drawInteraction
+            drawInteraction: definitionsGraphicalSelect.drawInteraction,
+            bufferDistanceData: this.bufferDistance,
+            lineDrawn: false,
+            currentLineGeometry: null
         };
     },
     computed: {
@@ -74,7 +87,8 @@ export default {
             return this.options ? this.options : {
                 "Box": this.$t("common:shared.modules.graphicalSelect.selectBySquare"),
                 "Circle": this.$t("common:shared.modules.graphicalSelect.selectByCircle"),
-                "Polygon": this.$t("common:shared.modules.graphicalSelect.selectByPolygon")
+                "Polygon": this.$t("common:shared.modules.graphicalSelect.selectByPolygon"),
+                "Line": this.$t("common:shared.modules.graphicalSelect.selectByLine")
             };
         }
     },
@@ -101,7 +115,9 @@ export default {
         ...mapMutations("Modules/GraphicalSelect", [
             "setDefaultSelection",
             "setActive",
-            "setCurrentValue"
+            "setCurrentValue",
+            "setBufferDistance",
+            "setSelectedAreaGeoJson"
         ]),
         ...mapActions("Modules/GraphicalSelect", [
             "createDomOverlay",
@@ -250,13 +266,142 @@ export default {
         },
 
         /**
-         * Create the draw interaction Box |Circle |Polygon
+         * Handles the line drawing end event and creates a buffer around the line
+         * @param {Object} evt - Draw end event
+         * @returns {void}
+         */
+        handleLineDrawEnd: function (evt) {
+            const feature = evt.feature,
+                geometry = feature.getGeometry();
+
+            if (!geometry) {
+                return;
+            }
+
+            this.currentLineGeometry = geometry.clone();
+            this.lineDrawn = true;
+            this.createBufferFromLine(geometry);
+        },
+
+        /**
+         * Creates a buffer around a line geometry
+         * @param {ol.geom.Geometry} geometry - The line geometry to buffer
+         * @param {Boolean} triggerEvent - Whether to trigger the onDrawEnd event
+         * @returns {void}
+         */
+        createBufferFromLine: function (geometry, triggerEvent = true) {
+            try {
+                const geojsonFormat = new GeoJSON(),
+                    geojson = geojsonFormat.writeGeometry(geometry),
+                    reader = new GeoJSONReader(),
+                    jstsGeom = reader.read(geojson),
+                    buffered = BufferOp.bufferOp(jstsGeom, this.bufferDistanceData),
+                    writer = new GeoJSONWriter(),
+                    bufferedGeojson = writer.write(buffered);
+
+                let coordinates;
+
+                if (bufferedGeojson.type === "MultiPolygon") {
+                    const outerRing = bufferedGeojson.coordinates[0][0],
+                        innerRings = [];
+
+                    bufferedGeojson.coordinates.forEach((poly, index) => {
+                        if (index === 0) {
+                            innerRings.push(...poly.slice(1));
+                        }
+                        else {
+                            innerRings.push(...poly);
+                        }
+                    });
+                    coordinates = [outerRing, ...innerRings];
+                }
+                else if (bufferedGeojson.type === "Polygon") {
+                    coordinates = bufferedGeojson.coordinates;
+                }
+                else {
+                    throw new Error(`Unexpected geometry type: ${bufferedGeojson.type}`);
+                }
+
+                if (coordinates) {
+                    const polygonFeature = new Feature({
+                            geometry: new Polygon(coordinates)
+                        }),
+                        polygonGeoJson = {
+                            type: "Polygon",
+                            coordinates: coordinates
+                        };
+
+                    this.layer.getSource().clear();
+                    this.layer.getSource().addFeature(polygonFeature);
+                    this.setSelectedAreaGeoJson(polygonGeoJson);
+
+                    if (triggerEvent) {
+                        this.$parent.$emit("onDrawEnd", polygonGeoJson);
+                    }
+                }
+            }
+            catch (error) {
+                console.error("Error creating buffer:", error);
+            }
+        },
+
+        /**
+         * Updates the buffer when the buffer distance changes (during slider movement)
+         * @param {Event} event - Input event with new buffer distance
+         * @returns {void}
+         */
+        updateBufferDistance: function (event) {
+            const newValue = Number(event.target.value);
+
+            if (isNaN(newValue) || newValue < 1) {
+                return;
+            }
+            this.bufferDistanceData = newValue;
+            this.setBufferDistance(newValue);
+
+            if (this.lineDrawn && this.currentLineGeometry) {
+                this.createBufferFromLine(this.currentLineGeometry, false);
+            }
+        },
+        /**
+         * Finalizes the buffer when the slider is released
+         * @returns {void}
+         */
+        finalizeBufferDistance: function () {
+            if (this.lineDrawn && this.currentLineGeometry) {
+                this.createBufferFromLine(this.currentLineGeometry, true);
+            }
+        },
+
+        /**
+         * Applies the current buffer distance to the line
+         * @returns {void}
+         */
+        applyLineBuffer: function () {
+            if (this.lineDrawn && this.currentLineGeometry) {
+                this.createBufferFromLine(this.currentLineGeometry, true);
+            }
+        },
+
+        /**
+         * Reset the state when switching to a different drawing type
+         * @returns {void}
+         */
+        resetLineState: function () {
+            this.lineDrawn = false;
+            this.currentLineGeometry = null;
+        },
+
+        /**
+         * Create the draw interaction Box|Circle|Polygon|Line
          * @todo Replace if removeOverlay and pointermove is available in vue
          * @returns {void}
          */
         createDrawInteraction: function () {
             const geometryFunction = createBox(),
                 drawtype = this.selectedOptionData;
+
+            this.resetLineState();
 
             if (this.layer && !this.startGeometry) {
                 this.resetView(this.layer);
@@ -294,14 +439,18 @@ export default {
             // createBox() and type: 'Circle' return a box instead of a circle geometry
             this.draw = new Draw({
                 source: this.layer.getSource(),
-                type: drawtype === "Box" ? "Circle" : drawtype,
-                geometryFunction: drawtype === "Polygon" ? undefined : (coordinates, opt_geom) => {
+                type: this.getDrawType(drawtype),
+                geometryFunction: drawtype === "Polygon" || drawtype === "Line" ? undefined : (coordinates, opt_geom) => {
                     if (drawtype === "Box") {
                         return geometryFunction(coordinates, opt_geom);
                     }
                     return this.snapRadiusToInterval(coordinates, opt_geom);
                 }
             });
+
+            if (drawtype === "Line") {
+                this.draw.on("drawend", this.handleLineDrawEnd);
+            }
 
             this.addInteraction(this.draw);
             this.setCurrentValue(drawtype);
@@ -312,6 +461,21 @@ export default {
             if (!mapCollection.getMap("2D").getLayers().getArray().find(l => l.get("id") === this.layer.get("id"))) {
                 this.addLayer(this.layer);
             }
+        },
+
+        /**
+         * Determines the draw type for OpenLayers based on the selected option
+         * @param {String} drawtype - The selected draw type
+         * @returns {String} The OpenLayers draw type
+         */
+        getDrawType: function (drawtype) {
+            if (drawtype === "Box") {
+                return "Circle";
+            }
+            else if (drawtype === "Line") {
+                return "LineString";
+            }
+            return drawtype;
         }
     }
 };
@@ -344,6 +508,34 @@ export default {
         <label for="graphicalSelect">
             {{ $t(label) }}
         </label>
+    </div>
+    <!-- Buffer distance control - only visible when Line is selected and drawn -->
+    <div v-if="selectedOptionData === 'Line' && lineDrawn" class="mb-3">
+        <label for="buffer-distance" class="form-label">Buffer-Distanz (Meter):</label>
+        <div class="d-flex align-items-center">
+            <input
+                type="range"
+                class="form-range me-2"
+                id="buffer-distance"
+                min="1"
+                max="1000"
+                step="1"
+                :value="bufferDistanceData"
+                @input="updateBufferDistance"
+                @change="finalizeBufferDistance"
+                style="flex-grow: 1;"
+            />
+            <input
+                type="number"
+                class="form-control"
+                min="1"
+                max="1000"
+                :value="bufferDistanceData"
+                @input="updateBufferDistance"
+                @change="finalizeBufferDistance"
+                style="width: 80px;"
+            />
+        </div>
     </div>
 </template>
 

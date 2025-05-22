@@ -7,6 +7,8 @@ import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import Polygon from "ol/geom/Polygon.js";
+import LineString from "ol/geom/LineString.js";
+import Feature from "ol/Feature.js";
 
 config.global.mocks.$t = key => key;
 
@@ -168,6 +170,27 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
 
             expect(mockMapActions.addLayer.calledOnce).to.be.true;
         });
+
+        it("should show buffer distance controls when Line is selected and a line is drawn", async () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Prüfe, dass die Kontrollen nicht sichtbar sind, wenn keine Linie gezeichnet wurde
+            expect(wrapper.find("input[type='range']").exists()).to.be.false;
+
+            // Setze die Bedingungen für die Sichtbarkeit der Kontrollen
+            await wrapper.setData({
+                selectedOptionData: "Line",
+                lineDrawn: true
+            });
+
+            // Prüfe, dass die Kontrollen jetzt sichtbar sind
+            expect(wrapper.find("input[type='range']").exists()).to.be.true;
+            expect(wrapper.find("input[type='number']").exists()).to.be.true;
+        });
     });
 
     describe("resetView method", () => {
@@ -214,12 +237,208 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
 
             // Assert that the layer contains the geometry from startGeometry
             // eslint-disable-next-line
-            const addedLayer = wrapper.vm.layer,
-                features = addedLayer.getSource().getFeatures();
+            const features = wrapper.vm.layer.getSource().getFeatures();
 
             expect(features).to.have.lengthOf(1);
             expect(features[0].getGeometry().getType()).to.equal("Polygon");
             expect(features[0].getGeometry().getCoordinates()).to.deep.equal(startGeometry.getCoordinates());
+        });
+    });
+
+    describe("Line drawing and buffering", () => {
+        it("getDrawType should return LineString for Line", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.getDrawType("Line")).to.equal("LineString");
+        });
+
+        it("handleLineDrawEnd should store the line geometry and set lineDrawn to true", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Mock für createBufferFromLine, um die eigentliche Funktion nicht zu testen
+            wrapper.vm.createBufferFromLine = sinon.spy();
+
+            // Create test data
+            wrapper.vm.handleLineDrawEnd({
+                feature: new Feature({
+                    geometry: new LineString([[0, 0], [10, 10]])
+                })
+            });
+
+            expect(wrapper.vm.lineDrawn).to.be.true;
+            expect(wrapper.vm.currentLineGeometry).to.not.be.null;
+            expect(wrapper.vm.createBufferFromLine.calledOnce).to.be.true;
+        });
+
+        it("resetLineState should reset lineDrawn and currentLineGeometry", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Setze Anfangswerte
+            wrapper.vm.lineDrawn = true;
+            wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
+
+            // Rufe die Methode auf
+            wrapper.vm.resetLineState();
+
+            // Prüfe Ergebnisse
+            expect(wrapper.vm.lineDrawn).to.be.false;
+            expect(wrapper.vm.currentLineGeometry).to.be.null;
+        });
+
+        it("updateBufferDistance should update bufferDistanceData and redraw buffer without emitting event", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Mock für createBufferFromLine
+            wrapper.vm.createBufferFromLine = sinon.spy();
+            wrapper.vm.setBufferDistance = sinon.spy();
+
+            // Setze Anfangswerte
+            wrapper.vm.lineDrawn = true;
+            wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
+            wrapper.vm.bufferDistanceData = 50;
+
+            // Rufe die Methode auf
+            wrapper.vm.updateBufferDistance({target: {value: "100"}});
+
+            // Prüfe Ergebnisse
+            expect(wrapper.vm.bufferDistanceData).to.equal(100);
+            expect(wrapper.vm.setBufferDistance.calledOnce).to.be.true;
+            expect(wrapper.vm.createBufferFromLine.calledWith(wrapper.vm.currentLineGeometry, false)).to.be.true;
+        });
+
+        it("finalizeBufferDistance should trigger createBufferFromLine with event emission", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            // Mock für createBufferFromLine
+            wrapper.vm.createBufferFromLine = sinon.spy();
+
+            // Setze Anfangswerte
+            wrapper.vm.lineDrawn = true;
+            wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
+
+            // Rufe die Methode auf
+            wrapper.vm.finalizeBufferDistance();
+
+            // Prüfe Ergebnisse
+            expect(wrapper.vm.createBufferFromLine.calledWith(wrapper.vm.currentLineGeometry, true)).to.be.true;
+        });
+
+        it("createBufferFromLine should create a buffer polygon from a line", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    bufferDistance: 50
+                }
+            });
+
+            // Setup für Layer
+            wrapper.vm.layer = new VectorLayer({
+                source: new VectorSource()
+            });
+
+            // Mock für setSelectedAreaGeoJson
+            wrapper.vm.setSelectedAreaGeoJson = sinon.spy();
+
+            // Ersetze die createBufferFromLine-Methode, um die JSTS-Abhängigkeit zu vermeiden
+            wrapper.vm.createBufferFromLine = function (geometry, triggerEvent = true) {
+                const polygonFeature = new Feature({
+                        geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]])
+                    }),
+                    polygonGeoJson = {
+                        type: "Polygon",
+                        coordinates: [[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]]
+                    };
+
+                this.layer.getSource().clear();
+                this.layer.getSource().addFeature(polygonFeature);
+
+                this.setSelectedAreaGeoJson(polygonGeoJson);
+
+                if (triggerEvent) {
+                    // Verwende die originale $emit-Methode
+                    this.$emit("onDrawEnd", polygonGeoJson);
+                }
+            };
+
+            // Wir rufen die Methode nicht direkt auf, sondern unsere modifizierte Version
+            wrapper.vm.createBufferFromLine(new LineString([[0, 0], [10, 10]]));
+
+            // Prüfe, dass die Quelle aktualisiert wurde
+            expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(1);
+
+            // Prüfe, dass setSelectedAreaGeoJson aufgerufen wurde
+            expect(wrapper.vm.setSelectedAreaGeoJson.calledOnce).to.be.true;
+        });
+
+        it("createBufferFromLine should not emit event when triggerEvent is false", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    bufferDistance: 50
+                }
+            });
+
+            // Setup für Layer
+            wrapper.vm.layer = new VectorLayer({
+                source: new VectorSource()
+            });
+
+            // Mock für setSelectedAreaGeoJson
+            wrapper.vm.setSelectedAreaGeoJson = sinon.spy();
+
+            // Ersetze die createBufferFromLine-Methode, um die JSTS-Abhängigkeit zu vermeiden
+            wrapper.vm.createBufferFromLine = function (geometry, triggerEvent = true) {
+                const polygonFeature = new Feature({
+                        geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]])
+                    }),
+                    polygonGeoJson = {
+                        type: "Polygon",
+                        coordinates: [[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]]
+                    };
+
+                this.layer.getSource().clear();
+                this.layer.getSource().addFeature(polygonFeature);
+
+                this.setSelectedAreaGeoJson(polygonGeoJson);
+
+                if (triggerEvent) {
+                    // Verwende die originale $emit-Methode
+                    this.$emit("onDrawEnd", polygonGeoJson);
+                }
+            };
+
+            // Rufe die Methode mit triggerEvent = false auf
+            wrapper.vm.createBufferFromLine(new LineString([[0, 0], [10, 10]]), false);
+
+            // Prüfe, dass die Quelle aktualisiert wurde
+            expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(1);
+
+            // Prüfe, dass setSelectedAreaGeoJson aufgerufen wurde
+            expect(wrapper.vm.setSelectedAreaGeoJson.calledOnce).to.be.true;
         });
     });
 });

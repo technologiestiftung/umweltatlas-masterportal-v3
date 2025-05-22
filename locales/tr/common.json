@@ -964,6 +964,7 @@
         "selectByCircle": "Daire çiz",
         "selectByPolygon": "Alan çiz",
         "selectBySquare": "Dikdörtgen çiz",
+        "selectByLine": "Çizgi çiz",
         "tooltipMessage": "Başlatmak ve çıkmak için tıklayın",
         "tooltipMessagePolygon": "Destek noktası eklemek için tıklayın"
       },

@@ -953,6 +953,7 @@
         "selectByCircle": "Desenhar círculo",
         "selectByPolygon": "Desenhar área",
         "selectBySquare": "Desenhar retângulo",
+        "selectByLine": "Desenhar linha",
         "tooltipMessage": "Clique para iniciar e parar",
         "tooltipMessagePolygon": "Clique para adicionar base"
       },
