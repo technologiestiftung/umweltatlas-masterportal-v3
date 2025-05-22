@@ -6,6 +6,10 @@ import ControlIcon from "../../../components/ControlIcon.vue";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/controls/components/ControlIcon.vue", () => {
     let propsData;
 

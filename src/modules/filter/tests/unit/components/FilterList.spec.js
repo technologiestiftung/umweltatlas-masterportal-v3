@@ -7,6 +7,10 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/filter/components/FilterList.vue", () => {
     let wrapper,
         store;

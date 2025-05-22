@@ -3,6 +3,10 @@ import sinon from "sinon";
 import getters from "../../../store/gettersCoordToolkit";
 import toolKitState from "../../../store/stateCoordToolkit";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/coordToolkit/store/gettersCoordToolkit.js", () => {
     let stateCoord;
 

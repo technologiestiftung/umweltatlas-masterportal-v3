@@ -8,6 +8,10 @@ import stateMap from "../../../store/stateMaps";
 import actions from "../../../store/actionsMapsLayers";
 import sinon from "sinon";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 const {
     addLayer
 } = actions;

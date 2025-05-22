@@ -6,6 +6,10 @@ import packageJson from "../../../../../../package.json";
 
 const {initializeAboutInfo, currentMasterportalVersionNumber} = actions;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/layerInformation/store/actionsAbout.js", () => {
     describe("initialize the store", () => {
         it("should show the about module in menu", done => {

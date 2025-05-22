@@ -6,6 +6,10 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
     let store,
         legendAvailable,

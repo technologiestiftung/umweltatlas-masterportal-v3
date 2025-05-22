@@ -8,6 +8,10 @@ import actions from "../../../store/actionsRouting";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/routing/components/RoutingTemplate.vue", () => {
     let activeRoutingToolOption,
         store,

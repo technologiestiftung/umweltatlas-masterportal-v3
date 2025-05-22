@@ -5,6 +5,10 @@ import makeDraw, {
     createLabelEntity, createLineEntity, onClick, onMouseMove, addFloatingPin
 } from "../../../js/measureDraw3d.js";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("tools/measure/utils/measureDraw3d", () => {
 
     const cartographic = {

@@ -7,6 +7,10 @@ import FreezeScreen from "../../../components/FreezeScreen.vue";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/controls/freeze/components/FreezeScreen.vue", () => {
     let store;
 

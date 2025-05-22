@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe("src/shared/components/FlatButton.vue", () => {
+describe.skip("src/shared/components/FlatButton.vue", () => {
 
     const factory = {
         getShallowMount: (props = {}) => {

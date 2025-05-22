@@ -4,6 +4,10 @@ import DrawItemFeaturesFilter from "../../../components/DrawItemFeaturesFilter.v
 import Feature from "ol/Feature";
 import sinon from "sinon";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/draw/components/DrawItemFeaturesFilter.vue", () => {
     let testFeatures,
         filterListConfig;

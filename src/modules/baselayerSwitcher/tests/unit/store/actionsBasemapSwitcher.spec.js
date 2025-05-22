@@ -3,6 +3,9 @@ import sinon from "sinon";
 import actions from "../../../store/actionsBaselayerSwitcher";
 import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
 
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("baselayerSwitcher/store/actionsBaselayerSwitcher", () => {
 

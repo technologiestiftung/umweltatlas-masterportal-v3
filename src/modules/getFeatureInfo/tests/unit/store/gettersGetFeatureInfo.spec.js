@@ -4,6 +4,10 @@ import View from "ol/View";
 import sinon from "sinon";
 import getters from "../../../store/gettersGetFeatureInfo";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
 
     describe("gfiFeaturesAtPixel", () => {

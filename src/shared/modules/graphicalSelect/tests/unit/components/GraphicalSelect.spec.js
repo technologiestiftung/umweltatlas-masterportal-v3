@@ -10,6 +10,10 @@ import Polygon from "ol/geom/Polygon.js";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 let store, layersOnMap, layer, mockMapGetters, mockMapActions, map;
 
 describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", () => {

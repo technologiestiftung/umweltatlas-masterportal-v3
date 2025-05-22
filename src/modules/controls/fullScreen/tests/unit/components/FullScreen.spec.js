@@ -7,6 +7,10 @@ import FullScreen from "../../../components/FullScreen.vue";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/controls/fullScreen/components/FullScreen.vue", () => {
     let store,
         originalWindow,

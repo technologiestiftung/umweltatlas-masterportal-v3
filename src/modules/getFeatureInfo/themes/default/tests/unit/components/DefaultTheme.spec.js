@@ -6,6 +6,10 @@ import DefaultTheme from "../../../components/DefaultTheme.vue";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/getFeatureInfo/themes/default/components/DefaultTheme.vue", () => {
     let wrapper;
 

@@ -8,6 +8,10 @@ const {
 
 } = actions;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
     let commit,
         dispatch,

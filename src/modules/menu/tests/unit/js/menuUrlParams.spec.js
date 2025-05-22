@@ -3,6 +3,10 @@ import store from "../../../../../app-store";
 import {expect} from "chai";
 import sinon from "sinon";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/menu/js/menuUrlParams.js", () => {
     const dispatchCalls = {};
 

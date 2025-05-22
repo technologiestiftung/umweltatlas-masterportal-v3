@@ -10,6 +10,10 @@ const {
     search
 } = actions;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.js", () => {
     let commit,
         dispatch;

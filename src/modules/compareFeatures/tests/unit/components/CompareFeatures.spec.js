@@ -7,6 +7,10 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("CompareFeatures.vue", () => {
     let store, hasMultipleLayersValue, hasFeaturesValue;
 

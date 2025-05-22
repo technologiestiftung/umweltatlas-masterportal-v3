@@ -3,6 +3,10 @@ import sinon from "sinon";
 import processUrlParams from "../../processUrlParams";
 import store from "../../../../../app-store";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/shared/js/utils/processUrlParams.js", () => {
     let spyMenu;
 

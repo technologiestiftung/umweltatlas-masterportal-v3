@@ -3,6 +3,10 @@ import sinon from "sinon";
 import crs from "@masterportal/masterportalapi/src/crs";
 import transformer from "../../coordToPixel3D";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/shared/js/utils/coordToPixel3D", () => {
     let fromDegrees,
         wgs84ToWindowCoordinates;

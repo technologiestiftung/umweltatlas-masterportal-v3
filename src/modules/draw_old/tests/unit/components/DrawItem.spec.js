@@ -6,6 +6,10 @@ import {expect} from "chai";
 import sinon from "sinon";
 import main from "../../../js/main";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 config.global.mocks.$t = key => key;
 config.global.mocks.$i18n = {
     i18next: {
