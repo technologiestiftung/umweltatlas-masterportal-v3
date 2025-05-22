@@ -510,31 +510,39 @@ export default {
         </label>
     </div>
     <!-- Buffer distance control - only visible when Line is selected and drawn -->
-    <div v-if="selectedOptionData === 'Line' && lineDrawn" class="mb-3">
-        <label for="buffer-distance" class="form-label">Buffer-Distanz (Meter):</label>
+    <div
+        v-if="selectedOptionData === 'Line' && lineDrawn"
+        class="mb-3"
+    >
+        <label
+            for="buffer-distance"
+            class="form-label"
+        >
+            Buffer-Distanz (Meter):
+        </label>
         <div class="d-flex align-items-center">
             <input
+                id="buffer-distance"
                 type="range"
                 class="form-range me-2"
-                id="buffer-distance"
                 min="1"
                 max="1000"
                 step="1"
                 :value="bufferDistanceData"
+                style="flex-grow: 1;"
                 @input="updateBufferDistance"
                 @change="finalizeBufferDistance"
-                style="flex-grow: 1;"
-            />
+            >
             <input
                 type="number"
                 class="form-control"
                 min="1"
                 max="1000"
                 :value="bufferDistanceData"
+                style="width: 80px;"
                 @input="updateBufferDistance"
                 @change="finalizeBufferDistance"
-                style="width: 80px;"
-            />
+            >
         </div>
     </div>
 </template>
