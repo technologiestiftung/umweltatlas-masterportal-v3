@@ -28,6 +28,8 @@
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
 - AddLayerButton: Fixed overlap with underlying layer icons (e.g. info/settings) that blocked user interaction.
+- Proxy: Inconsistencies when using a proxy through the attribute `useProxy` on the layer have been corrected.
+- LayerInformation: For layers that use a proxy, the url from the services.json is displayed.
 
 ---
 

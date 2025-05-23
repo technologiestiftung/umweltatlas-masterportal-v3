@@ -12,9 +12,11 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         downloadLinks,
         pointOfContact,
         publisher,
-        mainMenu;
+        mainMenu,
+        layerConfig;
 
     beforeEach(() => {
+        layerConfig = {};
         downloadLinks = null;
         legendAvailable = true;
         mainMenu = {
@@ -111,7 +113,8 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             },
             getters: {
                 isModuleAvailable: () => () => true,
-                configJs: () => sinon.stub()
+                configJs: () => sinon.stub(),
+                layerConfigById: () => () => layerConfig
             }
         });
 
@@ -367,5 +370,72 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         expect(options[0].text()).to.equal("Layer 1");
         expect(options[1].text()).to.equal("Layer 2");
         expect(options[2].text()).to.equal("Layer 3");
+    });
+
+    describe("methods", () => {
+        it("getGetCapabilitiesUrl test WMS with origUrl", () => {
+            layerConfig.origUrl = "/origUrl";
+            layerConfig.url = "/orig_url";
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                layerInfo = {
+                    id: "id",
+                    url: layerConfig.url,
+                    typ: "WMS"
+                },
+                expectedUrl = new URL(layerConfig.origUrl, location.href);
+            let capabilitiesUrl = null;
+
+            expectedUrl.searchParams.set("SERVICE", layerInfo.typ);
+            expectedUrl.searchParams.set("REQUEST", "GetCapabilities");
+
+            capabilitiesUrl = wrapper.vm.getGetCapabilitiesUrl(layerInfo);
+
+            expect(capabilitiesUrl).to.be.equals(expectedUrl.href);
+        });
+
+        it("getGetCapabilitiesUrl test WMS without origUrl", () => {
+            layerConfig.url = "/url";
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                layerInfo = {
+                    id: "id",
+                    url: layerConfig.url,
+                    typ: "WMS"
+                },
+                expectedUrl = new URL(layerConfig.url, location.href);
+            let capabilitiesUrl = null;
+
+            expectedUrl.searchParams.set("SERVICE", layerInfo.typ);
+            expectedUrl.searchParams.set("REQUEST", "GetCapabilities");
+
+            capabilitiesUrl = wrapper.vm.getGetCapabilitiesUrl(layerInfo);
+
+            expect(capabilitiesUrl).to.be.equals(expectedUrl.href);
+        });
+
+        it("getGetCapabilitiesUrl test OAF without origUrl", () => {
+            layerConfig.url = "/url";
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                layerInfo = {
+                    id: "id",
+                    url: layerConfig.url,
+                    typ: "OAF"
+                },
+                expectedUrl = new URL(layerConfig.url, location.href),
+                capabilitiesUrl = wrapper.vm.getGetCapabilitiesUrl(layerInfo);
+
+            expect(capabilitiesUrl).to.be.equals(expectedUrl.href);
+        });
     });
 });
