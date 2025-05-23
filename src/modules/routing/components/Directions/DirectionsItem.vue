@@ -192,7 +192,7 @@ export default {
             const avoidPointsMode = this.mapInteractionMode === "AVOID_POINTS";
 
             this.setMapInteractionMode(avoidPointsMode ? "WAYPOINTS" : "AVOID_POINTS");
-            this.avoidRadius ? this.avoidRadius : this.settings.avoidRadius;
+            this.avoidRadius = avoidPointsMode ? this.avoidRadius : this.settings.avoidRadius;
             this.createInteractionFromMapInteractionMode();
         },
         /**
