@@ -135,7 +135,8 @@ export default {
         ...mapMutations("Modules/Routing/Directions", [
             "setRoutingDirections",
             "setMapInteractionMode",
-            "setKeepRoutes"
+            "setKeepRoutes",
+            "setRoutingAvoidFeaturesOptions"
         ]),
         ...mapActions("Modules/Routing/Directions", [
             "findDirections",
@@ -235,7 +236,7 @@ export default {
             }
             this.avoidRadius = this.defaultAvoidRadius;
 
-            this.routingAvoidFeaturesOptions.length = 0;
+            this.setRoutingAvoidFeaturesOptions([]);
             this.settings.preference = this.defaultPreference;
         },
         /**
