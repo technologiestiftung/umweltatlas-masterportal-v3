@@ -178,12 +178,9 @@ export default {
          * @returns {void}
          */
         changeMapInteractionModeAvoidAreasEdit () {
-            if (this.mapInteractionMode === "AVOID_AREAS") {
-                this.setMapInteractionMode("WAYPOINTS");
-            }
-            else {
-                this.setMapInteractionMode("AVOID_AREAS");
-            }
+            const avoidAreasMode = this.mapInteractionMode === "AVOID_AREAS";
+
+            this.setMapInteractionMode(avoidAreasMode ? "WAYPOINTS" : "AVOID_AREAS");
             this.createInteractionFromMapInteractionMode();
         },
         /**
@@ -191,13 +188,10 @@ export default {
          * @returns {void}
          */
         changeMapInteractionModeAvoidPointsEdit () {
-            if (this.mapInteractionMode === "AVOID_POINTS") {
-                this.setMapInteractionMode("WAYPOINTS");
-            }
-            else {
-                this.avoidRadius = this.settings.avoidRadius;
-                this.setMapInteractionMode("AVOID_POINTS");
-            }
+            const avoidPointsMode = this.mapInteractionMode === "AVOID_POINTS";
+
+            this.setMapInteractionMode(avoidPointsMode ? "WAYPOINTS" : "AVOID_POINTS");
+            this.avoidRadius ? this.avoidRadius : this.settings.avoidRadius;
             this.createInteractionFromMapInteractionMode();
         },
         /**
@@ -205,12 +199,9 @@ export default {
          * @returns {void}
          */
         changeMapInteractionModeAvoidAreasDelete () {
-            if (this.mapInteractionMode === "DELETE_AVOID_AREAS") {
-                this.setMapInteractionMode("WAYPOINTS");
-            }
-            else {
-                this.setMapInteractionMode("DELETE_AVOID_AREAS");
-            }
+            const avoidAreasMode = this.mapInteractionMode === "DELETE_AVOID_AREAS";
+
+            this.setMapInteractionMode(avoidAreasMode ? "WAYPOINTS" : "DELETE_AVOID_AREAS");
             this.createInteractionFromMapInteractionMode();
         },
         /**
