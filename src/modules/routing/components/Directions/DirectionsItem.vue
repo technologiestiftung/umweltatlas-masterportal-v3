@@ -23,6 +23,7 @@ import {Modal} from "bootstrap";
  * @module modules/routing/components/Directions/DirectionsItem
  * @vue-data {*} constants - The constants direction.
  * @vue-data {*} constantsRouting - The constants routing.
+ * @vue-data {*} defaultpreference - default preference.
  * @vue-data {*} avoidRadius - Radius of avoid points.
  * @vue-data {*} maxAvoidRadius - maximum Radius of avoid points.
  * @vue-data {*} defaultAvoidRadius - default avoid radius from config.
@@ -128,8 +129,7 @@ export default {
         this.appendModalToBody();
         this.setMapInteractionMode("WAYPOINTS");
         this.createInteractionFromMapInteractionMode();
-        this.avoidRadius = this.settings.avoidRadius;
-        this.defaultAvoidRadius = this.settings.avoidRadius;
+        this.avoidRadius = this.defaultAvoidRadius = this.settings.avoidRadius;
     },
     methods: {
         ...mapMutations("Modules/Routing/Directions", [
