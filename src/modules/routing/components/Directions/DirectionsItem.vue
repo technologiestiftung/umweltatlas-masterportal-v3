@@ -292,14 +292,22 @@ export default {
          * @returns {void}
          */
         appendModalToBody () {
-            document.body.appendChild(document.getElementById("uploadModal"));
+            const uploadModal = document.getElementById("uploadModal");
+
+            if (uploadModal) {
+                document.body.appendChild(uploadModal);
+            }
         },
         /**
          * Removes modal from body
          * @returns {void}
          */
         removeModalFromBody () {
-            document.body.removeChild(document.getElementById("uploadModal"));
+            const uploadModal = document.getElementById("uploadModal");
+
+            if (uploadModal) {
+                document.body.removeChild(document.getElementById("uploadModal"));
+            }
         }
     }
 };
