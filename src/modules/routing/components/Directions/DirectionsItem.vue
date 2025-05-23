@@ -116,7 +116,7 @@ export default {
             }
         }
     },
-    async created () {
+    created () {
         this.initDirections();
         this.defaultPreference = this.directionsSettings?.preference;
     },
@@ -180,11 +180,9 @@ export default {
         changeMapInteractionModeAvoidAreasEdit () {
             if (this.mapInteractionMode === "AVOID_AREAS") {
                 this.setMapInteractionMode("WAYPOINTS");
-                this.directionsSettings.isAvoid = false;
             }
             else {
                 this.setMapInteractionMode("AVOID_AREAS");
-                this.directionsSettings.isAvoid = true;
             }
             this.createInteractionFromMapInteractionMode();
         },
@@ -221,7 +219,6 @@ export default {
          */
         resetMapInteractionMode () {
             this.setMapInteractionMode("WAYPOINTS");
-            this.directionsSettings.isAvoid = false;
             this.createInteractionFromMapInteractionMode();
         },
         /**
@@ -279,14 +276,6 @@ export default {
          */
         onBatchProcessingCheckboxInput (input) {
             this.directionsSettings.batchProcessing.active = input;
-        },
-        /**
-         * Remove avoid draw interaction and switch back to waypoints
-         * @returns {void}
-         */
-        removeAvoidInteraction () {
-            this.setMapInteractionMode("WAYPOINTS");
-            this.createInteractionFromMapInteractionMode();
         },
         /**
          * Called after file validation of upload
@@ -370,7 +359,7 @@ export default {
                     @move-waypoint-up="moveWaypointUp(waypoint.index)"
                     @move-waypoint-down="moveWaypointDown(waypoint.index)"
                     @remove-waypoint="removeWaypoint({index: waypoint.index, reload: true})"
-                    @remove-avoid-interaction="removeAvoidInteraction()"
+                    @remove-avoid-interaction="resetMapInteractionMode()"
                     @add-start-end="isStartEndInput(index)"
                     @search-result-selected="isStartEndInput(-1); findDirections()"
                 />
@@ -395,7 +384,7 @@ export default {
                     :waypoint="waypoint"
                     @move-waypoint-up="moveWaypointUp(waypoints.length - 1)"
                     @remove-waypoint="removeWaypoint({index: waypoints.length - 1, reload: true})"
-                    @remove-avoid-interaction="removeAvoidInteraction()"
+                    @remove-avoid-interaction="resetMapInteractionMode()"
                     @add-start-end="isStartEndInput(waypoints.length - 1)"
                     @search-result-selected="isStartEndInput(-1); findDirections()"
                 />
