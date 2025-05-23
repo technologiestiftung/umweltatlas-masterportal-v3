@@ -984,6 +984,7 @@
         "selectByPolygon": "Fläche teken",
         "selectBySquare": "Rechteck optrecken",
         "selectByLine": "Linie teken",
+        "bufferdistance": "Bufferafstand (Meter): ",
         "tooltipMessage": "Klicken zum Starten und Beenden",
         "tooltipMessagePolygon": "Klicken um Stützpunkt hinzuzufügen"
       },

@@ -1591,6 +1591,7 @@
         "selectByPolygon": "Fläche zeichnen",
         "selectBySquare": "Rechteck aufziehen",
         "selectByLine": "Linie zeichnen",
+        "bufferDistance": "Buffer-Distanz (Meter): ",
         "tooltipMessage": "Klicken zum Starten und Beenden",
         "tooltipMessagePolygon": "Klicken um Stützpunkt hinzuzufügen"
       },

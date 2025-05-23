@@ -968,6 +968,7 @@
         "selectByPolygon": "Нарисуйте площадь",
         "selectBySquare": "Нарисуйте прямоугольник",
         "selectByLine": "Нарисуйте линию",
+        "bufferDistance": "Буферное расстояние (метры): ",
         "tooltipMessage": "Нажмите для запуска и остановки",
         "tooltipMessagePolygon": "Нажмите, чтобы добавить основание"
       },

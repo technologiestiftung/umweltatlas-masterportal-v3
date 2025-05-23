@@ -970,6 +970,7 @@
         "selectByPolygon": "Disegna area",
         "selectBySquare": "Alza rettangolo",
         "selectByLine": "Disegna linea",
+        "bufferDistance": "Distanza del buffer (metri): ",
         "tooltipMessage": "Clicca per avviare e arrestare",
         "tooltipMessagePolygon": "Clicca per aggiungere un punto"
       },

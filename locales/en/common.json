@@ -1589,6 +1589,7 @@
         "selectByPolygon": "Draw surface",
         "selectBySquare": "Draw up rectangle",
         "selectByLine": "Draw line",
+        "bufferDistance": "bufferDistance”: “Buffer distance (meters): ",
         "tooltipMessage": "Click to start and exit",
         "tooltipMessagePolygon": "Click to add a point"
       },

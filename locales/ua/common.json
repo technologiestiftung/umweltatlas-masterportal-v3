@@ -969,6 +969,7 @@
         "selectByPolygon": "Намалюйте поверхню",
         "selectBySquare": "Намалюйте прямокутник",
         "selectByLine": "Намалюйте лінію",
+        "bufferDistance": "Відстань буфера (метрів): ",
         "tooltipMessage": "Клацніть мишею, щоб почати і вийти",
         "tooltipMessagePolygon": "Клацніть мишею, щоб додати точку"
       },

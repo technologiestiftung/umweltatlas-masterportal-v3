@@ -954,6 +954,7 @@
         "selectByPolygon": "Desenhar área",
         "selectBySquare": "Desenhar retângulo",
         "selectByLine": "Desenhar linha",
+        "bufferDistance": "Distância tampão (metros): ",
         "tooltipMessage": "Clique para iniciar e parar",
         "tooltipMessagePolygon": "Clique para adicionar base"
       },

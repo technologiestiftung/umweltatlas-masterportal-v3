@@ -965,6 +965,7 @@
         "selectByPolygon": "Alan çiz",
         "selectBySquare": "Dikdörtgen çiz",
         "selectByLine": "Çizgi çiz",
+        "bufferDistance": "Tampon mesafesi (metre): ",
         "tooltipMessage": "Başlatmak ve çıkmak için tıklayın",
         "tooltipMessagePolygon": "Destek noktası eklemek için tıklayın"
       },

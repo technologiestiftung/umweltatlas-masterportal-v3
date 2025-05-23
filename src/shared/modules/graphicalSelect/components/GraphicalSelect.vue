@@ -518,7 +518,7 @@ export default {
             for="buffer-distance"
             class="form-label"
         >
-            Buffer-Distanz (Meter):
+            {{ $t("common:shared.modules.graphicalSelect.bufferDistance") }}
         </label>
         <div class="d-flex align-items-center">
             <input

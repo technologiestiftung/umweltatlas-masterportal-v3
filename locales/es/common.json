@@ -950,6 +950,7 @@
         "selectByPolygon": "Dibujar un área",
         "selectBySquare": "Trazar un rectángulo",
         "selectByLine": "Dibujar una línea",
+        "bufferDistance": "Distancia de amortiguación (metros):",
         "tooltipMessage": "Haga clic para iniciar y terminar",
         "tooltipMessagePolygon": "Haga clic para añadir la base"
       },

@@ -1373,6 +1373,7 @@
           "selectByPolygon": "Teken een vlak",
           "selectBySquare": "Teken een rechthoek",
           "selectByLine": "Teken een lijn",
+          "bufferDistance": "Bufferafstand (meter): ",
           "tooltipMessage": "Klik om te starten en af ​​te sluiten",
           "tooltipMessagePolygon": "Klik om een ​​hoekpunt toe te voegen"
         },
