@@ -74,7 +74,10 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
         isMobile,
         text = "",
         copyStub,
-        validateInputSpy, initHeightLayerSpy, transformCoordinatesFromToSpy, positionClickedSpy;
+        validateInputSpy,
+        initHeightLayerSpy,
+        transformCoordinatesFromToSpy,
+        positionClickedSpy;
 
     beforeEach(() => {
         isMobile = false;
