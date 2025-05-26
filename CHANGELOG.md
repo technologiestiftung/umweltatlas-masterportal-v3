@@ -19,6 +19,7 @@
 ### Removed
 
 ### Fixed
+- WFST-Tool: Fixed Margins in editing of wfs-t fields.
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
 - Issue #1360: Fixed Errorhandling for 2D-layers.
 - Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
