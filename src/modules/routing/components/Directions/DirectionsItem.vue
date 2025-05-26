@@ -95,6 +95,13 @@ export default {
          */
         isMapInteractionModeAvoidAreasDelete () {
             return this.mapInteractionMode === "DELETE_AVOID_AREAS";
+        },
+        /**
+         * Check if radius of barrier point is valid.
+         * @return {Boolean} true if radius is valid.
+         */
+        isRadiusValid () {
+            return this.avoidRadius && this.avoidRadius <= this.maxAvoidRadius && this.avoidRadius >= 0 ? " is-valid" : " is-invalid";
         }
     },
     watch: {
@@ -104,17 +111,7 @@ export default {
          * @returns {void}
          */
         avoidRadius () {
-            if (this.avoidRadius > this.maxAvoidRadius) {
-                this.settings.avoidRadius = this.maxAvoidRadius;
-                this.avoidRadius = this.maxAvoidRadius;
-            }
-            else if (this.avoidRadius < 0) {
-                this.settings.avoidRadius = 0;
-                this.avoidRadius = 0;
-            }
-            else {
-                this.settings.avoidRadius = this.avoidRadius;
-            }
+            this.settings.avoidRadius = this.avoidRadius;
         }
     },
     created () {
@@ -300,6 +297,13 @@ export default {
             if (uploadModal) {
                 document.body.removeChild(document.getElementById("uploadModal"));
             }
+        },
+        /**
+         * set Avoid Radius
+         * @returns {void}
+         */
+        setAvoidRadius () {
+            this.settings.avoidRadius = this.avoidRadius;
         }
     }
 };
@@ -494,7 +498,6 @@ export default {
                                 data-bs-toggle="modal"
                                 data-bs-target="#uploadModal"
                             />
-                            <RoutingExportAvoidAreas />
                             <label
                                 id="importAvoidAreas"
                                 for="importAvoidAreasBtn"
@@ -503,32 +506,47 @@ export default {
                         </div>
                     </div>
                 </div>
-                <!-- radius input -->
-                <div class="d-flex justify-content-between">
-                    <div />
+                <div v-if="isMapInteractionModeAvoidPointsEdit">
                     <div
-                        v-if="isMapInteractionModeAvoidPointsEdit"
-                        id="avoidPoint"
-                        class="d-flex"
+                        class="d-flex flex-row mb-3"
                     >
-                        <span class="radius-unit">r=</span>
-                        <input
-                            v-model="avoidRadius"
-                            type="number"
-                            class="form-control"
-                            autocomplete="off"
-                            size="4"
-                            min="0"
-                            step="0.1"
-                            :max="maxAvoidRadius"
-                            @keydown.enter="$event.target.blur()"
-                        >
-                        <span class="radius-unit">km</span>
+                        <div class="form-floating mb-3 w-100 mt-3">
+                            <input
+                                v-model="avoidRadius"
+                                type="number"
+                                :class="'w-100 form-control' + isRadiusValid"
+                                :aria-describedby="`avoidPointRadius-input-help`"
+                                min="0"
+                                max="12"
+                                step="0.1"
+                            >
+                            <label for="avoidPointRadiusInput">
+                                {{ $t('common:modules.routing.directions.avoidAreas.avoidPointRadius') }}
+                            </label>
+                            <span
+                                id="avoidPointRadius-input-help"
+                                class="invalid-feedback"
+                            >
+                                {{ $t('common:modules.routing.directions.avoidAreas.avoidPointRadiusOutOfRangeKm') }}
+                            </span>
+                        </div>
                     </div>
-                    <div />
-                    <div />
-                    <div />
+                    <div class="form-floating mb-3">
+                        <select
+                            id="draw-avoidPoint-settings"
+                            class="form-select"
+                            disabled
+                        >
+                            <option>
+                                {{ $t('common:modules.routing.directions.avoidAreas.avoidPointRadiusUnitKm') }}
+                            </option>
+                        </select>
+                        <label for="draw-circle-settings">
+                            {{ $t("common:shared.modules.draw.drawSettingsCircle.unit") }}
+                        </label>
+                    </div>
                 </div>
+
                 <!-- Modal -->
                 <div
                     id="uploadModal"
@@ -851,5 +869,8 @@ export default {
 }
 #button-reset{
     min-width: 100%;
+}
+.invalid-feedback {
+    max-width: fit-content;
 }
 </style>

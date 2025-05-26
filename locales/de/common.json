@@ -959,6 +959,10 @@
         "avoidAreas": {
           "avoidArea": "Sperrfläche",
           "avoidPoint": "Sperrpunkt",
+          "avoidPointRadius": "Radius",
+          "avoidPointRadiusUnit": "Einheit",
+          "avoidPointRadiusUnitKm": "km",
+          "avoidPointRadiusOutOfRangeKm": "Bitte geben Sie einen Wert zwischen 0 und 12 km an.",
           "delete": "Löschen",
           "export": "Export",
           "import": "Import"

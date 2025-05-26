@@ -957,6 +957,10 @@
         "avoidAreas": {
           "avoidArea": "Barrier Area",
           "avoidPoint": "Barrier Point",
+          "avoidPointRadius": "Radius",
+          "avoidPointRadiusUnit": "Unit",
+          "avoidPointRadiusUnitKm": "km",
+          "avoidPointRadiusOutOfRangeKm": "Please enter a value between 0 and 12 km.",
           "delete": "Delete",
           "export": "Export",
           "import": "Import"
