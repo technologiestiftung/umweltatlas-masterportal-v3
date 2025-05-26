@@ -23,6 +23,7 @@
 - Issue #1360: Fixed Errorhandling for 2D-layers.
 - Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
+- Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
 
@@ -38,10 +39,10 @@
 - Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 - Issue #1388: In a menu section are several modules of same type allowed.
 - LayerInformation: Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
-- ShareView: 
+- ShareView:
     - Url parameter are uri encoded now.
     - Duplicated url params are filtered.
-- WMS-Time: 
+- WMS-Time:
     - GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
     - Updated to ensure WMS-Time Layer compatibility with version 1.3.0.
     - Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one.
