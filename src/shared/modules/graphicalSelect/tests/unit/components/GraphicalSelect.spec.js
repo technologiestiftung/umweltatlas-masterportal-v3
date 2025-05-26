@@ -178,16 +178,13 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Prüfe, dass die Kontrollen nicht sichtbar sind, wenn keine Linie gezeichnet wurde
             expect(wrapper.find("input[type='range']").exists()).to.be.false;
 
-            // Setze die Bedingungen für die Sichtbarkeit der Kontrollen
             await wrapper.setData({
                 selectedOptionData: "Line",
                 lineDrawn: true
             });
 
-            // Prüfe, dass die Kontrollen jetzt sichtbar sind
             expect(wrapper.find("input[type='range']").exists()).to.be.true;
             expect(wrapper.find("input[type='number']").exists()).to.be.true;
         });
@@ -263,10 +260,7 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Mock für createBufferFromLine, um die eigentliche Funktion nicht zu testen
             wrapper.vm.createBufferFromLine = sinon.spy();
-
-            // Create test data
             wrapper.vm.handleLineDrawEnd({
                 feature: new Feature({
                     geometry: new LineString([[0, 0], [10, 10]])
@@ -285,14 +279,10 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Setze Anfangswerte
             wrapper.vm.lineDrawn = true;
             wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
-
-            // Rufe die Methode auf
             wrapper.vm.resetLineState();
 
-            // Prüfe Ergebnisse
             expect(wrapper.vm.lineDrawn).to.be.false;
             expect(wrapper.vm.currentLineGeometry).to.be.null;
         });
@@ -304,19 +294,13 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Mock für createBufferFromLine
             wrapper.vm.createBufferFromLine = sinon.spy();
             wrapper.vm.setBufferDistance = sinon.spy();
-
-            // Setze Anfangswerte
             wrapper.vm.lineDrawn = true;
             wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
             wrapper.vm.bufferDistanceData = 50;
-
-            // Rufe die Methode auf
             wrapper.vm.updateBufferDistance({target: {value: "100"}});
 
-            // Prüfe Ergebnisse
             expect(wrapper.vm.bufferDistanceData).to.equal(100);
             expect(wrapper.vm.setBufferDistance.calledOnce).to.be.true;
             expect(wrapper.vm.createBufferFromLine.calledWith(wrapper.vm.currentLineGeometry, false)).to.be.true;
@@ -329,17 +313,11 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Mock für createBufferFromLine
             wrapper.vm.createBufferFromLine = sinon.spy();
-
-            // Setze Anfangswerte
             wrapper.vm.lineDrawn = true;
             wrapper.vm.currentLineGeometry = new LineString([[0, 0], [10, 10]]);
-
-            // Rufe die Methode auf
             wrapper.vm.finalizeBufferDistance();
 
-            // Prüfe Ergebnisse
             expect(wrapper.vm.createBufferFromLine.calledWith(wrapper.vm.currentLineGeometry, true)).to.be.true;
         });
 
@@ -353,15 +331,10 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Setup für Layer
             wrapper.vm.layer = new VectorLayer({
                 source: new VectorSource()
             });
-
-            // Mock für setSelectedAreaGeoJson
             wrapper.vm.setSelectedAreaGeoJson = sinon.spy();
-
-            // Ersetze die createBufferFromLine-Methode, um die JSTS-Abhängigkeit zu vermeiden
             wrapper.vm.createBufferFromLine = function (geometry, triggerEvent = true) {
                 const polygonFeature = new Feature({
                         geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]])
@@ -377,18 +350,12 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 this.setSelectedAreaGeoJson(polygonGeoJson);
 
                 if (triggerEvent) {
-                    // Verwende die originale $emit-Methode
                     this.$emit("onDrawEnd", polygonGeoJson);
                 }
             };
-
-            // Wir rufen die Methode nicht direkt auf, sondern unsere modifizierte Version
             wrapper.vm.createBufferFromLine(new LineString([[0, 0], [10, 10]]));
 
-            // Prüfe, dass die Quelle aktualisiert wurde
             expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(1);
-
-            // Prüfe, dass setSelectedAreaGeoJson aufgerufen wurde
             expect(wrapper.vm.setSelectedAreaGeoJson.calledOnce).to.be.true;
         });
 
@@ -402,15 +369,10 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 }
             });
 
-            // Setup für Layer
             wrapper.vm.layer = new VectorLayer({
                 source: new VectorSource()
             });
-
-            // Mock für setSelectedAreaGeoJson
             wrapper.vm.setSelectedAreaGeoJson = sinon.spy();
-
-            // Ersetze die createBufferFromLine-Methode, um die JSTS-Abhängigkeit zu vermeiden
             wrapper.vm.createBufferFromLine = function (geometry, triggerEvent = true) {
                 const polygonFeature = new Feature({
                         geometry: new Polygon([[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]])
@@ -426,18 +388,13 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 this.setSelectedAreaGeoJson(polygonGeoJson);
 
                 if (triggerEvent) {
-                    // Verwende die originale $emit-Methode
                     this.$emit("onDrawEnd", polygonGeoJson);
                 }
             };
 
-            // Rufe die Methode mit triggerEvent = false auf
             wrapper.vm.createBufferFromLine(new LineString([[0, 0], [10, 10]]), false);
 
-            // Prüfe, dass die Quelle aktualisiert wurde
             expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(1);
-
-            // Prüfe, dass setSelectedAreaGeoJson aufgerufen wurde
             expect(wrapper.vm.setSelectedAreaGeoJson.calledOnce).to.be.true;
         });
     });

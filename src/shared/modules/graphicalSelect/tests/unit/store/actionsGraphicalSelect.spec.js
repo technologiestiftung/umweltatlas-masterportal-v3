@@ -65,7 +65,6 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             },
             payload = {layer: layer, interaction: interaction, vm: vm};
 
-        // Mock dispatch als stub, um resolves zu unterstützen
         dispatch.withArgs("featureToGeoJson", sinon.match.any).resolves({
             type: "LineString",
             coordinates: [[0, 0], [10, 10]]
@@ -73,7 +72,6 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
 
         await actions.updateDrawInteractionListener({dispatch, commit}, payload);
 
-        // Simuliere das drawend-Event
         if (payload.interaction.listeners_.drawend) {
             const drawEndListener = payload.interaction.listeners_.drawend[0],
                 mockFeature = new Feature({
@@ -83,10 +81,7 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             await drawEndListener({feature: mockFeature});
         }
 
-        // Prüfe, ob commit aufgerufen wurde
         expect(commit.calledWith("setSelectedAreaGeoJson", sinon.match.object)).to.be.true;
-
-        // Prüfe, ob bei Line-Typ kein Event ausgelöst wird (da dies in der Komponente passiert)
         expect(vm.$parent.$emit.called).to.be.false;
     });
 
@@ -109,7 +104,6 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             },
             payload = {layer: layer, interaction: interaction, vm: vm};
 
-        // Mock dispatch als stub, um resolves zu unterstützen
         dispatch.withArgs("featureToGeoJson", sinon.match.any).resolves({
             type: "Polygon",
             coordinates: [[[0, 0], [10, 0], [10, 10], [0, 0]]]
@@ -117,7 +111,6 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
 
         await actions.updateDrawInteractionListener({dispatch, commit}, payload);
 
-        // Simuliere das drawend-Event
         if (payload.interaction.listeners_.drawend) {
             const drawEndListener = payload.interaction.listeners_.drawend[0],
                 mockFeature = new Feature({
@@ -127,10 +120,7 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             await drawEndListener({feature: mockFeature});
         }
 
-        // Prüfe, ob commit aufgerufen wurde
         expect(commit.calledWith("setSelectedAreaGeoJson", sinon.match.object)).to.be.true;
-
-        // Prüfe, ob bei Nicht-Line-Typen das Event ausgelöst wird
         expect(vm.$parent.$emit.calledWith("onDrawEnd", sinon.match.object)).to.be.true;
     });
 
