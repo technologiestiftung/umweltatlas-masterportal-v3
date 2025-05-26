@@ -5,6 +5,7 @@ import {config, shallowMount, mount} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
 import CoordToolkitComponent from "../../../components/CoordToolkit.vue";
 import CoordToolkit from "../../../store/indexCoordToolkit";
+import actions from "../../../store/actionsCoordToolkit";
 
 const namedProjections = [
     ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
@@ -72,23 +73,16 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
         wrapper,
         isMobile,
         text = "",
-        copyStub;
+        copyStub,
+        validateInputSpy, initHeightLayerSpy, transformCoordinatesFromToSpy, positionClickedSpy;
 
     beforeEach(() => {
         isMobile = false;
 
-        mockCoordToolkit = {
-            validateInput: sinon.spy(),
-            initHeightLayer: sinon.spy(),
-            transformCoordinatesFromTo: sinon.spy(),
-            positionClicked: sinon.spy(),
-            changedPosition: sinon.stub(),
-            removeMarker: sinon.stub(),
-            addMarker: sinon.stub(),
-            setHeight: sinon.stub(),
-            newProjectionSelected: sinon.stub(),
-            setFirstSearchPosition: sinon.stub()
-        },
+        validateInputSpy = sinon.spy();
+        initHeightLayerSpy = sinon.spy();
+        transformCoordinatesFromToSpy = sinon.spy();
+        positionClickedSpy = sinon.spy();
 
         store = createStore({
             namespaced: true,
@@ -99,7 +93,13 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
                     modules: {
                         CoordToolkit: {
                             ...CoordToolkit,
-                            actions: mockCoordToolkit
+                            actions: {
+                                ...actions,
+                                validateInput: validateInputSpy,
+                                initHeightLayer: initHeightLayerSpy,
+                                transformCoordinatesFromTo: transformCoordinatesFromToSpy,
+                                positionClicked: positionClickedSpy
+                            }
                         }
                     }
                 },
@@ -150,7 +150,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
 
         expect(wrapper.find("#coord-toolkit").exists()).to.be.true;
         expect(wrapper.find("#coordinatesHeightField").exists()).to.be.false;
-        expect(mockCoordToolkit.initHeightLayer.calledOnce).to.be.false;
+        expect(initHeightLayerSpy.calledOnce).to.be.false;
     });
 
 
@@ -184,7 +184,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             }});
         await wrapper.vm.$nextTick();
 
-        expect(mockCoordToolkit.initHeightLayer.calledOnce).to.be.true;
+        expect(initHeightLayerSpy.calledOnce).to.be.true;
     });
 
     it("has initially selected projection \"EPSG:25832\"", async () => {
@@ -394,13 +394,13 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             wrapper.vm.changeMode("supply");
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.onInputEvent("1234", {"value": "111"});
-            expect(mockCoordToolkit.validateInput.calledOnce).to.be.false;
+            expect(validateInputSpy.calledOnce).to.be.false;
 
             wrapper.vm.changeMode("search");
             await wrapper.vm.$nextTick();
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("search");
             wrapper.vm.onInputEvent("1234", {"value": "111"});
-            expect(mockCoordToolkit.validateInput.calledOnce).to.be.true;
+            expect(validateInputSpy.calledOnce).to.be.true;
         });
 
         it("getClassForEasting no error", async () => {
@@ -576,7 +576,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             await wrapper.vm.$nextTick();
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, [10, 20]);
-            expect(mockCoordToolkit.positionClicked.calledOnce).to.be.true;
+            expect(positionClickedSpy.calledOnce).to.be.true;
         });
         it("watch to clickCoordinate in mode search shall not call positionClicked", async () => {
             wrapper = shallowMount(CoordToolkitComponent, {
@@ -587,7 +587,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.changeMode("search");
             wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, [10, 20]);
-            expect(mockCoordToolkit.positionClicked.notCalled).to.be.true;
+            expect(positionClickedSpy.notCalled).to.be.true;
         });
     });
 });
