@@ -1,8 +1,9 @@
 import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
+import api from "@masterportal/masterportalapi/src/maps/api";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {initializeMaps, load3DMap} from "../../../js/maps";
+import {initializeMaps, load3DMap, create3DMap} from "../../../js/maps";
 import store from "../../../../../app-store";
 
 describe("src/core/js/maps/maps.js", () => {
@@ -21,7 +22,8 @@ describe("src/core/js/maps/maps.js", () => {
             controlsConfig: {
                 button3d: true,
                 expandable: {}
-            }
+            },
+            "Maps/mode": "2D"
         };
     });
 
@@ -104,6 +106,83 @@ describe("src/core/js/maps/maps.js", () => {
             expect(load3DScriptSpy.calledOnce).to.be.true;
             expect(load3DScriptSpy.firstCall.args[0]).to.equals("path_to_cesium_library");
             expect(typeof load3DScriptSpy.firstCall.args[1]).to.equals("function");
+        });
+    });
+
+    describe("create3DMap", () => {
+        it("should set center and zoom if no url parameter set for center and 3D camera parameter are configured", () => {
+            const map3d = {
+                    setEnabled: sinon.spy()
+                },
+                setZoomSpy = sinon.spy(),
+                setCenterSpy = sinon.spy(),
+                mapView = {
+                    setZoom: setZoomSpy,
+                    setCenter: setCenterSpy
+                },
+                viewSpy = sinon.stub(mapCollection, "getMapView").returns(mapView);
+
+
+            store.getters.map3dParameter = {
+                camera: {}
+            };
+            store.getters["Maps/initialZoom"] = 7;
+            store.getters["Maps/initialCenter"] = [564028.7954571751, 5934555.967867207];
+            sinon.stub(api.map, "createMap").returns(map3d);
+
+
+            create3DMap();
+
+            expect(viewSpy.firstCall.args[0]).to.equals("2D");
+            expect(setZoomSpy.firstCall.args[0]).to.equals(7);
+            expect(setCenterSpy.firstCall.args[0]).to.deep.equals([564028.7954571751, 5934555.967867207]);
+        });
+        it("should set the map to center if the url parameter center exists and 3D camera parameter are configured", () => {
+            const map3d = {
+                    setEnabled: sinon.spy()
+                },
+                setZoomSpy = sinon.spy(),
+                setCenterSpy = sinon.spy(),
+                mapView = {
+                    setZoom: setZoomSpy,
+                    setCenter: setCenterSpy
+                },
+                viewSpy = sinon.stub(mapCollection, "getMapView").returns(mapView);
+
+            store.getters.map3dParameter = {
+                camera: {}
+            };
+            store.state.urlParams.CENTER = [564028.7954571751, 5934555.967867207];
+            sinon.stub(api.map, "createMap").returns(map3d);
+
+            create3DMap();
+
+            expect(viewSpy.firstCall.args[0]).to.equals("2D");
+            expect(setCenterSpy.firstCall.args[0]).to.deep.equals([564028.7954571751, 5934555.967867207]);
+        });
+        it("should set the map to center if the url parameter MAPS/center exists and 3D camera parameter are configured", () => {
+            const map3d = {
+                    setEnabled: sinon.spy()
+                },
+                setZoomSpy = sinon.spy(),
+                setCenterSpy = sinon.spy(),
+                mapView = {
+                    setZoom: setZoomSpy,
+                    setCenter: setCenterSpy
+                },
+                viewSpy = sinon.stub(mapCollection, "getMapView").returns(mapView);
+
+            store.getters.map3dParameter = {
+                camera: {}
+            };
+            store.state.urlParams.MAPS = JSON.stringify({"center": [567773.339990154, 5933469.927044973], "mode": "2D", "zoom": 10});
+            sinon.stub(api.map, "createMap").returns(map3d);
+
+
+            create3DMap();
+
+            expect(viewSpy.firstCall.args[0]).to.equals("2D");
+            expect(setCenterSpy.firstCall.args[0]).to.deep.equals([564028.7954571751, 5934555.967867207]);
         });
     });
 });
