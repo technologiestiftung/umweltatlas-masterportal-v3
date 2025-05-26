@@ -31,11 +31,11 @@ export default {
             defaultTabClass: "",
             activeTabClass: "active",
             disabledTabClass: "disabled",
-            visibleVectorLayers: [],
             supportedLayerTypes: ["WFS", "OAF", "GeoJSON"]
         };
     },
     computed: {
+        ...mapGetters(["visibleLayerConfigs"]),
         ...mapGetters("Modules/FeatureLister", [
             "maxFeatures",
             "layer",
@@ -91,21 +91,15 @@ export default {
                 return this.defaultTabClass;
             }
             return this.disabledTabClass;
+        },
+        visibleVectorLayers () {
+            return this.visibleLayerConfigs
+                .filter(layer => this.supportedLayerTypes.includes(layer.typ))
+                .map(layer => ({
+                    name: layer.name,
+                    id: layer.id
+                }));
         }
-    },
-    mounted () {
-        this.$nextTick(() => {
-            layerCollection.getOlLayers().forEach(async layer => {
-                if (layer instanceof VectorLayer && this.supportedLayerTypes.includes(layer.get("typ"))) {
-                    this.visibleVectorLayers.push(
-                        {
-                            name: layer.get("name"),
-                            id: layer.get("id")
-                        }
-                    );
-                }
-            });
-        });
     },
     unmounted () {
         this.resetToThemeChooser();
