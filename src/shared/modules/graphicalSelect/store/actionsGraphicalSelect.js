@@ -23,10 +23,8 @@ const actions = {
         payload.interaction.on("drawend", async function (evt) {
             const geoJson = await dispatch("featureToGeoJson", evt.feature);
 
-            if (payload.vm.selectedOptionData === "Line") {
-                commit("setSelectedAreaGeoJson", geoJson);
-            }
-            else {
+            // For Line type, only the buffered polygon from handleLineDrawEnd should trigger onDrawEnd
+            if (payload.vm.selectedOptionData !== "Line") {
                 commit("setSelectedAreaGeoJson", geoJson);
                 payload.vm.$parent.$emit("onDrawEnd", geoJson);
             }

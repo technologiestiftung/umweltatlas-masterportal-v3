@@ -329,10 +329,15 @@ export default {
                         polygonGeoJson = {
                             type: "Polygon",
                             coordinates: coordinates
-                        };
+                        },
+                        source = this.layer.getSource(),
+                        lineFeature = new Feature({
+                            geometry: geometry.clone()
+                        });
 
-                    this.layer.getSource().clear();
-                    this.layer.getSource().addFeature(polygonFeature);
+                    source.clear();
+                    source.addFeature(lineFeature);
+                    source.addFeature(polygonFeature);
                     this.setSelectedAreaGeoJson(polygonGeoJson);
 
                     if (triggerEvent) {
