@@ -81,7 +81,7 @@ describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", ()
             await drawEndListener({feature: mockFeature});
         }
 
-        expect(commit.calledWith("setSelectedAreaGeoJson", sinon.match.object)).to.be.true;
+        expect(commit.called).to.be.false;
         expect(vm.$parent.$emit.called).to.be.false;
     });
 
