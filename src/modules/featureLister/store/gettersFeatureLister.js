@@ -31,26 +31,31 @@ const simpleGetters = {
             headers = [];
 
         if (state.gfiFeaturesOfLayer.length > 0) {
-            headers = Object.entries(state.gfiFeaturesOfLayer
-                .reduce((acc, it) => {
-                    let keys = it.getAttributesToShow();
+            const keySet = new Set(["id"]),
+                keyToValue = {id: "id"};
 
-                    keys = keys === "showAll"
-                        ? Object.keys(it.getProperties()).map(prop => [prop, prop])
-                        : Object.entries(keys);
-                    keys.forEach(([key, value]) => {
-                        if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
-                            if (typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "name")) {
-                                acc[key] = value.name;
-                            }
-                            else {
-                                acc[key] = value;
-                            }
+            state.gfiFeaturesOfLayer.forEach(it => {
+                let keys = it.getAttributesToShow();
+
+                keys = keys === "showAll"
+                    ? Object.keys(it.getProperties()).map(prop => [prop, prop])
+                    : Object.entries(keys);
+                keys.forEach(([key, value]) => {
+                    if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
+                        keySet.add(key);
+                        if (!(key in keyToValue)) {
+                            keyToValue[key] = typeof value === "object" && value.name ? value.name : value;
                         }
-                    });
-                    return acc;
-                })).map(([key, value]) => ({name: key === "id" ? key : value, index: index++, visible: key !== "id"}));
+                    }
+                });
+            });
+            headers = Array.from(keySet).map(key => ({
+                name: key === "id" ? key : keyToValue[key],
+                index: index++,
+                visible: key !== "id"
+            }));
         }
+        state.headers = headers;
         return headers;
     },
     /**
