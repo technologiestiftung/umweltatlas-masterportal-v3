@@ -63,7 +63,7 @@ const simpleGetters = {
      * @param {Object} state state of this module
      * @returns {Array} [[a1, b1], [a2, b2], ...] array for each line containing array for each property of the header
      */
-    featureProperties: (state) => {
+    featureProperties: (state, getters, rootState, rootGetters) => {
         let items = [];
 
         if (state.gfiFeaturesOfLayer.length > 0) {
@@ -72,18 +72,30 @@ const simpleGetters = {
                     attributesToShow = feature.getAttributesToShow(),
                     newProperties = {};
 
-                Object.keys(properties).forEach((key) => {
-                    if (key in attributesToShow) {
+                if (attributesToShow === "showAll") {
+                    Object.keys(properties).forEach((key) => {
+                        if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
+                            newProperties[key] = properties[key];
+                            newProperties.id = feature.id;
+                        }
+                    });
+                }
+                else {
+                    Object.keys(properties).forEach((key) => {
+                        if (key in attributesToShow) {
 
-                        const newProperty = attributesToShow[key];
+                            const newProperty = attributesToShow[key];
 
-                        newProperties[newProperty] = properties[key];
-                        newProperties.id = feature.id;
-                    }
-                });
+                            newProperties[newProperty] = properties[key];
+                            newProperties.id = feature.id;
+                        }
+                    });
+                }
+
                 return newProperties;
             });
         }
+        console.log(items);
         return items;
     },
     /**
