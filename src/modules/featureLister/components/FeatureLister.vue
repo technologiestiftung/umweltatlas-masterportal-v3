@@ -61,7 +61,7 @@ export default {
 
             let attributeValues = [];
 
-            if (attributes === "showAll") {
+            if (feature.getAttributesToShow() === "showAll") {
                 return this.selectedRow;
             }
             attributeValues = Object.values(attributes);
