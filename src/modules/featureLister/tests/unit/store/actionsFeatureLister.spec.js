@@ -56,12 +56,15 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
                 {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}
             ]
         );
+
     });
     afterEach(sinon.restore);
 
     describe("clickOnFeature", () => {
         it("handles the click event when clicking in a point-feature in the feature list view", () => {
-            const featureIndex = 1,
+            const row = {
+                    id: "1"
+                },
                 geometry = {
                     getType: () => "Point",
                     getCoordinates: () => [1, 2]
@@ -84,10 +87,10 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
 
             rootGetters = {treeHighlightedFeatures: {active: true}};
 
-            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, featureIndex);
+            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, row);
             expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equal("setSelectedFeatureIndex");
-            expect(commit.firstCall.args[1]).to.eql(featureIndex);
+            expect(commit.firstCall.args[0]).to.equal("setSelectedRow");
+            expect(commit.firstCall.args[1]).to.eql(row);
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.eql("switchToDetails");
             expect(dispatch.secondCall.args[0]).to.eql("Maps/zoomToCoordinates");
@@ -99,7 +102,9 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
             expect(createLayerAddToTreeStub.firstCall.args[1]).to.be.deep.equals([state.features[1]]);
         });
         it("handles the click event when clicking in a polygon-feature in the feature list view, treeHighlightedFeatures not active", () => {
-            const featureIndex = 1,
+            const row = {
+                    id: "1"
+                },
                 geometry = {
                     getType: () => "Polygon",
                     getExtent: () => [1, 2, 3, 4]
@@ -122,10 +127,10 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
 
             rootGetters = {treeHighlightedFeatures: {active: false}};
 
-            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, featureIndex);
+            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, row);
             expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equal("setSelectedFeatureIndex");
-            expect(commit.firstCall.args[1]).to.eql(featureIndex);
+            expect(commit.firstCall.args[0]).to.equal("setSelectedRow");
+            expect(commit.firstCall.args[1]).to.eql(row);
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.eql("switchToDetails");
             expect(dispatch.secondCall.args[0]).to.eql("Maps/zoomToCoordinates");
@@ -140,13 +145,19 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
         const features = [{erstesFeature: "first", getId: () => "1"}, {zweitesFeature: "second", getId: () => "2"}, {drittesFeature: "third", getId: () => "3"}],
             state = {
                 shownFeatures: 2
+            },
+            row1 = {
+                id: "1"
+            },
+            row2 = {
+                id: "2"
             };
         let getters = {
             selectedFeature: () => features[1]
         };
 
         it("handles the hover event when hovering over a feature in the feature list view", () => {
-            actions.hoverOverFeature({state, dispatch, getters}, 1);
+            actions.hoverOverFeature({state, dispatch, getters}, row1);
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("highlightFeature");
             expect(dispatch.firstCall.args[1]).to.deep.equal(features[1]);
@@ -155,7 +166,7 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
             getters = {
                 selectedFeature: () => features[2]
             };
-            actions.hoverOverFeature({state, dispatch, getters}, 2);
+            actions.hoverOverFeature({state, dispatch, getters}, row2);
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("highlightFeature");
             expect(dispatch.firstCall.args[1]).to.deep.equal(features[2]);
@@ -278,7 +289,10 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     describe("switchToThemes", () => {
         it("switches to the themes tab", () => {
 
-            actions.switchToThemes({commit});
+            actions.switchToThemes({commit, dispatch});
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
+            expect(dispatch.firstCall.args[1]).to.equal("decrease");
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("resetToThemeChooser");
         });
@@ -287,7 +301,9 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     describe("switchToDetails", () => {
         it("switches to the details tab", () => {
             const state = {
-                selectedFeatureIndex: 0
+                selectedRow: {
+                    id: "1"
+                }
             };
 
             actions.switchToDetails({state, commit});
