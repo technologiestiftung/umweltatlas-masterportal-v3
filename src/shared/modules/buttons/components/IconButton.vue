@@ -93,7 +93,7 @@ export default {
 }
 
  .btn {
-    position: sticky;
+    position: relative;
     text-align: center;
     top: auto;
     width: 2.5rem;
@@ -101,6 +101,7 @@ export default {
     font-size: 1.5rem;
     border-radius: 50%;
     border: solid $white 1px;
+    z-index: 2;
     /* position icon in center of button */
     > i {
         position: absolute;

@@ -26,6 +26,7 @@
 - Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - AboutModule: fixed undefined in imprint.
+- AddLayerButton: Fixed overlap with underlying layer icons (e.g. info/settings) that blocked user interaction.
 
 ---
 
