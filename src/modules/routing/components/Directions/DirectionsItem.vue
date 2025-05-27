@@ -26,7 +26,6 @@ import {Modal} from "bootstrap";
  * @vue-data {*} defaultpreference - default preference.
  * @vue-data {*} avoidRadius - Radius of avoid points.
  * @vue-data {*} maxAvoidRadius - maximum Radius of avoid points.
- * @vue-data {*} defaultAvoidRadius - default avoid radius from config.
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasEdit - Shows if current map mode is "AVOID_AREAS".
  * @vue-computed {Boolean} isMapInteractionModeAvoidPointsEdit - Shows if current map mode is "AVOID_POINTS".
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasDelete - Shows if current map mode is "DELETE_AVOID_AREAS".
@@ -55,7 +54,6 @@ export default {
             constantsRouting,
             defaultPreference: null,
             avoidRadius: 0,
-            defaultAvoidRadius: 0,
             maxAvoidRadius: 12,
             showAvoidAreaButtons: false
         };
@@ -127,7 +125,7 @@ export default {
         this.appendModalToBody();
         this.setMapInteractionMode("WAYPOINTS");
         this.createInteractionFromMapInteractionMode();
-        this.avoidRadius = this.defaultAvoidRadius = this.settings.avoidRadius;
+        this.avoidRadius = this.settings.avoidRadius;
     },
     methods: {
         ...mapMutations("Modules/Routing/Directions", [
@@ -235,7 +233,7 @@ export default {
                 this.routingRestrictionsInputData.axleload = 6;
                 this.routingRestrictionsInputData.hazmat = false;
             }
-            this.avoidRadius = this.defaultAvoidRadius;
+            this.avoidRadius = this.settings.defaultAvoidRadius;
 
             this.setRoutingAvoidFeaturesOptions([]);
             this.settings.preference = this.defaultPreference;
