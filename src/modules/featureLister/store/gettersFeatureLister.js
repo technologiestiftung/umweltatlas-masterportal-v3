@@ -95,7 +95,6 @@ const simpleGetters = {
                 return newProperties;
             });
         }
-        console.log(items);
         return items;
     },
     /**
