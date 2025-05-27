@@ -101,7 +101,7 @@ export default {
          * @return {Boolean} true if radius is valid.
          */
         isRadiusValid () {
-            return this.avoidRadius && this.avoidRadius <= this.maxAvoidRadius && this.avoidRadius >= 0 ? " is-valid" : " is-invalid";
+            return this.avoidRadius !== "" && this.avoidRadius <= this.maxAvoidRadius && this.avoidRadius >= 0;
         }
     },
     watch: {
@@ -112,6 +112,7 @@ export default {
          */
         avoidRadius () {
             this.settings.avoidRadius = this.avoidRadius;
+            this.isRadiusValid ? this.createDirectionsAvoidPointDrawInteraction() : this.removeDirectionsAvoidDrawInteraction();
         }
     },
     created () {
@@ -147,7 +148,9 @@ export default {
             "removeWaypoint",
             "moveWaypointDown",
             "moveWaypointUp",
-            "isStartEndInput"
+            "isStartEndInput",
+            "createDirectionsAvoidPointDrawInteraction",
+            "removeDirectionsAvoidDrawInteraction"
         ]),
 
         /**
@@ -191,6 +194,7 @@ export default {
             this.setMapInteractionMode(avoidPointsMode ? "WAYPOINTS" : "AVOID_POINTS");
             this.avoidRadius = avoidPointsMode ? this.avoidRadius : this.settings.avoidRadius;
             this.createInteractionFromMapInteractionMode();
+            this.isRadiusValid && this.mapInteractionMode === "AVOID_POINTS" ? this.createDirectionsAvoidPointDrawInteraction() : this.removeDirectionsAvoidDrawInteraction();
         },
         /**
          * Toggles the current map mode between "DELETE_AVOID_AREAS" and "WAYPOINTS"
@@ -514,7 +518,7 @@ export default {
                             <input
                                 v-model="avoidRadius"
                                 type="number"
-                                :class="'w-100 form-control' + isRadiusValid"
+                                :class="'w-100 form-control' + (isRadiusValid ? ' is-valid': ' is-invalid')"
                                 :aria-describedby="`avoidPointRadius-input-help`"
                                 min="0"
                                 max="12"
