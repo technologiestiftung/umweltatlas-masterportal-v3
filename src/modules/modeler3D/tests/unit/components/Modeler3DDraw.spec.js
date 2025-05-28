@@ -5,6 +5,7 @@ import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import Modeler3DDrawComponent from "../../../components/Modeler3DDraw.vue";
 import Modeler3D from "../../../store/indexModeler3D";
+import actions from "../../../store/actionsModeler3D";
 
 config.global.mocks.$t = key => key;
 
@@ -63,7 +64,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         };
 
     let store,
-        originalCreateCylinder,
+        createCylinderSpy,
         wrapper,
         scene;
 
@@ -72,8 +73,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             createObjectURL: sinon.stub(),
             revokeObjectURL: sinon.stub()
         };
-        originalCreateCylinder = Modeler3D.actions.createCylinder;
-        Modeler3D.actions.createCylinder = sinon.spy();
+        createCylinderSpy = sinon.spy();
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
@@ -211,7 +211,13 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions: {
+                                ...actions,
+                                createCylinder: createCylinderSpy
+                            }
+                        }
                     }
                 },
                 Maps: {
@@ -234,12 +240,11 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
     });
 
     afterEach(() => {
-        Modeler3D.actions.createCylinder = originalCreateCylinder;
         sinon.restore();
         global.URL = globalURL;
     });
 
-    describe.skip("renders Modeler3DDraw", () => {
+    describe("renders Modeler3DDraw", () => {
         it("renders the main elements", () => {
             expect(wrapper.find("#modeler3D-draw").exists()).to.be.true;
             expect(wrapper.find("#tool-modeler3D-draw-models").exists()).to.be.true;
@@ -263,7 +268,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             expect(polygonButton.classes()).contain("active");
         });
     });
-    describe.skip("Modeler3DDraw.vue methods", () => {
+    describe("Modeler3DDraw.vue methods", () => {
         it("should update currentPosition in Clamp-to-Ground mode", () => {
             const mouseMoveEvent = {
                 endPosition: {x: 0, y: 0}
