@@ -4,7 +4,7 @@ import getters from "@modules/featureLister/store/gettersFeatureLister.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 const {featureProperties, featureDetails, getGeometryType, headers, selectedFeature} = getters;
 
-describe.only("src/modules/featureLister/store/gettersFeatureLister", () => {
+describe("src/modules/featureLister/store/gettersFeatureLister", () => {
     let state;
     const gfiFeature1 = {
             id: "1",
@@ -107,24 +107,49 @@ describe.only("src/modules/featureLister/store/gettersFeatureLister", () => {
         });
     });
 
-    describe.skip("featureDetails", () => {
-        const mapFeatureDetails = Object.fromEntries;
+    describe("featureDetails", () => {
 
         it("returns the exactly the attribute titles and values that are to show", () => {
-            state.row = {id: 1};
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({"Show Generic": "Test", "Show Alpha": "ohne"});
+            state.selectedRow = {
+                id: "2",
+                "Show Generic": "Test",
+                "Show Alpha": "ohne",
+                "Show Beta": "Gamma und Delta"
+            };
+
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({"Show Generic": "Test", "Show Alpha": "ohne"});
         });
         it("returns all attribute values if showAll is set", () => {
-            state.row = {id: 0};
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal(gfiFeature1.getProperties());
+            state.selectedRow = {
+                id: "1",
+                generic: "Hallo",
+                alpha: "Dies",
+                beta: "ist",
+                gamma: "ein",
+                delta: "Test"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"});
         });
         it("ignores globally hidden keys if showAll is set", () => {
-            state.row = {id: 0};
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: ["ALPHA", "BETA", "GAMMA", "DELTA"]}))).to.deep.equal({generic: "Hallo"});
+            state.selectedRow = {
+                id: "1",
+                generic: "Hallo",
+                alpha: "Dies",
+                beta: "ist",
+                gamma: "ein",
+                delta: "Test"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: ["ALPHA", "BETA", "GAMMA", "DELTA"]})).to.deep.equal({generic: "Hallo"});
         });
         it("ignores false-ish values", () => {
-            state.row = {id: 2};
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({"Show Generic": "Test"});
+            state.selectedRow = {
+                id: "3",
+                "Show Generic": "Test",
+                "Show Alpha": "ohne",
+                "Show Beta": "",
+                gamma: "Delta"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({"Show Generic": "Test"});
         });
     });
 
