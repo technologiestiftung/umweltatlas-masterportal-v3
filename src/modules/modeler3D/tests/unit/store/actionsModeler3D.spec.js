@@ -1306,7 +1306,7 @@ describe("Actions", () => {
             expect(commit.getCalls().find(call => call.firstArg === "setIsLoading").lastArg).to.be.false;
         });
     });
-    describe.skip("bulkHideObjects", () => {
+    describe("bulkHideObjects", () => {
         it("should not call mutation", async () => {
             const commit = sinon.spy(),
                 localTestState = {

@@ -16,6 +16,10 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
                 return [11.549606597773037, 48.17285700012215];
             }
         },
+        mockMapActions = {
+            removeInteraction: sinon.stub(),
+            addInteraction: sinon.stub()
+        },
         Cartesian3Coordinates = {
             x: 3739310.9273738265,
             y: 659341.4057539968,
@@ -222,13 +226,26 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
                 },
                 Maps: {
                     namespaced: true,
-                    getters: mockMapGetters
+                    getters: mockMapGetters,
+                    actions: mockMapActions
                 }
             }
         });
         wrapper = mount(Modeler3DDrawComponent, {
             global: {
-                plugins: [store]
+                plugins: [store],
+                stubs: {
+                    DrawTypes: {
+                        name: "DrawTypes",
+                        template: `
+                            <div>
+                                <button id="draw-polygon" class="active">Draw Polygon</button>
+                                <button id="draw-line" class="active">Draw Line</button>
+                                <button id="draw-rectangle" class="active">Draw Rectangle</button>
+                            </div>
+                        `
+                    }
+                }
             }
         });
 
