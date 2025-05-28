@@ -5,6 +5,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
 import Modeler3DComponent from "../../../components/Modeler3D.vue";
 import Modeler3D from "../../../store/indexModeler3D";
+import actions from "../../../store/actionsModeler3D";
 import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
 import Modeler3DImport from "../../../components/Modeler3DImport.vue";
 import getGfiFeaturesByTileFeatureModule from "../../../../../shared/js/utils/getGfiFeaturesByTileFeature";
@@ -12,7 +13,7 @@ import layerCollection from "../../../../../core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
     const mockMapGetters = {
             mouseCoordinate: () => {
                 return [11.549606597773037, 48.17285700012215];
@@ -118,10 +119,11 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
 
     let store,
         wrapper,
-        origUpdateUI,
-        origMovePolygon,
-        origMovePolyline,
-        origUpdatePositionUI;
+        updateUISpy,
+        movePolygonSpy,
+        movePolylineSpy,
+        updatePositionUISpy;
+
 
     before(() => {
         const mapElement = document.createElement("div");
@@ -199,14 +201,10 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
             }
         };
 
-        origUpdateUI = Modeler3D.actions.updateUI;
-        Modeler3D.actions.updateUI = sinon.spy();
-        origMovePolygon = Modeler3D.actions.movePolygon;
-        Modeler3D.actions.movePolygon = sinon.spy();
-        origMovePolyline = Modeler3D.actions.movePolyline;
-        Modeler3D.actions.movePolyline = sinon.spy();
-        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
-        Modeler3D.actions.updatePositionUI = sinon.spy();
+        updateUISpy = sinon.spy();
+        movePolygonSpy = sinon.spy();
+        movePolylineSpy = sinon.spy();
+        updatePositionUISpy = sinon.spy();
 
         store = createStore({
             modules: {
@@ -214,7 +212,16 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions: {
+                                ...actions,
+                                updateUI: updateUISpy,
+                                movePolygon: movePolygonSpy,
+                                movePolyline: movePolylineSpy,
+                                updatePositionUI: updatePositionUISpy
+                            }
+                        }
                     }
                 },
                 Maps: {
@@ -270,11 +277,6 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
     });
 
     afterEach(() => {
-        Modeler3D.actions.updateUI = origUpdateUI;
-        Modeler3D.actions.movePolygon = origMovePolygon;
-        Modeler3D.actions.movePolyline = origMovePolyline;
-        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
-
         sinon.restore();
     });
 
@@ -362,7 +364,7 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
 
             expect(wrapper.vm.highlightEntity.calledWith(entity));
             expect(store.state.Modules.Modeler3D.currentModelPosition).to.eql("position1");
-            expect(Modeler3D.actions.updateUI.called).to.be.true;
+            expect(updateUISpy.called).to.be.true;
         });
 
         it("watch to currentModelId shall reset highlighting of deselected Entity", async () => {
@@ -759,8 +761,8 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
             global.Cesium.defined = sinon.stub().returns(true);
 
             wrapper.vm.onMouseMove(event);
-            expect(Modeler3D.actions.movePolyline.called).to.be.false;
-            expect(Modeler3D.actions.updatePositionUI.called).to.be.true;
+            expect(movePolylineSpy.called).to.be.false;
+            expect(updatePositionUISpy.called).to.be.true;
         });
         it("should perform actions when dragging a polyline", async () => {
             const entity = entities.getById("entityId");
@@ -777,8 +779,8 @@ describe.skip("src/modules/modeler3D/components/Modeler3D.vue", () => {
             global.Cesium.defined = sinon.stub().returns(true);
 
             wrapper.vm.onMouseMove(event);
-            expect(Modeler3D.actions.movePolyline.called).to.be.true;
-            expect(Modeler3D.actions.updatePositionUI.called).to.be.true;
+            expect(movePolylineSpy.called).to.be.true;
+            expect(updatePositionUISpy.called).to.be.true;
         });
 
         it("should handle the mouse move event for the pov cylinder", async () => {
