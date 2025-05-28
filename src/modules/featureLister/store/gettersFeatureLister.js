@@ -55,7 +55,6 @@ const simpleGetters = {
                 visible: key !== "id"
             }));
         }
-        state.headers = headers;
         return headers;
     },
     /**
@@ -70,32 +69,45 @@ const simpleGetters = {
             items = state.gfiFeaturesOfLayer.map((feature) => {
                 const properties = feature.getProperties(),
                     attributesToShow = feature.getAttributesToShow(),
+                    showAll = attributesToShow === "showAll",
                     newProperties = {};
 
-                if (attributesToShow === "showAll") {
-                    Object.keys(properties).forEach((key) => {
-                        if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
-                            newProperties[key] = properties[key];
-                            newProperties.id = feature.id;
-                        }
-                    });
-                }
-                else {
-                    Object.keys(properties).forEach((key) => {
-                        if (key in attributesToShow) {
-
-                            const newProperty = attributesToShow[key];
+                Object.keys(properties).forEach((key) => {
+                    if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
+                        if (showAll || key in attributesToShow) {
+                            const newProperty = showAll ? key : attributesToShow[key];
 
                             newProperties[newProperty] = properties[key];
                             newProperties.id = feature.id;
                         }
-                    });
-                }
-
+                    }
+                });
                 return newProperties;
             });
         }
         return items;
+    },
+    /**
+     * Returns the details of the selected feature for the detail view
+     * @returns {Object} the details of the selected feature.
+     */
+    featureDetails (state, getters, rootState, rootGetters) {
+        const feature = state.gfiFeaturesOfLayer.find(f => f.id === state.selectedRow.id),
+            ignoredKeys = [...rootGetters.ignoredKeys, "ID"],
+            valuesToFilter = ["", null, undefined];
+
+        let attributes = Object.values(feature.getAttributesToShow());
+
+        if (feature.getAttributesToShow() === "showAll") {
+            const keys = Object.keys(state.selectedRow);
+
+            attributes = keys.filter(key => !ignoredKeys.includes(key.toUpperCase()));
+        }
+
+        return Object.fromEntries(
+            Object.entries(state.selectedRow).filter(([key, value]) => attributes.includes(key) && !valuesToFilter.includes(value)
+            )
+        );
     },
     /**
      * Returns the geometry type of the layer.

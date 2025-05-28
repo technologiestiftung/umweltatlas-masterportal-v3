@@ -47,29 +47,14 @@ export default {
             "headers",
             "featureProperties",
             "selectedRow",
-            "gfiFeaturesOfLayer"
+            "gfiFeaturesOfLayer",
+            "featureDetails"
         ]),
         tableData () {
             return {
                 headers: this.headers,
                 items: this.featureProperties.slice(0, this.shownFeatures)
             };
-        },
-        featureDetails () {
-            const feature = this.gfiFeaturesOfLayer.find(f => f.id === this.selectedRow.id),
-                attributes = Object.values(feature.getAttributesToShow());
-
-            let attributeValues = [];
-
-            if (feature.getAttributesToShow() === "showAll") {
-                return this.selectedRow;
-            }
-            attributeValues = Object.values(attributes);
-
-            return Object.fromEntries(
-                Object.entries(this.selectedRow).filter(([key]) => attributeValues.includes(key)
-                )
-            );
         },
         themeTabClasses: function () {
             return this.layerListView ? this.activeTabClass : this.defaultTabClass;
