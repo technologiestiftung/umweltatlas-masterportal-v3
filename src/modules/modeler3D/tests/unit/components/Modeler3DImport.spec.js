@@ -3,7 +3,8 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {mount, config} from "@vue/test-utils";
 import Modeler3DImportComponent from "../../../components/Modeler3DImport.vue";
-import Modeler3DModule from "../../../store/indexModeler3D";
+import Modeler3D from "../../../store/indexModeler3D";
+import actions from "../../../store/actionsModeler3D";
 import {JSDOM} from "jsdom";
 import {ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader.js";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader.js";
@@ -70,7 +71,7 @@ const globalDocument = global.document,
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
     let store, wrapper, scene;
     const entities = {
             getById: () => ({position: {}}),
@@ -113,7 +114,10 @@ describe.skip("src/modules/modeler3D/components/Modeler3DImport.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D: Modeler3DModule
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions
+                        }
                     }
                 }
             }
