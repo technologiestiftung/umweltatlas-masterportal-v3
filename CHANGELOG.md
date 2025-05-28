@@ -27,6 +27,7 @@
     - @vue/shared
     - @vue/runtime-dom
     - @vue/runtime-core
+- Update the addon documentation to reflect the recent changes in the project structure and Vue3.
 
 ### Deprecated
 
