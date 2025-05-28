@@ -4,10 +4,11 @@ import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
 import Modeler3DEntityModelComponent from "../../../components/Modeler3DEntityModel.vue";
 import Modeler3D from "../../../store/indexModeler3D";
+import actions from "../../../store/actionsModeler3D";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
+describe("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () => {
     const provide = {
             toggleDimensions: () => {
                 sinon.stub();
@@ -64,9 +65,9 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
         };
     let store,
         wrapper,
-        origUpdateEntityPosition,
-        origUpdatePositionUI,
-        origEditLayout;
+        updateEntityPositionSpy,
+        updatePositionUISpy,
+        editLayoutSpy;
 
     beforeEach(() => {
         mapCollection.clear();
@@ -110,12 +111,11 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
                 headingPitchRollQuaternion: sinon.stub().returns(22)
             }
         };
-        origEditLayout = Modeler3D.actions.editLayout;
-        Modeler3D.actions.editLayout = sinon.spy();
-        origUpdateEntityPosition = Modeler3D.actions.updateEntityPosition;
-        origUpdatePositionUI = Modeler3D.actions.updatePositionUI;
-        Modeler3D.actions.updateEntityPosition = sinon.spy();
-        Modeler3D.actions.updatePositionUI = sinon.spy();
+
+        updateEntityPositionSpy = sinon.spy();
+        updatePositionUISpy = sinon.spy();
+        editLayoutSpy = sinon.spy();
+
         entity.wasDrawn = false;
 
         store = createStore({
@@ -124,7 +124,15 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions: {
+                                ...actions,
+                                updateEntityPosition: updateEntityPositionSpy,
+                                updatePositionUI: updatePositionUISpy,
+                                editLayout: editLayoutSpy
+                            }
+                        }
                     }
                 }
             }
@@ -158,9 +166,6 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
     });
 
     afterEach(() => {
-        Modeler3D.actions.updateEntityPosition = origUpdateEntityPosition;
-        Modeler3D.actions.updatePositionUI = origUpdatePositionUI;
-        Modeler3D.actions.editLayout = origEditLayout;
         store.commit("Modules/Modeler3D/setCurrentProjection", {id: "http://www.opengis.net/gml/srs/epsg.xml#25832", name: "EPSG:25832", projName: "utm", epsg: "EPSG:25832"});
         store.commit("Modules/Modeler3D/setImportedEntities", []);
 
@@ -266,7 +271,7 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
             wrapper.vm.checkedAdapt(true);
 
             expect(store.state.Modules.Modeler3D.adaptToHeight).to.be.equals(true);
-            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+            expect(updateEntityPositionSpy.called).to.be.true;
         });
 
         it("label returns correct path", () => {
@@ -332,8 +337,8 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
             wrapper.vm.editedFillColor = "#ff0000";
 
             expect(store.state.Modules.Modeler3D.newFillColor).to.eql("#ff0000");
-            expect(Modeler3D.actions.editLayout.called).to.be.true;
-            expect(Modeler3D.actions.editLayout.firstCall.args[1]).to.eql("fillColor");
+            expect(editLayoutSpy.called).to.be.true;
+            expect(editLayoutSpy.firstCall.args[1]).to.eql("fillColor");
         });
 
         it("updates the new stroke color of the polygon", () => {
@@ -343,8 +348,8 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
             wrapper.vm.editedStrokeColor = "#ff0000";
 
             expect(store.state.Modules.Modeler3D.newStrokeColor).to.eql("#ff0000");
-            expect(Modeler3D.actions.editLayout.called).to.be.true;
-            expect(Modeler3D.actions.editLayout.firstCall.args[1]).to.eql("strokeColor");
+            expect(editLayoutSpy.called).to.be.true;
+            expect(editLayoutSpy.firstCall.args[1]).to.eql("strokeColor");
         });
 
         it("rotates the entity model based on input", () => {
@@ -378,19 +383,19 @@ describe.skip("src/modules/modeler3D/components/Modeler3DEntityModel.vue", () =>
             wrapper.vm.updateCoords(wrapper.vm.eastingString, "east");
 
             expect(store.state.Modules.Modeler3D.coordinateEasting).to.eql(120.5);
-            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+            expect(updateEntityPositionSpy.called).to.be.true;
 
             wrapper.vm.northingString = "150.00";
 
             wrapper.vm.updateCoords(wrapper.vm.northingString, "north");
 
             expect(store.state.Modules.Modeler3D.coordinateNorthing).to.eql(150);
-            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+            expect(updateEntityPositionSpy.called).to.be.true;
 
             wrapper.vm.heightString = "10.20";
 
             expect(store.state.Modules.Modeler3D.height).to.eql(10.2);
-            expect(Modeler3D.actions.updateEntityPosition.called).to.be.true;
+            expect(updateEntityPositionSpy.called).to.be.true;
         });
 
         it("updates width dimension of the entity", async () => {
