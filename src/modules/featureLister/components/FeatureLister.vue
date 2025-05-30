@@ -256,6 +256,8 @@ export default {
                     <TableComponent
                         id="feature-lister-list-table"
                         :data="tableData"
+                        :filterable="true"
+                        :enable-settings="true"
                         :sortable="true"
                         select-mode="row"
                         :run-select-row-on-mount="false"
