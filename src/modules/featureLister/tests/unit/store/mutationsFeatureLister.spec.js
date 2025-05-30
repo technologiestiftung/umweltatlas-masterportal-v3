@@ -91,12 +91,12 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
 
     describe("resetToThemeChooser", () => {
         it("resets the state to display the themeChooser tab", () => {
-            state.selectedFeatureIndex = 1;
+            state.selectedRow = {id: 1};
             state.layerListView = false;
             state.featureListView = true;
 
             mutations.resetToThemeChooser(state);
-            expect(state.selectedFeatureIndex).to.eql(null);
+            expect(state.selectedRow).to.eql(null);
             expect(state.layer).to.eql(null);
             expect(state.layerListView).to.eql(true);
             expect(state.featureListView).to.eql(false);
