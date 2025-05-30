@@ -250,6 +250,17 @@ export default {
                 &::-ms-thumb {
                     background: $secondary;
                 }
+
+                &::-moz-range-track {
+                    background: $light_grey;
+                }
+                &::-moz-range-progress {
+                    background: $secondary;
+                }
+
+                &.form-range::-moz-range-progress {
+                    background-color: transparent;
+                }
             }
 
             .slider-dots {
