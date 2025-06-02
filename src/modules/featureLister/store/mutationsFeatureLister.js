@@ -1,7 +1,8 @@
-import {generateSimpleMutations} from "@shared/js/utils/generators.js";
-import stateFeatureLister from "./stateFeatureLister.js";
-import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature.js";
-import layerCollection from "@core/layers/js/layerCollection.js";
+import {generateSimpleMutations} from "@shared/js/utils/generators";
+import stateFeatureLister from "./stateFeatureLister";
+import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature";
+import layerCollection from "@core/layers/js/layerCollection";
+import tabStatus from "../tabStatus";
 
 const mutations = {
     /**
@@ -55,9 +56,9 @@ const mutations = {
     resetToThemeChooser: (state) => {
         state.selectedRow = null;
         state.layer = null;
-        state.layerListView = true;
-        state.featureListView = false;
-        state.featureDetailView = false;
+        state.layerListView = tabStatus.ACTIVE;
+        state.featureListView = tabStatus.DISABLED;
+        state.featureDetailView = tabStatus.DISABLED;
     }
 };
 

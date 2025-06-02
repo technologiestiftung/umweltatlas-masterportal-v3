@@ -1,5 +1,6 @@
-import {getCenter} from "ol/extent.js";
-import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import {getCenter} from "ol/extent";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
+import tabStatus from "../tabStatus";
 
 export default {
 
@@ -100,9 +101,9 @@ export default {
      */
     switchBackToList ({state, commit}) {
         if (state.layer) {
-            commit("setLayerListView", false);
-            commit("setFeatureDetailView", false);
-            commit("setFeatureListView", true);
+            commit("setLayerListView", tabStatus.ENABLED);
+            commit("setFeatureDetailView", tabStatus.ENABLED);
+            commit("setFeatureListView", tabStatus.ACTIVE);
         }
     },
     /**
@@ -112,13 +113,15 @@ export default {
      * @param {Object} layer reduced selected layer, only contains name, id and geometryType
      * @returns {void}
      */
-    switchToList ({state, commit, dispatch}, layer) {
+    switchToList ({state, commit}, layer) {
         commit("setLayer", layer);
         if (layer) {
+            commit("setLayerListView", tabStatus.ENABLED);
+            commit("setFeatureListView", tabStatus.ACTIVE);
+            commit("setFeatureDetailView", tabStatus.DISABLED);
             commit("setGfiFeaturesOfLayer");
             commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
             commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
-            dispatch("switchBackToList");
         }
     },
     /**
@@ -130,9 +133,9 @@ export default {
      */
     switchToDetails ({state, commit}) {
         if (state.selectedRow !== null) {
-            commit("setLayerListView", false);
-            commit("setFeatureListView", false);
-            commit("setFeatureDetailView", true);
+            commit("setLayerListView", tabStatus.ENABLED);
+            commit("setFeatureListView", tabStatus.ENABLED);
+            commit("setFeatureDetailView", tabStatus.ACTIVE);
         }
     },
     /**
@@ -142,6 +145,9 @@ export default {
      * @returns {void}
      */
     switchToThemes ({commit, dispatch}) {
+        commit("setLayerListView", tabStatus.ACTIVE);
+        commit("setFeatureListView", tabStatus.DISABLED);
+        commit("setFeatureDetailView", tabStatus.DISABLED);
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         commit("resetToThemeChooser");
     },

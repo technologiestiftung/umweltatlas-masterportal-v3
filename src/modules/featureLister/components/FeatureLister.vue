@@ -6,12 +6,13 @@ import {isEmailAddress} from "@shared/js/utils/isEmailAddress";
 import toBold from "@shared/js/utils/toBold";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
+import tabStatus from "../tabStatus.js";
 
 /**
  * Feature Lister
  * @module modules/FeatureLister
- * @vue-data {String} defaultTabClass - The CSS-Class for the tab.
- * @vue-data {String} activeTabClass - The CSS-Class "active".
+ * @vue-data {String} enabledTabClass - The CSS-Class for the enabled tab.
+ * @vue-data {String} activeTabClass - The CSS-Class "active" tab.
  * @vue-data {String} visibleVectorLayers - All visible vector layers.
  * @vue-data {String} supportedLayerTypes - "WFS", "OAF", "GeoJSON"
  * @vue-computed {String} themeTabClasses - The class for the current theme-tab.
@@ -26,10 +27,11 @@ export default {
     },
     data () {
         return {
-            defaultTabClass: "",
+            enabledTabClass: "",
             activeTabClass: "active",
             disabledTabClass: "disabled",
-            supportedLayerTypes: ["WFS", "OAF", "GeoJSON"]
+            supportedLayerTypes: ["WFS", "OAF", "GeoJSON"],
+            tabStatus: tabStatus
         };
     },
     computed: {
@@ -52,22 +54,6 @@ export default {
                 headers: this.headers,
                 items: this.featureProperties.slice(0, this.shownFeatures)
             };
-        },
-        featureDetails () {
-            const feature = this.gfiFeaturesOfLayer.find(f => f.id === this.selectedRow.id),
-                attributes = Object.values(feature.getAttributesToShow());
-
-            let attributeValues = [];
-
-            if (feature.getAttributesToShow() === "showAll") {
-                return this.selectedRow;
-            }
-            attributeValues = Object.values(attributes);
-
-            return Object.fromEntries(
-                Object.entries(this.selectedRow).filter(([key]) => attributeValues.includes(key)
-                )
-            );
         },
         themeTabClasses: function () {
             return this.layerListView ? this.activeTabClass : this.defaultTabClass;
@@ -125,42 +111,16 @@ export default {
         removeVerticalBar (value) {
             return value.replaceAll("|", "<br>");
         },
-        /**
-         * Sorts the table items according to the clicked table header.
-         * @returns {void}
-         */
-        async sortItems () {
-            const tableHeaders = await document.getElementsByClassName("feature-lister-list-table-th");
-
-            try {
-                if (tableHeaders?.length) {
-                    for (const th_elem of tableHeaders) {
-                        let asc = true;
-                        const index = Array.from(th_elem.parentNode.children).indexOf(th_elem);
-
-                        th_elem.addEventListener("click", () => {
-                            const arr = [...th_elem.closest("table").querySelectorAll("tbody tr")].slice(1);
-
-                            arr.sort((a, b) => {
-                                let a_val = "",
-                                    b_val = "";
-
-                                if (a.children[index] !== undefined && b.children[index] !== undefined) {
-                                    a_val = a.children[index].innerText;
-                                    b_val = b.children[index].innerText;
-                                }
-                                return asc ? a_val.localeCompare(b_val) : b_val.localeCompare(a_val);
-                            });
-                            arr.forEach(elem => {
-                                th_elem.closest("table").querySelector("tbody").appendChild(elem);
-                            });
-                            asc = !asc;
-                        });
-                    }
-                }
-            }
-            catch (error) {
-                console.error(error);
+        tabClasses: function (view) {
+            switch (view) {
+                case tabStatus.ACTIVE:
+                    return this.activeTabClass;
+                case tabStatus.ENABLED:
+                    return this.enabledTabClass;
+                case tabStatus.DISABLED:
+                    return this.disabledTabClass;
+                default:
+                    return this.disabledTabClass;
             }
         }
     }
@@ -178,7 +138,7 @@ export default {
                 <a
                     href="#"
                     class="nav-link"
-                    :class="themeTabClasses"
+                    :class="tabClasses(layerListView)"
                     @click.prevent="switchToThemes()"
                 >{{ $t("common:modules.featureLister.chooseTheme") }}</a>
             </li>
@@ -190,7 +150,7 @@ export default {
                 <a
                     href="#"
                     class="nav-link"
-                    :class="listTabClasses"
+                    :class="tabClasses(featureListView)"
                     @click.prevent="switchBackToList()"
                 >{{ $t("common:modules.featureLister.list") }}</a>
             </li>
@@ -202,13 +162,13 @@ export default {
                 <a
                     href="#"
                     class="nav-link"
-                    :class="detailsTabClasses"
+                    :class="tabClasses(featureDetailView)"
                     @click.prevent="switchToDetails()"
                 >{{ $t("common:modules.featureLister.details") }}</a>
             </li>
         </ul>
         <div
-            v-if="layerListView"
+            v-if="layerListView === tabStatus.ACTIVE"
             id="feature-lister-themes"
             class="feature-lister-themes panel panel-default"
         >
@@ -237,7 +197,7 @@ export default {
                 </li>
             </ul>
         </div>
-        <template v-if="featureListView">
+        <template v-if="featureListView === tabStatus.ACTIVE">
             <div
                 id="feature-lister-list-header"
                 class="panel-heading"
@@ -284,7 +244,7 @@ export default {
                 </div>
             </div>
         </template>
-        <template v-if="featureDetailView">
+        <template v-if="featureDetailView === tabStatus.ACTIVE">
             <div
                 id="feature-lister-details-header"
                 class="panel-heading"

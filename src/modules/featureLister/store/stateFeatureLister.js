@@ -1,3 +1,5 @@
+import tabStatus from "../tabStatus";
+
 /**
  * featureLister tool state definition.
  * @typedef {Object} FeatureListerState
@@ -33,13 +35,13 @@ const state = {
     maxFeatures: 20,
     // featureLister state
     layer: null,
-    layerListView: true,
+    layerListView: tabStatus.ACTIVE,
     gfiFeaturesOfLayer: [],
     featureCount: "",
     shownFeatures: "",
-    featureListView: false,
+    featureListView: tabStatus.DISABLED,
     nestedFeatures: false,
-    featureDetailView: false,
+    featureDetailView: tabStatus.DISABLED,
     headers: [],
     selectedRow: null,
     highlightVectorRulesPolygon: {
