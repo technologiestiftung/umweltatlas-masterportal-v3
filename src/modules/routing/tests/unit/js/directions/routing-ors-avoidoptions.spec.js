@@ -1,6 +1,6 @@
-import store from "../../../../../../app-store";
+import store from "@appstore";
 import {expect} from "chai";
-import routingOrsAvoidOption from "../../../../js/avoidoptions/routing-ors-avoidoptions";
+import routingOrsAvoidOption from "@modules/routing/js/avoidoptions/routing-ors-avoidoptions";
 
 describe("should routingOrsAvoidOptions", () => {
     it("should lowercase preferences from configJson", async () => {

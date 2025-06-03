@@ -1,16 +1,16 @@
 <script>
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import DrawLayout from "@shared/modules/draw/components/DrawLayout.vue";
 import DrawModels from "./ui/DrawModels.vue";
-import DrawTypes from "../../../shared/modules/draw/components/DrawTypes.vue";
+import DrawTypes from "@shared/modules/draw/components/DrawTypes.vue";
 import EntityList from "./ui/EntityList.vue";
 import EntityModel from "./Modeler3DEntityModel.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 
 import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../js/draw";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import {uniqueId} from "@shared/js/utils/uniqueId";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 /**
  * The 3D modeler component that displays the draw types, draw layout and drawn entities.
  * @module modules/modeler3D/components/Modeler3DDraw

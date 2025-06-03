@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import layerFactory from "@core/layers/js/layerFactory";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Layer Pills: show enabled toplayers as Buttons on top of the map. Adds Ability to remove Layers and call Layerinformation without using Layertree or open Menu.

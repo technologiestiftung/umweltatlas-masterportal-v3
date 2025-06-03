@@ -6,7 +6,7 @@ import {
     escapeField,
     findRecordWithMaxNumberOfFields,
     joinRecord
-} from "../../convertJsonToCsv.js";
+} from "@shared/js/utils/convertJsonToCsv.js";
 
 describe("src/shared/js/utils/convertJsonToCsv.js", () => {
     describe("joinRecord", () => {

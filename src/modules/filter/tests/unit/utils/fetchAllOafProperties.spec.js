@@ -3,7 +3,7 @@ import {
     fetchAllOafPropertiesRecursionHelper,
     getUniqueValuesFromFetchedFeatures,
     getMinMaxFromFetchedFeatures
-} from "../../../utils/fetchAllOafProperties.js";
+} from "@modules/filter/utils/fetchAllOafProperties.js";
 
 describe("src/modules/filter/utils/fetchAllOafProperties.js", () => {
     describe("getMinMaxFromFetchedFeatures", () => {

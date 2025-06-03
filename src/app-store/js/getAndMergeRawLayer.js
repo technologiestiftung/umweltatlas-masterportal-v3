@@ -1,6 +1,6 @@
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import {updateProxyUrl} from "./getProxyUrl";
-import layerFactory from "../../core/layers/js/layerFactory";
+import layerFactory from "@core/layers/js/layerFactory";
 
 let zIndex = 1;
 

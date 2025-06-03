@@ -1,4 +1,4 @@
-import svgFactory from "../../../shared/js/utils/svgFactory";
+import svgFactory from "@shared/js/utils/svgFactory";
 import openLayerFunctions from "./openlayerFunctions.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 

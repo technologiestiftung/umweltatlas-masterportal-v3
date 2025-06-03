@@ -2,9 +2,9 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import Modeler3DEntityModelComponent from "../../../components/Modeler3DEntityModel.vue";
-import Modeler3D from "../../../store/indexModeler3D";
-import actions from "../../../store/actionsModeler3D";
+import Modeler3DEntityModelComponent from "@modules/modeler3D/components/Modeler3DEntityModel.vue";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
+import actions from "@modules/modeler3D/store/actionsModeler3D";
 
 config.global.mocks.$t = key => key;
 

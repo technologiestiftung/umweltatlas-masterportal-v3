@@ -2,7 +2,7 @@ import {nextTick} from "vue";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import DefaultTheme from "../../../components/DefaultTheme.vue";
+import DefaultTheme from "@modules/getFeatureInfo/themes/default/components/DefaultTheme.vue";
 
 config.global.mocks.$t = key => key;
 

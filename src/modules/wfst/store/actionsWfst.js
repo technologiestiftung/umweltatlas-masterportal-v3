@@ -5,7 +5,7 @@ import {platformModifierKeyOnly, primaryAction, click} from "ol/events/condition
 import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature";
 import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
 import getLayerInformationModule from "../js/getLayerInformation";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 import DragBox from "ol/interaction/DragBox";
 

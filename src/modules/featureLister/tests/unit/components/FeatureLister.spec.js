@@ -2,10 +2,10 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import FeatureListerComponent from "../../../components/FeatureLister.vue";
-import FeatureLister from "../../../store/indexFeatureLister";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import getGfiFeatureModule from "../../../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import FeatureListerComponent from "@modules/featureLister/components/FeatureLister.vue";
+import FeatureLister from "@modules/featureLister/store/indexFeatureLister";
+import layerCollection from "@core/layers/js/layerCollection";
+import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature";
 
 config.global.mocks.$t = key => key;
 

@@ -1,7 +1,7 @@
 import crs from "@masterportal/masterportalapi/src/crs";
 
 import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
+import store from "@appstore";
 
 /**
  * The search interface to the elasticSearch.

@@ -2,9 +2,9 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {Group as LayerGroup} from "ol/layer.js";
 import VectorLayer from "ol/layer/Vector.js";
-import layerFactory from "../../../js/layerFactory";
-import Layer2d from "../../../js/layer2d";
-import Layer2dGroup from "../../../js/layer2dGroup";
+import layerFactory from "@core/layers/js/layerFactory";
+import Layer2d from "@core/layers/js/layer2d";
+import Layer2dGroup from "@core/layers/js/layer2dGroup";
 
 describe("src/core/js/layers/Layer2dGroup.js", () => {
     let warn,

@@ -1,5 +1,5 @@
 <script>
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 /**
  * Shadow Tool Slider Input
  * @module modules/ShadowToolSliderInput

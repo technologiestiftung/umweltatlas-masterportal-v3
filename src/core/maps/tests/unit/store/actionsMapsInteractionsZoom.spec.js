@@ -4,7 +4,7 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import View from "ol/View";
 
-import actions from "../../../store/actionsMapsInteractionsZoom";
+import actions from "@core/maps/store/actionsMapsInteractionsZoom";
 
 const {
     decreaseZoom,

@@ -1,5 +1,5 @@
 import {createGfiFeature} from "./getWmsFeaturesByMimeType";
-import store from "../../../app-store";
+import store from "@appstore";
 
 /**
  * gets an array of gfiFeatures for 3d tile features, using ./getWmsFeaturesByMimeType->createGfiFeature

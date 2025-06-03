@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import FeatureHandler from "../../../js/handleFeatures";
+import FeatureHandler from "@modules/statisticDashboard/js/handleFeatures";
 import Feature from "ol/Feature";
 
 describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {

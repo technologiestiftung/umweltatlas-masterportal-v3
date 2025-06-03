@@ -3,8 +3,8 @@ import api from "@masterportal/masterportalapi/src/maps/api";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {initializeMaps, load3DMap, create3DMap} from "../../../js/maps";
-import store from "../../../../../app-store";
+import {initializeMaps, load3DMap, create3DMap} from "@core/maps/js/maps";
+import store from "@appstore";
 
 describe("src/core/js/maps/maps.js", () => {
     let load3DScriptSpy,

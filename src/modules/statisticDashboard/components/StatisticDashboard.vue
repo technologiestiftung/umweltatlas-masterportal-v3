@@ -1,7 +1,7 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
-import isObject from "../../../shared/js/utils/isObject";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
+import isObject from "@shared/js/utils/isObject";
 import getters from "../store/gettersStatisticDashboard";
 import GridComponent from "./StatisticGridComponent.vue";
 import Controls from "./StatisticDashboardControls.vue";
@@ -12,11 +12,11 @@ import StatisticsHandler from "../js/handleStatistics.js";
 import FeaturesHandler from "../js/handleFeatures.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
-import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
+import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
 import ChartProcessor from "../js/chartProcessor.js";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import Multiselect from "vue-multiselect";
 
 import {
@@ -26,7 +26,7 @@ import {
 } from "ol/format/filter";
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
-import sortBy from "../../../shared/js/utils/sortBy";
+import sortBy from "@shared/js/utils/sortBy";
 
 export default {
     name: "StatisticDashboard",

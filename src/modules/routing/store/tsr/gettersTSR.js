@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import tsrState from "./stateTSR";
 import * as constantsRouting from "../constantsRouting";
 

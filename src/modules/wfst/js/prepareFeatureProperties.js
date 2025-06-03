@@ -1,5 +1,5 @@
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
-import {getProxyUrl, useProxy} from "../../../app-store/js/getProxyUrl";
+import {getProxyUrl, useProxy} from "@appstore/js/getProxyUrl";
 
 /**
  * Prepares the possible feature properties to be set for

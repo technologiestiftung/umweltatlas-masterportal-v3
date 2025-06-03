@@ -1,6 +1,6 @@
 import Overlay from "ol/Overlay";
-import thousandsSeparator from "../../../../shared/js/utils/thousandsSeparator";
-import * as setters from "../../store/actions/settersDraw";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
+import * as setters from "@modules/draw_old/store/actions/settersDraw";
 
 /**
  * returns the Feature to use as mouse label on change of circle or double circle

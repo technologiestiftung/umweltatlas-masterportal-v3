@@ -1,11 +1,11 @@
 import markerHelper from "../../js/marker";
-import {treeSubjectsKey} from "../../../../shared/js/utils/constants";
-import WKTUtil from "../../../../shared/js/utils/getWKTGeom";
-import wmsGFIUtil from "../../../../shared/js/utils/getWmsFeaturesByMimeType";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
+import WKTUtil from "@shared/js/utils/getWKTGeom";
+import wmsGFIUtil from "@shared/js/utils/getWmsFeaturesByMimeType";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {trackMatomo} from "../../../../plugins/matomo";
-import mapMarker from "../../../../core/maps/js/mapMarker";
+import {trackMatomo} from "@plugins/matomo";
+import mapMarker from "@core/maps/js/mapMarker";
 
 
 /**

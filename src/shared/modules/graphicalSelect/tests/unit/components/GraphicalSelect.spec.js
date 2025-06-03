@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {shallowMount, config} from "@vue/test-utils";
 import {expect} from "chai";
-import GraphicalSelectComponent from "../../../components/GraphicalSelect.vue";
-import GraphicalSelect from "../../../store/indexGraphicalSelect.js";
+import GraphicalSelectComponent from "@shared/modules/graphicalSelect/components/GraphicalSelect.vue";
+import GraphicalSelect from "@shared/modules/graphicalSelect/store/indexGraphicalSelect";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";

@@ -1,7 +1,7 @@
 import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
-import StatisticDashboardLegend from "../../../components/StatisticDashboardLegend.vue";
+import StatisticDashboardLegend from "@modules/statisticDashboard/components/StatisticDashboardLegend.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

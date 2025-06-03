@@ -3,9 +3,9 @@ import Map from "ol/Map";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import gettersMap from "../../../store/gettersMaps";
-import stateMap from "../../../store/stateMaps";
-import actions from "../../../store/actionsMapsLayers";
+import gettersMap from "@core/maps/store/gettersMaps";
+import stateMap from "@core/maps/store/stateMaps";
+import actions from "@core/maps/store/actionsMapsLayers";
 import sinon from "sinon";
 
 afterEach(() => {

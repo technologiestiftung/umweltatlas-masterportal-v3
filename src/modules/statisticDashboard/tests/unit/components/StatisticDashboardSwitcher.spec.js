@@ -1,6 +1,6 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import StatisticDashboardSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
+import StatisticDashboardSwitcher from "@modules/statisticDashboard/components/StatisticDashboardSwitcher.vue";
 
 config.global.mocks.$t = key => key;
 

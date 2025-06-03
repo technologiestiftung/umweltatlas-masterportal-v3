@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import DrawItemComponent from "../../../components/DrawItem.vue";
-import Draw_old from "../../../store/indexDraw";
+import DrawItemComponent from "@modules/draw_old/components/DrawItem.vue";
+import Draw_old from "@modules/draw_old/store/indexDraw";
 import {expect} from "chai";
 import sinon from "sinon";
-import main from "../../../js/main";
+import main from "@modules/draw_old/js/main";
 
 afterEach(() => {
     sinon.restore();

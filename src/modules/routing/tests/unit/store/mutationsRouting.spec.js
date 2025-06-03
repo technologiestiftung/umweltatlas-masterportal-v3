@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsRouting";
+import mutations from "@modules/routing/store/mutationsRouting";
 
 const {updateStateFromUrlParams} = mutations;
 

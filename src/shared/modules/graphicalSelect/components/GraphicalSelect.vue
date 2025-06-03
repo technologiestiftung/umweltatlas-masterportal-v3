@@ -1,5 +1,5 @@
 <script>
-import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "@shared/modules/graphicalSelect/js/definitionsGraphicalSelect";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import VectorLayer from "ol/layer/Vector.js";

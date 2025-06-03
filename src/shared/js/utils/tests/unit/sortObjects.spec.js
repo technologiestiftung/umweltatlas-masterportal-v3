@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {sortObjects, getNestedElement, sortByLayerSequence} from "../../sortObjects.js";
+import {sortObjects, getNestedElement, sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
 
 describe("src/shared/js/utils/sortObjects.js", () => {
     const objects = [

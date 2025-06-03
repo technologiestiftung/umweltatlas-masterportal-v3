@@ -1,5 +1,5 @@
 <script>
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 /**
  * RoutingSliderInput
  * @module modules/routing/components/RoutingSliderInput

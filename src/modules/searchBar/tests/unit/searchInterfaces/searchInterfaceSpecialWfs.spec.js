@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {Polygon, Point, MultiLineString, MultiPolygon} from "ol/geom";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceSpecialWfs from "../../../searchInterfaces/searchInterfaceSpecialWfs.js";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceSpecialWfs from "@modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", () => {
     let SearchInterface1 = null,

@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {ResultType} from "../store/enums";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 
 /**
  * Tool to check if a subset of features associated to a target layer are located within or outside an applied radius to all features of a source layer.

@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 /**
  * Module to load a config.json to runtime.
  * @module modules/OpenConfig

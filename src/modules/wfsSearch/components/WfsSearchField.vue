@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import {buildXmlFilter} from "../js/buildFilter";
 import {fieldValueChanged} from "../js/literalFunctions";
 import {buildPath, getOptions, prepareOptionsWithId} from "../js/pathFunctions";

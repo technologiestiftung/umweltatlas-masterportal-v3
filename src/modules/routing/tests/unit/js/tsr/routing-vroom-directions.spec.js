@@ -1,8 +1,8 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore";
 import {expect} from "chai";
 import sinon from "sinon";
-import {fetchTSRDirections} from "../../../../js/tsr/routing-vroom-directions";
+import {fetchTSRDirections} from "@modules/routing/js/tsr/routing-vroom-directions";
 
 describe("src/modules/routing/js/tsr/routing-vroom-directions.js", () => {
     beforeEach(() => {

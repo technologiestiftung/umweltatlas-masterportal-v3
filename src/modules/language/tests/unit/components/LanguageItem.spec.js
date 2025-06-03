@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import LanguageComponent from "../../../components/LanguageItem.vue";
-import Language from "../../../store/indexLanguage";
+import LanguageComponent from "@modules/language/components/LanguageItem.vue";
+import Language from "@modules/language/store/indexLanguage";
 
 config.global.mocks.$t = key => key;
 

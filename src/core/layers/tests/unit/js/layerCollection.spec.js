@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import Map from "ol/Map";
 
-import layerCollection from "../../../js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("src/core/js/layers/layerCollection.js", () => {
     let layer1,

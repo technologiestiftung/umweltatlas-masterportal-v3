@@ -1,4 +1,4 @@
-import store from "../../../app-store";
+import store from "@appstore";
 import * as webgl from "@masterportal/masterportalapi/src/renderer/webgl";
 
 

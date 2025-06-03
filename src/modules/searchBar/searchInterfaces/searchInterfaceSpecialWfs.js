@@ -1,6 +1,6 @@
 import SearchInterface from "./searchInterface";
 import WFS from "ol/format/WFS";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import {uniqueId} from "@shared/js/utils/uniqueId";
 
 /**
  * The search interface to the special wfs.

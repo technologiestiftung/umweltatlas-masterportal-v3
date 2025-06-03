@@ -4,9 +4,9 @@ import dayjs from "dayjs";
 import {config, shallowMount} from "@vue/test-utils";
 import sinon from "sinon";
 
-import SensorTheme from "../../../components/SensorTheme.vue";
-import SensorChartsData from "../../../components/SensorThemeData.vue";
-import SensorChartsBarChart from "../../../components/SensorThemeBarChart.vue";
+import SensorTheme from "@modules/getFeatureInfo/themes/sensor/components/SensorTheme.vue";
+import SensorChartsData from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeData.vue";
+import SensorChartsBarChart from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeBarChart.vue";
 
 config.global.mocks.$t = key => key;
 

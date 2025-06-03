@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import SwitchInput from "../../../components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 config.global.mocks.$t = key => key;
 

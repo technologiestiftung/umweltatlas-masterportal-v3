@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 
 /**
  * The About Module gives information about the metadata, contact and current version of the portal

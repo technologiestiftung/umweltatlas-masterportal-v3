@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import {fetchRoutingSpecialWfsGeosearch, makeWFSRequest} from "../../../../js/geosearch/routing-specialWfs-geosearch";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
+import {fetchRoutingSpecialWfsGeosearch, makeWFSRequest} from "@modules/routing/js/geosearch/routing-specialWfs-geosearch";
 
 describe("src/modules/routing/js/geosearch/routing-specialWfs-geosearch.js", () => {
     const makeWFSRequestStub = sinon.stub(),

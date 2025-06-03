@@ -1,12 +1,12 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import FilterGeneral from "../../../components/FilterGeneral.vue";
-import FilterStore from "../../../store/indexFilter";
+import FilterGeneral from "@modules/filter/components/FilterGeneral.vue";
+import FilterStore from "@modules/filter/store/indexFilter";
 import sinon from "sinon";
-import openlayerFunctions from "../../../utils/openlayerFunctions";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import IconButton from "../../../../../shared/modules/buttons/components/IconButton.vue";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
+import layerCollection from "@core/layers/js/layerCollection";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 config.global.mocks.$t = key => key;
 

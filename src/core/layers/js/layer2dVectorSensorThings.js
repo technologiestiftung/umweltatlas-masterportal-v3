@@ -12,12 +12,12 @@ import dayjsTimezone from "dayjs/plugin/timezone";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import Layer2dVector from "./layer2dVector";
-import changeTimeZone from "../../../shared/js/utils/changeTimeZone";
-import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
-import isObject from "../../../shared/js/utils/isObject";
-import {SensorThingsHttp} from "../../../shared/js/api/sensorThingsHttp";
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
-import store from "../../../app-store";
+import changeTimeZone from "@shared/js/utils/changeTimeZone";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import isObject from "@shared/js/utils/isObject";
+import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
+import store from "@appstore";
 
 dayjs.extend(dayjsTimezone);
 dayjs.extend(localizedFormat);

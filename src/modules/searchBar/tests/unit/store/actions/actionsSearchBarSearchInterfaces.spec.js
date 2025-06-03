@@ -1,7 +1,7 @@
-import actions from "../../../../store/actions/actionsSearchBarSearchInterfaces";
+import actions from "@modules/searchBar/store/actions/actionsSearchBarSearchInterfaces";
 import {expect} from "chai";
 import sinon from "sinon";
-import store from "../../../../../../app-store";
+import store from "@appstore";
 
 const {
     cleanSearchResults,

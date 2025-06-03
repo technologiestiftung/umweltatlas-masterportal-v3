@@ -237,8 +237,8 @@ myMasterPortalFolder/
 ```js
 // myMasterPortalFolder/addons/VueAddon/store/VueAddon.js
 
-import GenericTool from "../../../src/modules/tools/indexTools";
-import composeModules from "../../../src/app-store/utils/composeModules";
+import GenericTool from "@modules/tools/indexTools";
+import composeModules from "@storeapp/utils/composeModules";
 import getters from "./gettersVueAddon";
 import mutations from "./mutationsVueAddon";
 import actions from "./actionsVueAddon";
@@ -259,7 +259,7 @@ The contents `state`, `mutations`, `actions`, and `getters` may be placed in sep
 // myMasterPortalFolder/addons/vueAddon/components/VueAddon.vue
 
 <script>
-import Tool from "../../../src/modules/tools/Tool.vue";
+import Tool from "@modules/tools/Tool.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import getters from "../store/gettersVueAddon";
 import mutations from "../store/mutationsVueAddon";

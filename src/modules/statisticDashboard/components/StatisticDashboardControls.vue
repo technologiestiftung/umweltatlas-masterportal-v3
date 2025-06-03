@@ -1,9 +1,9 @@
 <script>
 import DifferenceModal from "./StatisticDashboardDifference.vue";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
-import ExportButtonCSV from "../../../shared/modules/buttons/components/ExportButtonCSV.vue";
+import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 
 export default {
     name: "StatisticDashboardControls",

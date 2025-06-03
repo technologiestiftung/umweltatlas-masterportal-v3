@@ -3,7 +3,7 @@ import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerComponentSubMenu from "../../../components/LayerComponentSubMenu.vue";
+import LayerComponentSubMenu from "@modules/layerTree/components/LayerComponentSubMenu.vue";
 
 config.global.mocks.$t = key => key;
 

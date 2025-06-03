@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
-import CompareFeatureIcon from "../../../components/CompareFeatureIcon.vue";
+import CompareFeatureIcon from "@modules/getFeatureInfo/themes/default/components/favoriteIcons/components/CompareFeatureIcon.vue";
 
 config.global.mocks.$t = key => key;
 

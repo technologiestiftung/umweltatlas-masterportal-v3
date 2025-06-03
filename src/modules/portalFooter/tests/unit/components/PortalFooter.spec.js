@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import PortalFooterComponent from "../../../components/PortalFooter.vue";
+import PortalFooterComponent from "@modules/portalFooter/components/PortalFooter.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

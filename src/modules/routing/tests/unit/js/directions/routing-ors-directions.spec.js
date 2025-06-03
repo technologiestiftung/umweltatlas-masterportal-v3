@@ -1,11 +1,11 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingDirections} from "../../../../js/classes/routing-directions";
-import {RoutingDirectionsSegment} from "../../../../js/classes/routing-directions-segment";
-import {RoutingDirectionsStep} from "../../../../js/classes/routing-directions-step";
-import {fetchRoutingOrsDirections, getRoutingDirectionsSettingsUrl, routingOrsPreference} from "../../../../js/directions/routing-ors-directions";
+import {RoutingDirections} from "@modules/routing/js/classes/routing-directions";
+import {RoutingDirectionsSegment} from "@modules/routing/js/classes/routing-directions-segment";
+import {RoutingDirectionsStep} from "@modules/routing/js/classes/routing-directions-step";
+import {fetchRoutingOrsDirections, getRoutingDirectionsSettingsUrl, routingOrsPreference} from "@modules/routing/js/directions/routing-ors-directions";
 
 describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
     let service;

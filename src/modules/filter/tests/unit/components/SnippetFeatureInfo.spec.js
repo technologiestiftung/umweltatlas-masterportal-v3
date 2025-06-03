@@ -1,5 +1,5 @@
 import {shallowMount, config} from "@vue/test-utils";
-import SnippetFeatureInfo from "../../../components/SnippetFeatureInfo.vue";
+import SnippetFeatureInfo from "@modules/filter/components/SnippetFeatureInfo.vue";
 import Feature from "ol/Feature";
 import {expect} from "chai";
 

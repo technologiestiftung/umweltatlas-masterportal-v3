@@ -12,7 +12,7 @@ import {
     addSnippetTypes,
     checkSnippetTypeConsistency,
     getDefaultSnippetTypeByDataType
-} from "../../../utils/compileSnippets.js";
+} from "@modules/filter/utils/compileSnippets.js";
 
 describe("src/modules/filter/utils/compileSnippets.js", () => {
     describe("removeInvalidSnippets", () => {

@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import getters from "../store/gettersLayerSwiper";
+import getters from "@shared/modules/layerSwiper/store/gettersLayerSwiper";
 
 export default {
     name: "LayerSwiper",

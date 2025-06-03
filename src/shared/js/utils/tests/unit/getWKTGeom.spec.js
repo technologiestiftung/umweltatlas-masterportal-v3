@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import WKTUtil from "../../getWKTGeom.js";
+import WKTUtil from "@shared/js/utils/getWKTGeom.js";
 
 describe("src/shared/js/utils/getWKTGeom.js", () => {
     it("should return a feature with geometryType and POLYGON coordinates", () => {

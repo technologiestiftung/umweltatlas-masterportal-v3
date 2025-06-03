@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerSelectionTreeNode from "../../../components/LayerSelectionTreeNode.vue";
+import LayerSelectionTreeNode from "@modules/layerSelection/components/LayerSelectionTreeNode.vue";
 
 config.global.mocks.$t = key => key;
 

@@ -1,4 +1,4 @@
-import InterfaceStaExtern from "../../../../js/interfaces/interface.sta.extern.js";
+import InterfaceStaExtern from "@modules/filter/js/interfaces/interface.sta.extern.js";
 import {expect} from "chai";
 
 describe("src/modules/filter/interfaces/utils/interface.sta.extern.js", () => {

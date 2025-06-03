@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {extractEventCoordinates} from "../../extractEventCoordinates.js";
+import {extractEventCoordinates} from "@shared/js/utils/extractEventCoordinates.js";
 
 describe("src/utils/extractEventCoordinates.js", () => {
     describe("extractEventCoordinates", () => {

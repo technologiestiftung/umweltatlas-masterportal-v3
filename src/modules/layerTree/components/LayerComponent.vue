@@ -1,13 +1,13 @@
 <script>
 import {mapGetters} from "vuex";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
+import layerFactory from "@core/layers/js/layerFactory";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 import LayerCheckBox from "./LayerCheckBox.vue";
 import LayerComponentIconFilter from "./LayerComponentIconFilter.vue";
 import LayerComponentIconInfo from "./LayerComponentIconInfo.vue";
 import LayerComponentIconSubMenu from "./LayerComponentIconSubMenu.vue";
 import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 /**
  * Representation of a layer in layerTree.

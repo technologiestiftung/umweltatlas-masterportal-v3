@@ -2,10 +2,10 @@ import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../../../shared/js/utils/constants";
-import getNestedValues from "../../../../../shared/js/utils/getNestedValues";
-import LayerTreeComponent from "../../../components/LayerTree.vue";
-import LayerTree from "../../../store/indexLayerTree";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import getNestedValues from "@shared/js/utils/getNestedValues";
+import LayerTreeComponent from "@modules/layerTree/components/LayerTree.vue";
+import LayerTree from "@modules/layerTree/store/indexLayerTree";
 
 config.global.mocks.$t = key => key;
 

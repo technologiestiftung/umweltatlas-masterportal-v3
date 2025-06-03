@@ -9,8 +9,8 @@ import Overlay from "ol/Overlay.js";
 import proj4 from "proj4";
 import * as Proj from "ol/proj.js";
 import {Circle, LineString} from "ol/geom.js";
-import layerCollection from "../../../../core/layers/js/layerCollection";
-import isObject from "../../../../shared/js/utils/isObject";
+import layerCollection from "@core/layers/js/layerCollection";
+import isObject from "@shared/js/utils/isObject";
 
 /**
  * Orientation control that allows the user to locate themselves on the map.

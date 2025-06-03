@@ -1,4 +1,4 @@
-import store from "../../../../app-store";
+import store from "@appstore";
 import {transform, transformPoint} from "./transformGeometry";
 
 /**

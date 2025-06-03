@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import StartModuleComponent from "../../../components/StartModule.vue";
+import StartModuleComponent from "@modules/controls/startModule/components/StartModule.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

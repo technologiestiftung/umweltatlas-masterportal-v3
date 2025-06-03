@@ -1,11 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsModeler3D";
-import store from "../../../../../app-store";
+import actions from "@modules/modeler3D/store/actionsModeler3D";
+import store from "@appstore";
 import proj4 from "proj4";
-import blobHandler from "../../../js/blob";
+import blobHandler from "@modules/modeler3D/js/blob";
 import {nextTick} from "vue";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("Actions", () => {
     let entity,

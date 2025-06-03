@@ -3,7 +3,7 @@ import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createSty
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import {getCenter} from "ol/extent";
 import webgl from "./webglRenderer";
-import store from "../../../app-store";
+import store from "@appstore";
 import Layer2d from "./layer2d";
 import Cluster from "ol/source/Cluster";
 import Style from "ol/style/Style";

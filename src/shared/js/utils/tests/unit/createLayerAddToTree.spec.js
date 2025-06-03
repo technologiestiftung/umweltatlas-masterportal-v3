@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import store from "../../../../../app-store";
-import createLayerAddToTreeModule from "../../createLayerAddToTree.js";
-import layerCollection from "../../../../../core/layers/js/layerCollection.js";
-import {reset as resetUniqueId} from "../../../../../shared/js/utils/uniqueId.js";
+import store from "@appstore";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {reset as resetUniqueId} from "@shared/js/utils/uniqueId.js";
 
 describe("src/utils/createLayerAddToTree.js", () => {
     let addedFeatures = null,

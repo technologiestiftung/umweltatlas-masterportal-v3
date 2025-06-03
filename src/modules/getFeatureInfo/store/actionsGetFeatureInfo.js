@@ -1,11 +1,11 @@
 import Cluster from "ol/source/Cluster";
 import VectorSource from "ol/source/Vector";
-import {getWmsFeaturesByMimeType} from "../../../shared/js/utils/getWmsFeaturesByMimeType";
+import {getWmsFeaturesByMimeType} from "@shared/js/utils/getWmsFeaturesByMimeType";
 import {getVisibleWmsLayersAtResolution} from "../js/getLayers";
-import store from "../../../app-store";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import transformer from "../../../shared/js/utils/coordToPixel3D";
-import changeCase from "../../../shared/js/utils/changeCase";
+import store from "@appstore";
+import layerCollection from "@core/layers/js/layerCollection";
+import transformer from "@shared/js/utils/coordToPixel3D";
+import changeCase from "@shared/js/utils/changeCase";
 
 let globeEventHandler,
     colored3DTile,

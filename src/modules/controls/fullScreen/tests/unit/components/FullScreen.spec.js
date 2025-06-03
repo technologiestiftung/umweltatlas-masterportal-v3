@@ -3,7 +3,7 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import FullScreen from "../../../components/FullScreen.vue";
+import FullScreen from "@modules/controls/fullScreen/components/FullScreen.vue";
 
 config.global.mocks.$t = key => key;
 

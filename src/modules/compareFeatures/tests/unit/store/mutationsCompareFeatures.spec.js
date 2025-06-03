@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsCompareFeatures";
+import mutations from "@modules/compareFeatures/store/mutationsCompareFeatures";
 
 const {
     resetLayerSelection,

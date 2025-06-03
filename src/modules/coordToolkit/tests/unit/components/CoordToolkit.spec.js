@@ -3,9 +3,9 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
-import CoordToolkitComponent from "../../../components/CoordToolkit.vue";
-import CoordToolkit from "../../../store/indexCoordToolkit";
-import actions from "../../../store/actionsCoordToolkit";
+import CoordToolkitComponent from "@modules/coordToolkit/components/CoordToolkit.vue";
+import CoordToolkit from "@modules/coordToolkit/store/indexCoordToolkit";
+import actions from "@modules/coordToolkit/store/actionsCoordToolkit";
 
 const namedProjections = [
     ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],

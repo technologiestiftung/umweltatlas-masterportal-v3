@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
-import PoiOrientationComponent from "../../../../components/poi/PoiOrientation.vue";
+import PoiOrientationComponent from "@modules/controls/orientation/components/poi/PoiOrientation.vue";
 import Feature from "ol/Feature.js";
 import sinon from "sinon";
 

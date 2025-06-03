@@ -1,7 +1,7 @@
 import {Group as LayerGroup} from "ol/layer.js";
-import differenceJS from "../../../shared/js/utils/differenceJS";
-import sortBy from "../../../shared/js/utils/sortBy";
-import store from "../../../app-store";
+import differenceJS from "@shared/js/utils/differenceJS";
+import sortBy from "@shared/js/utils/sortBy";
+import store from "@appstore";
 /**
  * Collects all visible ol layers, including layers of groups.
  * @param {Boolean} [printMapMarker=false] whether layer "markerPoint" should be filtered out

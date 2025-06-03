@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import TimeSlider from "../../../components/TimeSlider.vue";
+import TimeSlider from "@modules/wmsTime/components/TimeSlider.vue";
 
 config.global.mocks.$t = key => key;
 

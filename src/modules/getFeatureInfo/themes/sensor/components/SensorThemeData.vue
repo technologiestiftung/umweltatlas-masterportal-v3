@@ -1,8 +1,8 @@
 <script>
-import beautifyKey from "../../../../../shared/js/utils/beautifyKey.js";
-import {isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
-import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 
 /**
  * The bar chart for sensor theme of the get feature info.

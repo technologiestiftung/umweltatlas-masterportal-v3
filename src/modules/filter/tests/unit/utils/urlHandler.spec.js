@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import UrlHandler from "../../../utils/urlHandler.js";
-import MapHandler from "../../../utils/mapHandler.js";
+import UrlHandler from "@modules/filter/utils/urlHandler.js";
+import MapHandler from "@modules/filter/utils/mapHandler.js";
 
 describe("src/modules/filter/utils/mapHandler.js", () => {
     const urlHandler = new UrlHandler();

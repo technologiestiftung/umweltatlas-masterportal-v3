@@ -3,7 +3,7 @@ import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import {createStore} from "vuex";
 
-import ScaleSwitcherComponent from "../../../components/ScaleSwitcher.vue";
+import ScaleSwitcherComponent from "@modules/scaleSwitcher/components/ScaleSwitcher.vue";
 
 config.global.mocks.$t = key => key;
 

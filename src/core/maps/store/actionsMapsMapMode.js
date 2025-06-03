@@ -1,4 +1,4 @@
-import {trackMatomo} from "../../../plugins/matomo";
+import {trackMatomo} from "@plugins/matomo";
 /**
  * Controls the exchange of the map. E.g. the change from 2D to 3D mode.
  */

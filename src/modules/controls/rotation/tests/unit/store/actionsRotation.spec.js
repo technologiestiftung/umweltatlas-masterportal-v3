@@ -1,5 +1,5 @@
-import degreesToRadians from "../../../../../../shared/js/utils/degreesToRadians";
-import actions from "../../../store/actionsRotation";
+import degreesToRadians from "@shared/js/utils/degreesToRadians";
+import actions from "@modules/controls/rotation/store/actionsRotation";
 import Map from "ol/Map";
 import sinon from "sinon";
 import {expect} from "chai";

@@ -3,7 +3,7 @@ import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
 import sinon from "sinon";
 
-import StyleVTComponent from "../../../components/StyleVT.vue";
+import StyleVTComponent from "@modules/styleVT/components/StyleVT.vue";
 
 config.global.mocks.$t = key => key;
 

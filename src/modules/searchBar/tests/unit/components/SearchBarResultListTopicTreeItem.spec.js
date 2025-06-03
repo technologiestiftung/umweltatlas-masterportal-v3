@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarResultListTopicTreeItemComponent from "../../../components/SearchBarResultListTopicTreeItem.vue";
+import SearchBarResultListTopicTreeItemComponent from "@modules/searchBar/components/SearchBarResultListTopicTreeItem.vue";
 
 config.global.mocks.$t = key => key;
 

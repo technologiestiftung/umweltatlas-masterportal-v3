@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../../../store/actionsWfsSearch";
-import isObject from "../../../../../shared/js/utils/isObject";
+import actions from "@modules/wfsSearch/store/actionsWfsSearch";
+import isObject from "@shared/js/utils/isObject";
 
 describe("src/modules/wfsSearch/store/actionsWfsSearch.js", () => {
     let commit, dispatch;

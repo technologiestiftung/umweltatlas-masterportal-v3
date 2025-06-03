@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LayerSwiper from "../../../shared/modules/layerSwiper/components/LayerSwiper.vue";
+import LayerSwiper from "@shared/modules/layerSwiper/components/LayerSwiper.vue";
 import TimeSlider from "./TimeSlider.vue";
 
 export default {

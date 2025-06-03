@@ -3,10 +3,10 @@ import {rawLayerList} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
 import actionsLayerConfig from "./actionsLayerConfig";
-import {fetchFirstModuleConfig} from "../shared/js/utils/fetchFirstModuleConfig";
-import {portalConfigKey, treeTopicConfigKey} from "../shared/js/utils/constants";
+import {fetchFirstModuleConfig} from "@shared/js/utils/fetchFirstModuleConfig";
+import {portalConfigKey, treeTopicConfigKey} from "@shared/js/utils/constants";
 import {updateProxyUrl} from "./js/getProxyUrl";
-import {upperFirst} from "../shared/js/utils/changeCase";
+import {upperFirst} from "@shared/js/utils/changeCase";
 
 /**
  * The root actions.

@@ -1,4 +1,4 @@
-import isObject from "../../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {getOafAttributeTypes} from "../../utils/getOafAttributeTypes.js";
 import {fetchAllOafProperties, getUniqueValuesFromFetchedFeatures, getMinMaxFromFetchedFeatures} from "../../utils/fetchAllOafProperties.js";
 

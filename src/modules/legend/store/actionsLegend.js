@@ -1,5 +1,5 @@
 import Cluster from "ol/source/Cluster";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 import validator from "../js/validator";
 import legendDraw from "../js/legendDraw";
 import layerCollector from "../js/layerCollector";

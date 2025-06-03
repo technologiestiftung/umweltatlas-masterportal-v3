@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
-import RoutingComponent from "../../../components/RoutingTemplate.vue";
+import RoutingComponent from "@modules/routing/components/RoutingTemplate.vue";
 import sinon from "sinon";
-import mutations from "../../../store/mutationsRouting";
-import actions from "../../../store/actionsRouting";
+import mutations from "@modules/routing/store/mutationsRouting";
+import actions from "@modules/routing/store/actionsRouting";
 
 config.global.mocks.$t = key => key;
 

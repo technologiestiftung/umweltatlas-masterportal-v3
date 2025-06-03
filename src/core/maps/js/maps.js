@@ -4,7 +4,7 @@ import {rawLayerList} from "@masterportal/masterportalapi/src";
 import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
 
 import {setResolutions, setValues} from "./setValuesToMapView";
-import store from "../../../app-store";
+import store from "@appstore";
 import mapMarker from "./mapMarker";
 
 /**

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import gettersRouting from "../../../store/gettersRouting";
+import gettersRouting from "@modules/routing/store/gettersRouting";
 
 describe("src/modules/routing/store/gettersRouting.js", () => {
     let state;

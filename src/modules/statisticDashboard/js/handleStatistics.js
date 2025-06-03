@@ -1,4 +1,4 @@
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 
 /**
  * Gets the categories grouped or ungrouped.

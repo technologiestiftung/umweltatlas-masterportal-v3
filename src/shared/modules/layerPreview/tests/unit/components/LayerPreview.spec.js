@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import crs from "@masterportal/masterportalapi/src/crs";
-import LayerPreviewComponent from "../../../components/LayerPreview.vue";
-import LayerPreview from "../../../store/indexLayerPreview";
+import LayerPreviewComponent from "@shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/store/indexLayerPreview";
 import wmts from "@masterportal/masterportalapi/src/layer/wmts";
 import axios from "axios";
 

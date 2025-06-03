@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import ElevatedButton from "../../../components/ElevatedButton.vue";
+import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vue";
 
 config.global.mocks.$t = key => key;
 

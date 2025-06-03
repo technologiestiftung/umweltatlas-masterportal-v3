@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getLayerInformationModule from "../../../js/getLayerInformation";
-import prepareFeaturePropertiesModule from "../../../js/prepareFeatureProperties";
-import actionsWfst from "../../../store/actionsWfst";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import getLayerInformationModule from "@modules/wfst/js/getLayerInformation";
+import prepareFeaturePropertiesModule from "@modules/wfst/js/prepareFeatureProperties";
+import actionsWfst from "@modules/wfst/store/actionsWfst";
+import layerCollection from "@core/layers/js/layerCollection";
 
 
 describe("src/modules/wfst/store/actionsWfst.js", () => {

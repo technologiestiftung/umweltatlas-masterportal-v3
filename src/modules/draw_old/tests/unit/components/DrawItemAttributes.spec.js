@@ -1,4 +1,4 @@
-import DrawItemAttributes from "../../../components/DrawItemAttributes.vue";
+import DrawItemAttributes from "@modules/draw_old/components/DrawItemAttributes.vue";
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";

@@ -3,9 +3,9 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import SelectAllCheckBox from "../../../components/SelectAllCheckBox.vue";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import layerFactory from "@core/layers/js/layerFactory";
+import SelectAllCheckBox from "@modules/layerSelection/components/SelectAllCheckBox.vue";
+import layerCollection from "@core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 

@@ -1,5 +1,5 @@
-import getFeature from "../../../shared/js/api/oaf/getOAFFeature.js";
-import isObject from "../../../shared/js/utils/isObject.js";
+import getFeature from "@shared/js/api/oaf/getOAFFeature.js";
+import isObject from "@shared/js/utils/isObject.js";
 import axios from "axios";
 
 /**

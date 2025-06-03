@@ -3,7 +3,7 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import TiltView from "../../../components/TiltView.vue";
+import TiltView from "@modules/controls/tiltView/components/TiltView.vue";
 
 config.global.mocks.$t = key => key;
 

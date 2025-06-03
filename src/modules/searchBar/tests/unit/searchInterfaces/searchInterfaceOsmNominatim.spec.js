@@ -2,10 +2,10 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {reset} from "../../../../../shared/js/utils/uniqueId";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceOsmNominatim from "../../../searchInterfaces/searchInterfaceOsmNominatim.js";
-import store from "../../../../../app-store";
+import {reset} from "@shared/js/utils/uniqueId";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceOsmNominatim from "@modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js";
+import store from "@appstore";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
     let SearchInterface1 = null,

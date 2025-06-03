@@ -2,10 +2,10 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceKomootPhoton from "../../../searchInterfaces/searchInterfaceKomootPhoton.js";
-import store from "../../../../../app-store";
-import {reset} from "../../../../../shared/js/utils/uniqueId";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceKomootPhoton from "@modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js";
+import store from "@appstore";
+import {reset} from "@shared/js/utils/uniqueId";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js", () => {
     let SearchInterface1 = null,

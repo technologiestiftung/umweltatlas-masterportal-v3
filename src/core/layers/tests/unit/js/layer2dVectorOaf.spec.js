@@ -6,10 +6,10 @@ import VectorSource from "ol/source/Vector.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import webgl from "../../../js/webglRenderer";
-import store from "../../../../../app-store";
+import webgl from "@core/layers/js/webglRenderer";
+import store from "@appstore";
 import {oaf} from "@masterportal/masterportalapi";
-import Layer2dVectorOaf from "../../../js/layer2dVectorOaf";
+import Layer2dVectorOaf from "@core/layers/js/layer2dVectorOaf";
 
 describe("src/core/js/layers/layer2dVectorOaf.js", () => {
     let attributes,

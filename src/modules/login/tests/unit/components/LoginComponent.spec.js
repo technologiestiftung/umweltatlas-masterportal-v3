@@ -1,11 +1,11 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 
-import LoginComponent from "../../../components/LoginComponent.vue";
-import Login from "../../../store/indexLogin.js";
-import rootGetters from "../../../../../app-store/getters.js";
-import Cookie from "../../../js/utilsCookies.js";
-import OIDC from "../../../js/utilsOIDC.js";
+import LoginComponent from "@modules/login/components/LoginComponent.vue";
+import Login from "@modules/login/store/indexLogin.js";
+import rootGetters from "@appstore/getters.js";
+import Cookie from "@modules/login/js/utilsCookies.js";
+import OIDC from "@modules/login/js/utilsOIDC.js";
 
 import {expect} from "chai";
 import sinon from "sinon";

@@ -1,9 +1,9 @@
 <script>
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import EntityList from "./ui/EntityList.vue";
 import EntityModel from "./Modeler3DEntityModel.vue";
-import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import {GLTFExporter} from "three/examples/jsm/exporters/GLTFExporter.js";

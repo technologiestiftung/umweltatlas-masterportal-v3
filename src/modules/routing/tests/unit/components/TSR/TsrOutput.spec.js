@@ -3,10 +3,10 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import VectorSource from "ol/source/Vector";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import TsrOutputComponent from "../../../../components/TSR/TsrOutput.vue";
-import RoutingDownloadComponent from "../../../../components/RoutingDownload.vue";
-import RoutingElevationProfileComponent from "../../../../components/RoutingElevationProfile.vue";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
+import TsrOutputComponent from "@modules/routing/components/TSR/TsrOutput.vue";
+import RoutingDownloadComponent from "@modules/routing/components/RoutingDownload.vue";
+import RoutingElevationProfileComponent from "@modules/routing/components/RoutingElevationProfile.vue";
 
 config.global.mocks.$t = key => key;
 

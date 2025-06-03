@@ -1,10 +1,10 @@
 <script>
 import Multiselect from "vue-multiselect";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import sortBy from "../../../shared/js/utils/sortBy";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import sortBy from "@shared/js/utils/sortBy";
 import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
 
 export default {

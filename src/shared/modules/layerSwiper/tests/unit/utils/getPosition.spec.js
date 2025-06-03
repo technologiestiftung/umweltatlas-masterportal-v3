@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getPosition from "../../../utils/getPosition";
+import getPosition from "@shared/modules/layerSwiper/utils/getPosition";
 
 describe("src/shared/modules/layerSwiper/utils/getPosition.js", () => {
     const keyboardMovement = 5;

@@ -1,19 +1,19 @@
 <script>
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import EntityList from "./ui/EntityList.vue";
 import ModelerDraw from "./Modeler3DDraw.vue";
 import ModelerFilter from "./Modeler3DFilter.vue";
 import ModelerImport from "./Modeler3DImport.vue";
-import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import crs from "@masterportal/masterportalapi/src/crs";
-import getGfiFeatures from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import getGfiFeatures from "@shared/js/utils/getGfiFeaturesByTileFeature";
 import {adaptCylinderUnclamped} from "../js/draw";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import initProjections from "../../../shared/js/utils/initProjections";
+import layerCollection from "@core/layers/js/layerCollection";
+import initProjections from "@shared/js/utils/initProjections";
 
 /**
  * The component that handels the 3D modeler.

@@ -3,13 +3,13 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import crs from "@masterportal/masterportalapi/src/crs";
-import Modeler3DComponent from "../../../components/Modeler3D.vue";
-import Modeler3D from "../../../store/indexModeler3D";
-import actions from "../../../store/actionsModeler3D";
-import Modeler3DDraw from "../../../components/Modeler3DDraw.vue";
-import Modeler3DImport from "../../../components/Modeler3DImport.vue";
-import getGfiFeaturesByTileFeatureModule from "../../../../../shared/js/utils/getGfiFeaturesByTileFeature";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import Modeler3DComponent from "@modules/modeler3D/components/Modeler3D.vue";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
+import actions from "@modules/modeler3D/store/actionsModeler3D";
+import Modeler3DDraw from "@modules/modeler3D/components/Modeler3DDraw.vue";
+import Modeler3DImport from "@modules/modeler3D/components/Modeler3DImport.vue";
+import getGfiFeaturesByTileFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature";
+import layerCollection from "@core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import isObject from "../../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {describeFeatureTypeWFS} from "../../utils/describeFeatureTypeWFS.js";
 import {WFS} from "ol/format";
 import {

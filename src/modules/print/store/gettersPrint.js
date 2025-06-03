@@ -1,6 +1,6 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import statePrint from "./statePrint";
-import layerFactory from "../../../core/layers/js/layerFactory";
+import layerFactory from "@core/layers/js/layerFactory";
 import {rawLayerList} from "@masterportal/masterportalapi";
 
 const getters = {

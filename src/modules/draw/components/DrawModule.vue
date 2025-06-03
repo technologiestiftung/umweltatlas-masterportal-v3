@@ -3,10 +3,10 @@ import {mapGetters, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector";
 
-import DrawEdit from "../../../shared/modules/draw/components/DrawEdit.vue";
-import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
-import DrawSettingsCircle from "../../../shared/modules/draw/components/DrawSettingsCircle.vue";
-import DrawTypes from "../../../shared/modules/draw/components/DrawTypes.vue";
+import DrawEdit from "@shared/modules/draw/components/DrawEdit.vue";
+import DrawLayout from "@shared/modules/draw/components/DrawLayout.vue";
+import DrawSettingsCircle from "@shared/modules/draw/components/DrawSettingsCircle.vue";
+import DrawTypes from "@shared/modules/draw/components/DrawTypes.vue";
 
 /**
  * Modules to make drawings.

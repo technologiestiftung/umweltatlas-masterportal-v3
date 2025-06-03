@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import actions from "../../../store/actionsGraphicalSelect";
+import actions from "@shared/modules/graphicalSelect/store/actionsGraphicalSelect";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
@@ -7,7 +7,7 @@ import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
 import Draw from "ol/interaction/Draw.js";
 import Overlay from "ol/Overlay.js";
-import definitionsGraphicalSelect from "../../../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "@shared/modules/graphicalSelect/js/definitionsGraphicalSelect";
 
 
 describe("src/share-components/graphicalSelect/store/actionsGraphicalSelect", () => {

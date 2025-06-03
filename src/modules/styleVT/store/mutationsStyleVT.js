@@ -1,6 +1,6 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
+import {generateSimpleMutations} from "@shared/js/utils/generators";
 import stateStyleVT from "./stateStyleVT";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 const mutations = {
     ...generateSimpleMutations(stateStyleVT),

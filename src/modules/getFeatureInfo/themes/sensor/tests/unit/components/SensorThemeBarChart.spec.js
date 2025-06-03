@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";
 import Chart from "chart.js";
-import SensorThemeBartChart from "../../../components/SensorThemeBarChart.vue";
+import SensorThemeBartChart from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeBarChart.vue";
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$i18next = {

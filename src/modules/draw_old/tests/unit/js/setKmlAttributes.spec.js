@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {setKmlAttributes} from "../../../js/setKmlAttributes";
+import {setKmlAttributes} from "@modules/draw_old/js/setKmlAttributes";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 import LineString from "ol/geom/LineString";

@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerComponentIconFilter from "../../../components/LayerComponentIconFilter.vue";
+import LayerComponentIconFilter from "@modules/layerTree/components/LayerComponentIconFilter.vue";
 
 config.global.mocks.$t = key => key;
 

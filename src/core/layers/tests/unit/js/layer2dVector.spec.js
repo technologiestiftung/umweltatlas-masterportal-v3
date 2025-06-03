@@ -3,8 +3,8 @@ import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import Layer2dVector from "../../../js/layer2dVector";
-import store from "../../../../../app-store";
+import Layer2dVector from "@core/layers/js/layer2dVector";
+import store from "@appstore";
 
 describe("src/core/js/layers/layer2dVector.js", () => {
     let attributes,

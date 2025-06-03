@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import InterfaceGeojsonExtern from "../../../../js/interfaces/interface.geojson.extern.js";
+import InterfaceGeojsonExtern from "@modules/filter/js/interfaces/interface.geojson.extern.js";
 import hash from "object-hash";
 
 describe("src/modules/filter/interfaces/utils/interface.geojson.extern.js", () => {

@@ -2,12 +2,12 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {expect} from "chai";
-import FilterStore from "../../../store/indexFilter";
-import getIconListFromLegend from "../../../utils/getIconListFromLegend.js";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import openlayerFunctions from "../../../utils/openlayerFunctions.js";
-import SnippetDropdown from "../../../components/SnippetDropdown.vue";
+import FilterStore from "@modules/filter/store/indexFilter";
+import getIconListFromLegend from "@modules/filter/utils/getIconListFromLegend.js";
+import layerCollection from "@core/layers/js/layerCollection";
+import layerFactory from "@core/layers/js/layerFactory";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
+import SnippetDropdown from "@modules/filter/components/SnippetDropdown.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

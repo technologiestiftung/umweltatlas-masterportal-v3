@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {setCsvAttributes} from "../../../js/setCsvAttributes";
+import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 import LineString from "ol/geom/LineString";

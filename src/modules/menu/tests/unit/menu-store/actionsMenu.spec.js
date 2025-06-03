@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {nextTick} from "vue";
-import actions from "../../../menu-store/actionsMenu";
+import actions from "@modules/menu/menu-store/actionsMenu";
 
 describe("src/modules/menu/menu-store/actionsMenu.js", () => {
     let commit,

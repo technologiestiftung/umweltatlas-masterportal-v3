@@ -1,9 +1,9 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import actions from "../../../store/actionsWmsTime";
-import initialState from "../../../store/stateWmsTime";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import actions from "@modules/wmsTime/store/actionsWmsTime";
+import initialState from "@modules/wmsTime/store/stateWmsTime";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
     let commit, dispatch, getters, rootGetters, state, map;

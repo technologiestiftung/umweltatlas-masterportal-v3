@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import CompareMaps from "../../../components/CompareMaps.vue";
+import CompareMaps from "@modules/compareMaps/components/CompareMaps.vue";
 import {expect} from "chai";
 import sinon from "sinon";
-import mapCollection from "../../../../../core/maps/js/mapCollection";
-import mutations from "../../../store/mutationsCompareMaps";
+import mapCollection from "@core/maps/js/mapCollection";
+import mutations from "@modules/compareMaps/store/mutationsCompareMaps";
 
 config.global.mocks.$t = key => key;
 

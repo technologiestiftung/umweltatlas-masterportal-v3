@@ -1,5 +1,5 @@
 
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import filterState from "./stateFilter";
 
 const getters = {

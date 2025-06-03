@@ -1,8 +1,8 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import InputText from "../../../shared/modules/inputs/components/InputText.vue";
-import {convertColor} from "../../../shared/js/utils/convertColor";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import {convertColor} from "@shared/js/utils/convertColor";
 export default {
     name: "StatisticDashboardLegend",
     components: {

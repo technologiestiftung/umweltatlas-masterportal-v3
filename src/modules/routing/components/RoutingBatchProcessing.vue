@@ -1,6 +1,6 @@
 <script>
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
-import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 /**
  * Routing Batch Processing
  * @module modules/routing/components/RoutingBatchProcessing

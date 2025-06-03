@@ -1,8 +1,8 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import transform from "../../../../js/download/transform";
-import store from "../../../../../../app-store";
+import transform from "@modules/draw_old/js/download/transform";
+import store from "@appstore";
 
 import Circle from "ol/geom/Circle";
 import Line from "ol/geom/LineString";

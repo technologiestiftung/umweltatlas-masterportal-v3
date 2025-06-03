@@ -2,12 +2,12 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import DirectionsComponent from "../../../../components/Directions/DirectionsItem.vue";
-import DirectionsItemBatchProcessingComponent from "../../../../components/Directions/DirectionsItemBatchProcessing.vue";
-import RoutingBatchProcessingCheckboxComponent from "../../../../components/RoutingBatchProcessingCheckbox.vue";
-import RoutingDownloadComponent from "../../../../components/RoutingDownload.vue";
-import RoutingRestrictionsInputComponent from "../../../../components/RoutingRestrictionsInput.vue";
-import RoutingElevationProfileComponent from "../../../../components/RoutingElevationProfile.vue";
+import DirectionsComponent from "@modules/routing/components/Directions/DirectionsItem.vue";
+import DirectionsItemBatchProcessingComponent from "@modules/routing/components/Directions/DirectionsItemBatchProcessing.vue";
+import RoutingBatchProcessingCheckboxComponent from "@modules/routing/components/RoutingBatchProcessingCheckbox.vue";
+import RoutingDownloadComponent from "@modules/routing/components/RoutingDownload.vue";
+import RoutingRestrictionsInputComponent from "@modules/routing/components/RoutingRestrictionsInput.vue";
+import RoutingElevationProfileComponent from "@modules/routing/components/RoutingElevationProfile.vue";
 
 config.global.mocks.$t = key => key;
 

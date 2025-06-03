@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 /**
  * Alerting

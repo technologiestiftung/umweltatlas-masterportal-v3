@@ -6,7 +6,7 @@ import Point from "ol/geom/Point";
 import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
-import createStyledFeatures from "../../../js/zoomToCreateStyledFeatures";
+import createStyledFeatures from "@core/maps/js/zoomToCreateStyledFeatures";
 
 describe("src/core/maps/js/zoomToCreateStyledFeatures.js", () => {
     const consoleSpy = sinon.spy(),

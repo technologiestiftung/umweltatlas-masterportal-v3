@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
 import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
-import escapeId from "../../../shared/js/utils/escapeId";
+import escapeId from "@shared/js/utils/escapeId";
 /**
  * Displays a checkbox to select a layer in layertree.
  * @module modules/layerTree/components/LayerCheckBox

@@ -2,9 +2,9 @@ import {expect} from "chai";
 import {config, shallowMount, mount} from "@vue/test-utils";
 import sinon from "sinon";
 import {createStore} from "vuex";
-import Modeler3DFilterComponent from "../../../components/Modeler3DFilter.vue";
-import Modeler3D from "../../../store/indexModeler3D";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import Modeler3DFilterComponent from "@modules/modeler3D/components/Modeler3DFilter.vue";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
+import layerCollection from "@core/layers/js/layerCollection";
 
 config.global.mocks.$t = key => key;
 

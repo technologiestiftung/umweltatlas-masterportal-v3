@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceGazetteer from "../../../searchInterfaces/searchInterfaceGazetteer.js";
-import store from "../../../../../app-store";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceGazetteer from "@modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js";
+import store from "@appstore";
 
 afterEach(() => {
     sinon.restore();

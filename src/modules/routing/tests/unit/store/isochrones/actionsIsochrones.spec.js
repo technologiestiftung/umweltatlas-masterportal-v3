@@ -1,14 +1,14 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsIsochrones from "../../../../store/isochrones/actionsIsochrones";
+import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 import Draw from "ol/interaction/Draw";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area";
 
 describe("src/modules/routing/store/isochrones/actionsIsochrones.js", () => {
     let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoint, isochronesAreaSource, isochronesResult;

@@ -1,9 +1,9 @@
 import sinon from "sinon";
 import {expect} from "chai";
 import {createLayerConfigsArray} from "../utils/functions";
-import actions from "../../../store/actionsBufferAnalysis";
-import stateBufferAnalysis from "../../../store/stateBufferAnalysis";
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
+import actions from "@modules/bufferAnalysis/store/actionsBufferAnalysis";
+import stateBufferAnalysis from "@modules/bufferAnalysis/store/stateBufferAnalysis";
+import testAction from "@devtools/tests/VueTestUtils";
 import {
     LineString,
     MultiLineString,

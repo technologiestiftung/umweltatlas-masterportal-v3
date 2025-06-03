@@ -1,6 +1,6 @@
-import layerCollection from "../../../core/layers/js/layerCollection";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import store from "../../../app-store";
+import layerCollection from "@core/layers/js/layerCollection";
+import layerFactory from "@core/layers/js/layerFactory";
+import store from "@appstore";
 import SearchInterface from "./searchInterface";
 
 import Cluster from "ol/source/Cluster";

@@ -1,10 +1,10 @@
 import buildTreeStructure from "./js/buildTreeStructure";
-import getNestedValues from "../shared/js/utils/getNestedValues";
-import replacer from "../shared/js/utils/replaceInNestedValues";
+import getNestedValues from "@shared/js/utils/getNestedValues";
+import replacer from "@shared/js/utils/replaceInNestedValues";
 import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer";
-import {sortObjects} from "../shared/js/utils/sortObjects";
-import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
-import layerCollection from "../core/layers/js/layerCollection";
+import {sortObjects} from "@shared/js/utils/sortObjects";
+import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import layerCollection from "@core/layers/js/layerCollection";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import {trackMatomo} from "../plugins/matomo";
 

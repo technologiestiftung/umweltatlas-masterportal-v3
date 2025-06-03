@@ -2,7 +2,7 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import mutations from "../store/mutationsShareView";
 import QRCode from "qrcode";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import {Toast} from "bootstrap";
 
 /**

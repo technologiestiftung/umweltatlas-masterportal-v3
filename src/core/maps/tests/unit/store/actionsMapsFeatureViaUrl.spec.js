@@ -1,4 +1,4 @@
-import actions, {createGeoJSON, getFeatureIds} from "../../../store/actionsMapsFeatureViaUrl";
+import actions, {createGeoJSON, getFeatureIds} from "@core/maps/store/actionsMapsFeatureViaUrl";
 import {expect} from "chai";
 import sinon from "sinon";
 import crs from "@masterportal/masterportalapi/src/crs";

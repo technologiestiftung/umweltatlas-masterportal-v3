@@ -1,5 +1,5 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsPrint";
+import testAction from "@devtools/tests/VueTestUtils";
+import actions from "@modules/print/store/actionsPrint";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
 

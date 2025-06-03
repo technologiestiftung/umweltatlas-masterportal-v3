@@ -2,17 +2,17 @@
 import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
 import {rawLayerList} from "@masterportal/masterportalapi";
-import getOAFFeature from "../../../shared/js/api/oaf/getOAFFeature";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
 import {getUniqueValuesFromFetchedFeatures as getUniqueValuesFromOAF} from "../../filter/utils/fetchAllOafProperties";
 import FetchDataHandler from "../js/fetchData.js";
 import {
     equalTo as equalToFilter,
     or as orFilter
 } from "ol/format/filter";
-import {getFeaturePOST} from "../../../shared/js/api/wfs/getFeature.js";
+import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
 import WFS from "ol/format/WFS";
-import sortBy from "../../../shared/js/utils/sortBy";
-import isObject from "../../../shared/js/utils/isObject";
+import sortBy from "@shared/js/utils/sortBy";
+import isObject from "@shared/js/utils/isObject";
 
 export default {
     name: "StatisticDashboardFilterRegions",

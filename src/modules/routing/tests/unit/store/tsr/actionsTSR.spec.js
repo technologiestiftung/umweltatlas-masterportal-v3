@@ -1,15 +1,15 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsTSR from "../../../../store/tsr/actionsTSR";
+import actionsTSR from "@modules/routing/store/tsr/actionsTSR";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
 import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 import Draw from "ol/interaction/Draw";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import {RoutingTSRDirections} from "../../../../js/classes/routing-directions-tsr";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import tsrWaypointsLayer from "../../../../js/map/tsr/waypoints/tsrWaypointsLayer";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
+import {RoutingTSRDirections} from "@modules/routing/js/classes/routing-directions-tsr";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
+import tsrWaypointsLayer from "@modules/routing/js/map/tsr/waypoints/tsrWaypointsLayer";
 
 describe("src/modules/routing/store/directions/actionsTSR.js", () => {
     let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoints, wgs84Coordinates, tsrWaypointSource, routingTSRResult, routeFeature, startPoint, waypoint1, waypoint2, endPoint, tsrRouteSource;

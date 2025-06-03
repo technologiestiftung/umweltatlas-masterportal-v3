@@ -1,6 +1,6 @@
 import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import layerFactory from "../../../core/layers/js/layerFactory";
+import store from "@appstore";
+import layerFactory from "@core/layers/js/layerFactory";
 
 /**
  * The search interface to the topic tree.

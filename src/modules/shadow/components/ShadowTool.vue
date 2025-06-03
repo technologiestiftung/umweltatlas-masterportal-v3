@@ -7,7 +7,7 @@ import "vue-datepicker-next/index.css";
 
 import ShadowToolSliderInput from "./ShadowToolSliderInput.vue";
 import {updateShadow, updateCesiumTime} from "../js/utilsShadowTool.js";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 dayjs.extend(dayOfYear);
 

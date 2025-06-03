@@ -1,9 +1,9 @@
 <script>
 import {mapActions, mapMutations, mapGetters} from "vuex";
 import LayerTreeNode from "./LayerTreeNode.vue";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
-import sortBy from "../../../shared/js/utils/sortBy";
-import ElevatedButton from "../../../shared/modules/buttons/components/ElevatedButton.vue";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import sortBy from "@shared/js/utils/sortBy";
+import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vue";
 
 /**
  * Module to display the layers in menu.

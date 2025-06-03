@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import StatisticHandler from "../../../js/handleStatistics";
+import StatisticHandler from "@modules/statisticDashboard/js/handleStatistics";
 
 describe("src/modules/statisticDashboard/utils/handleStatistics.js", () => {
     before(() => {

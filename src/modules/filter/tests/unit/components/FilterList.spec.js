@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import FilterList from "../../../components/FilterList.vue";
-import IconButton from "../../../../../shared/modules/buttons/components/IconButton.vue";
+import FilterList from "@modules/filter/components/FilterList.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

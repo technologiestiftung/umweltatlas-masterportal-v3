@@ -3,7 +3,7 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import FreezeScreen from "../../../components/FreezeScreen.vue";
+import FreezeScreen from "@modules/controls/freeze/components/FreezeScreen.vue";
 
 config.global.mocks.$t = key => key;
 

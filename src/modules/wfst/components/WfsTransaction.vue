@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
-import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
+import ModalItem from "@shared/modules/modals/components/ModalItem.vue";
 import SelectTypeButtons from "./SelectTypeButtons.vue";
 
 

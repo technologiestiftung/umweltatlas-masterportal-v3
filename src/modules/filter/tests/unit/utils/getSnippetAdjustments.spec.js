@@ -5,7 +5,7 @@ import {
     getAttrValuesOfItemsGroupedByAttrNames,
     snippetDateCompareFunction,
     getSnippetAdjustments
-} from "../../../utils/getSnippetAdjustments.js";
+} from "@modules/filter/utils/getSnippetAdjustments.js";
 
 describe("src/modules/filter/utils/getSnippetAdjustments.js", () => {
     describe("getMergedValuesByAttrNames", () => {

@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import FileUpload from "../../../../shared/modules/inputs/components/FileUpload.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 
 /**
  * TsrUpload

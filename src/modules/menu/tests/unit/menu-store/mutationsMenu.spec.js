@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../menu-store/mutationsMenu.js";
+import mutations from "@modules/menu/menu-store/mutationsMenu.js";
 
 
 describe("src/core/menu/menu-store/mutationsMenu.js", () => {

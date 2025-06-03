@@ -8,8 +8,8 @@ import VectorSource from "ol/source/Vector.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import Layer2dVectorGeojson from "../../../js/layer2dVectorGeojson";
-import webgl from "../../../js/webglRenderer";
+import Layer2dVectorGeojson from "@core/layers/js/layer2dVectorGeojson";
+import webgl from "@core/layers/js/webglRenderer";
 
 describe("src/core/js/layers/layer2dVectorGeojson.js", () => {
     let attributes,

@@ -1,5 +1,5 @@
 <script>
-import IconButton from "../../buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 export default {
     name: "ModalItem",

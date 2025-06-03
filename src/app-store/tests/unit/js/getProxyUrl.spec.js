@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import {getProxyUrl, updateProxyUrl} from "../../../js/getProxyUrl";
+import {getProxyUrl, updateProxyUrl} from "@appstore/js/getProxyUrl";
 
 
 describe("src/app-store/js/getProxyUrl.js", () => {

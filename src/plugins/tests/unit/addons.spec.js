@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import addons from "../../../plugins/addons";
+import addons from "@plugins/addons";
 import main from "../../../main";
-import store from "../../../app-store";
+import store from "@appstore";
 
 
 describe("src/plugins/addons.js", () => {

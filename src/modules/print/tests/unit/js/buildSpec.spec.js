@@ -11,16 +11,16 @@ import {Polygon} from "ol/geom.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
-import measureStyle from "./../../../../measure/js/measureStyle";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import measureStyle from "@modules/measure/js/measureStyle";
+import layerCollection from "@core/layers/js/layerCollection";
 import sinon from "sinon";
-import BuildSpec from "../../../js/buildSpec";
+import BuildSpec from "@modules/print/js/buildSpec";
 import Circle from "ol/geom/Circle.js";
 import CircleStyle from "ol/style/Circle";
 import IconStyle from "ol/style/Icon";
 import {createStore} from "vuex";
 
-import store from "../../../../../app-store";
+import store from "@appstore";
 
 describe("src/modules/print/js/buildSpec", function () {
     let buildSpec,

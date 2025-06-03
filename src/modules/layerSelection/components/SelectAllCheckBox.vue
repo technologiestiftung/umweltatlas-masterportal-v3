@@ -1,7 +1,7 @@
 <script>
-import escapeId from "../../../shared/js/utils/escapeId";
+import escapeId from "@shared/js/utils/escapeId";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "../../../core/layers/js/layerCollection.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 /**
  * A Checkbox to select all layers at one time.

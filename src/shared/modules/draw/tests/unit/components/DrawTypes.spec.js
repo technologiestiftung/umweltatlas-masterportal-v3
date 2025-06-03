@@ -5,7 +5,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import VectorSource from "ol/source/Vector";
 
-import DrawTypesComponent from "../../../components/DrawTypes.vue";
+import DrawTypesComponent from "@shared/modules/draw/components/DrawTypes.vue";
 
 config.global.mocks.$t = key => key;
 

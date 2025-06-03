@@ -3,13 +3,13 @@ import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 
 import actionsPrintInitialization from "./actionsPrintInitialization";
 import BuildSpec from "../js/buildSpec";
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
+import getCswRecordById from "@shared/js/api/getCswRecordById";
 import layerProvider from "../js/getVisibleLayer";
-import omit from "../../../shared/js/utils/omit";
-import changeCase from "../../../shared/js/utils/changeCase";
+import omit from "@shared/js/utils/omit";
+import changeCase from "@shared/js/utils/changeCase";
 import {takeScreenshot} from "olcs/lib/olcs/print/takeCesiumScreenshot.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
-import {trackMatomo} from "../../../plugins/matomo";
+import {trackMatomo} from "@plugins/matomo";
 
 const actions = {
     ...actionsPrintInitialization,

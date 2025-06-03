@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import LayerClusterTogglerComponent from "../../../components/LayerClusterToggler.vue";
+import LayerClusterTogglerComponent from "@modules/layerClusterToggler/components/LayerClusterToggler.vue";
 
 config.global.mocks.$t = key => key;
 

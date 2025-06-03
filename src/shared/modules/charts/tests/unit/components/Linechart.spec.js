@@ -3,7 +3,7 @@ import {expect} from "chai";
 import Chart from "chart.js/auto";
 import sinon from "sinon";
 import {nextTick} from "vue";
-import LinechartItem from "../../../components/LinechartItem.vue";
+import LinechartItem from "@shared/modules/charts/components/LinechartItem.vue";
 
 config.global.mocks.$t = key => key;
 

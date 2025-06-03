@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import * as actions from "../../../store/actions/actionsDownload";
+import * as actions from "@modules/draw_old/store/actions/actionsDownload";
 
 import {KML, GeoJSON, GPX} from "ol/format";
 import Feature from "ol/Feature";
@@ -9,7 +9,7 @@ import Line from "ol/geom/LineString";
 import Point from "ol/geom/Point";
 import Polygon from "ol/geom/Polygon";
 import proj4 from "proj4";
-import transform from "../../../js/download/transform";
+import transform from "@modules/draw_old/js/download/transform";
 
 describe("src/modules/draw/store/actions/actionsDownload.js", () => {
     let dispatch, state, commit;

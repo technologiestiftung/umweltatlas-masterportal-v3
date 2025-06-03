@@ -2,8 +2,8 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import dayjs from "dayjs";
 
 import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import store from "@appstore";
+import {uniqueId} from "@shared/js/utils/uniqueId";
 
 /**
  * The search interface to the osm nominatim geocoder.

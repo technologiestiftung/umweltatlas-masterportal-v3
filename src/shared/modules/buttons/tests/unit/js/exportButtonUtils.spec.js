@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {
     createCsvBlob
-} from "../../../js/exportButtonUtils.js";
+} from "@shared/modules/buttons/js/exportButtonUtils.js";
 
 describe("src/shared/modules/buttons/js/exportButtonUtils.js", () => {
     describe("createCsvBlob", () => {

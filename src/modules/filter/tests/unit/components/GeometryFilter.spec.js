@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import GeometryFilter from "../../../components/GeometryFilter.vue";
+import GeometryFilter from "@modules/filter/components/GeometryFilter.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import Draw from "ol/interaction/Draw.js";

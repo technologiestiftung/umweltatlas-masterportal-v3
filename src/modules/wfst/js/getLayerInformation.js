@@ -1,4 +1,4 @@
-import {getComponent} from "../../../shared/js/utils/getComponent";
+import {getComponent} from "@shared/js/utils/getComponent";
 /**
  * Receives relevant information about the layers with the given ids.
  *

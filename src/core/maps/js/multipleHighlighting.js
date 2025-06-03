@@ -1,4 +1,4 @@
-import store from "../../../app-store";
+import store from "@appstore";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import mapMarker from "../js/mapMarker.js";

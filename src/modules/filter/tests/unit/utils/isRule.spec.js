@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isRule} from "../../../utils/isRule.js";
+import {isRule} from "@modules/filter/utils/isRule.js";
 
 describe("isRule", () => {
     it("should return false if anything but a valid rule is given", () => {

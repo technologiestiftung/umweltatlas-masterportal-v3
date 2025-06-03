@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
-import RoutingElevationProfileData from "../../../components/RoutingElevationProfile.vue";
+import RoutingElevationProfileData from "@modules/routing/components/RoutingElevationProfile.vue";
 import VectorSource from "ol/source/Vector.js";
 import {Chart} from "chart.js";
 

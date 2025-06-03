@@ -1,5 +1,5 @@
 <script>
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {mapActions, mapMutations} from "vuex";
 
 /**

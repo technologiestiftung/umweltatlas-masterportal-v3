@@ -12,6 +12,7 @@
 
 ### Changed
 - Replaced layer 452, which will be deleted.
+- Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
 
 ### Deprecated
 

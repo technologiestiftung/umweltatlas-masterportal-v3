@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isEmailAddress} from "../../isEmailAddress.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 
 describe("src/shared/js/utils/isEmailAddress.js", () => {
     it("detects an email address in an incoming string", () => {

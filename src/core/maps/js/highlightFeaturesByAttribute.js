@@ -4,10 +4,10 @@ import Feature from "ol/Feature.js";
 import Point from "ol/geom/Point.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {WFS} from "ol/format.js";
-import store from "../../../app-store";
+import store from "@appstore";
 
 import layerCollection from "../../layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 export default {
     /**

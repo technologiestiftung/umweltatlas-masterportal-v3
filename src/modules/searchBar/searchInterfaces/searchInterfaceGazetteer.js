@@ -1,5 +1,5 @@
 import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
+import store from "@appstore";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
 
 /**

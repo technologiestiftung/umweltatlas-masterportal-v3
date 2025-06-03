@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
-import RoutingRestrictionsInputComponent from "../../../components/RoutingRestrictionsInput.vue";
+import RoutingRestrictionsInputComponent from "@modules/routing/components/RoutingRestrictionsInput.vue";
 
 config.global.mocks.$t = key => key;
 

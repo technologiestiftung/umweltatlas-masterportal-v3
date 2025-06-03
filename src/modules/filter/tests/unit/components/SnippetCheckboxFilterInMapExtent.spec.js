@@ -1,5 +1,5 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetCheckboxFilterInMapExtentComponent from "../../../components/SnippetCheckboxFilterInMapExtent.vue";
+import SnippetCheckboxFilterInMapExtentComponent from "@modules/filter/components/SnippetCheckboxFilterInMapExtent.vue";
 import {expect} from "chai";
 
 config.global.mocks.$t = key => key;

@@ -1,6 +1,6 @@
 import crs from "@masterportal/masterportalapi/src/crs";
 
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 const gfiAttributes = {
     featureLabel: "",

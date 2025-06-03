@@ -2,9 +2,9 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import WfsTransaction from "../../../components/WfsTransaction.vue";
-import WfstModule from "../../../store/indexWfst";
-import prepareFeaturePropertiesModule from "../../../js/prepareFeatureProperties";
+import WfsTransaction from "@modules/wfst/components/WfsTransaction.vue";
+import WfstModule from "@modules/wfst/store/indexWfst";
+import prepareFeaturePropertiesModule from "@modules/wfst/js/prepareFeatureProperties";
 
 config.global.mocks.$t = key => key;
 

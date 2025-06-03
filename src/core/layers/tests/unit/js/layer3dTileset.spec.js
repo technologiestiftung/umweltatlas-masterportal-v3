@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer3dTileset from "../../../js/layer3dTileset";
-import layerCollection from "../../../js/layerCollection";
-import store from "../../../../../app-store";
+import Layer3dTileset from "@core/layers/js/layer3dTileset";
+import layerCollection from "@core/layers/js/layerCollection";
+import store from "@appstore";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 

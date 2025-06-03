@@ -2,7 +2,7 @@ import {Tileset} from "@masterportal/masterportalapi/src";
 import api from "@masterportal/masterportalapi/src/maps/api";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import store from "../../../app-store";
+import store from "@appstore";
 import Layer3d from "./layer3d";
 import layerCollection from "./layerCollection";
 

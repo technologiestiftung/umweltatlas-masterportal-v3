@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import store from "../../../app-store";
+import store from "@appstore";
 
 dayjs.extend(duration);
 

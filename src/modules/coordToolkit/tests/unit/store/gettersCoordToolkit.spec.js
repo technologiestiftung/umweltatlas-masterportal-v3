@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getters from "../../../store/gettersCoordToolkit";
-import toolKitState from "../../../store/stateCoordToolkit";
+import getters from "@modules/coordToolkit/store/gettersCoordToolkit";
+import toolKitState from "@modules/coordToolkit/store/stateCoordToolkit";
 
 afterEach(() => {
     sinon.restore();

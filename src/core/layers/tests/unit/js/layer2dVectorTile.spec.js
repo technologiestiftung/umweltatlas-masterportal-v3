@@ -3,9 +3,9 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 import Collection from "ol/Collection";
-import webgl from "../../../js/webglRenderer";
+import webgl from "@core/layers/js/webglRenderer";
 
-import Layer2dVectorTile from "../../../js/layer2dVectorTile";
+import Layer2dVectorTile from "@core/layers/js/layer2dVectorTile";
 
 describe("src/core/js/layers/layer2dVectorTile.js", () => {
     const attrs = {

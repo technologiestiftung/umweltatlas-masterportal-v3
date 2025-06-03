@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerSliderPlayerComponent from "../../../components/LayerSliderPlayer.vue";
-import LayerSlider from "../../../store/indexLayerSlider";
+import LayerSliderPlayerComponent from "@modules/layerSlider/components/LayerSliderPlayer.vue";
+import LayerSlider from "@modules/layerSlider/store/indexLayerSlider";
 
 config.global.mocks.$t = key => key;
 

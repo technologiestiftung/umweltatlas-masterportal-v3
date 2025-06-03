@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import shareViewState from "./stateShareView";
 import stateSearchBar from "../../searchBar/store/stateSearchBar";
 import layerSelectionState from "../../layerSelection/store/stateLayerSelection";

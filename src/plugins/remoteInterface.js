@@ -1,4 +1,4 @@
-import store from "../app-store";
+import store from "@appstore";
 import main from "../main";
 
 export default {

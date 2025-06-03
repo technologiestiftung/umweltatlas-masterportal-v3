@@ -3,9 +3,9 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceElasticSearch from "../../../searchInterfaces/searchInterfaceElasticSearch.js";
-import store from "../../../../../app-store";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceElasticSearch from "@modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js";
+import store from "@appstore";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js", () => {
     let SearchInterface1 = null,

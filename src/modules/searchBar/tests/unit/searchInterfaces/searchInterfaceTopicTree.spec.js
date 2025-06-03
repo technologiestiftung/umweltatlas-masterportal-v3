@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceTopicTree from "../../../searchInterfaces/searchInterfaceTopicTree.js";
-import store from "../../../../../app-store";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceTopicTree from "@modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js";
+import store from "@appstore";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceTopicTree.js", () => {
     let SearchInterface1 = null,

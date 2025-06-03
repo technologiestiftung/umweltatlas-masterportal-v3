@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import {RoutingGeosearchResult} from "../js/classes/routing-geosearch-result";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * RoutingCoordinateInput

@@ -1,7 +1,7 @@
 
 import {expect} from "chai";
-import getGfiFeatureProvider from "../../getGfiFeaturesByTileFeature.js";
-import store from "../../../../../app-store";
+import getGfiFeatureProvider from "@shared/js/utils/getGfiFeaturesByTileFeature.js";
+import store from "@appstore";
 
 before(function () {
     i18next.init({
