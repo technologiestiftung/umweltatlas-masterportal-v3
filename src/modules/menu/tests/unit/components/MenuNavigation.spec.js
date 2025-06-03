@@ -27,8 +27,8 @@ describe("src/core/menu/navigation/components/MenuNavigation.vue", () => {
             secondaryMenu: "nameSecondaryMenu"
         };
         component = {
-            mainMenu: "root",
-            secondaryMenu: "root"
+            mainMenu: {type: "mainMenu"},
+            secondaryMenu: {type: "secondaryMenu"}
         };
         navigateBackSpy = sinon.spy();
         showHeaderIcon = {
@@ -62,25 +62,31 @@ describe("src/core/menu/navigation/components/MenuNavigation.vue", () => {
     it("renders the navigation in the main menu side", () => {
         wrapper = mount(MenuNavigation, {
             global: {
-                plugins: [store]
-            }, propsData: {side}});
+                plugins: [store],
+                mocks: {
+                    $t: (key) => key
+                }
+            }, props: {side}});
 
         expect(wrapper.find("#mp-menu-navigation-mainMenu").exists()).to.be.true;
         expect(wrapper.find("#mp-navigation-mainMenu").exists()).to.be.true;
         expect(wrapper.find(".mp-menu-navigation-moduletitle").exists()).to.be.true;
-        expect(wrapper.find(".mp-menu-navigation-moduletitle").text()).to.be.equals(componentName.mainMenu);
+        expect(wrapper.find(".mp-menu-navigation-moduletitle").text()).to.be.equals("common:modules.mainMenu.name");
     });
 
     it("renders the navigation in the secondary menu side", () => {
         side = "secondaryMenu";
         wrapper = mount(MenuNavigation, {global: {
-            plugins: [store]
-        }, propsData: {side: "secondaryMenu"}});
+            plugins: [store],
+            mocks: {
+                $t: (key) => key
+            }
+        }, props: {side: "secondaryMenu"}});
 
         expect(wrapper.find("#mp-menu-navigation-secondaryMenu").exists()).to.be.true;
         expect(wrapper.find("#mp-navigation-secondaryMenu").exists()).to.be.true;
         expect(wrapper.find(".mp-menu-navigation-moduletitle").exists()).to.be.true;
-        expect(wrapper.find(".mp-menu-navigation-moduletitle").text()).to.be.equals(componentName.secondaryMenu);
+        expect(wrapper.find(".mp-menu-navigation-moduletitle").text()).to.be.equals("common:modules.secondaryMenu.name");
     });
 
     it("doesn't render the navigation in the main menu side if no previousNav available", () => {
