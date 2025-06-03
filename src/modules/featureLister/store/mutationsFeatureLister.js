@@ -17,13 +17,13 @@ const mutations = {
      * @param {Object} state context object.
      * @returns {void}
      */
-    setGfiFeaturesOfLayer: (state) => {
-        const layer = layerCollection.getLayerById(state.layer.id),
-            features = layer.getLayerSource().getFeatures();
+    setGfiFeaturesOfLayer: (state, payload) => {
+        const layerFromCollection = layerCollection.getLayerById(state.layer.id),
+            features = payload ?? layerFromCollection.getLayerSource().getFeatures();
 
         if (features) {
             const gfiFeatures = [],
-                olLayer = layer.getLayer();
+                olLayer = layerFromCollection.getLayer();
 
             features.forEach(feature => {
                 if (feature.values_ && Object.prototype.hasOwnProperty.call(feature.values_, "features")) {

@@ -1,6 +1,9 @@
 import {getCenter} from "ol/extent";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
 import tabStatus from "../tabStatus";
+import getSpatialSelection from "../getSpatialSelection";
+
+// TODO make Text in alert translatable
 
 export default {
 
@@ -94,6 +97,27 @@ export default {
         dispatch("Maps/highlightFeature", highlightObject, {root: true});
     },
     /**
+     * Filters the features of the selected layer based on the drawn geometry.
+     * @param {Object} param.state the state
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.getters the getters
+     * @param {Object} param.rootGetters the rootGetters
+     */
+    filterGfiFeaturesOfLayer: async ({state, commit, dispatch, rootGetters, rootState}) => {
+        const layers = rootGetters.visibleLayerConfigs,
+            layer = layers.find(l => l.id === state.layer.id),
+            selectedFeatures = await getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), dispatch);
+
+        if (selectedFeatures.length === 0) {
+            dispatch("Alerting/addSingleAlert", {
+                category: "info",
+                content: "Keine Feature in der Auswahl gefunden."
+            }, {root: true});
+        }
+
+        commit("setGfiFeaturesOfLayer", selectedFeatures);
+    },
+    /**
      * Switches back to the feature list of the selected layer.
      * @param {Object} param.state the state
      * @param {Object} param.commit the commit
@@ -113,13 +137,17 @@ export default {
      * @param {Object} layer reduced selected layer, only contains name, id and geometryType
      * @returns {void}
      */
-    switchToList ({state, commit}, layer) {
-        commit("setLayer", layer);
-        if (layer) {
+    switchToList: async ({state, commit, dispatch}) => {
+        if (state.layer) {
+            if (state.selectedArea) {
+                await dispatch("filterGfiFeaturesOfLayer");
+            }
+            else {
+                commit("setGfiFeaturesOfLayer");
+            }
             commit("setLayerListView", tabStatus.ENABLED);
             commit("setFeatureListView", tabStatus.ACTIVE);
             commit("setFeatureDetailView", tabStatus.DISABLED);
-            commit("setGfiFeaturesOfLayer");
             commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
             commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
         }

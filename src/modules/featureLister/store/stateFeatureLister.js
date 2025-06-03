@@ -65,7 +65,8 @@ const state = {
         "zoomLevel": 7
     },
     supportedDevices: ["Desktop", "Mobile", "Table"],
-    supportedMapModes: ["2D", "3D"]
+    supportedMapModes: ["2D", "3D"],
+    selectedArea: null
 };
 
 export default state;
