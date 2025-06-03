@@ -27,7 +27,10 @@ export default {
         },
 
         currentTitle () {
-            return this.currentComponentName(this.side);
+            const component = this.currentComponent(this.side),
+                key = component?.props?.name || `common:modules.${component?.type}.name`;
+
+            return this.$t(key);
         },
 
         currentIcon () {
