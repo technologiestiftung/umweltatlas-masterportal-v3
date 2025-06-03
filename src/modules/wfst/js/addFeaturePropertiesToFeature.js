@@ -10,7 +10,7 @@ import Feature from "ol/Feature";
  * @param {String} featurePrefix Prefix defined by the namespace of the service.
  * @returns {module:ol/Feature} Feature to be inserted or updated.
  */
-export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature") {
+export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature", LayerConfigAttributes = []) {
     const transactionFeature = new Feature();
 
     featureProperties.forEach(property => {
@@ -33,7 +33,7 @@ export default function ({id, geometry, geometryName}, featureProperties, update
             }
             transactionFeature.set(key, Number(property.value));
         }
-        else {
+        else if (!LayerConfigAttributes.includes(property.label.toLowerCase())) {
             transactionFeature.set(key, property.value);
         }
     });

@@ -36,7 +36,8 @@ export default {
             "multiUpdate",
             "selectIcons",
             "selectTypes",
-            "selectedUpdate"
+            "selectedUpdate",
+            "buttonsDisabled"
         ]),
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
@@ -56,9 +57,15 @@ export default {
     created () {
         this.initializeLayers();
     },
+    mounted () {
+        this.prepareEditButton();
+    },
+    beforeUnmount () {
+        this.reset();
+    },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction", "prepareEditButton", "clearInteractions"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
@@ -88,6 +95,7 @@ export default {
             this.setCurrentLayerIndex(index);
             this.setFeatureProperties();
             this.setFeaturePropertiesBatch();
+            this.prepareEditButton();
             this.reset();
         },
         /**
@@ -214,6 +222,7 @@ export default {
                             :key="key"
                             :text="config.text"
                             :icon="config.icon"
+                            :disabled="buttonsDisabled"
                             class="interaction-button"
                             customclasstitle="btn-title-long"
                             :interaction="() => prepareInteraction(key)"
@@ -320,11 +329,13 @@ export default {
                         <div class="tool-wfs-transaction-form-buttons">
                             <LightButton
                                 :interaction="resetCancel"
+                                :disabled="buttonsDisabled"
                                 text="common:modules.wfst.form.discard"
                                 class="form-button"
                             />
                             <LightButton
                                 :interaction="saveMulti"
+                                :disabled="buttonsDisabled"
                                 text="common:modules.wfst.form.save"
                                 type="button"
                                 class="form-button"

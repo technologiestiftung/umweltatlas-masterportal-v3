@@ -59,6 +59,41 @@ const actions = {
         drawLayer = undefined;
     },
     /**
+     * Prepares Buttons and Fetches Layer Features on module startup. Buttons will be disabled until fetch is complete to ensure requirements met before any transactions are possible.
+     * @param {Function} context.dispatch - The dispatch function to trigger actions.
+     * @param {Function} context.getters - The getters function to access state values.
+     * @param {Function} context.rootGetters - The root getters function to access state values.
+     * @param {Function} context.commit - The commit function to trigger mutations.
+     * @param {Function} context.state - The current state.
+     * @returns {void}
+     */
+    prepareEditButton ({dispatch, getters, rootGetters, commit, state}) {
+        dispatch("clearInteractions");
+        const {featureProperties} = getters;
+
+        commit("setButtonsDisabled", true);
+
+        commit("setFeatureFetchCounter", state.featureFetchCounter + 1);
+        if (state.featureFetchCounter > 70) {
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                content: i18next.t("common:modules.wfst.error.fetchFeaturePropError"),
+                mustBeConfirmed: false
+            }, {root: true});
+            commit("setFeatureFetchCounter", 0);
+            commit("Menu/switchToRoot", "secondaryMenu", {root: true});
+            return;
+        }
+        if (featureProperties.length === 0) {
+            setTimeout(() => {
+                dispatch("prepareEditButton", {dispatch, getters, rootGetters, commit});
+            }, 100);
+        }
+        else {
+            commit("setButtonsDisabled", false);
+        }
+    },
+    /**
      * Prepares everything so that the user can interact with features or draw features
      * to be able to send a transaction to the service.
      *
@@ -203,6 +238,10 @@ const actions = {
         selectedFeatures = selectInteraction.getFeatures();
 
         selectedFeatures.on("add", (event) => {
+            if (featureProperties.length === 0) {
+                dispatch("clearInteractions");
+                return;
+            }
             commit("setSelectedInteraction", "selectedUpdate");
 
             selectedFeature = event.element;
@@ -308,7 +347,6 @@ const actions = {
             multi: true,
             type: "Polygon",
             freehand: true
-
         });
 
         dispatch("Maps/addLayer", lassoLayer, {root: true});
@@ -336,8 +374,10 @@ const actions = {
                     selectedFeatures.push(feature);
                 }
             });
+            setTimeout(() => {
+                lassoSource.clear(); // This removes the visible drawn polygon
+            }, 150);
         });
-
         dispatch("Maps/addInteraction", lassoInteraction, {root: true});
     },
     /**
@@ -629,20 +669,24 @@ const actions = {
      * @param {Object} getters - The getters object.
      * @returns {void}
      */
-    async saveMulti ({dispatch, getters}) {
+    async saveMulti ({dispatch, getters, commit}) {
         const {
                 currentLayerIndex,
                 featurePropertiesBatch,
                 featureProperties,
                 layerInformation,
-                selectedInteraction
+                selectedInteraction,
+                multiUpdate
             } = getters,
             currentLayerId = layerInformation[currentLayerIndex].id,
-            features = modifyFeatureArray ? modifyFeatureArray : drawLayer.getSource().getFeatures();
+            layer = layerInformation[currentLayerIndex],
+            features = modifyFeatureArray ? modifyFeatureArray : drawLayer.getSource().getFeatures(),
+            LayerConfigAttributes = multiUpdate.find(item => item.layerId === layer.id).configAttributes;
         let geometryFeature,
             index = 0,
             currentIndex;
 
+        commit("setButtonsDisabled", true);
         for (const feature of features) {
 
             const error = getters.savingErrorMessage(feature);
@@ -683,7 +727,8 @@ const actions = {
                     },
                     featureProperties,
                     selectedInteraction === "selectedUpdate",
-                    layerInformation[currentLayerIndex].featurePrefix
+                    layerInformation[currentLayerIndex].featurePrefix,
+                    LayerConfigAttributes
                 );
 
                 await dispatch("sendTransaction", featureWithProperties);
@@ -693,6 +738,7 @@ const actions = {
             }
             index++;
         }
+        commit("setButtonsDisabled", false);
         dispatch("reset");
     },
     /**

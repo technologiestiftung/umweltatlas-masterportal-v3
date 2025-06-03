@@ -1301,7 +1301,8 @@
         "layerNotSelected": "Der ausgewählte Layer wurde noch nicht im Themenbaum aktiviert.",
         "noFeature": "Bitte zeichnen Sie eine zu Ihren Einträgen assoziierte Geometrie.",
         "onlyNumbersAllowed": "Das Eingabefeld erlaubt nur Zahlen.",
-        "requiredPropertiesNotSet": "Bitte geben Sie einen validen Wert für die verpflichtenden Felder {{properties}} ein."
+        "requiredPropertiesNotSet": "Bitte geben Sie einen validen Wert für die verpflichtenden Felder {{properties}} ein.",
+        "fetchFeaturePropError": "Das Laden der Parameter dauert länger als gewöhnlich. Bitte versuchen Sie es erneut."
       },
       "mandatoryInputError": {
                     "text": "Normale Textzeichen und Sonderzeichen wie , . / \\ [ ] Leerzeichen und deutsche Zeichen ö ä ü Ö Ä Ü ß und nicht nur Zahlen sind erforderlich.",
