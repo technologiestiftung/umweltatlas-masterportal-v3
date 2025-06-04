@@ -149,7 +149,7 @@ export default {
          * @returns {void}
          */
         checkOptions: function () {
-            if (!this.geographicValues.every(key => Object.keys(this.optionsValue).includes(key))) {
+            if (!Object.keys(this.optionsValue).every(key => this.geographicValues.includes(key))) {
                 this.addSingleAlert({
                     "content": this.$t("common:shared.modules.graphicalSelect.alert.notSupportedOption") + this.geographicValues
                 });
@@ -266,6 +266,8 @@ export default {
                     this.layer?.getSource().clear();
                     mapCollection.getMap("2D").removeLayer(this.layer);
                 }
+
+                this.removeInteraction(this.draw);
 
                 const polygonSource = new VectorSource({
                     features: [new Feature({

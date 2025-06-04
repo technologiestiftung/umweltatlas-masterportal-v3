@@ -14,7 +14,7 @@ afterEach(() => {
     sinon.restore();
 });
 
-let store, layersOnMap, layer, mockMapGetters, mockMapActions, map;
+let store, layersOnMap, layer, mockMapGetters, mockMapActions, mockAlertActions, map;
 
 describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", () => {
     GraphicalSelectComponent.props.label = "";
@@ -40,6 +40,9 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             registerListener: sinon.spy(),
             removeLayer: sinon.spy()
         };
+        mockAlertActions = {
+            addSingleAlert: sinon.spy()
+        };
         layersOnMap = [];
         layer = new VectorLayer({
             id: "geometry_selection_layer",
@@ -64,6 +67,10 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                     namespaced: true,
                     getters: mockMapGetters,
                     actions: mockMapActions
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: mockAlertActions
                 }
             }
         });
@@ -106,13 +113,36 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             const wrapper = shallowMount(GraphicalSelectComponent, {
                 global: {
                     plugins: [store]
+                },
+                props: {
+                    options: {
+                        "Box": "Box Title"
+                    }
                 }
             });
-            let option = {};
 
-            for (option in wrapper.vm.options) {
+            for (const option in wrapper.vm.options) {
                 expect(wrapper.vm.geographicValues).to.include(option);
             }
+        });
+
+        it("options does contain an invalid draw modus", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    options: {
+                        "NonExisingOption": "NonExisingOption Title"
+                    }
+                }
+            });
+
+            for (const option in wrapper.vm.options) {
+                expect(wrapper.vm.geographicValues).to.not.include(option);
+            }
+
+            expect(mockAlertActions.addSingleAlert.calledOnce).to.be.true;
         });
 
         it("should add Layer 1 times to map", () => {
