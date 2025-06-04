@@ -85,11 +85,13 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                         setDirectionsAvoidSource: sinon.stub(),
                                         setDirectionsAvoidPointSource: sinon.stub(),
                                         setMapInteractionMode: sinon.stub(),
-                                        setRoutingDirections: sinon.stub()
+                                        setRoutingDirections: sinon.stub(),
+                                        setRoutingAvoidFeaturesOptions: sinon.stub()
                                     },
                                     actions: {
                                         createInteractionFromMapInteractionMode: sinon.stub(),
-                                        initDirections: sinon.stub()
+                                        initDirections: sinon.stub(),
+                                        removeDirectionsAvoidDrawInteraction: sinon.stub()
                                     }
                                 }
                             },
