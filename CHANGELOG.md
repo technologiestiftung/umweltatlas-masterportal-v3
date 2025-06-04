@@ -17,6 +17,7 @@
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
+- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
 
 ---
 
