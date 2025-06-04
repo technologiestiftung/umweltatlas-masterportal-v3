@@ -631,7 +631,24 @@
             }
           },
           {
-            "type": "modeler3D"
+            "type": "modeler3D",
+            "gmlIdPath": "gmlid",
+            "updateAllLayers": false,
+            "highlightStyle": {
+              "silhouetteColor": "#E20D0F",
+              "silhouetteSize": 4
+            },
+            "allowedAttributes": [
+              "Gebaeudefunktion",
+              "Wertbezeichnung"
+            ],
+            "pvoColors": {
+              "housing": "#ff0000",
+              "commercial": "#666666",
+              "public": "#44ff44"
+            },
+            "buildingSource": "ALKIS",
+            "buildingFunctionURL": "https://geoportal-hamburg.de/3Dprojektplaner/buildingFunctionTypeAdV.xml"
           },
           {
             "type": "scaleSwitcher"
