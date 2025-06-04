@@ -25,11 +25,8 @@ export default {
     computed: {
         ...mapGetters("Modules/Routing", ["directionsSettings"])
     },
-    async mounted () {
+    mounted () {
         this.appendModalToBody();
-    },
-    beforeUnmount () {
-        document.body.removeChild(document.getElementById("exportAvoidAreasModal"));
     },
     methods: {
         ...mapActions("Modules/Routing/Directions", ["getAvoidPolygonsWgs84"]),
@@ -40,7 +37,11 @@ export default {
          * @returns {void}
          */
         appendModalToBody () {
-            document.body.appendChild(document.getElementById("exportAvoidAreasModal"));
+            const exportModal = document.getElementById("exportAvoidAreasModal");
+
+            if (exportModal) {
+                document.body.appendChild(exportModal);
+            }
         },
 
         /**

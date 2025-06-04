@@ -620,9 +620,7 @@ export default {
 
             state.waypoints[state.addStartEndPoint].setCoordinates(feature.getGeometry().getCoordinates());
             state.waypoints[state.addStartEndPoint].setDisplayName(displayName);
-            setTimeout(() => {
-                state.directionsWaypointsSource?.removeFeature(feature);
-            });
+            state.directionsWaypointsSource?.removeFeature(feature);
         }
         // if there is no input field selected, set new endpoint
         else if (state.addStartEndPoint === -1) {
@@ -785,22 +783,21 @@ export default {
      * @param {Object} event OL OnDrawEvent.
      * @returns {void}
      */
-    async onDirectionsAvoidPointDrawEnd ({state, dispatch}, event) {
+    onDirectionsAvoidPointDrawEnd ({state, dispatch}, event) {
         // set new circle geometry
         event.feature.setGeometry(new Circle(event.feature.getGeometry().getCoordinates()));
         // set radius from state
         event.feature.getGeometry().setRadius(state.settings.avoidRadius > 0 ? state.settings.avoidRadius * 1000 : 5);
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
     },
     /**
      * Displays imported avoid areas on the map.
      * @param {Array} feature Feature-Objekt of a imported avoid area.
      * @returns {void}
      */
-    async displayImportedAvoidAreas ({dispatch, state}, feature) {
+    displayImportedAvoidAreas ({dispatch, state}, feature) {
         state.directionsAvoidSource.addFeature(feature);
-
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
     },
     /**
      * Executed when User adds a new polygon to avoid on the Map
@@ -979,9 +976,9 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async removeAvoidLayer ({state, rootState}) {
+    removeAvoidLayer ({state, rootState}) {
         const {directionsAvoidLayer, directionsAvoidPointLayer} = state,
-            map = await mapCollection.getMap(rootState.Maps.mode);
+            map = mapCollection.getMap(rootState.Maps.mode);
 
         map.removeLayer(toRaw(directionsAvoidLayer));
         map.removeLayer(toRaw(directionsAvoidPointLayer));
@@ -992,9 +989,9 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async addAvoidLayer ({state, rootState}) {
+    addAvoidLayer ({state, rootState}) {
         const {directionsAvoidLayer, directionsAvoidPointLayer} = state,
-            map = await mapCollection.getMap(rootState.Maps.mode);
+            map = mapCollection.getMap(rootState.Maps.mode);
 
         if (!map.getLayers().getArray().includes(toRaw(directionsAvoidLayer))) {
             map.addLayer(toRaw(directionsAvoidLayer));

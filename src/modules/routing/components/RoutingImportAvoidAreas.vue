@@ -43,7 +43,7 @@ export default {
     computed: {
         ...mapGetters("Modules/Routing", ["directionsSettings"])
     },
-    async mounted () {
+    mounted () {
         this.setRestrictions();
     },
     methods: {
@@ -56,7 +56,11 @@ export default {
          * @returns {void}
          */
         appendModalToBody () {
-            document.body.appendChild(document.getElementById("fileUpload"));
+            const importModal = document.getElementById("fileUpload");
+
+            if (importModal) {
+                document.body.appendChild(importModal);
+            }
         },
         /**
          * Sets restrictions for maximum area, side length, and feature count
@@ -356,7 +360,7 @@ export default {
             }
         },
         /**
-         * ad alert for validation error.
+         * Adds alert for validation error.
          * @param {String} errorMessage error message
          * @returns {void}
          */
