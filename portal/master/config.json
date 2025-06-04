@@ -802,9 +802,10 @@
           ]
         }
       },
-      "highlightedFeatures": {
-        "active": true
-      },
+"highlightedFeatures": {
+  "layerName": "common:shared.js.utils.selectedFeatures",
+  "active": true
+},
       "layerIDsToStyle": [
         {
           "id": "1933",

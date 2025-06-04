@@ -4739,7 +4739,7 @@ Konfiguration zusätzlich zum Highlighting von Features. Wenn mit dem Modul "Lis
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|nein|Boolean|false|Gibt an, ob dieses Feature aktiv ist.|false|
-|layerName|nein|String|"common:tree.selectedFeatures"|Name der erzeugten Layer mit den hervorgehobenen Features. Der Name enthält zusätzlich den Namen des Moduls mit dem gearbeitet wurde.|true|
+|layerName|nein|String|"common:shared.js.utils.selectedFeatures"|Name der erzeugten Layer mit den hervorgehobenen Features. Der Name enthält zusätzlich den Namen des Moduls mit dem gearbeitet wurde.|true|
 
 **Beispiel**
 
