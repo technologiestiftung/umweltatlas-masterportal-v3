@@ -34,9 +34,9 @@
 - Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
 - Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
-- WFST-Tool: Fixed Margins in editing of wfs-t fields.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
 - Issue #1420: SliderItem:  Fixed opacity slider visibility in Firefox.
+- WFST-Tool: Fixed Margins in editing of wfs-t fields.
 - AboutModule: fixed undefined in imprint.
 - AddLayerButton: Fixed overlap with underlying layer icons (e.g. info/settings) that blocked user interaction.
 - Proxy: Inconsistencies when using a proxy through the attribute `useProxy` on the layer have been corrected.
