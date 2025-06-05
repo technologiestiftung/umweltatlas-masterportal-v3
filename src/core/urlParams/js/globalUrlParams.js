@@ -61,9 +61,14 @@ function getConfigJsPath () {
 
     new URLSearchParams(window.location.search).forEach((value, key) => {
         if (key.toLowerCase().localeCompare("configjs") === 0) {
-            const strippedLocation = window.location.href.split("?").shift();
+            if (value.startsWith("https://")) {
+                configPath = value;
+            }
+            else {
+                const strippedLocation = window.location.href.split("?").shift();
 
-            configPath = strippedLocation.substring(0, strippedLocation.lastIndexOf("/") + 1) + value;
+                configPath = strippedLocation.substring(0, strippedLocation.lastIndexOf("/") + 1) + value;
+            }
         }
     });
     return configPath;
