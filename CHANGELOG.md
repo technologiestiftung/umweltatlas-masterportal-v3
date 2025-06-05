@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- UrlParams: added url parameter `configjs` to provide an external config.js file.
 
 ### Changed
 - Replaced layer 452, which will be deleted.

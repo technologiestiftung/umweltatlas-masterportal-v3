@@ -21,14 +21,14 @@ describe("actions", () => {
         };
 
         mapCollection.addMap(map, "2D");
+    });
+
+    beforeEach(() => {
         jsdom = new JSDOM("<!doctype html><html><body></body></html>");
         global.document = jsdom.window.document;
         global.window = jsdom.window;
         global.KeyboardEvent = jsdom.window.KeyboardEvent;
         global.MouseEvent = jsdom.window.MouseEvent;
-    });
-
-    beforeEach(() => {
         commit = sinon.spy();
         dispatch = sinon.spy();
         state = {

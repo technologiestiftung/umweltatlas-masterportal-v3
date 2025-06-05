@@ -3,6 +3,7 @@ import processUrlParams from "../../../shared/js/utils/processUrlParams";
 /**
  * Examples:
  * - https://localhost:9001/portal/master/?configjson=../basic/config.json
+ * - https://localhost:9001/portal/master/?configjs=../layer/config.js
  * - https://localhost:9001/portal/master/?lng=en&STYLE=simple
  */
 
@@ -51,6 +52,24 @@ function setUiStyle (params) {
     Config.uiStyle = params.UISTYLE || params.STYLE;
 }
 
+/**
+ * Returns the value of urlParam key 'configjs' appended to windows location.
+ * @returns {String} the path to the 'configjs' given as urlParam or null if not found
+ */
+function getConfigJsPath () {
+    let configPath = null;
+
+    new URLSearchParams(window.location.search).forEach((value, key) => {
+        if (key.toLowerCase().localeCompare("configjs") === 0) {
+            const strippedLocation = window.location.href.split("?").shift();
+
+            configPath = strippedLocation.substring(0, strippedLocation.lastIndexOf("/") + 1) + value;
+        }
+    });
+    return configPath;
+}
+
 export default {
+    getConfigJsPath,
     processGlobalUrlParams
 };
