@@ -43,6 +43,7 @@
 - Proxy: Inconsistencies when using a proxy through the attribute `useProxy` on the layer have been corrected.
 - LayerInformation: For layers that use a proxy, the url from the services.json is displayed.
 - Modeler3D: Fixed formerly unhandled cesium error that caused the tool to stop working. Disabled gfi in Modeler3D because of conflicting click event reactions.
+- HighlightedFeature: Fixed highlightedFeatures.layerName to use a valid i18n key, since common:tree.selectedFeatures no longer exists.
 
 ---
 
