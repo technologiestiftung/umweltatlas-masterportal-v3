@@ -450,10 +450,11 @@
     "baselayer": {
       "elements": [
         {
-          "id": "452",
+          "id": "34127",
           "name": "Luftbilder DOP 20 (DOP 40 mit Umland)",
           "shortname": "DOP 20",
-          "visibility": true
+          "visibility": true,
+          "time": false
         },
         {
           "id": "33797",
