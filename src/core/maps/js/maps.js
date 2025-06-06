@@ -97,7 +97,10 @@ function create3DMap () {
     map3d.setEnabled(store.getters.startingMapMode === "3D");
 
     mapCollection.addMap(map3d, "3D");
-    if (!urlParamCenter && store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
+    if (store.state.urlParams.QUERY) {
+        store.dispatch("Modules/SearchBar/startSearch", store.state.urlParams.QUERY);
+    }
+    else if (!urlParamCenter && store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
         view.setZoom(store.getters["Maps/initialZoom"]);
         view.setCenter(store.getters["Maps/initialCenter"]);
     }
