@@ -6,7 +6,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
+describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
     const urls = [{
         bezeichnung: "abc",
         url: "https://abc.de",
@@ -14,11 +14,12 @@ describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
         alias_mobile: "ABC"
     }];
     let isMobile,
-        store;
+        store,
+        hideImprint;
 
     beforeEach(() => {
         isMobile = false;
-
+        hideImprint = false;
         store = createStore({
             modules: {
                 Modules: {
@@ -31,9 +32,13 @@ describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
                                 seperator: () => true,
                                 urls: () => urls,
                                 type: () => sinon.stub(),
-                                configPaths: () => sinon.stub(),
-                                imprintLinkName: () => "common:modules.portalFooter.imprintTitle",
-                                showImprintLink: () => true
+                                configPaths: () => sinon.stub()
+                            }
+                        },
+                        About: {
+                            namespaced: true,
+                            getters: {
+                                hideImprintInFooter: () => hideImprint
                             }
                         }
                     }
@@ -141,5 +146,14 @@ describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
         });
 
         expect(wrapper.find(".imprintLink").exists()).to.be.true;
+    });
+
+    it("does not render imprint link if hideImprintInFooter is true", () => {
+        hideImprint = true;
+        const wrapper = shallowMount(PortalFooterComponent, {
+            global: {plugins: [store]}
+        });
+
+        expect(wrapper.find(".imprintLink").exists()).to.be.false;
     });
 });

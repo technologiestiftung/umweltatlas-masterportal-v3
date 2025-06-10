@@ -19,15 +19,16 @@ export default {
             "scaleLine",
             "seperator",
             "type",
-            "urls",
-            "imprintLinkName",
-            "showImprintLink"
+            "urls"
         ]),
         ...mapGetters("Menu", [
             "mainExpanded",
             "secondaryExpanded",
             "mainMenu",
             "secondaryMenu"
+        ]),
+        ...mapGetters("Modules/About", [
+            "hideImprintInFooter"
         ]),
         /**
          * Returns the alias length for relevant device mode.
@@ -57,9 +58,6 @@ export default {
             }
 
             return null;
-        },
-        hasImprintInUrls () {
-            return this.urls.some(url => this.$t(url.bezeichnung) === this.$t(this.impressumLinkName));
         }
     },
     mounted () {
@@ -98,14 +96,14 @@ export default {
         class="portal-footer px-2 py-1"
     >
         <a
-            v-if="showImprintLink && aboutModuleSide && !hasImprintInUrls"
-            class="imprintLink"
+            v-if="aboutModuleSide && !hideImprintInFooter"
+            class="impressumLink"
             role="button"
             tabindex="0"
             @click="openImprint"
             @keydown="openImprint"
         >
-            {{ $t('common:modules.portalFooter.imprintTitle') }}
+            {{ $t("common:modules.about.imprintTitle") }}
         </a>
         <div class="footer-links">
             <template

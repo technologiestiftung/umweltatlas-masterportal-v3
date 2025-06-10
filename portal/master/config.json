@@ -782,9 +782,7 @@
           "alias": "common:modules.portalFooter.mapDiscrepancy"
         }
       ],
-      "scaleLine": true,
-      "imprintLinkName": "common:modules.portalFooter.imprintTitle",
-      "showImprintLink": true
+      "scaleLine": true
     },
     "tree": {
       "singleBaselayer": false,

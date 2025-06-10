@@ -1746,6 +1746,7 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
 |privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
 |accessibilityText|no|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt|false|
 |accessibilityUrl|no|String|""|URL zu der Barrierefreiheitserklärungsseite|false|
+|hideImprintInFooter|nein|Boolean|false|Wenn true, wird im Footer kein Impressum-Link zum About-Modul angezeigt, sofern das About-Modul existiert.|false|
 
 ```json title="Beispiel"
 {
@@ -1754,7 +1755,8 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
     "type": "about",
     "cswUrl": "https://metaver.de/csw",
     "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "hideImprintInFooter": true
 }
 ```
 
@@ -4462,8 +4464,6 @@ Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.
 |scaleLineWidth|nein|Number|2|Die Breite der Maßstabsanzeige in cm.|false|
 |seperator|nein|String|"` \| `"|Die Trennung zwischen einzelnen Links.|false|
 |urls|nein|**[urls](#portalconfigportalfooterurls)**[]|[]|Urls, die im Footer angezeit werden sollen.|false|
-|imprintLinkName|nein|String|"`Impressum`"|Name des Impressum-Links, der zum about-Modul führt (z.B. Datenschutz).|false|
-|showImprintLink|nein|Boolean|true|Wenn false, wird kein Impressum-Link zum about-Modul im Footer erzeugt.|false|
 
 **Beispiel**
 
@@ -4481,9 +4481,7 @@ Möglichkeit den Inhalt der Fußzeile des Portals zu konfigurieren.
         "alias": "common:modules.portalFooter.mapDiscrepancy"
     }
     ],
-    "scaleLine": true,
-    "impressumLinkName": "Datenschutz",
-    "showImpressumLink": true
+    "scaleLine": true
 }
 ```
 

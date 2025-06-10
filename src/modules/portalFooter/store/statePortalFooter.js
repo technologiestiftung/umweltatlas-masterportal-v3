@@ -18,9 +18,7 @@ const state = {
     scaleLineWidth: 2,
     seperator: "&nbsp;|&nbsp;",
     type: "portalFooter",
-    urls: [],
-    imprintLinkName: "common:modules.portalFooter.imprintTitle",
-    showImprintLink: true
+    urls: []
 };
 
 export default state;
