@@ -97,7 +97,7 @@ export default {
     >
         <a
             v-if="aboutModuleSide && !hideImprintInFooter"
-            class="impressumLink"
+            class="imprintLink"
             role="button"
             tabindex="0"
             @click="openImprint"
@@ -167,7 +167,7 @@ export default {
             flex-grow: 1;
         }
 
-        .impressumLink {
+        .imprintLink {
             padding-right: 1rem;
             color: $secondary;
             &:hover{
