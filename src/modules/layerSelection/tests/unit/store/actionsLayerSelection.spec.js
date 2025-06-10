@@ -253,22 +253,40 @@ describe("src/modules/layerSelection/store/actionsLayerSelection", () => {
                     }
                 ],
                 firstFolderName = "firstFolderName",
-                secondFolderName = "secondFolderName";
+                secondFolderName = "secondFolderName",
+                rootLayerConfs = [
+                    {
+                        id: "root0",
+                        type: "folder",
+                        name: "rootName0"
+                    }
+                ];
 
             getters = {
                 lastFolderNames: [firstFolderName, secondFolderName],
-                lastSubjectDataLayerConfs: [firstBaselayerConfs, lastSubjectDataLayerConfs],
-                lastBaselayerConfs: [firstSubjectDataLayerConfs, lastBaselayerConfs]
+                lastSubjectDataLayerConfs: [firstSubjectDataLayerConfs, lastSubjectDataLayerConfs],
+                lastBaselayerConfs: [firstBaselayerConfs, lastBaselayerConfs]
             };
+            rootGetters.allLayerConfigsStructured = sinon.stub().returns(rootLayerConfs);
 
-            navigateBack({commit, getters});
+            navigateBack({commit, getters, rootGetters});
 
-            expect(commit.callCount).to.be.equals(3);
-            expect(commit.firstCall.args[0]).to.be.equals("reduceToPreviousLayerSelection");
-            expect(commit.secondCall.args[0]).to.be.equals("setSubjectDataLayerConfs");
-            expect(commit.secondCall.args[1]).to.be.deep.equals(lastSubjectDataLayerConfs);
-            expect(commit.thirdCall.args[0]).to.be.equals("setBaselayerConfs");
-            expect(commit.thirdCall.args[1]).to.be.deep.equals(lastBaselayerConfs);
+            expect(commit.callCount).to.equal(3);
+            expect(commit.firstCall.args[0]).to.equal("reduceToPreviousLayerSelection");
+            expect(commit.secondCall.args[0]).to.equal("setSubjectDataLayerConfs");
+            expect(commit.secondCall.args[1]).to.deep.equal(lastSubjectDataLayerConfs);
+            expect(commit.thirdCall.args[0]).to.equal("setBaselayerConfs");
+            expect(commit.thirdCall.args[1]).to.deep.equal(lastBaselayerConfs);
+
+            getters.lastFolderNames = ["root"];
+            navigateBack({commit, getters, rootGetters});
+
+            expect(commit.callCount).to.equal(6);
+            expect(commit.getCall(3).args[0]).to.equal("reduceToPreviousLayerSelection");
+            expect(commit.getCall(4).args[0]).to.equal("setSubjectDataLayerConfs");
+            expect(commit.getCall(4).args[1]).to.deep.equal(rootLayerConfs);
+            expect(commit.getCall(5).args[0]).to.equal("setBaselayerConfs");
+            expect(commit.getCall(5).args[1]).to.deep.equal(lastBaselayerConfs);
         });
 
         it("setNavigationByFolder", () => {

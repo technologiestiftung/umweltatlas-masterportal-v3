@@ -5,6 +5,7 @@ import sinon from "sinon";
 import LayerSelectionComponent from "@modules/layerSelection/components/LayerSelection.vue";
 import LayerSelection from "@modules/layerSelection/store/indexLayerSelection";
 
+
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
@@ -28,7 +29,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         subjectDataLayers,
         wrapper,
         treeType,
-        externalSubjectdata;
+        externalSubjectdata,
+        originalHandler;
 
     beforeEach(() => {
         lastFolderNames = [];
@@ -191,6 +193,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                 }
             },
             getters: {
+                layerConfig: () => ({"tree-subjects": {elements: layersWithFolder}}),
                 invisibleBaselayerConfigs: sinon.stub(),
                 activeOrFirstCategory: () => categories ? categories[0] : undefined,
                 allCategories: () => categories,
@@ -221,6 +224,9 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
 
     afterEach(() => {
         sinon.restore();
+        if (originalHandler) {
+            wrapper.vm.$options.watch.layerConfig.handler = originalHandler;
+        }
     });
 
     it("do not render the LayerSelection if visible is false", () => {
@@ -249,10 +255,14 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
     it("renders the LayerSelection with folder-buttons and checkboxes for background-layers", async () => {
         showAllResults = false;
         searchInput = "";
-        wrapper = await shallowMount(LayerSelectionComponent, {
+        store.commit("Modules/LayerSelection/setLastFolderNames", ["root"]);
+        wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
             }});
+
+        store.commit("Modules/LayerSelection/setSubjectDataLayerConfs", subjectDataLayers);
+        await wrapper.vm.$nextTick();
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
         expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(2);
@@ -418,18 +428,19 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         wrapper = shallowMount(LayerSelectionComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
 
-        wrapper.vm.navigateStepsBack(0);
+        wrapper.vm.navigateStepsBack(1);
         await wrapper.vm.$nextTick();
 
-        expect(LayerSelection.actions.navigateBack.calledTwice).to.be.true;
+        expect(LayerSelection.actions.navigateBack.callCount).to.equal(1);
         await wrapper.vm.$nextTick();
-        // called on created and here
-        expect(provideSelectAllPropsSpy.calledTwice).to.be.true;
+        expect(provideSelectAllPropsSpy.calledOnce).to.be.true;
     });
+
 
     it("renders the LayerSelection with breadcrumbs ", async () => {
         let breadCrumbsA = null,
@@ -518,6 +529,29 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             expect(wrapper.find("#search-bar").exists()).to.be.false;
             expect(wrapper.findAll("layer-selection-tree-node-stub").length).to.be.equals(0);
             expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
+        });
+    });
+    describe("watchers", () => {
+        it("should call the layerConfig watcher handler explicitly with new value", () => {
+            const layerConfigWatcherSpy = sinon.spy(wrapper.vm.$options.watch.layerConfig, "handler"),
+
+                newVal = {
+                    "tree-subjects": {
+                        elements: [{
+                            name: "Eine neue Schicht aus Watcher",
+                            type: "layer",
+                            id: "newLayerExplicitWatcherTest"
+                        }]
+                    }
+                };
+
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
+            wrapper.vm.$nextTick();
+
+            expect(layerConfigWatcherSpy.calledOnce).to.be.true;
+            expect(layerConfigWatcherSpy.firstCall.args[0]).to.deep.equal(newVal);
+
+            layerConfigWatcherSpy.restore();
         });
     });
 

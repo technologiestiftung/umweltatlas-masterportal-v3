@@ -178,6 +178,7 @@
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
 - Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login.
 - Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
+- Issue #1373: Fixed theme tree not updating when adding WMS layers.
 - Issue #1375: Fixed topic tree search with respect to spaces.
 - Issue #1378: KML-export now uses the correct url for circle-icon.
 - Issue #1382: Icon Info button can now be conditionally hidden based on layer configuration.

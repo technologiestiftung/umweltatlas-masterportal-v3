@@ -6,6 +6,7 @@ import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 
 /**
  * Layer Selection
@@ -27,13 +28,14 @@ export default {
             selectAllConfId: -1,
             selectAllConfigs: [],
             activeCategory: null,
-            deactivateShowAllCheckbox: false
+            deactivateShowAllCheckbox: false,
+            rootFolderCount: 0
         };
     },
     computed: {
         ...mapGetters("Modules/SearchBar", ["addLayerButtonSearchActive", "currentSide", "showAllResults", "showSearchResultsInTree"]),
         ...mapGetters("Maps", ["mode"]),
-        ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig", "folderById"]),
+        ...mapGetters(["activeOrFirstCategory", "allCategories", "portalConfig", "folderById", "layerConfig"]),
         ...mapGetters("Modules/LayerSelection", ["visible", "subjectDataLayerConfs", "baselayerConfs", "lastFolderNames", "layerInfoVisible", "highlightLayerId"]),
         categorySwitcher () {
             return this.portalConfig?.tree?.categories;
@@ -73,6 +75,66 @@ export default {
             return null;
         }
     },
+
+    /**
+     * Watches the layerConfig for changes and updates the subjectDataLayerConfs accordingly.
+     * Ensures the theme tree reflects the current layer configuration, respecting folder navigation.
+     * @param {Object} newVal - The new value of layerConfig from the store.
+     * @returns {void}
+     */
+    watch: {
+        layerConfig: {
+            handler (newVal) {
+                if (newVal && newVal[treeSubjectsKey] && Array.isArray(newVal[treeSubjectsKey].elements)) {
+                    const rootLayerConfig = newVal[treeSubjectsKey].elements,
+                        currentFolderCount = rootLayerConfig.filter(conf => conf.type === "folder").length;
+
+                    if (currentFolderCount !== this.rootFolderCount) {
+                        this.rootFolderCount = currentFolderCount;
+                        let updatedSubjectDataLayerConfs = rootLayerConfig;
+
+                        if (this.lastFolderNames.length > 0) {
+                            let currentFolder = rootLayerConfig;
+
+                            this.lastFolderNames.forEach(folderName => {
+                                if (folderName !== "root") {
+                                    const nextFolder = currentFolder.find(conf => conf.type === "folder" && conf.name === folderName);
+
+                                    if (nextFolder && Array.isArray(nextFolder.elements)) {
+                                        currentFolder = nextFolder.elements;
+                                    }
+                                    else {
+                                        console.warn(`[LayerSelection Watcher] Folder "${folderName}" not found or empty during navigation update.`);
+                                        currentFolder = [];
+                                    }
+                                }
+                            });
+                            updatedSubjectDataLayerConfs = Array.isArray(currentFolder) ? [...currentFolder] : [];
+                        }
+
+                        updatedSubjectDataLayerConfs = sortBy(updatedSubjectDataLayerConfs, conf => conf.type !== "folder");
+
+                        this.setSubjectDataLayerConfs(updatedSubjectDataLayerConfs);
+
+                        this.selectAllConfId = -1;
+                        this.selectAllConfigs = [];
+                        this.$nextTick(() => {
+                            this.provideSelectAllProps();
+                        });
+
+                    }
+                }
+            },
+            deep: true
+        }
+    },
+
+    mounted () {
+        if (this.layerConfig?.[treeSubjectsKey]?.elements) {
+            this.rootFolderCount = this.layerConfig[treeSubjectsKey].elements.filter(conf => conf.type === "folder").length;
+        }
+    },
+
     unmounted () {
         if (!this.layerInfoVisible) {
             this.reset();
@@ -81,13 +143,12 @@ export default {
     },
     created () {
         this.activeCategory = this.activeOrFirstCategory?.key;
-        this.provideSelectAllProps();
         this.setLayerInfoVisible(false);
     },
     methods: {
         ...mapActions(["changeCategory"]),
         ...mapActions("Modules/LayerSelection", ["navigateBack", "navigateForward", "reset"]),
-        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible", "setHighlightLayerId"]),
+        ...mapMutations("Modules/LayerSelection", ["setLayerInfoVisible", "setHighlightLayerId", "setSubjectDataLayerConfs"]),
 
         /**
          * Sorts the configs by type: first folder, then layer.
