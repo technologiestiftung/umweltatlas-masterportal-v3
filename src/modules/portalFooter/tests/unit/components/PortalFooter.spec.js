@@ -6,7 +6,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/modules/portalFooter/components/PortalFooter.vue", () => {
+describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
     const urls = [{
         bezeichnung: "abc",
         url: "https://abc.de",
