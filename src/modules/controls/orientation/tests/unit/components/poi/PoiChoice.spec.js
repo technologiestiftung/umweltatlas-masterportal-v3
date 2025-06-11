@@ -64,6 +64,7 @@ describe("src/modules/controls/orientation/components/PoiChoice.vue", () => {
         it("should emitted track event if button is clicked", async () => {
             const button = wrapper.find(".choice-content button.confirm");
 
+            await wrapper.vm.$nextTick();
             await button.trigger("click");
             expect(wrapper.emitted()).to.have.property("track");
             expect(wrapper.emitted().track).to.have.lengthOf(1);

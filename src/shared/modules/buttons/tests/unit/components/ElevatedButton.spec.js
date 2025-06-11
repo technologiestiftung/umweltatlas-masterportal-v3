@@ -5,20 +5,29 @@ import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vu
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/shared/components/ElevatedButton.vue", () => {
+describe("src/shared/components/ElevatedButton.vue", () => {
     let interactionSpy;
 
     beforeEach(() => {
         interactionSpy = sinon.spy();
+        sinon.stub(window, "getComputedStyle").callsFake(() => ({
+            getPropertyValue: () => ""
+        }));
     });
 
-    afterEach(sinon.restore);
+    afterEach(() => {
+        sinon.restore();
+    });
 
     it("should render a button with an icon and trigger the given interaction on click", async () => {
         const iconString = "bi-list",
             text = "My super nice elevated Button",
             wrapper = mount(ElevatedButton, {
-                props: {text, interaction: interactionSpy, icon: iconString}
+                props: {
+                    interaction: interactionSpy,
+                    text,
+                    icon: iconString
+                }
             }),
             button = wrapper.find("button"),
             icon = button.find("i");
@@ -31,6 +40,7 @@ describe.skip("src/shared/components/ElevatedButton.vue", () => {
         expect(icon.classes()).to.eql([iconString]);
         expect(icon.attributes("role")).to.equal("img");
 
+        await wrapper.vm.$nextTick();
         await button.trigger("click");
 
         expect(interactionSpy.calledOnce).to.be.true;

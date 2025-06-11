@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/shared/components/FlatButton.vue", () => {
+describe("src/shared/components/FlatButton.vue", () => {
 
     const factory = {
         getShallowMount: (props = {}) => {
@@ -57,6 +57,7 @@ describe.skip("src/shared/components/FlatButton.vue", () => {
         const interactionSpy = sinon.spy(),
             wrapper = factory.getShallowMount({interaction: interactionSpy});
 
+        await wrapper.vm.$nextTick();
         await wrapper.trigger("click");
 
         expect(interactionSpy.calledOnce).to.be.true;

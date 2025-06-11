@@ -148,6 +148,7 @@ describe("src/shared/modules/draw/components/DrawSettingsCircle.vue", () => {
             input = wrapper.find("div:nth-of-type(3) > div:nth-of-type(2) > div.form-floating > input");
             input.element.value = value;
 
+            await wrapper.vm.$nextTick();
             await input.trigger("input");
 
             expect(updateRadiusInCircleOptionsSpy.calledOnce).to.be.true;

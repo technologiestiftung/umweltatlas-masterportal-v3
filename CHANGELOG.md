@@ -21,8 +21,9 @@
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
 - Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
-- GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props
+- GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
+- Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
 
 ---
 

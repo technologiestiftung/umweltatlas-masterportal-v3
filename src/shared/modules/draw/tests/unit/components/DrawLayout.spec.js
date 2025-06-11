@@ -82,6 +82,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
                 }
             });
 
+            await wrapper.vm.$nextTick();
             await wrapper.find("#draw-layout-innerCircle-strokeWidth").trigger("click");
 
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth").exists()).to.be.true;
@@ -97,6 +98,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
                 }
             });
 
+            await wrapper.vm.$nextTick();
             await wrapper.find("#draw-layout-innerCircle-fillTransparency").trigger("click");
 
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency").exists()).to.be.true;

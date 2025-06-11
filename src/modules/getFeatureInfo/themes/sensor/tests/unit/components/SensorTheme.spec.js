@@ -309,6 +309,7 @@ describe("src/modules/getFeatureInfo/themes/senor/components/SensorTheme.vue", (
     });
 
     it("should activate charging tab by click it", async () => {
+        await wrapper.vm.$nextTick();
         await wrapper.setData({processedHistoricalDataByWeekday: [1, 2, 3]});
         await wrapper.findAll("div > div > ul > li > a")[2].trigger("click");
 

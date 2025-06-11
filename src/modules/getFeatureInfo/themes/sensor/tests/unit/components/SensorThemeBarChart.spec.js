@@ -171,6 +171,7 @@ describe("src/modules/getFeatureInfo/themes/senor/components/SensorThemeBarChart
     });
 
     it("should show the day before yesterday after two clicks on left button ", async () => {
+        await wrapper.vm.$nextTick();
         await wrapper.findAll("button").at(0).trigger("click");
         await wrapper.findAll("button").at(0).trigger("click");
 
