@@ -104,7 +104,7 @@ function create3DMap () {
         view.setZoom(store.getters["Maps/initialZoom"]);
         view.setCenter(store.getters["Maps/initialCenter"]);
     }
-    else if (urlParamCenter && store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D" && !store.state.urlParams.QUERY) {
+    else if (urlParamCenter && store.getters.map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
         let center;
 
         if (Array.isArray(urlParamCenter)) {
