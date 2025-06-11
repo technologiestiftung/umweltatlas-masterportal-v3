@@ -529,48 +529,38 @@ describe.only("src/modules/layerSelection/components/LayerSelection.vue", () => 
     });
 
     describe("watchers", () => {
-
         beforeEach(() => {
-            wrapper = mount(LayerSelectionComponent, {
+            wrapper = shallowMount(LayerSelectionComponent, {
                 global: {
                     plugins: [store]
                 }
             });
         });
+        it("should change the internal 'rootFolderCount' when the folder count remains the same", async () => {
+            await wrapper.setData({rootFolderCount: 0});
 
-        it("sollte den internen 'rootFolderCount' aktualisieren, wenn sich die Ordneranzahl ändert (Positiv-Fall)", async () => {
-            await wrapper.setData({rootFolderCount: 3});
-
-            await wrapper.vm.$nextTick();
-
-            const neueConfig = {
-                "tree-subjects": {
-                    elements: [
-                        {type: "folder"}, {type: "folder"}, {type: "folder"}, {type: "folder"}
-                    ]
+            const newVal = {
+                "subjectlayer": {
+                    elements: [{name: "New Folder", type: "folder"}]
                 }
             };
 
-            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, neueConfig);
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
             await wrapper.vm.$nextTick();
-            expect(wrapper.vm.rootFolderCount).to.equal(4);
+            expect(wrapper.vm.rootFolderCount).to.equal(1);
         });
+        it("should NOT change the internal 'rootFolderCount' when the folder count remains the same", async () => {
+            await wrapper.setData({rootFolderCount: 1});
 
-        it("sollte den internen 'rootFolderCount' NICHT ändern, wenn die Ordneranzahl gleich bleibt (Negativ-Fall)", async () => {
-            await wrapper.setData({rootFolderCount: 4});
-
-            const neueConfig = {
-                "tree-subjects": {
-                    elements: [
-                        {type: "folder"}, {type: "folder"}, {type: "folder"}, {type: "folder"}
-                    ]
+            const newVal = {
+                "subjectlayer": {
+                    elements: [{name: "Another Folder", type: "folder"}]
                 }
             };
 
-            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, neueConfig);
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
             await wrapper.vm.$nextTick();
-
-            expect(wrapper.vm.rootFolderCount).to.equal(4);
+            expect(wrapper.vm.rootFolderCount).to.equal(1);
         });
     });
 
