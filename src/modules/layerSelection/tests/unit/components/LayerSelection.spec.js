@@ -8,7 +8,7 @@ import LayerSelection from "@modules/layerSelection/store/indexLayerSelection";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
+describe.only("src/modules/layerSelection/components/LayerSelection.vue", () => {
     let addLayerButtonSearchActive,
         categories,
         changeCategorySpy,
@@ -29,8 +29,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         subjectDataLayers,
         wrapper,
         treeType,
-        externalSubjectdata,
-        originalHandler;
+        externalSubjectdata;
 
     beforeEach(() => {
         lastFolderNames = [];
@@ -224,9 +223,6 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
 
     afterEach(() => {
         sinon.restore();
-        if (originalHandler) {
-            wrapper.vm.$options.watch.layerConfig.handler = originalHandler;
-        }
     });
 
     it("do not render the LayerSelection if visible is false", () => {
@@ -531,27 +527,50 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(0);
         });
     });
+
     describe("watchers", () => {
-        it("should call the layerConfig watcher handler explicitly with new value", () => {
-            const layerConfigWatcherSpy = sinon.spy(wrapper.vm.$options.watch.layerConfig, "handler"),
 
-                newVal = {
-                    "tree-subjects": {
-                        elements: [{
-                            name: "Eine neue Schicht aus Watcher",
-                            type: "layer",
-                            id: "newLayerExplicitWatcherTest"
-                        }]
-                    }
-                };
+        beforeEach(() => {
+            wrapper = mount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+        });
 
-            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
-            wrapper.vm.$nextTick();
+        it("sollte den internen 'rootFolderCount' aktualisieren, wenn sich die Ordneranzahl ändert (Positiv-Fall)", async () => {
+            await wrapper.setData({rootFolderCount: 3});
 
-            expect(layerConfigWatcherSpy.calledOnce).to.be.true;
-            expect(layerConfigWatcherSpy.firstCall.args[0]).to.deep.equal(newVal);
+            await wrapper.vm.$nextTick();
 
-            layerConfigWatcherSpy.restore();
+            const neueConfig = {
+                "tree-subjects": {
+                    elements: [
+                        {type: "folder"}, {type: "folder"}, {type: "folder"}, {type: "folder"}
+                    ]
+                }
+            };
+
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, neueConfig);
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.rootFolderCount).to.equal(4);
+        });
+
+        it("sollte den internen 'rootFolderCount' NICHT ändern, wenn die Ordneranzahl gleich bleibt (Negativ-Fall)", async () => {
+            await wrapper.setData({rootFolderCount: 4});
+
+            const neueConfig = {
+                "tree-subjects": {
+                    elements: [
+                        {type: "folder"}, {type: "folder"}, {type: "folder"}, {type: "folder"}
+                    ]
+                }
+            };
+
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, neueConfig);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.rootFolderCount).to.equal(4);
         });
     });
 
