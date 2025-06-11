@@ -1,4 +1,5 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import sinon from "sinon";
 import {expect} from "chai";
 import {resetZIndex} from "../../js/getAndMergeRawLayer.js";
@@ -811,6 +812,36 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expectedConfig.zIndex = 5;
 
                 actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132"});
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfig: expectedConfig, parentKey: treeSubjectsKey});
+            });
+
+            it("layer is not contained in layerConfig but contained in rawLayerList, isBaseLayer:false, add style to styleList", async () => {
+                sinon.stub(styleList, "returnStyleObject").returns(undefined);
+                getters = {
+                    configJs: () => {
+                        return {"foo": "bar"};
+                    },
+                    layerConfigById: () => null,
+                    determineZIndex: () => 5
+                };
+
+                const initStyleAndAddToListStub = sinon.stub(styleList, "initStyleAndAddToList").callsFake(() => {
+                        return Promise.resolve({id: "1132"});
+                    }),
+                    expectedConfig = layerList[2];
+
+                expectedConfig.visibility = true;
+                expectedConfig.transparency = 0;
+                expectedConfig.showInLayerTree = true;
+                expectedConfig.zIndex = 5;
+                expectedConfig.styleId = "1132";
+
+                await actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132"});
+                expect(initStyleAndAddToListStub.calledOnce).to.be.true;
+                expect(initStyleAndAddToListStub.firstCall.args[0]).to.equals(getters.configJs);
+                expect(initStyleAndAddToListStub.firstCall.args[1]).to.equals(expectedConfig.styleId);
                 expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfig: expectedConfig, parentKey: treeSubjectsKey});

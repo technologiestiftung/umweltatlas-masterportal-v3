@@ -6,6 +6,7 @@ import {sortObjects} from "@shared/js/utils/sortObjects";
 import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
 import layerCollection from "@core/layers/js/layerCollection";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {trackMatomo} from "../plugins/matomo";
 
 /**
@@ -135,7 +136,14 @@ export default {
                 config.showInLayerTree = showInLayerTree;
                 config.zIndex = getters.determineZIndex(layerId);
 
-                dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                if (config.styleId && typeof styleList.returnStyleObject(config.styleId) === "undefined") {
+                    styleList.initStyleAndAddToList(getters.configJs, config.styleId).then(() => {
+                        dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                    });
+                }
+                else {
+                    dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                }
             }
             else {
                 console.warn("addOrReplaceLayer- layer with id: " + layerId + " not added, because it was not found in services.json.");
