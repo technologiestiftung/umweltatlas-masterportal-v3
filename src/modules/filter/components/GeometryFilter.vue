@@ -145,6 +145,7 @@ export default {
             else {
                 this.setHasMouseMapInteractions(false);
                 this.changeCurrentMouseMapInteractionsComponent({type: this.lastMouseMapInteractionsComponent});
+                this.reset();
             }
             if (this.draw instanceof Draw && this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
                 this.draw.setActive(val);
