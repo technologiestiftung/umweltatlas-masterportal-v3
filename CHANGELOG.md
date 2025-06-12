@@ -22,6 +22,7 @@
 - Menu: Menu title now updates correctly on language change.
 - Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
 - Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
@@ -114,7 +115,6 @@
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
 - Issue #1220: Routing: Calculated accessibility displayed on the map remains after exporting the result.
 - Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
-- Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
 - Issue #1295: Extend error processing for error responses from MapFish server.
 - Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
 - Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login.
