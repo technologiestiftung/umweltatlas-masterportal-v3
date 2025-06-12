@@ -21,6 +21,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js"
                 return {
                     url: "test.url?"
                 };
+            },
+            "Maps/projection": {
+                getCode: () => "EPSG:4326"
             }
         };
 
@@ -87,7 +90,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js"
         it("SearchInterfaceOsmNominatim should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -215,6 +218,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js"
         it("should create possible events from search result", () => {
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [1, 2]
+                    },
                     setMarker: {
                         coordinates: [1, 2]
                     },

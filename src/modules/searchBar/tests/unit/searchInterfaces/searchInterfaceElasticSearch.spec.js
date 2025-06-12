@@ -54,7 +54,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
         it("SearchInterfaceElasticSearch should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -340,6 +340,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceElasticSearch.js
                 addLayerToTopicTree: {
                     layerId: searchResult._source.id,
                     source: searchResult._source
+                },
+                highlight3DTileByCoordinates: {
+                    coordinates: [10, 20]
                 },
                 setMarker: {
                     coordinates: [10, 20]

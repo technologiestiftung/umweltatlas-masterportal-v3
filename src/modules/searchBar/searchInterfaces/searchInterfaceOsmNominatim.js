@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import SearchInterface from "./searchInterface";
 import store from "@appstore";
 import {uniqueId} from "@shared/js/utils/uniqueId";
+import proj4 from "proj4";
 
 /**
  * The search interface to the osm nominatim geocoder.
@@ -31,7 +32,7 @@ export default function SearchInterfaceOsmNominatim ({serviceId, classes, countr
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -185,7 +186,8 @@ SearchInterfaceOsmNominatim.prototype.createToolTipName = function (searchResult
  * @returns {Object} The possible actions.
  */
 SearchInterfaceOsmNominatim.prototype.createPossibleActions = function (searchResult) {
-    const coordinates = this.processCoordinatesForActions(searchResult);
+    const coordinates = this.processCoordinatesForActions(searchResult),
+        targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coordinates);
 
     return {
         setMarker: {
@@ -197,6 +199,9 @@ SearchInterfaceOsmNominatim.prototype.createPossibleActions = function (searchRe
         startRouting: {
             coordinates: coordinates,
             name: searchResult.display_name
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

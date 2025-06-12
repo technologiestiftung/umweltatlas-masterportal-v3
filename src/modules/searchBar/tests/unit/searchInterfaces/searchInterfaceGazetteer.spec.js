@@ -14,7 +14,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js", (
 
     before(() => {
         store.getters = {
-            restServiceById: () => sinon.stub()
+            restServiceById: () => sinon.stub(),
+            "Maps/projection": {getCode: () => "EPSG:4326"}
         };
         checkConfigSpy = sinon.spy(SearchInterface.prototype, "checkConfig");
         SearchInterface1 = new SearchInterfaceGazetteer();
@@ -34,7 +35,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js", (
         it("SearchInterfaceGazetteer should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -152,7 +153,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js", (
     describe("normalizeResultEvents", () => {
         it("should normalize result events", () => {
             const resultEvents = {
-                    onClick: ["setMarker", "zoomToResult"],
+                    onClick: ["setMarker", "zoomToResult", "highlight3DTileByCoordinates"],
                     onHover: ["setMarker"],
                     buttons: ["startRouting"]
                 },
@@ -178,6 +179,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js", (
                         },
                         zoomToResult: {
                             coordinates: [10, 20]
+                        },
+                        highlight3DTileByCoordinates: {
+                            coordinates: [10, 20]
                         }
                     },
                     onHover: {
@@ -202,6 +206,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceGazetteer.js", (
 
             expect(SearchInterface1.createPossibleActions(searchResult)).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [10, 20]
+                    },
                     setMarker: {
                         coordinates: [10, 20]
                     },

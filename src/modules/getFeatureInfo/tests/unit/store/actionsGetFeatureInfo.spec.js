@@ -5,14 +5,14 @@ import transformer from "@shared/js/utils/coordToPixel3D";
 import actions from "@modules/getFeatureInfo/store/actionsGetFeatureInfo.js";
 import layerCollection from "@core/layers/js/layerCollection";
 
-
 describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
     let getters,
         rootGetters,
         dispatch,
         commit,
         addEventListenerSpy,
-        clickPixel;
+        clickPixel,
+        consoleWarnSpy;
 
     beforeEach(() => {
         addEventListenerSpy = sinon.spy();
@@ -57,7 +57,7 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
         global.Cesium.Color = {
             RED: () => sinon.stub()
         };
-        sinon.stub(console, "warn");
+        consoleWarnSpy = sinon.stub(console, "warn");
 
         dispatch = sinon.spy();
         commit = sinon.spy();
@@ -68,23 +68,26 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
 
     afterEach(() => {
         sinon.restore();
+        consoleWarnSpy.restore();
     });
 
     describe("test 3D Highlighting", () => {
-        it("console warns if color is not array or string", () => {
+        it("console warns if color is not a string", () => {
             getters = {
                 "coloredHighlighting3D": {
                     "color": {}
                 }
             };
-            actions.highlight3DTile({getters, dispatch});
-            expect(console.warn.called).to.be.true;
-            expect(console.warn.calledWith("The color for the 3D highlighting is not valid. Please check the config or documentation.")).to.be.true;
+
+            actions.highlight3DTile({getters, dispatch, commit});
+            expect(consoleWarnSpy.calledOnce).to.be.true;
+            expect(consoleWarnSpy.calledWith("The color for the 3D highlighting is not valid. Ensure it follows one of the valid color formats.")).to.be.true;
         });
         it("dispatch removeHighlightColor", () => {
-            actions.removeHighlight3DTile({dispatch});
+            actions.removeHighlight3DTile({dispatch, commit});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("removeHighlightColor");
+            expect(commit.calledOnce).to.be.true;
         });
     });
 

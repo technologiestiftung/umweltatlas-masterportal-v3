@@ -9,6 +9,7 @@
 
 ### Added
 - Issue #1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
+- SearchBar: Added functionality to highlight a 3D tile at the address coordinates.
 
 ### Changed
 - Replaced layer 452, which will be deleted.

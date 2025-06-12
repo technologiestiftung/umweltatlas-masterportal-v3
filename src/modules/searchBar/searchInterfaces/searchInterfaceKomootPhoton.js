@@ -32,7 +32,7 @@ export default function SearchInterfaceKomootPhoton ({serviceId, bbox, hitTempla
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -201,6 +201,9 @@ SearchInterfaceKomootPhoton.prototype.createPossibleActions = function (searchRe
         startRouting: {
             coordinates: coordinates,
             name: searchResult.properties?.name
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: searchResult.geometry.coordinates
         }
     };
 };

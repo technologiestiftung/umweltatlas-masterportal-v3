@@ -79,7 +79,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js"
         it("SearchInterfaceKomootPhoton should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -245,6 +245,12 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js"
 
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [
+                            9.988176,
+                            53.55481
+                        ]
+                    },
                     setMarker: {
                         coordinates: [1, 2]
                     },

@@ -227,7 +227,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -251,7 +252,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -289,7 +291,20 @@
             "serviceId": "10",
             "limit": 60,
             "states": "Hamburg",
-            "classes": "place,highway,building,shop,historic,leisure,city,county"
+            "classes": "place,highway,building,shop,historic,leisure,city,county",
+            "resultEvents": {
+              "onClick": [
+                "setMarker",
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
+              ],
+              "onHover": [
+                "setMarker"
+              ],
+              "buttons": [
+                "startRouting"
+              ]
+            }
           },
           {
             "type": "topicTree",

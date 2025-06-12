@@ -1,7 +1,7 @@
 import SearchInterface from "./searchInterface";
 import store from "@appstore";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
-
+import proj4 from "proj4";
 /**
  * The search interface to the gazetteer.
  * @module modules/searchBar/searchInterfaces/SearchInterfaceGazetteer
@@ -30,7 +30,7 @@ export default function SearchInterfaceGazetteer ({serviceId, hitTemplate, resul
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -155,7 +155,8 @@ SearchInterfaceGazetteer.prototype.getTranslationByType = function (type) {
  * @returns {Object} The possible actions.
  */
 SearchInterfaceGazetteer.prototype.createPossibleActions = function (searchResult) {
-    const coords = [parseFloat(searchResult.geometry.coordinates[0]), parseFloat(searchResult.geometry.coordinates[1])];
+    const coords = [parseFloat(searchResult.geometry.coordinates[0]), parseFloat(searchResult.geometry.coordinates[1])],
+        targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coords);
 
     return {
         setMarker: {
@@ -167,6 +168,9 @@ SearchInterfaceGazetteer.prototype.createPossibleActions = function (searchResul
         startRouting: {
             coordinates: coords,
             name: searchResult.name
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

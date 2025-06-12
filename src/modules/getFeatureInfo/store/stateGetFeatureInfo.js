@@ -10,6 +10,7 @@
  * @property {Boolean} [hasMouseMapInteractions=true] If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
  * @property {Boolean} [hideMapMarkerOnVectorHighlight=false] if true, mapmarker is hidden on vector highlighting.
  * @property {Object} [highlightVectorRules=null] The highlight vector rules.
+ * @property {Boolean} [showPolygonMarkerForWMS=false] If true, a polygon marker is shown for WMS features.
  * @property {String} [icon="bi-info-circle-fill"] Icon next to title (config-param).
  * @property {String} [initialMenuSide="secondaryMenu"] Specifies in which menu the GFI should be rendered initially
  * @property {String} [menuSide="secondaryMenu"] Specifies in which the GFI should be rendered dependending on opened print module.
@@ -18,6 +19,9 @@
  * @property {Boolean} [showMarker=true] Specifies whether the map marker should be set on click.
  * @property {String} type=getFeatureInfo" The type of the gfi component.
  * @property {Boolean} [visible=false] True if the gfi is visible.
+ * * @property {Object} [globeEventHandler=null] - The event handler for managing user interactions with the map (e.g., for highlighting 3D tiles).
+ * This handler is created when user interaction with the map is needed (e.g., a left-click to highlight a feature).
+ * @property {Object} [lastPickedFeatureId=null] The ID of the last feature that was picked or interacted with by the user.
  */
 export default {
     centerMapToClickPoint: false,
@@ -37,5 +41,7 @@ export default {
     path: [],
     showMarker: true,
     type: "getFeatureInfo",
-    visible: false
+    visible: false,
+    globeEventHandler: null,
+    lastPickedFeatureId: null
 };

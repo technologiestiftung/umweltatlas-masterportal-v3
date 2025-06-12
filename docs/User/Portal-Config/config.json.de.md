@@ -596,22 +596,11 @@ Für mehr Informationen über die Farbmöglichkeiten: **[Color-documentation](ht
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|String/String[]|"RED"|Color kann als Array oder Cesium.Color definiert werden(z. B. "GREEN" für Cesium.Color.GREEN)|false|
-|enabled|nein|Boolean|true|False falls coloredHighlighting3D disabled ist.|false|
 
-**Beispiel Array**
-
-```json
-"coloredHighlighting3D": {
-    "enabled": true,
-    "color": [0, 255, 0, 255]
-}
-```
-
-**Beispiel Cesium.Color**
+**Beispiel**
 
 ```json
 "coloredHighlighting3D": {
-    "enabled": true,
     "color": "GREEN"
 }
 ```
@@ -1048,6 +1037,7 @@ Konfiguration der Suchleiste. Es lassen sich verschiedene Suchdienste konfigurie
 |----|-------------|---|-------|------------|------|
 |minCharacters|nein|Integer|3|Minimale Anzahl an Buchstaben, ab der die Suche startet.|false|
 |placeholder|nein|String|"common:modules.searchBar.placeholder.address"|Placeholder für das Suchfeld.|false|
+|coloredHighlighting3D|nein|**[coloredHighlighting3D](#portalconfigmenusearchbarcoloredhighlighting3d)**|""|Konfiguriert die Farbe für die 3D-Hervorhebung von Kacheln in einer Cesium 3D-Szene.|false|
 |searchInterfaces|nein|**[searchInterfaces](#portalconfigmenusearchbarsearchinterfaces)**[]||Schnittstellen zu Suchdiensten.|false|
 |timeout|nein|Integer|5000|Timeout in Millisekunden für die Dienste Anfrage.|false|
 |zoomLevel|nein|Integer|7|ZoomLevel, auf das die Searchbar maximal hineinzoomt.|false|
@@ -1073,6 +1063,42 @@ Konfiguration der Suchleiste. Es lassen sich verschiedene Suchdienste konfigurie
         ],
         "timeout": 5000,
         "zoomLevel": 7
+    }
+}
+```
+
+***
+
+##### portalConfig.menu.searchBar.coloredHighlighting3D {data-toc-label='Colored Highlighting 3D'}
+Aktiviert und konfiguriert die 3D-Hervorhebungsfunktion für Tiles in einer Cesium 3D-Szene. Dies ermöglicht es, ausgewählte Features visuell hervorzuheben, indem deren Farbe geändert wird.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|color|nein|String/String[]|"RED"|Die Highlight-Farbe für das 3D-Feature der Kachel. Dies kann auf folgende Weise festgelegt werden: <br> 1. **String** (z.B. `"GELB"`, `"BLAU"`) – Eine vordefinierte Cesium-Farbe. <br> (z.B. `"rgba(0, 255, 255, 1)"`) – Ein standardmäßiges RGBA-Farbformat, wobei der Alpha-Wert zwischen `0` (vollständig transparent) und `1` (vollständig opak) liegt. <br> (z.B. `"rgb(0, 255, 255)"`) – Ein standardmäßiges RGB-Farbformat. <br> (z.B. `"#FF0000"`) – Ein standardmäßiges Hex-Farbformat. <br> 2. **Array (RGBA)** – Ein Array mit vier Werten `[R, G, B, A]`. <br> 3. **Array (RGB)** – Ein Array mit drei Werten `[R, G, B]`. <br> **Wichtig**: Für RGBA-Werte muss **Alpha (A)** zwischen `0` (vollständig transparent) und `255` (vollständig opak) liegen. Beispiel: `[255, 255, 0, 0]` für Gelb mit vollständiger Feature-Transparenz, `[255, 255, 0, 255]` für Gelb mit vollständiger Feature-Opazität.|false|
+
+Die Vuex-Actionführt `highlight3DTileByCoordinates` folgende Schritte aus:
+
+1. Überprüft, ob der aktuelle Kartenmodus `3D` ist.
+2. Konvertiert die angegebenen Längen- und Breitengrade in kartesische Koordinaten.
+3. Projiziert die Koordinaten auf den Bildschirm.
+4. Ruft die konfigurierte Hervorhebungsfarbe aus der `config.json` ab.
+5. Wenn ein Feature an der Bildschirmposition erkannt wird, wird die Hervorhebungsfarbe angewendet.
+6. Falls zunächst kein Feature gefunden wird, wartet der Prozess, bis alle Tiles geladen sind, bevor ein neuer Versuch gestartet wird.
+
+- Wenn das Feature an den angegebenen Koordinaten gefunden wird, wird es mit der definierten Farbe hervorgehoben.
+- Wenn eine ungültige Farbe angegeben wird, erscheint eine Warnung in der Konsole.
+- Wenn nicht alle 3D-Tiles geladen sind, wird die Hervorhebung verzögert, bis der Ladevorgang abgeschlossen ist.
+
+**Example**
+
+```json
+{
+    "searchBar": {
+        "minCharacters": 3,
+        "placeholder": "common:modules.searchBar.placeholder.address",
+        "coloredHighlighting3D":{
+          "color": "YELLOW"
+        }
     }
 }
 ```
@@ -1175,7 +1201,7 @@ Konfiguration des Elastic Search Suchdienstes
 |hitMap|nein|**[hitMap](#portalconfigmenusearchbarsearchinterfaceselasticsearchhitmap)**||Mapping Objekt. Mappt die Attribute des Ergebnis Objektes auf den entsprechenden Key.|true|
 |hitTemplate|nein|String|"default"|Template in dem die Suchergebnisse (`alle anzeigen`) angezeigt werden. Möglich sind die Werte "default" und "layer".|false|
 |hitType|nein|String|"common:modules.searchbar.type.subject"|Typ des Suchergebnisses, wird in der Auswahlliste hinter dem Namen angezeigt. Nutzen Sie den Übersetzungskey aus der Übersetzungsdatei|false|
-|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
+|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |requestType|nein|enum["POST", "GET"]|"POST"|Art des Requests.|false|
 |responseEntryPath|nein|String|""|Der Pfad in der response (JSON) zum Attribut, das die gefundenen Features enthält.|false|
 |searchInterfaceId|nein|String|"elasticSearch"|Id, die zur Verknüpfung mit der searchbar in der Themensuche dient.|false|
@@ -1253,7 +1279,7 @@ Konfiguration des Gazetteer Suchdienstes
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |searchAddress|nein|Boolean|false|Gibt an, ob nach Adressen gesucht werden soll.|false|
 |searchDistricts|nein|Boolean|false|Gibt an, ob nach Bezirken gesucht werden soll.|false|
 |searchHouseNumbers|nein|Boolean|false|Gibt an, ob nach Straßen und Hausnummern gesucht werden soll. |false|
@@ -1296,7 +1322,7 @@ Suche bei **[Komoot Photon](https://photon.komoot.io/)**.
 |lon|nein|Number||Längengrad für den Suchmittelpunkt.|false|
 |osm_tag|nein|string||Filterung für OSM Tags (siehe https://github.com/komoot/photon#filter-results-by-tags-and-values).|false|
 |serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/0d136a44a59dd3b64ec986c258763ac08603bf15/doc/rest-services.json.md)** vor.|false|
-|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |type|ja|String|"komootPhoton"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|
 
 **Beispiel**
@@ -1393,7 +1419,7 @@ Suche bei OpenStreetMap über Stadt, Strasse und Hausnummer. Wird nur durch Klic
 |----|-------------|---|-------|------------|------|
 |classes|nein|string|[]|Kann die Klassen, für die Ergebnisse erzielt werden sollen, enthalten.|false|
 |limit|nein|Number|50|Gibt die maximale Zahl der gewünschten, ungefilterten Ergebnisse an.|false|
-|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult".|false|
+|resultEvents|nein|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Aktionen, die ausgeführt werden, wenn eine Interaktion, z. B. ein Hover oder ein Klick, mit einem Element der Ergebnisliste erfolgt. Folgende events sind möglich: "setMarker", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |serviceId|ja|String||Gibt die ID für die URL in der **[rest-services.json](../Global-Config/rest-services.json.md)** vor.|false|
 |states|nein|string|""|Kann die Namen der Bundesländer enthalten. Trenner beliebig. Eventuell auch englische Ausprägungen eintragen, da die Daten frei im OpenSourceProjekt **[OpenStreetMap](https://www.openstreetmap.org)** erfasst werden können.|false|
 |type|ja|String|"osmNominatim"|Type der Such-Schnittstelle. Definiert welche Such-Schnittstelle konfiguriert ist.|false|

@@ -58,6 +58,7 @@ export default {
             },
             set (searchInput) {
                 this.setSearchInput(searchInput);
+                this.removeHighlight3DTile();
             }
         },
         /**
@@ -174,6 +175,7 @@ export default {
                 if (value === "") {
                     this.removePointMarker();
                     this.removePolygonMarker();
+                    this.removeHighlight3DTile();
                 }
                 else {
                     this.checkCurrentComponent(this.currentComponentSide);
@@ -208,7 +210,8 @@ export default {
             "activateActions",
             "startLayerSelectionSearch",
             "checkLayerSelectionSearchConfig",
-            "search"
+            "search",
+            "removeHighlight3DTile"
         ]),
         ...mapActions("Menu", [
             "navigateBack"

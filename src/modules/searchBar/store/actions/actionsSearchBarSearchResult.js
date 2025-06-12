@@ -6,7 +6,12 @@ import {rawLayerList} from "@masterportal/masterportalapi/src";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {trackMatomo} from "@plugins/matomo";
 import mapMarker from "@core/maps/js/mapMarker";
-
+import calculateScreenPosition from "../../js/calculateScreenPosition";
+import addInitialTilesLoadedListener from "../../js/addInitialTilesLoadedListener";
+import find3DPickedFeature from "@shared/js/utils/find3DPickedFeature";
+import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor";
+import applyTileStyle from "@shared/js/utils/applyTileStyle";
+import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight";
 
 /**
  * Contains actions that communicate with other components after an interaction, such as onClick or onHover, with a search result.
@@ -342,5 +347,201 @@ export default {
             dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: getters.zoomLevel}, {root: true});
         }
 
+    },
+
+    /**
+     * Highlights a 3D tile feature at the given coordinates by changing its color.
+     * Moves the camera to the specified coordinates and attempts to highlight a feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.rootGetters The Vuex root getters.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Object} payload The payload.
+     * @param {Number[]} payload.coordinates The [longitude, latitude] of the feature to highlight.
+     * @returns {void}
+     */
+    highlight3DTileByCoordinates ({rootGetters, dispatch}, {coordinates}) {
+        if (rootGetters["Maps/mode"] !== "3D") {
+            return;
+        }
+
+        const scene = mapCollection.getMap("3D").getCesiumScene(),
+            [longitude, latitude] = coordinates,
+            height = 0,
+            cartesian = Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+            camera = scene.camera,
+            cameraHeight = Cesium.Ellipsoid.WGS84.cartesianToCartographic(camera.position).height + 140;
+
+        dispatch("Maps/setCamera", {
+            cameraPosition: [longitude, latitude, cameraHeight],
+            heading: 0,
+            pitch: -90,
+            roll: 0
+        }, {root: true});
+
+        dispatch("detectAndHighlight3DTile", {scene, cartesian});
+    },
+
+    /**
+     * Detects and highlights a 3D tile feature at the given Cartesian coordinates.
+     * If a previously highlighted feature exists, it attempts to highlight it again.
+     * Otherwise, it performs a drill pick to find a new feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.state The Vuex state.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Cesium.Scene} payload.scene The Cesium scene object.
+     * @param {Cesium.Cartesian3} payload.cartesian The Cartesian coordinates of the feature.
+     * @returns {Promise<void>}
+     */
+    async detectAndHighlight3DTile ({state, dispatch, commit}, {scene, cartesian}) {
+        try {
+            if (state.lastPickedFeatureId) {
+                const pickedFeature = await find3DPickedFeature(scene, state.lastPickedFeatureId);
+
+                if (pickedFeature) {
+                    dispatch("highlightPickedFeature", {
+                        pickedFeature
+                    });
+
+                    return;
+                }
+            }
+
+            const screenPosition = calculateScreenPosition(scene, cartesian),
+                pickedFeatures = scene.drillPick(screenPosition);
+
+            if (!screenPosition) {
+                console.warn("Unable to project the position into screen space.");
+                return;
+            }
+
+            let pickedFeature;
+
+            if (pickedFeatures.length > 0) {
+                pickedFeature = pickedFeatures.find(feature => typeof feature._batchId !== "undefined");
+            }
+
+            if (!screenPosition) {
+                console.warn("Unable to project the position into screen space.");
+                return;
+            }
+
+            if (pickedFeature) {
+                commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+
+                dispatch("highlightPickedFeature", {pickedFeature});
+            }
+            else {
+                dispatch("handleLayerLoading", {scene, screenPosition});
+            }
+        }
+        catch (error) {
+            console.error("Error during camera move end:", error);
+        }
+    },
+
+    /**
+     * Waits for 3D tiles to fully load, then attempts to pick and highlight a feature.
+     * If no feature is found initially, retries after a short delay.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Cesium.Scene} payload.scene The Cesium scene object.
+     * @param {Cesium.Cartesian2} payload.screenPosition The screen-space position to pick from.
+     * @returns {Promise<void>}
+     */
+    async handleLayerLoading ({dispatch, commit}, {scene, screenPosition}) {
+        try {
+            const {allLayersLoaded, cleanup} = await addInitialTilesLoadedListener(scene.camera);
+
+            if (!allLayersLoaded) {
+                throw new Error("Not all layers are loaded.");
+            }
+
+            let pickedFeatures = scene.drillPick(screenPosition),
+                pickedFeature = pickedFeatures.find(feature => feature._batchId !== undefined);
+
+            if (pickedFeature) {
+                commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+                dispatch("highlightPickedFeature", {pickedFeature});
+            }
+            else {
+                setTimeout(() => {
+                    pickedFeatures = scene.drillPick(screenPosition);
+                    pickedFeature = pickedFeatures.find(feature => feature._batchId !== undefined);
+
+                    if (pickedFeature) {
+                        commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+                        dispatch("highlightPickedFeature", {pickedFeature});
+                    }
+                    else {
+                        dispatch("removeHighlight3DTile");
+                    }
+                }, 1000);
+            }
+            cleanup();
+        }
+        catch (error) {
+            console.error("Error waiting for layer loading:", error);
+        }
+    },
+
+    /**
+     * Applies a highlight effect to the given picked 3D tile feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.getters The Vuex getters.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Object} payload.pickedFeature The picked Cesium 3D tile feature.
+     * @returns {void}
+     */
+    highlightPickedFeature ({rootGetters, getters, commit, dispatch}, {pickedFeature}) {
+        if (!pickedFeature || typeof pickedFeature.getProperty !== "function") {
+            console.warn("Invalid picked feature:", pickedFeature);
+            return;
+        }
+
+        const featureId = pickedFeature.getProperty("id"),
+            GetFeatureInfoMenSide = rootGetters["Modules/GetFeatureInfo/menuSide"],
+            currentComponentType = rootGetters["Menu/currentComponent"](GetFeatureInfoMenSide)?.type;
+
+        if (!featureId) {
+            console.warn("Picked feature has no ID:", pickedFeature);
+            return;
+        }
+
+        dispatch("Modules/GetFeatureInfo/removeHighlightColor", "", {root: true});
+        commit("Modules/GetFeatureInfo/setGfiFeatures", null, {root: true});
+
+        if (currentComponentType === "getFeatureInfo") {
+            commit("Menu/switchToPreviousComponent", rootGetters["Modules/GetFeatureInfo/menuSide"], {root: true});
+            if (GetFeatureInfoMenSide === "secondaryMenu" && rootGetters["Menu/secondaryMenu"].currentComponent === "root") {
+                dispatch("Menu/closeMenu", "secondaryMenu", {root: true});
+            }
+        }
+
+        applyTileStyle(featureId, get3DHighlightColor(getters.coloredHighlighting3D?.color, "YELLOW"));
+        commit("setLastPickedFeatureId", featureId);
+    },
+
+    /**
+     * Removes the highlight from the previously highlighted 3D tile feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} context.state The Vuex state.
+     * @returns {void}
+     */
+    removeHighlight3DTile ({commit, state}) {
+        if (state.lastPickedFeatureId) {
+            remove3DFeatureHighlight(state.lastPickedFeatureId);
+            commit("setLastPickedFeatureId", null);
+        }
     }
 };

@@ -632,4 +632,38 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(payload);
         });
     });
+    describe("highlight3DTileByCoordinates", () => {
+        let mockState, mockDispatch, mockCommit, mockGetters;
+
+        beforeEach(() => {
+            mockState = {cameraMoveEndListener: null};
+
+            mockDispatch = sinon.spy();
+            mockCommit = sinon.spy();
+
+            mockGetters = {
+                coloredHighlighting3D: {
+                    color: [255, 0, 0, 255]
+                },
+                "Maps/mode": "3D"
+            };
+        });
+
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
+        it("should not perform any action if the mode is not 3D", async function () {
+            mockGetters["Maps/mode"] = "2D";
+
+            await actions.highlight3DTileByCoordinates(
+                {state: mockState, dispatch: mockDispatch, commit: mockCommit, rootGetters: mockGetters},
+                {coordinates: [12.345, 67.890]}
+            );
+
+            expect(mockDispatch.notCalled).to.be.true;
+            expect(mockCommit.notCalled).to.be.true;
+        });
+    });
 });

@@ -28,9 +28,12 @@
  * @property {Array} [showAllResultsSearchInterfaceInstances=["elasticSearch", "topicTree"] Search interface instance while all results are shown (relevant for layerSelection search).
  * @property {Boolean} [showSearchResultsInTree=false] Flag to display the layer selection in the layer tree.
  * @property {Boolean} [searchResultsActive=true] Flag if the search results are active.
- * @property {Object} [iconsByActions= { addLayerToTopicTree: "bi-plus-circle", activateLayerInTopicTree: "bi-eye", highlightFeature: "bi-lightbulb", openGetFeatureInfo: "bi-info-circle", setMarker: "bi-geo-alt-fill", zoomToResult: "bi-zoom-in", startRouting: "bi-signpost-2" }] - contains the icons by action names to display on button
- */
+ * @property {Boolean} [addLayerButtonSearchActive=true] Flag indicating whether the "Add Layer" button search is active.
+ * @property {Object} [iconsByActions= { addLayerToTopicTree: "bi-plus-circle", activateLayerInTopicTree: "bi-eye", highlightFeature: "bi-lightbulb", openGetFeatureInfo: "bi-info-circle", setMarker: "bi-geo-alt-fill", zoomToResult: "bi-zoom-in", startRouting: "bi-signpost-2" }] - contains the icons by action names to display on buttons.
+ * @property {Object} [lastPickedFeatureId=null] The ID of the last feature that was picked or interacted with by the user.
+*/
 const state = {
+    coloredHighlighting3D: {},
     configPaths: ["portalConfig.mainMenu.searchBar", "portalConfig.secondaryMenu.searchBar"],
     currentSide: "mainMenu",
     minCharacters: 3,
@@ -76,7 +79,8 @@ const state = {
         setMarker: "bi-geo-alt-fill",
         zoomToResult: "bi-zoom-in",
         startRouting: "bi-signpost-2"
-    }
+    },
+    lastPickedFeatureId: null
 };
 
 export default state;
