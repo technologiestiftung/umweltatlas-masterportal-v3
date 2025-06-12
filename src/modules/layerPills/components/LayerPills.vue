@@ -301,6 +301,7 @@ export default {
         margin: 0 auto 0 auto;
         border-radius: 19px;
         overflow-y: auto;
+        z-index: 0;
     }
 
     .nav-pills {
