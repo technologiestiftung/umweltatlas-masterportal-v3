@@ -300,12 +300,14 @@ export default {
         pointer-events: all;
         margin: 0 auto 0 auto;
         border-radius: 19px;
+        overflow-y: auto;
     }
 
     .nav-pills {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        scroll-snap-type: x mandatory;
     }
 
     .nav-pills.collapsed {
@@ -321,6 +323,7 @@ export default {
         display: flex;
         align-items: center;
         max-height: fit-content;
+        scroll-snap-align: start;
     }
 
     .layer-pills-toggle-button {
@@ -415,5 +418,8 @@ export default {
         }
     }
 
+    .layer-pills-container::-webkit-scrollbar {
+    display: none;
+    }
 
 </style>
