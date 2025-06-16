@@ -81,16 +81,15 @@ export default {
         }
 
         button {
-            padding: 5px 6px;
+            padding: 5px 6px 2px;
             font-size: $font-size-base;
-            color: $white;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: $primary;
             border: none;
-
+            border-radius: 20px;
             &:hover {
                 opacity: 1;
-                background-color: $light_blue;
-                color: $dark_blue;
+                background-color: $dark_blue;
+                color: $white;
                 cursor: pointer;
             }
         }
