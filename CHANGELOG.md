@@ -28,7 +28,7 @@
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
-- Layers that are loaded via UrlParam and are not configured in config.json, but have a styleId in services.json, are now styled.
+- UrlParams: Layers that are loaded via UrlParam and are not configured in config.json, but have a styleId in services.json, are now styled.
 
 ---
 
