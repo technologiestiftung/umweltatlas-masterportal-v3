@@ -2,8 +2,8 @@
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import mutations from "../store/mutationsRouting";
 import * as constantsRouting from "../store/constantsRouting";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
-import store from "../../../app-store/index";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import store from "@appstore/index";
 
 /**
  * RoutingTemplate

@@ -1,7 +1,7 @@
 
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import modeler3DState from "./stateModeler3D";
-import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "../../../shared/js/utils/convertSexagesimalCoordinates";
+import {convertSexagesimalFromDecimal, convertSexagesimalToDecimal} from "@shared/js/utils/convertSexagesimalCoordinates";
 /**
  * The getters for the modeler3D module.
  * @module modules/modeler3D/store/gettersModeler3D

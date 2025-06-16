@@ -1,8 +1,8 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
-import StatisticDashboardControls from "../../../components/StatisticDashboardControls.vue";
-import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
+import StatisticDashboardControls from "@modules/statisticDashboard/components/StatisticDashboardControls.vue";
+import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

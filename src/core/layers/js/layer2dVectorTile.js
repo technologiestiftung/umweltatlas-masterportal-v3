@@ -1,7 +1,7 @@
 import axios from "axios";
 import {vectorTile} from "@masterportal/masterportalapi";
 
-import store from "../../../app-store";
+import store from "@appstore";
 import webgl from "./webglRenderer";
 import Layer2d from "./layer2d";
 

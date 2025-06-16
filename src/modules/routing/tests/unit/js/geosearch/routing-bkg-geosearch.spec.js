@@ -1,16 +1,16 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
-import state from "./../../../../store/stateRouting";
+import store from "@appstore";
+import state from "@modules/routing/store/stateRouting";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
 import {
     checkConfiguredBbox,
     fetchRoutingBkgGeosearch,
     getRoutingBkgGeosearchUrl,
     getRoutingBkgGeosearchReverseUrl,
     fetchRoutingBkgGeosearchReverse
-} from "../../../../js/geosearch/routing-bkg-geosearch";
+} from "@modules/routing/js/geosearch/routing-bkg-geosearch";
 
 describe("src/modules/routing/js/geosearch/routing-bkg-geosearch.js", () => {
     let service;

@@ -8,9 +8,9 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersSelectFeatures";
 import mutations from "../store/mutationsSelectFeatures";
 
-import {isUrl} from "../../../shared/js/utils/urlHelper";
-import {isEmailAddress} from "../../../shared/js/utils/isEmailAddress.js";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../shared/js/utils/isPhoneNumber.js";
+import {isUrl} from "@shared/js/utils/urlHelper";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
 
 /**
  * Select Features

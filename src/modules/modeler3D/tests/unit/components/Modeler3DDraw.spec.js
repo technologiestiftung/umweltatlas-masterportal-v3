@@ -3,8 +3,9 @@ import {nextTick} from "vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
-import Modeler3DDrawComponent from "../../../components/Modeler3DDraw.vue";
-import Modeler3D from "../../../store/indexModeler3D";
+import Modeler3DDrawComponent from "@modules/modeler3D/components/Modeler3DDraw.vue";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
+import actions from "@modules/modeler3D/store/actionsModeler3D";
 
 config.global.mocks.$t = key => key;
 
@@ -14,6 +15,10 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             mouseCoordinate: () => {
                 return [11.549606597773037, 48.17285700012215];
             }
+        },
+        mockMapActions = {
+            removeInteraction: sinon.stub(),
+            addInteraction: sinon.stub()
         },
         Cartesian3Coordinates = {
             x: 3739310.9273738265,
@@ -63,7 +68,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         };
 
     let store,
-        originalCreateCylinder,
+        createCylinderSpy,
         wrapper,
         scene;
 
@@ -72,8 +77,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             createObjectURL: sinon.stub(),
             revokeObjectURL: sinon.stub()
         };
-        originalCreateCylinder = Modeler3D.actions.createCylinder;
-        Modeler3D.actions.createCylinder = sinon.spy();
+        createCylinderSpy = sinon.spy();
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
@@ -211,18 +215,37 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions: {
+                                ...actions,
+                                createCylinder: createCylinderSpy
+                            }
+                        }
                     }
                 },
                 Maps: {
                     namespaced: true,
-                    getters: mockMapGetters
+                    getters: mockMapGetters,
+                    actions: mockMapActions
                 }
             }
         });
         wrapper = mount(Modeler3DDrawComponent, {
             global: {
-                plugins: [store]
+                plugins: [store],
+                stubs: {
+                    DrawTypes: {
+                        name: "DrawTypes",
+                        template: `
+                            <div>
+                                <button id="draw-polygon" class="active">Draw Polygon</button>
+                                <button id="draw-line" class="active">Draw Line</button>
+                                <button id="draw-rectangle" class="active">Draw Rectangle</button>
+                            </div>
+                        `
+                    }
+                }
             }
         });
 
@@ -234,12 +257,11 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
     });
 
     afterEach(() => {
-        Modeler3D.actions.createCylinder = originalCreateCylinder;
         sinon.restore();
         global.URL = globalURL;
     });
 
-    describe.skip("renders Modeler3DDraw", () => {
+    describe("renders Modeler3DDraw", () => {
         it("renders the main elements", () => {
             expect(wrapper.find("#modeler3D-draw").exists()).to.be.true;
             expect(wrapper.find("#tool-modeler3D-draw-models").exists()).to.be.true;
@@ -263,7 +285,7 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             expect(polygonButton.classes()).contain("active");
         });
     });
-    describe.skip("Modeler3DDraw.vue methods", () => {
+    describe("Modeler3DDraw.vue methods", () => {
         it("should update currentPosition in Clamp-to-Ground mode", () => {
             const mouseMoveEvent = {
                 endPosition: {x: 0, y: 0}

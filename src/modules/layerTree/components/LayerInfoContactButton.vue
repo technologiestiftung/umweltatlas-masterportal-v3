@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Button to open contact module with specific email parameters relating to layer information

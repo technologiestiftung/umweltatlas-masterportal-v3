@@ -1,8 +1,8 @@
 import Point from "ol/geom/Point";
 import {buffer} from "ol/extent";
-import {createGfiFeature} from "../../../shared/js/utils/getWmsFeaturesByMimeType";
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import gfiFeatureProvider from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
+import gfiFeatureProvider from "@shared/js/utils/getGfiFeaturesByTileFeature";
 import stateGetFeatureInfo from "./stateGetFeatureInfo";
 
 /**

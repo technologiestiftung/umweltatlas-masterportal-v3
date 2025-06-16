@@ -16,7 +16,7 @@ import {
     ne,
     startswith,
     startswithForArray
-} from "../../../utils/ruleValidation.js";
+} from "@modules/filter/utils/ruleValidation.js";
 
 describe("src/modules/filter/utils/ruleValidation.js", () => {
     describe("intersectsForArray", () => {

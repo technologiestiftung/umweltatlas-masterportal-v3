@@ -1,4 +1,4 @@
-import isObject from "../../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {getValueFromObjectByPath} from "@masterportal/masterportalapi/src/lib/getValueFromObjectByPath";
 import InterfaceWfsExtern from "./interface.wfs.extern.js";
 import {

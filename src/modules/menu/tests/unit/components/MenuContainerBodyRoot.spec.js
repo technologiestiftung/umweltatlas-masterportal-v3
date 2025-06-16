@@ -1,11 +1,11 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import MenuContainerBodyRoot from "../../../components/MenuContainerBodyRoot.vue";
-import MenuContainerBodyRootLogo from "../../../components/MenuContainerBodyRootLogo.vue";
-import MenuContainerBodyRootItems from "../../../components/MenuContainerBodyRootItems.vue";
-import LayerTree from "../../../../layerTree/components/LayerTree.vue";
-import SearchBar from "../../../../searchBar/components/SearchBar.vue";
+import MenuContainerBodyRoot from "@modules/menu/components/MenuContainerBodyRoot.vue";
+import MenuContainerBodyRootLogo from "@modules/menu/components/MenuContainerBodyRootLogo.vue";
+import MenuContainerBodyRootItems from "@modules/menu/components/MenuContainerBodyRootItems.vue";
+import LayerTree from "@modules/layerTree/components/LayerTree.vue";
+import SearchBar from "@modules/searchBar/components/SearchBar.vue";
 
 config.global.mocks.$t = key => key;
 

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import prepareFeatureProperties from "../../../js/prepareFeatureProperties";
+import prepareFeatureProperties from "@modules/wfst/js/prepareFeatureProperties";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 
 const exampleLayerInformation = {

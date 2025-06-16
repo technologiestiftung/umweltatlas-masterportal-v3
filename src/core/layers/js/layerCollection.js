@@ -1,6 +1,6 @@
 import Layer2d from "./layer2d";
 import Layer3d from "./layer3d";
-import store from "../../../app-store";
+import store from "@appstore";
 
 const layerCollection = [];
 

@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import Feature from "ol/Feature";
-import {defaultInteractionConfig} from "../../../constantsWfst";
-import gettersWfst from "../../../store/gettersWfst";
+import {defaultInteractionConfig} from "@modules/wfst/constantsWfst";
+import gettersWfst from "@modules/wfst/store/gettersWfst";
 
 describe("src/modules/wfst/store/gettersWfst.js", () => {
     let state;

@@ -2,7 +2,7 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
 import MeasureInMapTooltip from "./MeasureInMapTooltip.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import source from "../js/measureSource";
 import getStyle from "../js/measureStyle";
 

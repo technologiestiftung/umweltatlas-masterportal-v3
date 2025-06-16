@@ -1,9 +1,9 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import getNestedValues from "../../shared/js/utils/getNestedValues";
-import {sortObjects} from "../../shared/js/utils/sortObjects";
-import {treeBaselayersKey, treeSubjectsKey} from "../../shared/js/utils/constants";
-import {uniqueId} from "../../shared/js/utils/uniqueId.js";
-import layerFactory from "../../core/layers/js/layerFactory";
+import getNestedValues from "@shared/js/utils/getNestedValues";
+import {sortObjects} from "@shared/js/utils/sortObjects";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import layerFactory from "@core/layers/js/layerFactory";
 
 /**
  * Returns all layer from services.json to add to states layerConfig for treetype 'auto', besides background-layers.

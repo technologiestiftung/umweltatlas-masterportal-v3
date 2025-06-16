@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import stateLayerPills from "./stateLayerPills";
 
 const getters = {

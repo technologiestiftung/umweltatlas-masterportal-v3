@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import fetchData from "../../../js/fetchData";
+import fetchData from "@modules/statisticDashboard/js/fetchData";
 import sinon from "sinon";
 import {rawLayerList} from "@masterportal/masterportalapi";
 

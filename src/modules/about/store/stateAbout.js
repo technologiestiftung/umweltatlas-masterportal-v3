@@ -27,6 +27,7 @@
  * @property {String} privacyStatementUrl URL to data privacy policy site
  * @property {String} accessibilityText Text for accessibility section
  * @property {String} accessibilityUrl URL to accessibility site
+ * @property {Boolean} hideImprintInFooter Whether to hide the imprint link in the footer.
  */
 export default {
     description: "common:modules.about.description",
@@ -53,5 +54,6 @@ export default {
     privacyStatementText: "",
     privacyStatementUrl: "",
     accessibilityText: "",
-    accessibilityUrl: ""
+    accessibilityUrl: "",
+    hideImprintInFooter: false
 };

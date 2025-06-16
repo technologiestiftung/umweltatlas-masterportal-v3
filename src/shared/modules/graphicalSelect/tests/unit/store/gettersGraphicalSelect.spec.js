@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import stateGraphicalSelect from "../../../store/stateGraphicalSelect";
+import stateGraphicalSelect from "@shared/modules/graphicalSelect/store/stateGraphicalSelect";
 
 
 describe("src/share-components/graphicalSelect/store/gettersGraphicalSelect", function () {

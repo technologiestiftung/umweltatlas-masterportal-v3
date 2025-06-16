@@ -1,7 +1,7 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import IconButton from "../../../../shared/modules/buttons/components/IconButton.vue";
-import LightButton from "../../../../shared/modules/buttons/components/LightButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 import RoutingExportAvoidAreas from "../RoutingExportAvoidAreas.vue";
 import RoutingImportAvoidAreas from "../RoutingImportAvoidAreas.vue";
 import RoutingCoordinateInput from "../RoutingCoordinateInput.vue";

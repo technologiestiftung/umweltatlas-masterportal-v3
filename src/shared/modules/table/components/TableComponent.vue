@@ -1,16 +1,16 @@
 <script>
 import {mapGetters} from "vuex";
 import draggable from "vuedraggable";
-import localeCompare from "../../../js/utils/localeCompare";
-import FlatButton from "../../buttons/components/FlatButton.vue";
-import ExportButtonCSV from "../../buttons/components/ExportButtonCSV.vue";
-import IconButton from "../../buttons/components/IconButton.vue";
-import isObject from "../../../js/utils/isObject";
+import localeCompare from "@shared/js/utils/localeCompare";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import isObject from "@shared/js/utils/isObject";
 import Multiselect from "vue-multiselect";
-import thousandsSeparator from "../../../js/utils/thousandsSeparator";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../src/shared/js/utils/isPhoneNumber.js";
-import {isWebLink} from "../../../../../src/shared/js/utils/urlHelper.js";
-import {isEmailAddress} from "../../../../../src/shared/js/utils/isEmailAddress.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 
 export default {
     name: "TableComponent",

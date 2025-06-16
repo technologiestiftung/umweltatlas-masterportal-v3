@@ -3,7 +3,7 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarSuggestionListComponent from "../../../components/SearchBarSuggestionList.vue";
+import SearchBarSuggestionListComponent from "@modules/searchBar/components/SearchBarSuggestionList.vue";
 
 config.global.mocks.$t = key => key;
 

@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import MenuToggleButton from "../../../components/MenuToggleButton.vue";
+import MenuToggleButton from "@modules/menu/components/MenuToggleButton.vue";
 
 config.global.mocks.$t = key => key;
 

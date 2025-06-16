@@ -1,13 +1,13 @@
 import {Circle} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
 import {GeoJSON, GPX} from "ol/format.js";
-import convertFeaturesToKml from "../../../../shared/js/utils/convertFeaturesToKml.js";
-import {convertJsonToCsv} from "../../../../shared/js/utils/convertJsonToCsv";
-import {setCsvAttributes} from "../../js/setCsvAttributes.js";
-import {setKmlAttributes} from "../../js/setKmlAttributes.js";
-import transform from "../../js/download/transform.js";
-import {transformGeometry} from "../../js/download/transformGeometry";
-import main from "../../js/main";
+import convertFeaturesToKml from "@shared/js/utils/convertFeaturesToKml.js";
+import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv";
+import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes.js";
+import {setKmlAttributes} from "@modules/draw_old/js/setKmlAttributes.js";
+import transform from "@modules/draw_old/js/download/transform.js";
+import {transformGeometry} from "@modules/draw_old/js/download/transformGeometry";
+import main from "@modules/draw_old/js/main";
 
 /**
  * Converts the features from OpenLayers Features to features in the chosen format.

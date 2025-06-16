@@ -3,6 +3,10 @@ import sinon from "sinon";
 import axios from "axios";
 import utils from "../../js/utilsAxios";
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/login/js/utilsAxois.js", () => {
     describe("Different requestors", () => {
         let originalXMLHttpRequestOpen,

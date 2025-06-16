@@ -2,12 +2,12 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {reset} from "../../../../../shared/js/utils/uniqueId";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceOsmNominatim from "../../../searchInterfaces/searchInterfaceOsmNominatim.js";
-import store from "../../../../../app-store";
+import {reset} from "@shared/js/utils/uniqueId";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceOsmNominatim from "@modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js";
+import store from "@appstore";
 
-describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
+describe("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js", () => {
     let SearchInterface1 = null,
         searchResults,
         checkConfigSpy;
@@ -21,6 +21,9 @@ describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominati
                 return {
                     url: "test.url?"
                 };
+            },
+            "Maps/projection": {
+                getCode: () => "EPSG:4326"
             }
         };
 
@@ -87,7 +90,7 @@ describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominati
         it("SearchInterfaceOsmNominatim should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -215,6 +218,9 @@ describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceOsmNominati
         it("should create possible events from search result", () => {
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [1, 2]
+                    },
                     setMarker: {
                         coordinates: [1, 2]
                     },

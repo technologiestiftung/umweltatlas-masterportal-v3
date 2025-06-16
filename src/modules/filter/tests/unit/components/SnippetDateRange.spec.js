@@ -1,5 +1,5 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetDateRange from "../../../components/SnippetDateRange.vue";
+import SnippetDateRange from "@modules/filter/components/SnippetDateRange.vue";
 import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";

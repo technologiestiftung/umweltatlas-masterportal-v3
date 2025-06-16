@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import splitListWithDelimiter from "../../../utils/splitListWithDelimiter.js";
+import splitListWithDelimiter from "@modules/filter/utils/splitListWithDelimiter.js";
 
 describe("src/modules/filter/utils/splitListWithDelimiter.js", () => {
     describe("splitListWithDelimiter", () => {

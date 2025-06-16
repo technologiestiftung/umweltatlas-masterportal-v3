@@ -1,5 +1,5 @@
 import {Stroke, Style} from "ol/style.js";
-import stateRouting from "../../../../store/stateRouting";
+import stateRouting from "@modules/routing/store/stateRouting";
 
 /**
  * Creates Direction Route Style Function

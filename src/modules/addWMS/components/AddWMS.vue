@@ -4,9 +4,9 @@ import {WMSCapabilities} from "ol/format.js";
 import {intersects} from "ol/extent";
 import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
-import {deleteParams} from "../../../shared/js/utils/deleteUrlParams";
-import buildTreeStructure from "../../../app-store/js/buildTreeStructure";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
+import {deleteParams} from "@shared/js/utils/deleteUrlParams";
+import buildTreeStructure from "@appstore/js/buildTreeStructure";
 
 /**
  * Adds WMS

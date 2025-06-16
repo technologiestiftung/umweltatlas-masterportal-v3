@@ -6,7 +6,7 @@ import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 import BuildSpec from "../js/buildSpec";
 import Canvas from "../js/buildCanvas";
 import layerProvider from "../js/getVisibleLayer";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 import {autoDrawMask} from "olcs/lib/olcs/print/drawCesiumMask.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
 

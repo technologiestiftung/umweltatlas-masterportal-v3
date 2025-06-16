@@ -10,7 +10,7 @@ import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector";
 
-import DrawEditComponent from "../../../components/DrawEdit.vue";
+import DrawEditComponent from "@shared/modules/draw/components/DrawEdit.vue";
 
 config.global.mocks.$t = key => key;
 

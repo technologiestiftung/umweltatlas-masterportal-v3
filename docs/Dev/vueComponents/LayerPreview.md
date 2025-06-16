@@ -63,7 +63,7 @@ Example of a VectorTile-layer:
 Example of usage in a SFC:
 
 ```js
-import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
 
 // [...]
 

@@ -1,11 +1,11 @@
 <script>
-import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import WfsSearchLiteral from "./WfsSearchLiteral.vue";
 import {createUserHelp} from "../js/literalFunctions";
 import requestProvider from "../js/requests";
-import isObject from "../../../shared/js/utils/isObject";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import isObject from "@shared/js/utils/isObject";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Wfs Search

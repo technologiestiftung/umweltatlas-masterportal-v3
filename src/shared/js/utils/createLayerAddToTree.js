@@ -1,10 +1,10 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import store from "../../../app-store";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
-import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
+import store from "@appstore";
+import layerCollection from "@core/layers/js/layerCollection";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
 /**
  * Creates a layer containing the given features and shows it in menu tree.

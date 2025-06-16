@@ -3,10 +3,10 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import escapeId from "../../../../../shared/js/utils/escapeId";
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import LayerCheckBox from "../../../components/LayerCheckBox.vue";
-import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
+import escapeId from "@shared/js/utils/escapeId";
+import layerFactory from "@core/layers/js/layerFactory";
+import LayerCheckBox from "@modules/layerTree/components/LayerCheckBox.vue";
+import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer";
 
 config.global.mocks.$t = key => key;
 

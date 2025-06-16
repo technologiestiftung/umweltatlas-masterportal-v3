@@ -3,9 +3,12 @@ import sinon from "sinon";
 import Feature from "ol/Feature";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import WFSLayer from "../../../js/layer2dVectorWfs";
-import webgl from "../../../js/webglRenderer";
+import WFSLayer from "@core/layers/js/layer2dVectorWfs";
+import webgl from "@core/layers/js/webglRenderer";
 
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/core/js/layers/webglRenderer.js", () => {
     let attributes, olLayer, source, includes, removeLayerSpy, addLayerSpy;

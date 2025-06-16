@@ -1,11 +1,11 @@
 import Cluster from "ol/source/Cluster";
 import axios from "axios";
 
-import store from "../../../app-store";
+import store from "@appstore";
 import Layer from "./layer";
 import {boundingExtent} from "ol/extent";
 import crs from "@masterportal/masterportalapi/src/crs";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse";
 import {Group as LayerGroup} from "ol/layer.js";
 
 /**
@@ -275,19 +275,19 @@ Layer2d.prototype.errorHandling = function (errorCode, layerName) {
             + linkMetadata;
 
         store.dispatch("Alerting/addSingleAlert", {content: alertingContent, multipleAlert: true});
-    }
-    store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
-        store.dispatch("replaceByIdInLayerConfig", {
-            layerConfigs: [{
-                id: this.attributes.id,
-                layer: {
+        store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
+            store.dispatch("replaceByIdInLayerConfig", {
+                layerConfigs: [{
                     id: this.attributes.id,
-                    visibility: showTheModal,
-                    showInLayerTree: false
-                }
-            }]
-        }, {root: true});
-    });
+                    layer: {
+                        id: this.attributes.id,
+                        visibility: showTheModal,
+                        showInLayerTree: false
+                    }
+                }]
+            }, {root: true});
+        });
+    }
 };
 
 

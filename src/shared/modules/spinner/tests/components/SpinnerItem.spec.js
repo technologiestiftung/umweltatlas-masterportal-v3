@@ -1,6 +1,6 @@
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import SpinnerItem from "../../components/SpinnerItem.vue";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 config.global.mocks.$t = key => key;
 

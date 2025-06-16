@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import PortalFooterComponent from "../../../components/PortalFooter.vue";
+import PortalFooterComponent from "@modules/portalFooter/components/PortalFooter.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -14,11 +14,12 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
         alias_mobile: "ABC"
     }];
     let isMobile,
-        store;
+        store,
+        hideImprint;
 
     beforeEach(() => {
         isMobile = false;
-
+        hideImprint = false;
         store = createStore({
             modules: {
                 Modules: {
@@ -32,6 +33,12 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
                                 urls: () => urls,
                                 type: () => sinon.stub(),
                                 configPaths: () => sinon.stub()
+                            }
+                        },
+                        About: {
+                            namespaced: true,
+                            getters: {
+                                hideImprintInFooter: () => hideImprint
                             }
                         }
                     }
@@ -92,7 +99,7 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find("#module-portal-footer").exists()).to.be.true;
+        expect(wrapper.find(".imprintLink").exists()).to.be.true;
     });
 
     it("renders the urls in footer", () => {
@@ -138,6 +145,15 @@ describe("src/modules/portalFooter/components/PortalFooter.vue", () => {
             }
         });
 
-        expect(wrapper.find(".impressumLink").exists()).to.be.true;
+        expect(wrapper.find(".imprintLink").exists()).to.be.true;
+    });
+
+    it("does not render imprint link if hideImprintInFooter is true", () => {
+        hideImprint = true;
+        const wrapper = shallowMount(PortalFooterComponent, {
+            global: {plugins: [store]}
+        });
+
+        expect(wrapper.find(".imprintLink").exists()).to.be.false;
     });
 });

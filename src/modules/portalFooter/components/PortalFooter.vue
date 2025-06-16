@@ -27,6 +27,9 @@ export default {
             "mainMenu",
             "secondaryMenu"
         ]),
+        ...mapGetters("Modules/About", [
+            "hideImprintInFooter"
+        ]),
         /**
          * Returns the alias length for relevant device mode.
          * @returns {Number} The alias length for the relevant device mode.
@@ -93,8 +96,8 @@ export default {
         class="portal-footer px-2 py-1"
     >
         <a
-            v-if="aboutModuleSide"
-            class="impressumLink"
+            v-if="aboutModuleSide && !hideImprintInFooter"
+            class="imprintLink"
             role="button"
             tabindex="0"
             @click="openImprint"
@@ -144,8 +147,7 @@ export default {
         background-color: $menu-background-color;
         box-shadow: 0 -6px 12px $shadow;
         font-family: $font_family_narrow;
-        // font-size: $font-size-sm;
-        font-size: 12px; // todo rem auf welcher Grudnlage 14 oder 16px???
+        font-size: 12px;
         flex-wrap: nowrap;
         margin-top: auto;
         pointer-events: auto;
@@ -165,7 +167,7 @@ export default {
             flex-grow: 1;
         }
 
-        .impressumLink {
+        .imprintLink {
             padding-right: 1rem;
             color: $secondary;
             &:hover{

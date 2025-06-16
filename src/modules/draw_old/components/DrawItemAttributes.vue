@@ -1,7 +1,7 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapActions} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Draw Item Attributes

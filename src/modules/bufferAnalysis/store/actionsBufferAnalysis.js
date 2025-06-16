@@ -6,7 +6,7 @@ import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
 import {ResultType} from "./enums";
 import * as setters from "./settersBufferAnalysis";
 import * as initializers from "./initializersBufferAnalysis";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 const actions = {
     ...initializers,
@@ -268,7 +268,6 @@ const actions = {
      * @return {void}
      */
     applyValuesFromSavedUrlBuffer ({rootState, state, dispatch, commit}) {
-        // @todo im Zuge des Umzugs der parametricURL angucken.
         if (rootState.urlParams && rootState.urlParams["Tools/bufferAnalysis/active"]) {
             const extractedParams = rootState.urlParams.initvalues.map((element) => {
                     return element.replace(/\\"/g, "\"").split(":")[1].replaceAll("\"", "").replaceAll("}", "");

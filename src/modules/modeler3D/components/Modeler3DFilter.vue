@@ -1,13 +1,13 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import ModalItem from "@shared/modules/modals/components/ModalItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import {uniqueId} from "@shared/js/utils/uniqueId";
 
-import layerCollection from "../../../core/layers/js/layerCollection";
-import processLayerConfig from "../../../core/layers/js/layerProcessor";
+import layerCollection from "@core/layers/js/layerCollection";
+import processLayerConfig from "@core/layers/js/layerProcessor";
 
 /**
  * The component that handles the 3D modeler filtering & styling.

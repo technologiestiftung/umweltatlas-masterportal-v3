@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import IsochronesHoverDataComponent from "../../../../components/Isochrones/IsochronesHoverData.vue";
+import IsochronesHoverDataComponent from "@modules/routing/components/Isochrones/IsochronesHoverData.vue";
 import VectorLayer from "ol/layer/Vector.js";
 
 config.global.mocks.$t = key => key;

@@ -1,12 +1,12 @@
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import {treeSubjectsKey} from "../../../../../shared/js/utils/constants";
-import actions from "../../../store/actionsFileImport";
-import importedState from "../../../store/stateFileImport";
-import rawSources from "../../resources/rawSources.js";
+import testAction from "@devtools/tests/VueTestUtils";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
+import actions from "@modules/fileImport/store/actionsFileImport";
+import importedState from "@modules/fileImport/store/stateFileImport";
+import rawSources from "@modules/fileImport/tests/resources/rawSources.js";
 import crs from "@masterportal/masterportalapi/src/crs";
-import {reset as resetUniqueId} from "../../../../../shared/js/utils/uniqueId.js";
+import {reset as resetUniqueId} from "@shared/js/utils/uniqueId.js";
 import sinon from "sinon";
 import {expect} from "chai";
 

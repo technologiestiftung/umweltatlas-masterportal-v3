@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isImage, isUrl, isWebLink, setWebLinks} from "../../urlHelper";
+import {isImage, isUrl, isWebLink, setWebLinks} from "@shared/js/utils/urlHelper";
 
 describe("src/shared/js/utils/urlHelper.js", () => {
     it("detects an URL in an incoming string", () => {

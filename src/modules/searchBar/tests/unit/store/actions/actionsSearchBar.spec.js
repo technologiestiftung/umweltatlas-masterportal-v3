@@ -1,4 +1,4 @@
-import actions from "../../../../store/actions/actionsSearchBar";
+import actions from "@modules/searchBar/store/actions/actionsSearchBar";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -7,6 +7,10 @@ const {
     checkLayerSelectionSearchConfig
 
 } = actions;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/searchBar/store/actions/actionsSearchBar.js", () => {
     let commit,

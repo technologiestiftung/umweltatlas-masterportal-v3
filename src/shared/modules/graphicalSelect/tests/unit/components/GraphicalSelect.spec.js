@@ -1,15 +1,20 @@
 import {createStore} from "vuex";
 import {shallowMount, config} from "@vue/test-utils";
 import {expect} from "chai";
-import GraphicalSelectComponent from "../../../components/GraphicalSelect.vue";
-import GraphicalSelect from "../../../store/indexGraphicalSelect.js";
+import GraphicalSelectComponent from "@shared/modules/graphicalSelect/components/GraphicalSelect.vue";
+import GraphicalSelect from "@shared/modules/graphicalSelect/store/indexGraphicalSelect";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
+import Polygon from "ol/geom/Polygon.js";
 
 config.global.mocks.$t = key => key;
 
-let store, layersOnMap, layer, mockMapGetters, mockMapActions, map;
+afterEach(() => {
+    sinon.restore();
+});
+
+let store, layersOnMap, layer, mockMapGetters, mockMapActions, mockAlertActions, map;
 
 describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", () => {
     GraphicalSelectComponent.props.label = "";
@@ -35,6 +40,9 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             registerListener: sinon.spy(),
             removeLayer: sinon.spy()
         };
+        mockAlertActions = {
+            addSingleAlert: sinon.spy()
+        };
         layersOnMap = [];
         layer = new VectorLayer({
             id: "geometry_selection_layer",
@@ -59,6 +67,10 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                     namespaced: true,
                     getters: mockMapGetters,
                     actions: mockMapActions
+                },
+                Alerting: {
+                    namespaced: true,
+                    actions: mockAlertActions
                 }
             }
         });
@@ -101,13 +113,36 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             const wrapper = shallowMount(GraphicalSelectComponent, {
                 global: {
                     plugins: [store]
+                },
+                props: {
+                    options: {
+                        "Box": "Box Title"
+                    }
                 }
             });
-            let option = {};
 
-            for (option in wrapper.vm.options) {
+            for (const option in wrapper.vm.options) {
                 expect(wrapper.vm.geographicValues).to.include(option);
             }
+        });
+
+        it("options does contain an invalid draw modus", () => {
+            const wrapper = shallowMount(GraphicalSelectComponent, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    options: {
+                        "NonExisingOption": "NonExisingOption Title"
+                    }
+                }
+            });
+
+            for (const option in wrapper.vm.options) {
+                expect(wrapper.vm.geographicValues).to.not.include(option);
+            }
+
+            expect(mockAlertActions.addSingleAlert.calledOnce).to.be.true;
         });
 
         it("should add Layer 1 times to map", () => {
@@ -158,6 +193,33 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
             expect(wrapper.vm.circleOverlay.element.innerHTML).to.equal("");
             expect(map.removeOverlay.calledWith(wrapper.vm.circleOverlay)).to.be.true;
             expect(map.removeOverlay.calledWith(wrapper.vm.tooltipOverlay)).to.be.true;
+        });
+    });
+
+    describe("use existing geometry", () => {
+        it("should add a layer using the geometry from the startGeometry prop", () => {
+            const startGeometry = new Polygon([[[0, 0],
+                    [10, 0],
+                    [10, 10],
+                    [0, 10],
+                    [0, 0]]]),
+                wrapper = shallowMount(GraphicalSelectComponent, {
+                    global: {
+                        plugins: [store]
+                    },
+                    props: {
+                        startGeometry
+                    }
+                });
+
+            // Assert that the layer contains the geometry from startGeometry
+            // eslint-disable-next-line
+            const addedLayer = wrapper.vm.layer,
+                features = addedLayer.getSource().getFeatures();
+
+            expect(features).to.have.lengthOf(1);
+            expect(features[0].getGeometry().getType()).to.equal("Polygon");
+            expect(features[0].getGeometry().getCoordinates()).to.deep.equal(startGeometry.getCoordinates());
         });
     });
 });

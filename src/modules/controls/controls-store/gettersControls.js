@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import stateControls from "./stateControls";
 
 import BackForward from "../backForward/components/BackForward.vue";

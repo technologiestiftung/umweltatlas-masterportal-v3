@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
-import RoutingSpeedProfileIconComponent from "../../../components/RoutingSpeedProfileIcon.vue";
+import RoutingSpeedProfileIconComponent from "@modules/routing/components/RoutingSpeedProfileIcon.vue";
 
 config.global.mocks.$t = key => key;
 

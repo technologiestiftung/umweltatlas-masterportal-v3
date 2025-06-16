@@ -3,7 +3,7 @@ import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import GfiComponent from "../../../components/GetFeatureInfo.vue";
+import GfiComponent from "@modules/getFeatureInfo/components/GetFeatureInfo.vue";
 
 let mockMutations,
     mockGetters,

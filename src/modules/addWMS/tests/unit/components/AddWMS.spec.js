@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import crs from "@masterportal/masterportalapi/src/crs";
 import sinon from "sinon";
-import AddWMSComponent from "../../../components/AddWMS.vue";
+import AddWMSComponent from "@modules/addWMS/components/AddWMS.vue";
 
 config.global.mocks.$t = key => key;
 

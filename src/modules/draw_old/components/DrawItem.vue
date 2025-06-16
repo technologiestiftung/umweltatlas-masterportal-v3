@@ -4,9 +4,9 @@ import DownloadItem from "../components/DownloadItem.vue";
 import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
 import DrawItemAttributes from "./DrawItemAttributes.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "../../../core/layers/js/layerCollection.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import main from "../js/main";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 import VectorSource from "ol/source/Vector";
 import {Vector as VectorLayer} from "ol/layer";
 

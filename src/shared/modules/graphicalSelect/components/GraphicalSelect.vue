@@ -1,10 +1,11 @@
 <script>
-import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "@shared/modules/graphicalSelect/js/definitionsGraphicalSelect";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import {Circle} from "ol/geom.js";
+import Feature from "ol/Feature.js";
 
 export default {
     name: "GraphicalSelect",
@@ -46,6 +47,12 @@ export default {
             type: String,
             default: "",
             required: false
+        },
+        // Use existing geometry
+        startGeometry: {
+            type: Object,
+            required: false,
+            default: undefined
         }
     },
     data () {
@@ -142,7 +149,7 @@ export default {
          * @returns {void}
          */
         checkOptions: function () {
-            if (!this.geographicValues.every(key => Object.keys(this.optionsValue).includes(key))) {
+            if (!Object.keys(this.optionsValue).every(key => this.geographicValues.includes(key))) {
                 this.addSingleAlert({
                     "content": this.$t("common:shared.modules.graphicalSelect.alert.notSupportedOption") + this.geographicValues
                 });
@@ -251,8 +258,29 @@ export default {
             const geometryFunction = createBox(),
                 drawtype = this.selectedOptionData;
 
-            if (this.layer) {
+            if (this.layer && !this.startGeometry) {
                 this.resetView(this.layer);
+            }
+            else if (this.startGeometry) {
+                if (this.layer) {
+                    this.layer?.getSource().clear();
+                    mapCollection.getMap("2D").removeLayer(this.layer);
+                }
+
+                this.removeInteraction(this.draw);
+
+                const polygonSource = new VectorSource({
+                    features: [new Feature({
+                        geometry: this.startGeometry
+                    })]
+                });
+
+                this.layer = new VectorLayer({
+                    id: "geometry_selection_layer",
+                    name: "Geometry-Selection",
+                    source: polygonSource,
+                    alwaysOnTop: true
+                });
             }
             else {
                 this.layer = new VectorLayer({

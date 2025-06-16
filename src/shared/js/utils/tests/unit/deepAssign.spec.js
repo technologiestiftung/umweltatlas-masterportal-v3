@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import deepAssign, {deepAssignIgnoreCase} from "../../deepAssign.js";
+import deepAssign, {deepAssignIgnoreCase} from "@shared/js/utils/deepAssign.js";
 
 describe("src/shared/js/utils/deepAssign.js", () => {
     let error;

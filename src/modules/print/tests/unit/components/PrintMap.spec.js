@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import PrintComponent from "../../../components/PrintMap.vue";
-import Print from "../../../store/indexPrint";
+import PrintComponent from "@modules/print/components/PrintMap.vue";
+import Print from "@modules/print/store/indexPrint";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

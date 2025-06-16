@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import stateMaps from "./stateMaps";
 
 const getters = {

@@ -1,9 +1,9 @@
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import buildTreeStructure from "../../../js/buildTreeStructure.js";
-import {getAndMergeRawLayer, getAndMergeAllRawLayers} from "../../../js/getAndMergeRawLayer.js";
-import getNestedValues from "../../../../shared/js/utils/getNestedValues";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../../shared/js/utils/constants";
-import {uniqueId} from "../../../../shared/js/utils/uniqueId.js";
+import buildTreeStructure from "@appstore/js/buildTreeStructure.js";
+import {getAndMergeRawLayer, getAndMergeAllRawLayers} from "@appstore/js/getAndMergeRawLayer.js";
+import getNestedValues from "@shared/js/utils/getNestedValues";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -62,7 +62,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             [treeBaselayersKey]: {
                 elements: [
                     {
-                        "id": "452",
+                        "id": "34127",
                         "name": "Luftbilder DOP 20 (DOP 40 mit Umland)",
                         "visibility": true
                     },
@@ -98,7 +98,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
     describe("build", () => {
         it("should return the unchanged layerlist if no param is given", () => {
             const shortList = [{
-                "id": "452",
+                "id": "34127",
                 "name": "Luftbilder DOP 20 (DOP 40 mit Umland)",
                 "visibility": true
             },
@@ -133,7 +133,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInSecondFolders = result.elements[1].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
 
             expect(result.elements).to.be.an("array").to.have.lengthOf(2);
@@ -229,7 +229,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
 
             filteredResult = getNestedValues(result, "id").flat(Infinity);
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(filteredResult.indexOf("12883")).not.to.be.equals(-1);
             expect(filteredResult.indexOf("12884")).not.to.be.equals(-1);
@@ -272,7 +272,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             filteredResult = getNestedValues(result, "id").flat(Infinity);
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(filteredResult.indexOf("23555")).not.to.be.equals(-1);
             expect(result.elements[1].elements).to.be.an("array").to.have.lengthOf(1);
@@ -305,7 +305,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInThirdFolders = result.elements[2].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(result.elements).to.be.an("array").to.have.lengthOf(3);
 
@@ -399,7 +399,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInFourthFolders = result.elements[3].elements[0].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(folders).to.be.an("array").to.have.lengthOf(4);
 

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import {removeHighlightFeature} from "../../../js/removeHighlighting";
+import {removeHighlightFeature} from "@core/maps/js/removeHighlighting";
 import Feature from "ol/Feature";
 
 describe("src/core/maps/js/removeHighlightFeature", () => {

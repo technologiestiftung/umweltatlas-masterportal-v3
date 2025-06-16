@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import InterfaceWfsExtern from "../../../../js/interfaces/interface.wfs.extern.js";
-import responseXML from "../../../resources/rawSources.js";
+import InterfaceWfsExtern from "@modules/filter/js/interfaces/interface.wfs.extern.js";
+import responseXML from "@modules/filter/tests/resources/rawSources.js";
 import GeometryCollection from "ol/geom/GeometryCollection.js";
 import Polygon from "ol/geom/Polygon.js";
 

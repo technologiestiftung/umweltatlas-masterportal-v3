@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
-import {convertJsonToCsv} from "../../../js/utils/convertJsonToCsv.js";
+import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv.js";
 import {
     createCsvBlob,
     downloadBlobPerNavigator,

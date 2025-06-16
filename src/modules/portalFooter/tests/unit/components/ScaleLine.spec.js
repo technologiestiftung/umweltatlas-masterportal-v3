@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import ScaleLine from "../../../components/ScaleLine.vue";
+import ScaleLine from "@modules/portalFooter/components/ScaleLine.vue";
 
 config.global.mocks.$t = key => key;
 

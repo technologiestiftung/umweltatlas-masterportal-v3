@@ -1,4 +1,4 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
+import {generateSimpleMutations} from "@shared/js/utils/generators";
 import modeler3DState from "./stateModeler3D";
 /**
  * The mutations for the modeler3D module.

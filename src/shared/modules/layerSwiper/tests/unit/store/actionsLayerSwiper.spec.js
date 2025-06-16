@@ -1,8 +1,8 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../../../store/actionsLayerSwiper";
+import actions from "@shared/modules/layerSwiper/store/actionsLayerSwiper";
 import {JSDOM} from "jsdom";
-import layerCollection from "../../../../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("actions", () => {
     let commit, dispatch, state, rootGetters, jsdom, map, originalDocument, originalWindow, originalKeyboardEvent, originalMouseEvent;
@@ -21,14 +21,14 @@ describe("actions", () => {
         };
 
         mapCollection.addMap(map, "2D");
+    });
+
+    beforeEach(() => {
         jsdom = new JSDOM("<!doctype html><html><body></body></html>");
         global.document = jsdom.window.document;
         global.window = jsdom.window;
         global.KeyboardEvent = jsdom.window.KeyboardEvent;
         global.MouseEvent = jsdom.window.MouseEvent;
-    });
-
-    beforeEach(() => {
         commit = sinon.spy();
         dispatch = sinon.spy();
         state = {

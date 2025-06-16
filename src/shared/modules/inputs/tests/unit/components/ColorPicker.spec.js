@@ -1,6 +1,6 @@
 import {mount} from "@vue/test-utils";
 import {expect} from "chai";
-import ColorPicker from "../../../components/ColorPicker.vue";
+import ColorPicker from "@shared/modules/inputs/components/ColorPicker.vue";
 
 describe("src/shared/components/ColorPicker.vue", () => {
 

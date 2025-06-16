@@ -16,8 +16,13 @@ export default {
     },
     methods: {
         ...mapActions("Modules/SearchBar", [
-            "activateActions"
-        ])
+            "activateActions",
+            "removeHighlight3DTile"
+        ]),
+        handleClick () {
+            this.removeHighlight3DTile();
+            this.activateActions({searchResult: this.searchSuggestion, actionType: "onClick"});
+        }
     }
 };
 </script>
@@ -30,7 +35,7 @@ export default {
                 class="btn btn-light d-flex"
                 :title="searchSuggestion.toolTip ? $t(searchSuggestion.toolTip) : $t(searchSuggestion.name)"
                 :aria-label="searchSuggestion.toolTip ? $t(searchSuggestion.toolTip) : $t(searchSuggestion.name)"
-                @click="activateActions({searchResult: searchSuggestion, actionType: 'onClick'})"
+                @click="handleClick"
                 @keydown.enter="activateActions({searchResult: searchSuggestion, actionType: 'onClick'})"
                 @mouseover="activateActions({searchResult: searchSuggestion, actionType: 'onHover'})"
                 @focus="activateActions({searchResult: searchSuggestion, actionType: 'onHover'})"

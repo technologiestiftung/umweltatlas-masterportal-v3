@@ -5,7 +5,7 @@ import {platformModifierKeyOnly, primaryAction, click} from "ol/events/condition
 import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature";
 import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
 import getLayerInformationModule from "../js/getLayerInformation";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 import DragBox from "ol/interaction/DragBox";
 
@@ -635,10 +635,9 @@ const actions = {
                 featurePropertiesBatch,
                 featureProperties,
                 layerInformation,
-                selectedInteraction,
-                layerIds
+                selectedInteraction
             } = getters,
-            currentLayerId = layerIds[currentLayerIndex],
+            currentLayerId = layerInformation[currentLayerIndex].id,
             features = modifyFeatureArray ? modifyFeatureArray : drawLayer.getSource().getFeatures();
         let geometryFeature,
             index = 0,

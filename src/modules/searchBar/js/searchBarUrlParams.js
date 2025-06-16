@@ -1,5 +1,5 @@
-import store from "../../../app-store";
-import processUrlParams from "../../../shared/js/utils/processUrlParams";
+import store from "@appstore";
+import processUrlParams from "@shared/js/utils/processUrlParams";
 
 const searchBarUrlParams = {
         QUERY: setQueryToSearchInput

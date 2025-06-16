@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 
 /**
  * Layer Slider Handle

@@ -227,7 +227,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -251,7 +252,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -289,7 +291,20 @@
             "serviceId": "10",
             "limit": 60,
             "states": "Hamburg",
-            "classes": "place,highway,building,shop,historic,leisure,city,county"
+            "classes": "place,highway,building,shop,historic,leisure,city,county",
+            "resultEvents": {
+              "onClick": [
+                "setMarker",
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
+              ],
+              "onHover": [
+                "setMarker"
+              ],
+              "buttons": [
+                "startRouting"
+              ]
+            }
           },
           {
             "type": "topicTree",
@@ -631,7 +646,24 @@
             }
           },
           {
-            "type": "modeler3D"
+            "type": "modeler3D",
+            "gmlIdPath": "gmlid",
+            "updateAllLayers": false,
+            "highlightStyle": {
+              "silhouetteColor": "#E20D0F",
+              "silhouetteSize": 4
+            },
+            "allowedAttributes": [
+              "Gebaeudefunktion",
+              "Wertbezeichnung"
+            ],
+            "pvoColors": {
+              "housing": "#ff0000",
+              "commercial": "#666666",
+              "public": "#44ff44"
+            },
+            "buildingSource": "ALKIS",
+            "buildingFunctionURL": "https://geoportal-hamburg.de/3Dprojektplaner/buildingFunctionTypeAdV.xml"
           },
           {
             "type": "scaleSwitcher"
@@ -786,6 +818,7 @@
         }
       },
       "highlightedFeatures": {
+        "layerName": "common:shared.js.utils.selectedFeatures",
         "active": true
       },
       "layerIDsToStyle": [
@@ -830,7 +863,7 @@
           "visibility": true
         },
         {
-          "id": "452",
+          "id": "7719",
           "name": "Digitale Orthophotos (belaubt) Hamburg",
           "shortname": "Orthophotos",
           "typ": "WMS",
@@ -959,7 +992,7 @@
           "showInLayerTree": true
         },
         {
-          "id": "47",
+          "id": "34406",
           "styleId": "47",
           "name": "##O+++O## Ich sollte NIEMALS im Themenbaum sichtbar sein (isNeverVisibleInTree)!",
           "isNeverVisibleInTree": true

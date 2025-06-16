@@ -2,7 +2,11 @@ import {expect} from "chai";
 import Feature from "ol/Feature";
 import View from "ol/View";
 import sinon from "sinon";
-import getters from "../../../store/gettersGetFeatureInfo";
+import getters from "@modules/getFeatureInfo/store/gettersGetFeatureInfo";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
 

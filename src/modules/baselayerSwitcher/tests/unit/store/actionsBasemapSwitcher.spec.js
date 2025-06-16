@@ -1,8 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsBaselayerSwitcher";
-import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
+import actions from "@modules/baselayerSwitcher/store/actionsBaselayerSwitcher";
+import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer";
 
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("baselayerSwitcher/store/actionsBaselayerSwitcher", () => {
 

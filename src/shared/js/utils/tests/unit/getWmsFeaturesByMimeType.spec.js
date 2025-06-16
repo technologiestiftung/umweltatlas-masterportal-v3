@@ -9,7 +9,7 @@ import {
     getJSONFeatures,
     handleJSONResponse,
     mergeFeatures
-} from "../../getWmsFeaturesByMimeType.js";
+} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
 
 describe("src/shared/js/utils/getWmsFeaturesByMimeType.js", () => {
     const url = "url";

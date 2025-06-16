@@ -1,9 +1,9 @@
 <script>
 import {mapActions, mapMutations, mapGetters} from "vuex";
 import LayerTreeNode from "./LayerTreeNode.vue";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
-import sortBy from "../../../shared/js/utils/sortBy";
-import ElevatedButton from "../../../shared/modules/buttons/components/ElevatedButton.vue";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
+import sortBy from "@shared/js/utils/sortBy";
+import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vue";
 
 /**
  * Module to display the layers in menu.
@@ -84,14 +84,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-    .layer-tre {
-        padding-left: $padding;
-        font-size: $font-size-base;
-        max-height: 350px;
-    }
-
     .sticky {
         position : sticky;
         bottom: 2rem;
+        z-index: 10;
+        pointer-events: none;
+    }
+    #add-layer-btn{
+        pointer-events: auto;
     }
 </style>

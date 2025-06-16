@@ -10,13 +10,14 @@ import "bootstrap/js/dist/offcanvas";
 
 import remoteInterface from "./plugins/remoteInterface";
 import utilsLogin from "../src/modules/login/js/utilsLogin";
-// import {instantiateVuetify} from "./plugins/vuetify";
+import globalUrlParams from "../src/core/urlParams/js/globalUrlParams";
 import {initiateVueI18Next, initLanguage} from "./plugins/i18next";
 
 import {initiateMatomo} from "./plugins/matomo";
 
+
 let app;
-const configPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1) + "config.js",
+const configPath = globalUrlParams.getConfigJsPath() === null ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1) + "config.js" : globalUrlParams.getConfigJsPath(),
     loadConfigJs = new Promise((resolve, reject) => {
         const script = document.createElement("script");
 

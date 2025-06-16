@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import stateLayerSwiper from "./stateLayerSwiper";
 
 const getters = {

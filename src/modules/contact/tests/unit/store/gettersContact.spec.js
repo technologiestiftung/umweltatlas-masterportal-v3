@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {minMessageLength} from "../../../store/constantsContact.js";
-import getters from "../../../store/gettersContact.js";
+import {minMessageLength} from "@modules/contact/store/constantsContact.js";
+import getters from "@modules/contact/store/gettersContact.js";
 
 const {
     validForm,

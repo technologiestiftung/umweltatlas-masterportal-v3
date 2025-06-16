@@ -2,16 +2,16 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import IsochronesItemBatchProcessingComponent from "../../../../components/Isochrones/IsochronesItemBatchProcessing.vue";
-import mutations from "../../../../store/mutationsRouting";
-import actions from "../../../../store/actionsRouting";
-import getters from "../../../../store/gettersRouting";
-import mutationsIsochrones from "../../../../store/isochrones/mutationsIsochrones";
-import actionsIsochrones from "../../../../store/isochrones/actionsIsochrones";
-import gettersIsochrones from "../../../../store/isochrones/gettersIsochrones";
-import stateIsochrones from "../../../../store/isochrones/stateIsochrones";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
+import IsochronesItemBatchProcessingComponent from "@modules/routing/components/Isochrones/IsochronesItemBatchProcessing.vue";
+import mutations from "@modules/routing/store/mutationsRouting";
+import actions from "@modules/routing/store/actionsRouting";
+import getters from "@modules/routing/store/gettersRouting";
+import mutationsIsochrones from "@modules/routing/store/isochrones/mutationsIsochrones";
+import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones";
+import gettersIsochrones from "@modules/routing/store/isochrones/gettersIsochrones";
+import stateIsochrones from "@modules/routing/store/isochrones/stateIsochrones";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area";
 
 config.global.mocks.$t = key => key;
 

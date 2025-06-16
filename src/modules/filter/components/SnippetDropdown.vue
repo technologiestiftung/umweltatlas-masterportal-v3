@@ -2,16 +2,16 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import Multiselect from "vue-multiselect";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimiter from "../utils/splitListWithDelimiter.js";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import SnippetInfo from "./SnippetInfo.vue";
-import localeCompare from "../../../shared/js/utils/localeCompare";
+import localeCompare from "@shared/js/utils/localeCompare";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerFactory from "@core/layers/js/layerFactory";
+import layerCollection from "@core/layers/js/layerCollection";
 import mutations from "../store/mutationsFilter";
 
 /**

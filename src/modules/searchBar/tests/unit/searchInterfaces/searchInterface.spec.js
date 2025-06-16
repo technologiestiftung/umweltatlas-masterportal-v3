@@ -1,4 +1,4 @@
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
 import {expect} from "chai";
 import axios from "axios";
 import sinon from "sinon";

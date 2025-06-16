@@ -1,4 +1,4 @@
-import isObject from "../../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import openlayerFunctions from "../../utils/openlayerFunctions.js";
 import {fetchAllStaProperties, getUniqueValuesFromFetchedFeatures} from "../../utils/fetchAllStaProperties.js";
 

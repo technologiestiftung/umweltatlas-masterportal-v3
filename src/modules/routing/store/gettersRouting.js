@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import routingState from "./stateRouting";
 import * as constantsRouting from "./constantsRouting";
 

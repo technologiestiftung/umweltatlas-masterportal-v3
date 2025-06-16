@@ -1,5 +1,5 @@
 import {fromCircle} from "ol/geom/Polygon.js";
-import createStyleModule from "../../js/style/createStyle";
+import createStyleModule from "@modules/draw_old/js/style/createStyle";
 import Feature from "ol/Feature";
 import crs from "@masterportal/masterportalapi/src/crs";
 import {GeoJSON} from "ol/format.js";
@@ -7,7 +7,7 @@ import MultiLine from "ol/geom/MultiLineString.js";
 import MultiPoint from "ol/geom/MultiPoint.js";
 import MultiPolygon from "ol/geom/MultiPolygon.js";
 import * as setters from "./settersDraw";
-import main from "../../js/main";
+import main from "@modules/draw_old/js/main";
 
 /**
  * Resets and deactivates the Draw Tool.

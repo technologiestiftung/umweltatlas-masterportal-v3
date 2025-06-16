@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getters from "../../../store/gettersStatisticDashboard.js";
+import getters from "@modules/statisticDashboard/store/gettersStatisticDashboard.js";
 
 describe("src/modules/statisticDashboard/store/gettersStatisticDashboard.js", () => {
     describe("selectedDatesValues", () => {

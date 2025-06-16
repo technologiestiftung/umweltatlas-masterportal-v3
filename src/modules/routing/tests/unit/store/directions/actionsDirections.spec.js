@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsDirections from "../../../../store/directions/actionsDirections";
+import actionsDirections from "@modules/routing/store/directions/actionsDirections";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
 import Polygon, {fromCircle} from "ol/geom/Polygon";
@@ -11,9 +11,9 @@ import Draw from "ol/interaction/Draw";
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import {Translate} from "ol/interaction.js";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import {RoutingDirections} from "../../../../js/classes/routing-directions";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
+import {RoutingDirections} from "@modules/routing/js/classes/routing-directions";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
 
 describe("src/modules/routing/store/directions/actionsDirections.js", () => {
     let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoints, wgs84Coordinates, routingDirectionsWaypointSource, routingDirectionsAvoidSource, routingDirectionsAvoidPointSource, routingDirectionsResult, routeFeature, highlightFeature, startWaypoint, endWaypoint, avoidPolygonCoordinates, avoidPointCenter;

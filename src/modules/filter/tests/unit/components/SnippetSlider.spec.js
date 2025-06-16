@@ -1,5 +1,5 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetSlider from "../../../components/SnippetSlider.vue";
+import SnippetSlider from "@modules/filter/components/SnippetSlider.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

@@ -1,14 +1,14 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
-import StatisticDashboard from "../../../components/StatisticDashboard.vue";
-import FeatureHandler from "../../../js/handleFeatures.js";
-import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
-import LegendComponent from "../../../components/StatisticDashboardLegend.vue";
+import StatisticDashboard from "@modules/statisticDashboard/components/StatisticDashboard.vue";
+import FeatureHandler from "@modules/statisticDashboard/js/handleFeatures.js";
+import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard";
+import LegendComponent from "@modules/statisticDashboard/components/StatisticDashboardLegend.vue";
 import sinon from "sinon";
-import fetchData from "../../../js/fetchData";
-import ChartProcessor from "../../../js/chartProcessor";
-import AccordionItem from "../../../../../shared/modules/accordion/components/AccordionItem.vue";
+import fetchData from "@modules/statisticDashboard/js/fetchData";
+import ChartProcessor from "@modules/statisticDashboard/js/chartProcessor";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import {
     and as andFilter,
     equalTo as equalToFilter

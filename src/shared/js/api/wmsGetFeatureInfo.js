@@ -3,7 +3,7 @@ import Feature from "ol/Feature";
 import axios from "axios";
 import handleAxiosResponse from "../utils/handleAxiosResponse.js";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
-import store from "../../../app-store";
+import store from "@appstore";
 
 /**
  * Handles the GetFeatureInfo request.

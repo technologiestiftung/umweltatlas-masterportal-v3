@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import store from "../../../../../app-store";
-import Layer2dRasterWmsTime from "../../../js/layer2dRasterWmsTime";
+import store from "@appstore";
+import Layer2dRasterWmsTime from "@core/layers/js/layer2dRasterWmsTime";
 
 describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
     let attributes,

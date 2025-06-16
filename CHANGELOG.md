@@ -8,18 +8,84 @@
 ### __Breaking Changes__
 
 ### Added
+- Issue #1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
+- SearchBar: Added functionality to highlight a 3D tile at the address coordinates.
 
 ### Changed
+- Replaced layer 452, which will be deleted.
+- Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- Menu: Menu title now updates correctly on language change.
+- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
+- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
+- GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
+- Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
+- Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
+
+---
+
+## 2025-06-04 v3.11.0
+
+### Added
+- GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
+- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection.
+- IconButton extended by further property label. If a label is given, it will be displayed under the button.
+
+### Fixed
 - Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
+- Issue #1360: Fixed Errorhandling for 2D-layers.
+- Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1371: Footer: Fixded rendering issue on menu expand.
+- Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
 - Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
+- Issue #1420: SliderItem:  Fixed opacity slider visibility in Firefox.
+- WFST-Tool: Fixed Margins in editing of wfs-t fields.
 - AboutModule: fixed undefined in imprint.
+- AddLayerButton: Fixed overlap with underlying layer icons (e.g. info/settings) that blocked user interaction.
+- Proxy: Inconsistencies when using a proxy through the attribute `useProxy` on the layer have been corrected.
+- LayerInformation: For layers that use a proxy, the url from the services.json is displayed.
+- Modeler3D: Fixed formerly unhandled cesium error that caused the tool to stop working. Disabled gfi in Modeler3D because of conflicting click event reactions.
+- HighlightedFeature: Fixed highlightedFeatures.layerName to use a valid i18n key, since common:tree.selectedFeatures no longer exists.
+
+---
+
+## 2025-02-21 v3.3.5 (LTS)
+
+### Fixed
+- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
+- Issue #1331: Show group layers in right order.
+- Issue #1356: ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
+- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
+- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
+- Issue #1388: In a menu section are several modules of same type allowed.
+- LayerInformation: Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
+- ShareView:
+    - Url parameter are uri encoded now.
+    - Duplicated url params are filtered.
+- WMS-Time:
+    - GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
+    - Updated to ensure WMS-Time Layer compatibility with version 1.3.0.
+    - Fixed issue where dragging the slider while comparing two time instances updated both sliders instead of only the active one.
+- Menu: Navigating back from layerinformation to the previous menu item add subject.
+- Loading the layer is accelerated by fixing generation of folder ids.
+- LayerTree, LayerSelection: Introduced an alternative sorting function for layers utilizing the `layerSequence` prop.
+- extendLayers: Adjusted initial z-index values to ensure correct layer order on map load.
+- UrlParams: 3D params heading, tilt and altitude are evaluated correctly.
+- Searchbar: Fixed a bug where the searchbar would focus itself on mounting, scrolling the parent page if embedded in an iframe.
+
+---
+
+## 2025-05-15 v3.10.1
+
+### Fixed
+- Issue #1366: SpecialWfs: Fixes search for coordinates with different format.
+- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 
 ---
 
@@ -30,7 +96,7 @@
 - FullScreen: added "newTabFromFrame" configuration, to disable opening a new tab if in an iFrame.
 - LayerTree: added "contactPublisherName" configuration, to change the info message shown, when clicking the contact sub menu.
 - UrlParams: Added URL-Params mainclosed and secondaryclosed to have the menus initially closed when set to true and opened when set to false.
-- Menutitle: Added ability to show only a logo without portal title (do not set option 'text')
+- Menutitle: Added ability to show only a logo without portal title (do not set option 'text').
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
 - Menus: Module caching implemented via KeepAlive lifecycle hooks.
@@ -49,6 +115,9 @@
     - consistent button design in avoid area menu
 - dependencies:
         - @masterportal/masterportalapi: 2.48.0 to 2.49.0
+
+### Removed
+- Removed since version 3 not used state property `deactivateGFI` and `translate#`,`.tools.` in language-keys.
 
 ### Fixed
 - Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
@@ -194,6 +263,24 @@
 
 ---
 
+## 2025-02-21 v3.3.4 (LTS)
+
+### Fixed
+- Issue #1106: Layer names, folder names and breadcrumbs are translated.
+- Issue #1250: Loading the layer is accelerated.
+- Issue #1301: CustomMenuElement now also works in secondaryMenu.
+- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
+- Issue #1309: fixed translation of periodicity.
+- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue #1320: Fixed long url when sharing a view with open search bar.
+- Issue #1340: fixed duplicate menu entries in the mobile version.
+- LayerInformation: Added LayerInfo for each layer within a GROUP layer.
+- Login-Module: Fix interceptor for login-secured services.
+- Addons: Added missing import on loading javascript addons.
+- SensorThings-Layer: problem with not visible features after move of map was solved.
+
+---
+
 ## 2025-02-05 v3.7.0
 
 ### Added
@@ -275,6 +362,19 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Portal Master: Fixed error in console by updating layer id.
 
 ---
+
+## 2024-12-12 v3.3.3 (LTS)
+
+### Fixed
+- Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
+- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Searchbar: the search in search results shows results and no error occurs.
+- wfst: layers that are not in services.json are supported.
+
+---
+
 
 ## 2024-12-05 v3.5.1
 

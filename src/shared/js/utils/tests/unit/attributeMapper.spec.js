@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {mapAttributes, isObjectPath} from "../../attributeMapper.js";
+import {mapAttributes, isObjectPath} from "@shared/js/utils/attributeMapper.js";
 const props = {
     random_text: "foobar",
     random_boolean: true,

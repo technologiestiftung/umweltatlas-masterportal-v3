@@ -1,6 +1,6 @@
 import SearchInterface from "./searchInterface";
 import WFS from "ol/format/WFS";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import {uniqueId} from "@shared/js/utils/uniqueId";
 
 /**
  * The search interface to the special wfs.
@@ -188,7 +188,7 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
                     elementGeometryFirstChild = elementGeometryName.firstElementChild,
                     firstChildNameUpperCase = elementGeometryFirstChild.localName.toUpperCase(),
                     identifier = element.getElementsByTagName(propertyName)[0].textContent;
-                let geometry, geometryType, coordinates;
+                let geometry, geometryType, coordinates, interior;
 
                 if (multiGeometries.includes(firstChildNameUpperCase)) {
                     const memberName = elementGeometryFirstChild.firstElementChild.localName,
@@ -197,6 +197,15 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
                     coordinates = this.getInteriorAndExteriorPolygonMembers(geometryMembers);
                     geometry = undefined;
                     geometryType = "MultiPolygon";
+                }
+                else if (elementGeometryName.getElementsByTagNameNS("*", "interior").length > 0) {
+                    const memberName = element.getElementsByTagName(geometryName)[0].firstElementChild.localName,
+                        geometryMembers = elementGeometryName.getElementsByTagNameNS("*", memberName);
+
+                    coordinates = this.getInteriorAndExteriorPolygonMembers(geometryMembers);
+                    geometry = undefined;
+                    geometryType = "Polygon";
+                    interior = true;
                 }
                 else {
                     const feature = new WFS().readFeatures(xml)[i];
@@ -213,7 +222,8 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
                         geometryType,
                         geometry,
                         coordinates,
-                        icon
+                        icon,
+                        interior
                     }
                 );
             }
@@ -248,12 +258,12 @@ SearchInterfaceSpecialWfs.prototype.getInteriorAndExteriorPolygonMembers = funct
         if (posListPolygonMembers.length > 1) {
             posListPolygonMembers = [];
             exterior = polygonMembers[i].getElementsByTagNameNS("*", "exterior");
-            exteriorCoord = exterior[0].getElementsByTagNameNS("*", "posList")[0].textContent;
+            exteriorCoord = exterior[0].getElementsByTagNameNS("*", "posList")[0].textContent.trim();
             polygonsWithInteriors.push(Object.values(exteriorCoord.replace(/\s\s+/g, " ").split(" ")));
 
             interior = polygonMembers[i].getElementsByTagNameNS("*", "interior");
             for (const key in Object.keys(interior)) {
-                interiorCoords.push(interior[key].getElementsByTagNameNS("*", "posList")[0].textContent);
+                interiorCoords.push(interior[key].getElementsByTagNameNS("*", "posList")[0].textContent.trim());
             }
             interiorCoords.forEach(coord => polygonsWithInteriors.push(Object.values(coord.replace(/\s\s+/g, " ").split(" "))));
             coordinateArray.push(polygonsWithInteriors);
@@ -279,13 +289,69 @@ SearchInterfaceSpecialWfs.prototype.createPossibleActions = function (searchResu
     let coordinates = [];
 
     if (Array.isArray(searchResult?.coordinates)) {
-        coordinates = searchResult?.coordinates;
+        if (searchResult.interior) {
+            coordinates = searchResult?.coordinates[0];
+        }
+        else {
+            coordinates = searchResult?.coordinates;
+        }
     }
     else if (Array.isArray(searchResult?.geometry)) {
-        coordinates = searchResult?.geometry;
+        searchResult.geometry.forEach(coord => {
+            if (Array.isArray(coord)) {
+                coord.forEach(coordinate => {
+                    coordinates.push(parseFloat(coordinate));
+                });
+            }
+            if (coord) {
+                coordinates.push(parseFloat(coord));
+            }
+        });
     }
     else if (searchResult?.geometry?.flatCoordinates) {
-        coordinates = searchResult?.geometry.flatCoordinates;
+        if (geometryType === "Polygon" && searchResult?.geometry.getEnds().length === 1) {
+            searchResult?.geometry?.flatCoordinates.forEach(coord => {
+                if (coord) {
+                    coordinates.push(parseFloat(coord));
+                }
+            });
+        }
+        else if (Array.isArray(searchResult?.geometry.getCoordinates())) {
+            searchResult.geometry.getCoordinates().forEach((coord1, index1) => {
+                if (Array.isArray(coord1)) {
+                    const coordArray1 = [];
+
+                    coord1.forEach(coord2 => {
+                        if (Array.isArray(coord2)) {
+                            const coordArray3 = [];
+
+                            coord2.forEach((coord3, index3) => {
+                                if (Array.isArray(coord3)) {
+                                    coord3.forEach((coord4, index4) => {
+                                        if (coord4 > 0 && index4 !== 2) {
+                                            coordArray3.push(parseFloat(coord4));
+                                        }
+                                    });
+                                }
+                                else if (coord3 > 0 && index3 !== 2) {
+                                    coordArray1.push(parseFloat(coord3));
+                                }
+                            });
+                            if (coordArray3.length > 0) {
+                                coordinates.push(coordArray3);
+                            }
+                        }
+                    });
+                    if (coordArray1.length > 0) {
+                        coordinates.push(coordArray1);
+                    }
+                }
+                else if (coord1 > 0 && index1 !== 2) {
+                    coordinates.push(parseFloat(coord1));
+                }
+            });
+        }
+
     }
 
     return {
@@ -296,11 +362,11 @@ SearchInterfaceSpecialWfs.prototype.createPossibleActions = function (searchResu
             }
         },
         setMarker: {
-            coordinates: geometryType.toUpperCase() === "POINT" || geometryType.toUpperCase() === "MULTIPOINT" ? coordinates : coordinates[0],
+            coordinates: geometryType.includes("Multi") || searchResult.interior ? coordinates[0] : coordinates,
             geometryType: geometryType
         },
         zoomToResult: {
-            coordinates: geometryType.toUpperCase() === "POINT" || geometryType.toUpperCase() === "MULTIPOINT" ? coordinates : coordinates[0]
+            coordinates: geometryType.includes("Multi") || searchResult.interior ? coordinates[0] : coordinates
         }
     };
 };

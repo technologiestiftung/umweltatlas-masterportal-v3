@@ -3,7 +3,7 @@ import {GeoJSON} from "ol/format.js";
 import {
     Polygon
 } from "ol/geom";
-import isObject from "../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
 
 export default {

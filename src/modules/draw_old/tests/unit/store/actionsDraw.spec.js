@@ -1,12 +1,12 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../../../store/actionsDraw";
-import stateDraw from "../../../store/stateDraw";
+import actions from "@modules/draw_old/store/actionsDraw";
+import stateDraw from "@modules/draw_old/store/stateDraw";
 import Draw from "ol/interaction/Draw";
 import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";
 import LineString from "ol/geom/LineString";
-import main from "../../../js/main";
+import main from "@modules/draw_old/js/main";
 
 describe("src/modules/draw/store/actionsDraw.js", () => {
     let commit, state, dispatch, addInteraction;

@@ -4,11 +4,15 @@ import dayjs from "dayjs";
 import {config, shallowMount} from "@vue/test-utils";
 import sinon from "sinon";
 
-import SensorTheme from "../../../components/SensorTheme.vue";
-import SensorChartsData from "../../../components/SensorThemeData.vue";
-import SensorChartsBarChart from "../../../components/SensorThemeBarChart.vue";
+import SensorTheme from "@modules/getFeatureInfo/themes/sensor/components/SensorTheme.vue";
+import SensorChartsData from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeData.vue";
+import SensorChartsBarChart from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeBarChart.vue";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/getFeatureInfo/themes/senor/components/SensorTheme.vue", () => {
     let wrapper;
@@ -305,6 +309,7 @@ describe("src/modules/getFeatureInfo/themes/senor/components/SensorTheme.vue", (
     });
 
     it("should activate charging tab by click it", async () => {
+        await wrapper.vm.$nextTick();
         await wrapper.setData({processedHistoricalDataByWeekday: [1, 2, 3]});
         await wrapper.findAll("div > div > ul > li > a")[2].trigger("click");
 

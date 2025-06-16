@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import mutations from "../../../store/mutationsFeatureLister";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import mutations from "@modules/featureLister/store/mutationsFeatureLister";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
     let state, features, layer;

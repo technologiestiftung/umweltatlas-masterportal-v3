@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import MenuContainer from "../../../components/MenuContainer.vue";
+import MenuContainer from "@modules/menu/components/MenuContainer.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

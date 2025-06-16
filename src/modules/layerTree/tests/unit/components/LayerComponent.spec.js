@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import LayerComponent from "../../../components/LayerComponent.vue";
+import layerFactory from "@core/layers/js/layerFactory";
+import LayerComponent from "@modules/layerTree/components/LayerComponent.vue";
 
 config.global.mocks.$t = key => key;
 

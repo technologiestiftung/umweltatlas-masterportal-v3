@@ -2,7 +2,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerComponentIconSubMenu from "../../../components/LayerComponentIconSubMenu.vue";
+import LayerComponentIconSubMenu from "@modules/layerTree/components/LayerComponentIconSubMenu.vue";
 
 config.global.mocks.$t = key => key;
 

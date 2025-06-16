@@ -1,11 +1,11 @@
 import {expect} from "chai";
 import Map from "ol/Map";
-import store from "../../../../../app-store";
+import store from "@appstore";
 import {nextTick} from "vue";
 import sinon from "sinon";
 import View from "ol/View";
 
-import {processLayerConfig, setResolutions, updateLayerAttributes} from "../../../js/layerProcessor";
+import {processLayerConfig, setResolutions, updateLayerAttributes} from "@core/layers/js/layerProcessor";
 
 describe("src/core/js/layers/layerProcessor.js", () => {
     let layerConfig,

@@ -1,4 +1,4 @@
-import DrawItemAttributes from "../../../components/DrawItemAttributes.vue";
+import DrawItemAttributes from "@modules/draw_old/components/DrawItemAttributes.vue";
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
@@ -6,6 +6,10 @@ import Feature from "ol/Feature";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
     let testFeature, testLayer;

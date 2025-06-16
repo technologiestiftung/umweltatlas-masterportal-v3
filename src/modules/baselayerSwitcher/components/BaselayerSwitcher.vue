@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
 
 export default {
     name: "BaselayerSwitcher",

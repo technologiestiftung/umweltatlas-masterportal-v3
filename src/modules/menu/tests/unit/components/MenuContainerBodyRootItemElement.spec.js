@@ -2,9 +2,9 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import visibilityChecker from "../../../../../shared/js/utils/visibilityChecker";
-import MenuContainerBodyRootItemElement from "../../../components/MenuContainerBodyRootItemElement.vue";
-import LightButton from "../../../../../shared/modules/buttons/components/LightButton.vue";
+import visibilityChecker from "@shared/js/utils/visibilityChecker";
+import MenuContainerBodyRootItemElement from "@modules/menu/components/MenuContainerBodyRootItemElement.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 
 config.global.mocks.$t = key => key;
 

@@ -8,17 +8,17 @@ import FilterApi from "../js/interfaces/filter.api.js";
 import {compileLayers} from "../utils/compileLayers.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import FilterList from "./FilterList.vue";
-import isObject from "../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import GeometryFilter from "./GeometryFilter.vue";
 import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {getFeatureGET} from "../../../shared/js/api/wfs/getFeature";
+import {getFeatureGET} from "@shared/js/api/wfs/getFeature";
 import {WFS} from "ol/format.js";
 import UrlHandler from "../utils/urlHandler.js";
 import Cluster from "ol/source/Cluster";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection";
 import {Toast} from "bootstrap";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 
 /**

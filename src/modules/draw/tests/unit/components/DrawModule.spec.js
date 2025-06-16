@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import DrawModuleComponent from "../../../components/DrawModule.vue";
+import DrawModuleComponent from "@modules/draw/components/DrawModule.vue";
 
 config.global.mocks.$t = key => key;
 

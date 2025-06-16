@@ -1,6 +1,6 @@
 import Chart from "chart.js/auto";
-import {convertToRgbaString, getCssColorMap} from "../../../shared/js/utils/convertColor.js";
-import isObject from "../../../shared/js/utils/isObject.js";
+import {convertToRgbaString, getCssColorMap} from "@shared/js/utils/convertColor.js";
+import isObject from "@shared/js/utils/isObject.js";
 
 /**
  * Creates a line chart and returns the reference.

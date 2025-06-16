@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {createStore} from "vuex";
-import Modeler3D from "../../../store/indexModeler3D";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
 import {mount, config} from "@vue/test-utils";
-import EntityListComponent from "../../../components/ui/EntityList.vue";
+import EntityListComponent from "@modules/modeler3D/components/ui/EntityList.vue";
 
 config.global.mocks.$t = key => key;
 

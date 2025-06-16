@@ -33,7 +33,16 @@ module.exports = {
     // },
     resolve: {
         alias: {
-            vue: "vue/dist/vue.esm-bundler.js"
+            vue: "vue/dist/vue.esm-bundler.js",
+            // Custom path aliases to simplify imports across the project.
+            // Make sure these aliases are also configured in jsconfig.json for proper IDE support.
+            // NOTE: Aliases are defined manually here to ensure test environment resolves paths correctly.
+            "@appstore": path.resolve(__dirname, "../src/app-store"),
+            "@shared": path.resolve(__dirname, "../src/shared"),
+            "@core": path.resolve(__dirname, "../src/core"),
+            "@modules": path.resolve(__dirname, "../src/modules"),
+            "@plugins": path.resolve(__dirname, "../src/plugins"),
+            "@devtools": path.resolve(__dirname, "../devtools")
         },
         extensions: [".tsx", ".ts", ".js"]
     },

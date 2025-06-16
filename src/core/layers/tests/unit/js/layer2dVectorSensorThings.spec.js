@@ -4,7 +4,7 @@ import Feature from "ol/Feature.js";
 import Point from "ol/geom/Point.js";
 import sinon from "sinon";
 import crs from "@masterportal/masterportalapi/src/crs";
-import store from "../../../../../app-store";
+import store from "@appstore";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import Collection from "ol/Collection";
@@ -12,7 +12,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {Circle, Style} from "ol/style.js";
 
-import Layer2dVectorSensorThings from "../../../js/layer2dVectorSensorThings";
+import Layer2dVectorSensorThings from "@core/layers/js/layer2dVectorSensorThings";
 
 describe("src/core/js/layers/layer2dVectorSensorThings.js", () => {
     let origDispatch,

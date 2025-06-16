@@ -1,19 +1,19 @@
 <script>
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import EntityList from "./ui/EntityList.vue";
 import ModelerDraw from "./Modeler3DDraw.vue";
 import ModelerFilter from "./Modeler3DFilter.vue";
 import ModelerImport from "./Modeler3DImport.vue";
-import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import crs from "@masterportal/masterportalapi/src/crs";
-import getGfiFeatures from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
+import getGfiFeatures from "@shared/js/utils/getGfiFeaturesByTileFeature";
 import {adaptCylinderUnclamped} from "../js/draw";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import initProjections from "../../../shared/js/utils/initProjections";
+import layerCollection from "@core/layers/js/layerCollection";
+import initProjections from "@shared/js/utils/initProjections";
 
 /**
  * The component that handels the 3D modeler.
@@ -114,6 +114,7 @@ export default {
         const scene = mapCollection.getMap("3D").getCesiumScene();
 
         this.initProjectionsInModeler3D(crs, this.projections, this.namedProjections, this.currentProjection);
+        this.removeHighlight3DTile();
         this.eventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         this.eventHandler.setInputAction(this.selectObject, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -122,11 +123,16 @@ export default {
         document.addEventListener("keydown", this.catchUndoRedo);
     },
     beforeUnmount () {
+        this.highlight3DTile();
         this.setCurrentModelId(null);
         this.eventHandler.destroy();
         document.removeEventListener("keydown", this.catchUndoRedo);
     },
     methods: {
+        ...mapActions("Modules/GetFeatureInfo", [
+            "highlight3DTile",
+            "removeHighlight3DTile"
+        ]),
         ...mapActions("Modules/Modeler3D", [
             "createCylinder",
             "generateCylinders",

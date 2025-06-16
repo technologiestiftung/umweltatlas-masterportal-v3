@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import visibilityChecker from "../../../shared/js/utils/visibilityChecker";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import visibilityChecker from "@shared/js/utils/visibilityChecker";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 
 /**
  * Menu Container Body Root Item Element

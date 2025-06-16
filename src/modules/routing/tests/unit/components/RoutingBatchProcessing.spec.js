@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import RoutingBatchProcessingComponent from "../../../components/RoutingBatchProcessing.vue";
+import RoutingBatchProcessingComponent from "@modules/routing/components/RoutingBatchProcessing.vue";
 
 config.global.mocks.$t = key => key;
 

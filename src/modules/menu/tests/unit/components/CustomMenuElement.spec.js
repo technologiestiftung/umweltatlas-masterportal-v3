@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import axios from "axios";
-import CustomMenuElement from "../../../components/CustomMenuElement.vue";
+import CustomMenuElement from "@modules/menu/components/CustomMenuElement.vue";
 import {expect} from "chai";
 import sinon from "sinon";
-import visibilityChecker from "../../../../../shared/js/utils/visibilityChecker";
+import visibilityChecker from "@shared/js/utils/visibilityChecker";
 
 config.global.mocks.$t = key => key;
 

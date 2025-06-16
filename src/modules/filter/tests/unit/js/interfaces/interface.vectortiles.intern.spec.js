@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
-import InterfaceVectorTilesIntern from "../../../../js/interfaces/interface.vectortiles.intern";
+import InterfaceVectorTilesIntern from "@modules/filter/js/interfaces/interface.vectortiles.intern";
 import sinon from "sinon";
-import openlayerFunctions from "../../../../utils/openlayerFunctions";
-import store from "../../../../../../app-store";
-import layerCollection from "../../../../../../core/layers/js/layerCollection";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
+import store from "@appstore";
+import layerCollection from "@core/layers/js/layerCollection";
 
 describe("src/modules/filter/interfaces/utils/interface.vectortiles.intern.js", () => {
     let interfaceVectorTilesIntern = null;

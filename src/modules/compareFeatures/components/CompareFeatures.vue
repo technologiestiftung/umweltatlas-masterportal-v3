@@ -1,5 +1,5 @@
 <script>
-import TableComponent from "../../../shared/modules/table/components/TableComponent.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 
 export default {

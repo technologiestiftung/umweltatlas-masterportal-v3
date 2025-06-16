@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import store from "../../../../../app-store";
+import store from "@appstore";
 import sinon from "sinon";
-import openlayerFunctions from "../../../utils/openlayerFunctions";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
 
 describe("src/modules/filter/utils/openlayerFunctions.js", () => {
     describe("setParserAttributeByLayerId", () => {

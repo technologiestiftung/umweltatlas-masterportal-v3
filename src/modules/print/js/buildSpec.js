@@ -9,18 +9,18 @@ import {fromCircle} from "ol/geom/Polygon.js";
 import CircleStyle from "ol/style/Circle";
 import VectorTileLayer from "ol/layer/VectorTile";
 import StaticImageSource from "ol/source/ImageStatic.js";
-import {convertColor} from "../../../shared/js/utils/convertColor";
-import isObject from "../../../shared/js/utils/isObject";
-import differenceJS from "../../../shared/js/utils/differenceJS";
-import findWhereJs from "../../../shared/js/utils/findWhereJs";
+import {convertColor} from "@shared/js/utils/convertColor";
+import isObject from "@shared/js/utils/isObject";
+import differenceJS from "@shared/js/utils/differenceJS";
+import findWhereJs from "@shared/js/utils/findWhereJs";
 import {getLastPrintedExtent} from "../store/actionsPrintInitialization";
-import sortBy from "../../../shared/js/utils/sortBy";
-import store from "../../../app-store";
+import sortBy from "@shared/js/utils/sortBy";
+import store from "@appstore";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
+import layerCollection from "@core/layers/js/layerCollection";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
 const BuildSpecModel = {
     defaults: {

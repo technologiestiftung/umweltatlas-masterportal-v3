@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
-import ModalItem from "../../../shared/modules/modals/components/ModalItem.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
+import ModalItem from "@shared/modules/modals/components/ModalItem.vue";
 import SelectTypeButtons from "./SelectTypeButtons.vue";
 
 
@@ -555,7 +555,8 @@ h3 {
         margin-top: 1em;
         display: grid;
         grid-template-columns: 8em 20em;
-        grid-row-gap: calc(#{1em} / 3);
+        row-gap: 0.5em;
+        column-gap: 3em;
 
         .form-label {
             align-self: center;

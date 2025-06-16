@@ -2,8 +2,8 @@ import {createStore} from "vuex";
 import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import LayerSelectionComponent from "../../../components/LayerSelection.vue";
-import LayerSelection from "../../../store/indexLayerSelection";
+import LayerSelectionComponent from "@modules/layerSelection/components/LayerSelection.vue";
+import LayerSelection from "@modules/layerSelection/store/indexLayerSelection";
 
 config.global.mocks.$t = key => key;
 

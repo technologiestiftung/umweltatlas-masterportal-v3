@@ -1,7 +1,7 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import DrawLayoutComponent from "../../../components/DrawLayout.vue";
+import DrawLayoutComponent from "@shared/modules/draw/components/DrawLayout.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -82,6 +82,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
                 }
             });
 
+            await wrapper.vm.$nextTick();
             await wrapper.find("#draw-layout-innerCircle-strokeWidth").trigger("click");
 
             expect(wrapper.find("#draw-layout-innerCircle-strokeWidth").exists()).to.be.true;
@@ -97,6 +98,7 @@ describe("src/shared/modules/draw/components/DrawLayout.vue", () => {
                 }
             });
 
+            await wrapper.vm.$nextTick();
             await wrapper.find("#draw-layout-innerCircle-fillTransparency").trigger("click");
 
             expect(wrapper.find("#draw-layout-innerCircle-fillTransparency").exists()).to.be.true;

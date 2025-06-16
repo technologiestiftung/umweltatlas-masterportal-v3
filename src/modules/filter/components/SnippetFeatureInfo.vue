@@ -1,8 +1,8 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject.js";
-import renameKeys from "../../../shared/js/utils/renameKeys.js";
-import beautifyKey from "../../../shared/js/utils/beautifyKey.js";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import isObject from "@shared/js/utils/isObject.js";
+import renameKeys from "@shared/js/utils/renameKeys.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 /**
 * Snippet Info

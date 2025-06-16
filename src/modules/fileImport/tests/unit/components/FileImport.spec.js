@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import FileImportComponent from "../../../components/FileImport.vue";
+import FileImportComponent from "@modules/fileImport/components/FileImport.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

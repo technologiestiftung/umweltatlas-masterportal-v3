@@ -1,6 +1,6 @@
 import axios from "axios";
-import xml2json from "../../../../shared/js/utils/xml2json";
-import handleAxiosErrorModule from "../../../../shared/js/utils/handleAxiosError";
+import xml2json from "@shared/js/utils/xml2json";
+import handleAxiosErrorModule from "@shared/js/utils/handleAxiosError";
 
 /**
  * Handles the WFS DescribeFeatureType request and returns the response.

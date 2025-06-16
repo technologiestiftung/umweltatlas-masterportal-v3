@@ -1,8 +1,8 @@
-import store from "../../../app-store";
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
-import sortBy from "../../../shared/js/utils/sortBy";
-import xml2json from "../../../shared/js/utils/xml2json";
-import changeCase from "../../../shared/js/utils/changeCase";
+import store from "@appstore";
+import getCswRecordById from "@shared/js/api/getCswRecordById";
+import sortBy from "@shared/js/utils/sortBy";
+import xml2json from "@shared/js/utils/xml2json";
+import changeCase from "@shared/js/utils/changeCase";
 import axios from "axios";
 
 /**

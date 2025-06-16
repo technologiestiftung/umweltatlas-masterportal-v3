@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import BaselayerSwitcherComponent from "../../../components/BaselayerSwitcher.vue";
-import BaselayerSwitcher from "../../../store/indexBaselayerSwitcher";
+import BaselayerSwitcherComponent from "@modules/baselayerSwitcher/components/BaselayerSwitcher.vue";
+import BaselayerSwitcher from "@modules/baselayerSwitcher/store/indexBaselayerSwitcher";
 import {expect} from "chai";
 import sinon from "sinon";
-import LayerPreview from "../../../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
 
 config.global.mocks.$t = key => key;
 

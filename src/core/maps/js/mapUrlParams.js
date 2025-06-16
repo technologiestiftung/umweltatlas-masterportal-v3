@@ -1,8 +1,8 @@
 import crs from "@masterportal/masterportalapi/src/crs";
 
-import store from "../../../app-store";
+import store from "@appstore";
 import highlightFeaturesByAttribute from "./highlightFeaturesByAttribute";
-import processUrlParams from "../../../shared/js/utils/processUrlParams";
+import processUrlParams from "@shared/js/utils/processUrlParams";
 
 /**
  * Here the urlParams for the maps are processed.

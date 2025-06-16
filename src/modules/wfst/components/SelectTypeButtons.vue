@@ -1,6 +1,6 @@
 <script>
 import {mapActions} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Wfs Transaction

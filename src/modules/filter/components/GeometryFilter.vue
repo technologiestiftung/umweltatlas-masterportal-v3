@@ -14,9 +14,9 @@ import {
     Polygon,
     MultiPolygon
 } from "ol/geom";
-import isObject from "../../../shared/js/utils/isObject.js";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import sortBy from "../../../shared/js/utils/sortBy";
+import isObject from "@shared/js/utils/isObject.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import sortBy from "@shared/js/utils/sortBy";
 
 /**
  * Geometry Filter

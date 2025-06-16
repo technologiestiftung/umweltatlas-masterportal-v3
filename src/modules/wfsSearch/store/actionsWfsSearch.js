@@ -1,5 +1,5 @@
 import axios from "axios";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse";
 import {setLikeFilterProperties} from "../js/buildFilter";
 import {createUserHelp, prepareLiterals, resetFieldValues} from "../js/literalFunctions";
 import {rawLayerList} from "@masterportal/masterportalapi/src";

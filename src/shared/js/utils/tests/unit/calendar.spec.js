@@ -6,7 +6,7 @@ import {
     isCalendarMoment,
     getGaussianEasterMoment,
     getFirstAdventMoment
-} from "../../calendar.js";
+} from "@shared/js/utils/calendar.js";
 import {expect} from "chai";
 
 describe("src/utils/calendar.js", () => {

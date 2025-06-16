@@ -1,7 +1,7 @@
 import axios from "axios";
 import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
 import state from "../../store/stateRouting";
-import store from "../../../../app-store";
+import store from "@appstore";
 import crs from "@masterportal/masterportalapi/src/crs";
 
 /**

@@ -1,12 +1,12 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
-import StatisticDashboardDifference from "../../../components/StatisticDashboardDifference.vue";
-import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
+import StatisticDashboardDifference from "@modules/statisticDashboard/components/StatisticDashboardDifference.vue";
+import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
-import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
+import StatisticSwitcher from "@modules/statisticDashboard/components/StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
-import getOAFFeature from "../../../../../shared/js/api/oaf/getOAFFeature";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

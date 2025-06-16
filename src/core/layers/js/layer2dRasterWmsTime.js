@@ -1,9 +1,9 @@
 import Layer2dRaster from "./layer2dRaster";
 import WMSLayer from "./layer2dRasterWms";
 import layerCollection from "./layerCollection";
-import store from "../../../app-store";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
-import detectIso8601Precision from "../../../shared/js/utils/detectIso8601Precision";
+import store from "@appstore";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse";
+import detectIso8601Precision from "@shared/js/utils/detectIso8601Precision";
 
 import axios from "axios";
 import dayjs from "dayjs";

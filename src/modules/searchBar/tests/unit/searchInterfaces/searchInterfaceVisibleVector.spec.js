@@ -7,11 +7,11 @@ import MultiPolygon from "ol/geom/MultiPolygon.js";
 import sinon from "sinon";
 import VectorSource from "ol/source/Vector";
 
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceVisibleVector from "../../../searchInterfaces/searchInterfaceVisibleVector.js";
+import layerCollection from "@core/layers/js/layerCollection";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceVisibleVector from "@modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js";
 
-describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js", () => {
+describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js", () => {
     let clusterLayer1,
         feature1,
         feature2,

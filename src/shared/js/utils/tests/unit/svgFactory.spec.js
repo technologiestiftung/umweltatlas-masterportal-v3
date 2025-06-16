@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import svgFactory from "../../svgFactory.js";
+import svgFactory from "@shared/js/utils/svgFactory.js";
 import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
 
 describe("src/utils/svgFactory.js", () => {

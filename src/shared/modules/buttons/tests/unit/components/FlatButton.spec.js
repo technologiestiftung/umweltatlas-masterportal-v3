@@ -1,6 +1,6 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import FlatButton from "../../../components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -57,6 +57,7 @@ describe("src/shared/components/FlatButton.vue", () => {
         const interactionSpy = sinon.spy(),
             wrapper = factory.getShallowMount({interaction: interactionSpy});
 
+        await wrapper.vm.$nextTick();
         await wrapper.trigger("click");
 
         expect(interactionSpy.calledOnce).to.be.true;

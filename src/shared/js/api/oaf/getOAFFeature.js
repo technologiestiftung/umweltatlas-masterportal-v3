@@ -1,7 +1,7 @@
 import axios from "axios";
 import isObject from "../../utils/isObject";
 import {GeoJSON} from "ol/format";
-import {getUniqueValuesFromFetchedFeatures} from "../../../../modules/filter/utils/fetchAllOafProperties";
+import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAllOafProperties";
 
 /**
  * Gets all features of given collection.
@@ -49,6 +49,7 @@ async function getOAFFeatureGet (baseUrl, collection, limit = 400, filter = unde
 
     return this.oafRecursionHelper(result, extendedUrl);
 }
+
 /**
  * An recursion helper which calls the given url and pushes the result in the given 'result' reference.
  * @param {Object[]} result An array of objects.
@@ -79,6 +80,29 @@ async function oafRecursionHelper (result, url) {
                 resolve(result);
             }
         }).catch(error => reject(error));
+    });
+}
+
+/**
+ * Gets the schema of the given collection.
+ * @param {String} baseUrl - The base url of the oaf api.
+ * @param {String} collection - The collection name.
+ * @returns {Promise} an promise which resolves.
+ */
+async function getCollectionSchema (baseUrl, collection) {
+    if (typeof baseUrl !== "string" || typeof collection !== "string") {
+        return new Promise((resolve, reject) => {
+            reject(new Error(`Please provide a valid base url! Got ${baseUrl}`));
+        });
+    }
+    const url = `${baseUrl}/collections/${collection}/schema?f=json`;
+
+    return new Promise((resolve, reject) => {
+        axios.get(url, {
+            headers: {
+                accept: "application/schema+json"
+            }
+        }).then(response => resolve(response.data)).catch(error => reject(error));
     });
 }
 
@@ -234,6 +258,7 @@ async function getTemporalExtent (baseUrl, collection) {
 }
 
 export default {
+    getCollectionSchema,
     getOAFFeatureGet,
     readAllOAFToGeoJSON,
     oafRecursionHelper,

@@ -1,6 +1,6 @@
 
 import crs from "@masterportal/masterportalapi/src/crs";
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import coordState from "./stateCoordToolkit";
 
 /**

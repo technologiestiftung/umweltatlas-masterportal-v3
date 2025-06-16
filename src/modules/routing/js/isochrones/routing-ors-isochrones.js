@@ -4,7 +4,7 @@ import {RoutingIsochrones} from "../classes/routing-isochrones";
 import {RoutingIsochronesArea} from "../classes/routing-isochrones-area";
 import routingOrsSpeedProfile from "../speedprofiles/routing-ors-speedprofiles";
 import state from "./../../store/stateRouting";
-import store from "../../../../app-store";
+import store from "@appstore";
 import stateIsochrones from "../../store/isochrones/stateIsochrones";
 
 /**

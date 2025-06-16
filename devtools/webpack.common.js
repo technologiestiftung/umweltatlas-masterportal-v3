@@ -94,7 +94,15 @@ module.exports = function () {
             alias: {
                 text: "text-loader",
                 "mixins": path.resolve(__dirname, "..", "src", "assets", "css", "mixins.scss"),
-                "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss")
+                "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss"),
+                // Custom path aliases to simplify imports across the project.
+                // Make sure these aliases are also configured in jsconfig.json for proper IDE support.
+                "@appstore": path.resolve(__dirname, "../src/app-store"),
+                "@shared": path.resolve(__dirname, "../src/shared"),
+                "@core": path.resolve(__dirname, "../src/core"),
+                "@modules": path.resolve(__dirname, "../src/modules"),
+                "@plugins": path.resolve(__dirname, "../src/plugins"),
+                "@devtools": path.resolve(__dirname, "../devtools")
             },
             extensions: [".tsx", ".ts", ".js"]
         },

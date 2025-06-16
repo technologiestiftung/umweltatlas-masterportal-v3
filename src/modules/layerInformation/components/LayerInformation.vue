@@ -1,8 +1,8 @@
 <script>
 import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import {isWebLink} from "../../../shared/js/utils/urlHelper";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import {isWebLink} from "@shared/js/utils/urlHelper";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 
 /**
@@ -38,7 +38,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["configJs"]),
+        ...mapGetters(["configJs", "layerConfigById"]),
         ...mapGetters("Modules/LayerInformation", [
             "abstractText",
             "customText",
@@ -263,8 +263,11 @@ export default {
          * @param {String} param.typ service type (e.g., WMS)
          * @returns {String} GetCapabilities URL
          */
-        getGetCapabilitiesUrl ({url, typ}) {
-            const urlObject = new URL(url, location.href);
+        getGetCapabilitiesUrl (layerInfo) {
+            const typ = layerInfo.typ,
+                config = this.layerConfigById(layerInfo.id),
+                url = config.origUrl ? config.origUrl : layerInfo.url,
+                urlObject = new URL(url, location.href);
 
             if (typ !== "OAF") {
                 urlObject.searchParams.set("SERVICE", typ);

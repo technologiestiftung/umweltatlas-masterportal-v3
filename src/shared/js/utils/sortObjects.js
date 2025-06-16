@@ -52,13 +52,22 @@ export function getNestedElement (searchElement, nestedAttribute) {
 /**
  * Sorts an array of objects by their `layerSequence` property in ascending order.
  * Objects without a `layerSequence` property are moved to the end of the array.
+ * Baselayer objects are always moved to the end of the array.
  *
  * @param {Array<Object>} objects - The array of objects to sort.
  *                                  Each object can optionally contain a `layerSequence` property.
  * @return {void} This function modifies the input array in place and does not return a value.
  */
 export function sortByLayerSequence (objects) {
+    let objectLength = objects.length;
+
     objects.sort((a, b) => {
+        if (a.baselayer && !b.baselayer) {
+            return 1;
+        }
+        if (!a.baselayer && b.baselayer) {
+            return -1;
+        }
         if (!("layerSequence" in a)) {
             return 1;
         }
@@ -72,6 +81,8 @@ export function sortByLayerSequence (objects) {
 
         return 0;
     });
+    objects.forEach((object) => {
+        object.zIndex = --objectLength;
+    });
 }
-
 export default {sortObjects, getNestedElement};

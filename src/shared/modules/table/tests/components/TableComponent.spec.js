@@ -1,6 +1,6 @@
 import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import TableComponent from "../../components/TableComponent.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import sinon from "sinon";
 import {createStore} from "vuex";
 

@@ -6,7 +6,7 @@ import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import {Style} from "ol/style.js";
 
-import MeasureInMapTooltipComponent from "../../../components/MeasureInMapTooltip.vue";
+import MeasureInMapTooltipComponent from "@modules/measure/components/MeasureInMapTooltip.vue";
 
 config.global.mocks.$t = key => key;
 

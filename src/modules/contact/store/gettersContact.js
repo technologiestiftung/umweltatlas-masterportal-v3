@@ -1,4 +1,4 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import initialState from "./stateContact";
 import {minMessageLength, regexMail, regexPhone, regexUsername} from "./constantsContact";
 

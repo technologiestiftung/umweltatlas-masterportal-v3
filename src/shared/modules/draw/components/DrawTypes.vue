@@ -12,6 +12,7 @@ import {nextTick} from "vue";
  * @vue-prop {Object} [currentLayoutOuterCircle={}] - The current layout for styling the outer circle. Only used for double circle.
  * @vue-prop {Object} [drawIcons={box: "bi-square", circle: "bi-circle", doubleCircle: "bi-record-circle", geometries: "bi-hexagon-fill", line: "bi-slash-lg", pen: "bi-pencil-fill", point: "bi-circle-fill", polygon: "bi-octagon", symbols: "bi-circle-square"}] - The icons for draw buttons.
  * @vue-prop {String[]} [drawTypes=["pen", "geometries", "symbols"]] - The drawing types.
+ * @vue-prop {Object[]} [drawTypeLabels=[{type: "pen", label: "Free form"}, {type: "geometries", label: "Rectangle"}] - The drawing type labels.
  * @vue-prop {String} [selectedDrawType=""] - The selected draw type.
  * @vue-prop {String} [selectedDrawTypeMain=""] - The selected draw type main.
  * @vue-prop {String} [selectedInteraction="draw"] - The selected interaction.
@@ -69,6 +70,12 @@ export default {
             type: Array,
             default () {
                 return ["pen", "geometries", "symbols"];
+            }
+        },
+        drawTypeLabels: {
+            type: Array,
+            default () {
+                return [];
             }
         },
         selectedDrawType: {
@@ -248,6 +255,27 @@ export default {
          */
         regulateStaticCircleInteraction (drawType) {
             drawInteraction.drawCircle(this.currentDrawInteraction, drawType, this.projection, this.source, this.circleOptions);
+        },
+
+        /**
+         * Returns the label of the button type.
+         * @param {String} drawType - The type of the button.
+         * @returns {String} - The Label of the button.
+         */
+        getButtonLabel (drawType) {
+            if (this.drawTypeLabels.length === 0 || typeof drawType !== "string" || drawType === "") {
+                return "";
+            }
+            let label = "";
+
+            for (let i = 0; i < this.drawTypeLabels.length; i++) {
+                if (this.drawTypeLabels[i].type === drawType) {
+                    label = this.drawTypeLabels[i].label;
+                    break;
+                }
+            }
+
+            return this.$t(label);
         }
     }
 };
@@ -262,11 +290,11 @@ export default {
             :aria="$t('common:shared.modules.draw.drawTypes.' + drawType)"
             :class-array="[
                 'btn-primary',
-                'me-3',
                 selectedDrawType === drawType || selectedDrawTypeMain === drawType ? 'active': ''
             ]"
             :interaction="(event) => regulateInteraction(drawType)"
             :icon="drawIcons[drawType]"
+            :label="getButtonLabel(drawType)"
         />
     </div>
 </template>

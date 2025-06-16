@@ -1,10 +1,14 @@
 import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import AboutComponent from "../../../components/AboutModule.vue";
+import AboutComponent from "@modules/about/components/AboutModule.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/about/components/AboutModule.vue", () => {
     let logo,

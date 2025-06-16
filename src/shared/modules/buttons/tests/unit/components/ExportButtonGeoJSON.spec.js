@@ -1,6 +1,6 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import ExportButtonGeoJSON from "../../../components/ExportButtonGeoJSON.vue";
+import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
 
 config.global.mocks.$t = key => key;
 

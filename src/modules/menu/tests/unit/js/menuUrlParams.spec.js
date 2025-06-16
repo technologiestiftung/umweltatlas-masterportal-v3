@@ -1,7 +1,11 @@
-import menuUrlParams from "../../../js/menuUrlParams";
-import store from "../../../../../app-store";
+import menuUrlParams from "@modules/menu/js/menuUrlParams";
+import store from "@appstore";
 import {expect} from "chai";
 import sinon from "sinon";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/menu/js/menuUrlParams.js", () => {
     const dispatchCalls = {};

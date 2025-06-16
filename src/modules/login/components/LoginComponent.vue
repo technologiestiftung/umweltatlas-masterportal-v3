@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 export default {
     name: "LoginComponent",

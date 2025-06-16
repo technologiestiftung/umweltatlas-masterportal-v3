@@ -1,4 +1,4 @@
-import isObject from "../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import customParseFormat from "dayjs/plugin/customParseFormat";

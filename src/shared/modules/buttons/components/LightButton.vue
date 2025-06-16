@@ -1,5 +1,5 @@
 <script>
-import decodeHtmlEntites from "../../../js/utils/htmlEntities";
+import decodeHtmlEntites from "@shared/js/utils/htmlEntities";
 
 export default {
     name: "LightButton",

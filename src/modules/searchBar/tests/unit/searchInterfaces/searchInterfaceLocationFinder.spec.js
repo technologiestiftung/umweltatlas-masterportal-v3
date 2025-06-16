@@ -2,10 +2,10 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceLocationFinder from "../../../searchInterfaces/searchInterfaceLocationFinder.js";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceLocationFinder from "@modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js";
 
-describe.skip("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js", () => {
+describe("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js", () => {
     let error,
         SearchInterface1 = null,
         checkConfigSpy;

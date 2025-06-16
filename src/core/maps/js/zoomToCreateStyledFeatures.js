@@ -4,8 +4,8 @@ import {Icon, Style} from "ol/style";
 import Point from "ol/geom/Point";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 
-import calculateCenterOfExtent from "../../../shared/js/utils/calculateCenterOfExtent";
-import {isUrl} from "../../../shared/js/utils/urlHelper";
+import calculateCenterOfExtent from "@shared/js/utils/calculateCenterOfExtent";
+import {isUrl} from "@shared/js/utils/urlHelper";
 
 /**
  * @param {Feature[]} features Features, which center coordinates should be styled.

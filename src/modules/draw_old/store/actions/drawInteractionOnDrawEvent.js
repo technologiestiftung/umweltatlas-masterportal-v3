@@ -1,6 +1,6 @@
-import createStyleModule from "../../js/style/createStyle";
-import circleCalculations from "../../js/circleCalculations";
-import main from "../../js/main";
+import createStyleModule from "@modules/draw_old/js/style/createStyle";
+import circleCalculations from "@modules/draw_old/js/circleCalculations";
+import main from "@modules/draw_old/js/main";
 
 const errorBorder = "#E10019";
 

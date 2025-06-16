@@ -37,37 +37,63 @@ export default {
             type: Boolean,
             default: null,
             required: false
+        },
+        label: {
+            type: String,
+            default: null,
+            required: false
         }
     }
 };
 </script>
 
 <template>
-    <button
-        :id="id"
-        tabindex="0"
-        class="btn d-flex align-items-center justify-items-center mb-auto"
-        type="button"
-        :title="aria"
-        :aria-label="aria"
-        :class="classArray"
-        :disabled="disabled"
-        @click="interaction"
-        @keydown.enter="interaction"
+    <div
+        :class="[label ? 'btn-wrapper flex-column d-flex align-items-center': '']"
     >
-        <i
-            :class="iconArray ? iconArray : icon"
-            role="img"
-        />
-    </button>
+        <button
+            :id="id"
+            tabindex="0"
+            class="btn d-flex align-items-center justify-items-center mb-auto"
+            type="button"
+            :title="aria"
+            :aria-label="aria"
+            :class="classArray"
+            :disabled="disabled"
+            @click="interaction"
+            @keydown.enter="interaction"
+        >
+            <i
+                :class="iconArray ? iconArray : icon"
+                role="img"
+            />
+        </button>
+        <label
+            v-if="label"
+            class="text-center btn-label"
+            :for="id"
+            :aria-label="label"
+            tabindex="0"
+        >
+            {{ label }}
+        </label>
+    </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~variables";
 @import "~mixins";
 
+.btn-wrapper {
+    width: 16rem;
+}
+
+.btn-wrapper > .btn-label {
+    font-size: 0.9rem;
+}
+
  .btn {
-    position: sticky;
+    position: relative;
     text-align: center;
     top: auto;
     width: 2.5rem;
@@ -75,6 +101,7 @@ export default {
     font-size: 1.5rem;
     border-radius: 50%;
     border: solid $white 1px;
+    z-index: 2;
     /* position icon in center of button */
     > i {
         position: absolute;

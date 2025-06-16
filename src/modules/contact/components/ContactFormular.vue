@@ -1,9 +1,9 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import ContactFormularInput from "./ContactFormularInput.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
-import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 
 /**
  * The Contact Form

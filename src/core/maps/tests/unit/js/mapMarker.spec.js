@@ -8,7 +8,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 
-import mapMarker from "../../../js/mapMarker";
+import mapMarker from "@core/maps/js/mapMarker";
 
 describe("src/core/js/maps/mapMarker.js", () => {
     let layerPoint,

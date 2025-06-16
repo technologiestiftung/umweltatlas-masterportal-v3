@@ -1,6 +1,6 @@
 import axios from "axios";
 import state from "../../store/stateRouting";
-import store from "../../../../app-store";
+import store from "@appstore";
 import {RoutingTSRDirections} from "../classes/routing-directions-tsr";
 import LineString from "ol/geom/LineString";
 import {getLength} from "ol/sphere.js";

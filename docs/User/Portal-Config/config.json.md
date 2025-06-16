@@ -595,18 +595,8 @@ For color configuration see **[Color-documentation](https://cesium.com/learn/ces
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|String/String[]|"RED"|Color can be configured as Array or Cesium.Color (definition e.g "GREEN" for Cesium.Color.GREEN)|false|
-|enabled|no|Boolean|true|False if coloredHighlighting3D is disabled.|false|
 
-**Example Array**
-
-```json
-"coloredHighlighting3D": {
-    "enabled": true,
-    "color": [0, 255, 0, 255]
-}
-```
-
-**Example Cesium.Color**
+**Example**
 
 ```json
 "coloredHighlighting3D": {
@@ -1046,6 +1036,7 @@ Configuration of the search bar. Different search services can be configured.
 |----|--------|----|-------|-----------|------|
 |minCharacters|no|Integer|3|Minimum amount of characters before sending a request to an external service.|false|
 |placeholder|no|String|"common:modules.searchBar.placeholder.address"|Input text field placeholder shown when no input has been given yet.|false|
+|coloredHighlighting3D|no|**[coloredHighlighting3D](#portalconfigmenusearchbarcoloredhighlighting3d)**|""|Configures the color for 3D tile highlighting in a Cesium 3D scene.|false|
 |searchInterfaces|no|**[searchInterfaces](#portalconfigmenusearchbarsearchinterfaces)**[]||Interfaces to search services.|false|
 |timeout|no|Integer|5000|Service request timeout in milliseconds.|false|
 |zoomLevel|no|Integer|7|ZoomLevel to which the searchbar zooms in at maximum.|false|
@@ -1071,6 +1062,42 @@ Configuration of the search bar. Different search services can be configured.
         ],
         "timeout": 5000,
         "zoomLevel": 7
+    }
+}
+```
+
+***
+
+##### portalConfig.menu.searchBar.coloredHighlighting3D {data-toc-label='Colored Highlighting 3D'}
+Enables and configures the 3D highlighting feature for tiles in a Cesium 3D scene. This allows selected features to be visually emphasized by changing their color.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|String/String[]|"RED"|The highlight color for the 3D tile feature. This can be set using: <br> 1. **String** (e.g., "YELLOW", "BLUE") – A predefined Cesium color.<br> (e.g., `"rgba(0, 255, 255, 1)"`) – A standard RGBA color format, where the alpha value is between `0` (fully transparent) and `1` (fully opaque). <br> (e.g., `"rgb(0, 255, 255)"`) – A standard RGB color format. <br> (e.g., `"#FF0000"`) – A standard hex color format. <br> 2. **Array (RGBA)** – An array of four values `[R, G, B, A]`. <br> 3. **Array (RGB)** – An array of three values `[R, G, B]`. <br> **Important**: For RGBA values, **alpha (A)** must be between `0` (fully transparent) and `255` (fully opaque). Example: `[255, 255, 0, 0]` for yellow with full feature transparency, `[255, 255, 0, 255]` for yellow with full feature opacity.|false|
+
+The Vuex action `highlight3DTileByCoordinates` will:
+
+1. Check if the current map mode is `3D`.
+2. Convert the given longitude and latitude into Cartesian coordinates.
+3. Project the coordinates onto the screen.
+4. Retrieve the configured highlight color from `config.json`.
+5. If a feature is picked at the screen position, apply the highlight color.
+6. If no feature is initially found, wait for all tiles to load before attempting to highlight again.
+
+- If the feature at the given coordinates is found, it will be highlighted with the specified color.
+- If an invalid color is provided, a warning will be displayed in the console.
+- If all 3D tiles are not yet loaded, highlighting will be delayed until loading is complete.
+
+**Example**
+
+```json
+{
+    "searchBar": {
+        "minCharacters": 3,
+        "placeholder": "common:modules.searchBar.placeholder.address",
+        "coloredHighlighting3D":{
+          "color": "YELLOW"
+        }
     }
 }
 ```
@@ -1173,7 +1200,7 @@ Elasticsearch service configuration.
 |hitMap|no|**[hitMap](#portalconfigmenusearchbarsearchinterfaceselasticsearchhitmap)**||Object mapping result object attributes to keys.|true|
 |hitTemplate|no|String|"default"|Template in which the search results (`show all`) are displayed. Possible values are "default" and "layer".|false|
 |hitType|no|String|"common:modules.searchbar.type.subject"|Search result type shown in the result list after the result name. Set to the translation key.|false|
-|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult".|false|
+|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["addLayerToTopicTree"], "buttons": ["showInTree", "showLayerInfo"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |requestType|no|enum["POST", "GET"]|"POST"|Request type|false|
 |responseEntryPath|no|String|""|Response JSON attribute path to found features.|false|
 |searchInterfaceId|no|String|"elasticSearch"|Id, which is used to link to the searchbar in the topic search.|false|
@@ -1251,7 +1278,7 @@ Gazetteer search service configuration.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "zoomToResult".|false|
+|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "zoomToResult","highlight3DTileByCoordinates".|false|
 |searchAddress|no|Boolean|false|Defines whether address search is active. For backward compatibility, if "searchAddress" is not configured, the "searchAddress" attribute is set to "true" when "searchStreets" and "searchHouseNumbers" are set to "true".|false|
 |searchDistricts|no|Boolean|false|Defines whether district search is active.|false|
 |searchHouseNumbers|no|Boolean|false|Defines whether house numbers should be searched for. Requires `searchStreets` to be set to `true`, too.|false|
@@ -1293,7 +1320,7 @@ Search by **[Komoot Photon](https://photon.komoot.io/)**.
 |limit|no|Number||Maximum amount of requested unfiltered results.|false|
 |lon|no|Number||Longtitude of the center for the search.|false|
 |osm_tag|no|string||Filtering of OSM Tags (see https://github.com/komoot/photon#filter-results-by-tags-and-values).|false|
-|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "startRouting", "zoomToResult".|false|
+|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |serviceId|yes|String||Komoot search service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |type|yes|String|"komootPhoton"|Search interface type. Defines which search interface is configured.|false|
 
@@ -1391,7 +1418,7 @@ OpenStreetMap search for city, street, and house number. Only executed on clicki
 |----|--------|----|-------|-----------|------|
 |classes|no|String|[]|May contain the classes to search for.|false|
 |limit|no|Number|50|Maximum amount of requested unfiltered results.|false|
-|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "startRouting", "zoomToResult".|false|
+|resultEvents|no|**[resultEvents](#portalconfigmenusearchbarsearchinterfacesresultevents)**|{"onClick": ["setMarker", "zoomToResult"], "onHover": ["setMarker"], "buttons": ["startRouting"]}|Actions that are executed when an interaction, such as hover or click, is performed with a result list item. The following events are possible: "setMarker", "startRouting", "zoomToResult", "highlight3DTileByCoordinates".|false|
 |serviceId|yes|String||OSM search service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |states|no|string|""|May contain federal state names with arbitrary separators. Names may also be used in English depending on whether the data has been added to the free open source project **[OpenStreetMap](https://www.openstreetmap.org)**.|false|
 |type|yes|String|"osmNominatim"|Search interface type. Defines which search interface is configured.|false|
@@ -1744,6 +1771,7 @@ This module displays specific portal information like description, Masterportal 
 |privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
 |accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section|false|
 |accessibilityUrl|no|String|""|URL to the accessibility statement site|false|
+|hideImprintInFooter|no|Boolean|false|If true, the imprint link to the about module is hidden in the footer, provided the about module exists.|false|
 
 ```json title="Example"
 {
@@ -1752,7 +1780,8 @@ This module displays specific portal information like description, Masterportal 
     "type": "about",
     "cswUrl": "https://metaver.de/csw",
     "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
-    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15"
+    "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "hideImprintInFooter": true
 }
 ```
 
@@ -2697,7 +2726,7 @@ An object to define a layer to filter with.
 |filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |filterOnOpen|no|Boolean||If set to `true`, the filter is triggered when the accorden is clicked.|false|
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
-|labelFilterButton|no|String|"common:modules.tools.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
+|labelFilterButton|no|String|"common:modules.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
 |layerId|no|String||The layer id of the layer to filter. Must be configured in the `layerconfig`.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|
 |minZoom|no|Number||The minimum zoom level for current filter, if current zoom level is smaller than the minimum zoom level, the current filter will be deactivated.|false|
@@ -2932,7 +2961,7 @@ Legend configuration options.
 ```json
 {
     "type": "login",
-    "name": "translate#common:modules.login.login",
+    "name": "common:modules.login.login",
     "icon": "bi-door-open"
 }
 ```
@@ -3831,7 +3860,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|name|yes|String|"translate#common:menu.statisticDashboard"|The Name of the Tool.|false|
+|name|yes|String|"common:menu.statisticDashboard"|The Name of the Tool.|false|
 |subtitle|no|String|"common:modules.statisticDashboard.headings.mrhstatistics"|The subtitle to display|false|
 |icon|no|String|"bi-speedometer"|The icon of the Tool|false|
 |colorScheme|yes|**[colorScheme](#portalconfigmenusectionsmodulesstatisticdashboardcolorscheme)**|""|Defines the colours of the features in statisticdashboard.|false|
@@ -3849,7 +3878,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 ```json
 {
-    "name": "translate#common:menu.statisticDashboard",
+    "name": "common:menu.statisticDashboard",
     "subtitle": "common:modules.statisticDashboard.headings.mrhstatistics",
     "icon": "bi-speedometer",
     "downloadFilename": "Downloaded_Data",
@@ -4517,7 +4546,7 @@ A Url can be defined in various ways.
 ***
 
 ### portalConfig.tree {data-toc-label='Tree'}
-Possibility to make settings for the topic selection tree.
+Possibility to make settings for the topic selection tree. The layers are rendered in reverse configuration order.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
@@ -4746,7 +4775,7 @@ Configuration in addition to highlighting features. If features are highlighted 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |active|no|Boolean|false|Indicates whether this feature is active.|false|
-|layerName|no|String|"common:tree.selectedFeatures"|Name of the created layer with the highlighted features. The name additionally contains the name of the module that was worked with.|true|
+|layerName|no|String|"common:shared.js.utils.selectedFeatures"|Name of the created layer with the highlighted features. The name additionally contains the name of the module that was worked with.|true|
 
 **Example**
 

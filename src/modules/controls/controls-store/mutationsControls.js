@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import changeCase from "../../../shared/js/utils/changeCase";
+import {generateSimpleMutations} from "@shared/js/utils/generators";
+import changeCase from "@shared/js/utils/changeCase";
 import stateControls from "./stateControls";
 
 export default {

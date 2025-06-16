@@ -4,9 +4,9 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import View from "ol/View";
 
-import highlightFeaturesByAttribute from "../../../js/highlightFeaturesByAttribute";
-import mapUrlParams from "../../../js/mapUrlParams";
-import store from "../../../../../app-store";
+import highlightFeaturesByAttribute from "@core/maps/js/highlightFeaturesByAttribute";
+import mapUrlParams from "@core/maps/js/mapUrlParams";
+import store from "@appstore";
 
 describe("src/core/maps/js/mapUrlParams.js", () => {
     let dispatchCalls = {},

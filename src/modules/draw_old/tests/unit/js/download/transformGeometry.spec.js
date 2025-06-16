@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import proj4 from "proj4";
-import {transform, transformPoint} from "../../../../js/download/transformGeometry";
+import {transform, transformPoint} from "@modules/draw_old/js/download/transformGeometry";
 
 
 describe("src/modules/draw/js/download/transformGeometry.js", () => {

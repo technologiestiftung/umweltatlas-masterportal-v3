@@ -1,7 +1,7 @@
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 
-import calculateExtent from "../../../shared/js/utils/calculateExtent";
+import calculateExtent from "@shared/js/utils/calculateExtent";
 import createStyledFeatures from "../js/zoomToCreateStyledFeatures";
 import featureProvider from "../js/zoomToGetAndFilterFeatures";
 

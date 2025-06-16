@@ -1,4 +1,4 @@
-import AlertingItemComponent from "../../../components/AlertingItem.vue";
+import AlertingItemComponent from "@modules/alerting/components/AlertingItem.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";

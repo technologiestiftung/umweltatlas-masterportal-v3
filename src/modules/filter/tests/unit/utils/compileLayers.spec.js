@@ -5,7 +5,7 @@ import {
     addSnippetArrayIfMissing,
     createLayerConfigsAssoc,
     compileLayers
-} from "../../../utils/compileLayers.js";
+} from "@modules/filter/utils/compileLayers.js";
 
 describe("src/modules/filter/utils/compileLayers.js", () => {
     describe("compileLayers", () => {

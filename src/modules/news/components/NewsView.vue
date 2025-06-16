@@ -1,7 +1,7 @@
 <script>
 import dayjs from "dayjs";
 import {mapGetters} from "vuex";
-import sortBy from "../../../shared/js/utils/sortBy";
+import sortBy from "@shared/js/utils/sortBy";
 
 /**
  * Shows the news as history.

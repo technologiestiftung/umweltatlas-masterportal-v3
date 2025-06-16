@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {arrayPerHour, calculateArithmeticMean} from "../../../js/mathematicalOperations.js";
+import {arrayPerHour, calculateArithmeticMean} from "@modules/getFeatureInfo/themes/sensor/js/mathematicalOperations.js";
 
 describe("src/modules/getFeatureInfo/themes/sensor/js/mathematicalOperations.spec.js", () => {
 

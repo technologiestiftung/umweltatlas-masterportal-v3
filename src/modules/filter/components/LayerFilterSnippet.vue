@@ -13,17 +13,17 @@ import SnippetTag from "./SnippetTag.vue";
 import SnippetFeatureInfo from "./SnippetFeatureInfo.vue";
 import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import FilterApi from "../js/interfaces/filter.api.js";
 import MapHandler from "../utils/mapHandler.js";
 import {compileSnippets} from "../utils/compileSnippets.js";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions";
 import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 import VectorTileLayer from "ol/layer/VectorTile";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 
 /**
  * Layer Filter Snippet

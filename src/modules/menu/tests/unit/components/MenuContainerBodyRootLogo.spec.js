@@ -1,5 +1,5 @@
 import {config, mount} from "@vue/test-utils";
-import MenuContainerBodyRootLogo from "../../../components/MenuContainerBodyRootLogo.vue";
+import MenuContainerBodyRootLogo from "@modules/menu/components/MenuContainerBodyRootLogo.vue";
 import {expect} from "chai";
 
 config.global.mocks.$t = key => key;

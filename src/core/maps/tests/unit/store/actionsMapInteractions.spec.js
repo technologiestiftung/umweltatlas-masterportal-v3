@@ -2,7 +2,7 @@ import {expect} from "chai";
 import Map from "ol/Map";
 import sinon from "sinon";
 import {config} from "@vue/test-utils";
-import actions from "../../../store/actionsMapsInteractions";
+import actions from "@core/maps/store/actionsMapsInteractions";
 
 config.global.mocks.$t = key => key;
 

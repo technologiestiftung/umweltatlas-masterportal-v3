@@ -1,11 +1,15 @@
 import {expect} from "chai";
 import {shallowMount, config} from "@vue/test-utils";
-import CompareFeaturesComponent from "../../../components/CompareFeatures.vue";
-import TableComponent from "../../../../../shared/modules/table/components/TableComponent.vue";
+import CompareFeaturesComponent from "@modules/compareFeatures/components/CompareFeatures.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import {createStore} from "vuex";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("CompareFeatures.vue", () => {
     let store, hasMultipleLayersValue, hasFeaturesValue;

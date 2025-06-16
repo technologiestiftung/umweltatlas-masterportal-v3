@@ -1,8 +1,8 @@
 import collectDataByFolderModule from "../js/collectDataByFolder";
 import baselayerHandler from "../js/handleSingleBaselayer";
-import sortBy from "../../../shared/js/utils/sortBy";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
-import {trackMatomo} from "../../../plugins/matomo";
+import sortBy from "@shared/js/utils/sortBy";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
+import {trackMatomo} from "@plugins/matomo";
 
 const actions = {
 

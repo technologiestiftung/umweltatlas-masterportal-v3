@@ -2,11 +2,11 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import RoutingCoordinateInputComponent from "../../../components/RoutingCoordinateInput.vue";
-import mutations from "../../../store/mutationsRouting";
-import actions from "../../../store/actionsRouting";
-import {RoutingWaypoint} from "../../../js/classes/routing-waypoint";
-import {RoutingGeosearchResult} from "../../../js/classes/routing-geosearch-result";
+import RoutingCoordinateInputComponent from "@modules/routing/components/RoutingCoordinateInput.vue";
+import mutations from "@modules/routing/store/mutationsRouting";
+import actions from "@modules/routing/store/actionsRouting";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
 
 config.global.mocks.$t = key => key;
 
@@ -80,7 +80,7 @@ describe("src/modules/routing/components/RoutingCoordinateInput.vue", () => {
             },
             props: props
         });
-        const button = wrapper.find(".button-up");
+        const button = wrapper.find("button");
 
         button.trigger("click");
         await wrapper.vm.$nextTick();

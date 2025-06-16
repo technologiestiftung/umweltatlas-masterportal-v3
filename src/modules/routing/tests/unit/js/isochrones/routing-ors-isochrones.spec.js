@@ -1,11 +1,11 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
-import {fetchRoutingOrsIsochrones, getRoutingIsochronesSettingsUrl} from "../../../../js/isochrones/routing-ors-isochrones";
-import state from "../../../../store/stateRouting";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area";
+import {fetchRoutingOrsIsochrones, getRoutingIsochronesSettingsUrl} from "@modules/routing/js/isochrones/routing-ors-isochrones";
+import state from "@modules/routing/store/stateRouting";
 
 describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
     let service;

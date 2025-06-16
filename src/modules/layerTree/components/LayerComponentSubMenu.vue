@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import layerFactory from "@core/layers/js/layerFactory";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 import LayerInfoContactButton from "./LayerInfoContactButton.vue";
 
 /**

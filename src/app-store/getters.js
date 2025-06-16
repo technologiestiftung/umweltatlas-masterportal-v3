@@ -1,9 +1,9 @@
-import {generateSimpleGetters} from "../shared/js/utils/generators";
-import getNestedValues from "../shared/js/utils/getNestedValues";
-import searchInTree from "../shared/js/utils/searchInTree";
-import {sortObjects} from "../shared/js/utils/sortObjects";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
+import getNestedValues from "@shared/js/utils/getNestedValues";
+import searchInTree from "@shared/js/utils/searchInTree";
+import {sortObjects} from "@shared/js/utils/sortObjects";
 import stateAppStore from "./state";
-import {treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
 
 /**
  * The root getters.

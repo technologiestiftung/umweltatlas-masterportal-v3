@@ -1,13 +1,13 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
-import MouseHoverComponent from "../../../components/MouseHover.vue";
-import MouseHover from "../../../store/indexMouseHover";
+import MouseHoverComponent from "@modules/mouseHover/components/MouseHover.vue";
+import MouseHover from "@modules/mouseHover/store/indexMouseHover";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/modules/mouseHover/components/MouseHover.vue", () => {
+describe("src/modules/mouseHover/components/MouseHover.vue", () => {
     const mockMapGetters = {
         ol2DMap: sinon.stub()
     };
@@ -15,7 +15,10 @@ describe.skip("src/modules/mouseHover/components/MouseHover.vue", () => {
         wrapper;
 
     beforeEach(() => {
-        MouseHover.actions.initialize = sinon.stub(MouseHover.actions.initialize);
+        MouseHover.actions = {
+            ...MouseHover.actions,
+            initialize: sinon.stub()
+        };
         store = createStore({
             namespaced: true,
             modules: {

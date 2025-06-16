@@ -8,8 +8,8 @@ import LineString from "ol/geom/LineString";
 import Polygon from "ol/geom/Polygon";
 import MultiPolygon from "ol/geom/MultiPolygon";
 
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import DetachedTemplate from "../../../components/GetFeatureInfoDetached.vue";
+import layerCollection from "@core/layers/js/layerCollection";
+import DetachedTemplate from "@modules/getFeatureInfo/components/GetFeatureInfoDetached.vue";
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$gfiThemeAddons = [];

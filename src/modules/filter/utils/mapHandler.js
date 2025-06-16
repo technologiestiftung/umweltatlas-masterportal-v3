@@ -1,9 +1,9 @@
-import store from "../../../app-store";
+import store from "@appstore";
 import {nextTick} from "vue";
-import isObject from "../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import LayerGroup from "ol/layer/Group";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import layerCollection from "@core/layers/js/layerCollection";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 /**
  * The MapHandler has control over OL and the Map.

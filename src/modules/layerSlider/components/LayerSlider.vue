@@ -2,7 +2,7 @@
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import LayerSliderHandle from "./LayerSliderHandle.vue";
 import LayerSliderPlayer from "./LayerSliderPlayer.vue";
-import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
 
 /**
  * Layer Slider

@@ -1,11 +1,11 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import sortBy from "../../../shared/js/utils/sortBy";
+import layerFactory from "@core/layers/js/layerFactory";
+import sortBy from "@shared/js/utils/sortBy";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 import LayerSelectionTreeNode from "./LayerSelectionTreeNode.vue";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Layer Selection

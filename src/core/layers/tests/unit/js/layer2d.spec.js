@@ -2,8 +2,8 @@ import {expect} from "chai";
 import sinon from "sinon";
 import Layer from "ol/layer/Layer";
 import TileWMS from "ol/source/TileWMS";
-import store from "../../../../../app-store";
-import Layer2d from "../../../js/layer2d";
+import store from "@appstore";
+import Layer2d from "@core/layers/js/layer2d";
 import axios from "axios";
 import crs from "@masterportal/masterportalapi/src/crs";
 

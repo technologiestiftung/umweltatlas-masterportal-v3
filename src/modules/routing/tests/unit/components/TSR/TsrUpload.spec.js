@@ -2,8 +2,8 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import TsrComponent from "../../../../components/TSR/TsrItem.vue";
-import TsrUpload from "../../../../components/TSR/TsrUpload.vue";
+import TsrComponent from "@modules/routing/components/TSR/TsrItem.vue";
+import TsrUpload from "@modules/routing/components/TSR/TsrUpload.vue";
 
 config.global.mocks.$t = key => key;
 

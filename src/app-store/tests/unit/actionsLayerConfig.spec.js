@@ -2,10 +2,10 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import sinon from "sinon";
 import {expect} from "chai";
 import {resetZIndex} from "../../js/getAndMergeRawLayer.js";
-import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
 import actions from "../../actionsLayerConfig";
 import buildTreeStructure from "../../js/buildTreeStructure";
-import replaceInNestedValuesModule from "../../../shared/js/utils/replaceInNestedValues";
+import replaceInNestedValuesModule from "@shared/js/utils/replaceInNestedValues";
 
 describe("src/app-store/actionsLayerConfig.js", () => {
     let commit,

@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarResultListGeneralComponent from "../../../components/SearchBarResultListGeneral.vue";
+import SearchBarResultListGeneralComponent from "@modules/searchBar/components/SearchBarResultListGeneral.vue";
 
 config.global.mocks.$t = key => key;
 

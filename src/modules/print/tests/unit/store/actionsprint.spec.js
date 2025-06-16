@@ -1,9 +1,13 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsPrint";
+import testAction from "@devtools/tests/VueTestUtils";
+import actions from "@modules/print/store/actionsPrint";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
 
 const {activatePrintStarted, getMetaDataForPrint, createPrintJob, migratePayload, waitForPrintJob, waitForPrintJobSuccess, downloadFile} = actions;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/print/store/actionsPrint", function () {
     describe("activatePrintStarted", function () {

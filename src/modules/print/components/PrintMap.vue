@@ -4,17 +4,17 @@ import Cluster from "ol/source/Cluster";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import {Vector} from "ol/layer.js";
 
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject";
 import mutations from "../store/mutationsPrint";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 import layerProvider from "../js/getVisibleLayer";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import InputText from "../../../shared/modules/inputs/components/InputText.vue";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import BuildSpec from "../js/buildSpec";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
+import layerCollection from "@core/layers/js/layerCollection";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Tool to print a part of the map

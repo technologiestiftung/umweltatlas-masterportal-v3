@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import LayerPillsComponent from "../../../components/LayerPills.vue";
+import LayerPillsComponent from "@modules/layerPills/components/LayerPills.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

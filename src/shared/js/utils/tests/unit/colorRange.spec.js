@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {generateColorRange, getLighterShade, normalizeValues, assignColors} from "../../colorRange.js";
+import {generateColorRange, getLighterShade, normalizeValues, assignColors} from "@shared/js/utils/colorRange.js";
 
 describe("src/shared/js/utils/colorRange.js", () => {
     it("should not generate a range of colors if the starting color is not a hex value", () => {

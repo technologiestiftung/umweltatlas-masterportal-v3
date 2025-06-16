@@ -1,10 +1,10 @@
 import crs from "@masterportal/masterportalapi/src/crs";
 import {adaptCylinderToGround, adaptCylinderToEntity, calculateRotatedPointCoordinates} from "../js/draw";
-import {convertColor} from "../../../shared/js/utils/convertColor";
+import {convertColor} from "@shared/js/utils/convertColor";
 import blobHandler from "../js/blob";
 import {nextTick} from "vue";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import {uniqueId} from "@shared/js/utils/uniqueId";
+import layerCollection from "@core/layers/js/layerCollection";
 
 /**
  * The actions for the modeler3D module.

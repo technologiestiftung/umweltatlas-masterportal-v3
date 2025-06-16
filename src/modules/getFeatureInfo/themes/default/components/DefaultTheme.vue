@@ -1,10 +1,10 @@
 <script>
-import beautifyKey from "../../../../../shared/js/utils/beautifyKey.js";
-import {isImage, isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
-import {translateKeyWithPlausibilityCheck} from "../../../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
-import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
-import {isHTML} from "../../../../../shared/js/utils/isHTML.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {isImage, isWebLink} from "@shared/js/utils/urlHelper.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import {isHTML} from "@shared/js/utils/isHTML.js";
 import CompareFeatureIcon from "./favoriteIcons/components/CompareFeatureIcon.vue";
 import DefaultThemeSensorChart from "./DefaultThemeSensorChart.vue";
 import {getPropertiesWithFullKeys} from "../js/getPropertiesWithFullKeys.js";
