@@ -408,9 +408,8 @@ export default {
                 }
                 // Drawend is called before feature is added to tsrWaypointsSource
                 // We delete the drawn Feature and only copy the Coordinates
-                setTimeout(() => {
-                    state.tsrWaypointsSource.removeFeature(feat);
-                });
+                state.tsrWaypointsSource.removeFeature(feat);
+
                 state.addStartEndPoint = 1;
                 return waypointWithoutCoordinates;
             }
@@ -436,9 +435,7 @@ export default {
             state.waypoints[0].setCoordinates(fixedCoordinates);
             state.waypoints[0].setDisplayName(displayName);
 
-            setTimeout(() => {
-                state.tsrWaypointsSource?.removeFeature(feature);
-            });
+            state.tsrWaypointsSource?.removeFeature(feature);
         }
         if (state.addStartEndPoint === 2) {
             // for some reason the endpoint has to be removed before adding
@@ -451,9 +448,7 @@ export default {
             state.waypoints[lastWaypointIdx].setCoordinates(fixedCoordinates);
             state.waypoints[lastWaypointIdx].setDisplayName(displayName);
 
-            setTimeout(() => {
-                state.tsrWaypointsSource?.removeFeature(feature);
-            });
+            state.tsrWaypointsSource?.removeFeature(feature);
         }
         // reset addStartEndPOint to 1 so the next call is a waypoint
         state.addStartEndPoint = 1;

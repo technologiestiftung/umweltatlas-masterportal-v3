@@ -609,9 +609,8 @@ export default {
                 }
                 // Drawend is called before feature is added to directionsWaypointsSource
                 // We delete the drawn feature and only copy the coordinates
-                setTimeout(() => {
-                    state.directionsWaypointsSource.removeFeature(feature);
-                });
+                state.directionsWaypointsSource.removeFeature(feature);
+
                 return waypointWithoutCoordinates;
             }
         }
@@ -775,7 +774,7 @@ export default {
      */
     async onDirectionsAvoidDrawEnd ({dispatch}) {
         // OpenLayers calls drawend before the feature is added to the source so we wait one iteration
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
     },
     /**
      * Executed when User adds a new point to avoid on the Map
@@ -811,7 +810,7 @@ export default {
         for (const feature of event.selected) {
             directionsAvoidSource.removeFeature(feature);
         }
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
     },
     /**
     * Executed when User removes avoid point
@@ -825,7 +824,7 @@ export default {
         for (const feature of event.selected) {
             directionsAvoidPointSource.removeFeature(feature);
         }
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
     },
 
     /**
