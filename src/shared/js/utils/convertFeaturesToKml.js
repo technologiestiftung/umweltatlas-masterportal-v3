@@ -128,6 +128,9 @@ function transformCoordinates (geometry) {
             return transformPoint(coords);
         case "Polygon":
             return transform(coords, true);
+        case "MultiPolygon":
+            return coords;
+
         default:
             // dispatch("Alerting/addSingleAlert", i18next.t("common:modules.download.unknownGeometry", {geometry: type}), {root: true});
             return [];
