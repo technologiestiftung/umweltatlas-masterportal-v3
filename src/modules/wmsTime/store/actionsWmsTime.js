@@ -123,12 +123,19 @@ export default {
             }
         }
         else {
-            const targetLayer = layerCollection.getLayerById(secondId);
+            const targetLayer = layerCollection.getLayerById(secondId),
+                sourceLayer = layerCollection.getLayerById(id);
 
             targetLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
             targetLayer?.getLayer().un("postrender", ({context}) => {
                 context.restore();
             });
+
+            sourceLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+            sourceLayer?.getLayer().un("postrender", ({context}) => {
+                context.restore();
+            });
+
             // If the button of the "original" window is clicked, it is assumed, that the time value selected in the added window is desired to be further displayed.
             if (!id.endsWith(state.layerAppendix)) {
                 const {TIME} = layer.getLayerSource().params_,

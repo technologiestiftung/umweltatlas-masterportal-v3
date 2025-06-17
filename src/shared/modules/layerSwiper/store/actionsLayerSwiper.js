@@ -48,18 +48,25 @@ const actions = {
         if (!rootGetters["Modules/WmsTime/TimeSlider/playing"]) {
             await mapCollection.getMap(rootGetters["Maps/mode"]).render();
         }
-        targetLayer?.getLayer().on("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        targetLayer?.getLayer().on("postrender", ({context}) => {
-            context.restore();
-        });
 
-        sourceLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        sourceLayer?.getLayer().once("postrender", ({context}) => {
-            context.restore();
-            if (!state.active) {
-                mapCollection.getMap(rootGetters["Maps/mode"]).render();
-            }
-        });
+        if (!targetLayer?.listenerAdded) {
+            targetLayer.getLayer().on("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+            targetLayer.getLayer().on("postrender", ({context}) => {
+                context.restore();
+            });
+            targetLayer.listenerAdded = true;
+        }
+
+        if (!sourceLayer?.listenerAdded) {
+            sourceLayer.getLayer().on("prerender", renderEvent => dispatch("drawLayer", renderEvent));
+            sourceLayer.getLayer().on("postrender", ({context}) => {
+                context.restore();
+                if (!state.active) {
+                    mapCollection.getMap(rootGetters["Maps/mode"]).render();
+                }
+            });
+            sourceLayer.listenerAdded = true;
+        }
     },
 
     /**

@@ -36,9 +36,10 @@ WFS-T: Transaction buttons are disabled for fetch-time at module start and when 
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
-- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
-- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
 - Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
+- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
+- Issue #1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.  
+- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
