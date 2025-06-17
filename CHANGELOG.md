@@ -17,6 +17,7 @@
 ### Changed
 - Replaced layer 452, which will be deleted.
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
+- LayerPills: Added toggle button to show multiple lines of LayerPills. When toggled, they are shown in multiple lines and do not disappear off-screen. 
 - Routing: 
     - button for adding a new waypoint was moved between start and endpoint 
     - reset button was moved to the bottom of the menu
@@ -34,6 +35,7 @@
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
+- UrlParams: Layers that are loaded via UrlParam and are not configured in config.json, but have a styleId in services.json, are now styled.
 
 ---
 
