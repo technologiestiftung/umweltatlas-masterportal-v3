@@ -10,10 +10,17 @@
 ### Added
 - Issue #1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
 - SearchBar: Added functionality to highlight a 3D tile at the address coordinates.
+- Routing: 
+    - added avoid points, avoid area import and export
+    - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
 
 ### Changed
 - Replaced layer 452, which will be deleted.
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
+- Routing: 
+    - button for adding a new waypoint was moved between start and endpoint 
+    - reset button was moved to the bottom of the menu
+    - consistent button design in avoid area menu
 
 ### Deprecated
 
@@ -100,19 +107,12 @@
 - HighlightFeaturesByAttribute: Highlighted features via url parameter can now be printed.
 - WFST: Added multiselect for edit option in Point-Layers.
 - Menus: Module caching implemented via KeepAlive lifecycle hooks.
-- Routing: 
-    - added avoid points, avoid area import and export
-    - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
 
 ### Changed
 - WMS-Time: Shrunk wms-time slider for mobile views, adjusted Position on desktop.
 - getFeatureInfo: gfi now works on BaseLayers as well as SubjectLayers.
 - Menutitle: Allow html in title text.
 - CompareMaps: layer selection fields are labeled left/right or upper/lower layer instead of first/second layer.
-- Routing: 
-    - button for adding a new waypoint was moved between start and endpoint 
-    - reset button was moved to the bottom of the menu
-    - consistent button design in avoid area menu
 - dependencies:
         - @masterportal/masterportalapi: 2.48.0 to 2.49.0
 
