@@ -1,5 +1,6 @@
 <script>
 import SnippetInfo from "./SnippetInfo.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 /**
 * Snippet Checkbox Filter In Map Extent
@@ -16,7 +17,8 @@ import SnippetInfo from "./SnippetInfo.vue";
 export default {
     name: "SnippetCheckboxFilterInMapExtent",
     components: {
-        SnippetInfo
+        SnippetInfo,
+        SwitchInput
     },
     props: {
         filterId: {
@@ -37,28 +39,20 @@ export default {
     emits: ["commandChanged"],
     data () {
         return {
-            checked: false,
             translationKey: "snippetCheckbox"
         };
     },
-    watch: {
-        checked: {
-            handler (value) {
-                this.emitCurrentCommand(value);
-            }
-        }
-    },
     mounted () {
-        this.checked = this.preselected;
+        this.$emit("commandChanged", this.preselected);
     },
     methods: {
         /**
          * Emits the current command to whoever is listening.
-         * @param {*} value the value to put into the command
+         * @param {event} evt the input switch event.
          * @returns {void}
          */
-        emitCurrentCommand (value) {
-            this.$emit("commandChanged", value);
+        emitCurrentCommand (evt) {
+            this.$emit("commandChanged", evt?.target?.checked);
         }
     }
 };
@@ -68,19 +62,14 @@ export default {
     <div
         class="snippetCheckboxContainer"
     >
-        <div class="left">
-            <input
-                :id="'CheckboxFilterInMapExtent-' + filterId"
-                v-model="checked"
-                class="snippetCheckbox"
-                type="checkbox"
-                name="checkbox"
-            >
-            <label
-                :for="'CheckboxFilterInMapExtent-' + filterId"
-            >
-                {{ $t('common:modules.filter.searchInMapExtent') }}
-            </label>
+        <div class="form-check form-switch">
+            <SwitchInput
+                id="showExistingItems"
+                :label="$t('common:modules.filter.searchInMapExtent')"
+                :aria="$t('common:modules.filter.searchInMapExtent')"
+                :checked="preselected"
+                :interaction="emitCurrentCommand"
+            />
         </div>
         <div
             v-if="info"
