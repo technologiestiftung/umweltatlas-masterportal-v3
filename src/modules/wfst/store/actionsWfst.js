@@ -623,7 +623,7 @@ const actions = {
      * @param {Object} getters - The getters object.
      * @returns {void}
      */
-    async save ({dispatch, getters}) {
+    async save ({dispatch, getters, commit}) {
         let featureWithProperties = null;
         const feature = modifyFeature ? modifyFeature : drawLayer.getSource().getFeatures()[0],
             {currentLayerIndex, featureProperties, layerInformation, selectedInteraction} = getters,
@@ -634,6 +634,7 @@ const actions = {
                     .find((workFeature) => workFeature.getId() === modifyFeatureSaveId)
                 : feature;
 
+        commit("setButtonsDisabled", true);
         if (error.length > 0) {
             dispatch("Alerting/addSingleAlert", {
                 category: "Info",
@@ -659,6 +660,7 @@ const actions = {
             "sendTransaction",
             featureWithProperties
         );
+        commit("setButtonsDisabled", false);
         dispatch("reset");
     },
 

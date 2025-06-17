@@ -5,7 +5,7 @@ import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vu
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/shared/components/ElevatedButton.vue", () => {
+describe("src/shared/components/ElevatedButton.vue", () => {
     let interactionSpy;
 
     beforeEach(() => {
