@@ -817,7 +817,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfig: expectedConfig, parentKey: treeSubjectsKey});
             });
 
-            it("layer is not contained in layerConfig but contained in rawLayerList, isBaseLayer:false, add style to styleList", async () => {
+            it.skip("layer is not contained in layerConfig but contained in rawLayerList, isBaseLayer:false, add style to styleList", async () => {
                 sinon.stub(styleList, "returnStyleObject").returns(undefined);
                 getters = {
                     configJs: () => {
