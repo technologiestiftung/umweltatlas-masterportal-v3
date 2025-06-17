@@ -1,9 +1,8 @@
 <script>
 import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
-import InputText from "@shared/modules/inputs/components/InputText.vue";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
-import isObject from "@shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject";
 import {GeoJSON} from "ol/format.js";
 import Feature from "ol/Feature";
 
@@ -14,7 +13,6 @@ import Feature from "ol/Feature";
 * @vue-prop {String} layerId - The layer id.
 *
 * @vue-data {Boolean} enableFileDownload - Shows if file download is enabled.
-* @vue-data {Boolean} showDownload - Shows if download is visible.
 * @vue-data {Array} formats - List of availabe formats.
 * @vue-data {String} selectedFormat - The selected format.
 * @vue-data {String} filename - The chosen filename.
@@ -24,8 +22,7 @@ export default {
     name: "SnippetDownload",
     components: {
         ExportButtonCSV,
-        ExportButtonGeoJSON,
-        InputText
+        ExportButtonGeoJSON
     },
     props: {
         filteredItems: {
@@ -40,7 +37,6 @@ export default {
     data () {
         return {
             enableFileDownload: false,
-            showDownload: false,
             formats: ["CSV", "GeoJSON"],
             selectedFormat: "",
             filename: "",
@@ -57,13 +53,7 @@ export default {
             this.selectedFormat = format;
             this.enableDownloadBtn();
         },
-        /**
-         * Makes download area visible or invisible.
-         * @returns {void}
-         */
-        toggleShowDownload () {
-            this.showDownload = !this.showDownload;
-        },
+
         /**
          * Enables download button and set json if the selected format is GeoJSON and filteredItems has at least one element.
          * @returns {void}
@@ -146,85 +136,76 @@ export default {
         class="form-horizontal"
         role="form"
     >
+        <div>
+            {{ $t("common:modules.filter.download.label") }}
+        </div>
         <div class="form-group form-group-sm row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <input
-                    id="tool-filter-download-box"
-                    type="checkbox"
-                    @click="toggleShowDownload"
+                    id="tool-filter-download-filename"
+                    v-model="filename"
+                    type="text"
+                    class="form-control form-control-sm"
+                    :placeholder="$t('common:modules.filter.download.filename')"
+                    @keyup="enableDownloadBtn"
                 >
-                <label
-                    class="col-md-6 col-form-label"
-                    for="tool-filter-download-box"
+            </div>
+            <div class="col-md-6">
+                <select
+                    id="tool-filter-download-format"
+                    class="form-select form-select-sm"
+                    @change="setDownloadSelectedFormat($event.target.value)"
                 >
-                    {{ $t("common:modules.filter.download.label") }}
-                </label>
+                    <option value="none">
+                        {{ $t("common:modules.filter.download.format") }}
+                    </option>
+                    <option
+                        v-for="format in formats"
+                        :key="'tool-filter-download-format-' + format"
+                        :value="format"
+                        :selected="format === selectedFormat"
+                    >
+                        {{ format }}
+                    </option>
+                </select>
             </div>
         </div>
-        <div v-if="showDownload">
-            <div class="form-group form-group-sm row">
-                <label
-                    class="col-md-5 col-form-label"
-                    for="tool-filter-download-format"
-                >
-                    {{ $t("common:modules.filter.download.format") }}
-                </label>
-                <div class="col-md-7">
-                    <select
-                        id="tool-filter-download-format"
-                        class="form-select form-select-sm"
-                        @change="setDownloadSelectedFormat($event.target.value)"
-                    >
-                        <option value="none">
-                            {{ $t("common:modules.filter.download.pleaseChoose") }}
-                        </option>
-                        <option
-                            v-for="format in formats"
-                            :key="'tool-filter-download-format-' + format"
-                            :value="format"
-                            :selected="format === selectedFormat"
-                        >
-                            {{ format }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group form-group-sm row">
-                <label
-                    class="col-md-5 col-form-label"
-                    for="tool-filter-download-filename"
-                >
-                    {{ $t("common:modules.filter.download.filename") }}
-                </label>
-                <div class="col-md-7">
-                    <InputText
-                        id="tool-filter-download-filename"
-                        v-model="filename"
-                        :class-obj="['form-control-sm']"
-                        :placeholder="$t('common:modules.filter.download.enterFilename')"
-                        :label="$t('common:modules.filter.download.filename')"
-                        @keyup="enableDownloadBtn"
+        <div class="form-group form-group-sm row">
+            <div class="col-md-12">
+                <div v-if="selectedFormat==='GeoJSON'">
+                    <ExportButtonGeoJSON
+                        :disabled="!enableFileDownload"
+                        :title="$t('common:modules.filter.download.labelBtn')"
+                        :data="json"
+                        :filename="filename"
+                        postfix-format=""
                     />
                 </div>
-            </div>
-            <div v-if="enableFileDownload && selectedFormat==='CSV'">
-                <ExportButtonCSV
-                    :url="false"
-                    :filename="filename"
-                    :handler="getDownloadHandler"
-                    :use-semicolon="true"
-                    :title="$t('common:modules.filter.download.labelBtn')"
-                    postfix-format=""
-                />
-            </div>
-            <div v-if="enableFileDownload && selectedFormat==='GeoJSON'">
-                <ExportButtonGeoJSON
-                    :title="$t('common:modules.filter.download.labelBtn')"
-                    :data="json"
-                    :filename="filename"
-                    postfix-format=""
-                />
+                <div v-else>
+                    <ExportButtonCSV
+                        :disabled="!enableFileDownload"
+                        :url="false"
+                        :filename="filename"
+                        :handler="getDownloadHandler"
+                        :use-semicolon="true"
+                        :title="$t('common:modules.filter.download.labelBtn')"
+                        postfix-format=""
+                    />
+                </div>
             </div>
         </div>
     </form>
 </template>
+
+<style lang="scss" scoped>
+@import "~mixins";
+@import "~variables";
+
+form {
+    margin: 10px 0;
+    .form-group {
+        margin-top: 5px;
+    }
+}
+
+</style>
