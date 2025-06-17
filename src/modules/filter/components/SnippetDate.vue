@@ -398,7 +398,6 @@ export default {
     >
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -449,10 +448,6 @@ export default {
     .snippetDateContainer .left {
         float: left;
         width: 90%;
-    }
-    .snippetDateContainer .right {
-        position: absolute;
-        right: 0;
     }
     input[type="date"]::-webkit-calendar-picker-indicator {
         background: transparent;

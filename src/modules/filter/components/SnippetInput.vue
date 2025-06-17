@@ -203,7 +203,6 @@ export default {
     >
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -253,9 +252,5 @@ export default {
     .snippetInputContainer .left {
         float: left;
         width: 90%;
-    }
-    .snippetInputContainer .right {
-        position: absolute;
-        right: 0;
     }
 </style>

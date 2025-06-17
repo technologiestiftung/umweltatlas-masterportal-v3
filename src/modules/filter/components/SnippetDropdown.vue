@@ -876,7 +876,6 @@ export default {
     >
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -1216,9 +1215,5 @@ export default {
     .snippetDropdownContainer .bottom {
         clear: left;
         width: 100%;
-    }
-    .panel .snippetDropdownContainer .right, .snippetDropdownContainer .right {
-        position: absolute;
-        right: 0;
     }
 </style>

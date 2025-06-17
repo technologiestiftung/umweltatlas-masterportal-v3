@@ -692,7 +692,7 @@ export default {
     >
         <div
             v-if="info"
-            :class="title !== false ? 'right' : 'h-right'"
+            :class="title !== false ? '' : 'h-right'"
         >
             <SnippetInfo
                 :info="info"
@@ -756,10 +756,6 @@ export default {
     .snippetSliderContainer .left {
         float: left;
         width: 90%;
-    }
-    .snippetSliderContainer .right {
-        position: absolute;
-        right: 0;
     }
     .snippetSliderContainer .h-right {
         min-height: 24px;

@@ -812,34 +812,6 @@ export default {
                 />
             </div>
         </div>
-        <div class="inputWrapper">
-            <div class="from">
-                <input
-                    v-model="inputFrom"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
-                    @input="setCurrentSource('input')"
-                >
-            </div>
-            <div class="until">
-                <input
-                    v-model="inputUntil"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
-                    @input="setCurrentSource('input')"
-                >
-            </div>
-        </div>
         <div
             class="sliderWrapper"
             :class="{ disabledClass: disabled }"
@@ -881,6 +853,36 @@ export default {
                 @mouseup="setSliderMouseUp"
             >
         </div>
+        <div class="inputWrapper">
+            <div class="from">
+                <input
+                    v-model="inputFrom"
+                    type="number"
+                    :step="getSliderSteps(decimalPlaces)"
+                    :min="currentSliderMin"
+                    :max="currentSliderMax"
+                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                    :disabled="disabled"
+                    :class="{ disabledClass: disabled }"
+                    class="form-control"
+                    @input="setCurrentSource('input')"
+                >
+            </div>
+            <div class="until">
+                <input
+                    v-model="inputUntil"
+                    type="number"
+                    :step="getSliderSteps(decimalPlaces)"
+                    :min="currentSliderMin"
+                    :max="currentSliderMax"
+                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                    :disabled="disabled"
+                    :class="{ disabledClass: disabled }"
+                    class="form-control"
+                    @input="setCurrentSource('input')"
+                >
+            </div>
+        </div>
     </div>
 </template>
 
@@ -892,13 +894,13 @@ export default {
         height: auto;
 
         .titleWrapper {
+            display: flex;
             position: relative;
             .title {
-                padding-right: 15px;
+                padding-right: 10px;
             }
             .info {
-                position: absolute;
-                right: 0;
+                margin-top: -1px;
             }
         }
         .disabledClass {
@@ -906,43 +908,41 @@ export default {
         }
         .inputWrapper {
             position: relative;
-            margin-top: 5px;
+            margin: 5px 0 15px;
             height: 24px;
             .disabledClass {
                 background-color: $light_grey;
-                }
+            }
+            input {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            }
             .from {
                 position: absolute;
                 left: 0;
-                width: 50%;
-
                 label {
                     display: block;
                     height: 18px;
-                }
-                input {
-                    width: 90%;
                 }
             }
             .until {
                 position: absolute;
                 right: 0;
-                width: 50%;
                 text-align: right;
-
                 label {
                     display: block;
                     height: 18px;
                 }
                 input {
-                    width: 90%;
                     text-align: right;
                 }
             }
         }
         .sliderWrapper {
             position: relative;
-            margin-top: 5px;
             height: 28px;
             .track {
                 width: 100%;
@@ -956,7 +956,7 @@ export default {
             }
             .measure {
                 height: 15px;
-                background-color: $light_blue;
+                background-color: $secondary;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -1002,8 +1002,9 @@ export default {
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 10px;
+                border: 1px solid $white;
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
@@ -1013,29 +1014,19 @@ export default {
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
-            }
-            input[type="range"]:active::-ms-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-moz-range-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active:not(.disabledClass)::-webkit-slider-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {

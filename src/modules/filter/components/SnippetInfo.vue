@@ -56,7 +56,7 @@ export default {
     <div v-if="info">
         <div class="info-icon">
             <button
-                :class="['bi bi-info-circle-fill', showInfo ? 'opened' : '']"
+                :class="['bi bi-info-circle', showInfo ? 'opened' : '']"
                 class="btn-info-icon"
                 @click="toggleInfo()"
                 @keydown.enter="toggleInfo()"
@@ -81,11 +81,11 @@ export default {
     @import "~mixins";
     @import "~variables";
     .bottom {
-        position: sticky;
+        position: absolute;
         width: 340px;
-        float: left;
+        right: 25px;
+        top: 25px;
         z-index: 1001;
-        justify-content: flex-end;
     }
     .info-icon {
         float: right;
@@ -100,9 +100,9 @@ export default {
         color: lighten($dark_grey, 15%);
     }
     .info-text {
-        border: 1px solid $light_grey;
-        border-radius: 5px;
-        background-color: rgb(241, 241, 241, 0.95);
+        border: 1px solid $dark_grey;
+        border-radius: 10px;
+        background-color: $light_grey;
         font-size: $font-size-sm;
         padding: 15px 10px;
         cursor: pointer;

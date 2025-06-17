@@ -73,7 +73,6 @@ export default {
         </div>
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -105,9 +104,5 @@ export default {
             /*margin-bottom: 0;*/
             cursor: pointer;
         }
-    }
-    .snippetCheckboxContainer .right {
-        position: absolute;
-        right: 0;
     }
 </style>

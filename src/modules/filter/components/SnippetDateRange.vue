@@ -861,13 +861,13 @@ export default {
         height: auto;
 
         .titleWrapper {
+            display: flex;
             position: relative;
             .title {
-                width: 90%;
+                padding-right: 10px;
             }
             .info {
-                position: absolute;
-                right: 0;
+                margin-top: -1px;
             }
         }
         .datepickerWrapper {

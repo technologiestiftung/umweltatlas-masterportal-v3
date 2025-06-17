@@ -29,6 +29,6 @@ describe("src/modules/filter/components/SnippetCheckboxFilterInMapExtent.vue", (
         await wrapper.setProps({
             info: "Test"
         });
-        expect(wrapper.find(".right").exists()).to.be.true;
+        expect(wrapper.findComponent({name: "SnippetInfo"}).exists()).to.be.true;
     });
 });
