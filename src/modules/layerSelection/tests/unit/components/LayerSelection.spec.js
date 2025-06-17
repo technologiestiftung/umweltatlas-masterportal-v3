@@ -4,7 +4,8 @@ import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "@modules/layerSelection/components/LayerSelection.vue";
 import LayerSelection from "@modules/layerSelection/store/indexLayerSelection";
-
+import sortBy from "@shared/js/utils/sortBy";
+import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 config.global.mocks.$t = key => key;
 
@@ -416,7 +417,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         expect(LayerSelection.actions.navigateForward.calledOnce).to.be.true;
     });
 
-    it("navigateStepsBack shall call action navigateBack", async () => {
+    it("navigateStepsBack shall call action navigateBack and provideSelectAllProps", async () => {
         const provideSelectAllPropsSpy = sinon.spy(LayerSelectionComponent.methods, "provideSelectAllProps");
 
         lastFolderNames = ["root", "Titel Ebene 1", "Titel Ebene 2"];
@@ -427,13 +428,15 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             }
         });
 
+        provideSelectAllPropsSpy.resetHistory();
+
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
 
         wrapper.vm.navigateStepsBack(1);
         await wrapper.vm.$nextTick();
 
-        expect(LayerSelection.actions.navigateBack.callCount).to.equal(1);
         await wrapper.vm.$nextTick();
+        expect(LayerSelection.actions.navigateBack.calledOnce).to.be.true;
         expect(provideSelectAllPropsSpy.calledOnce).to.be.true;
     });
 
@@ -529,38 +532,60 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
     });
 
     describe("watchers", () => {
-        beforeEach(() => {
+        it("layerConfig watcher should commit 'setSubjectDataLayerConfs' and call 'provideSelectAllProps' on change", async () => {
+            const commitSpy = sinon.spy(store, "commit"),
+                provideSelectAllPropsSpy = sinon.spy(LayerSelectionComponent.methods, "provideSelectAllProps"),
+                newConfig = {
+                    [treeSubjectsKey]: {
+                        elements: [
+                            {id: "folder-1", name: "Test Folder", type: "folder", elements: []}
+                        ]
+                    }
+                },
+                expectedPayload = sortBy(newConfig[treeSubjectsKey].elements, conf => conf.type !== "folder");
+
             wrapper = shallowMount(LayerSelectionComponent, {
                 global: {
                     plugins: [store]
                 }
             });
-        });
-        it("should change the internal 'rootFolderCount' when the folder count remains the same", async () => {
+
             await wrapper.setData({rootFolderCount: 0});
-
-            const newVal = {
-                "subjectlayer": {
-                    elements: [{name: "New Folder", type: "folder"}]
-                }
-            };
-
-            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
+            store.commit("Modules/LayerSelection/setLastFolderNames", ["root"]);
+            commitSpy.resetHistory();
+            provideSelectAllPropsSpy.resetHistory();
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newConfig);
             await wrapper.vm.$nextTick();
-            expect(wrapper.vm.rootFolderCount).to.equal(1);
+
+            expect(commitSpy.calledWith("Modules/LayerSelection/setSubjectDataLayerConfs", expectedPayload)).to.be.true;
+            expect(provideSelectAllPropsSpy.called).to.be.true;
         });
-        it("should NOT change the internal 'rootFolderCount' when the folder count remains the same", async () => {
-            await wrapper.setData({rootFolderCount: 1});
+        it("should do nothing if the folder count does not change", async () => {
+            const commitSpy = sinon.spy(store, "commit"),
+                provideSelectAllPropsSpy = sinon.spy(LayerSelectionComponent.methods, "provideSelectAllProps"),
+                newConfig = {
+                    [treeSubjectsKey]: {
+                        elements: [
+                            {id: "folder-1", name: "Test Folder", type: "folder", elements: []},
+                            {id: "layer-1", name: "Test Layer", type: "layer"}
+                        ]
+                    }
+                };
 
-            const newVal = {
-                "subjectlayer": {
-                    elements: [{name: "Another Folder", type: "folder"}]
+            wrapper = shallowMount(LayerSelectionComponent, {
+                global: {
+                    plugins: [store]
                 }
-            };
+            });
 
-            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newVal);
+            await wrapper.setData({rootFolderCount: 1});
+            commitSpy.resetHistory();
+            provideSelectAllPropsSpy.resetHistory();
+            wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newConfig);
             await wrapper.vm.$nextTick();
-            expect(wrapper.vm.rootFolderCount).to.equal(1);
+
+            expect(commitSpy.called).to.be.false;
+            expect(provideSelectAllPropsSpy.called).to.be.false;
         });
     });
 
