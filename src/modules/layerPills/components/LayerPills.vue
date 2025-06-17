@@ -17,7 +17,8 @@ export default {
             scrolled: 0,
             showRightbutton: false,
             showAllLayers: false,
-            showMorePill: true
+            showMorePill: true,
+            showToggleButton: false
         };
     },
     computed: {
@@ -29,17 +30,7 @@ export default {
             "type",
             "visibleSubjectDataLayers"
         ]),
-        ...mapGetters("Maps", ["mode"]),
-        visibleLayers () {
-            if (this.showAllLayers) {
-                return this.visibleSubjectDataLayers;
-            }
-
-            const containerWidth = this.$el?.offsetWidth || 0,
-                maxVisibleCount = Math.floor(containerWidth / 120);
-
-            return this.visibleSubjectDataLayers.slice(0, maxVisibleCount);
-        }
+        ...mapGetters("Maps", ["mode"])
     },
     watch: {
         /**
@@ -121,6 +112,7 @@ export default {
                     this.setVisibleSubjectDataLayers(visibleLayers);
                 }
             }
+            this.setToggleButtonVisibility();
         },
         toggleLayerVisibility () {
             this.showAllLayers = !this.showAllLayers;
@@ -204,6 +196,30 @@ export default {
             if (layerConf.datasets) {
                 this.startLayerInformation(layerConf);
             }
+        },
+        /**
+         * Updates the visibility state of the toggle button based on the multiline status of the pills list.
+         * Checks if the pills list spans multiple lines and sets the toggle button accordingly.
+         * @returns {void}
+         */
+        setToggleButtonVisibility () {
+            this.$nextTick(() => {
+                const container = this.$refs.layerPillsContainer,
+                    pills = container?.querySelectorAll(".nav-item");
+
+                if (container && pills) {
+                    const firstPillTop = pills[0]?.offsetTop || 0;
+                    let spansMultipleRows = false;
+
+                    Array.from(pills).forEach((pill) => {
+                        if (pill.offsetTop !== firstPillTop) {
+                            spansMultipleRows = true;
+                        }
+                    });
+
+                    this.showToggleButton = spansMultipleRows;
+                }
+            });
         }
     }
 };
@@ -214,6 +230,7 @@ export default {
     <div
         v-if="visibleSubjectDataLayers.length > 0 && active"
         id="layer-pills"
+        ref="layerPillsContainer"
         class="layer-pills-container"
         :class="[
             {'mobileOnly': mobileOnly}
@@ -233,6 +250,8 @@ export default {
             tag="ul"
             class="nav nav-pills"
             :class="{ collapsed: !showAllLayers }"
+            @after-enter="setToggleButtonVisibility"
+            @after-leave="setToggleButtonVisibility"
         >
             <li
                 v-for="(layer) in visibleSubjectDataLayers"
@@ -265,6 +284,7 @@ export default {
             class="nav-item shadow layer-pills-toggle-button"
         >
             <button
+                v-if="showToggleButton"
                 class="nav-link"
                 @click="toggleLayerVisibility"
             >
