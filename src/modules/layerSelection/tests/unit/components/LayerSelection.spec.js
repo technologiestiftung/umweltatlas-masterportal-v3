@@ -4,12 +4,11 @@ import {expect} from "chai";
 import sinon from "sinon";
 import LayerSelectionComponent from "@modules/layerSelection/components/LayerSelection.vue";
 import LayerSelection from "@modules/layerSelection/store/indexLayerSelection";
-import sortBy from "@shared/js/utils/sortBy";
 import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
+describe.only("src/modules/layerSelection/components/LayerSelection.vue", () => {
     let addLayerButtonSearchActive,
         categories,
         changeCategorySpy,
@@ -542,7 +541,14 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                         ]
                     }
                 },
-                expectedPayload = sortBy(newConfig[treeSubjectsKey].elements, conf => conf.type !== "folder");
+                expectedPayload = [
+                    {
+                        id: "folder-1",
+                        name: "Test Folder",
+                        type: "folder",
+                        elements: []
+                    }
+                ];
 
             wrapper = shallowMount(LayerSelectionComponent, {
                 global: {
@@ -556,9 +562,10 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             provideSelectAllPropsSpy.resetHistory();
             wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newConfig);
             await wrapper.vm.$nextTick();
-
+            expect(wrapper.vm.lastFolderNames).to.deep.equals(["root"]);
+            expect(commitSpy.calledOnce).to.be.true;
             expect(commitSpy.calledWith("Modules/LayerSelection/setSubjectDataLayerConfs", expectedPayload)).to.be.true;
-            expect(provideSelectAllPropsSpy.called).to.be.true;
+            expect(provideSelectAllPropsSpy.calledOnce).to.be.true;
         });
         it("should do nothing if the folder count does not change", async () => {
             const commitSpy = sinon.spy(store, "commit"),

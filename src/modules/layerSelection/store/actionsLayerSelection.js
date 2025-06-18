@@ -91,9 +91,9 @@ const actions = {
      * @param {Object} param.state the state
      * @returns {void}
      */
-    navigateBack ({commit, getters, rootGetters}) {
+    navigateBack ({commit, getters}) {
         commit("reduceToPreviousLayerSelection");
-        commit("setSubjectDataLayerConfs", getters.lastFolderNames.length === 1 ? sortBy(rootGetters.allLayerConfigsStructured(treeSubjectsKey), conf => conf.type !== "folder") : getters.lastSubjectDataLayerConfs[getters.lastSubjectDataLayerConfs.length - 1]);
+        commit("setSubjectDataLayerConfs", getters.lastSubjectDataLayerConfs[getters.lastSubjectDataLayerConfs.length - 1]);
         commit("setBaselayerConfs", getters.lastBaselayerConfs[getters.lastBaselayerConfs.length - 1]);
 
     },
