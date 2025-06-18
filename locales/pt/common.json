@@ -854,6 +854,17 @@
       "layerSwiper": {
         "title": "Confrontare gli strati"
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Página anterior",
+        "next": "Próxima página",
+        "go": "Ir para a página"
+      },
+      "input": {
+        "label": "Página",
+        "placeholder": "Página"
+      }
     }
   },
   "shared": {

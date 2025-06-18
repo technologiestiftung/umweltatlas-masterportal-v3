@@ -1272,6 +1272,17 @@
           },
           "inputRangeLabel": "Kies een tijdstip"
         }
+      },
+      "pagination": {
+        "aria": {
+          "previous": "Vorige pagina",
+          "next": "Volgende pagina",
+          "go": "Ga naar pagina"
+        },
+        "input": {
+          "label": "Pagina",
+          "placeholder": "Pagina"
+        }
       }
     },
     "shared": {

@@ -1437,6 +1437,17 @@
         },
         "inputRangeLabel": "Choose a point in time"
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Previous page",
+        "next": "Next page",
+        "go": "Go to page"
+      },
+      "input": {
+        "label": "Page",
+        "placeholder": "Page"
+      }
     }
   },
   "shared": {

@@ -1438,6 +1438,17 @@
         },
         "inputRangeLabel": "Einen Zeitpunkt auswählen"
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Vorherige Seite",
+        "next": "Nächste Seite",
+        "go": "Gehe zu Seite"
+      },
+      "input": {
+        "label": "Seite",
+        "placeholder": "Seite"
+      }
     }
   },
   "shared": {

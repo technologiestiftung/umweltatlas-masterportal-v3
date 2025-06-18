@@ -1,6 +1,13 @@
 <script>
+import IconButton from "../../buttons/components/IconButton.vue";
+import InputText from "../../inputs/components/InputText.vue";
+
 export default {
     name: "PaginationControl",
+    components: {
+        IconButton,
+        InputText
+    },
     props: {
         /**
          * The current active page
@@ -22,13 +29,6 @@ export default {
         showGoToPage: {
             type: Boolean,
             default: true
-        },
-        /**
-         * The placeholder text for the temporary page input
-         */
-        goToPageText: {
-            type: String,
-            default: ""
         }
     },
     data () {
@@ -118,46 +118,50 @@ export default {
 <template>
     <div class="pagination-controls">
         <div class="pagination-container">
-            <button
-                class="pagination-arrow"
+            <IconButton
+                :aria="$t('common:modules.pagination.aria.previous')"
+                icon="bi bi-chevron-left"
                 :disabled="currentPage === 1"
-                @click="changePage(currentPage - 1)"
-            >
-                <i class="bi bi-chevron-left" />
-            </button>
+                :interaction="() => changePage(currentPage - 1)"
+                class-array="pagination-arrow"
+            />
             <button
                 v-for="page in determineVisiblePages()"
                 :key="page"
                 class="pagination-button"
-                :class="{ active: page === currentPage }"
+                :class="[{ active: page === currentPage }, page === '...' ? 'pagination-ellipsis' : '']"
                 :disabled="page === '...'"
                 @click="changePage(page)"
             >
                 {{ page }}
             </button>
-            <button
-                class="pagination-arrow"
+            <IconButton
+                :aria="$t('common:modules.pagination.aria.next')"
+                icon="bi bi-chevron-right"
                 :disabled="currentPage === totalPages"
-                @click="changePage(currentPage + 1)"
-            >
-                <i class="bi bi-chevron-right" />
-            </button>
+                :interaction="() => changePage(currentPage + 1)"
+                class-array="pagination-arrow"
+            />
             <div
                 v-if="showGoToPage"
                 class="go-to-page"
             >
-                <input
-                    v-model.number="tempPage"
-                    type="text"
-                    class="page-input"
-                    @keypress="onlyAllowNumbers"
-                >
-                <button
-                    class="go-button"
-                    @click="validateAndChangePage"
-                >
-                    {{ goToPageText }}
-                </button>
+                <InputText
+                    id="pagination-input"
+                    :label="$t('common:modules.pagination.input.label')"
+                    :placeholder="$t('common:modules.pagination.input.placeholder')"
+                    :value="tempPage.toString()"
+                    :type="'text'"
+                    :input="val => { if (/^\d*$/.test(val)) tempPage = val }"
+                    :change="val => { if (/^\d+$/.test(val)) tempPage = Number(val) }"
+                    class-obj="page-input"
+                />
+                <IconButton
+                    :aria="$t('common:modules.pagination.aria.go')"
+                    icon="bi bi-check"
+                    :interaction="validateAndChangePage"
+                    class-array="go-button"
+                />
             </div>
         </div>
     </div>
@@ -169,54 +173,46 @@ export default {
 .pagination-controls {
     display: flex;
     justify-content: center;
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
 
 .pagination-container {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 0.3125rem;
     justify-content: center;
-    margin: 10px 0;
-}
-
-.pagination-arrow {
-    background-color: $light_grey;
-    border: 1px solid $dark_grey;
-    font-size: 1.2em;
-    color: $dark_blue;
-    cursor: pointer;
-    padding: 2px 8px;
-    border-radius: 4px;
-}
-.pagination-arrow:hover {
-    background-color: $white;
-}
-.pagination-arrow:disabled {
-    color: $light_grey;
-    cursor: not-allowed;
-    border-color: $light_grey;
+    margin: 0.625rem 0;
+    height: 2.5rem;
 }
 
 .pagination-button {
     background-color: $light_grey;
     border: 1px solid $dark_grey;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 0.3125rem 0.625rem;
+    border-radius: 0.25rem;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: $font-size-base;
     color: $dark_blue;
-    min-width: 32px;
+    min-width: 2rem;
+    min-height: 2rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }
+
 .pagination-button:hover {
     background-color: $white;
 }
+
 .pagination-button.active {
     background-color: $dark_blue;
     color: $white;
     border-color: $dark_blue;
     font-weight: bold;
 }
+
 .pagination-button:disabled {
     color: $light_grey;
     cursor: not-allowed;
@@ -226,29 +222,16 @@ export default {
 .go-to-page {
     display: flex;
     align-items: center;
-    margin-left: 8px;
-    gap: 5px;
+    margin-left: 0.5rem;
+    height: 2.5rem;
 }
 
-.page-input {
-    width: 40px;
-    text-align: center;
-    border: 1px solid $dark_grey;
-    border-radius: 4px;
-    padding: 5px;
-}
-
-.go-button {
-    font-size: 0.9em;
-    padding: 5px 10px;
-    background-color: $dark_blue;
-    color: $white;
-    border: 1px solid $dark_blue;
-    border-radius: 4px;
-    font-weight: bold;
-}
-.go-button:hover {
-    background-color: $light_blue;
-    border-color: $light_blue;
+.pagination-ellipsis {
+    color: #000 !important;
+    background: $light_grey !important;
+    border-color: $dark_grey !important;
+    font-weight: normal !important;
+    cursor: default !important;
+    pointer-events: none !important;
 }
 </style>

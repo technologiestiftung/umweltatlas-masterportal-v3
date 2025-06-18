@@ -869,6 +869,17 @@
         },
         "inputRangeLabel": "Selezionare un orario"
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Pagina precedente",
+        "next": "Pagina successiva",
+        "go": "Vai alla pagina"
+      },
+      "input": {
+        "label": "Pagina",
+        "placeholder": "Pagina"
+      }
     }
   },
   "shared": {

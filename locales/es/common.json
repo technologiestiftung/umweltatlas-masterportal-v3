@@ -849,6 +849,17 @@
           "update": ""
         }
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Página anterior",
+        "next": "Página siguiente",
+        "go": "Ir a la página"
+      },
+      "input": {
+        "label": "Página",
+        "placeholder": "Página"
+      }
     }
   },
   "shared": {

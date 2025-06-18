@@ -884,6 +884,17 @@
         },
         "inputRangeLabel": "Einen Zeitpunkt auswählen"
       }
+    },
+    "pagination": {
+      "aria": {
+        "previous": "Vörige Sied",
+        "next": "Nakamen Sied",
+        "go": "Gah na Sied"
+      },
+      "input": {
+        "label": "Sied",
+        "placeholder": "Sied"
+      }
     }
   },
   "shared": {
