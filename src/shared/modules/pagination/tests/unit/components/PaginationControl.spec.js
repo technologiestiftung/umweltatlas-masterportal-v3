@@ -1,5 +1,6 @@
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
+import sinon from "sinon";
 import PaginationControl from "../../../components/PaginationControl.vue";
 
 config.global.mocks.$t = key => key;
@@ -82,15 +83,6 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         expect(goToPage.exists()).to.be.false;
     });
 
-    it("should display the go to page text", async () => {
-        const wrapper = mount(PaginationControl, {
-                props: {currentPage, totalPages, showGoToPage: true, goToPageText}
-            }),
-            goToButton = wrapper.find(".go-button");
-
-        expect(goToButton.text()).to.equal(goToPageText);
-    });
-
     it("should emit page-change event when a page is clicked", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
@@ -109,5 +101,229 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             dots = wrapper.findAll(".pagination-button[disabled]");
 
         expect(dots.length).to.be.at.least(1);
+    });
+
+    describe("validateAndChangePage method", () => {
+        it("should emit page-change with valid page number", async () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages: 10}
+            });
+
+            wrapper.vm.tempPage = "5";
+            await wrapper.vm.validateAndChangePage();
+
+            expect(wrapper.emitted("page-change")).to.exist;
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(5);
+            expect(wrapper.vm.tempPage).to.equal(5);
+        });
+
+        it("should handle NaN input and use current page", async () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages: 10}
+            });
+
+            wrapper.vm.tempPage = "abc";
+            await wrapper.vm.validateAndChangePage();
+
+            expect(wrapper.emitted("page-change")).to.exist;
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(3);
+            expect(wrapper.vm.tempPage).to.equal(3);
+        });
+
+        it("should clamp page number to minimum of 1", async () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages: 10}
+            });
+
+            wrapper.vm.tempPage = "0";
+            await wrapper.vm.validateAndChangePage();
+
+            expect(wrapper.emitted("page-change")).to.exist;
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
+            expect(wrapper.vm.tempPage).to.equal(1);
+        });
+
+        it("should clamp page number to maximum of totalPages", async () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages: 10}
+            });
+
+            wrapper.vm.tempPage = "15";
+            await wrapper.vm.validateAndChangePage();
+
+            expect(wrapper.emitted("page-change")).to.exist;
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(10);
+            expect(wrapper.vm.tempPage).to.equal(10);
+        });
+
+        it("should handle negative numbers and clamp to 1", async () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages: 10}
+            });
+
+            wrapper.vm.tempPage = "-5";
+            await wrapper.vm.validateAndChangePage();
+
+            expect(wrapper.emitted("page-change")).to.exist;
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
+            expect(wrapper.vm.tempPage).to.equal(1);
+        });
+    });
+
+    describe("onlyAllowNumbers method", () => {
+        it("should allow numeric characters", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 1, totalPages: 10}
+                }),
+                event = {
+                    charCode: 49, // ASCII code for '1'
+                    preventDefault: () => {
+                        // Empty function for testing
+                    }
+                },
+                preventDefaultSpy = sinon.spy(event, "preventDefault");
+
+            wrapper.vm.onlyAllowNumbers(event);
+
+            expect(preventDefaultSpy.called).to.be.false;
+        });
+
+        it("should prevent non-numeric characters", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 1, totalPages: 10}
+                }),
+                event = {
+                    charCode: 65, // ASCII code for 'A'
+                    preventDefault: () => {
+                        // Empty function for testing
+                    }
+                },
+                preventDefaultSpy = sinon.spy(event, "preventDefault");
+
+            wrapper.vm.onlyAllowNumbers(event);
+
+            expect(preventDefaultSpy.called).to.be.true;
+        });
+
+        it("should prevent special characters", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 1, totalPages: 10}
+                }),
+                event = {
+                    charCode: 33, // ASCII code for '!'
+                    preventDefault: () => {
+                        // Empty function for testing
+                    }
+                },
+                preventDefaultSpy = sinon.spy(event, "preventDefault");
+
+            wrapper.vm.onlyAllowNumbers(event);
+
+            expect(preventDefaultSpy.called).to.be.true;
+        });
+
+        it("should allow all digits 0-9", () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 1, totalPages: 10}
+            });
+
+            // Test all digits 0-9
+            for (let i = 48; i <= 57; i++) { // ASCII codes 48-57 are digits 0-9
+                const event = {
+                        charCode: i,
+                        preventDefault: () => {
+                            // Empty function for testing
+                        }
+                    },
+                    preventDefaultSpy = sinon.spy(event, "preventDefault");
+
+                wrapper.vm.onlyAllowNumbers(event);
+
+                expect(preventDefaultSpy.called).to.be.false;
+            }
+        });
+    });
+
+    describe("determineVisiblePages method", () => {
+        it("should show all pages when totalPages <= 7", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 3, totalPages: 5}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5]);
+        });
+
+        it("should show all pages when totalPages = 7", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 4, totalPages: 7}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
+        });
+
+        it("should show correct pages when currentPage <= 2", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 1, totalPages: 10}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, 2, "...", 10]);
+        });
+
+        it("should show correct pages when currentPage = 2", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 2, totalPages: 10}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, 2, "...", 10]);
+        });
+
+        it("should show correct pages when currentPage > totalPages - 2", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 9, totalPages: 10}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, "...", 9, 10]);
+        });
+
+        it("should show correct pages when currentPage = totalPages", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 10, totalPages: 10}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, "...", 9, 10]);
+        });
+
+        it("should show correct pages for middle pages", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 5, totalPages: 10}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, "...", 5, "...", 10]);
+        });
+
+        it("should handle edge case with totalPages = 8 and currentPage = 4", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 4, totalPages: 8}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, "...", 4, "...", 8]);
+        });
+
+        it("should handle edge case with totalPages = 8 and currentPage = 7", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 7, totalPages: 8}
+                }),
+                visiblePages = wrapper.vm.determineVisiblePages();
+
+            expect(visiblePages).to.deep.equal([1, "...", 7, 8]);
+        });
     });
 });

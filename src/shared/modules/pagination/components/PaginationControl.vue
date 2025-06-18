@@ -123,7 +123,7 @@ export default {
                 icon="bi bi-chevron-left"
                 :disabled="currentPage === 1"
                 :interaction="() => changePage(currentPage - 1)"
-                class-array="pagination-arrow"
+                :class-array="['pagination-arrow']"
             />
             <button
                 v-for="page in determineVisiblePages()"
@@ -140,7 +140,7 @@ export default {
                 icon="bi bi-chevron-right"
                 :disabled="currentPage === totalPages"
                 :interaction="() => changePage(currentPage + 1)"
-                class-array="pagination-arrow"
+                :class-array="['pagination-arrow']"
             />
             <div
                 v-if="showGoToPage"
@@ -154,13 +154,13 @@ export default {
                     :type="'text'"
                     :input="val => { if (/^\d*$/.test(val)) tempPage = val }"
                     :change="val => { if (/^\d+$/.test(val)) tempPage = Number(val) }"
-                    class-obj="page-input"
+                    :class-obj="{ 'page-input': true }"
                 />
                 <IconButton
                     :aria="$t('common:modules.pagination.aria.go')"
                     icon="bi bi-check"
                     :interaction="validateAndChangePage"
-                    class-array="go-button"
+                    :class-array="['go-button']"
                 />
             </div>
         </div>
