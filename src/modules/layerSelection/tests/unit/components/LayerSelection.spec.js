@@ -8,7 +8,7 @@ import {treeSubjectsKey} from "@shared/js/utils/constants";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/modules/layerSelection/components/LayerSelection.vue", () => {
+describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
     let addLayerButtonSearchActive,
         categories,
         changeCategorySpy,
