@@ -188,7 +188,7 @@ Please refer to the [npm update documentation](https://docs.npmjs.com/cli/v6/com
 
 
 
-## Set up debugging in Visual Studio Code
+## Setup Debugging in Visual Studio Code
 
 1. Install extension Firefox/Chrome-Debugger
 
@@ -244,3 +244,17 @@ $ npm start
 7. Set a breakpoint
 
     ![Set a breakpoint](https://docs.microsoft.com/en-us/sharepoint/dev/images/vscode-debugging-breakpoint-configured.png)
+
+
+## Local Documentation Preview
+
+Optionally, you can install the documentation framework locally to preview advanced changes to the docs.
+The documentation of this software is generated with **mkdocs-material**, a tool written in Python.
+
+To prevent conflicts between Python packages on the system and project level, a virtual environment (venv) is recommended.
+
+1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment in a folder named `.venv`.
+2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
+3. Now run `pip install -r .\python-dependencies.txt` to install the required Python packages.
+   You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
+

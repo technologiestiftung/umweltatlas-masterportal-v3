@@ -69,7 +69,8 @@ Extend the `.md` file documentation by following these rules.
 
 It is recommended to preview the generated documentation by launching the mkdocs preview server.
 
-If you set up the development environment like described in [setupDev.md](./setupDev.md#python-dependencies), you can start the preview server with the following commands:
+If you set up the docs development environment like described in [setupDev.md](./setupDev.md#local-documentation-preview),
+you can start the preview server with the following commands:
 
 === "Windows"
     ```bash
