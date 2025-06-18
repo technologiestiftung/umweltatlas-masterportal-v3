@@ -1,8 +1,8 @@
 <script>
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
 import isObject from "@shared/js/utils/isObject.js";
-import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import {rawLayerList} from "@masterportal/masterportalapi";
 
@@ -10,8 +10,8 @@ import {rawLayerList} from "@masterportal/masterportalapi";
 export default {
     name: "StatisticDashboardDifference",
     components: {
-        Multiselect,
-        StatisticSwitcher
+        ButtonGroup,
+        Multiselect
     },
     props: {
         referenceData: {
@@ -152,11 +152,11 @@ export default {
                 <h4>{{ $t("common:modules.statisticDashboard.reference.title") }}</h4>
             </div>
             <div class="col-md-12">
-                <StatisticSwitcher
+                <ButtonGroup
                     :buttons="buttonGroupReference"
                     :pre-checked-value="referenceType"
                     group="referenceGroup"
-                    @show-view="handleReference"
+                    @set-selected-button="handleReference"
                 />
             </div>
             <div

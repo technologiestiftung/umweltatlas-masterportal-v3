@@ -1,10 +1,10 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import StatisticDashboardSwitcher from "@modules/statisticDashboard/components/StatisticDashboardSwitcher.vue";
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 
 config.global.mocks.$t = key => key;
 
-describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.vue", () => {
+describe("src/shared/modules/buttons/components/ButtonGroup.vue", () => {
     const buttons = [{
             name: "Button1",
             icon: "bi bi-table"
@@ -16,7 +16,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
 
     describe("Component DOM", () => {
         it("should exist", () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+            const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
                     group: "buttongroup",
@@ -27,7 +27,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
             expect(wrapper.exists()).to.be.true;
         });
         it("should render buttongroup", () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+            const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
                     group: "buttongroup",
@@ -38,7 +38,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
             expect(wrapper.find(".btn-group").exists()).to.be.true;
         });
         it("should render two buttons if two button names were given", () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+            const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
                     group: "buttongroup",
@@ -49,7 +49,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
             expect(wrapper.findAll(".btn")).lengthOf(2);
         });
         it("should render icon if icon class was given", () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+            const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
                     group: "buttongroup",
@@ -60,7 +60,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
             expect(wrapper.find(".bi-table").exists()).to.be.true;
         });
         it("should set the button 2 as prechecked button", () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+            const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
                     group: "buttongroup",
@@ -72,8 +72,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
         });
     });
     describe("User Interaction", () => {
-        it("should emit 'showView' if the user click on first button", async () => {
-            const wrapper = shallowMount(StatisticDashboardSwitcher, {
+        it("should emit 'setSelectedButton' if the user click on first button", async () => {
+            const wrapper = shallowMount(ButtonGroup, {
                     propsData: {
                         buttons,
                         group: "buttongroup",
@@ -83,13 +83,13 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
                 button1 = wrapper.findAll(".btn").at(0);
 
             await button1.trigger("click");
-            expect(wrapper.emitted().showView).to.deep.equal([["Button1"]]);
+            expect(wrapper.emitted().setSelectedButton).to.deep.equal([["Button1"]]);
         });
     });
     describe("Methods", () => {
         describe("getPrecheckedIndex", () => {
             it("should return 0 if the parameters are in the wrong format", async () => {
-                const wrapper = shallowMount(StatisticDashboardSwitcher, {
+                const wrapper = shallowMount(ButtonGroup, {
                     propsData: {
                         buttons,
                         group: "buttongroup",
@@ -112,7 +112,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
 
             });
             it("should return 0 if there are no prechecked value found", async () => {
-                const wrapper = shallowMount(StatisticDashboardSwitcher, {
+                const wrapper = shallowMount(ButtonGroup, {
                         propsData: {
                             buttons,
                             group: "buttongroup",
@@ -126,7 +126,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardSwitcher.
 
             });
             it("should return the right index if the prechecked value is found", async () => {
-                const wrapper = shallowMount(StatisticDashboardSwitcher, {
+                const wrapper = shallowMount(ButtonGroup, {
                         propsData: {
                             buttons,
                             group: "buttongroup",

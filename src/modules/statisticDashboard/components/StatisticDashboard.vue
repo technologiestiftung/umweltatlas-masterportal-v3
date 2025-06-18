@@ -1,6 +1,7 @@
 <script>
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import {and as andFilter, equalTo as equalToFilter, or as orFilter} from "ol/format/filter";
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import ChartProcessor from "../js/chartProcessor.js";
 import {colorbrewer} from "../js/colorbrewer.js";
 import Controls from "./StatisticDashboardControls.vue";
@@ -23,7 +24,6 @@ import {rawLayerList} from "@masterportal/masterportalapi";
 import sortBy from "@shared/js/utils/sortBy.js";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
-import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import WFS from "ol/format/WFS";
 import {CanceledError} from "axios";
@@ -37,6 +37,7 @@ export default {
     name: "StatisticDashboard",
     components: {
         AccordionItem,
+        ButtonGroup,
         Controls,
         FlatButton,
         GridComponent,
@@ -44,7 +45,6 @@ export default {
         LegendComponent,
         Multiselect,
         SpinnerItem,
-        StatisticSwitcher,
         TableComponent
     },
     data () {
@@ -1962,12 +1962,12 @@ export default {
                     v-if="buttonGroupRegions.length > 1"
                     class="col-md-auto mt-2"
                 >
-                    <StatisticSwitcher
+                    <ButtonGroup
                         :buttons="buttonGroupRegions"
                         :pre-checked-value="selectedLevel?.levelName"
                         group="regions"
                         class="level-switch"
-                        @show-view="toggleLevel"
+                        @set-selected-button="toggleLevel"
                     />
                 </div>
             </div>

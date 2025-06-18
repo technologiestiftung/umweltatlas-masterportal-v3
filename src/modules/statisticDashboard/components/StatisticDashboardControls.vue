@@ -1,4 +1,5 @@
 <script>
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import DifferenceModal from "./StatisticDashboardDifference.vue";
 import isObject from "@shared/js/utils/isObject.js";
 import {mapGetters, mapMutations} from "vuex";
@@ -7,16 +8,15 @@ import {Dropdown} from "bootstrap";
 import Multiselect from "vue-multiselect";
 import sortBy from "@shared/js/utils/sortBy.js";
 import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
-import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 
 export default {
     name: "StatisticDashboardControls",
     components: {
+        ButtonGroup,
         DifferenceModal,
         IconButton,
         Multiselect,
-        StatisticDashboardFilterRegions,
-        StatisticSwitcher
+        StatisticDashboardFilterRegions
     },
     props: {
         areCategoriesGrouped: {
@@ -357,7 +357,7 @@ export default {
         },
         /**
          * Sets chart or table view
-         * @param {String} value - The name of clicked button.
+         * @param {Object} value - The name of clicked button in object with key name.
          * @returns {void}
          */
         handleView (value) {
@@ -962,12 +962,12 @@ export default {
             </div>
             <hr class="my-2">
         </div>
-        <StatisticSwitcher
+        <ButtonGroup
             :buttons="buttonGroupControls"
             :pre-checked-value="precheckedViewSwitcher"
-            class="col col-md btn-table-diagram mt-2 mb-2 p-0"
+            class="col col-md btn-table-diagram mb-2 p-0"
             group="dataViews"
-            @show-view="handleView"
+            @set-selected-button="handleView"
         />
         <div
             v-if="showStatisticnameInChart"

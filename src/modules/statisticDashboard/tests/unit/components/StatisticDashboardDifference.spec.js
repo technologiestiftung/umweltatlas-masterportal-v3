@@ -4,7 +4,6 @@ import {createStore} from "vuex";
 import StatisticDashboardDifference from "@modules/statisticDashboard/components/StatisticDashboardDifference.vue";
 import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard";
 import Multiselect from "vue-multiselect";
-import StatisticSwitcher from "@modules/statisticDashboard/components/StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import sinon from "sinon";
@@ -65,7 +64,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
                 }
             });
 
-            expect(wrapper.findComponent(StatisticSwitcher).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "ButtonGroup"}).exists()).to.be.true;
         });
 
         it("The component multiselect should exist", () => {

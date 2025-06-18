@@ -128,7 +128,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 }
             });
 
-            expect(wrapper.findComponent({name: "StatisticSwitcher"}).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "ButtonGroup"}).exists()).to.be.true;
         });
 
         it("should find difference component", async () => {
