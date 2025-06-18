@@ -42,6 +42,11 @@ validation:
         anchors: warn
 
 plugins:
+    - search:
+        lang:
+            - en
+            - de
+
     - tablestrip:
           strip_word: "Expert"
     - mike:
