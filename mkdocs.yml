@@ -136,10 +136,12 @@ nav:
                     - Dev/sensorThings.md
                     - Dev/variables.md
                     - Dev/remoteInterface/remoteInterface.md
+                    - Dev/groupedLayers.md
             -   'Tutorials':
                     - Dev/Tutorials/tutorial.md
                     - Dev/Tutorials/addOnsVue.md
             -   'Vue Components':
+                    - Dev/vueComponents/ModuleCaching.md
                     - Dev/vueComponents/Alerting.md
                     - Dev/vueComponents/BasicDragHandle.md
                     - Dev/vueComponents/BasicResizeHandle.md
