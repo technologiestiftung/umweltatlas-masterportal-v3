@@ -226,9 +226,9 @@ describe("src/modules/layerSelection/store/actionsLayerSelection", () => {
         it("navigateBack inside layerSelection", () => {
             const lastSubjectDataLayerConfs = [
                     {
-                        id: "0",
+                        id: "root0",
                         type: "folder",
-                        name: "name0"
+                        name: "rootName0"
                     }
                 ],
                 firstSubjectDataLayerConfs = [
