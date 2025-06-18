@@ -1,8 +1,8 @@
 <script>
-import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import InputText from "@shared/modules/inputs/components/InputText.vue";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 import SnippetInfo from "./SnippetInfo.vue";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 /**
 * Snippet Input
@@ -30,8 +30,8 @@ import SnippetInfo from "./SnippetInfo.vue";
 export default {
     name: "SnippetInput",
     components: {
-        SnippetInfo,
-        InputText
+        InputText,
+        SnippetInfo
     },
     props: {
         attrName: {
@@ -184,7 +184,8 @@ export default {
          * Triggers when the input field has lost its focus.
          * @returns {void}
          */
-        inputChanged () {
+        inputChanged (val) {
+            this.value = val;
             if (!this.value) {
                 this.deleteCurrentRule();
             }
@@ -199,8 +200,18 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetInputContainer"
+        class="input-container d-flex justify-content-between align-items-center"
     >
+        <InputText
+            :id="'snippetInput-' + snippetId"
+            v-model="value"
+            class="snippetInput d-flex"
+            :label="titleText"
+            :aria-label="ariaLabelInput"
+            :placeholder="placeholder"
+            :input="inputChanged"
+            :disabled="disabled"
+        />
         <div
             v-if="info"
         >
@@ -209,48 +220,18 @@ export default {
                 :translation-key="translationKey"
             />
         </div>
-        <div class=" form-floating">
-            <InputText
-                :id="'snippetInput-' + snippetId"
-                v-model="value"
-                :class-obj="['snippetInput']"
-                :aria-label="ariaLabelInput"
-                name="input"
-                :disabled="disabled"
-                :placeholder="placeholder"
-                :label="title !== false ? titleText : ''"
-                @blur="inputChanged()"
-                @keyup.enter="inputChanged()"
-            />
-        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     @import "~mixins";
-    input {
+    .form-floating > .input-label {
+        padding: 0;
+    }
+    .snippetInput {
         box-sizing: border-box;
         outline: 0;
         position: relative;
         width: 100%;
-    }
-    .snippetInputContainer {
-        height: auto;
-    }
-    .snippetInputContainer input {
-        clear: left;
-        width: 100%;
-        box-sizing: border-box;
-        outline: 0;
-        position: relative;
-        margin-bottom: 5px;
-    }
-    .snippetInputContainer .bottom {
-        clear: left;
-        width: 100%;
-    }
-    .snippetInputContainer .left {
-        float: left;
-        width: 90%;
     }
 </style>

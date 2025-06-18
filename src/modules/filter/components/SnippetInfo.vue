@@ -83,12 +83,13 @@ export default {
     .bottom {
         position: absolute;
         width: 340px;
-        right: 25px;
+        right: 9px;
         top: 25px;
         z-index: 1001;
     }
     .info-icon {
         float: right;
+        margin-right: -20px;
         font-size: $font-size-lg;
         color: $dark_grey;
     }

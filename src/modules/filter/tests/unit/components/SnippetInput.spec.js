@@ -1,6 +1,7 @@
 import {config, shallowMount} from "@vue/test-utils";
 import SnippetInput from "@modules/filter/components/SnippetInput.vue";
 import {expect} from "chai";
+import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
@@ -23,8 +24,17 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render hidden if visible is false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                    props: {
-                        visible: false
+                propsData: {
+                    visible: false
+                }
+            });
+
+            expect(wrapper.find(".input-container").element.style._values.display).to.be.equal("none");
+        });
+        it("should render but also be disabled", () => {
+            const wrapper = shallowMount(SnippetInput, {
+                    propsData: {
+                        disabled: true
                     }
                 }),
 
@@ -78,7 +88,9 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 }
             });
 
-            expect(wrapper.find(".snippetInputLabel").exists()).to.be.false;
+            nextTick(() => {
+                expect(wrapper.find(".input-label").exists()).to.be.false;
+            });
         });
         it("should not render the info button if info is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
