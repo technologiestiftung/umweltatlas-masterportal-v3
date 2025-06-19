@@ -180,6 +180,7 @@ export default {
         commit("setFeatureDetailView", tabStatus.DISABLED);
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         commit("resetToThemeChooser");
+        commit("setSelectedArea", null);
     },
     /**
      * Expands the feature list to show more features.

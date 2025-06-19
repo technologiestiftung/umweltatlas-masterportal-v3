@@ -7,8 +7,8 @@ import toBold from "@shared/js/utils/toBold";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import tabStatus from "../tabStatus.js";
-import GraphicalSelect from "../../../shared/modules/graphicalSelect/components/GraphicalSelect.vue";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
+import GraphicalSelect from "@shared/modules/graphicalSelect/components/GraphicalSelect.vue";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Feature Lister
@@ -127,7 +127,6 @@ export default {
     watch: {
         selectedAreaGeoJson (newValue) {
             this.setSelectedArea(newValue);
-            this.switchToList();
         }
     },
     unmounted () {
@@ -255,14 +254,19 @@ export default {
                 </ul>
                 <div
                     v-if="layer"
-                    class="panel panel-default feature-lister-disabled"
+                    class=""
                 >
-                    <div class="select-title">
-                        {{ $t("Spatial Selection") }}
-                    </div>
                     <GraphicalSelect
                         ref="graphicalSelection"
-                        label="Feature Lister Selection"
+                        label="Spatial Selection"
+                    />
+                    <FlatButton
+                        id="module-feature-lister-show-more"
+                        aria-label="$t('commonmodules.featureLister.more')"
+                        type="button"
+                        text="Weiter zur Liste"
+                        :icon="'bi-list'"
+                        :interaction="switchToList"
                     />
                 </div>
                 <SpinnerItem
@@ -430,16 +434,11 @@ export default {
 }
 .selected-layer {
     font-weight: bold;
-    background-color: #e3f2fd; // hellblau, gut sichtbar
-    color: #1565c0;            // kräftiges Blau für den Text
+    background-color: #e3f2fd;
+    color: #1565c0;
     border-left: 4px solid #1976d2;
     border-radius: 4px;
-}
-.select-title {
-    font-weight: bold;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    color: $dark_grey;
+    margin-bottom: 1em;
 }
 #feature-lister-themes-ul {
     .nav-item:hover {

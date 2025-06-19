@@ -58,36 +58,6 @@ const simpleGetters = {
         return headers;
     },
     /**
-     * Builds and returns a two-dimensional array that contains value lists per feature based on the header
-     * @param {Object} state state of this module
-     * @returns {Array} [[a1, b1], [a2, b2], ...] array for each line containing array for each property of the header
-     */
-    // featureProperties: (state, getters, rootState, rootGetters) => {
-    //     let items = [];
-
-    //     if (state.gfiFeaturesOfLayer.length > 0) {
-    //         items = state.gfiFeaturesOfLayer.map((feature) => {
-    //             const properties = feature.getProperties(),
-    //                 attributesToShow = feature.getAttributesToShow(),
-    //                 showAll = attributesToShow === "showAll",
-    //                 newProperties = {};
-
-    //             Object.keys(properties).forEach((key) => {
-    //                 if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
-    //                     if (showAll || key in attributesToShow) {
-    //                         const newProperty = showAll ? key : attributesToShow[key];
-
-    //                         newProperties[newProperty] = properties[key];
-    //                         newProperties.id = feature.id;
-    //                     }
-    //                 }
-    //             });
-    //             return newProperties;
-    //         });
-    //     }
-    //     return items;
-    // },
-    /**
      * Returns the details of the selected feature for the detail view
      * @returns {Object} the details of the selected feature.
      */
