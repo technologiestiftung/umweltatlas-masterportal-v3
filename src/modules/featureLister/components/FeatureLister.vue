@@ -8,6 +8,7 @@ import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import tabStatus from "../tabStatus.js";
 import GraphicalSelect from "../../../shared/modules/graphicalSelect/components/GraphicalSelect.vue";
+import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Feature Lister
@@ -25,7 +26,8 @@ export default {
     components: {
         FlatButton,
         TableComponent,
-        GraphicalSelect
+        GraphicalSelect,
+        SpinnerItem
     },
     data () {
         return {
@@ -51,7 +53,9 @@ export default {
             "featureDetailView",
             "headers",
             "selectedRow",
-            "gfiFeaturesOfLayer"
+            "gfiFeaturesOfLayer",
+            "featureDetails",
+            "loading"
         ]),
         featureProperties () {
             let items = [];
@@ -261,6 +265,9 @@ export default {
                         label="Feature Lister Selection"
                     />
                 </div>
+                <SpinnerItem
+                    v-if="loading"
+                />
             </div>
         </template>
         <template v-if="featureListView === tabStatus.ACTIVE">

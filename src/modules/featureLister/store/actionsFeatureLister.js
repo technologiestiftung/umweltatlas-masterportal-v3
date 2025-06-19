@@ -140,7 +140,9 @@ export default {
     switchToList: async ({state, commit, dispatch}) => {
         if (state.layer) {
             if (state.selectedArea) {
+                commit("setLoading", true);
                 await dispatch("filterGfiFeaturesOfLayer");
+                commit("setLoading", false);
             }
             else {
                 commit("setGfiFeaturesOfLayer");
