@@ -1,13 +1,11 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import VectorLayer from "ol/layer/Vector.js";
-import layerCollection from "@core/layers/js/layerCollection.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
-import beautifyKey from "@shared/js/utils/beautifyKey.js";
-import {isWebLink} from "@shared/js/utils/urlHelper.js";
-import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
-import toBold from "@shared/js/utils/toBold.js";
+import {isWebLink} from "@shared/js/utils/urlHelper";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress";
+import toBold from "@shared/js/utils/toBold";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 
 /**
  * Feature Lister
@@ -47,14 +45,29 @@ export default {
             "headers",
             "featureProperties",
             "selectedRow",
-            "gfiFeaturesOfLayer",
-            "featureDetails"
+            "gfiFeaturesOfLayer"
         ]),
         tableData () {
             return {
                 headers: this.headers,
                 items: this.featureProperties.slice(0, this.shownFeatures)
             };
+        },
+        featureDetails () {
+            const feature = this.gfiFeaturesOfLayer.find(f => f.id === this.selectedRow.id),
+                attributes = Object.values(feature.getAttributesToShow());
+
+            let attributeValues = [];
+
+            if (feature.getAttributesToShow() === "showAll") {
+                return this.selectedRow;
+            }
+            attributeValues = Object.values(attributes);
+
+            return Object.fromEntries(
+                Object.entries(this.selectedRow).filter(([key]) => attributeValues.includes(key)
+                )
+            );
         },
         themeTabClasses: function () {
             return this.layerListView ? this.activeTabClass : this.defaultTabClass;
