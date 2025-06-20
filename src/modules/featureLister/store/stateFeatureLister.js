@@ -33,7 +33,6 @@ const state = {
     name: "common:modules.featureLister.name",
     icon: "bi-list",
     maxFeatures: 20,
-    // featureLister state
     layer: null,
     layerListView: tabStatus.ACTIVE,
     gfiFeaturesOfLayer: [],

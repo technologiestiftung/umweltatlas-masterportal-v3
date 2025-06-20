@@ -1,0 +1,104 @@
+<script>
+import {mapGetters, mapActions} from "vuex";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
+
+export default {
+    name: "FeatureListView",
+    components: {
+        FlatButton,
+        TableComponent
+    },
+    computed: {
+        ...mapGetters(["ignoredKeys"]),
+        ...mapGetters("Modules/FeatureLister", [
+            "maxFeatures",
+            "featureCount",
+            "shownFeatures",
+            "headers",
+            "gfiFeaturesOfLayer"
+        ]),
+        featureProperties () {
+            let items = [];
+
+            if (this.gfiFeaturesOfLayer && this.gfiFeaturesOfLayer.length > 0) {
+                items = this.gfiFeaturesOfLayer.map((feature) => {
+                    const properties = feature.getProperties(),
+                        attributesToShow = feature.getAttributesToShow(),
+                        showAll = attributesToShow === "showAll",
+                        newProperties = {};
+
+                    Object.keys(properties).forEach((key) => {
+                        if (!this.ignoredKeys.includes(key.toUpperCase())) {
+                            if (showAll || key in attributesToShow) {
+                                const newProperty = showAll ? key : attributesToShow[key];
+
+                                newProperties[newProperty] = properties[key];
+                                newProperties.id = feature.id;
+                            }
+                        }
+                    });
+                    return newProperties;
+                });
+            }
+            return items;
+        },
+        tableData () {
+            if (this.featureProperties.length === 0) {
+                return {
+                    headers: [],
+                    items: []
+                };
+            }
+            return {
+                headers: this.headers,
+                items: this.featureProperties.slice(0, this.shownFeatures)
+            };
+        }
+    },
+    methods: {
+        ...mapActions("Modules/FeatureLister", [
+            "clickOnFeature",
+            "hoverOverFeature",
+            "showMore"
+        ])
+    }
+};
+</script>
+
+<template>
+    <div
+        class="table-responsive feature-lister-list-table-container"
+    >
+        <TableComponent
+            id="feature-lister-list-table"
+            :data="tableData"
+            :filterable="true"
+            :enable-settings="true"
+            :sortable="true"
+            select-mode="row"
+            :run-select-row-on-mount="false"
+            :run-select-on-hover="true"
+            @rowSelected="row => clickOnFeature(row)"
+            @rowOnHover="row => hoverOverFeature(row)"
+        />
+    </div>
+    <div
+        class="panel-footer feature-lister-list-footer"
+    >
+        <FlatButton
+            id="module-feature-lister-show-more"
+            aria-label="$t('commonmodules.featureLister.more')"
+            type="button"
+            :text="$t('common:modules.featureLister.more')"
+            :icon="'bi-plus'"
+            :disabled="featureCount <= maxFeatures || shownFeatures === featureCount"
+            :interaction="() => showMore()"
+        />
+        <p
+            class="navbar-text feature-lister-list-message"
+        >
+            {{ $t("common:modules.featureLister.key", {shownFeatures, featureCount}) }}
+        </p>
+    </div>
+</template>
