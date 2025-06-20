@@ -482,7 +482,7 @@
         "noElements": "No elements found",
         "selectAll": "Select all"
       },
-      "filterButton": "Filter",
+      "filterButton": "Apply filter",
       "filterResult": {
         "disabledInfo": "The filter is disabled in current zoom level",
         "label": "All filtered Counts",

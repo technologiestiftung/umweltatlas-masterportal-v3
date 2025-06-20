@@ -9,7 +9,7 @@ import MapHandler from "@modules/filter/utils/mapHandler.js";
 import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
 import gettersFilter from "@modules/filter/store/gettersFilter.js";
 import sinon from "sinon";
-
+import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
@@ -370,8 +370,10 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                     labelFilterButton: "common:modules.filter.filterButton"
                 }
             });
-            await wrapper.vm.$nextTick();
-            expect(wrapper.find("button").text()).to.equal("common:modules.filter.filterButton");
+
+            nextTick(() => {
+                expect(wrapper.find("#runFilter .btn-texts").text()).to.equal("common:modules.filter.filterButton");
+            });
         });
     });
     it("should render SnippetTags if rules are given", async () => {

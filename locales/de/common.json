@@ -481,7 +481,7 @@
         "noElements": "Keine Elemente gefunden",
         "selectAll": "Alles auswählen"
       },
-      "filterButton": "Filtern",
+      "filterButton": "Filter anwenden",
       "filterResult": {
         "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert.",
         "label": "Alle Filter-Treffer",

@@ -361,7 +361,7 @@
         "noElements": "Nessun elemento trovato",
         "selectAll": "Seleziona tutti"
       },
-      "filterButton": "Filtro",
+      "filterButton": "Applica filtro",
       "filterResult": {
         "disabledInfo": "",
         "label": "Tutti i risultati del filtro",

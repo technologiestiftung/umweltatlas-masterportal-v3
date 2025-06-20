@@ -435,7 +435,7 @@
           "noElements": "Geen artikelen gevonden",
           "selectAll": "Selecteer alles"
         },
-        "filterButton": "Filter",
+        "filterButton": "Filter aanbrengen",
         "filterResult": {
           "disabledInfo": "Het filter is gedeactiveerd op het huidige zoomniveau.",
           "label": "Alle filterhits",

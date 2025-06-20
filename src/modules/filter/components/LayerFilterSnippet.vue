@@ -15,6 +15,7 @@ import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
 import isObject from "@shared/js/utils/isObject.js";
 import FilterApi from "../js/interfaces/filter.api.js";
+import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
 import MapHandler from "../utils/mapHandler.js";
 import {compileSnippets} from "../utils/compileSnippets.js";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
@@ -76,6 +77,7 @@ export default {
         SnippetChart,
         SnippetDownload,
         ProgressBar,
+        FlatButton,
         AccordionItem
     },
     props: {
@@ -1497,21 +1499,26 @@ export default {
                 </div>
             </div>
             <div class="snippet">
-                <button
-                    v-if="!isStrategyActive()"
-                    class="btn btn-primary btn-sm"
-                    :disabled="filterButtonDisabled || disabled"
-                    @click="filter()"
-                >
-                    {{ labelFilterButton }}
-                </button>
-                <button
-                    v-if="paging.page < paging.total && showStop"
-                    class="btn btn-secondary btn-sm"
-                    @click="stopFilter()"
-                >
-                    {{ $t("common:modules.filter.button.stop") }}
-                </button>
+                <div class="d-flex justify-content-between">
+                    <FlatButton
+                        v-if="!isStrategyActive()"
+                        id="runFilter"
+                        :aria-label="labelFilterButton"
+                        :text="labelFilterButton"
+                        :icon="'bi bi-sliders'"
+                        class="btn btn-secondary btn-sm"
+                        :disabled="filterButtonDisabled || disabled"
+                        :interaction="filter"
+                    />
+                    <FlatButton
+                        v-if="paging.page < paging.total && showStop"
+                        class="btn btn-secondary btn-sm"
+                        :aria-label="$t('common:modules.filter.button.stop')"
+                        :text="$t('common:modules.filter.button.stop')"
+                        :icon="'bi-x-circle'"
+                        :interaction="stopFilter"
+                    />
+                </div>
                 <ProgressBar
                     :paging="paging"
                 />
