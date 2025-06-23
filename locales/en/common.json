@@ -483,6 +483,7 @@
         "selectAll": "Select all"
       },
       "filterButton": "Apply filter",
+      "filterReset": "Delete filter",
       "filterResult": {
         "disabledInfo": "The filter is disabled in current zoom level",
         "label": "All filtered Counts",
@@ -518,7 +519,6 @@
         "valueOutOfRangeErrorMessage": "The input {{inputValue}} value must be within the validity range {{minValueSlider}} and {{{maxValueSlider}}!"
       },
       "snippetTags": {
-        "resetAll": "Reset all",
         "selectionText": "Your selection:"
       },
       "upload": {

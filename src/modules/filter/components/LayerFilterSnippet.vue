@@ -9,7 +9,6 @@ import SnippetDropdown from "./SnippetDropdown.vue";
 import SnippetInput from "./SnippetInput.vue";
 import SnippetSlider from "./SnippetSlider.vue";
 import SnippetSliderRange from "./SnippetSliderRange.vue";
-import SnippetTag from "./SnippetTag.vue";
 import SnippetFeatureInfo from "./SnippetFeatureInfo.vue";
 import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
@@ -58,7 +57,6 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
  * @vue-data {Boolean} filterButtonDisabled - Shows if filter button is disabled.
  *
  * @vue-computed {String} labelFilterButton - The label for the filter button.
- * @vue-computed {String} snippetTagsResetAllText - The text for the reset tags.
  * @vue-computed {Object} fixedRules - The fixed rules.
  */
 export default {
@@ -72,7 +70,6 @@ export default {
         SnippetInput,
         SnippetSlider,
         SnippetSliderRange,
-        SnippetTag,
         SnippetFeatureInfo,
         SnippetChart,
         SnippetDownload,
@@ -173,9 +170,6 @@ export default {
                 return translateKeyWithPlausibilityCheck(this.layerConfig.labelFilterButton, key => this.$t(key));
             }
             return this.$t("common:modules.filter.filterButton");
-        },
-        snippetTagsResetAllText () {
-            return this.$t("common:modules.filter.snippetTags.resetAll");
         },
         fixedRules () {
             return this.filterRules.filter(rule => rule?.fixed);
@@ -1168,40 +1162,6 @@ export default {
                 {{ translateKeyWithPlausibilityCheck(layerConfig.description, key => $t(key)) }}
             </div>
             <div
-                v-if="layerConfig.snippetTags !== false && !outOfZoom"
-                class="snippetTags"
-            >
-                <div
-                    v-show="hasUnfixedRules(filterRules)"
-                    class="snippetTagsWrapper"
-                >
-                    <div
-                        class="snippetTagText"
-                    >
-                        {{ $t("common:modules.filter.snippetTags.selectionText") }}
-                    </div>
-                    <SnippetTag
-                        :is-reset-all="true"
-                        :value="snippetTagsResetAllText"
-                        @reset-all-snippets="resetAllSnippets"
-                        @delete-all-rules="deleteAllRules"
-                    />
-                </div>
-                <div
-                    v-for="(rule, ruleIndex) in filterRules"
-                    :key="'rule-' + ruleIndex"
-                    class="snippetTagsWrapper"
-                >
-                    <SnippetTag
-                        v-if="isRule(rule) && rule.fixed === false"
-                        :snippet-id="rule.snippetId"
-                        :value="getTagTitle(rule)"
-                        @reset-snippet="resetSnippet"
-                        @delete-rule="deleteRule"
-                    />
-                </div>
-            </div>
-            <div
                 v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'&& !outOfZoom"
                 class="filter-result"
             >
@@ -1512,13 +1472,22 @@ export default {
                         :aria-label="labelFilterButton"
                         :text="labelFilterButton"
                         :icon="'bi bi-sliders'"
-                        class="btn btn-secondary btn-sm"
+                        class="btn btn-secondary"
                         :disabled="filterButtonDisabled || disabled"
                         :interaction="filter"
                     />
                     <FlatButton
+                        v-if="hasUnfixedRules(filterRules) && (!(paging.page < paging.total) || !showStop)"
+                        class="btn btn-secondary"
+                        :aria-label="$t('common:modules.filter.filterReset')"
+                        :text="$t('common:modules.filter.filterReset')"
+                        :disabled="filterButtonDisabled || disabled"
+                        :icon="'bi-x-circle'"
+                        :interaction="resetsSnippetsAndRules"
+                    />
+                    <FlatButton
                         v-if="paging.page < paging.total && showStop"
-                        class="btn btn-secondary btn-sm"
+                        class="btn btn-secondary"
                         :aria-label="$t('common:modules.filter.button.stop')"
                         :text="$t('common:modules.filter.button.stop')"
                         :icon="'bi-x-circle'"
@@ -1603,17 +1572,6 @@ export default {
         b {
             display: block;
         }
-    }
-    .snippetTags {
-        display: flow-root;
-        margin: 8px 0;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    .snippetTagText {
-        font-size: $font-size-base;
-        float: left;
-        padding: 6px 4px 0 0;
     }
     .form-group {
         clear: both;

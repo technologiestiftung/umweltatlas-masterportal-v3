@@ -397,7 +397,6 @@
         "valueOutOfRangeErrorMessage": "Вхідне значення {{inputValue}} має знаходитися в межах {{minValueSlider}} і {{maxValueSlider}}!"
       },
       "snippetTags": {
-        "resetAll": "Скинути",
         "selectionText": "Ваш вибір:"
       },
       "upload": {

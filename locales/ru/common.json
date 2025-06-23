@@ -396,7 +396,6 @@
         "valueOutOfRangeErrorMessage": "Входное значение {{inputValue}} должно находиться в диапазоне значений {{minValueSlider}} и {{maxValueSlider}}.!"
       },
       "snippetTags": {
-        "resetAll": "сбросить",
         "selectionText": "Ваш выбор:"
       },
       "upload": {

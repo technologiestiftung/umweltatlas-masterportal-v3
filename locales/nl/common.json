@@ -436,6 +436,7 @@
           "selectAll": "Selecteer alles"
         },
         "filterButton": "Filter aanbrengen",
+        "filterReset": "Filter verwijderen",
         "filterResult": {
           "disabledInfo": "Het filter is gedeactiveerd op het huidige zoomniveau.",
           "label": "Alle filterhits",
@@ -471,7 +472,6 @@
           "valueOutOfRangeErrorMessage": "De invoerwaarde {{inputValue}} moet binnen de reikwijdte van de geldigheid vallen {{minValueSlider}} En {{maxValueSlider}} liggen!"
         },
         "snippetTags": {
-          "resetAll": "Opnieuw instellen",
           "selectionText": "Uw selectie:"
         },
         "upload": {

@@ -376,31 +376,6 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             });
         });
     });
-    it("should render SnippetTags if rules are given", async () => {
-        const rules = [
-            {
-                snippetId: 1,
-                startup: false,
-                fixed: false,
-                attrName: "test",
-                operator: "EQ"
-            },
-            {
-                snippetId: 2,
-                startup: false,
-                fixed: false,
-                attrName: "testing",
-                operator: "EQ"
-            }
-        ];
-
-        await wrapper.setProps({
-            filterRules: rules
-        });
-        await wrapper.vm.$nextTick();
-        expect(wrapper.find(".snippetTagsWrapper").exists()).to.be.true;
-        expect(wrapper.findAll(".snippetTagsWrapper")).to.have.lengthOf(3);
-    });
     it("should render amount of filtered items", async () => {
         await wrapper.setData({
             amountOfFilteredItems: 3

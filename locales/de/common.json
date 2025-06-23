@@ -482,6 +482,7 @@
         "selectAll": "Alles auswählen"
       },
       "filterButton": "Filter anwenden",
+      "filterReset": "Filter löschen",
       "filterResult": {
         "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert.",
         "label": "Alle Filter-Treffer",
@@ -517,7 +518,6 @@
         "valueOutOfRangeErrorMessage": "Der Eingabewert {{inputValue}} muss innerhalb des Gültigkeitsbereiches {{minValueSlider}} und {{maxValueSlider}} liegen!"
       },
       "snippetTags": {
-        "resetAll": "Zurücksetzen",
         "selectionText": "Ihre Auswahl:"
       },
       "upload": {

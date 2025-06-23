@@ -362,6 +362,7 @@
         "selectAll": "Seleziona tutti"
       },
       "filterButton": "Applica filtro",
+      "filterReset": "Elimina filtro",
       "filterResult": {
         "disabledInfo": "",
         "label": "Tutti i risultati del filtro",
@@ -396,7 +397,6 @@
         "valueOutOfRangeErrorMessage": "Il valore di input {{inputValue}} deve essere compreso nell'intervallo di validità {{minValueSlider}} e {{maxValueSlider}}!"
       },
       "snippetTags": {
-        "resetAll": "Reset",
         "selectionText": "A voi la scelta:"
       },
       "upload": {
