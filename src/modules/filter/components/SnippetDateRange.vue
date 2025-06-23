@@ -776,49 +776,6 @@ export default {
             </div>
         </div>
         <div
-            v-if="display === 'all' || display === 'datepicker'"
-            class="datepickerWrapper"
-        >
-            <div
-                v-if="visibleDatepicker === true"
-            >
-                <div class="from">
-                    <label
-                        v-if="subTitles"
-                        :for="'inputDateRangeFrom-' + snippetId"
-                    >
-                        {{ translateKeyWithPlausibilityCheck(getSubTitleFrom(), key => $t(key)) }}
-                    </label>
-                    <input
-                        :id="'inputDateRangeFrom-' + snippetId"
-                        v-model="dateFromComputed"
-                        type="date"
-                        :min="dateMinComputed"
-                        :max="dateMaxComputed"
-                        :aria-label="$t('common:modules.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
-                        :disabled="disabled"
-                    >
-                </div>
-                <div class="until">
-                    <label
-                        v-if="subTitles"
-                        :for="'inputDateRangeUntil-' + snippetId"
-                    >
-                        {{ translateKeyWithPlausibilityCheck(getSubTitleUntil(), key => $t(key)) }}
-                    </label>
-                    <input
-                        :id="'inputDateRangeUntil-' + snippetId"
-                        v-model="dateUntilComputed"
-                        type="date"
-                        :min="dateMinComputed"
-                        :max="dateMaxComputed"
-                        :aria-label="$t('common:modules.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
-                        :disabled="disabled"
-                    >
-                </div>
-            </div>
-        </div>
-        <div
             v-if="display === 'all' || display === 'slider'"
             class="sliderWrapper"
         >
@@ -851,6 +808,51 @@ export default {
                 @mouseup="setSliderMouseUp"
             >
         </div>
+        <div
+            v-if="display === 'all' || display === 'datepicker'"
+            class="datepickerWrapper"
+        >
+            <div
+                v-if="visibleDatepicker === true"
+            >
+                <div class="from">
+                    <label
+                        v-if="subTitles"
+                        :for="'inputDateRangeFrom-' + snippetId"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(getSubTitleFrom(), key => $t(key)) }}
+                    </label>
+                    <input
+                        :id="'inputDateRangeFrom-' + snippetId"
+                        v-model="dateFromComputed"
+                        type="date"
+                        :min="dateMinComputed"
+                        :max="dateMaxComputed"
+                        :aria-label="$t('common:modules.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
+                        :disabled="disabled"
+                        class="form-control"
+                    >
+                </div>
+                <div class="until">
+                    <label
+                        v-if="subTitles"
+                        :for="'inputDateRangeUntil-' + snippetId"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(getSubTitleUntil(), key => $t(key)) }}
+                    </label>
+                    <input
+                        :id="'inputDateRangeUntil-' + snippetId"
+                        v-model="dateUntilComputed"
+                        type="date"
+                        :min="dateMinComputed"
+                        :max="dateMaxComputed"
+                        :aria-label="$t('common:modules.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
+                        :disabled="disabled"
+                        class="form-control"
+                    >
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -872,33 +874,30 @@ export default {
         }
         .datepickerWrapper {
             position: relative;
-            margin-top: 5px;
+            margin: 5px 0 15px;
             height: 38px;
+            input {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            }
+            label {
+                display: block;
+                height: 18px;
+                margin-bottom: 5px;
+            }
             .from {
                 position: absolute;
                 left: 0;
-                width: 50%;
-
-                label {
-                    display: block;
-                    height: 18px;
-                }
-                input {
-                    width: 90%;
-                }
             }
             .until {
                 position: absolute;
                 right: 0;
-                width: 50%;
                 text-align: right;
-
-                label {
-                    display: block;
-                    height: 18px;
-                }
                 input {
-                    width: 90%;
+                    text-align: right;
                 }
             }
         }
@@ -918,7 +917,7 @@ export default {
             }
             .measure {
                 height: 15px;
-                background-color: $light_blue;
+                background-color: $secondary;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -934,7 +933,7 @@ export default {
                 position: absolute;
                 margin: auto;
                 top: 0;
-                bottom: 1px;
+                bottom: 2px;
                 left: 0;
                 background-color: transparent;
                 pointer-events: none;
@@ -962,42 +961,31 @@ export default {
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 10px;
+                border: 1px solid $white;
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
             }
             input[type="range"]::-moz-range-thumb {
-                -appearance: none;
+                appearance: auto;
+                -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
-            }
-            input[type="range"]:active::-ms-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-moz-range-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-webkit-slider-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {

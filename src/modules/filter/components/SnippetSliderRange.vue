@@ -972,7 +972,7 @@ export default {
                 position: absolute;
                 margin: auto;
                 top: 0;
-                bottom: 1px;
+                bottom: 2px;
                 left: 0;
                 background-color: transparent;
                 pointer-events: none;
