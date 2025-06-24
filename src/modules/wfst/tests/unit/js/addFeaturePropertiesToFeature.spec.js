@@ -39,8 +39,6 @@ describe("src/modules/wfst/js/addFeaturePropertiesToFeature.js", () => {
         const feature = addFeaturePropertiesToFeature(geometryObject, featureProperties, updateFeature, featurePrefix),
             properties = feature.getProperties();
 
-        expect(Object.keys(properties)).to.include(featurePrefix + ":special");
-        expect(properties[featurePrefix + ":special"]).to.be.equal(null);
         expect(Object.keys(properties)).to.include(featurePrefix + ":awesome");
         expect(Object.keys(properties)).to.not.include("awesome");
     });

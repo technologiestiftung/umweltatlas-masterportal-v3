@@ -1344,6 +1344,7 @@
         "text": "Sind Sie sich sicher, dass Sie diese Geometrie löschen möchten?"
       },
       "description": "Erstellen, aktualisieren und löschen Sie Objekte",
+      "descriptionNeueInfo": "Neue Informationen eintragen",
       "error": {
         "allLayersNotSelected": "Aktiviere einen konfigurierten WFS-T Layer im Themenbaum",
         "geometryOutOfRange": "Die gezeichnete Geometrie befindet sich außerhalb des erlaubten Bereiches des Layers.",
@@ -1370,12 +1371,13 @@
         "point": "Punkt erfassen",
         "polygon": "Fläche erfassen",
         "update": "Bearbeiten",
-        "multiUpdate": "Mehrfachbearbeitung"
+        "multiUpdate": "Bearbeiten"
       },
       "multiUpdate": {
         "oneSelected": "Objekt wurde ausgewählt:",
         "multipleSelected": "Objekte wurden ausgewählt:",
         "noItemsSelected": "Keine Objekte wurden ausgewählt",
+        "warningText": "Achtung! Eventuell vorhandene Einträge werden hier nicht angezeigt! Mit dem Abspeichern neuer Einträge werden solche aber ohne Warnung überschrieben.",
         "buttonIcon": {
           "active":{
             "pen": "Lassoauswahl deaktivieren",
@@ -1385,7 +1387,6 @@
             "pen": "Lassoauswahl aktivieren",
             "box": "Rechteckauswahl aktivieren"
           }
-
         }
       },
       "layerSelectLabel": "Aktueller Layer:",
@@ -1402,12 +1403,11 @@
           "OperationProcessingFailed": "Das Speichern der Geometrie und ihrer Parameter ist leider fehlgeschlagen. Während der Transaktion ist ein Fehler aufgetreten."
         },
         "success": {
-          "baseSuccess": "Das {{transaction}} der Geometrie und ihrer Parameter war erfolgreich.",
+          "baseSuccess": "Das {{transaction}} war erfolgreich.",
           "delete": "Löschen",
           "insert": "Speichern",
           "selectedUpdate": "Bearbeiten",
-          "batchInfoOne": " Objekt des Layers {{layer}} wurde aktualisiert:</br>",
-          "batchInfo": " Objekte des Layers {{layer}} wurden aktualisiert:</br>"
+          "batchInfo": "Folgende Einträge des Layers {{layer}} wurden gespeichert:</br>"
         }
       }
     },

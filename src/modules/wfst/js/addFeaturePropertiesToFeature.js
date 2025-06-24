@@ -18,23 +18,27 @@ export default function ({id, geometry, geometryName}, featureProperties, update
             ? `${featurePrefix}:${property.key}`
             : property.key;
 
-        if (["", null, undefined].includes(property.value) && updateFeature) {
-            transactionFeature.set(key, null);
-        }
-        if (property.type === "geometry") {
-            transactionFeature.setGeometryName(updateFeature
-                ? `${featurePrefix}:${geometryName}`
-                : geometryName);
-            transactionFeature.setGeometry(geometry);
-        }
-        else if (["integer", "int", "decimal", "short", "float"].includes(property.type)) {
-            if (!Number.isFinite(parseFloat(property.value))) {
-                return;
+
+        if (property.label && !LayerConfigAttributes.includes(property.label.toLowerCase())) {
+
+            if (["", null, undefined].includes(property.value) && updateFeature) {
+                transactionFeature.set(key, null);
             }
-            transactionFeature.set(key, Number(property.value));
-        }
-        else if (!LayerConfigAttributes.includes(property.label.toLowerCase())) {
-            transactionFeature.set(key, property.value);
+            else if (property.type === "geometry") {
+                transactionFeature.setGeometryName(updateFeature
+                    ? `${featurePrefix}:${geometryName}`
+                    : geometryName);
+                transactionFeature.setGeometry(geometry);
+            }
+            else if (["integer", "int", "decimal", "short", "float"].includes(property.type)) {
+                if (!Number.isFinite(parseFloat(property.value))) {
+                    return;
+                }
+                transactionFeature.set(key, Number(property.value));
+            }
+            else {
+                transactionFeature.set(key, property.value);
+            }
         }
     });
 

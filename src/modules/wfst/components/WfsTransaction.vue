@@ -30,13 +30,10 @@ export default {
             "transactionProcessing",
             "isFormDisabled",
             "featurePropertiesBatch",
-            "configAttributes",
-            "controlAttributes",
             "multiUpdate",
-            "selectIcons",
-            "selectTypes",
             "selectedUpdate",
-            "buttonsDisabled"
+            "buttonsDisabled",
+            "anyInputValue"
         ]),
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
@@ -231,9 +228,7 @@ export default {
             </div>
             <!-- Feature/Features properties form -->
             <template v-else>
-                <div
-                    class="tool-wfs-transaction-form-container"
-                >
+                <div>
                     <hr>
                     <p
                         v-if="currentInteractionConfig.Polygon.available"
@@ -253,24 +248,34 @@ export default {
                         class="d-flex"
                     >
                         <SelectTypeButtons
-                            :select-types="selectTypes"
-                            :select-icons="selectIcons"
+                            :select-types="multiUpdate[currentLayerIndex].selectTypes"
+                            :select-icons="multiUpdate[currentLayerIndex].selectIcons"
                         />
                     </div>
-
-                    <p v-if="featurePropertiesBatch.length !== 0">
-                        {{ featurePropertiesBatch.length }}
-                        {{ featurePropertiesBatch.length === 1
-                            ? $t("common:modules.wfst.multiUpdate.oneSelected")
-                            : $t("common:modules.wfst.multiUpdate.multipleSelected")
-                        }}
-                    </p>
-                    <p v-else-if="selectedUpdate==='multiUpdate'">
+                    <div v-if="featurePropertiesBatch.length !== 0">
+                        <p
+                            v-if="$t(multiUpdate[currentLayerIndex]?.warningText) !== 'multiUpdate[currentLayerIndex].warningText'"
+                            class="mb-3 mt-3"
+                        >
+                            {{ $t(multiUpdate[currentLayerIndex]?.warningText) }}
+                        </p>
+                        <p>
+                            {{ featurePropertiesBatch.length }}
+                            {{ featurePropertiesBatch.length === 1
+                                ? $t("common:modules.wfst.multiUpdate.oneSelected")
+                                : $t("common:modules.wfst.multiUpdate.multipleSelected")
+                            }}
+                        </p>
+                    </div>
+                    <div
+                        v-else-if="selectedUpdate==='multiUpdate'"
+                        class="mb-3 mt-3"
+                    >
                         {{ $t("common:modules.wfst.multiUpdate.noItemsSelected") }}
-                    </p>
+                    </div>
                     <!-- Scrollable list of features -->
                     <div
-                        v-if="selectedUpdate==='multiUpdate'"
+                        v-if="selectedUpdate==='multiUpdate' && featurePropertiesBatch.length !== 0"
                         class="scrollable-list"
                     >
                         <ul>
@@ -334,16 +339,16 @@ export default {
                             />
                             <LightButton
                                 :interaction="saveMulti"
-                                :disabled="buttonsDisabled"
+                                :disabled="buttonsDisabled || Object.keys(anyInputValue).length === 0"
                                 text="common:modules.wfst.form.save"
                                 type="button"
                                 class="form-button"
                             />
                         </div>
                     </form>
-                    <!-- Cancel button in case of no form diplayed -->
+                    <!-- Cancel button in case of no form displayed -->
                     <div
-                        v-else-if="featurePropertiesBatch.length == 0 &&selectedUpdate==='multiUpdate'"
+                        v-else-if="featurePropertiesBatch.length == 0 && selectedUpdate==='multiUpdate'"
                         class="tool-wfs-transaction-cancel-button"
                     >
                         <LightButton
@@ -506,7 +511,6 @@ h3 {
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
-  width: 70%;
   background-color: #f9f9f9;
   border-radius: 2px;
 }
@@ -556,10 +560,6 @@ h3 {
         .interaction-button:last-child {
             margin-right: 0;
         }
-    }
-
-    .tool-wfs-transaction-form-container {
-        width: 40em;
     }
 
     #tool-wfs-transaction-form {

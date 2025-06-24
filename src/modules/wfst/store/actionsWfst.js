@@ -28,7 +28,7 @@ const actions = {
      * @param {Object} dispatch - The dispatch object.
      * @returns {void}
      */
-    clearInteractions ({dispatch}) {
+    clearInteractions ({dispatch, state}) {
         const map = mapCollection.getMap("2D");
 
         if (drawInteraction) {
@@ -56,6 +56,7 @@ const actions = {
         boxInteraction = undefined;
         translateInteraction = undefined;
         drawLayer = undefined;
+        state.anyInputValue = {};
     },
     /**
      * Prepares Buttons and Fetches Layer Features on module startup. Buttons will be disabled until fetch is complete to ensure requirements met before any transactions are possible.
@@ -674,7 +675,6 @@ const actions = {
         const {
                 currentLayerIndex,
                 featurePropertiesBatch,
-                featureProperties,
                 layerInformation,
                 selectedInteraction,
                 multiUpdate
@@ -717,7 +717,6 @@ const actions = {
             else {
                 geometryFeature = feature;
             }
-
             if (index < featurePropertiesBatch.length) {
 
                 const featureWithProperties = await addFeaturePropertiesToFeature(
@@ -726,7 +725,7 @@ const actions = {
                         geometryName: feature.getGeometryName(),
                         geometry: geometryFeature.getGeometry()
                     },
-                    featureProperties,
+                    featurePropertiesBatch[currentIndex],
                     selectedInteraction === "selectedUpdate",
                     layerInformation[currentLayerIndex].featurePrefix,
                     LayerConfigAttributes
@@ -913,7 +912,7 @@ const actions = {
      * @param {Object} payload property key, type, value
      * @returns {void}
      */
-    setFeaturesBatchProperty ({commit, dispatch}, {key, type, value}) {
+    setFeaturesBatchProperty ({commit, dispatch, state}, {key, type, value}) {
         if (type === "number" && !Number.isFinite(parseFloat(value))) {
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
@@ -922,7 +921,12 @@ const actions = {
             }, {root: true});
             return;
         }
-
+        if (value !== "") {
+            state.anyInputValue[key] = value;
+        }
+        else {
+            delete state.anyInputValue[key];
+        }
         commit("setFeaturesBatchProperty", {key, value});
     },
     /**

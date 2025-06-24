@@ -21,7 +21,7 @@ export default {
             default: () => ({
                 select: "fa-mouse-pointer",
                 box: "fa-vector-square",
-                pen: "fa-pen"
+                pen: "bi-pencil-fill"
             })
         }
     },

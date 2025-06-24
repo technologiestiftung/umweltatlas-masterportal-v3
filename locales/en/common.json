@@ -1342,6 +1342,7 @@
         "text": "Are you sure about deleting the selected feature?"
       },
       "description": "Create, update and delete objects",
+      "descriptionNeueInfo": "Enter new information",
       "error": {
         "allLayersNotSelected": "Activate a WFS-T layer in the layer tree",
         "geometryOutOfRange": "The drawn geometry is out of range of the allowed region of the layer.",
@@ -1368,12 +1369,13 @@
         "point": "Add point",
         "polygon": "Add area",
         "update": "Edit",
-        "multiUpdate": "Multiple edit"
+        "multiUpdate": "Edit"
       },
       "multiUpdate": {
         "oneSelected": "Object was selected:",
         "multipleSelected": "Objects were selected:",
         "noItemsSelected": "No objects were selected",
+        "warningText": "Attention! Any existing entries are not displayed here! However, when new entries are saved, they are overwritten without warning.",
         "buttonIcon": {
           "active":{
             "pen": "deactivate lasso selection",
@@ -1399,11 +1401,11 @@
           "OperationProcessingFailed": "$t(common:modules.wfst.transaction.error.baseError) An error occurred during the transaction."
         },
         "success": {
-          "baseSuccess": "{{transaction}} the geometry and its parameters was successful.",
+          "baseSuccess": "{{transaction}} was successful.",
           "delete": "Deletion of",
           "insert": "Insertion of",
           "selectedUpdate": "Updating",
-          "batchInfo": " Objects of the layer {{layer}} were updated:</br>"
+          "batchInfo": "The following entries of the {{layer}} layer were saved:</br>"
 
         }
       }

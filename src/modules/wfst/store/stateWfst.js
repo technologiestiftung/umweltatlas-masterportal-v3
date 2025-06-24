@@ -10,7 +10,7 @@
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {String[]} supportedMapModes Map mode in which this module can be used.
  * @property {(ButtonConfig[]|Boolean)} update Whether it should be possible to update features of the WFS-T layers.
- * @property {(ButtonConfig[]|Boolean)} multiUpdate Whether it should be possible to update features of the group of WFS-T layers.
+ * @property {(ButtonConfig[]|Boolean)} multiUpdate Whether it should be possible to update features of the group of WFS-T layers and its configuration.
  * @property {(ButtonConfig[]|Boolean)} delete Whether it should be possible to delete features of the WFS-T layers.
  * @property {String[]} layerIds Ids of the configured WFS-T layers.
  * @property {String} layerSelectLabel Label used for the layer select
@@ -20,10 +20,10 @@
  * @property {Boolean} transactionProcessing Flag if a process like delete, update is currently active with axios post,get.
  * @property {Boolean} showConfirmModal Flag if the modal dialog should be shown.
  * @property {Boolean} toggleLayer Whether the already added features should be displayed while inserting new features.
- * @property {String[]} configAttributes Attributes that are visible when objects are selected in multiple update mode.
- * @property {String[]} controlAttributes Attributes that user can edit in multiple update mode.
  * @property {Number} currentLayerIndex Index of the currently selected layer.
  * @property {FeatureProperty[]} featureProperties Possible properties to be set on a feature for the current layer.
+ * @property {featurePropertiesBatch[]} featurePropertiesBatch Feature properties for all selected Objects.
+ * @property {Object} anyInputValue Values of inputs for multiupdate edit from user.
  * @property {TransactionLayer[]} layerInformation Information about the different WFS-T layers configured for the tool.
  * @property {("LineString"|"Point"|"Polygon"|"delete"|"updated"|"selectedUpdate"|null)} selectedInteraction Which selection is currently active, if any.
  * @property {Boolean} isFormDisabled if true then feature form inputs are invalid and form data cannot be saved to backend
@@ -35,8 +35,8 @@
 const state = {
     // General configuration
     type: "wfst",
-    description: "common:modules.wfst.description",
     name: "common:modules.wfst.name",
+    description: "common:modules.wfst.description",
     icon: "bi-globe",
     hasMouseMapInteractions: true,
     supportedDevices: ["Desktop", "Mobile", "Table"],
@@ -53,24 +53,16 @@ const state = {
     transactionProcessing: false,
     showConfirmModal: false,
     toggleLayer: false,
-    // multiupdate attributes
-    configAttributes: [],
-    controlAttributes: [],
     // Actual state
     currentLayerIndex: -1,
     featureProperties: [],
     featurePropertiesBatch: [],
+    anyInputValue: {},
     layerInformation: [],
     selectedInteraction: null,
     isFormDisabled: false,
     featureFetchCounter: 0,
-    // buttons interaction
-    selectIcons: {
-        box: "bi-square",
-        pen: "bi-pencil-fill"
-    },
     buttonsDisabled: false,
-    selectTypes: ["pen", "box"],
     selectedUpdate: null
 };
 
