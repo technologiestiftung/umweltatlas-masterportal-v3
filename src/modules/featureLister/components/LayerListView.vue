@@ -81,13 +81,13 @@ export default {
     >
         <GraphicalSelect
             ref="graphicalSelection"
-            label="Spatial Selection"
+            :label="$t('common:modules.featureLister.spatialSelection')"
         />
         <FlatButton
             id="module-feature-lister-show-more"
-            aria-label="$t('commonmodules.featureLister.more')"
+            :aria-label="$t('common:modules.featureLister.continueButton')"
             type="button"
-            text="Weiter zur Liste"
+            :text="$t('common:modules.featureLister.continueButton')"
             :icon="'bi-list'"
             :interaction="switchToList"
         />

@@ -287,12 +287,17 @@
     },
     "featureLister": {
       "chooseTheme": "Seleziona livello",
+      "continueButton": "Continua all'elenco",
       "details": "Dettagli",
       "detailsOfSelected": "Dettagli del elemento selezionato",
+      "description": "Elenca tutte le voci di un tema",
       "key": "{{shownFeatures}} di {{featureCount}} elementi scaricati",
       "list": "Elementi",
       "more": "Scaria di più",
       "name": "Elenco elementi",
+      "requestFailedAlert": "La richiesta delle caratteristiche non è riuscita. Si prega di riprovare più tardi.",
+      "spatialSelection": "Seleziona elemento con geometria",
+      "unsupportedRequest": "Poiché il servizio non supporta la richiesta di filtro, è stata eseguita una richiesta con bounding box. Il risultato può differire dalla selezione originale.",
       "visibleVectorLayers": "Livelli vettoriali visibili"
     },
     "fileImport": {

@@ -287,12 +287,17 @@
     },
     "featureLister": {
       "chooseTheme": "Elija el tema",
+      "continueButton": "Continuar a la lista",
       "details": "Detalles",
       "detailsOfSelected": "Detalles de la característica seleccionada",
+      "description": "Liste todas las entradas de un tema",
       "key": "{{shownFeatures}} de {{featureCount}} entidades listadas",
       "list": "Lista",
       "more": "Más...",
       "name": "Lista",
+      "requestFailedAlert": "La consulta de entidades ha fallado. Por favor, inténtelo de nuevo más tarde.",
+      "spatialSelection": "Seleccionar entidad con geometría",
+      "unsupportedRequest": "Como el servicio no admite la consulta de filtro, se realizó una consulta con el cuadro delimitador. El resultado puede diferir de la selección original.",
       "visibleVectorLayers": "Capas vectoriales visibles"
     },
     "fileImport": {

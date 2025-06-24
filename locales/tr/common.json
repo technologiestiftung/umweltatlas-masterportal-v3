@@ -287,12 +287,17 @@
     },
     "featureLister": {
       "chooseTheme": "Bir konu seç",
+      "continueButton": "Listeye devam et",
       "details": "Detaylar",
       "detailsOfSelected": "Seçilen özelliğin ayrıntıları",
+      "description": "Bir konuya ait tüm girdileri listele",
       "key": "{{shownFeatures}} von {{featureCount}} gösterilen özellikler listendi.",
       "list": "Liste",
       "more": "Daha...",
       "name": "liste",
+      "requestFailedAlert": "Özellik sorgusu başarısız oldu. Lütfen daha sonra tekrar deneyin.",
+      "spatialSelection": "Geometri ile özellik seç",
+      "unsupportedRequest": "Filtre sorgusu servis tarafından desteklenmediği için bounding box ile sorgulama yapıldı. Sonuç orijinal seçimden farklı olabilir.",
       "visibleVectorLayers": "Görünür vektör katmanları"
     },
     "fileImport": {

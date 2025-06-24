@@ -48,7 +48,7 @@ async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
     if (!response.ok) {
         dispatch("Alerting/addSingleAlert", {
             category: "warning",
-            content: "Die Abfrage an den Dienst ist fehlgeschlagen."
+            content: i18next.t("common:modules.featureLister.requestFailedAlert")
         }, {root: true});
         throw new Error(`Failed to fetch data from WFS service: ${response.statusText}`);
     }
@@ -102,7 +102,7 @@ async function getSpatialSelectionForOAF (geom, selectedLayer, epsg, dispatch) {
         if (!response.ok) {
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
-                content: "Die Abfrage an den Dienst ist fehlgeschlagen."
+                content: i18next.t("common:modules.featureLister.requestFailedAlert")
             }, {root: true});
             throw new Error(`Failed to fetch data from OAF service: ${response.statusText}`);
         }
@@ -118,7 +118,7 @@ async function getSpatialSelectionForOAF (geom, selectedLayer, epsg, dispatch) {
     if (features.length && showBboxFallbackAlert) {
         dispatch("Alerting/addSingleAlert", {
             category: "info",
-            content: "Da POST Abfragen nicht von diesem Dienst unterstützt werden, wurde alternativ eine GET Abfrage mit BoundingBox durchgeführt. Das Ergebnis kann daher mehr Feature enthalten als sich in der tatsächlichen Auswahl befinden."
+            content: i18next.t("common:modules.featureLister.unsupportedRequest")
         }, {root: true});
     }
 

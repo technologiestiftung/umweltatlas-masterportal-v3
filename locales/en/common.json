@@ -392,6 +392,7 @@
     },
     "featureLister": {
       "chooseTheme": "Choose theme",
+      "continueButton": "Continue to list",
       "details": "Details",
       "detailsOfSelected": "Details of the selected feature",
       "description": "List all entries for a topic",
@@ -399,6 +400,9 @@
       "list": "List",
       "more": "More...",
       "name": "List",
+      "requestFailedAlert": "The feature request failed. Please try again later.",
+      "spatialSelection": "Select feature by geometry",
+      "unsupportedRequest": "Since the filter request is not supported by the service, a query with bounding box was performed. The result may differ from the original selection.",
       "visibleVectorLayers": "Visible vector layers"
     },
     "fileImport": {

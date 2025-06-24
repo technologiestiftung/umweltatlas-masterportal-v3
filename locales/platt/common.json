@@ -305,12 +305,17 @@
     },
     "featureLister": {
       "chooseTheme": "Bidde Thema utwählen",
+      "continueButton": "Wieder na de List",
       "details": "Details",
       "detailsOfSelected": "Details vun de utwählte Features",
+      "description": "List all Indrääg to een Thema op",
       "key": "{{shownFeatures.x}} von {{shownFeatures.y}} Features gelistet",
       "list": "Liste",
       "more": "Mehr...",
       "name": "Lista",
+      "requestFailedAlert": "De Afraag na de Features is fehlslaan. Versöök dat later nochmaal.",
+      "spatialSelection": "Feature mit Geometrie utwählen",
+      "unsupportedRequest": "De Filterafraag warrt nich ünnerstütt, dorüm wöör mit BoundingBox affragt. Dat Resultaat kann anners utfallen as de oorsprüngliche Utwahl.",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
     },
     "fileImport": {
