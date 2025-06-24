@@ -1,12 +1,14 @@
 <script>
 import IconButton from "../../buttons/components/IconButton.vue";
 import InputText from "../../inputs/components/InputText.vue";
+import LightButton from "../../buttons/components/LightButton.vue";
 
 export default {
     name: "PaginationControl",
     components: {
         IconButton,
-        InputText
+        InputText,
+        LightButton
     },
     props: {
         /**
@@ -123,24 +125,19 @@ export default {
                 icon="bi bi-chevron-left"
                 :disabled="currentPage === 1"
                 :interaction="() => changePage(currentPage - 1)"
-                :class-array="['pagination-arrow']"
             />
-            <button
+            <LightButton
                 v-for="page in determineVisiblePages()"
                 :key="page"
-                class="pagination-button"
-                :class="[{ active: page === currentPage }, page === '...' ? 'pagination-ellipsis' : '']"
-                :disabled="page === '...'"
-                @click="changePage(page)"
-            >
-                {{ page }}
-            </button>
+                :text="page.toString()"
+                :interaction="page === '...' ? () => {} : () => changePage(page)"
+                :customclass="page === currentPage ? 'active' : (page === '...' ? 'pagination-ellipsis' : '')"
+            />
             <IconButton
                 :aria="$t('common:modules.pagination.aria.next')"
                 icon="bi bi-chevron-right"
                 :disabled="currentPage === totalPages"
                 :interaction="() => changePage(currentPage + 1)"
-                :class-array="['pagination-arrow']"
             />
             <div
                 v-if="showGoToPage"
@@ -160,7 +157,7 @@ export default {
                     :aria="$t('common:modules.pagination.aria.go')"
                     icon="bi bi-check"
                     :interaction="validateAndChangePage"
-                    :class-array="['go-button']"
+                    :class-array="['go-button', 'ms-2']"
                 />
             </div>
         </div>
@@ -185,40 +182,6 @@ export default {
     height: 2.5rem;
 }
 
-.pagination-button {
-    background-color: $light_grey;
-    border: 1px solid $dark_grey;
-    padding: 0.3125rem 0.625rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: $font-size-base;
-    color: $dark_blue;
-    min-width: 2rem;
-    min-height: 2rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-}
-
-.pagination-button:hover {
-    background-color: $white;
-}
-
-.pagination-button.active {
-    background-color: $dark_blue;
-    color: $white;
-    border-color: $dark_blue;
-    font-weight: bold;
-}
-
-.pagination-button:disabled {
-    color: $light_grey;
-    cursor: not-allowed;
-    border-color: $light_grey;
-}
-
 .go-to-page {
     display: flex;
     align-items: center;
@@ -233,5 +196,11 @@ export default {
     font-weight: normal !important;
     cursor: default !important;
     pointer-events: none !important;
+}
+
+:deep(.page-input) {
+    min-width: 3rem !important;
+    max-width: 5rem !important;
+    width: 4rem !important;
 }
 </style>
