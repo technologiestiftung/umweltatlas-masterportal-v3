@@ -1689,7 +1689,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |addWMS|no|**[addWMS](#portalconfigmenusectionsmodulesaddwms)**||This module allows loading specific WMS layers. This is done by providing a URL. All the service's layers are retrieved and offered in the layer tree in section "External technical data".|true|
 |bufferAnalysis|no|**[bufferAnalysis](#portalconfigmenusectionsmodulesbufferanalysis)**||This buffer analysis allows the selection of a source layer, a buffer radius and a target layer. The chosen buffer radius will then be shown around features of the selected source layer. At the moment a target layer is selected, only the features of this layer will be shown, if they are outside the buffer radii. It is also possible to invert the result. In this case the resulting features will only be show if they are inside the radii.|false|
 |contact|no|**[contact](#portalconfigmenusectionsmodulescontact)**||The contact form allows users to send messages to a configured email address. For example, this may be used to allow users to submit errors and suggestions. A file can be appended.|false|
-|compareFeatures|no|**[compareFeatures](#markdown-header-portalconfigmenutoolcomparefeatures)**||Offers a comparison option for vector features. The getFeatureInfo (GFI) window will offer a clickable star symbol to put elements on the comparison list. Works when used together with the GFI theme **Default**.|false|
+|compareFeatures|no|**[compareFeatures](#portalconfigmenusectionsmodulescomparefeatures)**||Offers a comparison option for vector features. The getFeatureInfo (GFI) window will offer a clickable star symbol to put elements on the comparison list. Works when used together with the GFI theme **Default**.|false|
 |compareMaps|no|**[compareMaps](#portalconfigmenusectionsmodulescomparemaps)**||This tool allows users to compare two map layers side by side using a layer swiper. |false|
 |coordToolkit|no|**[coordToolkit](#portalconfigmenusectionsmodulescoordtoolkit)**||Coordinate query: Tool to query coordinates and altitude by mouse click: When clicking in the map, the coordinates are frozen in the display and can also be copied directly to the clipboard. Coordinate search: The coordinate system and the coordinates can be entered via an input mask. The tool then zooms to the corresponding coordinate and places a marker on it. The coordinate systems are obtained from config.js.|false|
 |copyrightConstraints|no|**[copyrightConstraints](#portalconfigmenusectionsmodulescopyrightconstraints)**||This module loads copyright constraints via the CSW API and shows it per layer. If no information is present, the configured fallback contact information is shown.|false|
@@ -1703,7 +1703,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 |layerSlider|no|**[layerSlider](#portalconfigmenusectionsmoduleslayerslider)**||The layerSlider module allows showing arbitrary services in order. This can e.g. be used to show aerial footage from multiple years in succession.|false|
 |login|no|**[login](#portalconfigmenusectionsmoduleslogin)**||Configuration of login with an OIDC server.|false|
 |measure|no|**[measure](#portalconfigmenusectionsmodulesmeasure)**||Allows measuring areas and distances in the units m/km/nm resp. m²/ha/km².|false|
-|modeler3D|no|**[modeler3D](#portalconfigmenusectionsmodulesmodeler3D)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
+|modeler3D|no|**[modeler3D](#portalconfigmenusectionsmodulesmodeler3d)**||Allows importing 3D models in .gltf, .dae, .obj formats and drawing extrudable 3D polygons.|false|
 |news|no|**[news](#portalconfigmenusectionsmodulesnews)**||This module shows all messages from the newsFeedPortalAlerts.json and the config.json of the current portal regardless of the "read" status.|false|
 |openConfig|no|**[openConfig](#portalconfigmenusectionsmodulesopenconfig)**||ith this module a configuration file (config.json) can be reloaded at runtime. The modules and map are adapted to the new configuration.|false|
 |print|no|**[print](#portalconfigmenusectionsmodulesprint)**||Printing module that can be used to export the map's current view as PDF.|false|
@@ -3042,9 +3042,9 @@ These drawings can be exported and loaded back georeferenced into the map.
 |----|--------|----|-------|-----------|------|
 |gmlIdPath|no|String|"gmlid"|Specify the path to the GML ID in the GFI for buildings in 3D Layers.|false|
 |updateAllLayers|no|Boolean|true|Specify, if all layers should be updated, when buildings are hidden.|false|
-|highlightStyle|no|**[highlightStyle](#markdown-header-portalConfigmenusectionsmodulesmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
+|highlightStyle|no|**[highlightStyle](#portalconfigmenusectionsmodulesmodeler3dhighlightstyle)**||Specify the fill color, alpha, outline color and outline width for highlighting entities.|false|
 |allowedAttributes|no|String[]|["Wertbezeichnung", "Gebaeudefunktion"]|Define which attributes should be available for the filtering function.|false|
-|pvoColors|no|**[pvoColors](#markdown-header-portalConfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
+|pvoColors|no|**[pvoColors](#portalconfigmenusectionsmodulesmodeler3dpvocolors)**||Define the colors of the PlanzeichenVerordnung.|false|
 |buildingSource|no|String|"ALKIS"|Define the source of buildings (currently only ALKIS supported)|false|
 |buildingFunctionURL|no|String|"https://repository.gdi-de.org/schemas/adv/citygml/Codelisten/BuildingFunctionTypeAdV.xml"|Define the URL where the building types should be retrieved from.|false|
 |type|yes|String|"modeler3D"|The type of the module. Defines which module is configured.|false|
@@ -3348,7 +3348,7 @@ Routing module. Enables user to plan routes between multiple points with multipl
 |geosearchReverse|no|**[geosearchReverse](#portalconfigmenusectionsmodulesroutinggeosearchreverse)**||Geosearchreverseoptions|false|
 |directionsSettings|no|**[directionsSettings](#portalconfigmenusectionsmodulesroutingdirectionssettings)**||Directionsoptions|false|
 |isochronesSettings|no|**[isochronesSettings](#portalconfigmenusectionsmodulesroutingisochronessettings)**||Isochronesoptions|false|
-|tsrSettings|no|**[tsrSettings](#markdown-header-portalconfigmenusectionsmodulesroutingtsrsettings)**||Travelling Salesman Routing options|false|
+|tsrSettings|no|**[tsrSettings](#portalconfigmenusectionsmodulesroutingtsrsettings)**||Travelling Salesman Routing options|false|
 
 
 **Example**
@@ -3742,7 +3742,7 @@ TSR-tool options.
 |speedProfile|no|String|"CAR"|Which speed profile should be selected by default.|false|
 |elevation|no|Boolean|false|Possibility to activate the elevation profile of the route.|false|
 |tsrPointLimit|no|Number|50|Limit of TSR points|false|
-|styleRoute|no|**[StyleRoute](#markdown-header-datatypesstyleroute)**||Stylerouteoptions|false|
+|styleRoute|no|**[StyleRoute](#datatypesstyleroute)**||Stylerouteoptions|false|
 
 
 **Example**
@@ -4785,10 +4785,10 @@ Configuration of the addLayerButton to select layers.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
-|searchBar|no|**[searchBar](#markdown-header-portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
+|searchBar|no|**[searchBar](#portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
-|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
-|searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []** instead. The category of the search.|true|
+|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
+|searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. The category of the search.|true|
 
 **Beispiel**
 
@@ -4836,7 +4836,7 @@ A topic search is enabled within the configured SearchInterface and SearchCatego
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Specifies whether the search is displayed.|false|
-|searchInterfaceInstances|ja|**[searchInterfaceInstances](#markdown-header-portalconfigtreeaddLayerButtonsearchBarsearchInterfaceInstances) []**||List of search interfaces from the searchbar that are to be used here.|true|
+|searchInterfaceInstances|ja|**[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []**||List of search interfaces from the searchbar that are to be used here.|true|
 
 **Beispiel**
 
@@ -6232,7 +6232,7 @@ Multi-dimensional nesting (grandparent, parent, child) is not currently provided
 |hideSelected|no|Boolean|true|As default behavior, the previously selected dropdown item is hidden in the dropdown list. Can be set to false to have the selected item shown and styled as selected.|false|
 |info|no|String||An info text or translation key. If set, a little icon will shown right hand side of the snippet. Can be set to `true` to display a default text for the snippet type.|false|
 |type|no|String||The type of this snippet. Can be one of the following: `dropdown`. Will be indentified automatically if left away, following a data type rule: string becomes `dropdown`.|false|
-|localeCompareParams|no|**[LocaleCompareParams](#markdown-header-datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
+|localeCompareParams|no|**[LocaleCompareParams](#datatypessnippetslocalecompareparams)**||For type Snippet-Typ `dropdown` only: The sorting of the dropdown boxes can be adjusted according to your own wishes via this parameter.|false|
 |multiselect|no|Boolean|true|For type `dropdown` only: Selection of multiple entries. Set to `false` to switch to single select.|false|
 |operator|no|String||The operator to connect the set value to the value in the database. Can be one of the following - depending if it makes sense for the type and is available for the used interface: `INTERSECTS`, `BETWEEN`, `EQ`, `IN`, `STARTSWITH`, `ENDSWITH`, `NE`, `GT`, `GE`, `LT`, `LE`. If left away, defaults are: boolean becomes `EQ`, string becomes `EQ`, number becomes `BETWEEN`, unknown becomes `EQ`.|false|
 |operatorForAttrName|no|String|"AND"|By setting this parameter to `OR` in conjunction with attrName as an array, it is possible to filter over various attrNames with a logical OR.|false|
@@ -6240,7 +6240,7 @@ Multi-dimensional nesting (grandparent, parent, child) is not currently provided
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
 |renderIcons|no|String|"none"|For type `dropdown` with `display: "list"` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
-|service|no|**[Service](#markdown-header-datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#markdown-header-portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
+|service|no|**[Service](#datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
 |title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
