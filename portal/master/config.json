@@ -863,7 +863,7 @@
           "visibility": true
         },
         {
-          "id": "7719",
+          "id": "34127",
           "name": "Digitale Orthophotos (belaubt) Hamburg",
           "shortname": "Orthophotos",
           "typ": "WMS",
@@ -873,7 +873,8 @@
             "zoomLevel": 6,
             "center": "566245.97,5938894.79",
             "radius": 500
-          }
+          },
+          "time": false
         },
         {
           "id": "33787",

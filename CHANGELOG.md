@@ -18,6 +18,13 @@
 - Replaced layer 452, which will be deleted.
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
 - LayerPills: Added toggle button to show multiple lines of LayerPills. When toggled, they are shown in multiple lines and do not disappear off-screen. 
+- GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
+- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection.
+- IconButton extended by further property label. If a label is given, it will be displayed under the button.
+
+### Changed
+WFS-T: Errorhandling informs user of slow fetch-time for layer-information.
+WFS-T: Transaction buttons are disabled for fetch-time at module start and when the user saves new values to fields.
 - Routing: 
     - button for adding a new waypoint was moved between start and endpoint 
     - reset button was moved to the bottom of the menu
@@ -36,6 +43,10 @@
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
 - UrlParams: Layers that are loaded via UrlParam and are not configured in config.json, but have a styleId in services.json, are now styled.
+- WFS-T: Multiselect tools are inactive on leaving the tool.
+- WFS-T: Multisave doesn't overwrite configAttribute.
+- WFS-T: A Bug that mistakenly showed empty fields was fixed.
+- Layer tree: fixed function sortObjects.
 
 ---
 
