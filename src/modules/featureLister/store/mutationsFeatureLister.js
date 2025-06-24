@@ -59,6 +59,7 @@ const mutations = {
         state.layerListView = tabStatus.ACTIVE;
         state.featureListView = tabStatus.DISABLED;
         state.featureDetailView = tabStatus.DISABLED;
+        state.selectedArea = null;
     }
 };
 

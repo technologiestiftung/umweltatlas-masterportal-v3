@@ -4,7 +4,6 @@ import tabStatus from "../tabStatus";
 import getSpatialSelection from "../getSpatialSelection";
 
 export default {
-
     /**
      * Click event that gets triggered when clicking on a row in the list view.
      * @param {Object} param.state the state
@@ -156,11 +155,11 @@ export default {
             else {
                 commit("setGfiFeaturesOfLayer");
             }
+            commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
+            commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
             commit("setLayerListView", tabStatus.ENABLED);
             commit("setFeatureListView", tabStatus.ACTIVE);
             commit("setFeatureDetailView", tabStatus.DISABLED);
-            commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
-            commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
         }
     },
     /**
