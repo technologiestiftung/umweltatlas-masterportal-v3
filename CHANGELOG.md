@@ -58,6 +58,21 @@
 
 ---
 
+## 2025-06-19 v3.3.6 (LTS)
+
+### Fixed
+- Issue #1366: 
+    - SpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
+    - SpecialWfs: Fixes search for coordinates with different format. 
+    - SpecialWfs: Fixes search for polygons with interior areas.
+- Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
+- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
+- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- SpecialWfs search: Add hover/zoomTo support for linestring geometries.
+- Modeler3D: Fixed formerly unhandled cesium error that caused the tool to stop working. Disabled gfi in Modeler3D because of conflicting click event reactions.
+
+---
+
 ## 2025-06-04 v3.11.0
 
 ### Added
