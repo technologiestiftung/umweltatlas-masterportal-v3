@@ -2,6 +2,8 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 import PaginationControl from "../../../components/PaginationControl.vue";
+import LightButton from "../../../../buttons/components/LightButton.vue";
+import IconButton from "../../../../buttons/components/IconButton.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -24,45 +26,48 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            activeButton = wrapper.find(".pagination-button.active");
+            lightButtons = wrapper.findAllComponents(LightButton),
+            activeButton = lightButtons.find(button => button.props("customclass") === "active");
 
-        expect(activeButton.exists()).to.be.true;
-        expect(activeButton.text()).to.equal("2");
+        expect(activeButton).to.exist;
+        expect(activeButton.props("text")).to.equal("2");
     });
 
     it("should have next and previous buttons", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            buttons = wrapper.findAll("button.pagination-arrow"),
-            prevButton = buttons.length > 0 ? buttons[0] : null,
-            nextButton = buttons.length > 1 ? buttons[buttons.length - 1] : null;
+            iconButtons = wrapper.findAllComponents(IconButton),
+            // Check for prev and next buttons by icon
+            prevButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-left"),
+            nextButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-right");
 
-        expect(buttons.length).to.be.at.least(2);
-        expect(prevButton).to.not.be.null;
-        expect(nextButton).to.not.be.null;
+        expect(iconButtons.length).to.be.at.least(2);
+
+        expect(prevButton).to.exist;
+        expect(nextButton).to.exist;
     });
 
     it("should disable previous button on first page", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 1, totalPages}
             }),
-            buttons = wrapper.findAll("button.pagination-arrow"),
-            prevButton = buttons.length > 0 ? buttons[0] : null;
+            iconButtons = wrapper.findAllComponents(IconButton),
+            prevButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-left");
 
-        expect(prevButton).to.not.be.null;
-        expect(prevButton.attributes("disabled")).to.equal("");
+        expect(prevButton).to.exist;
+        expect(prevButton.props("disabled")).to.be.true;
     });
 
     it("should disable next button on last page", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: totalPages, totalPages}
             }),
-            buttons = wrapper.findAll("button.pagination-arrow"),
-            nextButton = buttons.length > 1 ? buttons[buttons.length - 1] : null;
+            iconButtons = wrapper.findAllComponents(IconButton),
+            nextButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-right");
 
-        expect(nextButton).to.not.be.null;
-        expect(nextButton.attributes("disabled")).to.equal("");
+        expect(nextButton).to.exist;
+        expect(nextButton.props("disabled")).to.be.true;
     });
 
     it("should show 'Go to page' input when showGoToPage is true", async () => {
@@ -87,18 +92,22 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            pageButton = wrapper.find(".pagination-button:nth-child(2)"); // Second button
+            lightButtons = wrapper.findAllComponents(LightButton),
+            pageButton = lightButtons.find(button => button.props("text") === "1");
 
-        await pageButton.trigger("click");
+        expect(pageButton).to.exist;
+        // Trigger the interaction function instead of emitting click
+        await pageButton.props("interaction")();
         expect(wrapper.emitted("page-change")).to.exist;
-        expect(wrapper.emitted("page-change")[0][0]).to.exist;
+        expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
     });
 
     it("should show dots for pagination when there are many pages", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 5, totalPages: 20}
             }),
-            dots = wrapper.findAll(".pagination-button[disabled]");
+            lightButtons = wrapper.findAllComponents(LightButton),
+            dots = lightButtons.filter(button => button.props("customclass") === "pagination-ellipsis");
 
         expect(dots.length).to.be.at.least(1);
     });
