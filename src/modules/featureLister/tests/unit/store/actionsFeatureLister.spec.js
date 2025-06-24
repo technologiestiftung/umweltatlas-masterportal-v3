@@ -1,8 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import actions from "@modules/featureLister/store/actionsFeatureLister.js";
-import layerCollection from "@core/layers/js/layerCollection.js";
-import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import layerCollection from "@core/layers/js/layerCollection";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
+import tabStatus from "../../../tabStatus";
 
 describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     let commit, dispatch, rootGetters;
@@ -249,6 +250,7 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     describe("switchToList", () => {
         const layer = {name: "ersterLayer", id: "123", features: [{values_: {features: [1, 2]}}], geometryType: "Point"},
             state = {
+                selectedArea: null,
                 maxFeatures: 10,
                 layer: layer,
                 gfiFeaturesOfLayer: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}]
@@ -256,15 +258,12 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
 
         it("switches to the feature list view", () => {
             actions.switchToList({state, rootGetters, commit, dispatch}, layer);
-            expect(commit.callCount).to.equal(4);
-            expect(commit.firstCall.args[0]).to.equal("setLayer");
-            expect(commit.firstCall.args[1]).to.equal(layer);
-            expect(commit.secondCall.args[0]).to.equal("setGfiFeaturesOfLayer");
-            expect(commit.thirdCall.args[0]).to.equal("setFeatureCount");
-            expect(commit.getCall(3).args[0]).to.equal("setShownFeatures");
-            expect(commit.getCall(3).args[1]).to.equal(3);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("switchBackToList");
+            expect(commit.callCount).to.equal(6);
+            expect(commit.firstCall.args[0]).to.equal("setGfiFeaturesOfLayer");
+            expect(commit.secondCall.args[0]).to.equal("setFeatureCount");
+            expect(commit.thirdCall.args[0]).to.equal("setShownFeatures");
+            expect(commit.thirdCall.args[1]).to.equal(3);
+            expect(dispatch.notCalled).to.be.true;
         });
     });
 
@@ -277,11 +276,11 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
             actions.switchBackToList({state, commit});
             expect(commit.calledThrice).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setLayerListView");
-            expect(commit.firstCall.args[1]).to.be.false;
+            expect(commit.firstCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.secondCall.args[0]).to.equal("setFeatureDetailView");
-            expect(commit.secondCall.args[1]).to.be.false;
+            expect(commit.secondCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.thirdCall.args[0]).to.equal("setFeatureListView");
-            expect(commit.thirdCall.args[1]).to.be.true;
+            expect(commit.thirdCall.args[1]).to.equal(tabStatus.ACTIVE);
         });
     });
 

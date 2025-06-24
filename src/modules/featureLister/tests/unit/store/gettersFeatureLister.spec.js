@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import getters from "@modules/featureLister/store/gettersFeatureLister.js";
-import layerCollection from "@core/layers/js/layerCollection.js";
-const {featureProperties, featureDetails, getGeometryType, headers, selectedFeature} = getters;
+import layerCollection from "@core/layers/js/layerCollection";
+const {featureDetails, getGeometryType, headers, selectedFeature} = getters;
 
 describe("src/modules/featureLister/store/gettersFeatureLister", () => {
     let state;
@@ -150,13 +150,6 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
                 gamma: "Delta"
             };
             expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({"Show Generic": "Test"});
-        });
-    });
-
-    describe("featureProperties", () => {
-        it("returns all feature properties for gfi features", () => {
-            state.gfiFeaturesOfLayer = [gfiFeature2, gfiFeature3];
-            expect(featureProperties(state, {}, {}, {ignoredKeys: []})).to.deep.equal([{id: "2", "Show Generic": "Test", "Show Alpha": "ohne"}, {id: "3", "Show Generic": "Test", "Show Beta": ""}]);
         });
     });
 });
