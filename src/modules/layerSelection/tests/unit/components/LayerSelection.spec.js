@@ -591,8 +591,8 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             wrapper.vm.$options.watch.layerConfig.handler.call(wrapper.vm, newConfig);
             await wrapper.vm.$nextTick();
 
-            expect(commitSpy.called).to.be.false;
-            expect(provideSelectAllPropsSpy.called).to.be.false;
+            expect(commitSpy.calledOnce).to.be.false;
+            expect(provideSelectAllPropsSpy.calledOnce).to.be.false;
         });
     });
 
