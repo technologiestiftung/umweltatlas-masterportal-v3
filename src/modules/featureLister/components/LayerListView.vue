@@ -25,6 +25,10 @@ export default {
             "layer",
             "loading"
         ]),
+        /**
+         * Returns the visible vector layers that are supported by the feature lister.
+         * @returns {Array} - An array of objects containing the name and id of each visible vector layer.
+         */
         visibleVectorLayers () {
             return this.visibleLayerConfigs
                 .filter(layer => this.supportedLayerTypes.includes(layer.typ))
@@ -34,6 +38,9 @@ export default {
                 }));
         }
     },
+    /**
+     * Watches for changes in the selected area GeoJSON (indicates that the graphicalSelect was used) and updates the selected area accordingly.
+     */
     watch: {
         selectedAreaGeoJson (newValue) {
             this.setSelectedArea(newValue);
@@ -47,6 +54,11 @@ export default {
         ...mapActions("Modules/FeatureLister", [
             "switchToList"
         ]),
+        /**
+         * Checks if the given layer is the currently selected layer.
+         * @param {Object} visibleLayer - The layer to check.
+         * @returns {Boolean} - True if the layer is selected, false otherwise.
+         */
         isSelectedLayer (visibleLayer = {}) {
             return this.layer && this.layer.id === visibleLayer.id;
         }

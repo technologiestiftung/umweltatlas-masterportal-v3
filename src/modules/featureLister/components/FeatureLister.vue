@@ -5,7 +5,6 @@ import FeatureDetailView from "./FeatureDetailView.vue";
 import FeatureListView from "./FeatureListView.vue";
 import LayerListView from "./LayerListView.vue";
 
-
 /**
  * Feature Lister
  * @module modules/FeatureLister

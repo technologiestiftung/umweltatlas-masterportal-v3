@@ -3,8 +3,6 @@ import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
 import tabStatus from "../tabStatus";
 import getSpatialSelection from "../getSpatialSelection";
 
-// TODO make Text in alert translatable
-
 export default {
 
     /**

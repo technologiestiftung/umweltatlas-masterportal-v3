@@ -18,6 +18,11 @@ export default {
             "headers",
             "gfiFeaturesOfLayer"
         ]),
+        /**
+         * Returns the properties of the features in the layer, excluding ignored keys and applying any attribute display settings.
+         * The id of the feature is needed to identify the feature for the zoom in the detail view.
+         * @returns {Array} - An array of feature properties.
+         */
         featureProperties () {
             let items = [];
 
@@ -43,6 +48,10 @@ export default {
             }
             return items;
         },
+        /**
+         * Returns the feature properties and the header in the structure required by the table component.
+         * @returns {Object} - An object containing headers and items for the table.
+         */
         tableData () {
             if (this.featureProperties.length === 0) {
                 return {
