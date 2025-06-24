@@ -119,6 +119,11 @@ export default {
             required: false,
             default: "AND"
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         prechecked: {
             type: Array,
             required: false,
@@ -779,9 +784,9 @@ export default {
             v-if="display === 'all' || display === 'slider'"
             class="sliderWrapper"
         >
-            <div class="track">
+            <div :class="['track', outOfZoom ? 'disabledClass' : '']">
                 <div
-                    class="measure"
+                    :class="['measure', outOfZoom ? 'disabledClass' : '']"
                     :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
                 />
             </div>
@@ -790,7 +795,8 @@ export default {
                 type="range"
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
                 class="from"
-                :disabled="disabled"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
                 @mousedown="setSliderMouseDown"
@@ -801,7 +807,8 @@ export default {
                 type="range"
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
                 class="until"
-                :disabled="disabled"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
                 @mousedown="setSliderMouseDown"
@@ -829,8 +836,9 @@ export default {
                         :min="dateMinComputed"
                         :max="dateMaxComputed"
                         :aria-label="$t('common:modules.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
                         class="form-control"
+                        :class="{ disabledClass: disabled || outOfZoom }"
                     >
                 </div>
                 <div class="until">
@@ -847,8 +855,9 @@ export default {
                         :min="dateMinComputed"
                         :max="dateMaxComputed"
                         :aria-label="$t('common:modules.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
                         class="form-control"
+                        :class="{ disabledClass: disabled || outOfZoom }"
                     >
                 </div>
             </div>
@@ -882,6 +891,9 @@ export default {
                 box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
                 -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
                 transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                &.disabledClass {
+                    color: #9B9A9A;
+                }
             }
             label {
                 display: block;
@@ -914,6 +926,9 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #D9D9D9;
+                }
             }
             .measure {
                 height: 15px;
@@ -922,8 +937,10 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
-
             input[type="range"] {
                 -webkit-appearance: none;
                 -moz-appearance: none;
@@ -967,6 +984,9 @@ export default {
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-moz-range-thumb {
                 appearance: auto;
@@ -977,6 +997,9 @@ export default {
                 border-radius: 50%;
                 border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
@@ -986,6 +1009,9 @@ export default {
                 border-radius: 50%;
                 border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -1006,8 +1032,8 @@ export default {
                     top: 48px;
                 }
             }
-            input[type="range"].disabled::-webkit-slider-thumb {
-                background-color: $light_grey;
+            input[type="range"].disabledClass::-webkit-slider-thumb {
+                background-color: #9B9A9A;
             }
         }
     }

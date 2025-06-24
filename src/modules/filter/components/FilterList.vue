@@ -185,12 +185,6 @@ export default {
                     class="bi bi-chevron-up float-end"
                 />
             </button>
-            <div
-                v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
-                class="layerInfoText"
-            >
-                {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
-            </div>
             <slot
                 :layer="filter"
             />
@@ -204,6 +198,9 @@ export default {
     background-color: $white;
     border: 1px solid #ddd;
     padding: 10px;
+}
+.panel {
+    position: relative;
 }
 .panel-group .panel + .panel {
     margin-top: 10px;

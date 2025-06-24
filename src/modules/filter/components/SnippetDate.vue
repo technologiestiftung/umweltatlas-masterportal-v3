@@ -420,6 +420,7 @@ export default {
                 :max="maximumValue"
                 :min="minimumValue"
                 :disabled="disable"
+                :class="{ disabledClass: disabled }"
                 @focus="startDateChange()"
                 @blur="endDateChange()"
                 @keyup.enter="endDateChange()"
@@ -460,5 +461,8 @@ export default {
         right: 0;
         top: 0;
         width: auto;
+        &.disabledClass {
+            color: #9B9A9A;
+        }
     }
 </style>

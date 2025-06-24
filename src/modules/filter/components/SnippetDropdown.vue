@@ -192,6 +192,11 @@ export default {
             required: false,
             default: 20000
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         placeholder: {
             type: String,
             required: false,
@@ -872,7 +877,7 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetDropdownContainer"
+        :class="['snippetDropdownContainer', outOfZoom ? 'disabledClass' : '']"
     >
         <div
             v-if="info"
@@ -1086,6 +1091,14 @@ export default {
         overflow: hidden;
         max-width: 100%;
         text-overflow: ellipsis;
+    }
+    .disabledClass {
+        .filter-select-box-container .multiselect .multiselect__tag {
+            background: #9B9A9A;
+        }
+        .filter-select-box-container .multiselect__select i{
+            color: #9B9A9A;
+        }
     }
     .filter-select-box-container .multiselect .multiselect__tags:focus-within {
         border-color: $light_blue;

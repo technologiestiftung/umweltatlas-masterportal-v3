@@ -1138,15 +1138,17 @@ export default {
     >
         <div
             v-if="outOfZoom"
-            class="diabled-overlayer"
+            class="info form-control"
         >
-            <div class="info">
-                <span>
-                    <i class="bi bi-exclamation-circle-fill" />
-                    {{ $t("common:modules.filter.filterResult.disabledInfo") }}
-                </span>
-            </div>
+            <span>
+                <i class="bi bi-exclamation-circle-fill" />
+                {{ $t("common:modules.filter.filterResult.disabledInfo") }}
+            </span>
         </div>
+        <div
+            v-if="outOfZoom"
+            class="disabled-overlayer"
+        />
         <div
             v-if="isLoading"
             class="d-flex justify-content-center"
@@ -1272,6 +1274,7 @@ export default {
                         :multiselect="snippet.multiselect"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :placeholder="snippet.placeholder"
                         :prechecked="snippet.prechecked"
                         :prevent-unique-value-request="isStrategyActive && outOfZoom"
@@ -1323,7 +1326,7 @@ export default {
                         :api="getSnippetApi(snippet)"
                         :adjustment="snippet.adjustment"
                         :attr-name="snippet.attrName"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
                         :info="snippet.info"
                         :format="snippet.format"
                         :filter-id="layerConfig.filterId"
@@ -1363,6 +1366,7 @@ export default {
                         :sub-titles="snippet.subTitles"
                         :value="snippet.value"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :prechecked="snippet.prechecked"
                         :fixed-rules="fixedRules"
                         :snippet-id="snippet.snippetId"
@@ -1396,6 +1400,7 @@ export default {
                         :max-value="snippet.maxValue"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :prechecked="snippet.prechecked"
                         :prevent-unique-value-request="isStrategyActive && outOfZoom"
                         :fixed-rules="fixedRules"
@@ -1437,6 +1442,7 @@ export default {
                         :timeout-input="getTimeoutInput(snippet)"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :visible="snippet.visible"
                         :value="snippet.value"
                         :filter-geometry="filterGeometry"
@@ -1526,6 +1532,7 @@ export default {
                     <SnippetDownload
                         :filtered-items="filteredItems"
                         :layer-id="layerConfig.layerId"
+                        :out-of-zoom="outOfZoom"
                     />
                 </div>
             </div>
@@ -1541,26 +1548,30 @@ export default {
     }
     .panel-body {
         padding: 0 5px;
-         position: relative;
+        position: inherit;
         &.disabled {
-            padding: 50px 5px 0;
+            padding: 5px 5px 0;
+            color: #9B9A9A;
         }
-        .diabled-overlayer {
+        .info {
+            color: $secondary;
+            margin-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+            border: 2px solid $secondary;
+            z-index: 2;
+            position: relative;
+            background-color: rgba(60, 95, 148, 0.14);
+        }
+        .disabled-overlayer {
             position: absolute;
             z-index: 1;
-            top: 0;
+            top: 25px;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: rgba(227, 227, 227, 0.4);
-            .info {
-                font-family: $font_family_accent;
-                font-size: $font-size-lg;
-                color: $light_red;
-                margin-top: 10px;
-                display: inline-block;
-                width: 100%;
-            }
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
         }
     }
     .panel-heading {

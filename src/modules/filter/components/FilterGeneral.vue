@@ -774,6 +774,9 @@ export default {
         margin-bottom: 10px;
         border: 1px solid #ddd;
     }
+    .panel {
+        position: relative;
+    }
     .link-section {
         position: relative;
         .toast-container {

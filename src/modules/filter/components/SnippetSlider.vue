@@ -119,6 +119,11 @@ export default {
             required: false,
             default: undefined
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         prechecked: {
             type: Number,
             required: false,
@@ -710,6 +715,7 @@ export default {
             v-model="input"
             :aria-label="ariaLabelSlider"
             class="input-single form-control"
+            :class="{ disabledClass: disabled || outOfZoom }"
             type="number"
             :min="currentSliderMin"
             :max="currentSliderMax"
@@ -722,7 +728,7 @@ export default {
                 v-model="slider"
                 class="slider-single"
                 type="range"
-                :class="disabled ? 'disabled':''"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :step="getSliderSteps(decimalPlaces)"
                 :disabled="disabled"
                 :min="currentSliderMin"
@@ -770,6 +776,9 @@ export default {
         margin-bottom: 10px;
         padding-top: 5px;
         margin-top: 2px;
+        &.disabledClass {
+            color: #9B9A9A;
+        }
     }
 
     input[type="range"]:active::-ms-thumb {
@@ -799,6 +808,9 @@ export default {
     input[type="range"]::-webkit-slider-runnable-track {
         -webkit-appearance: none;
         height: 15px;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-webkit-slider-thumb {
@@ -810,6 +822,9 @@ export default {
         height: 15px;
         width: 15px;
         border: 0;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-moz-range-thumb {
@@ -820,6 +835,9 @@ export default {
         height: 15px;
         width: 15px;
         border: 0;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-moz-range-track {
@@ -843,7 +861,7 @@ export default {
             float: right;
         }
     }
-    input[type="range"].disabled {
+    input[type="range"].disabledClass {
         appearance: auto;
         -webkit-appearance: none;
         background-color: $dark_grey;
@@ -852,7 +870,7 @@ export default {
         width: 100%;
     }
 
-    input[type="range"].disabled::-webkit-slider-thumb {
+    input[type="range"].disabledClass::-webkit-slider-thumb {
         -webkit-appearance: none;
         background: $light_grey;
         border-radius: 50%;
@@ -863,7 +881,7 @@ export default {
         border: 0;
     }
 
-    input[type="range"].disabled::-moz-range-thumb {
+    input[type="range"].disabledClass::-moz-range-thumb {
         background: #ddd;
         border-radius: 50%;
         box-shadow: -1010px 0 0 1000px $dark_grey;
@@ -872,17 +890,17 @@ export default {
         width: 15px;
         border: 0;
     }
-    input[type="range"].disabled::-moz-range-track {
+    input[type="range"].disabledClass::-moz-range-track {
         background-color: $dark_grey;
     }
-    input[type="range"].disabled::-moz-range-progress {
+    input[type="range"].disabledClass::-moz-range-progress {
         background-color: $dark_grey;
         height: 15px
     }
-    input[type="range"].disabled::-ms-fill-upper {
+    input[type="range"].disabledClass::-ms-fill-upper {
         background-color: $dark_grey;
     }
-    input[type="range"].disabled::-ms-fill-lower {
+    input[type="range"].disabledClass::-ms-fill-lower {
         background-color: $dark_grey;
     }
 </style>

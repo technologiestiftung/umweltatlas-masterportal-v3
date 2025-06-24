@@ -116,6 +116,11 @@ export default {
             required: false,
             default: undefined
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         prechecked: {
             type: Array,
             required: false,
@@ -814,16 +819,16 @@ export default {
         </div>
         <div
             class="sliderWrapper"
-            :class="{ disabledClass: disabled }"
+            :class="{ disabledClass: disabled || outOfZoom }"
         >
             <div
                 class="track"
-                :class="{ disabledClass: disabled }"
+                :class="{ disabledClass: disabled || outOfZoom }"
             >
                 <div
                     class="measure"
                     :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
-                    :class="{ disabledClass: disabled }"
+                    :class="{ disabledClass: disabled || outOfZoom }"
                 />
             </div>
             <input
@@ -831,8 +836,8 @@ export default {
                 type="range"
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
                 class="from"
-                :disabled="disabled"
-                :class="{ disabledClass: disabled }"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :step="getSliderSteps(decimalPlaces)"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
@@ -844,8 +849,8 @@ export default {
                 type="range"
                 :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
                 class="until"
-                :disabled="disabled"
-                :class="{ disabledClass: disabled }"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :step="getSliderSteps(decimalPlaces)"
                 :min="currentSliderMin"
                 :max="currentSliderMax"
@@ -863,7 +868,7 @@ export default {
                     :max="currentSliderMax"
                     :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
                     :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
+                    :class="{ disabledClass: disabled || outOfZoom }"
                     class="form-control"
                     @input="setCurrentSource('input')"
                 >
@@ -877,7 +882,7 @@ export default {
                     :max="currentSliderMax"
                     :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
                     :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
+                    :class="{ disabledClass: disabled || outOfZoom }"
                     class="form-control"
                     @input="setCurrentSource('input')"
                 >
@@ -919,6 +924,9 @@ export default {
                 box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
                 -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
                 transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                &.disabledClass {
+                    color: #9B9A9A;
+                }
             }
             .from {
                 position: absolute;
@@ -953,6 +961,9 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #D9D9D9;
+                }
             }
             .measure {
                 height: 15px;
@@ -961,8 +972,10 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
-
             input[type="range"] {
                 -webkit-appearance: none;
                 -moz-appearance: none;
@@ -1008,6 +1021,9 @@ export default {
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-moz-range-thumb {
                 appearance: auto;
@@ -1018,6 +1034,9 @@ export default {
                 border-radius: 50%;
                 border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
@@ -1027,6 +1046,9 @@ export default {
                 border-radius: 50%;
                 border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -1046,6 +1068,9 @@ export default {
                     right: 0;
                     top: 48px;
                 }
+            }
+            input[type="range"].disabledClass::-webkit-slider-thumb {
+                background-color: #9B9A9A;
             }
         }
     }

@@ -25,6 +25,11 @@ export default {
         ExportButtonGeoJSON
     },
     props: {
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         filteredItems: {
             type: Array,
             required: true
@@ -133,7 +138,7 @@ export default {
 <template>
     <form
         id="tool-filter-download"
-        class="form-horizontal"
+        :class="['form-horizontal', outOfZoom ? 'disabledClass': '']"
         role="form"
     >
         <div>
@@ -205,6 +210,19 @@ form {
     margin: 10px 0;
     .form-group {
         margin-top: 5px;
+    }
+
+    &.disabledClass {
+        color: #9B9A9A;
+        .form-control, .form-select {
+            color: #9B9A9A;
+            &::placeholder {
+                color: #9B9A9A;
+            }
+        }
+        button {
+            background-color: #D9D9D9;
+        }
     }
 }
 

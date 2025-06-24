@@ -68,31 +68,6 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         expect(wrapper.find(".disabled").exists()).to.be.false;
     });
 
-    it("should render short description if filter is closed", async () => {
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 1
-            }],
-            filters: [{
-                shortDescription: "Short Description",
-                filterId: 0
-            }]
-        });
-        expect(wrapper.find(".layerInfoText").exists()).to.be.true;
-        expect(wrapper.find(".layerInfoText").text()).to.equal("Short Description");
-    });
-    it("should not render short description if filter is open", async () => {
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 0
-            }],
-            filters: [{
-                filterId: 0
-            }]
-        });
-        expect(await wrapper.find(".layerInfoText").exists()).to.be.false;
-    });
-
     it("should render an icon button if initialStartupReset is true on the filter", async () => {
         wrapper.vm.hasUnfixedRules = () => true;
         await wrapper.setProps({
