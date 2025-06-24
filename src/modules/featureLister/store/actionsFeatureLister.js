@@ -54,11 +54,19 @@ export default {
         if (row && row.id) {
             const feature = getters.selectedFeature(row.id);
 
-            dispatch("highlightFeature", feature);
+            if (feature.getGeometry().getType() === "Point" || feature.getGeometry().getType() === "MultiPoint") {
+                dispatch("Maps/placingPointMarker", feature.getGeometry().flatCoordinates, {root: true});
+            }
+            if (feature.getGeometry().getType() === "Polygon" || feature.getGeometry().getType() === "MultiPolygon") {
+                dispatch("Maps/placingPolygonMarker", feature.getGeometry(), {root: true});
+            }
+            if (feature.getGeometry().getType() === "LineString" || feature.getGeometry().getType() === "MultiLineString") {
+                dispatch("Maps/placingPointMarker", [feature.getGeometry().flatCoordinates[0], feature.getGeometry().flatCoordinates[1]], {root: true});
+            }
         }
     },
     /**
-     * Highlights a feature depending on its geometryType.
+     * Highlights an array of features depending on the geometryType.
      * @param {Object} param.state the state
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.getters the getters
@@ -66,35 +74,37 @@ export default {
      * @param {String} feature the feature to be highlighted.
      * @returns {void}
      */
-    highlightFeature ({state, dispatch, getters, rootGetters}, feature) {
-        dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
-        const layerConfig = rootGetters.layerConfigById(state.layer.id),
-            styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
-            featureGeometryType = feature.getGeometry().getType(),
-            highlightObject = {
-                type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
-                id: feature.getId(),
-                layer: {id: state.layer.id},
-                feature: feature,
-                scale: styleObj.image?.scale
+    highlightSelectedFeatures ({state, dispatch, getters, rootGetters}, features) {
+        for (const feature of features) {
+            const mapFeature = getters.selectedFeature(feature.id_),
+                layerConfig = rootGetters.layerConfigById(state.layer.id),
+                styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
+                featureGeometryType = mapFeature.getGeometry().getType(),
+                highlightObject = {
+                    type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
+                    id: mapFeature.getId(),
+                    layer: {id: state.layer.id},
+                    feature: mapFeature,
+                    scale: styleObj.image?.scale
+                };
+
+            if (featureGeometryType === "LineString") {
+                highlightObject.type = "highlightLine";
+            }
+            if (styleObj.zoomLevel) {
+                highlightObject.zoomLevel = styleObj.zoomLevel;
+            }
+            if (layerConfig && layerConfig.styleId) {
+                highlightObject.styleId = layerConfig.styleId;
+            }
+
+            highlightObject.highlightStyle = {
+                fill: styleObj.fill,
+                stroke: styleObj.stroke,
+                image: styleObj.image
             };
-
-        if (featureGeometryType === "LineString") {
-            highlightObject.type = "highlightLine";
+            dispatch("Maps/highlightFeature", highlightObject, {root: true});
         }
-        if (styleObj.zoomLevel) {
-            highlightObject.zoomLevel = styleObj.zoomLevel;
-        }
-        if (layerConfig && layerConfig.styleId) {
-            highlightObject.styleId = layerConfig.styleId;
-        }
-
-        highlightObject.highlightStyle = {
-            fill: styleObj.fill,
-            stroke: styleObj.stroke,
-            image: styleObj.image
-        };
-        dispatch("Maps/highlightFeature", highlightObject, {root: true});
     },
     /**
      * Filters the features of the selected layer based on the drawn geometry.
@@ -116,6 +126,7 @@ export default {
         }
 
         commit("setGfiFeaturesOfLayer", selectedFeatures);
+        dispatch("highlightSelectedFeatures", selectedFeatures);
     },
     /**
      * Switches back to the feature list of the selected layer.
@@ -179,6 +190,8 @@ export default {
         commit("setFeatureListView", tabStatus.DISABLED);
         commit("setFeatureDetailView", tabStatus.DISABLED);
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
+        dispatch("Maps/removePointMarker", null, {root: true});
+        dispatch("Maps/removePolygonMarker", null, {root: true});
         commit("resetToThemeChooser");
         commit("setSelectedArea", null);
     },

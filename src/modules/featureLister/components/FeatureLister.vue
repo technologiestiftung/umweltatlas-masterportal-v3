@@ -42,6 +42,8 @@ export default {
     unmounted () {
         this.resetToThemeChooser();
         this.removeHighlightFeature();
+        this.removePointMarker();
+        this.removePolygonMarker();
     },
     methods: {
         ...mapActions("Modules/FeatureLister", [
@@ -49,7 +51,7 @@ export default {
             "switchToThemes",
             "switchToDetails"
         ]),
-        ...mapActions("Maps", ["removeHighlightFeature"]),
+        ...mapActions("Maps", ["removeHighlightFeature", "removePointMarker", "removePolygonMarker"]),
         ...mapMutations("Modules/FeatureLister", [
             "resetToThemeChooser"
         ]),
@@ -119,7 +121,7 @@ export default {
         >
             <div
                 id="feature-lister-themes"
-                class="feature-lister-themes panel panel-default"
+                class="panel panel-default"
             >
                 <div
                     id="feature-lister-themes-header"
@@ -195,9 +197,6 @@ export default {
     margin-bottom: 0;
     display: contents;
     overflow: auto;
-}
-.feature-lister-themes {
-    width: 100%;
 }
 .panel-heading {
     background: $light_grey;
