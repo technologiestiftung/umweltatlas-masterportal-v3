@@ -874,7 +874,11 @@
       },
       "input": {
         "label": "Sayfa",
-        "placeholder": "Sayfa"
+        "placeholder": "Sayfa",
+        "tooltip": "Sayfa numarasını girin ve Enter tuşuna basın veya o sayfaya atlamak için oka tıklayın"
+      },
+      "button": {
+        "goTooltip": "Girilen sayfaya atla"
       }
     }
   },

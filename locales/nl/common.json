@@ -1273,17 +1273,21 @@
           "inputRangeLabel": "Kies een tijdstip"
         }
       },
-      "pagination": {
-        "aria": {
-          "previous": "Vorige pagina",
-          "next": "Volgende pagina",
-          "go": "Ga naar pagina"
-        },
-        "input": {
-          "label": "Pagina",
-          "placeholder": "Pagina"
-        }
+          "pagination": {
+      "aria": {
+        "previous": "Vorige pagina",
+        "next": "Volgende pagina",
+        "go": "Ga naar pagina"
+      },
+      "input": {
+        "label": "Pagina",
+        "placeholder": "Pagina",
+        "tooltip": "Voer het paginanummer in en druk op Enter of klik op de pijl om naar die pagina te springen"
+      },
+      "button": {
+        "goTooltip": "Spring naar de ingevoerde pagina"
       }
+    }
     },
     "shared": {
       "js": {

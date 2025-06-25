@@ -1446,7 +1446,11 @@
       },
       "input": {
         "label": "Page",
-        "placeholder": "Page"
+        "placeholder": "Page",
+        "tooltip": "Enter page number and press Enter or click the arrow to jump to that page"
+      },
+      "button": {
+        "goTooltip": "Jump to the entered page"
       }
     }
   },

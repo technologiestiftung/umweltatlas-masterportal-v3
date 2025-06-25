@@ -38,7 +38,6 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
                 props: {currentPage, totalPages}
             }),
             iconButtons = wrapper.findAllComponents(IconButton),
-            // Check for prev and next buttons by icon
             prevButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-left"),
             nextButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-right");
 
@@ -96,7 +95,6 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             pageButton = lightButtons.find(button => button.props("text") === "1");
 
         expect(pageButton).to.exist;
-        // Trigger the interaction function instead of emitting click
         await pageButton.props("interaction")();
         expect(wrapper.emitted("page-change")).to.exist;
         expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
@@ -106,10 +104,32 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 5, totalPages: 20}
             }),
-            lightButtons = wrapper.findAllComponents(LightButton),
-            dots = lightButtons.filter(button => button.props("customclass") === "pagination-ellipsis");
+            visiblePages = wrapper.vm.determineVisiblePages();
 
-        expect(dots.length).to.be.at.least(1);
+        expect(visiblePages).to.deep.equal([1, "...", 5, "...", 20]);
+    });
+
+    it("should handle Enter key on input field", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+            }),
+            input = wrapper.find("input");
+
+        wrapper.vm.tempPage = "5";
+        await input.trigger("keydown", {key: "Enter"});
+
+        expect(wrapper.emitted("page-change")).to.exist;
+        expect(wrapper.emitted("page-change")[0][0]).to.equal(5);
+    });
+
+    it("should show tooltip on input container", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+            }),
+            inputContainer = wrapper.find(".input-container");
+
+        expect(inputContainer.exists()).to.be.true;
+        expect(inputContainer.attributes("title")).to.equal("common:modules.pagination.input.tooltip");
     });
 
     describe("validateAndChangePage method", () => {
@@ -272,31 +292,31 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
         });
 
-        it("should show correct pages when currentPage <= 2", () => {
+        it("should show correct pages when currentPage <= 3", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 1, totalPages: 10}
                 }),
                 visiblePages = wrapper.vm.determineVisiblePages();
 
-            expect(visiblePages).to.deep.equal([1, 2, "...", 10]);
+            expect(visiblePages).to.deep.equal([1, 2, 3, "...", 10]);
         });
 
-        it("should show correct pages when currentPage = 2", () => {
+        it("should show correct pages when currentPage = 3", () => {
             const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 2, totalPages: 10}
+                    props: {currentPage: 3, totalPages: 10}
                 }),
                 visiblePages = wrapper.vm.determineVisiblePages();
 
-            expect(visiblePages).to.deep.equal([1, 2, "...", 10]);
+            expect(visiblePages).to.deep.equal([1, 2, 3, "...", 10]);
         });
 
-        it("should show correct pages when currentPage > totalPages - 2", () => {
+        it("should show correct pages when currentPage >= totalPages - 2", () => {
             const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 9, totalPages: 10}
+                    props: {currentPage: 8, totalPages: 10}
                 }),
                 visiblePages = wrapper.vm.determineVisiblePages();
 
-            expect(visiblePages).to.deep.equal([1, "...", 9, 10]);
+            expect(visiblePages).to.deep.equal([1, "...", 8, 9, 10]);
         });
 
         it("should show correct pages when currentPage = totalPages", () => {
@@ -305,7 +325,7 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
                 }),
                 visiblePages = wrapper.vm.determineVisiblePages();
 
-            expect(visiblePages).to.deep.equal([1, "...", 9, 10]);
+            expect(visiblePages).to.deep.equal([1, "...", 8, 9, 10]);
         });
 
         it("should show correct pages for middle pages", () => {
@@ -326,13 +346,13 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             expect(visiblePages).to.deep.equal([1, "...", 4, "...", 8]);
         });
 
-        it("should handle edge case with totalPages = 8 and currentPage = 7", () => {
+        it("should handle edge case with totalPages = 8 and currentPage = 6", () => {
             const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 7, totalPages: 8}
+                    props: {currentPage: 6, totalPages: 8}
                 }),
                 visiblePages = wrapper.vm.determineVisiblePages();
 
-            expect(visiblePages).to.deep.equal([1, "...", 7, 8]);
+            expect(visiblePages).to.deep.equal([1, "...", 6, 7, 8]);
         });
     });
 });

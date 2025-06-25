@@ -1447,7 +1447,11 @@
       },
       "input": {
         "label": "Seite",
-        "placeholder": "Seite"
+        "placeholder": "Seite",
+        "tooltip": "Seitenzahl eingeben und Enter drücken oder auf den Pfeil klicken, um zu dieser Seite zu springen"
+      },
+      "button": {
+        "goTooltip": "Zu der eingegebenen Seite springen"
       }
     }
   },

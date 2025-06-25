@@ -878,7 +878,11 @@
       },
       "input": {
         "label": "Pagina",
-        "placeholder": "Pagina"
+        "placeholder": "Pagina",
+        "tooltip": "Inserisci il numero di pagina e premi Invio o fai clic sulla freccia per saltare a quella pagina"
+      },
+      "button": {
+        "goTooltip": "Salta alla pagina inserita"
       }
     }
   },

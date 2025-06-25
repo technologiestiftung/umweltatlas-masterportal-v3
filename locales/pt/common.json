@@ -863,7 +863,11 @@
       },
       "input": {
         "label": "Página",
-        "placeholder": "Página"
+        "placeholder": "Página",
+        "tooltip": "Digite o número da página e pressione Enter ou clique na seta para pular para essa página"
+      },
+      "button": {
+        "goTooltip": "Pular para a página digitada"
       }
     }
   },

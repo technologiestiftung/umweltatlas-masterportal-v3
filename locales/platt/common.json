@@ -893,7 +893,11 @@
       },
       "input": {
         "label": "Sied",
-        "placeholder": "Sied"
+        "placeholder": "Sied",
+        "tooltip": "Giv de Siedentall in un drück Enter oder klick op den Piel um to disse Sied to hüppen"
+      },
+      "button": {
+        "goTooltip": "Hüpp to de ingeven Sied"
       }
     }
   },
