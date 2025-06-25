@@ -1800,7 +1800,9 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
 |featureCount|nein|Number||Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
 |icon|nein|String|"bi-cloud-plus"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.addWMS.name"|Name des Moduls im Menü..|false|
+|showInLayerTree|nein|Boolean|false|Setzt das showInLayerTree Flag für importierte Layer.|false|
 |type|nein|String|"addWMS"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|visibility|nein|Boolean|false|Setzt das visibility Flag für importierte Layer.|false|
 |exampleURLs|nein|String[]|[]|Beispiel URLs, die unter dem Modul angezeigt werden.|false|
 
 **Beispiel**
@@ -1810,7 +1812,9 @@ Schema für eine WMS Layer URL: `www.diensteurl/wmsdienste`.
     "icon": "bi-cloud-plus",
     "featureCount": 10,
     "name": "common:modules.addWMS.name",
+    "showInLayerTree": false,
     "type": "addWMS",
+    "visibility": false,
     "exampleURLs": [
         "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
         "https://sgx.geodatenzentrum.de/wms_landschaften",

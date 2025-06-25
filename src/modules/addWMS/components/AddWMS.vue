@@ -29,7 +29,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/AddWMS", ["exampleURLs", "featureCount"]),
+        ...mapGetters("Modules/AddWMS", ["exampleURLs", "featureCount", "visibility", "showInLayerTree"]),
         ...mapGetters("Maps", ["projection", "mode"]),
         ...mapGetters(["mapViewSettings"])
     },
@@ -260,12 +260,12 @@ export default {
                     layers: [object.Name],
                     url: this.getBaseServiceUrl(this.wmsUrl),
                     version: this.version,
-                    visibility: false,
+                    visibility: this.visibility,
                     type: "layer",
                     isExternal: true,
                     featureCount: this.featureCount,
                     infoFormat: this.infoFormat,
-                    showInLayerTree: false,
+                    showInLayerTree: this.showInLayerTree,
                     maxScale: object?.MaxScaleDenominator?.toString(),
                     minScale: object?.MinScaleDenominator?.toString(),
                     legendURL: object?.Style?.[0].LegendURL?.[0].OnlineResource?.toString(),
