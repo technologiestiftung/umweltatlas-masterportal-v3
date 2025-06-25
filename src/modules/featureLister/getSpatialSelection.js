@@ -133,8 +133,8 @@ async function getSpatialSelectionForOAF (geom, selectedLayer, epsg, dispatch) {
  * @param {Function} dispatch - The Vuex dispatch function to handle alerts.
  * @returns {Promise<Array|boolean>} - A promise that resolves to an array of features or null if the layer type is not supported.
  */
-async function getSpatialSelection (coordinates, selectedLayer, epsg, dispatch) {
-    const drawnGeometry = JSON.stringify(coordinates),
+async function getSpatialSelection (selectedArea, selectedLayer, epsg, dispatch) {
+    const drawnGeometry = JSON.stringify(selectedArea),
         coordinatesArray = JSON.parse(drawnGeometry).coordinates[0],
         geom = new Polygon([coordinatesArray]);
 
@@ -147,5 +147,6 @@ async function getSpatialSelection (coordinates, selectedLayer, epsg, dispatch) 
     return null;
 }
 
-export default getSpatialSelection;
-
+export default {
+    getSpatialSelection
+};

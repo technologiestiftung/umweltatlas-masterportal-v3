@@ -1,7 +1,7 @@
 import {getCenter} from "ol/extent";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
 import tabStatus from "../tabStatus";
-import getSpatialSelection from "../getSpatialSelection";
+import spatialSelection from "../getSpatialSelection";
 
 export default {
     /**
@@ -113,7 +113,7 @@ export default {
     filterGfiFeaturesOfLayer: async ({state, commit, dispatch, rootGetters, rootState}) => {
         const layers = rootGetters.visibleLayerConfigs,
             layer = layers.find(l => l.id === state.layer.id),
-            selectedFeatures = await getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), dispatch);
+            selectedFeatures = await spatialSelection.getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), dispatch);
 
         if (selectedFeatures.length === 0) {
             dispatch("Alerting/addSingleAlert", {
@@ -121,9 +121,12 @@ export default {
                 content: "Keine Feature in der Auswahl gefunden."
             }, {root: true});
         }
+        else if (selectedFeatures) {
+            commit("setGfiFeaturesOfLayer", selectedFeatures);
+            dispatch("highlightSelectedFeatures", selectedFeatures);
+        }
 
-        commit("setGfiFeaturesOfLayer", selectedFeatures);
-        dispatch("highlightSelectedFeatures", selectedFeatures);
+
     },
     /**
      * Switches back to the feature list of the selected layer.
@@ -183,14 +186,10 @@ export default {
      * @returns {void}
      */
     switchToThemes ({commit, dispatch}) {
-        commit("setLayerListView", tabStatus.ACTIVE);
-        commit("setFeatureListView", tabStatus.DISABLED);
-        commit("setFeatureDetailView", tabStatus.DISABLED);
         dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         dispatch("Maps/removePointMarker", null, {root: true});
         dispatch("Maps/removePolygonMarker", null, {root: true});
         commit("resetToThemeChooser");
-        commit("setSelectedArea", null);
     },
     /**
      * Expands the feature list to show more features.
