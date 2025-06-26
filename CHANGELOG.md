@@ -326,6 +326,12 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
+- GraphicalSelect: Added line feature with buffer geometry for selection.
+- FeatureLister: Added spatial selection of features that are shown in the list.
+
+### Deprecated
+
+### Removed
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
