@@ -60,10 +60,9 @@ export default {
     <IconButton
         v-if="displayAction()"
         :aria="$t('common:modules.searchBar.actions.'+actionName)"
-        :class-array="['btn-light']"
+        :class-array="['btn-light', 'ms-2']"
         :icon="iconsByActions[actionName]"
         :interaction="callAction"
-        class="ms-2"
     />
 </template>
 

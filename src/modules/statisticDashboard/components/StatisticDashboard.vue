@@ -1621,7 +1621,7 @@ export default {
                         :title="$t('common:modules.statisticDashboard.headings.mrhstatisticsTooltip')"
                         icon="bi-info-circle"
                         :interaction="() => openMetadata()"
-                        class="info btn btn-light btn-sm ms-1 mt-0"
+                        :class-array="['info', 'btn', 'btn-light', 'btn-sm', 'ms-1', 'mt-0']"
                     />
                 </div>
                 <div

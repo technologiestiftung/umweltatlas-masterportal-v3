@@ -272,8 +272,7 @@ export default {
                 </button>
                 <IconButton
                     :aria="$t('common:modules.layerPills.remove')"
-                    :class-array="['btn-light', 'layerpillsbutton']"
-                    class="close-button"
+                    :class-array="['btn-light', 'layerpillsbutton', 'close-button']"
                     :icon="'bi-x-lg'"
                     :interaction="() => removeLayerFromVisibleLayers(layer)"
                 />

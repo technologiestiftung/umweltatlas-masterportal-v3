@@ -282,9 +282,8 @@ export default {
                         class="h-50"
                     >
                         <IconButton
-                            class="button-up"
                             :aria="$t('common:modules.routing.moveWaypointUp')"
-                            :class-array="['btn-light', 'btn-up-down']"
+                            :class-array="['btn-light', 'btn-up-down', 'button-up']"
                             :icon="'bi-chevron-up fs-6'"
                             :interaction="() => $emit('moveWaypointUp')"
                         />

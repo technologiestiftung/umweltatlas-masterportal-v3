@@ -282,19 +282,18 @@ export default {
 </script>
 
 <template>
-    <div class="d-flex align-items-center">
-        <IconButton
-            v-for="drawType in drawTypes"
-            :id="'draw-' + drawType"
-            :key="drawType"
-            :aria="$t('common:shared.modules.draw.drawTypes.' + drawType)"
-            :class-array="[
-                'btn-primary',
-                selectedDrawType === drawType || selectedDrawTypeMain === drawType ? 'active': ''
-            ]"
-            :interaction="(event) => regulateInteraction(drawType)"
-            :icon="drawIcons[drawType]"
-            :label="getButtonLabel(drawType)"
-        />
-    </div>
+    <IconButton
+        v-for="drawType in drawTypes"
+        :id="'draw-' + drawType"
+        :key="drawType"
+        :aria="$t('common:shared.modules.draw.drawTypes.' + drawType)"
+        :class-array="[
+            'btn-primary',
+            selectedDrawType === drawType || selectedDrawTypeMain === drawType ? 'active': ''
+        ]"
+        :interaction="(event) => regulateInteraction(drawType)"
+        :icon="drawIcons[drawType]"
+        :label="getButtonLabel(drawType)"
+        class="d-flex align-items-center"
+    />
 </template>
