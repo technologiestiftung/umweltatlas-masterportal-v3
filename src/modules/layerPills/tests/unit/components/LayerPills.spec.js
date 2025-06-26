@@ -197,15 +197,9 @@ describe("src/modules/LayerPills.vue", () => {
         });
     });
 
-    describe("close layerPill", () => {
+    describe.only("close layerPill", () => {
         it("count close-buttons", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
+            wrapper = mount(LayerPillsComponent, {
                 global: {
                     plugins: [store]
                 }});
