@@ -197,7 +197,7 @@ describe("src/modules/LayerPills.vue", () => {
         });
     });
 
-    describe.only("close layerPill", () => {
+    describe("close layerPill", () => {
         it("count close-buttons", () => {
             wrapper = mount(LayerPillsComponent, {
                 global: {
