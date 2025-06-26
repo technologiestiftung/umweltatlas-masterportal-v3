@@ -92,6 +92,7 @@ export default class MapHandler {
                         layerModel = layer;
                     }
                 });
+
                 store.dispatch("replaceByIdInLayerConfig", {
                     layerConfigs: [{
                         id: layerConfig.id,
@@ -177,6 +178,8 @@ export default class MapHandler {
             return;
         }
 
+        layerConfig.zIndex = store.getters.determineZIndex(layerConfig.id);
+
         if (!this.isLayerActivated(filterId) && !layerSource?.getFeatures().length > 0) {
             layerConfig.visibility = true;
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
@@ -193,10 +196,12 @@ export default class MapHandler {
 
             });
             layerConfig.showInLayerTree = true;
+
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
         }
         else if (!this.isLayerActivated(filterId)) {
             layerConfig.showInLayerTree = true;
+
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
             if (typeof onActivated === "function") {
                 onActivated();
@@ -460,6 +465,7 @@ export default class MapHandler {
         if (!isObject(wfsLayerModel) || typeof wfsLayerModel.get !== "function") {
             return;
         }
+
         store.dispatch("replaceByIdInLayerConfig", {
             layerConfigs: [{
                 id: filterId,

@@ -86,7 +86,8 @@ describe("src/modules/filter/utils/mapHandler.js", () => {
                     "showInLayerTree": false,
                     "visibility": true
                 };
-            }
+            },
+            determineZIndex: () => 1
         };
     });
     afterEach(() => {
