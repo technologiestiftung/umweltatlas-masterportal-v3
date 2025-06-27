@@ -3,8 +3,6 @@ import {intersects} from "ol/format/filter";
 import Polygon from "ol/geom/Polygon";
 import GeoJSON from "ol/format/GeoJSON";
 
-// TODO make Text in alert translatable
-
 /**
  * Fetches features from a WFS service based on the drawn geometry.
  * @param {Array} coordinates - The coordinates of the drawn geometry (e.g. from graphicalSelect).
