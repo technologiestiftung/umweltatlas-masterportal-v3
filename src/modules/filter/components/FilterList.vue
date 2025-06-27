@@ -2,6 +2,7 @@
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {mapActions} from "vuex";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 
 /**
@@ -68,6 +69,7 @@ export default {
         ...mapActions("Alerting", ["addSingleAlert"]),
         translateKeyWithPlausibilityCheck,
         hasUnfixedRules,
+        isRule,
         /**
          * Updates selectedLayers array.
          * @param {Number} filterId id which should be removed or added to selectedLayers array
@@ -86,6 +88,39 @@ export default {
          */
         setLayerLoaded (filterId) {
             this.$emit("setLayerLoaded", filterId);
+        },
+        /**
+         * Checks if the layer with a given filterId is selected and a rule is defined.
+         * @param {number} filterId - The filterId.
+         * @param {Array} selectedLayers - The selected layers.
+         * @param {Array} rulesOfFilters - The rules of filters.
+         * @returns {Boolean} true, if the rules number is to be displayed.
+         */
+        showRulesNumber (filterId, selectedLayers, rulesOfFilters) {
+            if (typeof filterId !== "number" || !Array.isArray(selectedLayers) || !Array.isArray(rulesOfFilters[filterId])) {
+                return false;
+            }
+            return !selectedLayers.some(layers => layers.filterId === filterId) && rulesOfFilters[filterId].some(rule => isRule(rule));
+        },
+        /**
+         * Returns the number of the defined rules.
+         * @param {number} filterId - The filterId.
+         * @param {Array} rulesOfFilters - The rules of filters.
+         * @returns {number} The defined rules number.
+         */
+        getRulesNumber (filterId, rulesOfFilters) {
+            let i = 0;
+
+            if (typeof filterId !== "number" || typeof rulesOfFilters === "undefined" || !Array.isArray(rulesOfFilters[filterId])) {
+                return i;
+            }
+
+            rulesOfFilters[filterId].forEach(rule => {
+                if (isRule(rule) && rule?.fixed !== true) {
+                    i++;
+                }
+            });
+            return i;
         },
         /**
          * Scrolls to given filterId.
@@ -159,9 +194,18 @@ export default {
             >
                 <div class="w-100">
                     <h2
-                        :class="['panel-title d-flex justify-content-between align-items-center', disabled(filter.filterId) ? 'disabled' : '']"
+                        :class="['panel-title d-flex align-items-center', disabled(filter.filterId) ? 'disabled' : '']"
                     >
                         <div>{{ filter.title ? filter.title : filter.layerId }}</div>
+                        <div
+                            v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
+                        >
+                            <span
+                                class="rules-number"
+                            >
+                                {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
+                            </span>
+                        </div>
                         <div
                             v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
                             @click.stop=""
@@ -215,10 +259,23 @@ export default {
 .panel-title {
     cursor: pointer;
 }
-
 .btn-transparent {
     background-color: transparent;
     border: none;
     text-align:left;
+}
+.rules-number {
+    margin-left: 0.625rem;
+    text-align: center;
+    user-select: none;
+    color: #ffffff;
+    display: inline;
+    padding: 0.275rem 0.875rem;
+    font-size: $font-size-sm;
+    font-weight: 100;
+    vertical-align: middle;
+    border-radius: 0.688rem;
+    background-color: #3C5F94;
+    border-color: #3C5F94;
 }
 </style>

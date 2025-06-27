@@ -141,4 +141,128 @@ describe("src/modules/filter/components/FilterList.vue", () => {
             expect(wrapper.emitted()).to.have.property("resetJumpToId");
         });
     });
+    describe("showRulesNumber", () => {
+        it("should return false, if the first parameter is not correct", () => {
+            expect(wrapper.vm.showRulesNumber(null)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(undefined)).to.be.false;
+            expect(wrapper.vm.showRulesNumber([])).to.be.false;
+            expect(wrapper.vm.showRulesNumber("str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber({})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(true)).to.be.false;
+        });
+        it("should return false, if the second parameter is not correct", () => {
+            expect(wrapper.vm.showRulesNumber(1, null)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, undefined)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, "str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, {})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, true)).to.be.false;
+        });
+        it("should return false, if the third parameter is not correct", () => {
+            const selectedLayers = [
+                {
+                    "layerId": "19091",
+                    "filterId": 0
+                }
+            ];
+
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, 123)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, "str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, {})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, true)).to.be.false;
+        });
+        it("should return false, if the rule object is a real rule, but layer id is not selected", () => {
+            const selectedLayers = [
+                    {
+                        "layerId": "19091",
+                        "filterId": 0
+                    }
+                ],
+                rulesOfFilters = [
+                    {
+                        "snippetId": 0,
+                        "startup": false,
+                        "fixed": false,
+                        "attrName": "@Datastreams.0.Observations.0.result",
+                        "operatorForAttrName": "AND",
+                        "operator": "BETWEEN",
+                        "value": [
+                            0,
+                            95
+                        ],
+                        "tagTitle": "0 - 95"
+                    }
+                ];
+
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, rulesOfFilters)).to.be.false;
+        });
+        it("should return false, if the rule object is a real rule but layer id is not selected", () => {
+            const selectedLayers = [
+                    {
+                        "layerId": "19091",
+                        "filterId": 1
+                    }
+                ],
+                rulesOfFilters = [];
+
+            rulesOfFilters[0] = [];
+            rulesOfFilters[0] =
+                {
+                    "snippetId": 0,
+                    "startup": false,
+                    "fixed": false,
+                    "attrName": "@Datastreams.0.Observations.0.result",
+                    "operatorForAttrName": "AND",
+                    "operator": "BETWEEN",
+                    "value": [
+                        0,
+                        95
+                    ],
+                    "tagTitle": "0 - 95"
+                };
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, rulesOfFilters)).to.be.false;
+        });
+    });
+    describe("getRulesNumber", () => {
+        it("should return 0, if first parameter is not correct", () => {
+            expect(wrapper.vm.getRulesNumber(null)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(undefined)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber("str")).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(false)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber({})).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber([])).to.be.equals(0);
+        });
+        it("should return 0, if second parameter is not correct", () => {
+            expect(wrapper.vm.getRulesNumber(123, undefined)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, "str")).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, false)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, {})).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, [])).to.be.equals(0);
+        });
+        it("should return the number of rules", () => {
+            const rulesOfFilters = [];
+
+            rulesOfFilters[8] = [];
+
+            rulesOfFilters[8] = [
+                {
+                    "snippetId": 0,
+                    "startup": false,
+                    "fixed": false,
+                    "attrName": "@Datastreams.0.Observations.0.result",
+                    "operatorForAttrName": "AND",
+                    "operator": "BETWEEN",
+                    "value": [
+                        0,
+                        95
+                    ],
+                    "tagTitle": "0 - 95"
+                }
+            ];
+
+            expect(wrapper.vm.getRulesNumber(8, rulesOfFilters)).to.be.equals(1);
+        });
+    });
 });
