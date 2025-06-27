@@ -439,7 +439,6 @@
         "filterReset": "Filter verwijderen",
         "filterResult": {
           "disabledInfo": "Het filter is gedeactiveerd op het huidige zoomniveau.",
-          "label": "Alle filterhits",
           "unit": "{{amountOfFilteredItems}} Hit"
         },
         "geometryFilter": {

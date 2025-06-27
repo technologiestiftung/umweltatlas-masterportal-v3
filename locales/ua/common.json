@@ -365,7 +365,6 @@
       "filterButton": "Фільтрувати",
       "filterResult": {
         "disabledInfo": "",
-        "label": "Все результати фільтрації",
         "unit": "{{amountOfFilteredItems}} Результати"
       },
       "geometryFilter": {

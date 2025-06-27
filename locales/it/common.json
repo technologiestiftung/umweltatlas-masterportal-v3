@@ -365,7 +365,6 @@
       "filterReset": "Elimina filtro",
       "filterResult": {
         "disabledInfo": "",
-        "label": "Tutti i risultati del filtro",
         "unit": "{{amountOfFilteredItems}} Treffer"
       },
       "geometryFilter": {

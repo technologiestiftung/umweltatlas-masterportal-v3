@@ -364,7 +364,6 @@
       "filterButton": "Фильтровать",
       "filterResult": {
         "disabledInfo": "",
-        "label": "Все попадания в фильтр",
         "unit": "{{amountOfFilteredItems}} попаданиe"
       },
       "geometryFilter": {

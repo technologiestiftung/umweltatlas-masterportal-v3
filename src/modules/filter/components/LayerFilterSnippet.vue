@@ -1166,9 +1166,6 @@ export default {
                 class="filter-result"
             >
                 <span>
-                    {{ $t("common:modules.filter.filterResult.label") }}
-                </span>
-                <span>
                     {{ $t("common:modules.filter.filterResult.unit", {amountOfFilteredItems}) }}
                 </span>
             </div>
@@ -1547,18 +1544,12 @@ export default {
         padding: 5px;
     }
     .filter-result {
-        font-size: $font-size-lg;
-        color: $light_red;
-        margin-top: 10px;
+        font-family: "MasterPortalFont Bold";
+        color: $secondary;
         display: inline-block;
         width: 100%;
         span {
-            width: 50%;
-            display: inline-block;
-            &:last-child {
-                text-align: right;
-                padding-right: 10px;
-            }
+            float: right;
         }
     }
     .snippet {

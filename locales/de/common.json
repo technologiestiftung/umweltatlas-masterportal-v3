@@ -485,8 +485,7 @@
       "filterReset": "Filter löschen",
       "filterResult": {
         "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert.",
-        "label": "Alle Filter-Treffer",
-        "unit": "{{amountOfFilteredItems}} Treffer"
+        "unit": "{{amountOfFilteredItems}} Ergebnisse"
       },
       "geometryFilter": {
         "activate": "Gebiet für Filterung setzen",
