@@ -9,6 +9,7 @@
 
 ### Added
 - AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
+- Orientation: added parameter iconGeolocationMarker to configure the icon used for the current position in the map.
 
 ### Changed
 
@@ -62,9 +63,9 @@
 ## 2025-06-19 v3.3.6 (LTS)
 
 ### Fixed
-- Issue #1366: 
+- Issue #1366:
     - SpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
-    - SpecialWfs: Fixes search for coordinates with different format. 
+    - SpecialWfs: Fixes search for coordinates with different format.
     - SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
 - Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.

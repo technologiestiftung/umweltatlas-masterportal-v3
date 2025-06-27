@@ -228,6 +228,7 @@ Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzer
 |customPosition|nein|String|"common:modules.controls.orientation.poiChoiceCustomPosition"|Damit kann gesteuert werden, welcher Text für `customPosition` in der poiChoice angezeigt wird. Das hier angegebene muss dem Pfad für den Parameter in der Übersetzungsdatei entsprechen.|false|
 |iconGeolocate|nein|String|"bi-geo-alt"|Icon das im Controls-Menü für das Control Standpunkt angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |iconGeolocatePOI|nein|String|"bi-record-circle"|Icon das im Controls-Menü für das Control "In meiner Nähe" angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|iconGeolocationMarker|nein|String|"bi-circle-fill"|Icon das in der Karte die aktuelle Position in der Karte markiert. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |onlyFilteredFeatures|nein|boolean|false|Wenn 'onlyFilteredFeatures' true ist, werden in der Ergebnissanzeige von poi nur über den Filter gefilterte Features berücksichtigt.|false|
 |poiDistances|nein|Boolean/Integer[]|true|Bei poiDistances=true werden die Defaultwerte verwendet. Legt fest, ob "In meiner Nähe" geladen wird und zeigt eine Liste von Features in der Umgebung an. Bei Angabe eines Array werden die darin definierten Abstände in Metern angeboten. Bei Angabe von true werden diese Abstände angeboten: [500,1000,2000].|false|
 |supportedDevices|nein|String|["Desktop", "Mobile"]|Geräte auf denen das Modul verwendbar ist und im Menü angezeigt wird.|false|
@@ -240,6 +241,7 @@ Orientation nutzt die geolocation des Browsers zur Standortbestimmung des Nutzer
 "orientation": {
     "iconGeolocate": "bi-geo-alt",
     "iconGeolocatePOI": "bi-record-circle",
+    "iconGeolocationMarker": "bi-circle-fill",
     "zoomMode": "once",
     "poiDistances": true
 }
