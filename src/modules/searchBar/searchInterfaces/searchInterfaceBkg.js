@@ -3,6 +3,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import SearchInterface from "./searchInterface";
 import store from "@appstore";
 import {uniqueId} from "@shared/js/utils/uniqueId";
+import proj4 from "proj4";
 
 /**
  * The search interface to the bkg geocoder.
@@ -30,7 +31,7 @@ export default function SearchInterfaceBkg ({geoSearchServiceId, epsg, extent, h
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
 
@@ -124,6 +125,8 @@ SearchInterfaceBkg.prototype.createPossibleActions = function (searchResult) {
         coordinates = crs.transformToMapProjection(mapCollection.getMap("2D"), this.epsg, [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
     }
 
+    const targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coordinates);
+
     return {
         setMarker: {
             coordinates: coordinates
@@ -134,6 +137,9 @@ SearchInterfaceBkg.prototype.createPossibleActions = function (searchResult) {
         startRouting: {
             coordinates: coordinates,
             name: searchResult.properties?.text
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

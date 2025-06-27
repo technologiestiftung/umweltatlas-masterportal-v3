@@ -22,7 +22,8 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
                     url: "test.url"
                 };
             },
-            "Maps/projectionCode": "EPSG:25832"
+            "Maps/projectionCode": "EPSG:25832",
+            "Maps/projection": {getCode: () => "EPSG:4326"}
         };
 
         mapCollection.clear();
@@ -84,7 +85,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
         it("SearchInterfaceBkg should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
 
         it("should set the default values to SearchInterfaceBkg", () => {
@@ -182,6 +183,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
 
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [9.988176000000001, 53.55481]
+                    },
                     setMarker: {
                         coordinates: [9.988176, 53.55481]
                     },
