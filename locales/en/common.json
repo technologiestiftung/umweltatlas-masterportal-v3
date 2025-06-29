@@ -484,6 +484,7 @@
       },
       "filterButton": "Apply filter",
       "filterReset": "Delete filter",
+      "filterResetOrigin": "Reset filter",
       "filterResult": {
         "disabledInfo": "The filter is disabled in current zoom level",
         "unit": "{{amountOfFilteredItems}} Results"

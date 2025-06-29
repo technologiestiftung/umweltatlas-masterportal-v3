@@ -47,7 +47,7 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
  * @vue-data {Boolean} showStop - Shows if terminate button is visible.
  * @vue-data {Boolean} searchInMapExtent - Shows if search in map extend is enabled.
  * @vue-data {Array} snippets - Array of all the snippets.
- * @vue-data {String} postSnippetKey - The post snippet key.
+ * @vue-data {Number} postSnippetKey - The post snippet key.
  * @vue-data {Boolean} autoRefreshSet - Shows if auto refresh is set.
  * @vue-data {Boolean} isRefreshing - Shows if it is refreshing.
  * @vue-data {Boolean} amountOfFilteredItems - Shows ???
@@ -148,9 +148,10 @@ export default {
             showStop: false,
             searchInMapExtent: false,
             snippets: [],
-            postSnippetKey: "",
+            postSnippetKey: 0,
             autoRefreshSet: false,
             isRefreshing: false,
+            initialRules: [],
             amountOfFilteredItems: false,
             precheckedSnippets: [],
             filteredItems: [],
@@ -224,6 +225,7 @@ export default {
                         this.handleActiveStrategy(snippetIds);
                     }
                 }
+                this.initialRules = this.filterRules;
             },
             deep: true
         },
@@ -306,8 +308,8 @@ export default {
         ...mapMutations("Modules/GetFeatureInfo", {
             setGfiVisible: "setVisible"
         }),
-        isRule,
         hasUnfixedRules,
+        isRule,
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -1115,12 +1117,64 @@ export default {
                 : false;
         },
         /**
+         * Checks if the value of snippet is the same as prechecked value.
+         * @param {Object[]} ruleA the first array of rules.
+         * @param {Object[]} ruleB the second array of rules.
+         * @returns {Boolean} true if value is the same.
+         */
+        isInitialValue (ruleA, ruleB) {
+            if (!Array.isArray(ruleA) || !ruleA.length || !Array.isArray(ruleB) || !ruleB.length) {
+                return true;
+            }
+
+            const valueA = ruleA.map(arr => arr?.value),
+                valueB = ruleB.map(arr => arr?.value),
+                sortedValueA = [],
+                sortedValueB = [];
+
+            JSON.parse(JSON.stringify(valueA)).forEach(value => {
+                if (Array.isArray(value)) {
+                    sortedValueA.push(value.sort());
+                }
+                else {
+                    sortedValueA.push(value);
+                }
+            });
+
+            JSON.parse(JSON.stringify(valueB)).forEach(value => {
+                if (Array.isArray(value)) {
+                    sortedValueB.push(value.sort());
+                }
+                else {
+                    sortedValueB.push(value);
+                }
+            });
+
+            return JSON.stringify(sortedValueA) === JSON.stringify(sortedValueB);
+        },
+        /**
          * Resets the snippets and the rules.
          * Currently only called by FilterGeneral to get rid of rules deleting bug for children snippets.
          * @returns {void}
          */
         resetsSnippetsAndRules () {
             this.resetAllSnippets(() => this.deleteAllRules());
+        },
+        /**
+         * Resets the snippets to the original precked value.
+         * @returns {void}
+         */
+        resetOriginSnippetsAndRules () {
+            if (Array.isArray(this.initialRules) && this.initialRules.length) {
+                this.initialRules.forEach(rule => {
+                    if (rule !== null && rule.snippetId) {
+                        rule.startup = false;
+                        this.changeRule(rule);
+                    }
+                });
+
+                this.setPostSnippetKey(this.postSnippetKey + 1);
+            }
         }
     }
 };
@@ -1481,6 +1535,15 @@ export default {
                         :disabled="filterButtonDisabled || disabled"
                         :icon="'bi-x-circle'"
                         :interaction="resetsSnippetsAndRules"
+                    />
+                    <FlatButton
+                        v-if="initialRules.length && !isInitialValue(initialRules, filterRules)"
+                        class="btn btn-secondary"
+                        :aria-label="$t('common:modules.filter.filterResetOrigin')"
+                        :text="$t('common:modules.filter.filterResetOrigin')"
+                        :disabled="filterButtonDisabled || disabled"
+                        :icon="'bi-x-circle'"
+                        :interaction="resetOriginSnippetsAndRules"
                     />
                     <FlatButton
                         v-if="paging.page < paging.total && showStop"

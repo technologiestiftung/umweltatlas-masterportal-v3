@@ -483,6 +483,7 @@
       },
       "filterButton": "Filter anwenden",
       "filterReset": "Filter löschen",
+      "filterResetOrigin": "Filter zurücksetzen",
       "filterResult": {
         "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert.",
         "unit": "{{amountOfFilteredItems}} Ergebnisse"

@@ -741,4 +741,65 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(foo).to.be.true;
         });
     });
+
+    describe("isInitialValue", () => {
+        it("should return true if the parameter is not right", () => {
+            expect(wrapper.vm.isInitialValue(null, [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue(0, [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue(true, [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue({}, [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue([], [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue("", [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue(undefined, [""])).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], 0)).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], true)).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], {})).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], [])).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], "")).to.be.true;
+            expect(wrapper.vm.isInitialValue([""], undefined)).to.be.true;
+        });
+
+        it("should return true if two value are the same", () => {
+            const ruleA = [{value: "a"}],
+                ruleB = [{value: "a"}];
+
+            expect(wrapper.vm.isInitialValue(ruleA, ruleB)).to.be.true;
+        });
+
+        it("should return false if two value are different", () => {
+            const ruleA = [{value: "a"}],
+                ruleB = [{value: "b"}];
+
+            expect(wrapper.vm.isInitialValue(ruleA, ruleB)).to.be.false;
+        });
+    });
+
+    describe("Component DOM", () => {
+        it("should not have a reset button", () => {
+            expect(wrapper.findAllComponents({name: "FlatButton"}).length).to.be.equal(1);
+        });
+        it("should have a reset button", async () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        strategy: "active"
+                    },
+                    mapHandler,
+                    layerSelectorVisible: false,
+                    filterRules: [{value: "rule2"}]
+                }
+            });
+
+            wrapper.setData({initialRules: [{value: "rule1"}]});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.findAllComponents({name: "FlatButton"}).length).to.be.equal(2);
+        });
+    });
 });
