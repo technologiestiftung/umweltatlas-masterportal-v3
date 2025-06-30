@@ -285,7 +285,7 @@ export default {
             this.addLayerToLayerConfig({layerConfig: folder, parentKey: treeSubjectsKey}).then((addedLayer) => {
                 if (addedLayer) {
                     this.addSingleAlert({
-                        content: this.$t("common:modules.addWMS.completeMessage"),
+                        content: this.showInLayerTree ? this.$t("common:modules.addWMS.completeMessageShowInLayerTree") : this.$t("common:modules.addWMS.completeMessage"),
                         category: "success",
                         title: this.$t("common:modules.addWMS.alertTitleSuccess")});
                     this.$refs.wmsUrl.value = "";
