@@ -757,6 +757,7 @@ const actions = {
             layer = layerInformation[currentLayerIndex],
             selectedFeature = feature && featureToDelete !== null ? feature : featureToDelete,
             url = layer.url,
+            regex = /:$/,
             transactionMethod = ["LineString", "Point", "Polygon"].includes(selectedInteraction)
                 ? "insert"
                 : selectedInteraction,
@@ -764,6 +765,7 @@ const actions = {
             transaction = i18next.t("common:modules.wfst.transaction." + messageKey);
 
         let response, configValues, changes, combinedValues, LayerConfigAttributes, LayerControlAttributes;
+        layer.featurePrefix = layer.featurePrefix.replace(regex, '');
 
         try {
             response = await wfs.sendTransaction(rootGetters["Maps/projectionCode"], selectedFeature, url, layer, selectedInteraction);

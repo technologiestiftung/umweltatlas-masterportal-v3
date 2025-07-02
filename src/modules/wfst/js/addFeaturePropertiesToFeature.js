@@ -11,7 +11,9 @@ import Feature from "ol/Feature";
  * @returns {module:ol/Feature} Feature to be inserted or updated.
  */
 export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature", LayerConfigAttributes = []) {
-    const transactionFeature = new Feature();
+    const transactionFeature = new Feature(),
+    regex = /:$/;
+    featurePrefix = featurePrefix.replace(regex, '');
 
     featureProperties.forEach(property => {
         const key = updateFeature
