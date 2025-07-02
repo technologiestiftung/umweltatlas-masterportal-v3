@@ -377,8 +377,7 @@ export default {
                         type="button"
                         class="btn btn-light justify-content-left text-start"
                         :title="$t('common:modules.routing.addWaypoint')"
-                        @click="addWaypoint({index: waypoints.length - 1})"
-                        @keydown.enter="addWaypoint({index: waypoints.length - 1})"
+                        @click="isStartEndInput(-1); addWaypoint({index: waypoints.length - 1})"
                     >
                         <i class="bi-plus-circle" />
                         {{ $t('common:modules.routing.addWaypoint') }}
