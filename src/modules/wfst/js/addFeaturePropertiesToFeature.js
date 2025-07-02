@@ -12,7 +12,7 @@ import Feature from "ol/Feature";
  */
 export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature", LayerConfigAttributes = []) {
     const transactionFeature = new Feature(),
-        regex = /:$/
+        regex = /:$/,
         featurePrefixWithoutColon = featurePrefix.replace(regex, "");
 
     featureProperties.forEach(property => {
