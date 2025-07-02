@@ -282,7 +282,6 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             });
         });
 
-
         it("should set configured flags to imported layer", () => {
             const folder = {
                     type: "folder",
@@ -378,7 +377,6 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
 
         });
     });
-
 
     describe("getIfInExtent", () => {
         let capability = {
