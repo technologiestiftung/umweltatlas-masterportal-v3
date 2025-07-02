@@ -121,6 +121,7 @@ export default {
             default: false
         }
     },
+    emits: ["drawstart", "drawend"],
     data () {
         return {
             currentDrawInteraction: null
