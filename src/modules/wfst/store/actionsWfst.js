@@ -613,6 +613,7 @@ const actions = {
         commit("setSelectedUpdate", null);
         dispatch("clearInteractions");
         if (layerSelected) {
+            sourceLayer?.getSource().refresh();
             sourceLayer?.setVisible(true);
         }
     },
@@ -767,7 +768,8 @@ const actions = {
             transaction = i18next.t("common:modules.wfst.transaction." + messageKey);
 
         let response, configValues, changes, combinedValues, LayerConfigAttributes, LayerControlAttributes;
-        layer.featurePrefix = layer.featurePrefix.replace(regex, '');
+
+        layer.featurePrefix = layer.featurePrefix.replace(regex, "");
 
         try {
             response = await wfs.sendTransaction(rootGetters["Maps/projectionCode"], selectedFeature, url, layer, selectedInteraction);
