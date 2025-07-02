@@ -12,12 +12,12 @@ import Feature from "ol/Feature";
  */
 export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature", LayerConfigAttributes = []) {
     const transactionFeature = new Feature(),
-    regex = /:$/;
-    featurePrefix = featurePrefix.replace(regex, '');
+        regex = /:$/,
+        featurePrefixWithoutColon = featurePrefix.replace(regex, "");
 
     featureProperties.forEach(property => {
         const key = updateFeature
-            ? `${featurePrefix}:${property.key}`
+            ? `${featurePrefixWithoutColon}:${property.key}`
             : property.key;
 
 
@@ -28,7 +28,7 @@ export default function ({id, geometry, geometryName}, featureProperties, update
             }
             else if (property.type === "geometry") {
                 transactionFeature.setGeometryName(updateFeature
-                    ? `${featurePrefix}:${geometryName}`
+                    ? `${featurePrefixWithoutColon}:${geometryName}`
                     : geometryName);
                 transactionFeature.setGeometry(geometry);
             }

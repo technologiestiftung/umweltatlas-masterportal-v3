@@ -88,12 +88,13 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
 
     });
     describe("resetCommon", () => {
-        let setVisibleSpy, layerStub;
+        let setVisibleSpy, layerStub, refreshSpy;
 
         beforeEach(() => {
             commit = sinon.spy();
             dispatch = sinon.spy();
             setVisibleSpy = sinon.spy();
+            refreshSpy = sinon.spy();
 
             getters = {
                 currentLayerId: "testLayerId",
@@ -102,7 +103,8 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
 
             layerStub = {
                 layer: {
-                    setVisible: setVisibleSpy
+                    setVisible: setVisibleSpy,
+                    getSource: () => ({refresh: refreshSpy})
                 }
             };
 

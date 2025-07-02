@@ -409,7 +409,7 @@ export default {
                         </template>
                         <div class="tool-wfs-transaction-form-buttons">
                             <LightButton
-                                :interaction="reset"
+                                :interaction="resetCancel"
                                 :disabled="buttonsDisabled"
                                 text="common:modules.wfst.form.discard"
                                 class="form-button"
