@@ -17,6 +17,7 @@
 
 ### Fixed
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
+- ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 
 ---
 

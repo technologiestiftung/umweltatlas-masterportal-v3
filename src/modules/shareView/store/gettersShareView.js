@@ -22,6 +22,13 @@ const simpleGetters = {
     ...generateSimpleGetters(shareViewState),
 
     /**
+     * Constructs the shareable URL representing the current application state.
+     *
+     * - Includes map view, active layers, and menu component configuration.
+     * - Converts menu params to string format, safely omitting invalid attributes.
+     * - Replaces legacy query parameters (e.g., "layerids", "visibility") with structured equivalents.
+     * - Preserves other unrelated query parameters already present in the URL.
+     *
      * @param {Object} state state of the app-store.
      * @param {Object} getters shareView store getters.
      * @param {Object} rootState root state.
@@ -52,10 +59,14 @@ const simpleGetters = {
 
         // Add existing URL parameters if there are any
         if (location.search) {
-            const existingParams = new URLSearchParams(location.search);
+            const existingParams = new URLSearchParams(location.search),
+                legacyUrlParamsToIgnore = ["map/layerids", "layerids", "visibility", "transparency", "map/mdid"];
 
             existingParams?.forEach((value, key) => {
-                if (!Array.from(shareUrl.searchParams.keys()).some(k => k.toLowerCase() === key.toLowerCase())) {
+                if (
+                    !Array.from(shareUrl.searchParams.keys()).some(k => k.toLowerCase() === key.toLowerCase()) &&
+                    !legacyUrlParamsToIgnore.includes(key.toLowerCase())
+                ) {
                     shareUrl.searchParams.set(key, value);
                 }
             });
