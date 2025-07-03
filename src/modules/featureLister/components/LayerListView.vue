@@ -34,16 +34,27 @@ export default {
                 .filter(layer => this.supportedLayerTypes.includes(layer.typ))
                 .map(layer => ({
                     name: layer.name,
-                    id: layer.id
+                    id: layer.id,
+                    typ: layer.typ
                 }));
         }
     },
-    /**
-     * Watches for changes in the selected area GeoJSON (indicates that the graphicalSelect was used) and updates the selected area accordingly.
-     */
     watch: {
+        /**
+          * Watches for changes in the selected area GeoJSON (indicates that the graphicalSelect was used) and updates the selected area accordingly.
+        */
         selectedAreaGeoJson (newValue) {
             this.setSelectedArea(newValue);
+        },
+        /**
+         * Watches for changes in the layer and resets the selected area if the layer type is OAF.
+         * OAF layers are not yet supported for graphical selection, so we switch to the list view.
+         */
+        layer (newValue) {
+            if (newValue && newValue.typ === "OAF") {
+                this.setSelectedArea(null);
+                this.switchToList();
+            }
         }
     },
     methods: {
@@ -88,8 +99,7 @@ export default {
         </li>
     </ul>
     <div
-        v-if="layer"
-        class=""
+        v-if="layer && layer.typ === 'WFS'"
     >
         <GraphicalSelect
             ref="graphicalSelection"

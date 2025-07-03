@@ -115,18 +115,25 @@ export default {
             layer = layers.find(l => l.id === state.layer.id),
             selectedFeatures = await spatialSelection.getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), dispatch);
 
+        if (!selectedFeatures) {
+            dispatch("Alerting/addSingleAlert", {
+                category: "warning",
+                content: i18next.t("common:modules.featureLister.requestFailedAlert")
+            }, {root: true});
+            commit("setGfiFeaturesOfLayer", []);
+            commit("setFeatureCount", 0);
+            commit("setShownFeatures", 0);
+            return;
+        }
+
         if (selectedFeatures.length === 0) {
             dispatch("Alerting/addSingleAlert", {
                 category: "info",
                 content: "Keine Feature in der Auswahl gefunden."
             }, {root: true});
         }
-        else if (selectedFeatures) {
-            commit("setGfiFeaturesOfLayer", selectedFeatures);
-            dispatch("highlightSelectedFeatures", selectedFeatures);
-        }
-
-
+        commit("setGfiFeaturesOfLayer", selectedFeatures);
+        dispatch("highlightSelectedFeatures", selectedFeatures);
     },
     /**
      * Switches back to the feature list of the selected layer.
