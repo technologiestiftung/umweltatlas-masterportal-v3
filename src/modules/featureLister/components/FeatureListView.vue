@@ -88,6 +88,7 @@ export default {
             select-mode="row"
             :run-select-row-on-mount="false"
             :run-select-on-hover="true"
+            :downloadable="true"
             @rowSelected="row => clickOnFeature(row)"
             @rowOnHover="row => hoverOverFeature(row)"
         />
