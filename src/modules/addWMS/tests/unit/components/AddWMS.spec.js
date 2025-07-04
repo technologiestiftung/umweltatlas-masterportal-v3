@@ -11,12 +11,18 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
     let addLayerToLayerConfigSpy,
         componentData,
         featureCount,
+        visibility,
+        showInLayerTree,
         store,
         wrapper;
 
     beforeEach(() => {
         crs.registerProjections();
         addLayerToLayerConfigSpy = sinon.spy();
+
+        visibility = false;
+        showInLayerTree = false;
+        featureCount = undefined;
 
         store = createStore({
             modules: {
@@ -28,7 +34,9 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                             namespaced: true,
                             getters: {
                                 exampleURLs: () => [],
-                                featureCount: () => featureCount
+                                featureCount: () => featureCount,
+                                visibility: () => visibility,
+                                showInLayerTree: () => showInLayerTree
                             }
                         }
                     }
@@ -269,6 +277,66 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
                                 visibility: false
                             }
                         ]
+                    }
+                ]
+            });
+        });
+
+        it("should set configured flags to imported layer", () => {
+            const folder = {
+                    type: "folder",
+                    name: "part 1",
+                    elements: []
+                },
+                object = {
+                    MaxScaleDenominator: undefined,
+                    MinScaleDenominator: undefined,
+                    Name: "geb_sum",
+                    Style: [
+                        {
+                            LegendURL: [
+                                {
+                                    Format: "image/png",
+                                    OnlineResource: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png"
+                                }
+                            ],
+                            Name: "style_solaratlas_geb_sum",
+                            Title: "style_solaratlas_geb_sum"
+                        }
+                    ],
+                    Title: "geb_sum"
+                },
+                level = 1;
+
+            visibility = true;
+            showInLayerTree = true;
+
+            wrapper.vm.wmsUrl = "https://geodienste.hamburg.de/HH_WMS_Solaratlas";
+            wrapper.vm.version = "1.3.0";
+            wrapper.vm.infoFormat = "text/xml";
+            wrapper.vm.parseLayerStructure(folder, object, level);
+
+            expect(folder).to.deep.equals({
+                type: "folder",
+                name: "part 1",
+                elements: [
+                    {
+                        datasets: [],
+                        id: "geb_sum",
+                        isExternal: true,
+                        layers: ["geb_sum"],
+                        legendURL: "https://geodienste.hamburg.de/HH_WMS_Solaratlas?request=GetLegendGraphic&version=1.3.0&service=WMS&layer=geb_sum&style=style_solaratlas_geb_sum&format=image/png",
+                        maxScale: undefined,
+                        minScale: undefined,
+                        name: "geb_sum",
+                        showInLayerTree: true,
+                        featureCount: undefined,
+                        infoFormat: "text/xml",
+                        typ: "WMS",
+                        type: "layer",
+                        url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
+                        version: "1.3.0",
+                        visibility: true
                     }
                 ]
             });

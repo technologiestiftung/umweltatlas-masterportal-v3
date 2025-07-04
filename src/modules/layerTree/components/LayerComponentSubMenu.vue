@@ -74,7 +74,11 @@ export default {
                 this.getNamesOfParentFolder(this.layerConf.parentId, names);
                 names = names.reverse();
             }
-            return names.length > 0 ? names.join("/") : null;
+            const translatedNames = names.map(name => {
+                return this.$t(name) !== name ? this.$t(name) : name;
+            });
+
+            return translatedNames.length > 0 ? translatedNames.join("/") : null;
         },
         /**
          * Looks up for the names of all parent folders.
