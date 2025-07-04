@@ -95,6 +95,7 @@ extra:
 
 extra_css:
     - '_docsCustomization/css/contentAreaFullWidth.css'
+    - '_docsCustomization/css/linkUnderline.css'
 extra_javascript:
     - '_docsCustomization/js/copyHeadingLinkToClipboard.js'
 
