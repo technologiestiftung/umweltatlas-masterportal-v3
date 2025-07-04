@@ -89,13 +89,6 @@ function create3DMap () {
 
     markRaw(map3d);
 
-    /**
-     * Note: if the bugfix was released in an olcs version these two lines should be removed again
-     * @see {@link https://github.com/openlayers/ol-cesium/pull/1109}
-     */
-    map3d.setEnabled(true);
-    map3d.setEnabled(store.getters.startingMapMode === "3D");
-
     mapCollection.addMap(map3d, "3D");
     if (store.state.urlParams.QUERY) {
         store.dispatch("Modules/SearchBar/startSearch", store.state.urlParams.QUERY);
