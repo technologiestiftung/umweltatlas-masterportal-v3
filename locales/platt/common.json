@@ -315,7 +315,6 @@
       "name": "Lista",
       "requestFailedAlert": "De Afraag na de Features is fehlslaan. Versöök dat later nochmaal.",
       "spatialSelection": "Feature mit Geometrie utwählen",
-      "unsupportedRequest": "De Filterafraag warrt nich ünnerstütt, dorüm wöör mit BoundingBox affragt. Dat Resultaat kann anners utfallen as de oorsprüngliche Utwahl.",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
     },
     "fileImport": {

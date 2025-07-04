@@ -362,7 +362,6 @@
         "name": "lijst",
         "requestFailedAlert": "Het ophalen van de functies is mislukt. Probeer het later opnieuw.",
         "spatialSelection": "Selecteer functie met geometrie",
-        "unsupportedRequest": "Omdat het filterverzoek niet door de service wordt ondersteund, is er een aanvraag met een begrenzingsvak uitgevoerd. Het resultaat kan afwijken van de oorspronkelijke selectie.",
         "visibleVectorLayers": "Zichtbare vectorlagen"
       },
       "fileImport": {

@@ -297,7 +297,6 @@
       "name": "Lista",
       "requestFailedAlert": "A consulta das características falhou. Por favor, tente novamente mais tarde.",
       "spatialSelection": "Selecionar elemento com geometria",
-      "unsupportedRequest": "Como o serviço não suporta a consulta de filtro, foi realizada uma consulta com caixa delimitadora. O resultado pode diferir da seleção original.",
       "visibleVectorLayers": "Camadas vectoriais visíveis"
     },
     "fileImport": {

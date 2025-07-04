@@ -297,7 +297,6 @@
       "name": "liste",
       "requestFailedAlert": "Özellik sorgusu başarısız oldu. Lütfen daha sonra tekrar deneyin.",
       "spatialSelection": "Geometri ile özellik seç",
-      "unsupportedRequest": "Filtre sorgusu servis tarafından desteklenmediği için bounding box ile sorgulama yapıldı. Sonuç orijinal seçimden farklı olabilir.",
       "visibleVectorLayers": "Görünür vektör katmanları"
     },
     "fileImport": {

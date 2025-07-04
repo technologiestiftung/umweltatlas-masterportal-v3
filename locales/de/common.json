@@ -401,7 +401,6 @@
       "name": "Liste",
       "requestFailedAlert": "Die Abfrage der Features ist fehlgeschlagen. Bitte versuchen Sie es später erneut.",
       "spatialSelection": "Feature über Geometrie auswählen",
-      "unsupportedRequest": "Da die Filterabfrage an den Dienst nicht unterstützt wird, wurde eine Abfrage mit BoundingBox durchgeführt. Das Ergebnis kann von der ursprünglichen Auswahl abweichen.",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
     },
     "fileImport": {

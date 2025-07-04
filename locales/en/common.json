@@ -402,7 +402,6 @@
       "name": "List",
       "requestFailedAlert": "The feature request failed. Please try again later.",
       "spatialSelection": "Select feature by geometry",
-      "unsupportedRequest": "Since the filter request is not supported by the service, a query with bounding box was performed. The result may differ from the original selection.",
       "visibleVectorLayers": "Visible vector layers"
     },
     "fileImport": {
