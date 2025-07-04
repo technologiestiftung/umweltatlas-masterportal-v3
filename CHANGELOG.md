@@ -32,6 +32,8 @@
 ### Fixed
 - AddWMS: Fixed incorrect layer order caused by baselayer zIndex being modified when adding a WMS.
 - LayerTree: Fixed incorrect layer order when adding last layer of a folder within the layertree.
+- WFS-T Tool: now works with featurePrefix including colon at the end
+- WFS-T Tool: refresh view after dismiss new created feature
 
 ---
 
