@@ -38,7 +38,7 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
     });
 
     it("should return a URL with MENU and LAYERS parameters, and remove filtered components", () => {
-        const url = getters.url(rootGetters),
+        const url = getters.url({}, {}, {}, rootGetters),
             parsed = new URL(url),
             menu = JSON.parse(parsed.searchParams.get("MENU")),
             ignoredKeys = ["layerids"];
@@ -65,7 +65,7 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
     it("should keep custom component names if not in the ignore list", () => {
         rootGetters["Menu/urlParams"].main.currentComponent = "otherComponent";
 
-        const url = getters.url(rootGetters),
+        const url = getters.url({}, {}, {}, rootGetters),
             parsed = new URL(url),
             menu = JSON.parse(parsed.searchParams.get("MENU"));
 
@@ -76,7 +76,7 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
     it("should filter out legacy URL parameters", () => {
         global.location.search = "?layerids=abc123&visibility=true&transparency=50&map/mdid=xyz456&existingKey=testValue";
 
-        const url = getters.url(rootGetters),
+        const url = getters.url({}, {}, {}, rootGetters),
             parsed = new URL(url),
             legacyKeys = ["layerids", "visibility", "transparency", "map/mdid"];
 
@@ -95,7 +95,7 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
         rootGetters["Menu/urlParams"].main.attributes = {circular};
 
         const errorSpy = sinon.spy(console, "error"),
-            url = getters.url(rootGetters),
+            url = getters.url({}, {}, {}, rootGetters),
             parsed = new URL(url),
             menu = JSON.parse(parsed.searchParams.get("MENU"));
 
