@@ -63,6 +63,7 @@ export default {
             "directionsRouteSource",
             "directionsAvoidSource",
             "directionsAvoidPointSource",
+            "directionsWaypointsSource",
             "isInputDisabled",
             "mapInteractionMode",
             "routingAvoidFeaturesOptions",
@@ -221,6 +222,7 @@ export default {
                 this.removeWaypoint({index: this.waypoints[i].index});
             }
             this.directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
+            this.directionsWaypointsSource?.getFeatures().forEach(feature => this.directionsWaypointsSource.removeFeature(feature));
             this.setRoutingDirections(null);
             this.directionsAvoidSource.clear();
             this.directionsAvoidPointSource.clear();

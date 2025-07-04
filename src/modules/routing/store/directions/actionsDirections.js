@@ -3,6 +3,7 @@ import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directi
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
 import Circle from "ol/geom/Circle";
+import Point from "ol/geom/Point";
 import {toRaw} from "vue";
 import {fromCircle} from "ol/geom/Polygon";
 
@@ -529,7 +530,8 @@ export default {
      */
     createDirectionsRouteModifyInteractionListener ({
         state,
-        dispatch
+        dispatch,
+        commit
     }) {
         const {directionsRouteModifyInteraction} = state;
 
@@ -541,6 +543,9 @@ export default {
                     .getCoordinates(),
                 oldLineString = routingDirections.getLineString();
 
+            // set isAwaitingRouteModifyEnd into waiting mode
+            commit("setIsAwaitingRouteModifyEnd", true);
+
             for (let i = 0; i < oldLineString.length; i++) {
                 if (
                     oldLineString[i][0] === newCoordinates[i][0] &&
@@ -548,16 +553,13 @@ export default {
                 ) {
                     continue;
                 }
-                const newCoordinate = newCoordinates[i],
+                const newCoordinate = newCoordinates[i].splice(0, 2),
                     nextIndex = await dispatch(
                         "findWaypointBetweenLineStringIndex",
                         {
                             lineStringIndex: i
                         }
                     ),
-                    waypoint = await dispatch("addWaypoint", {
-                        index: nextIndex + 1
-                    }),
                     wgs84Coordinates = await dispatch(
                         "Modules/Routing/transformCoordinatesLocalToWgs84Projection",
                         newCoordinate,
@@ -569,12 +571,23 @@ export default {
                             coordinates: wgs84Coordinates
                         },
                         {root: true}
-                    );
+                    ),
+                    newFeature = new Feature({
+                        geometry: new Point(newCoordinate)
+                    });
 
-                waypoint.setCoordinates(newCoordinate);
-                waypoint.setDisplayName(geoSearchResult ? geoSearchResult.getDisplayName() : null);
+                await dispatch("addWaypoint", {
+                    index: nextIndex + 1,
+                    feature: newFeature,
+                    displayName: geoSearchResult ? geoSearchResult.getDisplayName() : null
+                });
+                // for some reason the new feature has to be added to source manually
+                state.directionsWaypointsSource.addFeature(newFeature);
                 break;
             }
+            // end waiting mode of isAwaitingRouteModifyEnd
+            commit("setIsAwaitingRouteModifyEnd", false);
+
             dispatch("findDirections");
         });
     },
@@ -603,7 +616,7 @@ export default {
             );
 
             if (waypointWithoutCoordinates && state.addStartEndPoint === -1) {
-                waypointWithoutCoordinates.setCoordinates(feature.getGeometry().getCoordinates());
+                waypointWithoutCoordinates.setCoordinates(feature.getGeometry().getCoordinates().splice(0, 2));
                 if (displayName) {
                     waypointWithoutCoordinates.setDisplayName(displayName);
                 }

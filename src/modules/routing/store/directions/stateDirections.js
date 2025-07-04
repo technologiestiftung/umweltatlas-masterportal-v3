@@ -65,6 +65,7 @@ export default {
 
     // Directions Parameter
     waypoints: [],
+    isAwaitingRouteModifyEnd: false,
     routingAvoidFeaturesOptions: [],
     routingRestrictionsInputData: {
         length: 10.0,

@@ -58,7 +58,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", ["waypoints"]),
+        ...mapGetters("Modules/Routing/Directions", ["waypoints", "isAwaitingRouteModifyEnd"]),
         ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
 
         /**
@@ -133,6 +133,15 @@ export default {
         },
         isFocused: function () {
             this.addStartEnd();
+        },
+        /**
+         * Watch for route modify interaction to be finished.
+         * @returns {void}
+         */
+        isAwaitingRouteModifyEnd () {
+            if (!this.isAwaitingRouteModifyEnd) {
+                this.search = this.waypoint.getDisplayName();
+            }
         }
     },
     methods: {
