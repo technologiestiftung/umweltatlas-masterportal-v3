@@ -19,6 +19,8 @@
 ### Fixed
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
+- WFS-T Tool: now works with featurePrefix including colon at the end
+- WFS-T Tool: refresh view after dismiss new created feature
 
 ---
 
