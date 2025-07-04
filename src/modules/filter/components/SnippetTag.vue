@@ -3,21 +3,17 @@
 /**
 * Snippet Tag
 * @module modules/SnippetTag
-* @vue-prop {Boolean} isResetAll - Shows if reset all should be activated.
 * @vue-prop {Number} snippetId - The snippet id.
 * @vue-prop {String} value - Shows if the checkbox is disabled.
-* @vue-event {String} deleteAllRules - Emits delete all rules.
 * @vue-event {Number} deleteRule - Emits rule to delete by id.
-* @vue-event {String} resetAllSnippets - Emits reset.
-* @vue-event {Number} resetSnippet - Emits reset snippet vy id.
 */
 export default {
     name: "SnippetTag",
     props: {
-        isResetAll: {
-            type: Boolean,
+        filterId: {
+            type: Number,
             required: false,
-            default: false
+            default: undefined
         },
         snippetId: {
             type: Number,
@@ -30,23 +26,14 @@ export default {
             default: ""
         }
     },
-    emits: ["deleteAllRules", "deleteRule", "resetAllSnippets", "resetSnippet"],
+    emits: ["deleteRule"],
     methods: {
         /**
          * Triggers the functions to reset the snippet and change the rules.
          * @returns {void}
          */
         removeTag () {
-            if (this.isResetAll) {
-                this.$emit("resetAllSnippets", () => {
-                    this.$emit("deleteAllRules");
-                });
-            }
-            else {
-                this.$emit("resetSnippet", this.snippetId, () => {
-                    this.$emit("deleteRule", this.snippetId);
-                });
-            }
+            this.$emit("deleteRule", this.snippetId, this.filterId);
         }
     }
 };

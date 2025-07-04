@@ -439,6 +439,7 @@
       "stylingColorDescription": "Bei Auswahl einer Farbe wird automatisch eine Farbskala erstellt. Bei numerischen (quantitativen) Werten wird eine Farbskala von hell nach dunkel generiert. Dabei wird dem höchsten Wert in den Daten die ausgewählte Farbe zugeordnet. Bei qualitativen Daten wird eine Farbskala mit verschiedenen Farbtönen ausgehend der ausgewählten Farbe erstellt."
     },
     "filter": {
+      "activeFilter": "Aktive Filter",
       "alertingMessages": {
         "noMatchingFilterId": "Die konfigurierte Filter Id ist nicht vorhanden."
       },
@@ -483,6 +484,7 @@
       },
       "filterButton": "Filter anwenden",
       "filterReset": "Filter löschen",
+      "filterResetAll": "Alle Filter löschen",
       "filterResetOrigin": "Filter zurücksetzen",
       "filterResult": {
         "disabledInfo": "Der Filter ist in der aktuellen Zoomstufe deaktiviert.",
@@ -518,7 +520,9 @@
         "valueOutOfRangeErrorMessage": "Der Eingabewert {{inputValue}} muss innerhalb des Gültigkeitsbereiches {{minValueSlider}} und {{maxValueSlider}} liegen!"
       },
       "snippetTags": {
-        "selectionText": "Ihre Auswahl:"
+        "selectionText": "Ihre Auswahl:",
+        "showMore": "weitere anzeigen",
+        "showLess": "weniger anzeigen"
       },
       "upload": {
         "geometryParseError": "Die angegebene Geometry konnte nicht geladen werden"

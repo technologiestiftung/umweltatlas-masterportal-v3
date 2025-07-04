@@ -312,22 +312,6 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
         });
     });
 
-    describe("getTagTitle", () => {
-        it("should return value if there is no tagTitle defined", () => {
-            expect(wrapper.vm.getTagTitle({value: "title"})).to.equal("title");
-            expect(wrapper.vm.getTagTitle({value: false})).to.equal("false");
-            expect(wrapper.vm.getTagTitle({value: 0})).to.equal("0");
-            expect(wrapper.vm.getTagTitle({value: undefined})).to.equal("undefined");
-            expect(wrapper.vm.getTagTitle({value: null})).to.equal("null");
-        });
-        it("should return tagTitle if there is tagTitle defined", () => {
-            expect(wrapper.vm.getTagTitle({value: "title", tagTitle: "tagTitle"})).to.equal("tagTitle");
-            expect(wrapper.vm.getTagTitle({value: "title", tagTitle: false})).to.equal("false");
-            expect(wrapper.vm.getTagTitle({value: "title", tagTitle: 0})).to.equal("0");
-            expect(wrapper.vm.getTagTitle({value: "title", tagTitle: null})).to.equal("null");
-        });
-    });
-
     describe("paging", () => {
         it("should show stop button if paging  was set", async () => {
             await wrapper.setData({
@@ -376,7 +360,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             });
         });
     });
-    it("should render amount of filtered items", async () => {
+    describe("should render amount of filtered items", async () => {
         await wrapper.setData({
             amountOfFilteredItems: 3,
             showSpinner: false
@@ -616,6 +600,9 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
 
             LayerFilterSnippet.methods.checkZoomLevel = checkZoomLevel;
             wrapper = shallowMount(LayerFilterSnippet, {
+                global: {
+                    plugins: [store]
+                },
                 propsData: {
                     global: {
                         plugins: [store]
@@ -647,8 +634,8 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         service: {
                             type: "something external"
                         },
-                        "minZoom": 15,
-                        "maxZoom": 18
+                        minZoom: 15,
+                        maxZoom: 18
                     },
                     mapHandler,
                     layerSelectorVisible: false
@@ -760,16 +747,23 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             expect(wrapper.vm.isInitialValue([""], undefined)).to.be.true;
         });
 
-        it("should return true if two value are the same", () => {
-            const ruleA = [{value: "a"}],
-                ruleB = [{value: "a"}];
+        it("should return true if two value are the same, but the value of startup is false", () => {
+            const ruleA = [{value: "a", startup: false}],
+                ruleB = [{value: "a", startup: false}];
 
             expect(wrapper.vm.isInitialValue(ruleA, ruleB)).to.be.true;
         });
 
         it("should return false if two value are different", () => {
-            const ruleA = [{value: "a"}],
-                ruleB = [{value: "b"}];
+            const ruleA = [{value: "a", startup: true}],
+                ruleB = [{value: "b", startup: true}];
+
+            expect(wrapper.vm.isInitialValue(ruleA, ruleB)).to.be.false;
+        });
+
+        it("should return false if two value are different", () => {
+            const ruleA = [{value: "a", startup: true}],
+                ruleB = [{value: "b", startup: true}];
 
             expect(wrapper.vm.isInitialValue(ruleA, ruleB)).to.be.false;
         });
@@ -797,7 +791,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                 }
             });
 
-            wrapper.setData({initialRules: [{value: "rule1"}]});
+            wrapper.setData({initialRules: [{value: "rule1", startup: true}]});
             await wrapper.vm.$nextTick();
 
             expect(wrapper.findAllComponents({name: "FlatButton"}).length).to.be.equal(2);

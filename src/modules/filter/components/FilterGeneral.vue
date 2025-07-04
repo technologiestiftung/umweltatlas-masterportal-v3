@@ -9,6 +9,7 @@ import {compileLayers} from "../utils/compileLayers.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import FilterList from "./FilterList.vue";
 import isObject from "@shared/js/utils/isObject.js";
+import {isRule} from "../utils/isRule.js";
 import GeometryFilter from "./GeometryFilter.vue";
 import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
@@ -20,6 +21,8 @@ import layerCollection from "@core/layers/js/layerCollection.js";
 import {Toast} from "bootstrap";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
+import SnippetTag from "@modules/filter/components/SnippetTag.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Filter General
@@ -35,6 +38,8 @@ import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 export default {
     name: "FilterGeneral",
     components: {
+        FlatButton,
+        SnippetTag,
         GeometryFilter,
         LayerFilterSnippet,
         FilterList,
@@ -52,18 +57,25 @@ export default {
                 getLayers: openlayerFunctions.getLayers
             }),
             preparedLayerGroups: [],
+            layerRules: [],
             flattenPreparedLayerGroups: [],
             layerLoaded: {},
             layerFilterSnippetPostKey: "",
             urlHandler: new UrlHandler(this.mapHandler),
             alreadyWatching: null,
             mapMoveListeners: {},
-            mapMoveRegistered: false
+            mapMoveRegistered: false,
+            isFilterActive: false,
+            isFilterShown: false
         };
     },
     computed: {
         ...mapGetters("Modules/Filter", Object.keys(getters)),
         ...mapGetters({appStoreUrlParams: "urlParams"}),
+
+        amountOfFilteredItems () {
+            return Object.values(this.totalResults).reduce((a, b) => a + b, 0);
+        },
 
         currentURL () {
             const url = new URL(window.location.href);
@@ -83,7 +95,15 @@ export default {
             });
         }
     },
-
+    watch: {
+        rulesOfFilters: {
+            handler (val) {
+                this.checkActiveFilter(val);
+                this.generateLayerRules(val);
+            },
+            deep: true
+        }
+    },
     mounted () {
         getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
             if (!Array.isArray(additionalGeometries) || !additionalGeometries.length) {
@@ -150,6 +170,73 @@ export default {
         ]),
         ...mapActions("Maps", ["registerListener", "unregisterListener"]),
         hasUnfixedRules,
+        isRule,
+
+        /**
+         * Check if there are active filter.
+         * @param {Object[]} val The rules of filter.
+         * @returns {void}
+         */
+        checkActiveFilter (val) {
+            if (!Array.isArray(val) || !val.length) {
+                this.isFilterActive = false;
+                return;
+            }
+
+            for (let i = 0; i < val.length; i++) {
+                if (val[i] === null) {
+                    this.isFilterActive = false;
+                }
+                else if (Array.isArray(val[i]) && val[i].length) {
+                    this.isFilterActive = val[i].filter(v => v !== false && v !== null && !v?.fixed).length > 0;
+                }
+                else {
+                    this.isFilterActive = false;
+                }
+
+                if (this.isFilterActive) {
+                    break;
+                }
+            }
+        },
+        /**
+         * Getting the tag title from rule
+         * @param {Object} rule the rule to set
+         * @returns {String} the tag title
+         */
+        getTagTitle (rule) {
+            if (Object.prototype.hasOwnProperty.call(rule, "tagTitle")) {
+                return String(rule.tagTitle);
+            }
+
+            return String(rule.value);
+        },
+        /**
+         * Generates the layer rules.
+         * @param {Object[]} val The rules of filter.
+         * @returns {void}
+         */
+        generateLayerRules (val) {
+            if (!this.isFilterActive) {
+                this.layerRules = [];
+                return;
+            }
+
+            const rules = [];
+
+            [...this.flattenPreparedLayerGroups, ...this.layerConfigs.layers].forEach(layerConfig => {
+                if (val[layerConfig.filterId] && val[layerConfig.filterId].filter(v => v !== false && v !== null && !v?.fixed).length) {
+                    rules.push({
+                        filterId: layerConfig.filterId,
+                        layerTitle: layerConfig.title,
+                        rule: val[layerConfig.filterId]
+                    });
+                }
+            });
+
+            this.layerRules = rules;
+        },
+
         /**
          * Handles the state for already activated layers by given params.
          * The given params are set for the matching layer if it is already active but has no features loaded yet.
@@ -473,6 +560,42 @@ export default {
          */
         openLink (url) {
             window.open(url);
+        },
+
+        /**
+         * Gets tge snippet tag section class.
+         * @param {Number} index the index of filter rules.
+         * @param {Boolean} val if the filter snippetTag is shown.
+         * @returns {String} the string as class.
+         */
+        getTagClass (index, val) {
+            if (index < 2) {
+                return "";
+            }
+            else if (!val) {
+                return "d-none";
+            }
+
+            return "";
+        },
+
+        /**
+         * Sets the value of deleted rule snippetId and filterId.
+         * @param {Number} snippetId the snippet id.
+         * @param {Number} filterId the filter id.
+         * @returns {void}
+         */
+        setDeleteRule (snippetId, filterId) {
+            this.setDeletedRuleSnippetId(snippetId);
+            this.setDeletedRuleFilterId(filterId);
+        },
+
+        /**
+         * Triggers to set all tags deleted.
+         * @returns {void}
+         */
+        triggerDeleteAll () {
+            this.setTriggerAllTagsDeleted(!this.triggerAllTagsDeleted);
         }
     }
 };
@@ -492,6 +615,63 @@ export default {
                 icon="bi bi-question-circle"
                 :interaction="() => openLink(questionLink)"
             />
+        </div>
+        <div v-if="isFilterActive">
+            <div class="d-block result">
+                <div class="title">
+                    <h5 class="float-start">
+                        {{ $t("common:modules.filter.activeFilter") }}
+                    </h5>
+                    <span class="float-end">
+                        {{ $t("common:modules.filter.filterResult.unit", {amountOfFilteredItems}) }}
+                    </span>
+                </div>
+                <div
+                    v-for="(layerRule, index) in layerRules"
+                    :key="'layer-rule-' + index"
+                    class="d-inline-block w-100"
+                    :class="getTagClass(index, isFilterShown)"
+                >
+                    <div>
+                        {{ layerRule.layerTitle }}
+                    </div>
+                    <div
+                        v-for="(rule, ruleIndex) in layerRule.rule"
+                        :key="'rule-' + ruleIndex"
+                        class="snippetTagsWrapper"
+                    >
+                        <SnippetTag
+                            v-if="isRule(rule) && rule.fixed === false"
+                            :filter-id="layerRule.filterId"
+                            :snippet-id="rule.snippetId"
+                            :value="getTagTitle(rule)"
+                            @delete-rule="setDeleteRule"
+                        />
+                    </div>
+                </div>
+                <div
+                    v-if="layerRules.length > 2"
+                    class="show-more"
+                    role="button"
+                    tabindex="0"
+                    @click="isFilterShown = !isFilterShown"
+                    @keydown="isFilterShown = !isFilterShown"
+                >
+                    <span
+                        class="bi float-start"
+                        :class="isFilterShown ? 'bi-chevron-up' : 'bi-chevron-down'"
+                    />
+                    {{ !isFilterShown ? $t("common:modules.filter.snippetTags.showMore") : $t("common:modules.filter.snippetTags.showLess") }}
+                </div>
+                <div class="d-inline-block text-center deleteAll">
+                    <FlatButton
+                        :aria-label="$t('common:modules.filter.filterResetAll')"
+                        :text="$t('common:modules.filter.filterResetAll')"
+                        :icon="'bi-x-circle'"
+                        :interaction="triggerDeleteAll"
+                    />
+                </div>
+            </div>
         </div>
         <GeometryFilter
             v-if="isGeometrySelectorVisible()"
@@ -790,6 +970,31 @@ export default {
             i {
                 font-size: 14px;
             }
+        }
+    }
+    .result {
+        border-bottom: 1px solid #9B9A9A;
+        margin-bottom: 20px;
+        .title {
+            min-height: 30px;
+            span {
+                font-family: "MasterPortalFont Bold";
+                color: $secondary;
+            }
+        }
+        .w-100 {
+            margin-top: 10px;
+        }
+        .show-more {
+            span {
+                margin-right: 5px;
+            }
+            &:hover {
+                color: $secondary;
+            }
+        }
+        .deleteAll {
+            margin-top: 10px;
         }
     }
 </style>

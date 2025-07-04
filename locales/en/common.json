@@ -440,6 +440,7 @@
       "stylingColorDescription": "When a color is selected, a color scale is automatically created. For numerical (quantitative) values, a color scale is created ranging from light to dark. The selected color is assigned to the highest value in the data. Different colors are created for qualitative data."
     },
     "filter": {
+      "activeFilter": "Active Filter",
       "alertingMessages": {
         "noMatchingFilterId": "The configured filter id does not exist."
       },
@@ -484,6 +485,7 @@
       },
       "filterButton": "Apply filter",
       "filterReset": "Delete filter",
+      "filterResetAll": "Delete all Filter",
       "filterResetOrigin": "Reset filter",
       "filterResult": {
         "disabledInfo": "The filter is disabled in current zoom level",
@@ -519,7 +521,9 @@
         "valueOutOfRangeErrorMessage": "The input {{inputValue}} value must be within the validity range {{minValueSlider}} and {{{maxValueSlider}}!"
       },
       "snippetTags": {
-        "selectionText": "Your selection:"
+        "selectionText": "Your selection:",
+        "showMore": "Show more",
+        "showLess": "Show less"
       },
       "upload": {
         "geometryParseError": "Could not parse given geometry"

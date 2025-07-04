@@ -160,209 +160,422 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
 
             expect(wrapper.findComponent("[icon='bi bi-question-circle']").exists()).to.be.true;
         });
+
+        it("should not render result element if no filter active", () => {
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            expect(wrapper.findAll(".result")).to.have.lengthOf(0);
+            expect(wrapper.findComponent({name: "SnippetTag"}).exists()).to.be.false;
+        });
+
+        it("should render result element if no filter active", async () => {
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            wrapper.setData({isFilterActive: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.findAll(".result")).to.have.lengthOf(1);
+        });
     });
 
-    describe("updateSelectedGroups", () => {
-        it("should remove given index from selectedGroups if found in array", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.setSelectedGroups([0, 1]);
-            await wrapper.vm.$nextTick();
-            wrapper.vm.updateSelectedGroups(0);
-            await wrapper.vm.$nextTick();
-            expect(wrapper.vm.selectedGroups).to.deep.equal([1]);
-        });
-        it("should add given index to selectedGroups if not found in array", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.setSelectedGroups([0]);
-            await wrapper.vm.$nextTick();
-            wrapper.vm.updateSelectedGroups(1);
-            await wrapper.vm.$nextTick();
-            expect(wrapper.vm.selectedGroups).to.deep.equal([0, 1]);
-        });
-    });
-    describe("updateSelectedAccordions", () => {
-        it("should add filterIds to selectedAccordion if multiLayerSelector is false", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }}),
-                expected = [
-                    {
-                        filterId: 0,
-                        layerId: "1234"
-                    }
-                ];
-
-            wrapper.vm.setMultiLayerSelector(false);
-            await wrapper.vm.$nextTick();
-            wrapper.vm.updateSelectedAccordions(0);
-            expect(wrapper.vm.selectedAccordions).to.deep.equal(expected);
-        });
-        it("should remove filterIds from selectedAccordion if multiLayerSelector is false", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.updateSelectedAccordions(0);
-            expect(wrapper.vm.selectedAccordions).to.deep.equal([]);
-        });
-        it("should not change the rule when adding and removing the filterId of selectedAccordion", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }}),
-                rule = [[
-                    {
-                        snippetId: 0,
-                        startup: false,
-                        fixed: false,
-                        attrName: "test",
-                        operator: "EQ",
-                        value: ["Altona"]
-                    }
-                ]];
-
-            wrapper.vm.setMultiLayerSelector(true);
-            await wrapper.vm.$nextTick();
-            wrapper.vm.setRulesOfFilters({
-                rulesOfFilters: rule
-            });
-            wrapper.vm.updateSelectedAccordions(0);
-            expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
-            wrapper.vm.updateSelectedAccordions(0);
-            expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
-        });
-    });
-    describe("handleStateForAlreadyActiveLayers", () => {
-        it("should not do anything if if first param is not an object", () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-            let param = null;
-
-            param = undefined;
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.undefined;
-            param = null;
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.null;
-            param = "foo";
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.equal("foo");
-            param = 1234;
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.equal(1234);
-            param = [];
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.an("array").and.to.be.empty;
-            param = undefined;
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.be.undefined;
-        });
-        it("should not do anything if given param has no rulesOfFilters or selectedAccordions property", () => {
-            const param = {foo: "bar"},
-                wrapper = shallowMount(FilterGeneral, {global: {
+    describe("Methods", () => {
+        describe("checkActiveFilter ", () => {
+            it("should set isFilterActive to be false", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
                     plugins: [store]
                 }});
 
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.deep.equal({foo: "bar"});
-        });
-        it("should not remove rules of the given param if the matching layer is not activated", () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }}),
-                param = {
-                    rulesOfFilters: [["foo", "bar", "buz"]],
-                    selectedAccordions: [
-                        {
-                            layerId: 0,
-                            filterId: 0
-                        },
-                        {
-                            layerId: 1,
-                            filterId: 1
-                        }
-                    ]
-                };
+                wrapper.vm.checkActiveFilter(null);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
 
-            openlayerFunctions.getLayerByLayerId = (layerId) => {
-                if (layerId === 1) {
-                    return null;
-                }
-                return {
-                    visibility: false,
-                    typ: "foo"
-                };
-            };
-            sinon.stub(layerCollection, "getLayerById").returns(
-                {
-                    layer: {
-                        getSource: () => {
-                            return {
-                                once: (eventname, handler) => {
-                                    handler();
-                                },
-                                getFeatures: () => {
-                                    return [];
+                wrapper.vm.checkActiveFilter(0);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+
+                wrapper.vm.checkActiveFilter(false);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+
+                wrapper.vm.checkActiveFilter("");
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+
+                wrapper.vm.checkActiveFilter(undefined);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+
+                wrapper.vm.checkActiveFilter({});
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+
+                wrapper.vm.checkActiveFilter([]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+            });
+
+            it("should set isFilterActive to be false if rules have only null elements.", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.checkActiveFilter([null, null, null]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+            });
+
+            it("should set isFilterActive to be true if rules have an object rule only false.", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.checkActiveFilter([[false]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+            });
+
+            it("should set isFilterActive to be true if rules have an object rule with fixed value.", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.checkActiveFilter([[{fixed: true}]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.false;
+            });
+
+            it("should set isFilterActive to be true if rules have a right object rule.", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.checkActiveFilter([[{rule: "rule"}]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.isFilterActive).to.be.true;
+            });
+        });
+        describe("generateLayerRules  ", () => {
+            it("should generate an empty array as layer rules if the filter is not active", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    rules = [[{snippetId: 0}]];
+
+                wrapper.setData({isFilterActive: false});
+                await wrapper.vm.$nextTick();
+                wrapper.vm.generateLayerRules(rules);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.layerRules).to.be.deep.equal([]);
+            });
+
+            it("should generate an empty array as layer rules if there are only false or null as rule.", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.setData({isFilterActive: true});
+                await wrapper.vm.$nextTick();
+
+                wrapper.vm.generateLayerRules([[null]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.layerRules).to.be.deep.equal([]);
+
+                wrapper.vm.generateLayerRules([[false]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.layerRules).to.be.deep.equal([]);
+            });
+
+            it("should generate an empty array as layer rules if there are fixed value in rule", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.setData({isFilterActive: true});
+                await wrapper.vm.$nextTick();
+
+                wrapper.vm.generateLayerRules([[{snippetId: 0, fixed: true}]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.layerRules).to.be.deep.equal([]);
+            });
+
+            it("should generate a rule", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    expected = [
+                        {
+                            "filterId": 0,
+                            "layerTitle": "layerOne",
+                            "rule": [
+                                {
+                                    "snippetId": 0
                                 }
-                            };
+                            ]
+                        }
+                    ];
+
+                wrapper.setData({isFilterActive: true});
+                await wrapper.vm.$nextTick();
+
+                wrapper.vm.generateLayerRules([[{snippetId: 0}]]);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.layerRules).to.be.deep.equal(expected);
+            });
+        });
+        describe("getTagClass ", () => {
+            it("should return empty string if the index is smaller than 2", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                expect(wrapper.vm.getTagClass(0)).to.equal("");
+                expect(wrapper.vm.getTagClass(1)).to.equal("");
+            });
+            it("should return empty string if the index is bigger than 2 and it is shown", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                expect(wrapper.vm.getTagClass(2, true)).to.equal("");
+            });
+            it("should return 'd-none' if the index is bigger than 2 and it is not shown", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                expect(wrapper.vm.getTagClass(2, false)).to.equal("d-none");
+            });
+        });
+        describe("getTagTitle", () => {
+            it("should return value if there is no tagTitle defined", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                expect(wrapper.vm.getTagTitle({value: "title"})).to.equal("title");
+                expect(wrapper.vm.getTagTitle({value: false})).to.equal("false");
+                expect(wrapper.vm.getTagTitle({value: 0})).to.equal("0");
+                expect(wrapper.vm.getTagTitle({value: undefined})).to.equal("undefined");
+                expect(wrapper.vm.getTagTitle({value: null})).to.equal("null");
+            });
+            it("should return tagTitle if there is tagTitle defined", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: "tagTitle"})).to.equal("tagTitle");
+                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: false})).to.equal("false");
+                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: 0})).to.equal("0");
+                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: null})).to.equal("null");
+            });
+        });
+        describe("updateSelectedGroups", () => {
+            it("should remove given index from selectedGroups if found in array", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.setSelectedGroups([0, 1]);
+                await wrapper.vm.$nextTick();
+                wrapper.vm.updateSelectedGroups(0);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedGroups).to.deep.equal([1]);
+            });
+            it("should add given index to selectedGroups if not found in array", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.setSelectedGroups([0]);
+                await wrapper.vm.$nextTick();
+                wrapper.vm.updateSelectedGroups(1);
+                await wrapper.vm.$nextTick();
+                expect(wrapper.vm.selectedGroups).to.deep.equal([0, 1]);
+            });
+        });
+        describe("updateSelectedAccordions", () => {
+            it("should add filterIds to selectedAccordion if multiLayerSelector is false", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    expected = [
+                        {
+                            filterId: 0,
+                            layerId: "1234"
+                        }
+                    ];
+
+                wrapper.vm.setMultiLayerSelector(false);
+                await wrapper.vm.$nextTick();
+                wrapper.vm.updateSelectedAccordions(0);
+                expect(wrapper.vm.selectedAccordions).to.deep.equal(expected);
+            });
+            it("should remove filterIds from selectedAccordion if multiLayerSelector is false", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+
+                wrapper.vm.updateSelectedAccordions(0);
+                expect(wrapper.vm.selectedAccordions).to.deep.equal([]);
+            });
+            it("should not change the rule when adding and removing the filterId of selectedAccordion", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    rule = [[
+                        {
+                            snippetId: 0,
+                            startup: false,
+                            fixed: false,
+                            attrName: "test",
+                            operator: "EQ",
+                            value: ["Altona"]
+                        }
+                    ]];
+
+                wrapper.vm.setMultiLayerSelector(true);
+                await wrapper.vm.$nextTick();
+                wrapper.vm.setRulesOfFilters({
+                    rulesOfFilters: rule
+                });
+                wrapper.vm.updateSelectedAccordions(0);
+                expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
+                wrapper.vm.updateSelectedAccordions(0);
+                expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
+            });
+        });
+        describe("handleStateForAlreadyActiveLayers", () => {
+            it("should not do anything if if first param is not an object", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }});
+                let param = null;
+
+                param = undefined;
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.undefined;
+                param = null;
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.null;
+                param = "foo";
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.equal("foo");
+                param = 1234;
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.equal(1234);
+                param = [];
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.an("array").and.to.be.empty;
+                param = undefined;
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.be.undefined;
+            });
+            it("should not do anything if given param has no rulesOfFilters or selectedAccordions property", () => {
+                const param = {foo: "bar"},
+                    wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }});
+
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.deep.equal({foo: "bar"});
+            });
+            it("should not remove rules of the given param if the matching layer is not activated", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    param = {
+                        rulesOfFilters: [["foo", "bar", "buz"]],
+                        selectedAccordions: [
+                            {
+                                layerId: 0,
+                                filterId: 0
+                            },
+                            {
+                                layerId: 1,
+                                filterId: 1
+                            }
+                        ]
+                    };
+
+                openlayerFunctions.getLayerByLayerId = (layerId) => {
+                    if (layerId === 1) {
+                        return null;
+                    }
+                    return {
+                        visibility: false,
+                        typ: "foo"
+                    };
+                };
+                sinon.stub(layerCollection, "getLayerById").returns(
+                    {
+                        layer: {
+                            getSource: () => {
+                                return {
+                                    once: (eventname, handler) => {
+                                        handler();
+                                    },
+                                    getFeatures: () => {
+                                        return [];
+                                    }
+                                };
+                            }
                         }
                     }
-                }
-            );
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.deep.equal({rulesOfFilters: [["foo", "bar", "buz"]], selectedAccordions: [{layerId: 0, filterId: 0}, {layerId: 1, filterId: 1}]});
-        });
-        it("should remove rules of the given param if the matching layer is already activated", () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }}),
-                param = {
-                    rulesOfFilters: [["foo"], ["bar"], ["buz"]],
-                    selectedAccordions: [
-                        {
-                            layerId: 0,
-                            filterId: 0
-                        },
-                        {
-                            layerId: 1,
-                            filterId: 1
-                        }
-                    ]
-                };
+                );
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.deep.equal({rulesOfFilters: [["foo", "bar", "buz"]], selectedAccordions: [{layerId: 0, filterId: 0}, {layerId: 1, filterId: 1}]});
+            });
+            it("should remove rules of the given param if the matching layer is already activated", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {
+                        plugins: [store]
+                    }}),
+                    param = {
+                        rulesOfFilters: [["foo"], ["bar"], ["buz"]],
+                        selectedAccordions: [
+                            {
+                                layerId: 0,
+                                filterId: 0
+                            },
+                            {
+                                layerId: 1,
+                                filterId: 1
+                            }
+                        ]
+                    };
 
-            openlayerFunctions.getLayerByLayerId = (layerId) => {
-                if (layerId === 1) {
-                    return null;
-                }
-                return {
-                    visibility: true,
-                    typ: "foo"
+                openlayerFunctions.getLayerByLayerId = (layerId) => {
+                    if (layerId === 1) {
+                        return null;
+                    }
+                    return {
+                        visibility: true,
+                        typ: "foo"
+                    };
                 };
-            };
-            sinon.stub(layerCollection, "getLayerById").returns(
-                {
-                    layer: {
-                        getSource: () => {
-                            return {
-                                once: (eventname, handler) => {
-                                    handler();
-                                },
-                                getFeatures: () => {
-                                    return [];
-                                }
-                            };
+                sinon.stub(layerCollection, "getLayerById").returns(
+                    {
+                        layer: {
+                            getSource: () => {
+                                return {
+                                    once: (eventname, handler) => {
+                                        handler();
+                                    },
+                                    getFeatures: () => {
+                                        return [];
+                                    }
+                                };
+                            }
                         }
                     }
-                }
-            );
-            wrapper.vm.handleStateForAlreadyActiveLayers(param);
-            expect(param).to.deep.equal({rulesOfFilters: [null, ["bar"], ["buz"]], selectedAccordions: [{layerId: 1, filterId: 1}]});
+                );
+                wrapper.vm.handleStateForAlreadyActiveLayers(param);
+                expect(param).to.deep.equal({rulesOfFilters: [null, ["bar"], ["buz"]], selectedAccordions: [{layerId: 1, filterId: 1}]});
+            });
         });
     });
 });

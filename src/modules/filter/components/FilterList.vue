@@ -229,6 +229,12 @@ export default {
                     class="bi bi-chevron-up float-end"
                 />
             </button>
+            <div
+                v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                class="layerInfoText"
+            >
+                {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+            </div>
             <slot
                 :layer="filter"
             />

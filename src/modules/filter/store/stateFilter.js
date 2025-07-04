@@ -21,6 +21,10 @@
  * @property {String} serializedString -contains the serialized state (includes rules, filterHits, selectedAccordions)
  * @property {Array} selectedAccordions - contains the selected accordions
  * @property {Array} selectedGroups - contains the selected groups
+ * @property {Number} totalResults - the total filtered results
+ * @property {Boolean} triggerAllTagsDeleted - triggered if all snippet tags are deleted.
+ * @property {Number} deletedRuleFilterId - the deleted rule filter id
+ * @property {Number} deletedRuleSnippetId - the deleted rule snippet id
  * @property {Array} filtersHits - contains the filter hits
  * @property {Object/Boolean} filterGeometry - contains geometry/area to filter in
  * @property {Boolean} geometryFeature - the geometry feature
@@ -56,6 +60,10 @@ const state = {
     serializedString: "",
     selectedAccordions: [],
     selectedGroups: [],
+    totalResults: {},
+    triggerAllTagsDeleted: false,
+    deletedRuleFilterId: undefined,
+    deletedRuleSnippetId: undefined,
     filtersHits: [],
     filterGeometry: false,
     geometryFeature: undefined,

@@ -169,6 +169,12 @@ export default {
     },
     computed: {
         ...mapGetters("Maps", ["scale"]),
+        ...mapGetters("Modules/Filter", [
+            "deletedRuleFilterId",
+            "deletedRuleSnippetId",
+            "triggerAllTagsDeleted",
+            "totalResults"
+        ]),
         labelFilterButton () {
             if (typeof this.layerConfig.labelFilterButton === "string") {
                 return translateKeyWithPlausibilityCheck(this.layerConfig.labelFilterButton, key => this.$t(key));
@@ -197,6 +203,15 @@ export default {
             },
             deep: true
         },
+        deletedRuleSnippetId: {
+            handler (val) {
+                if (typeof val === "number" && this.layerConfig.filterId === this.deletedRuleFilterId) {
+                    this.resetSnippet(val, this.deleteRule(val));
+                    this.setDeletedRuleSnippetId(undefined);
+                }
+            },
+            immediate: true
+        },
         filterRules: {
             handler (rules) {
                 if (this.isStrategyActive()) {
@@ -211,6 +226,9 @@ export default {
                 }
             },
             deep: true
+        },
+        triggerAllTagsDeleted () {
+            this.resetAllSnippets(this.deleteAllRules());
         },
         paging (val) {
             if (val.page >= val.total) {
@@ -250,6 +268,12 @@ export default {
             deep: true
         },
         amountOfFilteredItems (val) {
+            const currentTotalResult = this.totalResults;
+
+            currentTotalResult[this.layerConfig?.filterId] = val;
+
+            this.setTotalResults(currentTotalResult);
+
             if (this.isStrategyActive()) {
                 return;
             }
@@ -325,6 +349,12 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("Modules/Filter", [
+            "setDeletedRuleSnippetId",
+            "setDeletedRuleFilterId",
+            "setTriggerAllTagsDeleted",
+            "setTotalResults"
+        ]),
         ...mapMutations("Modules/GetFeatureInfo", {
             setGfiVisible: "setVisible"
         }),
@@ -1042,18 +1072,6 @@ export default {
             return true;
         },
         /**
-         * Getting the tag title from rule
-         * @param {Object} rule the rule to set
-         * @returns {String} the tag title
-         */
-        getTagTitle (rule) {
-            if (Object.prototype.hasOwnProperty.call(rule, "tagTitle")) {
-                return String(rule.tagTitle);
-            }
-
-            return String(rule.value);
-        },
-        /**
          * Returns the api for the given snippet.
          * @param {Object} snippet the snippet to return the api for
          * @returns {FilterApi} the api
@@ -1143,7 +1161,7 @@ export default {
          * @returns {Boolean} true if value is the same.
          */
         isInitialValue (ruleA, ruleB) {
-            if (!Array.isArray(ruleA) || !ruleA.length || !Array.isArray(ruleB) || !ruleB.length) {
+            if (!Array.isArray(ruleA) || !ruleA.length || !ruleA.some(arr => arr?.startup === true) || !Array.isArray(ruleB) || !ruleB.length) {
                 return true;
             }
 
