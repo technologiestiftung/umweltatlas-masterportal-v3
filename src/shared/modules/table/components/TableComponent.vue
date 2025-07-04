@@ -580,11 +580,16 @@ export default {
             this.currentSorting = newSorting;
         },
         /**
-         * Returns the edited table data for export.
+         * Returns the edited table data for export. Removes possible id fields from data.
          * @returns {Object} The edited table data.
          */
         exportTable () {
-            const tableToExport = this.editedTable.items;
+            const tableToExport = this.editedTable.items.map(obj => {
+                const rest = {...obj};
+
+                delete rest.id;
+                return rest;
+            });
 
             this.additionalColumnsForDownload.forEach(column => {
                 if (typeof column?.key === "string" && typeof column?.value === "string") {
