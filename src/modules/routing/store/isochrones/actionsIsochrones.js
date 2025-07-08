@@ -177,14 +177,6 @@ export default {
      */
     createIsochronePointModifyInteractionListener ({state, dispatch}) {
         const {isochronesPointModifyInteraction, waypoint} = state;
-        let newCoordinates;
-
-        isochronesPointModifyInteraction.on("modifystart", event => {
-            newCoordinates = event.features
-                .getArray()[0]
-                .getGeometry()
-                .getCoordinates();
-        });
 
         isochronesPointModifyInteraction.on("modifyend", async () => {
             const coordinates = await dispatch(
@@ -199,7 +191,7 @@ export default {
                     },
                     {root: true}
                 ),
-                displayName = geoSearchResult ? geoSearchResult.getDisplayName() : newCoordinates;
+                displayName = geoSearchResult ? geoSearchResult.getDisplayName() : waypoint.getCoordinates();
 
             waypoint.setDisplayName(displayName);
         });

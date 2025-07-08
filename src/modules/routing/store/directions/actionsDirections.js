@@ -415,21 +415,15 @@ export default {
     createDirectionsWaypointsModifyInteractionListener ({state, dispatch}) {
         const {directionsWaypointsModifyInteraction} = state;
 
-        let changedFeature, newCoordinates;
+        let changedFeature;
 
         directionsWaypointsModifyInteraction.on("modifystart", event => {
             event.features.getArray().forEach(feature => {
-                newCoordinates = event.features
-                    .getArray()[0]
-                    .getGeometry()
-                    .getCoordinates();
-
                 feature.getGeometry().once("change", () => {
                     changedFeature = feature;
                 });
             });
         });
-
 
         directionsWaypointsModifyInteraction.on("modifyend", async () => {
             const {waypoints} = state,
@@ -448,7 +442,7 @@ export default {
                 );
 
             waypoint.setDisplayName(
-                geoSearchResult ? geoSearchResult.getDisplayName() : newCoordinates
+                geoSearchResult ? geoSearchResult.getDisplayName() : waypoint.getCoordinates()
             );
             dispatch("findDirections");
         });
