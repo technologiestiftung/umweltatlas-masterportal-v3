@@ -4,7 +4,6 @@ import VectorSource from "ol/source/Vector";
 import {platformModifierKeyOnly, primaryAction, click} from "ol/events/condition";
 import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature";
 import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
-import getLayerInformationModule from "../js/getLayerInformation";
 import layerCollection from "@core/layers/js/layerCollection";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 import DragBox from "ol/interaction/DragBox";
@@ -825,28 +824,6 @@ const actions = {
             }
         }
         return response;
-    },
-    /**
-     * Sets the active property of the state to the given value.
-     * Also starts processes if the tool is activated (active === true).
-     * @param {Object} commit - actions commit object.
-     * @param {Object} dispatch - The dispatch object.
-     * @param {Object} getters - The getters object.
-     * @param {Boolean} active - Value deciding whether the tool gets activated or deactivated.
-     * @returns {void}
-     */
-    setActive ({commit, dispatch, getters: {layerIds}}, active) {
-        commit("setActive", active);
-        if (active) {
-            const layerInformation = getLayerInformationModule.getLayerInformation(layerIds);
-
-            commit("setLayerInformation", layerInformation);
-            commit("setCurrentLayerIndex", layerInformation.findIndex(layer => layer.isSelected));
-            dispatch("setFeatureProperties");
-        }
-        else {
-            dispatch("reset");
-        }
     },
     /**
      * Validates the user-input sets the error messages.

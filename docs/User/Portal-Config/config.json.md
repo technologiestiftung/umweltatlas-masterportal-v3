@@ -227,6 +227,7 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 |customPosition|no|String|"common:modules.controls.orientation.poiChoiceCustomPosition"|This can be used to control which text is displayed for `customPosition` in the poiChoice. The path specified here must correspond to the path for the parameter in the translation file.|false|
 |iconGeolocate|no|String|"bi-geo-alt"|Icon that is displayed in the Controls menu for the control location. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |iconGeolocatePOI|no|String|"bi-record-circle"|Icon that is displayed in the Controls menu for the "Close to me" control. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|iconGeolocationMarker|no|String|"bi-circle-fill"|Icon that is displayed in the map to mark the current position. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |onlyFilteredFeatures|no|boolean|false|If 'onlyFilteredFeatures' is true, only features filtered via the filter are taken into account in the poi results display.|false|
 |poiDistances|no|Boolean/Integer[]|true|Defines whether the feature "Close to me", which shows a list of nearby points of interest, is provided. If an array is configured, multiple such lists with the given distance in meters are offered. When simply setting `poiDistances: true`, the used distances are `[500,1000,2000]`.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
@@ -239,6 +240,7 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 "orientation": {
     "iconGeolocate": "bi-geo-alt",
     "iconGeolocatePOI": "bi-record-circle",
+    "iconGeolocationMarker": "bi-circle-fill",
     "zoomMode": "once",
     "poiDistances": true
 }
@@ -1800,7 +1802,9 @@ Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
 |featureCount|no|Number||Number of features to return on a GetFeatureInfo query.|false|
 |icon|no|String|"bi-cloud-plus"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String|"common:modules.addWMS.name"|Name of the module in the menu.|false|
+|showInLayerTree|no|Boolean|false|ShowInLayerTree setting for the imported layers.|false|
 |type|no|String|"addWMS"|The type of the module. Defines which module is configured.|false|
+|visibility|no|Boolean|false|Visibility setting for the imported layers.|false|
 |exampleURLs|no|String[]|[]|Example URLs displayed under the module.|false|
 
 **Example**
@@ -1810,7 +1814,9 @@ Schema for a WMS layer URL: `www.diensteurl/wmsdienste`.
     "icon": "bi-cloud-plus",
     "featureCount": 10,
     "name": "common:modules.addWMS.name",
+    "showInLayerTree": false,
     "type": "addWMS",
+    "visibility": false,
     "exampleURLs": [
         "https://sgx.geodatenzentrum.de/wms_sentinel2_de",
         "https://sgx.geodatenzentrum.de/wms_landschaften",

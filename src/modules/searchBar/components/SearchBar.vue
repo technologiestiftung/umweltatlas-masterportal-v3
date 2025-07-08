@@ -283,8 +283,13 @@ export default {
             if (searchInputValue !== undefined) {
                 this.removePointMarker();
                 this.searchResults.forEach(searchResult => {
-                    if (searchResult.category.startsWith("Adresse") || searchResult.category.startsWith("Straße")) {
-                        if (searchInputValue.toLowerCase() === searchResult.name.toLowerCase()) {
+                    const category = searchResult.category.toLowerCase(),
+                        name = searchResult.name.toLowerCase();
+
+                    if (category.includes("adresse") ||
+                        category.includes("address") ||
+                        category.includes("straße")) {
+                        if (searchInputValue.toLowerCase() === name) {
                             this.activateActions({searchResult, actionType: "onClick"});
                         }
                     }

@@ -3,6 +3,7 @@
  * @typedef {Object} OrientationState
  * @property {String} iconGeolocate Icon of the orientation geolocate button.
  * @property {String} iconGeolocatePOI Icon of the orientation geolocate POI button.
+ * @property {String} iconGeolocatePOI Icon of the orientation geolocate map marker.
  * @property {String[]} poiDistances The distances in config.json.
  * @property {String[]} supportedDevices Devices on which the module is displayed.
  * @property {String[]} supportedMapModes Map mode in which this module can be used.
@@ -21,6 +22,7 @@
 const state = {
     iconGeolocate: "geo-alt",
     iconGeolocatePOI: "record-circle",
+    iconGeolocationMarker: "bi-circle-fill",
     poiDistances: [],
     supportedDevices: ["Desktop", "Mobile"],
     supportedMapModes: ["2D", "3D"],

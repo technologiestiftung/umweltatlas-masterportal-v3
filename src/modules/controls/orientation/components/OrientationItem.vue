@@ -46,6 +46,7 @@ export default {
             "geolocation",
             "iconGeolocate",
             "iconGeolocatePOI",
+            "iconGeolocationMarker",
             "onlyFilteredFeatures",
             "poiDistances",
             "poiMode",
@@ -515,7 +516,7 @@ export default {
             id="geolocation_marker"
             class="geolocation_marker"
         >
-            <i class="bi-circle-fill" />
+            <i :class="iconGeolocationMarker" />
         </span>
         <ControlIcon
             id="geolocate"

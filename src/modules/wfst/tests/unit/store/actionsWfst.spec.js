@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getLayerInformationModule from "@modules/wfst/js/getLayerInformation";
 import prepareFeaturePropertiesModule from "@modules/wfst/js/prepareFeatureProperties";
 import actionsWfst from "@modules/wfst/store/actionsWfst";
 import layerCollection from "@core/layers/js/layerCollection";
@@ -215,47 +214,6 @@ describe("src/modules/wfst/store/actionsWfst.js", () => {
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("Alerting/addSingleAlert");
             expect(dispatch.firstCall.args[1].content).to.include("Error: Test error");
-        });
-    });
-    describe("setActive", () => {
-        const layerIds = ["id"],
-            layerInformation = [
-                {isSelected: false},
-                {isSelected: true}
-            ];
-
-        beforeEach(() => {
-            getters = {
-                layerIds,
-                layerInformation
-            };
-            sinon.stub(getLayerInformationModule, "getLayerInformation").returns(layerInformation);
-        });
-        it("should add the relevant values to the store and dispatch setFeatureProperties if active is true", () => {
-            actionsWfst.setActive({commit, dispatch, getters}, true);
-            expect(commit.calledThrice).to.be.true;
-            expect(commit.firstCall.args.length).to.equal(2);
-            expect(commit.firstCall.args[0]).to.equal("setActive");
-            expect(commit.firstCall.args[1]).to.equal(true);
-            expect(commit.secondCall.args.length).to.equal(2);
-            expect(commit.secondCall.args[0]).to.equal("setLayerInformation");
-            expect(commit.secondCall.args[1]).to.equal(layerInformation);
-            expect(commit.thirdCall.args.length).to.equal(2);
-            expect(commit.thirdCall.args[0]).to.equal("setCurrentLayerIndex");
-            expect(commit.thirdCall.args[1]).to.equal(1);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args.length).to.equal(1);
-            expect(dispatch.firstCall.args[0]).to.equal("setFeatureProperties");
-        });
-        it("should dispatch reset if active is false", () => {
-            actionsWfst.setActive({commit, dispatch, getters}, false);
-            expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args.length).to.equal(2);
-            expect(commit.firstCall.args[0]).to.equal("setActive");
-            expect(commit.firstCall.args[1]).to.equal(false);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args.length).to.equal(1);
-            expect(dispatch.firstCall.args[0]).to.equal("reset");
         });
     });
     describe("updateFeatureProperty", () => {

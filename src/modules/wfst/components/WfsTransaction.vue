@@ -29,7 +29,6 @@ export default {
             "showInteractionsButtons",
             "transactionProcessing",
             "isFormDisabled",
-            "active",
             "featurePropertiesBatch",
             "configAttributes",
             "controlAttributes",
@@ -65,7 +64,7 @@ export default {
     },
     methods: {
         ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction", "prepareEditButton", "clearInteractions"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction", "prepareEditButton", "clearInteractions"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}

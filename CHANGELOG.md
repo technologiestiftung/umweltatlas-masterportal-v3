@@ -8,6 +8,8 @@
 ### __Breaking Changes__
 
 ### Added
+- AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
+- Orientation: added parameter iconGeolocationMarker to configure the icon used for the current position in the map.
 
 ### Changed
 
@@ -19,6 +21,8 @@
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
+- AddWMS: Fixed incorrect layer order caused by baselayer zIndex being modified when adding a WMS.
+- LayerTree: Fixed incorrect layer order when adding last layer of a folder within the layertree.
 
 ---
 
@@ -27,7 +31,7 @@
 ### Added
 - Issue #1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
 - SearchBar: Added functionality to highlight a 3D tile at the address coordinates.
-- Routing: 
+- Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
 
@@ -37,8 +41,8 @@
 - LayerPills: Added toggle button to show multiple lines of LayerPills. When toggled, they are shown in multiple lines and do not disappear off-screen.
 - WFS-T: Errorhandling informs user of slow fetch-time for layer-information.
 - WFS-T: Transaction buttons are disabled for fetch-time at module start and when the user saves new values to fields.
-- Routing: 
-    - button for adding a new waypoint was moved between start and endpoint 
+- Routing:
+    - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
 
@@ -46,8 +50,9 @@
 - Menu: Menu title now updates correctly on language change.
 - Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
 - Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
-- Issue #1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.  
+- Issue #1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.
 - Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue #1441: SearchBar: Fixed missing zoom and marker placement for unique URL query results.
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
@@ -62,9 +67,9 @@
 ## 2025-06-19 v3.3.6 (LTS)
 
 ### Fixed
-- Issue #1366: 
+- Issue #1366:
     - SpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
-    - SpecialWfs: Fixes search for coordinates with different format. 
+    - SpecialWfs: Fixes search for coordinates with different format.
     - SpecialWfs: Fixes search for polygons with interior areas.
 - Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
 - Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
