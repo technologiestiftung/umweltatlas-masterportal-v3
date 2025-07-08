@@ -30,6 +30,12 @@ export default {
             required: false,
             default: null
         }
+    },
+    emits: ["updateAccordionState"],
+    methods: {
+        updateState (event) {
+            this.$emit("updateAccordionState", event.target.classList.contains("collapsed"));
+        }
     }
 };
 </script>
@@ -56,6 +62,7 @@ export default {
                     :data-bs-target="`#flush-collapse-${id}`"
                     aria-expanded="true"
                     :aria-controls="`#flush-collapse-${id}`"
+                    @click="updateState"
                 >
                     <i
                         v-if="icon"

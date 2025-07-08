@@ -492,15 +492,16 @@
         "unit": "{{amountOfFilteredItems}} Results"
       },
       "geometryFilter": {
-        "activate": "Set area for filtering",
+        "title": "Geometry filter",
         "buffer": "Buffer [m]",
-        "geometries": {
+        "geometries": "Geometries",
+        "regions": "Gebiete",
+        "geometryTypes": {
           "circle": "Circle",
           "lineString": "Line + Buffer",
           "polygon": "Polygon",
           "rectangle": "Rectangle"
         },
-        "help": "Select an area on the map to filter only within that area.",
         "removeGeometry": "Remove that area",
         "selectGeometry": "Choose an area."
       },

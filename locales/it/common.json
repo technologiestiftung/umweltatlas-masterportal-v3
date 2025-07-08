@@ -368,15 +368,16 @@
         "unit": "{{amountOfFilteredItems}} Treffer"
       },
       "geometryFilter": {
-        "activate": "Impostare l'area per il filtraggio",
+        "title": "",
         "buffer": "Puffer [m]",
-        "geometries": {
+        "geometries": "",
+        "regions": "",
+        "geometryTypes": {
           "circle": "Cerchio",
           "lineString": "Linea + Buffer",
           "polygon": "Area",
           "rectangle": "Rettangolo"
         },
-        "help": "Selezionare un'area sulla mappa per filtrare solo in quell'area.",
         "removeGeometry": "Rimuovere l'area",
         "selectGeometry": "Selezionare una geometria."
       },

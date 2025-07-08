@@ -491,17 +491,19 @@
         "unit": "{{amountOfFilteredItems}} Ergebnisse"
       },
       "geometryFilter": {
-        "activate": "Gebiet für Filterung setzen",
+        "title": "Geometriefilter",
         "buffer": "Puffer [m]",
-        "geometries": {
+        "geometries": "Geometrien",
+        "regions": "Gebiete",
+        "geometryTypes": {
           "circle": "Kreis",
           "lineString": "Linie + Puffer",
           "polygon": "Fläche",
           "rectangle": "Rechteck"
         },
-        "help": "Wählen Sie auf der Karte ein Gebiet aus um nur innerhalb dieses Gebietes zu filtern.",
         "removeGeometry": "Gebiet entfernen",
-        "selectGeometry": "Wählen Sie eine Geometrie aus."
+        "selectGeometry": "Wählen Sie eine Geometrie um nur innerhalb der gesetzten Geometrie zu filtern.",
+        "selectRegion": "Wählen Sie ein Gebiet um nur innerhalb dieses Gebiets zu filtern."
       },
       "info": {
         "infoIcon": "Durch Klicken auf das Info-Icon können weitere Informationen abgerufen werden",

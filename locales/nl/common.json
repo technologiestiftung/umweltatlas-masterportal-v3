@@ -442,15 +442,16 @@
           "unit": "{{amountOfFilteredItems}} Hit"
         },
         "geometryFilter": {
-          "activate": "Stel het filtergebied in",
+          "title": "",
           "buffer": "buffer [m]",
-          "geometries": {
+          "geometries": "Geometrie",
+          "regions": "Gebieden",
+          "geometryTypes": {
             "circle": "Cirkel",
             "lineString": "Lijn + buffer",
             "polygon": "Gebied",
             "rectangle": "rechthoek"
           },
-          "help": "Selecteer een gebied op de kaart om alleen binnen dat gebied te filteren.",
           "removeGeometry": "Gebied verwijderen",
           "selectGeometry": "Selecteer een geometrie."
         },

@@ -368,15 +368,16 @@
         "unit": "{{amountOfFilteredItems}} Результати"
       },
       "geometryFilter": {
-        "activate": "",
+        "title": "",
         "buffer": "",
-        "geometries": {
+        "geometries": "",
+        "regions": "",
+        "geometryTypes": {
           "circle": "",
           "lineString": "",
           "polygon": "",
           "rectangle": ""
         },
-        "help": "",
         "removeGeometry": "",
         "selectGeometry": ""
       },

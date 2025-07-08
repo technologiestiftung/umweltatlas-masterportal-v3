@@ -1,4 +1,5 @@
 <script>
+import AccordionItem from "../../../../src/shared/modules/accordion/components/AccordionItem.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFilter.js";
 import mutations from "../store/mutationsFilter.js";
@@ -38,6 +39,7 @@ import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 export default {
     name: "FilterGeneral",
     components: {
+        AccordionItem,
         FlatButton,
         SnippetTag,
         GeometryFilter,
@@ -66,7 +68,8 @@ export default {
             mapMoveListeners: {},
             mapMoveRegistered: false,
             isFilterActive: false,
-            isFilterShown: false
+            isFilterShown: false,
+            isGeometryFilterActive: false
         };
     },
     computed: {
@@ -594,6 +597,13 @@ export default {
          */
         triggerDeleteAll () {
             this.setTriggerAllTagsDeleted(!this.triggerAllTagsDeleted);
+        },
+        /**
+         * Sets the isGeometryFilterActive variable true or false.
+         * @returns {void}
+         */
+        toggleGeometryFilter () {
+            this.isGeometryFilterActive = !this.isGeometryFilterActive;
         }
     }
 };
@@ -671,23 +681,31 @@ export default {
                 </div>
             </div>
         </div>
-        <GeometryFilter
-            v-if="isGeometrySelectorVisible()"
-            :circle-sides="geometrySelectorOptions.circleSides"
-            :default-buffer="geometrySelectorOptions.defaultBuffer"
-            :geometries="geometrySelectorOptions.geometries"
-            :additional-geometries="geometrySelectorOptions.additionalGeometries"
-            :invert-geometry="geometrySelectorOptions.invertGeometry"
-            :fill-color="geometrySelectorOptions.fillColor"
-            :stroke-color="geometrySelectorOptions.strokeColor"
-            :stroke-width="geometrySelectorOptions.strokeWidth"
-            :filter-geometry="filterGeometry"
-            :geometry-feature="geometryFeature"
-            :init-selected-geometry-index="geometrySelectorOptions.selectedGeometry"
-            @update-filter-geometry="updateFilterGeometry"
-            @update-geometry-feature="updateGeometryFeature"
-            @update-geometry-selector-options="updateGeometrySelectorOptions"
-        />
+        <AccordionItem
+            id="geometry-filter-accordion"
+            :title="$t('common:modules.filter.geometryFilter.title')"
+            font-size="font-size-big"
+            @update-accordion-state="toggleGeometryFilter()"
+        >
+            <GeometryFilter
+                v-if="isGeometrySelectorVisible()"
+                :is-active="isGeometryFilterActive"
+                :circle-sides="geometrySelectorOptions.circleSides"
+                :default-buffer="geometrySelectorOptions.defaultBuffer"
+                :geometries="geometrySelectorOptions.geometries"
+                :additional-geometries="geometrySelectorOptions.additionalGeometries"
+                :invert-geometry="geometrySelectorOptions.invertGeometry"
+                :fill-color="geometrySelectorOptions.fillColor"
+                :stroke-color="geometrySelectorOptions.strokeColor"
+                :stroke-width="geometrySelectorOptions.strokeWidth"
+                :filter-geometry="filterGeometry"
+                :geometry-feature="geometryFeature"
+                :init-selected-geometry-index="-10"
+                @update-filter-geometry="updateFilterGeometry"
+                @update-geometry-feature="updateGeometryFeature"
+                @update-geometry-selector-options="updateGeometrySelectorOptions"
+            />
+        </AccordionItem>
         <div v-if="Array.isArray(layerGroups) && layerGroups.length">
             <div
                 v-for="(layerGroup, key) in layerGroups"
