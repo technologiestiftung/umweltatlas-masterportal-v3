@@ -51,6 +51,7 @@
 - Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
 - Issue #1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.
 - Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue #1441: SearchBar: Fixed missing zoom and marker placement for unique URL query results.
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
