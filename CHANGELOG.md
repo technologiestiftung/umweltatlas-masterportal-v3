@@ -44,14 +44,13 @@
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
 
-
 ### Changed
 - Replaced layer 452, which will be deleted.
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
 - LayerPills: Added toggle button to show multiple lines of LayerPills. When toggled, they are shown in multiple lines and do not disappear off-screen.
 - WFS-T: Errorhandling informs user of slow fetch-time for layer-information.
 - WFS-T: Transaction buttons are disabled for fetch-time at module start and when the user saves new values to fields.
-- Routing: 
+- Routing:
     - button for adding a new waypoint was moved between start and endpoint 
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
