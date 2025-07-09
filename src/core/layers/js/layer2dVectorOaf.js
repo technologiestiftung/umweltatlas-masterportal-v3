@@ -70,6 +70,7 @@ Layer2dVectorOaf.prototype.getRawLayerAttributes = function (attributes) {
 Layer2dVectorOaf.prototype.getOptions = function (attributes) {
     const options = {
         clusterGeometryFunction: this.clusterGeometryFunction,
+        doNotLoadInitially: attributes.doNotLoadInitially,
         featuresFilter: (features) => this.featuresFilter(attributes, features),
         loadingParams: this.loadingParams(attributes),
         loadingStrategy: attributes.loadingStrategy === "all" ? all : bbox,

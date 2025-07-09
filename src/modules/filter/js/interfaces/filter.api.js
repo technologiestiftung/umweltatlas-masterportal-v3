@@ -39,7 +39,7 @@ export default class FilterApi {
                     getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId,
                     isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent,
                     isFeatureInGeometry: openlayerFunctions.isFeatureInGeometry}),
-                oafExtern: new InterfaceOafExtern(),
+                oafExtern: new InterfaceOafExtern({getCurrentExtent: openlayerFunctions.getCurrentExtent}),
                 geojsonIntern: new InterfaceGeojsonIntern(FilterApi.intervalRegister, {
                     getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId,
                     isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent,
@@ -101,20 +101,16 @@ export default class FilterApi {
             };
         }
         else if (type === "oaf") {
-            if (!extern) {
-                this.service = {
-                    type,
-                    extern,
-                    layerId,
-                    url,
-                    collection: layerModel.collection,
-                    namespace: featureNS,
-                    limit: typeof layerModel.limit === "undefined" ? 400 : layerModel.limit
-                };
-            }
-            else {
-                onerror(new Error("FilterApi.setServiceByLayerModel: Filtering oaf extern is not supported yet."));
-            }
+            this.service = {
+                type,
+                extern,
+                layerId,
+                url,
+                collection: layerModel.collection,
+                namespace: featureNS,
+                srsName: openlayerFunctions.getMapProjection(),
+                limit: typeof layerModel.limit === "undefined" ? 400 : layerModel.limit
+            };
         }
         else if (type === "geojson") {
             if (!extern) {

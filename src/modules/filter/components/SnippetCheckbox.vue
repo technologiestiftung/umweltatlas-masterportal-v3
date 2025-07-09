@@ -83,7 +83,7 @@ export default {
             checked: false,
             translationKey: "snippetCheckbox",
             operatorWhitelist: [
-                "EQ"
+                "EQ", "NE"
             ]
         };
     },

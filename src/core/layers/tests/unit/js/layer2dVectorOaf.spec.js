@@ -192,6 +192,7 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
         beforeEach(() => {
             options = [
                 "clusterGeometryFunction",
+                "doNotLoadInitially",
                 "featuresFilter",
                 "loadingParams",
                 "loadingStrategy",

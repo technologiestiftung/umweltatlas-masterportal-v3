@@ -129,6 +129,7 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         url: "foo",
                         collection: "wooo",
                         namespace: "foob/boof",
+                        srsName: "foo",
                         limit: 400
                     };
 
