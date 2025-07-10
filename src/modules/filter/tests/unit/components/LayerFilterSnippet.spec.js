@@ -378,7 +378,8 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
     });
     it("should render amount of filtered items", async () => {
         await wrapper.setData({
-            amountOfFilteredItems: 3
+            amountOfFilteredItems: 3,
+            showSpinner: false
         });
         await wrapper.vm.$nextTick();
         expect(wrapper.find(".filter-result").exists()).to.be.true;
@@ -800,6 +801,95 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
             await wrapper.vm.$nextTick();
 
             expect(wrapper.findAllComponents({name: "FlatButton"}).length).to.be.equal(2);
+        });
+        it("should have a loading spinner", () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        snippets: [
+                            {"attrName": "snippet1"},
+                            {"attrName": "snippet2"}
+                        ]
+                    },
+                    mapHandler,
+                    layerSelectorVisible: false,
+                    filterRules: [{value: "rule2"}]
+                }
+            });
+
+            expect(wrapper.findAllComponents({name: "SpinnerItem"}).length).to.be.equal(1);
+        });
+        it("should have not a loading spinner", async () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        snippets: [
+                            {"attrName": "snippet1"},
+                            {"attrName": "snippet2"}
+                        ]
+                    },
+                    mapHandler,
+                    layerSelectorVisible: false,
+                    filterRules: [{value: "rule2"}]
+                }
+            });
+
+            wrapper.setData({snippets: [
+                {"attrName": "snippet1"},
+                {"attrName": "snippet2"}
+            ]});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.findAllComponents({name: "SpinnerItem"}).length).to.be.equal(0);
+        });
+        it("should have not a loading spinner if there are children snippets", async () => {
+            wrapper = shallowMount(LayerFilterSnippet, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    layerConfig: {
+                        service: {
+                            type: "something external"
+                        },
+                        snippets: [
+                            {"attrName": "snippet1"},
+                            {
+                                "attrName": "snippet2",
+                                "children": [
+                                    {"attrName": "snippet3"},
+                                    {"attrName": "snippet4"}
+                                ]
+                            }
+                        ]
+                    },
+                    mapHandler,
+                    layerSelectorVisible: false,
+                    filterRules: [{value: "rule2"}]
+                }
+            });
+
+            wrapper.setData({snippets: [
+                {"attrName": "snippet1"},
+                {"attrName": "snippet2"},
+                {"attrName": "snippet3"},
+                {"attrName": "snippet4"}
+            ]});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.findAllComponents({name: "SpinnerItem"}).length).to.be.equal(0);
         });
     });
 });

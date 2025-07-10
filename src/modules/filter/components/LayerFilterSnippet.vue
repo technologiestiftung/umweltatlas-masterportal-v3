@@ -16,7 +16,7 @@ import isObject from "@shared/js/utils/isObject.js";
 import FilterApi from "../js/interfaces/filter.api.js";
 import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
 import MapHandler from "../utils/mapHandler.js";
-import {compileSnippets} from "../utils/compileSnippets.js";
+import {compileSnippets, removeInvalidSnippets} from "../utils/compileSnippets.js";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
@@ -24,6 +24,7 @@ import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 import VectorTileLayer from "ol/layer/VectorTile";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Layer Filter Snippet
@@ -62,6 +63,9 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
 export default {
     name: "LayerFilterSnippet",
     components: {
+        AccordionItem,
+        FlatButton,
+        ProgressBar,
         SnippetCheckbox,
         SnippetCheckboxFilterInMapExtent,
         SnippetDate,
@@ -73,9 +77,7 @@ export default {
         SnippetFeatureInfo,
         SnippetChart,
         SnippetDownload,
-        ProgressBar,
-        FlatButton,
-        AccordionItem
+        SpinnerItem
     },
     props: {
         api: {
@@ -148,6 +150,7 @@ export default {
             showStop: false,
             searchInMapExtent: false,
             snippets: [],
+            showSpinner: true,
             postSnippetKey: 0,
             autoRefreshSet: false,
             isRefreshing: false,
@@ -177,6 +180,23 @@ export default {
         }
     },
     watch: {
+        snippets: {
+            handler (val) {
+                const initialValidSnippets = removeInvalidSnippets(this.layerConfig?.snippets);
+                let totalCountInitialSnippets = initialValidSnippets.length;
+
+                initialValidSnippets.forEach(snippet => {
+                    if (Array.isArray(snippet?.children)) {
+                        totalCountInitialSnippets = totalCountInitialSnippets + snippet?.children.length;
+                    }
+                });
+
+                if (val?.length === totalCountInitialSnippets) {
+                    this.showSpinner = false;
+                }
+            },
+            deep: true
+        },
         filterRules: {
             handler (rules) {
                 if (this.isStrategyActive()) {
@@ -1198,6 +1218,12 @@ export default {
             class="disabled-overlayer"
         />
         <div
+            v-if="showSpinner"
+            class="loading-spinner"
+        >
+            <SpinnerItem />
+        </div>
+        <div
             v-if="isLoading"
             class="d-flex justify-content-center"
         >
@@ -1216,7 +1242,7 @@ export default {
                 {{ translateKeyWithPlausibilityCheck(layerConfig.description, key => $t(key)) }}
             </div>
             <div
-                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'&& !outOfZoom"
+                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'&& !outOfZoom && !showSpinner"
                 class="filter-result"
             >
                 <span>
@@ -1578,6 +1604,7 @@ export default {
     .panel-body {
         padding: 0 5px;
         position: inherit;
+        min-height: 80px;
         &.disabled {
             padding: 5px 5px 0;
             color: #9B9A9A;
@@ -1594,13 +1621,24 @@ export default {
         }
         .disabled-overlayer {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             top: 25px;
             bottom: 0;
             left: 0;
             right: 0;
             background-color: rgba(255, 255, 255, 0.1);
             cursor: not-allowed;
+        }
+        .loading-spinner {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            align-content: center;
         }
     }
     .panel-heading {
