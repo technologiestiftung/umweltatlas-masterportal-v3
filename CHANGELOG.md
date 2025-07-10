@@ -15,6 +15,7 @@
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
+- VectorTile, WebGL: Feature detection for MouseHover/GFI uses forEachFeatureAtPixel to support WebGL-rendered layers and avoid issues with getFeaturesInExtent.
 
 ### Deprecated
 
