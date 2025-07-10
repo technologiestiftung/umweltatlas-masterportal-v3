@@ -253,67 +253,6 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
     });
 
-    describe("display list", () => {
-        it("should render a list with radio", async () => {
-            wrapper = shallowMount(SnippetDropdown, {
-                global: {
-                    plugins: [store]
-                },
-                props: {
-                    "type": "dropdown",
-                    "attrName": "kapitelbezeichnung",
-                    "display": "list",
-                    "multiselect": false,
-                    "value": ["yek", "do"]
-                }
-            });
-
-            await wrapper.vm.$nextTick();
-            await wrapper.vm.$nextTick();
-            expect(wrapper.find(".snippetListContainer").exists()).to.be.true;
-            expect(wrapper.find(".snippetListContainer .radio").exists()).to.be.true;
-        });
-        it("should render a list with checkbox", async () => {
-            wrapper = shallowMount(SnippetDropdown, {
-                global: {
-                    plugins: [store]
-                },
-                props: {
-                    "type": "dropdown",
-                    "attrName": "kapitelbezeichnung",
-                    "display": "list",
-                    "multiselect": true,
-                    "value": ["yek", "do"]
-                }
-            });
-
-            await wrapper.vm.$nextTick();
-            await wrapper.vm.$nextTick();
-            expect(wrapper.find(".snippetListContainer").exists()).to.be.true;
-            expect(wrapper.find(".snippetListContainer .checkbox").exists()).to.be.true;
-        });
-        it("should set the current source to 'dropdown' if clicked on a entry", async () => {
-            wrapper = shallowMount(SnippetDropdown, {
-                global: {
-                    plugins: [store]
-                },
-                props: {
-                    "type": "dropdown",
-                    "attrName": "kapitelbezeichnung",
-                    "display": "list",
-                    "multiselect": true,
-                    "value": ["yek", "do"]
-                }
-            });
-            await wrapper.setData({source: "adjust"});
-            await wrapper.vm.$nextTick();
-            await wrapper.vm.$nextTick();
-
-            await wrapper.findAll(".checkbox").at(0).trigger("click");
-            expect(wrapper.vm.source).to.be.equal("dropdown");
-        });
-    });
-
     describe("methods", () => {
         describe("initializeIcons", () => {
             let layer,

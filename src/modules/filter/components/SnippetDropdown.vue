@@ -306,6 +306,8 @@ export default {
         dropdownValueComputed () {
             let dropdownValue = [];
 
+            this.getDropdownValueForList();
+
             if (!Array.isArray(this.value)) {
                 if (Array.isArray(this.dropdownValue)) {
                     dropdownValue = [...this.dropdownValue];
@@ -880,14 +882,6 @@ export default {
         :class="['snippetDropdownContainer', outOfZoom ? 'disabledClass' : '']"
     >
         <div
-            v-if="info"
-        >
-            <SnippetInfo
-                :info="info"
-                :translation-key="translationKey"
-            />
-        </div>
-        <div
             v-if="display === 'default'"
             class="snippetDefaultContainer"
         >
@@ -902,7 +896,7 @@ export default {
             </div>
             <div
                 ref="selectBoxContainer"
-                class="filter-select-box-container"
+                class="filter-select-box-container d-flex justify-content-between align-items-center"
             >
                 <Multiselect
                     :id="'snippetSelectBox-' + snippetId"
@@ -947,87 +941,45 @@ export default {
                             {{ noElements }}
                         </span>
                     </template>
-                </Multiselect>
-            </div>
-        </div>
-        <div
-            v-if="display === 'list'"
-            class="snippetListContainer"
-        >
-            <div class="grid-container">
-                <div
-                    class="grid-item"
-                >
-                    {{ titleText }}
-                </div>
-                <div
-                    v-if="multiselect && addSelectAll"
-                    class="grid-item"
-                >
-                    <a
-                        href="#"
-                        class="link-dark"
-                        @click="!allSelected ? selectAll() : deselectAll()"
-                    >
-                        {{ selectAllTitle }}
-                    </a>
-                </div>
-                <div
-                    v-for="val in getDropdownValueForList()"
-                    :key="snippetId + '-' + val"
-                    class="grid-item"
-                >
-                    <span
+                    <template
                         v-if="anyIconExists()"
-                        class="subItem"
+                        #singleLabel="props"
                     >
-                        <label
-                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                        <img
+                            class="option__image"
+                            :src="iconList[props.option]"
+                            :alt="iconList[props.option]"
                         >
-                            <img
-                                v-show="iconExists(val)"
-                                class="snippetListContainerIcon"
-                                :src="iconList[val]"
-                                :alt="val"
-                            >
-                        </label>
-                    </span>
-                    <span
-                        class="subItem"
+                        <span class="option__desc">
+                            <span
+                                class="option__title"
+                            >{{ props.option }}
+                            </span>
+                        </span>
+                    </template>
+                    <template
+                        v-if="anyIconExists()"
+                        #option="props"
                     >
-                        <input
-                            v-if="multiselect"
-                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                            v-model="dropdownSelected"
-                            :aria-label="ariaLabelCheckbox"
-                            class="checkbox"
-                            :disabled="disable"
-                            type="checkbox"
-                            :value="val"
-                            tabindex="0"
-                            @click="setCurrentSource('dropdown')"
+                        <img
+                            class="option__image"
+                            :src="iconList[props.option]"
+                            :alt="props.option"
                         >
-                        <input
-                            v-else
-                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                            v-model="dropdownSelected[0]"
-                            :aria-label="ariaLabelRadio"
-                            class="radio"
-                            :disabled="disable"
-                            type="radio"
-                            :value="val"
-                            tabindex="0"
-                            @click="setCurrentSource('dropdown')"
-                        >
-                    </span>
-                    <span
-                        class="subItem"
-                    >
-                        <label
-                            class="check-box-label"
-                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
-                        >{{ val }}</label>
-                    </span>
+                        <span class="option__desc">
+                            <span class="option__title">
+                                {{ props.option }}
+                            </span>
+                        </span>
+                    </template>
+                </Multiselect>
+                <div
+                    v-if="info"
+                >
+                    <SnippetInfo
+                        :info="info"
+                        :translation-key="translationKey"
+                    />
                 </div>
             </div>
         </div>
@@ -1045,7 +997,7 @@ export default {
     .filter-select-box-container .multiselect .multiselect__spinner:after, .multiselect__spinner:before {
         position: absolute;
         content: "";
-        top: 50%;
+        top: 40%;
         left: 50%;
         margin: 0px 0 0 0px;
         width: 16px;
@@ -1061,13 +1013,19 @@ export default {
     .filter-select-box-container .multiselect .multiselect__option {
         display: block;
         min-height: 16px;
-        line-height: 8px;
+        line-height: 20px;
         text-decoration: none;
         text-transform: none;
         position: relative;
         cursor: pointer;
         white-space: nowrap;
         padding: 10px 12px;
+    }
+    .filter-select-box-container .multiselect .multiselect__option .option__image {
+        float: left;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     .filter-select-box-container .multiselect .multiselect__option--highlight {
         background: $secondary;
@@ -1083,9 +1041,9 @@ export default {
         padding: 4px 26px 4px 10px;
         border-radius: 10px;
         margin-right: 15px;
-        color: $white;
+        color: $black;
         line-height: 1;
-        background: $secondary;
+        background: $primary;
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;
@@ -1111,11 +1069,14 @@ export default {
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon::after {
         content: "\D7";
-        color: $light_grey;
+        color: $black;
         font-size: $font_size_big;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:hover {
-        background: $light_blue;
+        background: $primary;
+    }
+    .filter-select-box-container .multiselect .multiselect__tag-icon:hover:after {
+        color: $black;
     }
     .filter-select-box-container .multiselect .multiselect__placeholder {
         color: $light_grey;
@@ -1124,7 +1085,7 @@ export default {
         padding-top: 0;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
-        background: $light_grey;
+        background: $white;
     }
     .filter-select-box-container .multiselect__select {
         transform: none;
@@ -1138,7 +1099,7 @@ export default {
         font-size: $font_size_sm;
         -webkit-text-stroke: 1px;
         display: inline-block;
-        padding-top: 60%;
+        padding-top: 50%;
     }
     .filter-select-box-container .multiselect--active {
         color: $black;
@@ -1149,9 +1110,8 @@ export default {
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(13, 110, 253, 0.05);
     }
     .filter-select-box-container .multiselect .multiselect__tags {
-        min-height: 40px;
+        min-height: 50px;
         font-size: $font-size-base;
-        line-height: 40px;
         color: $dark_grey;
         background-color: $white;
         background-image: none;
@@ -1160,6 +1120,10 @@ export default {
         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
         -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
         transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        padding-top: 15px;
+    }
+    .filter-select-box-container .multiselect .option__desc {
+        padding-left: 5%;
     }
     .multiselect__option--selected {
         font-family: $font_family_accent;
