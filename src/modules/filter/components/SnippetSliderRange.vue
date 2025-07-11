@@ -179,7 +179,7 @@ export default {
         };
     },
     watch: {
-        adjustment (adjusting) {
+        async adjustment (adjusting) {
             if (!isObject(adjusting) || this.visible === false || this.isParent) {
                 return;
             }
@@ -206,6 +206,7 @@ export default {
                         this.currentSliderMax = this.getMemoryAdjustMax();
                     }
 
+                    await this.$nextTick();
                     if (this.sliderFrom !== this.currentSliderMin) {
                         this.sliderFrom = this.currentSliderMin;
                     }
@@ -363,9 +364,10 @@ export default {
          * @param {Number} max The max value.
          * @returns {void}
          */
-        initSlider (min, max) {
+        async initSlider (min, max) {
             this.currentSliderMin = min;
             this.currentSliderMax = max;
+            await this.$nextTick();
             if (this.isPrecheckedValid()) {
                 this.sliderFrom = this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin;
                 this.sliderUntil = this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax;
