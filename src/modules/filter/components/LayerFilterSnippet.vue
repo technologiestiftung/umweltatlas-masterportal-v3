@@ -108,11 +108,6 @@ export default {
             required: false,
             default: 0
         },
-        filterRules: {
-            type: Array,
-            required: false,
-            default: () => []
-        },
         filterHits: {
             type: [Number, Boolean],
             required: false,
@@ -172,6 +167,7 @@ export default {
         ...mapGetters("Modules/Filter", [
             "deletedRuleFilterId",
             "deletedRuleSnippetId",
+            "rulesOfFilters",
             "triggerAllTagsDeleted",
             "totalResults"
         ]),
@@ -183,6 +179,9 @@ export default {
         },
         fixedRules () {
             return this.filterRules.filter(rule => rule?.fixed);
+        },
+        filterRules () {
+            return typeof this.rulesOfFilters?.[this.layerConfig?.filterId] !== "undefined" ? this.rulesOfFilters[this.layerConfig?.filterId] : [];
         }
     },
     watch: {

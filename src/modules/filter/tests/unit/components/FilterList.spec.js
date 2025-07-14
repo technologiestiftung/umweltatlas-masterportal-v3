@@ -24,6 +24,18 @@ describe("src/modules/filter/components/FilterList.vue", () => {
                     actions: {
                         addSingleAlert: sinon.spy()
                     }
+                },
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        namespaced: true,
+                        Filter: {
+                            namespaced: true,
+                            getters: {
+                                rulesOfFilters: () => []
+                            }
+                        }
+                    }
                 }
             }
         });

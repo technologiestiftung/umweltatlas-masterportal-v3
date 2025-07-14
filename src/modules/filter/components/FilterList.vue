@@ -1,6 +1,6 @@
 <script>
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
@@ -8,15 +8,14 @@ import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 /**
  * Filter List
  * @module modules/FilterList
- * @vue-prop {Boolean} multidLayerSelector - Shows if multi layer selection is allowed.
+ * @vue-prop {Boolean} multiLayerSelector - Shows if multi layer selection is allowed.
  * @vue-prop {Array} filters - List of all the filters.
  * @vue-prop {Array} selectedLayers - List of all the selected layers.
  * @vue-prop {Number} jumpToId - The id it should scroll to.
- * @vue-prop {Array} rulesOfFilters - List of all filter rules.
  * @vue-data {Array} itemRefs - The references to the item.
- * @vue-computed {Booleand} disabled - Shows if button should be disabled.
+ * @vue-computed {Boolean} disabled - Shows if button should be disabled.
  * @vue-event {String} selectedAccordions - Updates the selected accordions.
- * @vue-event {String} setLayerLoaded - Emitting the function by transfering the filter Id of layer.
+ * @vue-event {String} setLayerLoaded - Emitting the function by transferring the filter Id of layer.
  * @vue-event {null} resetJumpToId - Resets the function.
  */
 export default {
@@ -44,11 +43,6 @@ export default {
             type: Number,
             required: false,
             default: undefined
-        },
-        rulesOfFilters: {
-            type: Array,
-            required: false,
-            default: () => []
         }
     },
     emits: ["selectedAccordions", "setLayerLoaded", "resetJumpToId", "deleteAllRules"],
@@ -56,6 +50,9 @@ export default {
         return {
             itemRefs: []
         };
+    },
+    computed: {
+        ...mapGetters("Modules/Filter", ["rulesOfFilters"])
     },
     watch: {
         jumpToId (newFilterId) {

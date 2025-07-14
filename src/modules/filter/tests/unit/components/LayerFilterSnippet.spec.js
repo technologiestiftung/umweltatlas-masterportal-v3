@@ -7,7 +7,6 @@ import SnippetCheckboxFilterInMapExtent from "@modules/filter/components/Snippet
 import {expect} from "chai";
 import MapHandler from "@modules/filter/utils/mapHandler.js";
 import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
-import gettersFilter from "@modules/filter/store/gettersFilter.js";
 import sinon from "sinon";
 import {nextTick} from "vue";
 
@@ -44,7 +43,13 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                     modules: {
                         Filter: {
                             namespaced: true,
-                            getters: gettersFilter
+                            getters: {
+                                deletedRuleFilterId: sinon.stub(),
+                                deletedRuleSnippetId: sinon.stub(),
+                                triggerAllTagsDeleted: sinon.stub(),
+                                totalResults: sinon.stub(),
+                                rulesOfFilters: () => [[{value: "rule2"}]]
+                            }
                         }
                     }
                 }
@@ -783,14 +788,19 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         service: {
                             type: "something external"
                         },
-                        strategy: "active"
+                        strategy: "active",
+                        filterId: 0
                     },
                     mapHandler,
-                    layerSelectorVisible: false,
-                    filterRules: [{value: "rule2"}]
+                    layerSelectorVisible: false
                 }
             });
 
+            await wrapper.setData({
+                layerConfig: {
+                    filterId: 0
+                }
+            });
             wrapper.setData({initialRules: [{value: "rule1", startup: true}]});
             await wrapper.vm.$nextTick();
 
@@ -812,8 +822,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         ]
                     },
                     mapHandler,
-                    layerSelectorVisible: false,
-                    filterRules: [{value: "rule2"}]
+                    layerSelectorVisible: false
                 }
             });
 
@@ -835,8 +844,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         ]
                     },
                     mapHandler,
-                    layerSelectorVisible: false,
-                    filterRules: [{value: "rule2"}]
+                    layerSelectorVisible: false
                 }
             });
 
@@ -870,8 +878,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         ]
                     },
                     mapHandler,
-                    layerSelectorVisible: false,
-                    filterRules: [{value: "rule2"}]
+                    layerSelectorVisible: false
                 }
             });
 
