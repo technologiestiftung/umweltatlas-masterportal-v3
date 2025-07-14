@@ -173,6 +173,7 @@ export default {
                     uniqueValues = await getOAFFeature.getUniqueValuesByScheme(url, collection, [region.child.attrName]);
                 }
                 else {
+
                     const filter = this.getFilterOAF(region.attrName, this.containsAllTag(region.selectedValues) ? region.values : region.selectedValues),
                         features = await getOAFFeature.getOAFFeatureGet(url, collection, {
                             filter,

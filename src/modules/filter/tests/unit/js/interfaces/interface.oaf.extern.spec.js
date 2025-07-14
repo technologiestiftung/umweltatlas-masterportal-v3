@@ -264,7 +264,7 @@ describe("src/modules/filter/interfaces/utils/interface.oaf.extern.js", () => {
             getOAFStub.resolves([{feature: 1}]);
             interfaceOafExtern.filter(filterQuestion, onsuccess, onerror);
 
-            expect(getOAFStub.firstCall.args[8]).to.include({bbox: "1,2,3,4"});
+            expect(getOAFStub.firstCall.args[2]).to.have.property("bbox", "1,2,3,4");
         });
     });
 });

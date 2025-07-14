@@ -279,13 +279,15 @@ export default class InterfaceOafExtern {
         getOAFFeature.getOAFFeatureGet(
             filterQuestion.service.url,
             filterQuestion.service.collection,
-            filterQuestion.service.limit,
-            filter,
-            epsgCodeToURI(filterQuestion.service.srsName),
-            epsgCodeToURI(filterQuestion.service.srsName),
-            undefined,
-            false,
-            {bbox, bboxCrs: epsgCodeToURI(filterQuestion.service.srsName), signal: controller.signal}
+            {
+                limit: filterQuestion.service.limit,
+                filter,
+                filterCrs: epsgCodeToURI(filterQuestion.service.srsName),
+                crs: epsgCodeToURI(filterQuestion.service.srsName),
+                bbox,
+                bboxCrs: epsgCodeToURI(filterQuestion.service.srsName),
+                signal: controller.signal
+            }
         )
             .then(features => {
                 if (!Array.isArray(features) || typeof onsuccess !== "function") {
