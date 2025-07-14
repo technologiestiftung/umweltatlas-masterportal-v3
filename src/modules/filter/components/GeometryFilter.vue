@@ -603,7 +603,7 @@ export default {
                 {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.removeGeometry", key => $t(key)) }}
             </button>
         </div>
-        <hr>
+        <hr class="mb-4">
     </div>
 </template>
 

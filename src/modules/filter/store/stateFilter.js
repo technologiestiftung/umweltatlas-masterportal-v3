@@ -8,8 +8,7 @@
  * @property {String}   name - Module name
  * @property {String} menuSide Specifies in which menu the GFI should be rendered
  * @property {Boolean} resetLayer - if true it will change the reset button to a button which resets the whole layer and ignores the prechecked values
- * @property {Boolean} layerSelectorVisible - to display a selector for the layers
- * @property {Boolean} multiLayerSelector - if layerSelectorVisible true, wether one can open multiple sections of the selector at the same time
+ * @property {Boolean} multiLayerSelector - Controls whether all filters can be active or only one at same time.
  * @property {Boolean} liveZoomToFeatures - defines whether the filter immediately zooms to filter results
  * @property {Boolean} geometrySelectorOptions - options for an additional tool for filtering within a self-drawn area. If you use this tool in conjunction with external filtering
  * @property {Number} minScale - minimum zoom level the filter zooms in when displaying filter results
@@ -47,7 +46,6 @@ const state = {
     name: "common:modules.filter.name",
     menuSide: "mainMenu",
     resetLayer: false,
-    layerSelectorVisible: true,
     multiLayerSelector: true,
     liveZoomToFeatures: true,
     geometrySelectorOptions: false,

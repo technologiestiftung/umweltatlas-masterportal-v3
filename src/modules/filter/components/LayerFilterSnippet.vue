@@ -89,10 +89,6 @@ export default {
             type: Object,
             required: true
         },
-        layerSelectorVisible: {
-            type: Boolean,
-            required: true
-        },
         mapHandler: {
             type: MapHandler,
             required: false,
@@ -376,7 +372,7 @@ export default {
                     snippet.initialPrechecked = snippet.prechecked;
                 });
                 this.setSnippetValueByState(this.filterRules);
-                if (this.layerSelectorVisible && this.layerConfig.filterOnOpen && this.layerConfig.strategy === "active" && !this.outOfZoom) {
+                if (this.layerConfig.filterOnOpen && this.layerConfig.strategy === "active" && !this.outOfZoom) {
                     this.$nextTick(() => {
                         this.$nextTick(() => {
                             this.$nextTick(() => {
@@ -1619,7 +1615,6 @@ export default {
         padding: 0;
     }
     .panel-body {
-        padding: 0 5px;
         position: inherit;
         min-height: 80px;
         &.disabled {

@@ -62,38 +62,6 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
             expect(wrapper.find("#filter").exists()).to.be.true;
         });
 
-        it("should render two accordions if two layer groups are present and layerSelectorVisible is true", () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            expect(wrapper.findAll(".accordion-collapse")).to.have.lengthOf(2);
-        });
-
-        it("should render no accordions if layer groups are present and layerSelectorVisible is false", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.setLayerSelectorVisible(false);
-            await wrapper.vm.$nextTick();
-
-            expect(wrapper.find(".accordion-collapse").exists()).to.be.false;
-            wrapper.vm.setLayerSelectorVisible(true);
-        });
-
-        it("should render and open one accordion if its selected", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.setSelectedGroups([0]);
-            await wrapper.vm.$nextTick();
-
-            expect(wrapper.find(".show").exists()).to.be.true;
-            expect(wrapper.findAll(".show")).to.have.lengthOf(1);
-        });
-
         it("should render url link if configured", async () => {
             const wrapper = shallowMount(FilterGeneral, {global: {
                 plugins: [store]
@@ -115,31 +83,14 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
 
         });
 
-        it("should render an icon button if initialStartupReset is true", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.setLayerSelectorVisible(false);
-            wrapper.vm.hasUnfixedRules = () => true;
-            wrapper.vm.layerConfigs.layers[0].initialStartupReset = true;
-            await wrapper.vm.$forceUpdate();
-
-            expect(wrapper.findComponent(IconButton).exists()).to.be.true;
-            wrapper.vm.layerConfigs.layers[0].initialStartupReset = false;
-            wrapper.vm.setLayerSelectorVisible(true);
-        });
-
         it("should not render an icon button if initialStartupReset is false", async () => {
             const wrapper = shallowMount(FilterGeneral, {global: {
                 plugins: [store]
             }});
 
-            wrapper.vm.setLayerSelectorVisible(false);
             wrapper.vm.hasUnfixedRules = () => true;
             await wrapper.vm.$nextTick();
             expect(wrapper.findComponent(IconButton).exists()).to.be.false;
-            wrapper.vm.setLayerSelectorVisible(true);
         });
 
         it("should not render questionLink button by default", async () => {

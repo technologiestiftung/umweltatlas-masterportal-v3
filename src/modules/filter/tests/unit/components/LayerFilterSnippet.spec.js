@@ -66,8 +66,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         type: "something external"
                     }
                 },
-                mapHandler,
-                layerSelectorVisible: false
+                mapHandler
             }
         });
     });
@@ -116,8 +115,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         filterId: 1,
                         searchInMapExtent: true
                     },
-                    mapHandler,
-                    layerSelectorVisible: false
+                    mapHandler
                 }
             });
             wrapper.setData({outOfZoom: false});
@@ -182,7 +180,6 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                             prechecked: ["Altona"]
                         }]
                     },
-                    layerSelectorVisible: false,
                     mapHandler
                 }
             });
@@ -411,8 +408,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         },
                         searchInMapExtent: true
                     },
-                    mapHandler,
-                    layerSelectorVisible: false
+                    mapHandler
                 }
             });
             expect(mapHandler.activateLayer.calledOnce).to.be.true;
@@ -589,8 +585,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         filterOnMove: true
                     },
                     mapHandler,
-                    openMultipleAccordeons: false,
-                    layerSelectorVisible: false
+                    openMultipleAccordeons: false
                 }
             });
 
@@ -617,8 +612,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                             type: "something external"
                         }
                     },
-                    mapHandler,
-                    layerSelectorVisible: false
+                    mapHandler
                 }
             });
             await wrapper.vm.$nextTick();
@@ -642,8 +636,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         minZoom: 15,
                         maxZoom: 18
                     },
-                    mapHandler,
-                    layerSelectorVisible: false
+                    mapHandler
                 }
             });
             await wrapper.vm.$nextTick();
@@ -792,7 +785,7 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                         filterId: 0
                     },
                     mapHandler,
-                    layerSelectorVisible: false
+                    filterRules: [{value: "rule2"}]
                 }
             });
 

@@ -2761,10 +2761,9 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |geometrySelectorOptions|no|[filterGeometrySelector](#portalconfigmenusectionsmodulesfilterfiltergeometryselector)[]|false|Options for an additional tool for filtering within a self-drawn area. If you use this tool in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.|false|
 |layerGroups|no|[filterLayerGroups](#portalconfigmenusectionsmodulesfilterfilterlayergroups)[]|[]|Configuration of the related layers to be filtered.|false|
 |layers|no|[filterLayer](#portalconfigmenusectionsmodulesfilterfilterlayer)[]|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically.|false|
-|layerSelectorVisible|no|Boolean|true|To display a selector for the layers. Put to `false` to show without selector.|false|
 |liveZoomToFeatures|no|Boolean|true|Defines whether the filter immediately zooms to filter results.|false|
 |minScale|no|Integer|5000|Minimum zoom level the filter zooms in when displaying filter results.|false|
-|multiLayerSelector|no|Boolean|true|If `layerSelectorVisible` `true`, wether one can open multiple sections of the selector at the same time.|false|
+|multiLayerSelector|no|Boolean|true|Controls whether all filters can be active or only one at same time.|false|
 |name|no|String|"common:modules.filter.name"|Name of the module in the menu.|false|
 |saveTo|no|String|"void"|If set to "url", the current filter setting is saved. The shareView module can be used to create a link containing the filter settings.|false|
 |linkText|no|String|""|Link text at the bottom containing a url link to the current filter setting, or empty string if no such link should be displayed. Requires "saveTo": "url"|false|
@@ -2781,7 +2780,6 @@ The following example uses only a layer id to generate the filter automatically.
 {
     "type": "filter",
     "icon": "bi-funnel-fill",
-    "layerSelectorVisible": false,
     "closeDropdownOnSelect": true,
     "geometrySelectorOptions": {
         "visible": true
@@ -2886,10 +2884,10 @@ An object to define a layer to filter with.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|active|no|Boolean|false|Set to `true` to let the layer selector be initialy opened - only if layerSelectorVisible is set to `true`. If multiLayerSelector is set to `false` and more than one filter layer has set active to `true`, the last filter layer with active `true` is initialy opened.|false|
+|active|no|Boolean|false|Set to `true` to let the layer selector be initialy opened. If multiLayerSelector is set to `false` and more than one filter layer has set active to `true`, the last filter layer with active `true` is initialy opened.|false|
 |clearAll|no|Boolean|false|After clicking button Reset all, all the features will be shown. Set to `true` to clear all the features after clicking Reselt all button.|false|
 |collection|no|String||ONLY VectorTiles: The collection to filter. If it is set, the layer needs a `baseOAFUrl` to start the api requests|false|
-|description|no|String|""|A description of the layer, displayed when the selector is opened or no layerSelectorVisible is set to `false`. Can be a translation key also.|false|
+|description|no|String|""|A description of the layer, displayed when the selector is opened. Can be a translation key also.|false|
 |download|no|Boolean|""|Enter true for a file here to activate the download of the data filtered on this layer. A download area will appear at the end of the filter. For VectorTiles, only CSV download works.|false|
 |extern|no|Boolean|false|When set to `true`, filtering is done on the server side. Useful for big sets of data that can't be loaded into the browser at once. Remember to set the **[isNeverVisibleInTree](#layerconfigelementslayersvector)** flag of the layer to `true` to avoid loading of the whole data set by user click on its entry in the tree.|false|
 |filterButtonDisabled|no|Boolean|false|Only for strategy `passive`: Disable the filter button while nothing is selected.|false|
@@ -2906,12 +2904,12 @@ An object to define a layer to filter with.
 |searchInMapExtentInfo|no|Boolean|true|A little icon is shown right hand side of the checkbox. Clicking the icon, a standard description is shown. Set to `false` to disable this feature. Set to a individual text to use an own description or use a translation key.|false|
 |searchInMapExtentPreselected|no|Boolean|false|The checkbox for filtering in the browser extent is initially selected if `searchInMapExtentPreselected`: `true` is set.|false|
 |searchInMapExtentProactive|no|Boolean|true|The checkbox for filtering in the browser extent triggers direct filtering in the current browser extent under `strategy`: `active`. This can be disabled by setting `searchInMapExtentProactive`: `false`.|false|
-|shortDescription|no|String|""|The shorter version of the description, displayed under the selector title only if `layerSelectorVisible` is `true` and the selector is closed. Can be a translation key also.|false|
+|shortDescription|no|String|""|The shorter version of the description, displayed under the selector title. Can be a translation key also.|false|
 |showHits|no|Boolean|true|After filtering, the hits are displayed. Set to `false` to not show the hits.|false|
 |snippets|no|**[Snippets](#datatypessnippets)**[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
 |snippetTags|no|Boolean|true|After filtering the current setting is displayed as tags. Set to `false` to turn of this feature.|false|
 |strategy|no|String||There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
-|title|no|String||The title to use for the selector (if `layerSelectorVisible` `true`). Can be a translation key also. If not set, the layerId will be used by default.|false|
+|title|no|String||The title to use for the selector. Can be a translation key also. If not set, the layerId will be used by default.|false|
 |wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
 |initialStartupReset|no|Boolean|false|If the parameter is set to `true`, a button appears to reset the filter. Please note that this prevents re-adjustment and is therefore only recommended for filter configurations with a `Datatypes.Snippets.Children`.|false|
 
@@ -2952,7 +2950,7 @@ An object to define a group layer to filter with.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|---|--------|-----------|------|
 |layers|no|String|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically. The type of layers is filterLayer, but here it was defined as string to avoid repetitive definitions within layerGroups.|false|
-|title|yes|String||The title to use for the group layer (if layerSelectorVisible true). Can be a translation key also.|false|
+|title|yes|String||The title to use for the group layer. Can be a translation key also.|false|
 
 **Example**
 

@@ -105,6 +105,8 @@ export default {
         }
     },
     mounted () {
+        const selectedFilterIds = [];
+
         getFeaturesOfAdditionalGeometries(this.geometrySelectorOptions.additionalGeometries).then(additionalGeometries => {
             if (!Array.isArray(additionalGeometries) || !additionalGeometries.length) {
                 return;
@@ -115,19 +117,12 @@ export default {
 
         if (this.layerConfigs?.length === 0) {
             this.setLayerConfigs(compileLayers(this.layerGroups, this.layers, FilterApi));
-
             if (Array.isArray(this.layerConfigs?.layers) && this.layerConfigs.layers.length > 0) {
-                const selectedFilterIds = [];
-
                 this.layerConfigs.layers.forEach(config => {
                     if (typeof config?.active === "boolean" && config.active && typeof config?.filterId !== "undefined") {
                         selectedFilterIds.push(config.filterId);
                     }
                 });
-                if (selectedFilterIds.length > 0) {
-                    this.setSelectedAccordions(this.transformLayerConfig(this.layerConfigs.layers, selectedFilterIds));
-
-                }
             }
         }
 
@@ -141,9 +136,15 @@ export default {
                 this.preparedLayerGroups.forEach(group => {
                     group.layers.forEach(layer => {
                         this.flattenPreparedLayerGroups.push(layer);
+                        if (layer?.active === true && typeof layer?.filterId !== "undefined") {
+                            selectedFilterIds.push(layer.filterId);
+                        }
                     });
                 });
             }
+        }
+        if (selectedFilterIds.length > 0) {
+            this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
         }
 
         this.urlHandler.readFromUrlParams(this.appStoreUrlParams?.[this.type.toUpperCase()], this.layerConfigs, this.mapHandler, params => {
@@ -402,9 +403,6 @@ export default {
         isLayerFilterSelected (filterId) {
             if (!Array.isArray(this.selectedAccordions)) {
                 return false;
-            }
-            if (!this.layerSelectorVisible) {
-                return true;
             }
 
             let selected = false;
@@ -690,136 +688,63 @@ export default {
             @update-geometry-feature="updateGeometryFeature"
             @update-geometry-selector-options="updateGeometrySelectorOptions"
         />
-        <div v-if="Array.isArray(layerGroups) && layerGroups.length && layerSelectorVisible">
+        <div v-if="Array.isArray(layerGroups) && layerGroups.length">
             <div
                 v-for="(layerGroup, key) in layerGroups"
                 :key="key"
                 class="layerGroupContainer"
             >
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h2
-                            class="panel-title"
-                        >
-                            <a
-                                role="button"
-                                data-toggle="collapse"
-                                data-parent="#accordion"
-                                tabindex="0"
-                                @click="updateSelectedGroups(layerGroups.indexOf(layerGroup))"
-                                @keydown.enter="updateSelectedGroups(layerGroups.indexOf(layerGroup))"
-                            >
-                                {{ layerGroup.title ? layerGroup.title : key }}
-                                <span
-                                    v-if="!selectedGroups.includes(layerGroups.indexOf(layerGroup))"
-                                    class="bi bi-chevron-down float-end"
-                                />
-                                <span
-                                    v-else
-                                    class="bi bi-chevron-up float-end"
-                                />
-                            </a>
-                        </h2>
-                        <div
-                            role="tabpanel"
-                            :class="['accordion-collapse', 'collapse', selectedGroups.includes(layerGroups.indexOf(layerGroup)) ? 'show' : '']"
-                        >
-                            <FilterList
-                                v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length && layerSelectorVisible"
-                                class="layerSelector"
-                                :filters="preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
-                                :selected-layers="selectedAccordions"
-                                :multi-layer-selector="multiLayerSelector"
-                                :jump-to-id="jumpToId"
-                                @delete-all-rules="(filterId) => resetSnippetsAndRules(filterId)"
-                                @reset-jump-to-id="resetJumpToId"
-                                @selected-accordions="updateSelectedAccordions"
-                                @set-layer-loaded="setLayerLoaded"
-                            >
-                                <template
-                                    #default="slotProps"
-                                >
-                                    <div
-                                        :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
-                                        role="tabpanel"
-                                    >
-                                        <LayerFilterSnippet
-                                            v-if="isLayerFilterSelected(slotProps.layer.filterId)"
-                                            :ref="'filter-' + slotProps.layer.filterId"
-                                            :key="slotProps.layer"
-                                            :api="slotProps.layer.api"
-                                            :is-layer-filter-selected="isLayerFilterSelected(slotProps.layer.filterId)"
-                                            :layer-config="slotProps.layer"
-                                            :layer-selector-visible="layerSelectorVisible"
-                                            :map-handler="mapHandler"
-                                            :min-scale="minScale"
-                                            :open-multiple-accordeons="multiLayerSelector"
-                                            :live-zoom-to-features="liveZoomToFeatures"
-                                            :filter-hits="filtersHits[slotProps.layer.filterId]"
-                                            :filter-geometry="filterGeometry"
-                                            :close-gfi="closeGfi"
-                                            @update-rules="updateRules"
-                                            @delete-all-rules="deleteAllRules"
-                                            @update-filter-hits="updateFilterHits"
-                                            @register-map-move-listener="addToMapMoveListeners"
-                                        />
-                                    </div>
-                                </template>
-                            </FilterList>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div v-else-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)">
-            <div
-                v-for="(layerGroup, key) in layerGroups"
-                :key="key"
-            >
-                <div>
-                    <h2
-                        v-for="(layerConfig, indexLayer) in preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
-                        :key="'layer-title' + key + indexLayer + layerFilterSnippetPostKey"
+                <h4 class="mb-4">
+                    {{ layerGroup.title ? layerGroup.title : key }}
+                </h4>
+                <FilterList
+                    v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length"
+                    class="layerSelector"
+                    :filters="preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
+                    :selected-layers="selectedAccordions"
+                    :multi-layer-selector="multiLayerSelector"
+                    :jump-to-id="jumpToId"
+                    :rules-of-filters="rulesOfFilters"
+                    @delete-all-rules="(filterId) => resetSnippetsAndRules(filterId)"
+                    @reset-jump-to-id="resetJumpToId"
+                    @selected-accordions="updateSelectedAccordions"
+                    @set-layer-loaded="setLayerLoaded"
+                >
+                    <template
+                        #default="slotProps"
                     >
-                        <u class="text-break">{{ layerConfig.title }}</u>
                         <div
-                            v-if="layerConfig.initialStartupReset && hasUnfixedRules(rulesOfFilters[layerConfig.filterId])"
-                            class="d-flex justify-content-end"
+                            :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
+                            role="tabpanel"
                         >
-                            <IconButton
-                                icon="bi bi-arrow-counterclockwise bi-xs"
-                                :class-array="['custom-reset', 'btn-light']"
-                                :aria="$t('common:modules.filter.resetButton')"
-                                :title="$t('common:modules.filter.resetButton')"
-                                :interaction="() => resetSnippetsAndRules(layerConfig.filterId)"
+                            <LayerFilterSnippet
+                                v-if="isLayerFilterSelected(slotProps.layer.filterId)"
+                                :ref="'filter-' + slotProps.layer.filterId"
+                                :key="slotProps.layer"
+                                :api="slotProps.layer.api"
+                                :is-layer-filter-selected="isLayerFilterSelected(slotProps.layer.filterId)"
+                                :layer-config="slotProps.layer"
+                                :map-handler="mapHandler"
+                                :min-scale="minScale"
+                                :open-multiple-accordeons="multiLayerSelector"
+                                :live-zoom-to-features="liveZoomToFeatures"
+                                :filter-rules="rulesOfFilters[slotProps.layer.filterId]"
+                                :filter-hits="filtersHits[slotProps.layer.filterId]"
+                                :filter-geometry="filterGeometry"
+                                :close-gfi="closeGfi"
+                                @update-rules="updateRules"
+                                @delete-all-rules="deleteAllRules"
+                                @update-filter-hits="updateFilterHits"
+                                @register-map-move-listener="addToMapMoveListeners"
                             />
                         </div>
-                    </h2>
-                    <LayerFilterSnippet
-                        v-for="(layerConfig, indexLayer) in preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
-                        :key="'layer-' + key + indexLayer + layerFilterSnippetPostKey"
-                        :ref="'filter-' + layerConfig.filterId"
-                        :api="layerConfig.api"
-                        :is-layer-filter-selected="true"
-                        :layer-config="layerConfig"
-                        :layer-selector-visible="layerSelectorVisible"
-                        :map-handler="mapHandler"
-                        :min-scale="minScale"
-                        :open-multiple-accordeons="multiLayerSelector"
-                        :live-zoom-to-features="liveZoomToFeatures"
-                        :filter-hits="filtersHits[layerConfig.filterId]"
-                        :filter-geometry="filterGeometry"
-                        :close-gfi="closeGfi"
-                        @update-rules="updateRules"
-                        @delete-all-rules="deleteAllRules"
-                        @update-filter-hits="updateFilterHits"
-                        @register-map-move-listener="addToMapMoveListeners"
-                    />
-                </div>
+                    </template>
+                </FilterList>
+                <hr class="mb-4">
             </div>
         </div>
         <FilterList
-            v-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) && layerSelectorVisible || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length) && layerSelectorVisible"
+            v-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)"
             class="layerSelector"
             :filters="filters"
             :selected-layers="selectedAccordions"
@@ -844,7 +769,6 @@ export default {
                         :api="slotProps.layer.api"
                         :is-layer-filter-selected="isLayerFilterSelected"
                         :layer-config="slotProps.layer"
-                        :layer-selector-visible="layerSelectorVisible"
                         :map-handler="mapHandler"
                         :min-scale="minScale"
                         :open-multiple-accordeons="multiLayerSelector"
@@ -860,47 +784,6 @@ export default {
                 </div>
             </template>
         </FilterList>
-        <div v-else-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)">
-            <div
-                v-for="(layerConfig, indexLayer) in filters"
-                :key="'layer-title' + indexLayer + layerFilterSnippetPostKey"
-            >
-                <h2 class="d-flex flex-row justify-content-between align-items-center">
-                    <u>{{ layerConfig.title }}</u>
-                    <div
-                        v-if="layerConfig.initialStartupReset && hasUnfixedRules(rulesOfFilters[layerConfig.filterId])"
-                        class="d-flex"
-                    >
-                        <IconButton
-                            icon="bi bi-arrow-counterclockwise bi-xs"
-                            :class-array="['custom-reset', 'btn-light']"
-                            :aria="$t('common:modules.filter.resetButton')"
-                            :title="$t('common:modules.filter.resetButton')"
-                            :interaction="() => resetSnippetsAndRules(layerConfig.filterId)"
-                        />
-                    </div>
-                </h2>
-                <LayerFilterSnippet
-                    :key="layerConfig"
-                    :ref="'filter-' + layerConfig.filterId"
-                    :api="layerConfig.api"
-                    :is-layer-filter-selected="true"
-                    :layer-config="layerConfig"
-                    :layer-selector-visible="layerSelectorVisible"
-                    :map-handler="mapHandler"
-                    :min-scale="minScale"
-                    :open-multiple-accordeons="multiLayerSelector"
-                    :live-zoom-to-features="liveZoomToFeatures"
-                    :filter-hits="filtersHits[layerConfig.filterId]"
-                    :filter-geometry="filterGeometry"
-                    :close-gfi="closeGfi"
-                    @update-rules="updateRules"
-                    @delete-all-rules="deleteAllRules"
-                    @update-filter-hits="updateFilterHits"
-                    @register-map-move-listener="addToMapMoveListeners"
-                />
-            </div>
-        </div>
         <div class="link-section">
             <div class="toast-container p-3">
                 <div
@@ -942,12 +825,8 @@ export default {
 
 <style lang="scss" scoped>
     @import "~mixins";
-    .layerGroupContainer {
-        background-color: #f5f5f5;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-    }
+    @import "~variables";
+
     .panel {
         position: relative;
     }

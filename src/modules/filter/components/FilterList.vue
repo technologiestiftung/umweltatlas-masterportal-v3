@@ -170,7 +170,7 @@ export default {
 
 <template>
     <div
-        class="panel-group"
+        class="panel-group ps-3"
         role="tablist"
         aria-multiselectable="true"
     >
@@ -185,15 +185,15 @@ export default {
                 :disabled="disabled(filter.filterId)"
                 data-toggle="collapse"
                 data-parent="#accordion"
-                class="d-flex justify-content-between w-100 btn-transparent"
+                class="d-flex justify-content-between w-100 btn-transparent p-0"
                 @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
             >
                 <div class="w-100">
-                    <h2
-                        :class="['panel-title d-flex align-items-center', disabled(filter.filterId) ? 'disabled' : '']"
+                    <div
+                        :class="['d-flex align-items-center header-color', disabled(filter.filterId) ? 'disabled' : '']"
                     >
-                        <div>{{ filter.title ? filter.title : filter.layerId }}</div>
+                        <h5>{{ filter.title ? filter.title : filter.layerId }}</h5>
                         <div
                             v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
                         >
@@ -215,7 +215,7 @@ export default {
                                 :interaction="() => deleteAllRulesEmit(filter.filterId)"
                             />
                         </div>
-                    </h2>
+                    </div>
                 </div>
                 <span
                     v-if="!selectedLayers.some(layers => layers.filterId === filter.filterId)"
@@ -241,11 +241,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-#tool-general-filter .panel {
-    background-color: $white;
-    border: 1px solid #ddd;
-    padding: 10px;
+
+.header-color {
+   color: $light_grey_inactive_contrast;
 }
+
 .panel {
     position: relative;
 }
