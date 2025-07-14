@@ -782,22 +782,22 @@ export default {
     }
 
     input[type="range"]:active::-ms-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
     input[type="range"]:active::-moz-range-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
     input[type="range"]:active::-webkit-slider-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
 
     /* Firefox */
     input[type="range"] {
         -webkit-appearance: none;
-        appearance: auto;
+        appearance: none;
         background-color: $light_grey;
         height: 15px;
         overflow: hidden;
@@ -815,26 +815,26 @@ export default {
 
     input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        background: $white;
+        background: $secondary;
         border-radius: 50%;
-        box-shadow: -210px 0 0 200px $light_blue;
+        box-shadow: -210px 0 0 200px $secondary;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
         &.disabledClass {
             background-color: #9B9A9A;
         }
     }
 
     input[type="range"]::-moz-range-thumb {
-        background: $white;
+        background: $secondary;
         border-radius: 50%;
-        box-shadow: -1010px 0 0 1000px $light_blue;
+        box-shadow: -1010px 0 0 1000px $secondary;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
         &.disabledClass {
             background-color: #9B9A9A;
         }
@@ -864,7 +864,7 @@ export default {
     input[type="range"].disabledClass {
         appearance: auto;
         -webkit-appearance: none;
-        background-color: $dark_grey;
+        background-color: #9B9A9A;
         height: 15px;
         overflow: hidden;
         width: 100%;
@@ -872,23 +872,23 @@ export default {
 
     input[type="range"].disabledClass::-webkit-slider-thumb {
         -webkit-appearance: none;
-        background: $light_grey;
+        background: #9B9A9A;
         border-radius: 50%;
         box-shadow: -210px 0 0 200px $light_grey;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
     }
 
     input[type="range"].disabledClass::-moz-range-thumb {
-        background: #ddd;
+        background: #9B9A9A;
         border-radius: 50%;
         box-shadow: -1010px 0 0 1000px $dark_grey;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
     }
     input[type="range"].disabledClass::-moz-range-track {
         background-color: $dark_grey;
