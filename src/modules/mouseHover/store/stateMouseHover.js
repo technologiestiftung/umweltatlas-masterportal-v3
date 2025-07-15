@@ -6,6 +6,16 @@ import Overlay from "ol/Overlay.js";
  * @property {Object} overlay =new Overlay({}) mouseHover overlay (tooltip) - paramaters get set during initialization.
  * @property {Number} numFeaturesToShow The number of features that will be shown in the popup.
  * @property {String} infoText The text that will be shown in the popup.
+ * @property {String} fontFamily The font that will be used in the popup.
+ * @property {String} titleFontFamily The font that will be used for the title in the popup.
+ * @property {String} fontStyle The font style that will be used in the popup.
+ * @property {String} titleFontStyle The font style that will be used for the title in the popup.
+ * @property {Number} fontSize The font size that will be used in the popup.
+ * @property {Number} titleFontSize The font size that will be used for the title in the popup.
+ * @property {String} fontColor The color of the font that will be used in the popup.
+ * @property {String} titleFontColor The color of the title font that will be used in the popup.
+ * @property {Number} infoBorderRadius The border radius of the popup.
+ * @property {Number} lineHeight The line height that will be used in the popup.
  * @property {Array} layersFromConfig Array with layers from the config.
  * @property {Array} layersFromConfig Array with layers from the config.
  * @property {Array} mouseHoverLayers Array with layers from the config that have mouseHoverInfos.
@@ -25,6 +35,16 @@ export default {
     }),
     numFeaturesToShow: 2,
     infoText: "common:modules.mouseHover.infoText",
+    fontFamily: "common:modules.mouseHover.fontFamily",
+    titleFontFamily: "common:modules.mouseHover.titleFontFamily",
+    fontStyle: "common:modules.mouseHover.fontStyle",
+    titleFontStyle: "common:modules.mouseHover.titleFontStyle",
+    fontSize: "common:modules.mouseHover.fontSize",
+    titleFontSize: "common:modules.mouseHover.titleFontSize",
+    fontColor: "common:modules.mouseHover.fontColor",
+    titleFontColor: "common:modules.mouseHover.titleFontColor",
+    infoBorderRadius: "common:modules.mouseHover.infoBorderRadius",
+    lineHeight: "common:modules.mouseHover.lineHeight",
     layersFromConfig: [],
     mouseHoverLayers: [],
     mouseHoverInfos: [],
