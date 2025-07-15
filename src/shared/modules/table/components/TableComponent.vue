@@ -185,6 +185,7 @@ export default {
             showTotal: this.totalProp === true || this.totalProp.enabled,
             showTotalData: false,
             firstColumnName: "",
+            showExportDropdown: false,
             fullViewActivated: false,
             fixedColumnTitle: undefined,
             fixedRowTitle: undefined,
@@ -882,6 +883,18 @@ export default {
         },
 
         /**
+         * Handles export download for selected format
+         */
+        downloadExport (format) {
+            if (format === "csv") {
+                this.$refs.exportCsvButton.$el.click();
+            }
+            else if (format === "geojson") {
+                this.$refs.exportGeoJsonButton.$el.click();
+            }
+        },
+
+        /**
          * Expands table to fullscreen view, hides sorting elements, footer and layerPills to make space. Also enlarges the header row of the table on smaller screens.
          * @param {boolean} unmounted True if leaving the tableComponent by navigating back to menu or closing the secondary Menu
          * @returns {void}
@@ -1134,23 +1147,53 @@ export default {
             v-if="downloadable"
             class="btn-group"
         >
+            <div
+                v-if="downloadFormat.length > 1"
+            >
+                <FlatButton
+                    id="table-export"
+                    :text="$t('common:shared.modules.table.download')"
+                    :icon="'bi-download'"
+                    :class="'me-3 rounded-pill dropdown-toggle'"
+                    aria-haspopup="true"
+                    :aria-expanded="showExportDropdown ? 'true' : 'false'"
+                    @click="showExportDropdown = !showExportDropdown"
+                />
+                <div
+                    v-if="showExportDropdown"
+                    class="export-dropdown-menu"
+                >
+                    <button
+                        v-if="downloadFormat.includes('csv')"
+                        class="dropdown-item"
+                        @click="downloadExport('csv'); showExportDropdown = false;"
+                    >
+                        CSV
+                    </button>
+                    <button
+                        v-if="downloadFormat.includes('geojson')"
+                        class="dropdown-item"
+                        @click="downloadExport('geojson'); showExportDropdown = false;"
+                    >
+                        GeoJSON
+                    </button>
+                </div>
+            </div>
             <ExportButtonCSV
-                v-if="downloadFormat.includes('csv')"
-                id="table-download"
-                class="btn btn-secondary align-items-center mb-3"
+                v-else-if="downloadFormat.includes('csv')"
+                ref="exportCsvButton"
                 :url="false"
                 :data="exportTable('csv')"
                 :filename="exportFileName"
                 :use-semicolon="true"
-                :title="$t('common:shared.modules.table.download')+ `(CSV)`"
+                :title="$t('common:shared.modules.table.download')"
             />
             <ExportButtonGeoJSON
-                v-if="downloadFormat.includes('geojson')"
-                id="table-download"
-                class="btn btn-secondary align-items-center mb-3"
+                v-else-if="downloadFormat.includes('geojson')"
+                ref="exportGeoJsonButton"
                 :data="exportTable('geojson')"
                 :filename="exportFileName"
-                :title="$t('common:shared.modules.table.download')+ `(Geojson)`"
+                :title="$t('common:shared.modules.table.download')"
             />
         </div>
     </div>
@@ -1622,6 +1665,36 @@ table {
     font-size: 12px;
 }
 
+// Custom dropdown styling for export menu
+.export-dropdown-menu {
+    position: absolute !important;
+    left: 0;
+    top: 100%;
+    min-width: 160px;
+    width: max-content;
+    max-width: 240px;
+    background: $white;
+    border: 1px solid $light_grey_hover;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(60, 95, 148, 0.12);
+    padding: 0.5em 0;
+    z-index: 1000;
+    display: block;
+    margin-top: 0.25em;
+    transition: min-width 0.2s, max-width 0.2s;
+    .dropdown-item {
+        padding: 0.5em 1.5em;
+        font-size: 1rem;
+        background: none;
+        border: none;
+        text-align: left;
+        width: 100%;
+        cursor: pointer;
+        &:hover {
+            background: $primary;
+        }
+    }
+}
 </style>
 
 <style lang="scss">
