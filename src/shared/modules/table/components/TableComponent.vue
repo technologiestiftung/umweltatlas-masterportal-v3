@@ -11,6 +11,7 @@ import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
 import {isWebLink} from "@shared/js/utils/urlHelper.js";
 import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
 
 export default {
     name: "TableComponent",
@@ -18,6 +19,7 @@ export default {
         Draggable: draggable,
         FlatButton,
         ExportButtonCSV,
+        ExportButtonGeoJSON,
         IconButton,
         Multiselect
     },
@@ -87,6 +89,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        downloadFormat: {
+            type: Array,
+            required: false,
+            default: () => ["csv"]
         },
         exportFileName: {
             type: [String, Boolean],
@@ -203,6 +210,9 @@ export default {
 
                 if (item.id) {
                     newItem.id = item.id;
+                }
+                if (item.geojsonGeom) {
+                    newItem.geojsonGeom = item.geojsonGeom;
                 }
 
                 this.visibleHeaders.forEach(header => {
@@ -583,22 +593,42 @@ export default {
          * Returns the edited table data for export. Removes possible id fields from data.
          * @returns {Object} The edited table data.
          */
-        exportTable () {
-            const tableToExport = this.editedTable.items.map(obj => {
-                const rest = {...obj};
+        exportTable (mode = "csv") {
+            if (mode === "csv") {
+                const tableToExport = this.editedTable.items.map(obj => {
+                    const rest = {...obj};
 
-                delete rest.id;
-                return rest;
-            });
+                    delete rest.id;
+                    delete rest.geom;
+                    delete rest.geometry;
+                    return rest;
+                });
 
-            this.additionalColumnsForDownload.forEach(column => {
-                if (typeof column?.key === "string" && typeof column?.value === "string") {
-                    tableToExport.forEach(item => {
-                        item[column.key] = column.value;
-                    });
-                }
-            });
-            return tableToExport;
+                this.additionalColumnsForDownload.forEach(column => {
+                    if (typeof column?.key === "string" && typeof column?.value === "string") {
+                        tableToExport.forEach(item => {
+                            item[column.key] = column.value;
+                        });
+                    }
+                });
+                return tableToExport;
+            }
+            else if (mode === "geojson") {
+                const geoJsonToExport = {
+                    type: "FeatureCollection",
+                    features: this.editedTable.items.map(obj => {
+                        const feature = {type: "Feature", id: obj.id, geometry: obj.geojsonGeom, properties: {...obj}};
+
+                        delete feature.properties.id;
+                        delete feature.properties.geojsonGeom;
+
+                        return feature;
+                    })
+                };
+
+                return JSON.stringify(geoJsonToExport);
+            }
+            return "";
         },
 
         /**
@@ -1100,6 +1130,29 @@ export default {
         >
             <span class="btn-texts">&Sigma;</span>
         </button>
+        <div
+            v-if="downloadable"
+            class="btn-group"
+        >
+            <ExportButtonCSV
+                v-if="downloadFormat.includes('csv')"
+                id="table-download"
+                class="btn btn-secondary align-items-center mb-3"
+                :url="false"
+                :data="exportTable('csv')"
+                :filename="exportFileName"
+                :use-semicolon="true"
+                :title="$t('common:shared.modules.table.download')+ `(CSV)`"
+            />
+            <ExportButtonGeoJSON
+                v-if="downloadFormat.includes('geojson')"
+                id="table-download"
+                class="btn btn-secondary align-items-center mb-3"
+                :data="exportTable('geojson')"
+                :filename="exportFileName"
+                :title="$t('common:shared.modules.table.download')+ `(Geojson)`"
+            />
+        </div>
     </div>
     <div
         class="fixed"

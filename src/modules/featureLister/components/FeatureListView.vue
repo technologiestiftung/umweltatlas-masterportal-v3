@@ -40,6 +40,7 @@ export default {
 
                                 newProperties[newProperty] = properties[key];
                                 newProperties.id = feature.id;
+                                newProperties.geojsonGeom = feature.geojsonGeom;
                             }
                         }
                     });
@@ -85,10 +86,12 @@ export default {
             :filterable="true"
             :enable-settings="true"
             :sortable="true"
+            export-file-name="Feature Lister Export"
             select-mode="row"
             :run-select-row-on-mount="false"
             :run-select-on-hover="true"
             :downloadable="true"
+            :download-format="['csv', 'geojson']"
             @rowSelected="row => clickOnFeature(row)"
             @rowOnHover="row => hoverOverFeature(row)"
         />
