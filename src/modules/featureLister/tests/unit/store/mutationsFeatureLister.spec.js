@@ -8,7 +8,7 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
     let state, features, layer;
 
     beforeEach(() => {
-        features = [{name: "erstesFeature", getId: () => "123"}, {name: "zweitesFeature", getId: () => "456"}, {name: "drittesFeature", getId: () => "789"}];
+        features = [{name: "erstesFeature", getId: () => "123", getGeometry: () => "Point"}, {name: "zweitesFeature", getId: () => "456", getGeometry: () => "LineString"}, {name: "drittesFeature", getId: () => "789", getGeometry: () => "Polygon"}];
         layer = {
             name: "ersterLayer",
             id: "1",
@@ -59,9 +59,9 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
         it("sets the gfiFeatures of a layer to state - with clustering", () => {
             const clusteredFeatures = [
                     {name: "cluster1",
-                        getId: () => "5.1"},
+                        getId: () => "5.1", getGeometry: () => "ClusterGeometry"},
                     {name: "cluster2",
-                        getId: () => "5.2"}
+                        getId: () => "5.2", getGeometry: () => "ClusterGeometry"}
                 ],
                 clustered = {
                     values_: {
