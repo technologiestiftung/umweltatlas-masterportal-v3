@@ -31,6 +31,17 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                             }
                         }
                     }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        mainExpanded: () => false,
+                        currentSecondaryMenuWidth: () => 0.25
+                    },
+                    actions: {
+                        toggleMenu: sinon.stub(),
+                        setCurrentMenuWidth: sinon.stub()
+                    }
                 }
             }
         });
