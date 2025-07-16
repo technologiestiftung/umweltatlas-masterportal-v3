@@ -3,14 +3,13 @@ import {mapGetters, mapMutations} from "vuex";
 import ProgressBar from "./ProgressBar.vue";
 import SnippetCheckbox from "./SnippetCheckbox.vue";
 import SnippetCheckboxFilterInMapExtent from "./SnippetCheckboxFilterInMapExtent.vue";
+import SnippetCustomComponent from "./SnippetCustomComponent.vue";
 import SnippetDate from "./SnippetDate.vue";
 import SnippetDateRange from "./SnippetDateRange.vue";
 import SnippetDropdown from "./SnippetDropdown.vue";
 import SnippetInput from "./SnippetInput.vue";
 import SnippetSlider from "./SnippetSlider.vue";
 import SnippetSliderRange from "./SnippetSliderRange.vue";
-import SnippetFeatureInfo from "./SnippetFeatureInfo.vue";
-import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
 import isObject from "@shared/js/utils/isObject.js";
 import FilterApi from "../js/interfaces/filter.api.js";
@@ -23,7 +22,6 @@ import openlayerFunctions from "../utils/openlayerFunctions.js";
 import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 import VectorTileLayer from "ol/layer/VectorTile";
-import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
@@ -63,19 +61,17 @@ import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 export default {
     name: "LayerFilterSnippet",
     components: {
-        AccordionItem,
         FlatButton,
         ProgressBar,
         SnippetCheckbox,
         SnippetCheckboxFilterInMapExtent,
+        SnippetCustomComponent,
         SnippetDate,
         SnippetDateRange,
         SnippetDropdown,
         SnippetInput,
         SnippetSlider,
         SnippetSliderRange,
-        SnippetFeatureInfo,
-        SnippetChart,
         SnippetDownload,
         SpinnerItem
     },
@@ -1506,52 +1502,18 @@ export default {
                     />
                 </div>
                 <div
-                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'featureInfo')"
+                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'customComponent')"
                     class="snippet"
                 >
-                    <AccordionItem
+                    <SnippetCustomComponent
                         v-show="visibleSnippet"
-                        id="snippet-feature-info"
-                        :title="snippet.title"
-                        icon="bi bi-list-ul"
-                        :is-open="true"
-                    >
-                        <SnippetFeatureInfo
-                            :ref="'snippet-' + snippet.snippetId"
-                            :attr-name="snippet.attrName"
-                            :adjustment="snippet.adjustment"
-                            :layer-id="layerConfig.layerId"
-                            :snippet-id="snippet.snippetId"
-                            :filtered-items="filteredItems"
-                            :universal-search="snippet.universalSearch"
-                            :beautified-attr-name="snippet.beautifiedAttrName"
-                            @set-snippet-prechecked="setSnippetPrechecked"
-                            @set-snippet-visible="setSnippetVisible"
-                        />
-                    </AccordionItem>
-                </div>
-                <div
-                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'chart')"
-                    class="snippet"
-                >
-                    <AccordionItem
-                        v-show="visibleSnippet"
-                        id="snippet-chart"
-                        :title="snippet.title"
-                        icon="bi bi-bar-chart"
-                        :is-open="true"
-                    >
-                        <SnippetChart
-                            :ref="'snippet-' + snippet.snippetId"
-                            :api="getSnippetApi(snippet)"
-                            :filtered-items="filteredItems"
-                            :info-text="snippet.infoText"
-                            :chart-config="snippet.chartConfig"
-                            :subtitle="snippet.subtitle"
-                            :tooltip-unit="snippet.tooltipUnit"
-                            :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
-                        />
-                    </AccordionItem>
+                        :component-name="snippet.componentName"
+                        :props-object="snippet"
+                        :filtered-items="filteredItems"
+                        :api="getSnippetApi(snippet)"
+                        @set-snippet-prechecked="setSnippetPrechecked"
+                        @set-snippet-visible="setSnippetVisible"
+                    />
                 </div>
             </div>
             <div class="snippet">

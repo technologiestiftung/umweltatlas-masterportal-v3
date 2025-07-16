@@ -6023,6 +6023,7 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
 |children|no|**[Children](#datatypessnippetschildren)**[]|[]|Child snippet configuration.|true|
+|componentName|no|String||Only for snippet type `customComponent`: The name of the Vue component to be used as a snippet. Can also be an addon.|false|
 |decimalPlaces|no|Number|0|Defines decimal places for the step for `slider` and `sliderRange`|false|
 |delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
 |display|no|String|"default"|If snippet type `dropdown`: If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
@@ -6040,23 +6041,16 @@ Note: Time-related snippets (`date` and `dateRange`) can only be operated in `ex
 |placeholder|no|String|""|For type `dropdown` only: The placeholder to use. Can be a translation key.|false|
 |prechecked|no|String[]/String||Initially checked value. For `dropdown`, `sliderRange` and `dateRange` an array of values, for checkbox a boolean, for slider a number, for text a string and for date a string (following the set `format`). If `visible` is set to `false`, value set by prechecked are forced for filtering. For `dropdown` with `multiselect`: If `prechecked` is set to `all`, all available values will be selected initially.|false|
 |renderIcons|no|String|"none"|For type `dropdown` only: If set to `fromLegend` icons will be placed left hand side of each entry. Icons are taken from legend. Use an object with attrNames as keys and imagePath as value {attrName: imagePath} to manually set images (see example).|false|
-|subtitle|no|String[]/String[][]||Only for snippet type `chart`. Can be set to display any combination of text and data as a subtitle of the chart.|false|
-|tooltipUnit|no|String||Only for snippet type `chart`. Adds unit to numbers shown in tooltip.|false|
 |service|no|**[Service](#datatypessnippetsservice)**||For the initial filling of a snippet `dropdown`, `date`, `slider` an alternative service can be used. This may increase the performance during initial loading. The default is the service of the configured **[FilterLayer](#portalconfigmenusectionsmodulesfilterfilterlayer)**.|false|
 |showAllValues|no|Boolean||For `dropdown` snippet type only: prevents hiding of unselected values when set to `true`. Can only be used in conjunction with `prechecked: "all"`.|false|
 |subTitles|no|String[]|[]|Only for snippet type `dateRange`: The additional from and to labels to be displayed above the calendar fields. As an array with two elements (e.g. ["from", "to"]). Set subTitles to true to use the values of `attrName`, to false to not display labels.|false|
 |timeouts|no|**[Timeouts](#datatypessnippetstimeouts)**||Timeouts to configure for better user experience.|false|
 |title|no|String||The title of the snippet. Can be a translation key. If not set, the title is taken from the gfiAttributes and if they are not present, then the `attrName` is used. Can be set to `false` to disable the display of a title. Can be set to `true` to force the display of the `attrName`.|false|
-|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
+|type|no|String||The type of this snippet. Can be one of the following: `checkbox`, `dropdown`, `text`, `slider`, `sliderRange`, `date`, `dateRange`, `customComponent`. Will be indentified automatically if left away, following a data type rule: boolean becomes `checkbox`, string becomes `dropdown`, number becomes `sliderRange`, unknown becomes `text`.|false|
 |value|no|String[]||If omitted, values are determined automatically. If set for `dropdown`: The values to be selectable in the list. If set for `checkbox`: Instead of boolean values, the specified values for the `true` and `false` states should be taken (e.g. ["Yes", "No"]). For `dateRange`: start and end date for date picker and/or slider. For `sliderRange`: the min and max values.|false|
 |visible|no|Boolean|true|The snippet is visible. Set to `false` to hide the snippet: This gives you the power to use `prechecked` as an `always rule` to force filtering of a fixed `attrName` and value.|false|
-|universalSearch|no|**[UniversalSearch](#datatypessnippetsuniversalsearch)**||Only for Snippet-Typ `featureInfo`: The filtered Value can be searched for in website|false|s
-|beautifiedAttrName|no|**[BeautifiedAttrName](#datatypessnippetsbeautifiedattrname)**||Only for Snippet-Typ `featureInfo`: The attribute name could be beautified.|false|
 |adjustOnlyFromParent|no|Boolean|false|For type `dropdown` only: If true, only adjusted from parent snippet.|false|
 |allowEmptySelection|no|Boolean|true|For type `dropdown` only: If `true` allows to remove all selected values. If `false` one value must be left selected.|false|
-|chartConfig|yes|**[ChartConfig](#datatypessnippetschartconfig)**||Only for snippet type 'chart' in combination with 'service' (see example): The configuration for the chart. All configuration options (previously only "type: bar") of Chart.js are supported (see: https://www.chartjs.org/docs/latest/configuration/). The 'featureAttributes' parameter must also be specified. The parameter specifies the attributes behind which the data to be displayed is located (see example).|false|
-|alternativeTextForEmptyChart|nein|String||Alternative text for snippet type `chart` that can be displayed instead of a chart.|false|
-|infoText|no|String|false|For type `chart` only: An Info text. |false|
 
 **Example**
 
@@ -6258,26 +6252,6 @@ Example of a DateRange snippet. With time points preset via `prechecked` and min
 
 **Example**
 
-Example for a feature info snippet. Displays all values of the configured attribute names `attrName` of all filtered features in the filter.
-
-```json
-{
-    "title": "Steckbrief",
-    "attrName": ["tierartengruppe", "deutscher_artname", "artname", "rote_liste_d", "rote_liste_hh"],
-    "type": "featureInfo",
-    "universalSearch": {
-      "attrName": "Wissenschaftlicher Name",
-      "prefix": "https://www.google.com/search?q="
-    },
-    "beautifiedAttrName": {
-      "tierartengruppe": "Tierartengruppe",
-      "familie": "Familie"
-    }
-}
-```
-
-**Example**
-
 Example for a slider range snippet of SensorThingsAPI (STA).
 
 ```json
@@ -6297,59 +6271,6 @@ Example of a snippet that wants to filter over multiple attributes at once and d
     "attrName": ["xpplanname", "rechtscharakterwert"],
     "operatorForAttrName": "OR",
     "type": "dropdown",
-}
-```
-
-**Example**
-
-Example of a chart snippet. Queries the features from the configured "service" and displays the data of the configured "featureAttributes" in a bar chart.
-
-```json
-{
-    "type": "chart",
-    "title": "Phänogramm",
-    "subtitle": ["Anzahl Beobachtungen = ", ["anzahl_beobachtungen"]],
-    "tooltipUnit": " %",
-    "chartConfig": {
-        "type": "bar",
-        "data": {
-            "datasets": [{
-                "label": "Label",
-                "backgroundColor": "rgba(214, 227, 255, 0.8)",
-                "featureAttributes": ["januar_1", "februar_1", "maerz_1", "april_1", "mai_1", "juni_1", "juli_1", "august_1", "september_1", "oktober_1", "november_1", "dezember_1"]
-            },
-            {
-                "label": "Label 2",
-                "backgroundColor": "rgba(214, 227, 255, 0.8)",
-                "featureAttributes": ["januar_2", "februar_2", "maerz_2", "april_2", "mai_2", "juni_2", "juli_2", "august_2", "september_2", "oktober_2", "november_2", "dezember_2"]
-            }
-        ],
-        "labels": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
-        },
-        "options": {
-            "plugins": {
-                "legend": {
-                    "display": false
-                },
-                "subtitle": {
-                  "display": true,
-                  "position": "bottom",
-                }
-            }
-        }
-    },
-    "service": {
-        "extern": true,
-        "type": "WFS",
-        "url": "https://qs-geodienste.hamburg.de/HH_WFS_verbreitung_tiere",
-        "typename": "verbreitung_tiere_eindeutige_liste",
-        "featureNS": "https://registry.gdi-de.org/id/de.hh.up",
-        "featureTypes": ["verbreitung_tiere_eindeutige_liste"],
-        "filter": {
-            "attrName": "artname",
-            "operator": "EQ"
-        }
-    }
 }
 ```
 
@@ -6378,7 +6299,7 @@ Multi-dimensional nesting (grandparent, parent, child) is not currently provided
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |addSelectAll|no|Boolean|false|For type `dropdown` with `multiselect: true` only: Adds an additional entry on top of the list to select/deselect all entries.|false|
-|attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange`, `sliderRange` or `featureInfo` is used (see examples).|false|
+|attrName|yes|String||The attribute name used for filtering. Is to be an array if `dateRange` or `sliderRange` is used (see examples).|false|
 |autoInit|no|Boolean|true|For type `dropdown` only: If set to `false`: Turns off the automatic identification of value (in case of `dropdown`) or minValue/maxValue (in case of `slider(Range)` and `date(Range)`).|false|
 |delimiter|no|String||For type `dropdown` only: If feature attributes are themselfs again seperated by a delimiter to act as pseudo array, setting delimiter to the sign that seperates the terms, will result in the expected outcome.|false|
 |display|no|String|"default"|If snippet type `dropdown`: If snippet type `dateRange`: If set to `datepicker`, only the selection via calendar will be displayed, if set to `slider`, only the slider will be displayed, if set to `all`, datepicker and slider will be displayed.|false|
@@ -6500,45 +6421,6 @@ The configuration depends on the type of service.
 
 ***
 
-#### Datatypes.Snippets.ChartConfig {data-toc-label='ChartConfig'}
-
-[type:object]: # (Datatypes.Snippets.ChartConfig.Object)
-
-An object that describes a chart. Click **[here](https://www.chartjs.org/docs/latest/configuration/)** for more information.
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|data|yes|**[object](#datatypessnippetschartconfigobject)**||The data. For more Information click **[here](https://www.chartjs.org/docs/latest/general/data-structures.html)**|false|
-|options|yes|**[object](#datatypessnippetschartconfigobject)**||Options for creating the diagram.|false|
-|plugins|yes|enum[]||Inline plugins can be included in this array. It is an alternative way of adding plugins for single chart (vs registering the plugin globally). More about plugins in the **[developers section](https://www.chartjs.org/docs/latest/developers/plugins.html)**.|false|
-|type|yes|String||Chart type determines the main type of the chart.|false|
-
-**Example**
-
-The top level structure of Chart.js configuration:
-
-```json
-{
-    "chartConfig": {
-        "type": 'bar',
-        "data": {},
-        "options": {},
-        "plugins": []
-    }
-}
-```
-
-***
-
-##### Datatypes.Snippets.ChartConfig.Object {data-toc-label='ChartConfig Object'}
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|foo|no|String||bar|false|
-
-***
-
-
 #### Datatypes.Snippets.LocaleCompareParams {data-toc-label='LocaleCompareParams'}
 
 [type:Options]: # (Datatypes.Snippets.LocaleCompareParams.Options)
@@ -6583,48 +6465,6 @@ An object for custom control of the localeCompare function used to sort dropdown
 ```json
 {
     "ignorePunctuation": true
-}
-```
-
-***
-
-#### Datatypes.Snippets.UniversalSearch {data-toc-label='UniversalSearch'}
-
-An object for configuring a universal search of value
-
-**Object**
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|attrName|yes|String||The attribute Name|false|
-|prefix|yes|String||The Website as Prefix for searching|false|
-
-**Example**
-
-```json
-{
-    "attrName": "Wissenschaftlicher Name",
-    "prefix": "https://www.ecosia.org/search?q="
-}
-```
-
-***
-
-#### Datatypes.Snippets.BeautifiedAttrName {data-toc-label='BeautifiedAttrName'}
-
-An object for configuring beautified names for attributes in stack
-
-**Object**
-
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
-|attrName|yes|String||The attribute Name|false|
-
-**Example**
-
-```json
-{
-    "attrName": "beautified Name"
 }
 ```
 

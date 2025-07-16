@@ -37,6 +37,9 @@ export default {
                         else if (addonConf.type === "javascript") {
                             await this.loadJavascriptAddons(addonKey);
                         }
+                        else if (addonConf.type === "filterSnippet") {
+                            await this.loadFilterSnippetAddons(addonKey);
+                        }
                     }
                 }
                 catch (e) {
@@ -120,6 +123,17 @@ export default {
 
         store.registerModule(["Modules", addon.component.name], addon.store);
         moduleCollection[addonName] = addon.component;
+    },
+
+    loadFilterSnippetAddons: async function (addonKey) {
+        const addon = await this.loadAddon(addonKey),
+            addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
+
+        main.getApp().component(addon.component.name, addon.component);
+        if (addon.store) {
+            store.registerModule(["Modules", addon.component.name], addon.store);
+            moduleCollection[addonName] = addon.component;
+        }
     },
 
     /**
