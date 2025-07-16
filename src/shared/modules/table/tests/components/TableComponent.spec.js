@@ -289,15 +289,51 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
 
         it("should render download button if 'downloadable' is true", () => {
-            wrapper = createWrapper({
-                data: {
-                    headers: [{name: "foo", index: 0}],
-                    items: [["bar"]]
-                },
-                downloadable: true
+            const wrapper = createWrapper({
+                 
+                        data: {
+                            headers: [{name: "foo", index: 0}],
+                            items: [["bar"]]
+                        },
+                        downloadable: true
+
+                }), found = wrapper.find("#table-download").exists() || wrapper.find("#table-download-csv").exists() || wrapper.find("#table-download-geojson").exists();
+
+            expect(found).to.be.true;
+        });
+        it("should only render expandable download button if more than one download format is given", () => {
+            const wrapper = shallowMount(TableComponent, {
+                props: {
+                    data: {
+                        headers: [{name: "foo", index: 0}],
+                        items: [["bar"]]
+                    },
+                    downloadable: true,
+                    downloadFormat: ["csv", "geojson"]
+                }
             });
 
             expect(wrapper.find("#table-download").exists()).to.be.true;
+            expect(wrapper.find("#table-download-csv").isVisible()).to.be.false;
+            expect(wrapper.find("#table-download-geojson").isVisible()).to.be.false;
+            
+        });
+        it("should only render geojson download button if downloadFormat is geojson", () => {
+            const wrapper = shallowMount(TableComponent, {
+
+                props: {
+                    data: {
+                        headers: [{name: "foo", index: 0}],
+                        items: [["bar"]]
+                    },
+                    downloadable: true,
+                    downloadFormat: ["geojson"]
+                }
+            });
+
+            expect(wrapper.find("#table-download-geojson").exists()).to.be.true;
+            expect(wrapper.find("#table-download-csv").isVisible()).to.be.false;
+            expect(wrapper.find("#table-download").exists()).to.be.false;
         });
         it("should not render download button if 'downloadable' is not given", () => {
             wrapper = createWrapper({
