@@ -3,6 +3,8 @@
  * @typedef {Object} MenuState
  * @property {String} currentMouseMapInteractionsComponent Component that has mouse map actions and is currently activated.
  * @property {String} defaultComponent Default Component that has mouse map actions and is currently activated.
+ * @property {String} customMenuElementIcon the Icon used for custom menu elements.
+ * @property {Number} currentSecondaryMenuWidth up-to-date width of the secondary menu during runtime.
  * @property {Object} mainMenu the main menu settings.
  * @property {String[]} mainMenu.configPaths Path array of possible config locations. First one found will be used.
  * @property {Boolean} mainMenu.expanded Specifies whether the main menu is opened.
@@ -24,6 +26,7 @@ export default {
     currentMouseMapInteractionsComponent: "getFeatureInfo",
     defaultComponent: "getFeatureInfo",
     customMenuElementIcon: "bi-asterisk",
+    currentSecondaryMenuWidth: 0,
     mainMenu: {
         configPaths: ["portalConfig.mainMenu.sections"],
         expanded: false,

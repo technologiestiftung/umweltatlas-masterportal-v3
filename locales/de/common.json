@@ -1536,7 +1536,12 @@
         "reset": "Zurücksetzen",
         "settings": "Einstellungen",
         "total": "Gesamt",
-        "totalTitle": "Berechne die Gesamtzahl jeder Liste"
+        "totalTitle": "Berechne die Gesamtzahl jeder Liste",
+        "fullscreenViewToolTip": "Zu einer größeren Tabellenansicht wechseln",
+        "fullscreenViewActiveToolTip": "Zur kleineren Tabellenansicht wechseln",
+        "settingsTooltip": "Tabelleninhalte filtern",
+        "resetToolTip": "Tabellenfilter zurücksetzen",
+        "fullscreenView": "Vollbildansicht"
       }
     }
   },

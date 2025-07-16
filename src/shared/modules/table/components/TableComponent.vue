@@ -1,5 +1,5 @@
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 import draggable from "vuedraggable";
 import localeCompare from "@shared/js/utils/localeCompare";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
@@ -152,10 +152,12 @@ export default {
             sortedRows: [],
             showTotal: this.totalProp === true || this.totalProp.enabled,
             showTotalData: false,
-            firstColumnName: ""
+            firstColumnName: "",
+            fullViewActivated: false
         };
     },
     computed: {
+        ...mapGetters("Menu", ["mainExpanded", "currentSecondaryMenuWidth"]),
         ...mapGetters("Modules/Language", ["currentLocale"]),
 
         editedTable () {
@@ -248,9 +250,17 @@ export default {
                 }
             },
             deep: true
+        },
+        currentSecondaryMenuWidth: {
+            handler () {
+                if (this.fullViewActivated && this.currentSecondaryMenuWidth < 0.55) {
+                    this.fullView();
+                }
+            }
         }
     },
     mounted () {
+
         this.setupTableData();
 
         if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
@@ -264,6 +274,11 @@ export default {
             this.selectRow(this.data.items[0]);
         }
     },
+    unmounted () {
+        if (this.fullViewActivated) {
+            this.fullView(true);
+        }
+    },
     methods: {
         isPhoneNumber,
         getPhoneNumberAsWebLink,
@@ -274,6 +289,7 @@ export default {
         },
         thousandsSeparator,
 
+        ...mapActions("Menu", ["toggleMenu", "setCurrentMenuWidth"]),
         /**
          * Returns the decimal or group separator of current locale
          * @param {String} separatorType - The type of the separator 'decimal' or 'group'
@@ -723,6 +739,65 @@ export default {
                 return value;
             }
             return Number(parseFloat(value).toFixed(this.maxDecimalPlaces));
+        },
+
+        /**
+         * Expands table to fullscreen view, hides sorting elements, footer and layerPills to make space. Also enlarges the header row of the table on smaller screens.
+         * @param {boolean} unmounted True if leaving the tableComponent by navigating back to menu or closing the secondary Menu
+         * @returns {void}
+         */
+        fullView (unmounted = false) {
+            const footer = document.getElementById("module-portal-footer"),
+                layerPills = document.getElementById("layer-pills"),
+                select = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__select"),
+                tags = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__tags"),
+                tableRow = this.$refs.headerRow,
+                clientWidth = document.body.clientWidth;
+
+            if (this.fullViewActivated) {
+                if (!this.mainExpanded) {
+                    this.toggleMenu("mainMenu");
+                }
+                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 25}});
+                if (layerPills) {
+                    layerPills.style.display = "";
+                }
+                if (footer) {
+                    footer.style.display = "";
+                }
+                if (!unmounted) {
+                    if (clientWidth <= 1280) {
+                        tableRow.classList.remove("fullscreen-tr");
+                    }
+                    for (let i = 0; i < tableRow.cells.length; i++) {
+                        tableRow.cells[i].classList.add("fixedWidth");
+                        tags[i].classList.remove("fullscreen_view");
+                        select[i].style.display = "";
+                    }
+                }
+                this.fullViewActivated = false;
+            }
+            else {
+                if (this.mainExpanded) {
+                    this.toggleMenu("mainMenu");
+                }
+                if (layerPills) {
+                    layerPills.style.display = "none";
+                }
+                if (footer) {
+                    footer.style.display = "none";
+                }
+                if (clientWidth <= 1280) {
+                    tableRow.classList.add("fullscreen-tr");
+                }
+                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 95}});
+                for (let i = 0; i < tableRow.cells.length; i++) {
+                    tableRow.cells[i].classList.remove("fixedWidth");
+                    tags[i].classList.add("fullscreen_view");
+                    select[i].style.display = "none";
+                }
+                this.fullViewActivated = true;
+            }
         }
     }
 };
@@ -763,6 +838,7 @@ export default {
                     id="table-settings"
                     aria-label="$t('common:shared.modules.table.settings')"
                     :text="$t('common:shared.modules.table.settings')"
+                    :title="$t('common:shared.modules.table.settingsTooltip')"
                     :icon="'bi-gear'"
                     :class="'me-3 rounded-pill'"
                     data-bs-toggle="dropdown"
@@ -831,9 +907,21 @@ export default {
                 id="table-reset"
                 aria-label="$t('common:shared.modules.table.reset')"
                 :text="$t('common:shared.modules.table.reset')"
+                :title="$t('common:shared.modules.table.resetToolTip')"
                 :icon="'bi-x-circle'"
                 :class="'me-3 rounded-pill'"
                 :interaction="() => resetAll()"
+            />
+        </div>
+        <div class="btn-toolbar justify-content-between sticky-top bg-white">
+            <FlatButton
+                id="table-view-full"
+                aria-label="$t('common:shared.modules.table.reset')"
+                :text="$t('common:shared.modules.table.fullscreenView')"
+                :title="fullViewActivated ? $t('common:shared.modules.table.fullscreenViewActiveToolTip') : $t('common:shared.modules.table.fullscreenViewToolTip') "
+                :icon="'bi-fullscreen'"
+                :class="'me-3 rounded-pill'"
+                :interaction="() => fullView()"
             />
         </div>
         <button
@@ -870,7 +958,10 @@ export default {
             :class="[dynamicColumnTable && !filterable ? 'dynamic-column-table' : '']"
         >
             <thead>
-                <tr v-if="showHeader">
+                <tr
+                    v-if="showHeader"
+                    ref="headerRow"
+                >
                     <th
                         v-if="removable"
                         class="p-0"
@@ -880,7 +971,7 @@ export default {
                         v-for="(column, idx) in editedTable.headers"
                         v-show="idx < maxAttributesToShow"
                         :key="idx"
-                        class="filter-select-box-wrapper"
+                        class="filter-select-box-wrapper fixedWidth"
                         :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
                         @click="selectColumn(column, idx)"
                     >
@@ -927,6 +1018,7 @@ export default {
                                 class="sortable-icon mt-1"
                                 role="button"
                                 tabindex="0"
+                                :style="{ display: fullViewActivated ? 'none' : ''}"
                                 :class="getIconClassByOrder(column.name)"
                                 @click.stop="runSorting(column.name)"
                                 @keypress.stop="runSorting(column.name)"
@@ -1097,6 +1189,11 @@ export default {
     padding-right: 25px !important;
 }
 
+.fullscreen-tr {
+    vertical-align: top;
+    height: 64px;
+}
+
 table {
     table-layout: fixed;
     --bs-table-hover-bg: #D6E3FF;
@@ -1111,8 +1208,10 @@ table {
             color: #3C5F94;
         }
     }
-    th {
+    .fixedWidth {
         width: 15rem;
+    }
+    th {
         position: sticky;
         top: 0px;
         background: $light_blue;
@@ -1230,6 +1329,9 @@ table {
         border: none;
         height: 2.5rem;
         padding: 10px 40px 0 8px;
+        &.fullscreen_view {
+            padding: 5px 0px 0 5px;
+        }
     }
     border: none;
     .multiselect-dropdown {

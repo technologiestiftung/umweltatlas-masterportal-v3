@@ -1535,7 +1535,12 @@
         "reset": "Reset",
         "settings": "Settings",
         "total": "Total",
-        "totalTitle": "Calculate the total count of each list."
+        "totalTitle": "Calculate the total count of each list.",
+        "fullscreenViewToolTip": "Switch to a bigger table view",
+        "fullscreenViewActiveToolTip": "Switch to a smaller table view",
+        "settingsTooltip": "Filter table contents",
+        "resetToolTip": "Reset table filters",
+        "fullscreenView": "Fullscreen view"
       }
     }
   },

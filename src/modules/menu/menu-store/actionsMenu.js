@@ -324,7 +324,7 @@ export default {
      * @returns {void}
      */
     setCurrentMenuWidth ({commit}, {type, attributes}) {
-        if (attributes.width <= 90 && attributes.width >= 5) {
+        if (attributes.width <= 95 && attributes.width >= 5) {
             const wString = attributes.width + "%";
 
             commit("setCurrentMenuWidth", {side: type, width: wString});

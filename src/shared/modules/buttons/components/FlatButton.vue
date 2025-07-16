@@ -45,6 +45,11 @@ export default {
             type: String,
             required: false,
             default: "button"
+        },
+        title: {
+            type: String,
+            required: false,
+            default: ""
         }
     }
 };
@@ -60,6 +65,7 @@ export default {
         :type="type"
         :aria-label="text"
         :disabled="disabled"
+        :title="title"
         @click="interaction"
         @keydown.enter="interaction"
     >

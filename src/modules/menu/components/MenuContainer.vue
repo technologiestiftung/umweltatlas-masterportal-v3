@@ -102,7 +102,8 @@ export default {
         ...mapMutations("Menu", [
             "collapseMenues",
             "mergeMenuState",
-            "setCurrentMenuWidth"
+            "setCurrentMenuWidth",
+            "setCurrentSecondaryMenuWidth"
         ]),
         ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
         /**
@@ -134,6 +135,7 @@ export default {
                 if (footer) {
                     footer.style.display = secondaryMenuPercentWidth > hideElementBreakPoint ? "none" : "";
                 }
+                this.setCurrentSecondaryMenuWidth(secondaryMenuPercentWidth);
             }
         }
     }
