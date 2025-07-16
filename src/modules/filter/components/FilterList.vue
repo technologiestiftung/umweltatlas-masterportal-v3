@@ -24,6 +24,11 @@ export default {
         IconButton
     },
     props: {
+        collapseButtons: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         multiLayerSelector: {
             type: Boolean,
             required: false,
@@ -170,70 +175,132 @@ export default {
 
 <template>
     <div
-        class="panel-group ps-3"
-        role="tablist"
-        aria-multiselectable="true"
+        v-if="!collapseButtons"
     >
         <div
-            v-for="filter in filters"
-            :id="'filter-' + filter.filterId"
-            :ref="setItemRef"
-            :key="filter.filterId"
-            class="panel panel-default"
+            class="panel-group ps-3"
+            role="tablist"
         >
-            <button
-                :disabled="disabled(filter.filterId)"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                class="d-flex justify-content-between w-100 btn-transparent p-0"
-                @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
-                @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+            <div
+                v-for="filter in filters"
+                :id="'filter-' + filter.filterId"
+                :ref="setItemRef"
+                :key="filter.filterId"
+                :class="'panel panel-default'"
             >
-                <div class="w-100">
-                    <div
-                        :class="['d-flex align-items-center header-color', disabled(filter.filterId) ? 'disabled' : '']"
-                    >
-                        <h5>{{ filter.title ? filter.title : filter.layerId }}</h5>
+                <button
+                    :disabled="disabled(filter.filterId)"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    class="d-flex justify-content-between w-100 btn-transparent p-0"
+                    @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                    @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div class="w-100">
+                        <div
+                            :class="['d-flex align-items-center header-color', disabled(filter.filterId) ? 'disabled' : '']"
+                        >
+                            <h5>{{ filter.title ? filter.title : filter.layerId }}</h5>
+                            <div
+                                v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
+                                class="rules-number"
+                            >
+                                <span>
+                                    {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
+                                </span>
+                            </div>
+                            <div
+                                v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                                @click.stop=""
+                            >
+                                <IconButton
+                                    icon="bi bi-arrow-counterclockwise bi-xs"
+                                    :class-array="['btn-light']"
+                                    :aria="$t('common:modules.filter.resetButton')"
+                                    :title="$t('common:modules.filter.resetButton')"
+                                    :interaction="() => deleteAllRulesEmit(filter.filterId)"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <span
+                        v-if="!selectedLayers.some(layers => layers.filterId === filter.filterId)"
+                        class="bi bi-chevron-down float-end"
+                    />
+                    <span
+                        v-else
+                        class="bi bi-chevron-up float-end"
+                    />
+                </button>
+                <div
+                    v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                    class="layerInfoText"
+                >
+                    {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                </div>
+                <slot
+                    :layer="filter"
+                />
+            </div>
+        </div>
+    </div>
+    <div
+        v-else
+    >
+        <div
+            class="collapse-group ps-3 row g-1"
+        >
+            <div
+                v-for="filter in filters"
+                :id="'filter-' + filter.filterId"
+                :ref="setItemRef"
+                :key="filter.filterId"
+                :class="'col col-md-auto'"
+            >
+                <button
+                    class="button-collapse btn btn-secondary"
+                    :class="{active: selectedLayers.some(layers => layers.filterId === filter.filterId)}"
+                    :disabled="disabled(filter.filterId)"
+                    data-bs-toggle="collapse"
+                    data-bs-target="multi-collapse"
+                    aria-expanded="false"
+                    @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                    @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div class="w-100 row">
+                        <div
+                            class="col col-md-auto text-nowrap"
+                        >
+                            {{ filter.title ? filter.title : filter.layerId }}
+                        </div>
                         <div
                             v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
-                            class="rules-number"
+                            class="col col-md-1 m-0"
                         >
-                            <span>
+                            <span
+                                class="outline-rules-number ms-0"
+                            >
                                 {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
                             </span>
                         </div>
-                        <div
-                            v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
-                            @click.stop=""
-                        >
-                            <IconButton
-                                icon="bi bi-arrow-counterclockwise bi-xs"
-                                :class-array="['btn-light']"
-                                :aria="$t('common:modules.filter.resetButton')"
-                                :title="$t('common:modules.filter.resetButton')"
-                                :interaction="() => deleteAllRulesEmit(filter.filterId)"
-                            />
-                        </div>
                     </div>
+                </button>
+                <div
+                    v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId) && !collapseButtons"
+                    class="layerInfoText"
+                >
+                    {{ translateKeyWithPlausibilityCheck(filter?.shortDescription, key => $t(key)) }}
                 </div>
-                <span
-                    v-if="!selectedLayers.some(layers => layers.filterId === filter.filterId)"
-                    class="bi bi-chevron-down float-end"
-                />
-                <span
-                    v-else
-                    class="bi bi-chevron-up float-end"
-                />
-            </button>
-            <div
-                v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
-                class="layerInfoText"
-            >
-                {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
             </div>
+        </div>
+        <div
+            v-for="filter in filters"
+            :key="filter.filterId"
+        >
             <slot
                 :layer="filter"
             />
+            <div />
         </div>
     </div>
 </template>
@@ -266,6 +333,19 @@ export default {
     border: none;
     text-align:left;
 }
+.outline-rules-number {
+    margin-left: 0.625rem;
+    text-align: center;
+    user-select: none;
+    color: $dark_grey;
+    display: inline;
+    padding: 0.275rem 0.875rem;
+    font-size: $font-size-sm;
+    font-family: $font_family_accent;
+    vertical-align: middle;
+    border-radius: 0.688rem;
+    background-color: $light_grey;
+}
 .rules-number {
     margin-bottom: 0.5rem;
     span {
@@ -279,8 +359,10 @@ export default {
         font-weight: 100;
         vertical-align: middle;
         border-radius: 0.688rem;
-        background-color: #3C5F94;
-        border-color: #3C5F94;
+        background-color: $secondary;
     }
+}
+.btn-secondary {
+    border-radius: $badge-border-radius;
 }
 </style>

@@ -2768,6 +2768,7 @@ Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten au
 |closeGfi|nein|Boolean|false|Wenn closeGfi auf `true` gesetzt ist und ein GFI-Fenster geöffnet ist, wird das GFI-Fenster nach neue Filterung geschlossen.|false|
 |questionLink|nein|String|""|Die URL für den Werkzeuginfo-Button (Fragezeichen)|false|
 |closeDropdownOnSelect|nein|Boolean|true|Aktivieren/Deaktivieren des Schließens der Dropdownliste nach Auswahl einer Option.|false|
+|collapseButtons|nein|Boolean|false|Wenn collapseButtons auf `true` gesetzt ist, werden Buttons statt Accordions angezeigt.|false|
 
 **Beispiel**
 
@@ -2948,6 +2949,7 @@ Ein Objekt zum Definieren eines Gruppen-Layers zum Filtern.
 |----|-------------|---|-------|-----------|-------|
 |layers|nein|String|[]|Konfiguration der zu filternden Layer. Kann auch ein Array von einfachen Layer-IDs sein - wenn ja, werden der Layer und alle Snippets automatisch identifiziert. Der Typ ist `filterLayer`, aber hier wurde er als String definiert, um sich wiederholende Definitionen innerhalb von layerGroups zu vermeiden. | false |
 |title|ja|String||Der für den Gruppen-Layer zu verwendende Titel. Kann auch ein Übersetzungsschlüssel sein.|false|
+|collapseButtons|nein|Boolean|false|Wenn collapseButtons auf `true` gesetzt ist, werden Buttons statt Accordions angezeigt.|false|
 
 **Beispiel**
 
@@ -2958,6 +2960,7 @@ Ein Objekt zum Definieren eines Gruppen-Layers zum Filtern.
   "layerGroups": [
     {
       "title": "GRUPPE 1",
+      "collapseButtons": true
       "layers": [
         {
           "layerId": "47"

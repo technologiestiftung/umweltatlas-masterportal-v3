@@ -2771,6 +2771,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
 |questionLink|no|String|""|The URL for the tool information button (questionmark)|false|
 |closeDropdownOnSelect|no|Boolean|true|Enable/disable closing dropdown list after selecting an option.|false|
+|collapseButtons|no|Boolean|false|If collapseButtons is set to `true`, buttons are displayed instead of accordions.|false|
 
 **Example**
 
@@ -2951,6 +2952,7 @@ An object to define a group layer to filter with.
 |----|--------|---|--------|-----------|------|
 |layers|no|String|[]|Configuration of layers to be filtered. Can be an array of plain layer ids also - if so the layer and all snippets are identified automatically. The type of layers is filterLayer, but here it was defined as string to avoid repetitive definitions within layerGroups.|false|
 |title|yes|String||The title to use for the group layer. Can be a translation key also.|false|
+|collapseButtons|no|Boolean|false|If collapseButtons is set to `true`, buttons are displayed instead of accordions.|false|
 
 **Example**
 
@@ -2961,6 +2963,7 @@ LayerGroups group related layers. Each group has a title and a list of layers. T
   "layerGroups": [
     {
       "title": "GROUP 1",
+      "collapseButtons": true,
       "layers": [
         {
           "layerId": "47"

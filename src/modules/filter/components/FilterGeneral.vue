@@ -354,7 +354,7 @@ export default {
             let selectedFilterIds = [],
                 selectedAccordionIndex = -1;
 
-            if (!this.multiLayerSelector) {
+            if (!this.multiLayerSelector || this.layerGroups.some(filter => filter.collapseButtons === true) || this.collapseButtons) {
                 selectedFilterIds = this.selectedAccordions.some(accordion => accordion.filterId === filterId) ? [] : [filterId];
                 this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
                 return;
@@ -719,6 +719,7 @@ export default {
                     v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length"
                     class="layerSelector"
                     :filters="preparedLayerGroups[layerGroups.indexOf(layerGroup)].layers"
+                    :collapse-buttons="layerGroup.collapseButtons"
                     :selected-layers="selectedAccordions"
                     :multi-layer-selector="multiLayerSelector"
                     :jump-to-id="jumpToId"
@@ -732,12 +733,12 @@ export default {
                         #default="slotProps"
                     >
                         <div
-                            :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
+                            :class="['accordion-collapse', 'mt-3', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '', layerGroup.collapseButtons ? 'pt-4 card card-body ps-2' : '']"
                             role="tabpanel"
                         >
                             <LayerFilterSnippet
                                 v-if="isLayerFilterSelected(slotProps.layer.filterId) || layerLoaded[slotProps.layer.filterId]"
-                                :key="slotProps.layer"
+                                :key="slotProps.layer.filterId"
                                 :ref="'filter-' + slotProps.layer.filterId"
                                 :api="slotProps.layer.api"
                                 :is-layer-filter-selected="isLayerFilterSelected"
@@ -764,6 +765,7 @@ export default {
             v-if="(Array.isArray(layerConfigs.layers) && layerConfigs.layers.length) || (Array.isArray(layerConfigs.groups) && layerConfigs.groups.length)"
             class="layerSelector"
             :filters="filters"
+            :collapse-buttons="collapseButtons"
             :selected-layers="selectedAccordions"
             :multi-layer-selector="multiLayerSelector"
             :jump-to-id="jumpToId"
@@ -776,7 +778,7 @@ export default {
                 #default="slotProps"
             >
                 <div
-                    :class="['accordion-collapse', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
+                    :class="['accordion-collapse', 'mt-3', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
                     role="tabpanel"
                 >
                     <LayerFilterSnippet

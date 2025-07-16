@@ -106,6 +106,20 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         });
         expect(wrapper.findComponent(IconButton).exists()).to.be.false;
     });
+    it("should render collapse element if collapseButton is true", async () => {
+        wrapper.vm.hasUnfixedRules = () => true;
+        await wrapper.setProps({
+            selectedLayers: [{
+                filterId: 0
+            }],
+            collapseButtons: true,
+            filters: [{
+                filterId: 0,
+                initialStartupReset: false
+            }]
+        });
+        expect(wrapper.find(".button-collapse").exists()).to.be.true;
+    });
 
     describe("updateSelectedLayers", () => {
         it("should not change selected layers if passed argument is not an id", () => {

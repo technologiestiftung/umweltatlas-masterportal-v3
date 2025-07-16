@@ -88,6 +88,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
+- Filter: added parameter collapseButtons to show collapsible buttons instead of accordions
 
 ### Changed
 - Routing: Changed input fields for hgv parameters.

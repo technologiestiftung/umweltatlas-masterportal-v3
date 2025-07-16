@@ -36,6 +36,7 @@
  * @property {Boolean} preventAdjust - If it is true, the snippet will not be adjusted.
  * @property {String} questionLink - The url of the question link.
  * @property {Boolean} closeDropdownOnSelect - if true, the dropdown list will be closed after choosing option on the multiselect dropdown.
+ * @property {Boolean} collapseButtons - if true, buttons are displayed instead of accordions.
  */
 
 const state = {
@@ -47,6 +48,7 @@ const state = {
     menuSide: "mainMenu",
     resetLayer: false,
     multiLayerSelector: true,
+    collapseButtons: false,
     liveZoomToFeatures: true,
     geometrySelectorOptions: false,
     minScale: 5000,
