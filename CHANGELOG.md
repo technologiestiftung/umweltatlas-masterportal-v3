@@ -316,6 +316,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
+- TableComponent: Added GeoJSON Download
 
 ### Changed
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
