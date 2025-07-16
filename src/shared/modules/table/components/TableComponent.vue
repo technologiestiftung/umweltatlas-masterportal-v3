@@ -186,6 +186,7 @@ export default {
             showTotalData: false,
             firstColumnName: "",
             showExportDropdown: false,
+            exportDropdownRequired: this.downloadFormat.length > 1,
             fullViewActivated: false,
             fixedColumnTitle: undefined,
             fixedRowTitle: undefined,
@@ -886,11 +887,90 @@ export default {
          * Handles export download for selected format
          */
         downloadExport (format) {
-            if (format === "csv") {
-                this.$refs.exportCsvButton.$el.click();
+            if (format === "csv" && this.$refs.exportCsvButton) {
+                const btn = this.$refs.exportCsvButton.$el || this.$refs.exportCsvButton;
+
+                if (btn && typeof btn.click === "function") {
+                    btn.click();
+                }
             }
-            else if (format === "geojson") {
-                this.$refs.exportGeoJsonButton.$el.click();
+            else if (format === "geojson" && this.$refs.exportGeoJsonButton) {
+                const btn = this.$refs.exportGeoJsonButton.$el || this.$refs.exportGeoJsonButton;
+
+                if (btn && typeof btn.click === "function") {
+                    btn.click();
+                }
+            }
+        },
+
+        /**
+         * Expands table to fullscreen view, hides sorting elements, footer and layerPills to make space. Also enlarges the header row of the table on smaller screens.
+         * @param {boolean} unmounted True if leaving the tableComponent by navigating back to menu or closing the secondary Menu
+         * @returns {void}
+         */
+        fullView (unmounted = false) {
+            const footer = document.getElementById("module-portal-footer"),
+                layerPills = document.getElementById("layer-pills"),
+                select = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__select"),
+                tags = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__tags"),
+                tableRow = this.$refs.headerRow,
+                clientWidth = document.body.clientWidth;
+
+            if (!this.fullViewEnabled) {
+                return;
+            }
+
+            if (this.fullViewActivated) {
+                if (!this.mainExpanded) {
+                    this.toggleMenu("mainMenu");
+                }
+                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 25}});
+                if (layerPills) {
+                    layerPills.style.display = "";
+                }
+                if (footer) {
+                    footer.style.display = "";
+                }
+                if (!unmounted) {
+                    if (clientWidth <= 1280) {
+                        tableRow.classList.remove("fullscreen-tr");
+                    }
+                    for (let i = 0; i < tableRow.cells.length; i++) {
+                        tableRow.cells[i].classList.add("fixedWidth");
+                        if (tags[i]) {
+                            tags[i].classList.remove("fullscreen_view");
+                        }
+                        if (select[i]) {
+                            select[i].style.display = "";
+                        }
+                    }
+                }
+                this.fullViewActivated = false;
+            }
+            else {
+                if (this.mainExpanded) {
+                    this.toggleMenu("mainMenu");
+                }
+                if (layerPills) {
+                    layerPills.style.display = "none";
+                }
+                if (footer) {
+                    footer.style.display = "none";
+                }
+                if (clientWidth <= 1280) {
+                    tableRow.classList.add("fullscreen-tr");
+                }
+                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 95}});
+                for (let i = 0; i < tableRow.cells.length; i++) {
+                    tableRow.cells[i].classList.remove("fixedWidth");
+                    if (tags[i]) {
+                        tags[i].classList.add("fullscreen_view");
+                    }
+                    if (select[i]) {
+                        select[i].style.display = "none";
+                    }
+                }
+                this.fullViewActivated = true;
             }
         },
 
@@ -1148,7 +1228,7 @@ export default {
             class="btn-group"
         >
             <div
-                v-if="downloadFormat.length > 1"
+                v-if="exportDropdownRequired"
             >
                 <FlatButton
                     id="table-export"
@@ -1179,25 +1259,25 @@ export default {
                     </button>
                 </div>
             </div>
-            <ExportButtonCSV
-                v-else-if="downloadFormat.includes('csv')"
-                ref="exportCsvButton"
-                :url="false"
-                :data="exportTable('csv')"
-                :filename="exportFileName"
-                :use-semicolon="true"
-                :title="$t('common:shared.modules.table.download')"
-                :class="'me-3 rounded-pill export-button'"
-            />
-            <ExportButtonGeoJSON
-                v-else-if="downloadFormat.includes('geojson')"
-                ref="exportGeoJsonButton"
-                :data="exportTable('geojson')"
-                :filename="exportFileName"
-                :title="$t('common:shared.modules.table.download')"
-                :class="'me-3 rounded-pill export-button'"
-            />
         </div>
+        <ExportButtonCSV
+            ref="exportCsvButton"
+            :url="false"
+            :data="exportTable('csv')"
+            :filename="exportFileName"
+            :use-semicolon="true"
+            :title="$t('common:shared.modules.table.download')"
+            :style="exportDropdownRequired || !downloadFormat.includes('csv') ? 'display: none;' : ''"
+            :class="'me-3 rounded-pill export-button'"
+        />
+        <ExportButtonGeoJSON
+            ref="exportGeoJsonButton"
+            :data="exportTable('geojson')"
+            :filename="exportFileName"
+            :title="$t('common:shared.modules.table.download')"
+            :style="exportDropdownRequired || !downloadFormat.includes('geojson') ? 'display: none;' : ''"
+            :class="'me-3 rounded-pill export-button'"
+        />
     </div>
     <div
         class="fixed"
