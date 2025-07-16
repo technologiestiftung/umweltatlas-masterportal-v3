@@ -794,6 +794,8 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                     filterId: 0
                 }
             });
+            wrapper.setData({initialValue: [{snippetId: 0, initialPrechecked: "rule1"}]});
+            await wrapper.vm.$nextTick();
             wrapper.setData({initialRules: [{value: "rule1", startup: true}]});
             await wrapper.vm.$nextTick();
 

@@ -142,6 +142,7 @@ export default {
             autoRefreshSet: false,
             isRefreshing: false,
             initialRules: [],
+            initialValue: [],
             amountOfFilteredItems: false,
             precheckedSnippets: [],
             filteredItems: [],
@@ -191,6 +192,24 @@ export default {
                 if (val?.length === totalCountInitialSnippets) {
                     this.showSpinner = false;
                 }
+
+                this.initialValue = val.filter(v => typeof v?.initialPrechecked !== "undefined" && v?.visible !== false).map(({snippetId, initialPrechecked}) => ({snippetId, initialPrechecked}));
+            },
+            deep: true
+        },
+        initialValue: {
+            handler (val) {
+                if (!Array.isArray(val) || !val.length) {
+                    this.initialRules = [];
+                }
+
+                this.initialRules.forEach(rule => {
+                    const intialPrecheckedValue = val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked;
+
+                    if (typeof intialPrecheckedValue !== "undefined" && rule?.value !== val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked) {
+                        rule.value = val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked;
+                    }
+                });
             },
             deep: true
         },
@@ -253,8 +272,8 @@ export default {
                     if (snippetIds.length) {
                         this.handleActiveStrategy(snippetIds);
                     }
+                    this.initialRules = JSON.parse(JSON.stringify(this.filterRules));
                 }
-                this.initialRules = this.filterRules;
             },
             deep: true
         },
@@ -1152,7 +1171,7 @@ export default {
          * @returns {Boolean} true if value is the same.
          */
         isInitialValue (ruleA, ruleB) {
-            if (!Array.isArray(ruleA) || !ruleA.length || !ruleA.some(arr => arr?.startup === true) || !Array.isArray(ruleB) || !ruleB.length) {
+            if (!Array.isArray(ruleA) || !ruleA.length || !Array.isArray(ruleB) || !ruleB.length) {
                 return true;
             }
 
@@ -1197,7 +1216,9 @@ export default {
             if (Array.isArray(this.initialRules) && this.initialRules.length) {
                 this.initialRules.forEach(rule => {
                     if (rule !== null && rule.snippetId) {
-                        rule.startup = false;
+                        if (this.isLayerFilterSelected === true) {
+                            this.deleteRule(rule.snippetId);
+                        }
                         this.changeRule(rule);
                     }
                 });
