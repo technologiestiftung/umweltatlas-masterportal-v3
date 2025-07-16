@@ -7,6 +7,7 @@ import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
 import layerCollection from "@core/layers/js/layerCollection";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 import DragBox from "ol/interaction/DragBox";
+import store from "@appstore";
 
 let drawInteraction,
     featureToDelete,
@@ -59,39 +60,22 @@ const actions = {
         state.anyInputValue = {};
     },
     /**
-     * Prepares Buttons and Fetches Layer Features on module startup. Buttons will be disabled until fetch is complete to ensure requirements met before any transactions are possible.
+     * Prepares Buttons and Fetches Layer Features on module startup. Buttons will be disabled until fetch is complete to ensure requirements are met before any transactions are possible.
      * @param {Function} context.dispatch - The dispatch function to trigger actions.
      * @param {Function} context.getters - The getters function to access state values.
-     * @param {Function} context.rootGetters - The root getters function to access state values.
      * @param {Function} context.commit - The commit function to trigger mutations.
-     * @param {Function} context.state - The current state.
      * @returns {void}
      */
-    prepareEditButton ({dispatch, getters, rootGetters, commit, state}) {
+    prepareEditButton ({dispatch, getters, commit}) {
         dispatch("clearInteractions");
-        const {featureProperties} = getters;
 
         commit("setButtonsDisabled", true);
 
-        commit("setFeatureFetchCounter", state.featureFetchCounter + 1);
-        if (state.featureFetchCounter > 70) {
-            dispatch("Alerting/addSingleAlert", {
-                category: "error",
-                content: i18next.t("common:modules.wfst.error.fetchFeaturePropError"),
-                mustBeConfirmed: false
-            }, {root: true});
-            commit("setFeatureFetchCounter", 0);
-            commit("Menu/switchToRoot", "secondaryMenu", {root: true});
-            return;
-        }
-        if (featureProperties.length === 0) {
-            setTimeout(() => {
-                dispatch("prepareEditButton", {dispatch, getters, rootGetters, commit});
-            }, 100);
-        }
-        else {
-            commit("setButtonsDisabled", false);
-        }
+        store.watch(() => getters.featureProperties, featureProperties => {
+            if (featureProperties.length) {
+                commit("setButtonsDisabled", false);
+            }
+        }, {deep: true});
     },
     /**
      * Prepares everything so that the user can interact with features or draw features

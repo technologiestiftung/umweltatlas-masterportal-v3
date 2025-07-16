@@ -27,8 +27,6 @@
  * @property {TransactionLayer[]} layerInformation Information about the different WFS-T layers configured for the tool.
  * @property {("LineString"|"Point"|"Polygon"|"delete"|"updated"|"selectedUpdate"|null)} selectedInteraction Which selection is currently active, if any.
  * @property {Boolean} isFormDisabled if true then feature form inputs are invalid and form data cannot be saved to backend
-
- * @property {Number} featureFetchCounter Counting the tries to fetch features from layer, used as a termination condition.
  * @property {Boolean} buttonsDisabled Whether the interaction buttons should be disabled during feature-fetch.
  * @property {("singleUpdate"|"multiUpdate"|null)} selectedUpdate Which update is currently active, if any.
  */
@@ -61,7 +59,6 @@ const state = {
     layerInformation: [],
     selectedInteraction: null,
     isFormDisabled: false,
-    featureFetchCounter: 0,
     buttonsDisabled: false,
     selectedUpdate: null
 };
