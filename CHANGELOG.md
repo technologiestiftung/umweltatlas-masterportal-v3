@@ -5,6 +5,8 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+- MouseHover: Add additional parameters for configuration. Parameters can be set in the portal configuration to overwrite default values. If no values are set, the usual defaults are used.
+
 ### __Breaking Changes__
 
 ### Added
