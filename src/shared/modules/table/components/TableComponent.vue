@@ -1187,6 +1187,7 @@ export default {
                 :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"
+                :class="'me-3 rounded-pill export-button'"
             />
             <ExportButtonGeoJSON
                 v-else-if="downloadFormat.includes('geojson')"
@@ -1194,6 +1195,7 @@ export default {
                 :data="exportTable('geojson')"
                 :filename="exportFileName"
                 :title="$t('common:shared.modules.table.download')"
+                :class="'me-3 rounded-pill export-button'"
             />
         </div>
     </div>
@@ -1664,8 +1666,12 @@ table {
 .hint {
     font-size: 12px;
 }
-
-// Custom dropdown styling for export menu
+.export-button {
+    height: 2.5rem;
+    max-width: fit-content;
+    padding-right: 1.5rem;
+    padding-left: 1rem;
+}
 .export-dropdown-menu {
     position: absolute !important;
     left: 0;
