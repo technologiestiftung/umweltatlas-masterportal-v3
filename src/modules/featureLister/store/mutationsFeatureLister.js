@@ -3,7 +3,6 @@ import stateFeatureLister from "./stateFeatureLister";
 import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature";
 import layerCollection from "@core/layers/js/layerCollection";
 import tabStatus from "../tabStatus";
-import GeoJSON from "ol/format/GeoJSON";
 
 const mutations = {
     /**
@@ -20,8 +19,7 @@ const mutations = {
      */
     setGfiFeaturesOfLayer: (state, payload) => {
         const layerFromCollection = layerCollection.getLayerById(state.layer.id),
-            features = payload ?? layerFromCollection.getLayerSource().getFeatures(),
-            geojsonFormat = new GeoJSON();
+            features = payload ?? layerFromCollection.getLayerSource().getFeatures();
 
         if (features) {
             const gfiFeatures = [],
@@ -30,23 +28,18 @@ const mutations = {
             features.forEach(feature => {
                 if (feature.values_ && Object.prototype.hasOwnProperty.call(feature.values_, "features")) {
                     feature.values_.features.forEach(nestedFeature => {
-                        const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, nestedFeature.values_),
-                            geojsonString = geojsonFormat.writeFeature(nestedFeature),
-                            geojsonObj = JSON.parse(geojsonString);
+                        const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, nestedFeature.values_);
 
                         gfiFeature.id = nestedFeature.getId();
-                        gfiFeature.geojsonGeom = geojsonObj.geometry;
-                        gfiFeatures.push(gfiFeature);
+                        gfiFeature.geom = nestedFeature.getGeometry();
                     });
                     state.nestedFeatures = true;
                 }
                 else {
-                    const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, feature.values_),
-                        geojsonString = geojsonFormat.writeFeature(feature),
-                        geojsonObj = JSON.parse(geojsonString);
+                    const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, feature.values_);
 
                     gfiFeature.id = feature.getId();
-                    gfiFeature.geojsonGeom = geojsonObj.geometry;
+                    gfiFeature.geom = feature.getGeometry();
                     gfiFeatures.push(gfiFeature);
                     state.nestedFeatures = false;
                 }

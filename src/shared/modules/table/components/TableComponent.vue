@@ -12,6 +12,7 @@ import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNu
 import {isWebLink} from "@shared/js/utils/urlHelper.js";
 import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
+import GeoJSON from "ol/format/GeoJSON";
 
 export default {
     name: "TableComponent",
@@ -210,11 +211,13 @@ export default {
             table.items = table.items.map(item => {
                 const newItem = {};
 
+                // id is needed to identify the item in the table for zooming
                 if (item.id) {
                     newItem.id = item.id;
                 }
-                if (item.geojsonGeom) {
-                    newItem.geojsonGeom = item.geojsonGeom;
+                // the geom is needed for exporting the table as geojson
+                if (item.geom) {
+                    newItem.geom = item.geom;
                 }
 
                 this.visibleHeaders.forEach(header => {
@@ -619,10 +622,12 @@ export default {
                 const geoJsonToExport = {
                     type: "FeatureCollection",
                     features: this.editedTable.items.map(obj => {
-                        const feature = {type: "Feature", id: obj.id, geometry: obj.geojsonGeom, properties: {...obj}};
+                        const geojsonFormat = new GeoJSON(),
+                            geojsonGeom = obj.geom ? geojsonFormat.writeGeometryObject(obj.geom) : undefined,
+                            feature = {type: "Feature", id: obj.id, geometry: geojsonGeom, properties: {...obj}};
 
                         delete feature.properties.id;
-                        delete feature.properties.geojsonGeom;
+                        delete feature.properties.geom;
 
                         return feature;
                     })

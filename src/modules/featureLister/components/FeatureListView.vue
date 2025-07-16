@@ -40,7 +40,7 @@ export default {
 
                                 newProperties[newProperty] = properties[key];
                                 newProperties.id = feature.id;
-                                newProperties.geojsonGeom = feature.geojsonGeom;
+                                newProperties.geom = feature.geom;
                             }
                         }
                     });
