@@ -1236,7 +1236,7 @@ export default {
                 v-if="exportDropdownRequired"
             >
                 <FlatButton
-                    id="table-export"
+                    id="table-download"
                     :text="$t('common:shared.modules.table.download')"
                     :icon="'bi-download'"
                     :class="'me-3 rounded-pill dropdown-toggle'"
@@ -1266,21 +1266,23 @@ export default {
             </div>
         </div>
         <ExportButtonCSV
+            v-show="!exportDropdownRequired && downloadFormat.includes('csv')"
+            id="table-download-csv"
             ref="exportCsvButton"
             :url="false"
             :data="exportTable('csv')"
             :filename="exportFileName"
             :use-semicolon="true"
             :title="$t('common:shared.modules.table.download')"
-            :style="exportDropdownRequired || !downloadFormat.includes('csv') ? 'display: none;' : ''"
             :class="'me-3 rounded-pill export-button'"
         />
         <ExportButtonGeoJSON
+            v-show="!exportDropdownRequired && downloadFormat.includes('geojson')"
+            id="table-download-geojson"
             ref="exportGeoJsonButton"
             :data="exportTable('geojson')"
             :filename="exportFileName"
             :title="$t('common:shared.modules.table.download')"
-            :style="exportDropdownRequired || !downloadFormat.includes('geojson') ? 'display: none;' : ''"
             :class="'me-3 rounded-pill export-button'"
         />
     </div>
