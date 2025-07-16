@@ -17,6 +17,7 @@
 - WFS-T: Info message is configurable and is visssible in the multiupdate so that users know that they can overwrite things.
 - WFS-T: Multiedit name is changed to Edit.
 - WFS-T: Box selection was removed from default ones for multiupdate.
+- WFS-T: Feature Fetching logic reworked.
 
 ### Deprecated
 
