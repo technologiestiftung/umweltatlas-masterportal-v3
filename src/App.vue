@@ -6,7 +6,7 @@ import BaselayerSwitcher from "./modules/baselayerSwitcher/components/BaselayerS
 import ControlBar from "./modules/controls/components/ControlBar.vue";
 import initializeLayers from "./core/layers/js/layerProcessor";
 import {initializeMaps} from "./core/maps/js/maps";
-import {initializeUrlParams, startProcessUrlParams} from "./core/urlParams/js/urlParams";
+import {startProcessUrlParams} from "./core/urlParams/js/urlParams";
 import isMobile from "./shared/js/utils/isMobile";
 import mapCollection from "./core/maps/js/mapCollection";
 import MenuContainer from "./modules/menu/components/MenuContainer.vue";
@@ -72,7 +72,7 @@ export default {
     },
     created () {
         this.setGlobalVariables();
-        initializeUrlParams();
+        this.initializeUrlParams();
         this.loadConfigsToTheVuexState();
         this.checkVueObservation();
         this.regulateDeviceMode();
@@ -94,7 +94,8 @@ export default {
             "loadConfigJs",
             "loadConfigJson",
             "loadRestServicesJson",
-            "loadServicesJson"
+            "loadServicesJson",
+            "initializeUrlParams"
         ]),
         ...mapActions("Modules/Login", ["checkLoggedIn", "setUpTokenRefreshInterval"]),
 

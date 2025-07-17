@@ -1,6 +1,7 @@
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import {updateProxyUrl} from "./getProxyUrl";
 import layerFactory from "@core/layers/js/layerFactory";
+import store from "@appstore";
 
 let zIndex = 1;
 
@@ -73,6 +74,14 @@ export function addAdditional (rawLayer, showAllLayerInTree = false) {
         rawLayer.type = "layer";
 
         if (showAllLayerInTree || (rawLayer.visibility && rawLayer.showInLayerTree === undefined)) {
+            const urlLayerParams = store.state.layerUrlParams,
+                isInUrlParams = urlLayerParams?.some(param => param.id === rawLayer.id && param.visibility === false
+                );
+
+            if (isInUrlParams) {
+                rawLayer.visibility = false;
+            }
+
             rawLayer.showInLayerTree = true;
         }
         else if (!Object.prototype.hasOwnProperty.call(rawLayer, "showInLayerTree") && rawLayer.visibility === false) {

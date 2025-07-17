@@ -7,6 +7,7 @@ import {fetchFirstModuleConfig} from "@shared/js/utils/fetchFirstModuleConfig";
 import {portalConfigKey, treeTopicConfigKey} from "@shared/js/utils/constants";
 import {updateProxyUrl} from "./js/getProxyUrl";
 import {upperFirst} from "@shared/js/utils/changeCase";
+import globalUrlParams from "@core/urlParams/js/globalUrlParams";
 
 /**
  * The root actions.
@@ -176,5 +177,12 @@ export default {
             }).then(() => {
             commit("setStyleListLoaded", true);
         }).catch(error => console.error(error));
+    },
+
+    initializeUrlParams ({commit}) {
+        const params = new URLSearchParams(window.location.search);
+
+        commit("setUrlParams", {params});
+        globalUrlParams.processGlobalUrlParams();
     }
 };

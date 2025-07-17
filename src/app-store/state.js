@@ -10,6 +10,7 @@
  * @property {Object} [portalConfig=null] The portal configuration.
  * @property {Object} [restConf=null] The rest-services.json data.
  * @property {Object} [urlParams=[]] The url params.
+ * @property {Object} [layerUrlParams=[]] - Parsed layer-related URL parameters (from `urlParams.LAYERS`).
  */
 const state = {
     configJs: null,
@@ -23,7 +24,8 @@ const state = {
     styleListLoaded: false,
     portalConfig: null,
     restConfig: null,
-    urlParams: {}
+    urlParams: [],
+    layerUrlParams: []
 };
 
 export default state;

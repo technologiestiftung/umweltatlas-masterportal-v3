@@ -27,6 +27,7 @@
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
+- Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
 
 ## 2025-07-08 v3.12.1
 

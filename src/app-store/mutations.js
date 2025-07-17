@@ -28,5 +28,19 @@ export default {
      */
     setLoadedConfigs (state, config) {
         state.loadedConfigs[config] = true;
+    },
+
+    setUrlParams (state, {params}) {
+        params.forEach((value, key) => {
+            state.urlParams[key.toUpperCase()] = value;
+        });
+
+        try {
+            state.layerUrlParams = JSON.parse(state.urlParams.LAYERS || "[]");
+        }
+        catch (e) {
+            console.warn("Failed to parse LAYERS param:", e);
+            state.layerUrlParams = [];
+        }
     }
 };
