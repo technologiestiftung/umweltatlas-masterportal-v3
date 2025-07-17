@@ -15,6 +15,7 @@ import {
     Polygon,
     MultiPolygon
 } from "ol/geom";
+import IconButton from "../../../../src/shared/modules/buttons/components/IconButton.vue";
 import isObject from "@shared/js/utils/isObject.js";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import sortBy from "@shared/js/utils/sortBy.js";
@@ -43,7 +44,8 @@ import sortBy from "@shared/js/utils/sortBy.js";
 export default {
     name: "GeometryFilter",
     components: {
-        ButtonGroup
+        ButtonGroup,
+        IconButton
     },
     props: {
         circleSides: {
@@ -136,7 +138,7 @@ export default {
         isActive: {
             handler (val) {
                 if (!val) {
-                    if (this.draw instanceof Draw) {
+                    if (this.selectedGroup === "geom" && this.draw instanceof Draw) {
                         this.draw.setActive(false);
                         this.selectedGeometryIndex = -10;
                     }
@@ -235,7 +237,15 @@ export default {
          */
         setSelectedGeometryIndex (index) {
             if (this.selectedGeometryIndex === index) {
-                this.reset();
+                if (this.selectedGroup === "geom") {
+                    if (this.draw instanceof Draw) {
+                        this.draw.setActive(false);
+                    }
+                    this.selectedGeometryIndex = -10;
+                }
+                else {
+                    this.selectedGeometryIndex = -1;
+                }
                 return;
             }
             this.selectedGeometryIndex = index;
@@ -677,6 +687,15 @@ export default {
                         </span>
                     </button>
                 </div>
+                <div class="flex-column d-flex trash-btn-wrapper">
+                    <IconButton
+                        :class-array="['btn-primary']"
+                        :aria="$t('common:modules.filter.geometryFilter.delete')"
+                        icon="bi bi-trash"
+                        :interaction="() => reset()"
+                        :label="$t('common:modules.filter.geometryFilter.delete')"
+                    />
+                </div>
             </div>
         </div>
         <div
@@ -766,7 +785,10 @@ export default {
         font-size: $font-size-sm;
     }
     .icon-btn-wrapper {
-        width: 75px;
+        width: 62px;
+    }
+    .trash-btn-wrapper {
+        width: 60px;
     }
 }
 </style>

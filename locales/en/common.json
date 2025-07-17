@@ -502,6 +502,7 @@
           "polygon": "Polygon",
           "rectangle": "Rectangle"
         },
+        "delete": "Delete",
         "removeGeometry": "Remove that area",
         "selectGeometry": "Choose an area."
       },

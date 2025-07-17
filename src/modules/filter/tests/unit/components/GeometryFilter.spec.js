@@ -153,26 +153,26 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
             await wrapper.find("#LineString").trigger("click");
             expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
         });
-        it("should reset the geometry index, if user click at the same geometry type", async () => {
+        it("should set the geometry index -10, if user click at the same geometry type", async () => {
             await wrapper.setData({isGeometryVisible: true});
 
             await wrapper.find("#Rectangle").trigger("click");
             expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
 
             await wrapper.find("#Rectangle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
 
             await wrapper.find("#Circle").trigger("click");
             expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
 
             await wrapper.find("#Circle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
 
             await wrapper.find("#LineString").trigger("click");
             expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
 
             await wrapper.find("#LineString").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
         });
     });
 

@@ -501,6 +501,7 @@
           "polygon": "Fläche",
           "rectangle": "Rechteck"
         },
+        "delete": "Löschen",
         "removeGeometry": "Gebiet entfernen",
         "selectGeometry": "Wählen Sie eine Geometrie um nur innerhalb der gesetzten Geometrie zu filtern.",
         "selectRegion": "Wählen Sie ein Gebiet um nur innerhalb dieses Gebiets zu filtern."
