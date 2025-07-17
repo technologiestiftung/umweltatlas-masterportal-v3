@@ -6,7 +6,7 @@ import {createStore} from "vuex";
 
 config.global.mocks.$t = key => key;
 
-describe.only("src/shared/modules/table/components/TableComponent.vue", () => {
+describe("src/shared/modules/table/components/TableComponent.vue", () => {
     let store;
 
     before(function () {
