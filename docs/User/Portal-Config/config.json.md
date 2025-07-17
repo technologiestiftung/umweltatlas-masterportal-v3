@@ -960,13 +960,33 @@ Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-
 |----|--------|----|-------|-----------|------|
 |infoText|no|String|"common:modules.mouseHover.infoText"| Text that will be displayed if the features exceed the number of `numFeaturesToShow`.|false|
 |numFeaturesToShow|no|Integer|2|Maximum amount of element information per tooltip; when exceeded, an information text informs the user of cut content.|false|
+|fontFamily|no|String|"common:modules.mouseHover.fontFamily"|Font family for the description|false|
+|fontStyle|no|String|"common:modules.mouseHover.fontStyle"|Font style for the description|false|
+|fontSize|no|String|"common:modules.mouseHover.fontSize"|Font size for the description|false|
+|fontColor|no|String|"common:modules.mouseHover.fontColor"|Font color for the description|false|
+|titleFontFamily|no|String|"common:modules.mouseHover.titleFontFamily"|Font family for the title|false|
+|titleFontStyle|no|String|"common:modules.mouseHover.titleFontStyle"|Font style for the title|false|
+|titleFontSize|no|String|"common:modules.mouseHover.titleFontSize"|Font size for the title|false|
+|titleFontColor|no|String|"common:modules.mouseHover.titleFontColor"|Font color for the title|false|
+|infoBorderRadius|no|Integer|"common:modules.mouseHover.infoBorderRadius"|Border radius of the tooltip|false|
+|lineHeight|no|Float|"common:modules.mouseHover.lineHeight"|Line spacing for the tooltip|false|
 
 **Example**
 
 ```json
 "mouseHover": {
     "numFeaturesToShow": 1,
-    "infoText": "Exampletext"
+    "infoText": "Exampletext",
+    "fontFamily": "Arial",
+    "fontStyle": "Italic",
+    "fontSize": 12,
+    "fontColor": "#FF0000",
+	"titleFontFamily": "Helvetica",
+	"titleFontStyle": "Bold",
+	"titleFontSize": 16,
+	"titleFontColor": "#1A43BF",
+	"infoBorderRadius": 4,
+	"lineHeight": 1.6
 },
 ```
 
