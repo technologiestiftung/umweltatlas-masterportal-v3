@@ -157,7 +157,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Menu", "currentSecondaryMenuWidth", ["mainExpanded"]),
+        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded"]),
         ...mapGetters("Modules/Language", ["currentLocale"]),
 
         editedTable () {

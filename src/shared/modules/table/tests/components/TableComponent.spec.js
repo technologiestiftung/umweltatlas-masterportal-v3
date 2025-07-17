@@ -6,7 +6,7 @@ import {createStore} from "vuex";
 
 config.global.mocks.$t = key => key;
 
-describe("src/shared/modules/table/components/TableComponent.vue", () => {
+describe.only("src/shared/modules/table/components/TableComponent.vue", () => {
     let store;
 
     before(function () {
@@ -36,7 +36,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                     namespaced: true,
                     getters: {
                         mainExpanded: () => false,
-                        currentSecondaryMenuWidth: () => 0.25
+                        currentSecondaryMenuWidth: () => sinon.stub().returns(0.25)
                     },
                     actions: {
                         toggleMenu: sinon.stub(),
