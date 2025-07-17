@@ -67,7 +67,8 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
             search: sinon.stub(),
             activateActions: sinon.stub(),
             startLayerSelectionSearch: sinon.stub(),
-            checkLayerSelectionSearchConfig: sinon.stub()
+            checkLayerSelectionSearchConfig: sinon.stub(),
+            removeHighlight3DTile: sinon.stub()
         };
 
         setGlobalPlaceholderSpy = sinon.spy();

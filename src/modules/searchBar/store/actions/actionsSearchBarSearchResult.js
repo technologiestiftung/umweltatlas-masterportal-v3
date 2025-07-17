@@ -12,6 +12,7 @@ import find3DPickedFeature from "@shared/js/utils/find3DPickedFeature";
 import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor";
 import applyTileStyle from "@shared/js/utils/applyTileStyle";
 import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight";
+import {convertColor} from "@shared/js/utils/convertColor";
 
 /**
  * Contains actions that communicate with other components after an interaction, such as onClick or onHover, with a search result.
@@ -177,29 +178,56 @@ export default {
      * @param {Object} payload.layer The dedicated layer.
      * @returns {void}
      */
-    setMarker: ({dispatch, rootGetters}, {coordinates, feature, geometryType, layer}) => {
+    setMarker: ({dispatch, commit, state, rootGetters}, {coordinates, feature, geometryType, layer}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10)),
             geomType = feature ? feature?.getGeometry()?.getType() : geometryType;
-        let coordinateForMarker = geomType === "GeometryCollection" ? markerHelper.getFirstPointCoordinates(feature, numberCoordinates) : numberCoordinates;
+        let coordinateForMarker = geomType === "GeometryCollection"
+            ? markerHelper.getFirstPointCoordinates(feature, numberCoordinates)
+            : numberCoordinates;
 
         if (layer && geomType === "MultiPolygon") {
             const highlightObject = {},
                 highlightVectorRules = rootGetters["Modules/GetFeatureInfo/highlightVectorRules"],
-                styleObject = highlightVectorRules ? highlightVectorRules : styleList.returnStyleObject("defaultMapMarkerPolygon"),
-                style = styleObject.rules ? styleObject.rules[0].style : styleObject.style,
+                lastId = state.lastPickedFeatureId,
+                prevFeature = rootGetters["Maps/highlightedFeatures"]?.find(f => f.getId?.() === lastId);
+
+            if (prevFeature) {
+                dispatch("Maps/removeHighlightFeature", prevFeature, {root: true});
+            }
+
+            let fill, stroke;
+
+            if (highlightVectorRules && highlightVectorRules.fill && highlightVectorRules.stroke) {
                 fill = {
-                    color: `rgb(${style.polygonFillColor.join(", ")})`
-                },
+                    color: convertColor(highlightVectorRules.fill.color)
+                };
                 stroke = {
-                    color: `rgb(${style.polygonStrokeColor.join(", ")})`,
+                    color: convertColor(highlightVectorRules.stroke.color),
+                    width: highlightVectorRules.stroke.width || 1
+                };
+            }
+            else {
+                const styleObject = styleList.returnStyleObject("defaultMapMarkerPolygon"),
+                    style = styleObject.rules ? styleObject.rules[0].style : styleObject?.style;
+
+                fill = {
+                    color: `rgba(${style.polygonFillColor.join(", ")})`
+                };
+                stroke = {
+                    color: `rgba(${style.polygonStrokeColor.join(", ")})`,
                     width: style.polygonStrokeWidth[0]
                 };
+            }
 
             highlightObject.highlightStyle = {fill, stroke};
             highlightObject.type = "highlightMultiPolygon";
             highlightObject.feature = feature;
             highlightObject.styleId = layer.get("styleId");
             dispatch("Maps/highlightFeature", highlightObject, {root: true});
+
+            if (feature.getId?.()) {
+                commit("setLastPickedFeatureId", feature.getId());
+            }
         }
         if (feature && (geomType === "Polygon" || geomType === "MultiPolygon")) {
             const isPointInsidePolygon = markerHelper.checkIsCoordInsidePolygon(feature, coordinateForMarker);
@@ -215,7 +243,6 @@ export default {
         }
         dispatch("Maps/placingPointMarker", coordinateForMarker, {root: true});
     },
-
 
     /**
      * Open folders in layerSelection and shows layer or folder to select.

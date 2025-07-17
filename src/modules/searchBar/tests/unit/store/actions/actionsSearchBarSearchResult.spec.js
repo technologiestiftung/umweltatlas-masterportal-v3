@@ -492,38 +492,31 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 payload = [1234, 65432],
                 feature = {
                     id: "featureId",
-                    getGeometry: () =>{
-                        return {
-                            getType: () => {
-                                return "MultiPolygon";
-                            },
-                            intersectsCoordinate: () => {
-                                return coordinates;
-                            },
-                            getCoordinates: () => {
-                                return coordinates;
-                            }
-                        };
-                    }
+                    getGeometry: () => ({
+                        getType: () => "MultiPolygon",
+                        intersectsCoordinate: () => true,
+                        getCoordinates: () => coordinates
+                    })
                 },
                 layer = {
-                    get: () => {
-                        return "styleId";
-                    }
+                    get: () => "styleId"
+                },
+                state = {
+                    lastPickedFeatureId: "previousFeatureId"
                 },
                 rootGetters = {
                     "Modules/GetFeatureInfo/highlightVectorRules": null
                 },
                 highlightObject = {
                     type: "highlightMultiPolygon",
-                    feature: feature,
+                    feature,
                     styleId: "styleId",
                     highlightStyle: {
                         fill: {
-                            color: "rgb(215, 102, 41, 0.9)"
+                            color: "rgba(215, 102, 41, 0.9)"
                         },
                         stroke: {
-                            color: "rgb(215, 101, 41, 0.9)",
+                            color: "rgba(215, 101, 41, 0.9)",
                             width: 1
                         }
                     }
@@ -538,13 +531,14 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                     }
                 }]
             });
-            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            actions.setMarker({dispatch, state, rootGetters}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
-            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.deep.equal(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.deep.equal(payload);
         });
 
         it("highlights multipolygon feature with style from GetFeatureInfo", () => {
@@ -552,53 +546,53 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 payload = [1234, 65432],
                 feature = {
                     id: "featureId",
-                    getGeometry: () =>{
-                        return {
-                            getType: () => {
-                                return "MultiPolygon";
-                            },
-                            intersectsCoordinate: () => {
-                                return coordinates;
-                            }
-                        };
-                    }
+                    getGeometry: () => ({
+                        getType: () => "MultiPolygon",
+                        intersectsCoordinate: () => true,
+                        getCoordinates: () => coordinates
+                    })
                 },
                 layer = {
-                    get: () => {
-                        return "styleId";
-                    }
+                    get: () => "styleId"
+                },
+                state = {
+                    lastPickedFeatureId: "previousFeatureId"
                 },
                 rootGetters = {
                     "Modules/GetFeatureInfo/highlightVectorRules": {
-                        style: {
-                            polygonFillColor: [215, 102, 41, 0.9],
-                            polygonStrokeColor: [215, 101, 41, 0.9],
-                            polygonStrokeWidth: [1]
-                        }}
+                        fill: {
+                            color: "#abcdef"
+                        },
+                        stroke: {
+                            color: "#123456",
+                            width: 1
+                        }
+                    }
                 },
                 highlightObject = {
                     type: "highlightMultiPolygon",
-                    feature: feature,
+                    feature,
                     styleId: "styleId",
                     highlightStyle: {
                         fill: {
-                            color: "rgb(215, 102, 41, 0.9)"
+                            color: [171, 205, 239, 1]
                         },
                         stroke: {
-                            color: "rgb(215, 101, 41, 0.9)",
+                            color: [18, 52, 86, 1],
                             width: 1
                         }
                     }
                 };
 
             sinon.stub(styleList, "returnStyleObject").returns(null);
-            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            actions.setMarker({dispatch, rootGetters, state}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
-            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.deep.equal(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.deep.equal(payload);
         });
     });
 

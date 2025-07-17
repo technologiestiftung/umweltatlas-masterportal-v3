@@ -25,6 +25,7 @@
 ### Fixed
 - Issue #1418: Routing: Fixed add waypoint button functionality via keyboard input.
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
+- Issue #1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
