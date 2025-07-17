@@ -334,18 +334,6 @@ export default {
                 this.getInitialSliderMin(this.getAttrNameFrom(), min => {
                     this.getInitialSliderMax(this.getAttrNameUntil(), max => {
                         this.initSlider(parseFloat(min), parseFloat(max));
-                        this.$nextTick(() => {
-                            if (this.isPrecheckedValid()) {
-                                this.emitCurrentRule([
-                                    this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin,
-                                    this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax], true);
-                                this.$emit("setSnippetPrechecked", this.visible ? this.snippetId : false);
-                            }
-                            else {
-                                this.$emit("setSnippetPrechecked", false);
-                            }
-                            this.setIsInitializing(false);
-                        });
                     }, error => {
                         this.setIsInitializing(false);
                         this.$emit("setSnippetPrechecked", false);
@@ -371,11 +359,18 @@ export default {
             if (this.isPrecheckedValid()) {
                 this.sliderFrom = this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin;
                 this.sliderUntil = this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax;
+                this.emitCurrentRule([
+                    this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin,
+                    this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax], true);
+                this.$emit("setSnippetPrechecked", this.visible ? this.snippetId : false);
             }
             else {
                 this.sliderFrom = this.currentSliderMin;
                 this.sliderUntil = this.currentSliderMax;
+                this.$emit("setSnippetPrechecked", false);
             }
+            await this.$nextTick();
+            this.setIsInitializing(false);
         },
         /**
          * Receives the initial min by props or api.
