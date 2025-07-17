@@ -3,6 +3,7 @@ import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import {createRegularPolygon} from "ol/interaction/Draw";
 import {Fill, Stroke, Style} from "ol/style";
+import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
 import {Vector as VectorSource} from "ol/source";
 import {Vector as VectorLayer} from "ol/layer";
 import {mapActions, mapGetters, mapMutations} from "vuex";
@@ -45,7 +46,8 @@ export default {
     name: "GeometryFilter",
     components: {
         ButtonGroup,
-        IconButton
+        IconButton,
+        FlatButton
     },
     props: {
         circleSides: {
@@ -646,46 +648,27 @@ export default {
                         v-if="selectedGroup !== 'addit' && geometry.type !== 'additional'"
                         class="icon-btn-wrapper flex-column d-flex align-items-center"
                     >
-                        <button
+                        <IconButton
                             v-if="selectedGroup !== 'addit' && geometry.type !== 'additional'"
                             :id="geometry.type"
-                            tabindex="0"
-                            class="flat-button btn btn-primary mx-1 mb-1"
-                            :class="selectedGeometryIndex === index ? 'selected' : ''"
-                            type="button"
-                            aria-label="$t('common:modules.filter.geometryFilter.selectGeometry')"
-                            @click="setSelectedGeometryIndex(index)"
-                        >
-                            <i
-                                :class="getIcon(geometry.type)"
-                                role="img"
-                            />
-                        </button>
-                        <label
-                            v-if="selectedGroup !== 'addit' && geometry.type !== 'additional'"
-                            class="text-center btn-label"
-                            :for="geometry.type"
-                            :aria-label="geometry.name"
-                            tabindex="0"
-                        >
-                            {{ geometry.name }}
-                        </label>
+                            :key="geometry.type"
+                            :aria="$t('common:modules.filter.geometryFilter.selectGeometry')"
+                            :class-array="[
+                                'btn-primary',
+                                selectedGeometryIndex === index ? 'selected' : ''
+                            ]"
+                            :interaction="() => setSelectedGeometryIndex(index)"
+                            :icon="getIcon(geometry.type)"
+                            :label="geometry.name"
+                            class="d-flex align-items-center mx-1 mb-1"
+                        />
                     </div>
-                    <button
+                    <FlatButton
                         v-if="selectedGroup === 'addit' && geometry.type === 'additional'"
-                        class="btn btn-primary mx-1 mb-2 mt-2"
-                        :class="selectedGeometryIndex === index ? 'selected' : ''"
-                        type="button"
-                        aria-label="$t('common:modules.filter.geometryFilter.selectRegion')"
-                        @click="setSelectedGeometryIndex(index)"
-                        @keydown="setSelectedGeometryIndex(index)"
-                    >
-                        <span
-                            class="btn-texts"
-                        >
-                            {{ geometry.name }}
-                        </span>
-                    </button>
+                        :text="geometry.name"
+                        :interaction="() => setSelectedGeometryIndex(index)"
+                        :customclass="selectedGeometryIndex === index ? 'selected me-1 button-primary' : 'me-1 button-primary'"
+                    />
                 </div>
                 <div class="flex-column d-flex trash-btn-wrapper">
                     <IconButton
@@ -780,15 +763,31 @@ export default {
             margin-top: 3px;
         }
     }
-    .btn-label {
-        font-family: $font-family-sans-serif;
-        font-size: $font-size-sm;
+    .btn-wrapper {
+        font-family: MasterPortalFont, Arial, sans-serif;
+        font-size: 0.857rem;
     }
     .icon-btn-wrapper {
         width: 62px;
     }
     .trash-btn-wrapper {
         width: 60px;
+    }
+    .button-primary {
+        --bs-btn-color: #001B3D;
+        --bs-btn-bg: #D6E3FF;
+        --bs-btn-border-radius: 16px;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #001B3D;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #151C27;
+        --bs-btn-focus-color: #fff;
+        border-color: var(--bs-btn-hover-border-color);
+    }
+    .button-primary:hover {
+        color: var(--bs-btn-hover-color);
+        background-color: var(--bs-btn-hover-bg);
+        border-color: var(--bs-btn-hover-border-color);
     }
 }
 </style>

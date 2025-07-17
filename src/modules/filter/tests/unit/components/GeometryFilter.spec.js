@@ -7,6 +7,7 @@ import Draw from "ol/interaction/Draw.js";
 import {Vector as VectorLayer} from "ol/layer";
 import Feature from "ol/Feature";
 import {Polygon, LineString} from "ol/geom";
+import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
@@ -144,35 +145,85 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
 
             expect(wrapper.vm.selectedGeometryIndex).to.be.equal(0);
 
-            await wrapper.find("#Rectangle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
 
-            await wrapper.find("#Circle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
 
-            await wrapper.find("#LineString").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+
+            });
         });
-        it("should set the geometry index -10, if user click at the same geometry type", async () => {
+        it("should set the geometry index -10, if user click at the same geometry type and selected group is 'geom'", async () => {
             await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "geom"});
 
-            await wrapper.find("#Rectangle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
 
-            await wrapper.find("#Rectangle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
 
-            await wrapper.find("#Circle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
 
-            await wrapper.find("#Circle").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
 
-            await wrapper.find("#LineString").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
 
-            await wrapper.find("#LineString").trigger("click");
-            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+            });
+        });
+        it("should set the geometry index -1, if user click at the same geometry type and selected group is 'addit'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "addit"});
+
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+            });
+        });
+        it("should set the draw to active, if selected group is 'geom'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "geom"});
+
+            nextTick(() => {
+                expect(wrapper.vm.draw.getActive().to.be.true);
+            });
+        });
+        it("should set the draw to inactive, if selected group is 'aadit'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "addit"});
+
+            nextTick(() => {
+                expect(wrapper.vm.draw.getActive().to.be.false);
+            });
         });
     });
 
