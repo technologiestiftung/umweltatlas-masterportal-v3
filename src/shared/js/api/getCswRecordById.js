@@ -227,7 +227,7 @@ function parseContactByRole (json, role) {
     let dateValue = null;
 
     if (Array.isArray(pointOfContacts)) {
-        pointOfContacts.forEach(contact => {
+        for (const contact of pointOfContacts) {
             if (contact?.CI_ResponsibleParty?.role?.CI_RoleCode?.getAttributes()?.codeListValue === role) {
                 dateValue = {
                     name: contact.CI_ResponsibleParty?.organisationName?.CharacterString?.getValue(),
@@ -241,8 +241,9 @@ function parseContactByRole (json, role) {
                     link: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.onlineResource?.CI_OnlineResource?.linkage?.URL?.getValue(),
                     country: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.country?.CharacterString?.getValue()
                 };
+                break;
             }
-        });
+        }
     }
     else if (pointOfContacts?.CI_ResponsibleParty?.role?.CI_RoleCode?.getAttributes()?.codeListValue === role) {
         dateValue = {

@@ -46,7 +46,12 @@ export default {
         else {
             commit("setTitle", metadata?.getTitle());
             commit("setAbstractText", metadata?.getAbstract());
-            commit("setContact", metadata?.getContact());
+            if (metadata?.getContact()) {
+                commit("setContact", metadata?.getContact());
+            }
+            else {
+                commit("setContact", metadata?.getPublisher());
+            }
         }
 
         dispatch("currentMasterportalVersionNumber");
