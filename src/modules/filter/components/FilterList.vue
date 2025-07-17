@@ -196,10 +196,9 @@ export default {
                         <h5>{{ filter.title ? filter.title : filter.layerId }}</h5>
                         <div
                             v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
+                            class="rules-number"
                         >
-                            <span
-                                class="rules-number"
-                            >
+                            <span>
                                 {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
                             </span>
                         </div>
@@ -268,17 +267,20 @@ export default {
     text-align:left;
 }
 .rules-number {
-    margin-left: 0.625rem;
-    text-align: center;
-    user-select: none;
-    color: #ffffff;
-    display: inline;
-    padding: 0.275rem 0.875rem;
-    font-size: $font-size-sm;
-    font-weight: 100;
-    vertical-align: middle;
-    border-radius: 0.688rem;
-    background-color: #3C5F94;
-    border-color: #3C5F94;
+    margin-bottom: 0.5rem;
+    span {
+        margin-left: 0.625rem;
+        text-align: center;
+        user-select: none;
+        color: #ffffff;
+        display: inline;
+        padding: 0.275rem 0.875rem;
+        font-size: $font-size-sm;
+        font-weight: 100;
+        vertical-align: middle;
+        border-radius: 0.688rem;
+        background-color: #3C5F94;
+        border-color: #3C5F94;
+    }
 }
 </style>
