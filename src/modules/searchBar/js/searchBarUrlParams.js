@@ -22,7 +22,8 @@ function processSearchBarUrlParams () {
  * @returns {void}
  */
 function setQueryToSearchInput (params) {
-    const value = params.QUERY ? params.QUERY : params["SEARCH/QUERY"];
+    const value = params.QUERY ? params.QUERY : params["SEARCH/QUERY"],
+        normalizedQuery = value?.toLowerCase().trim();
 
     store.commit("Modules/SearchBar/setSearchInput", value);
     store.dispatch("Modules/SearchBar/startSearch", value);
@@ -30,9 +31,11 @@ function setQueryToSearchInput (params) {
     store.watch((state, getters) => getters["Modules/SearchBar/searchResults"], results => {
         if (results) {
             results.forEach(result => {
-                const coordinates = result?.events?.onClick?.zoomToResult?.coordinates;
+                const coordinates = result?.events?.onClick?.zoomToResult?.coordinates,
+                    resultName = result?.name?.toLowerCase().trim(),
+                    isElastic = result?.searchInterfaceId?.includes("elastic");
 
-                if (coordinates && result.searchInterfaceId.includes("elastic")) {
+                if (coordinates && resultName === normalizedQuery && isElastic) {
                     const numberCoordinates = coordinates.map(coordinate => parseFloat(coordinate, 10));
 
                     if (store.getters.styleListLoaded) {
