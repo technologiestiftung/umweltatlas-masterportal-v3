@@ -131,6 +131,46 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
 
             expect(wrapper.findAll(".result")).to.have.lengthOf(1);
         });
+
+        it("should not render geometry filter accordion componenet", async () => {
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            expect(wrapper.findComponent({name: "AccordionItem", id: "geometry-filter-accordion"}).exists()).to.be.false;
+        });
+
+        it("should render geometry filter accordion componenet", async () => {
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                    plugins: [store]
+                }}),
+                geometrySelectorOptions = {
+                    "visible": true,
+                    "circleSides": 256,
+                    "defaultBuffer": 20,
+                    "geometries": [
+                        "Polygon",
+                        "Rectangle",
+                        "Circle",
+                        "LineString"
+                    ],
+                    "invertGeometry": true,
+                    "fillColor": "rgba(0, 0, 0, 0.33)",
+                    "strokeColor": "rgba(0, 0, 0, 1)",
+                    "strokeWidth": 1,
+                    "selectedGeometry": 0,
+                    "additionalGeometries": [{
+                        "layerId": "1692",
+                        "attrNameForTitle": "bezirk_name"
+                    }]
+                };
+
+
+            store.commit("Modules/Filter/setGeometrySelectorOptions", geometrySelectorOptions);
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.findComponent({name: "AccordionItem", id: "geometry-filter-accordion"}).exists()).to.be.true;
+        });
     });
 
     describe("Methods", () => {

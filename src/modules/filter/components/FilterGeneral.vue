@@ -682,13 +682,13 @@ export default {
             </div>
         </div>
         <AccordionItem
+            v-if="isGeometrySelectorVisible()"
             id="geometry-filter-accordion"
             :title="$t('common:modules.filter.geometryFilter.title')"
             font-size="font-size-big"
             @update-accordion-state="toggleGeometryFilter()"
         >
             <GeometryFilter
-                v-if="isGeometrySelectorVisible()"
                 :is-active="isGeometryFilterActive"
                 :circle-sides="geometrySelectorOptions.circleSides"
                 :default-buffer="geometrySelectorOptions.defaultBuffer"
