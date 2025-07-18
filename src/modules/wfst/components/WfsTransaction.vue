@@ -26,6 +26,8 @@ export default {
             "name",
             "selectedInteraction",
             "showConfirmModal",
+            "showVoidModal",
+            "voidModalCallback",
             "showInteractionsButtons",
             "transactionProcessing",
             "isFormDisabled",
@@ -48,7 +50,6 @@ export default {
             },
             deep: true
         }
-
     },
     created () {
         this.initializeLayers();
@@ -60,8 +61,8 @@ export default {
         this.reset();
     },
     methods: {
-        ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction"]),
-        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction", "prepareEditButton", "clearInteractions"]),
+        ...mapMutations("Modules/Wfst", ["setTransactionProcessing", "setCurrentLayerIndex", "setLayerInformation", "setShowConfirmModal", "setShowVoidModal", "setHideVoidModal", "setFeaturePropertiesBatch", "setSelectedSelectInteraction", "setIsDrawMode", "addProcessedMultiPolygon", "setVoidModalCallback"]),
+        ...mapActions("Modules/Wfst", ["prepareInteraction", "reset", "resetCancel", "save", "setActive", "saveMulti", "setFeatureProperty", "setFeaturesBatchProperty", "setFeatureProperties", "updateFeatureProperty", "sendTransaction", "switchToDrawMode", "propagateModal", "prepareEditButton", "clearInteractions"]),
         /**
          * Initializes all layers stored in state's layerIds.
          * @returns {void}
@@ -390,8 +391,8 @@ export default {
                                     :id="`tool-wfs-transaction-form-input-${property.key}`"
                                     :key="`${property.key}-input`"
                                     :class="{
-                                        'form-control__valid': property.valid === true,
-                                        'form-control__invalid': property.valid === false
+                                        'form-control__valid': property.required && property.valid === true,
+                                        'form-control__invalid': property.required && property.valid === false
                                     }"
                                     :step="property.type === 'decimal' ? getDecimalStep(property.type, property.value) : null"
                                     :title="property.required && !property.valid ? $t(`common:modules.wfst.mandatoryInputError.${getInputType(property.type)}`): ''"
@@ -462,6 +463,42 @@ export default {
                         id="modal-button-right"
                         class="btn btn-secondary"
                         @click="setShowConfirmModal(false)"
+                    >
+                        {{ $t("common:modules.button.stop") }}
+                    </button>
+                </div>
+            </div>
+        </ModalItem>
+        <ModalItem
+            :show-modal="showVoidModal"
+            modal-inner-wrapper-style="padding: 10px;min-width: 30em;"
+            modal-1-content-container-style="padding: 0;overflow: auto;max-height: 30em;"
+        >
+            <div id="confirmActionContainer">
+                <h3>
+                    {{ $t("common:modules.wfst.confirmVoidFeatureCreation.headline") }}
+                </h3>
+                <p
+                    id="confirmation-textContent"
+                >
+                    {{ $t("common:modules.wfst.confirmVoidFeatureCreation.textContent") }}
+                </p>
+
+                <div
+                    id="confirmation-button-container"
+                    name="footer"
+                >
+                    <button
+                        id="modal-button-left"
+                        class="btn btn-secondary"
+                        @click="voidModalCallback.actionConfirmedCallback();setHideVoidModal()"
+                    >
+                        {{ $t("common:modules.button.confirm") }}
+                    </button>
+                    <button
+                        id="modal-button-right"
+                        class="btn btn-secondary"
+                        @click="voidModalCallback.actionDeniedCallback();setHideVoidModal()"
                     >
                         {{ $t("common:modules.button.stop") }}
                     </button>

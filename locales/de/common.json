@@ -1370,7 +1370,8 @@
         "point": "Punkt erfassen",
         "polygon": "Fläche erfassen",
         "update": "Bearbeiten",
-        "multiUpdate": "Bearbeiten"
+        "multiUpdate": "Mehrfachbearbeitung",
+        "multipolygon": "Multipolygon erfassen"
       },
       "multiUpdate": {
         "oneSelected": "Objekt wurde ausgewählt:",
@@ -1387,6 +1388,10 @@
             "box": "Rechteckauswahl aktivieren"
           }
         }
+      },
+      "confirmVoidFeatureCreation": {
+        "textContent": "Möchten Sie ein Multipolygon mit einem void (Donut-Polygon) erstellen?",
+        "headline": "Polygon Erstellung mit void"
       },
       "layerSelectLabel": "Aktueller Layer:",
       "name": "WFS-T Tool",

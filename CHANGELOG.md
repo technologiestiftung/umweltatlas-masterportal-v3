@@ -8,6 +8,8 @@
 ### __Breaking Changes__
 
 ### Added
+- WFS-T: Enables layers to support the insertion, update, and deletion of multipolygon geometries
+- WFS-T: Added confirmation dialogue for creating multipolygons with voids
 
 ### Changed
 
@@ -31,7 +33,7 @@
 
 ### Changed
 - WFS-T: Success save message is changed.
-- WFS-T: Info message is configurable and is visssible in the multiupdate so that users know that they can overwrite things.
+- WFS-T: Info message is configurable and is visible in the multiupdate so that users know that they can overwrite things.
 - WFS-T: Multiedit name is changed to Edit.
 - WFS-T: Box selection was removed from default ones for multiupdate.
 - StatisticDashboard:

@@ -1368,7 +1368,8 @@
         "point": "Add point",
         "polygon": "Add area",
         "update": "Edit",
-        "multiUpdate": "Edit"
+        "multiUpdate": "Multiple edit",
+        "multipolygon": "Add multipolygon"
       },
       "multiUpdate": {
         "oneSelected": "Object was selected:",
@@ -1385,6 +1386,10 @@
               "box": "activate rectangle selection"
             }
         }
+      },
+      "confirmVoidFeatureCreation": {
+          "textContent": "Would you like to create a multipolygon with a void (donut polygon)?",
+        "headline": "Polygon Erstellung mit void"
       },
       "layerSelectLabel": "Current layer:",
       "name": "WFS-T Tool",
