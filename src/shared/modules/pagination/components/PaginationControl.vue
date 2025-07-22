@@ -128,7 +128,7 @@ export default {
 
 <template>
     <div class="pagination-controls">
-        <div class="pagination-container">
+        <div class="pagination-wrapper">
             <div class="navigation-button-container left-nav">
                 <IconButton
                     :aria="$t('common:modules.pagination.aria.previous')"
@@ -159,35 +159,35 @@ export default {
                     :interaction="() => changePage(currentPage + 1)"
                 />
             </div>
-        </div>
 
-        <div
-            v-if="showGoToPage"
-            class="go-to-page"
-        >
             <div
-                class="input-container"
-                :title="$t('common:modules.pagination.input.tooltip')"
+                v-if="showGoToPage"
+                class="go-to-page"
             >
-                <input
-                    id="pagination-input"
-                    v-model="tempPage"
-                    type="text"
-                    class="page-input"
-                    :placeholder="$t('common:modules.pagination.input.placeholder')"
-                    :aria-label="$t('common:modules.pagination.input.label')"
-                    @keydown="handleInputKeydown"
-                    @input="event => { if (/^\d*$/.test(event.target.value)) tempPage = event.target.value }"
-                    @change="event => { if (/^\d+$/.test(event.target.value)) tempPage = Number(event.target.value) }"
+                <div
+                    class="input-container"
+                    :title="$t('common:modules.pagination.input.tooltip')"
                 >
+                    <input
+                        id="pagination-input"
+                        v-model="tempPage"
+                        type="text"
+                        class="page-input"
+                        :placeholder="$t('common:modules.pagination.input.placeholder')"
+                        :aria-label="$t('common:modules.pagination.input.label')"
+                        @keydown="handleInputKeydown"
+                        @input="event => { if (/^\d*$/.test(event.target.value)) tempPage = event.target.value }"
+                        @change="event => { if (/^\d+$/.test(event.target.value)) tempPage = Number(event.target.value) }"
+                    >
+                </div>
+                <IconButton
+                    :aria="$t('common:modules.pagination.aria.go')"
+                    :title="$t('common:modules.pagination.button.goTooltip')"
+                    icon="bi bi-check"
+                    :interaction="validateAndChangePage"
+                    :class-array="['go-button']"
+                />
             </div>
-            <IconButton
-                :aria="$t('common:modules.pagination.aria.go')"
-                :title="$t('common:modules.pagination.button.goTooltip')"
-                icon="bi bi-check"
-                :interaction="validateAndChangePage"
-                :class-array="['go-button']"
-            />
         </div>
     </div>
 </template>
@@ -197,15 +197,13 @@ export default {
 
 .pagination-controls {
     display: flex;
-    flex-direction: column;
     align-items: center;
     margin: 0.625rem 0;
-    gap: 0.5rem;
     width: 100%;
     overflow: visible;
 }
 
-.pagination-container {
+.pagination-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,12 +269,13 @@ export default {
 }
 
 .go-to-page {
+    order: 4;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     height: 2.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
 }
 
 .input-container {
@@ -326,11 +325,10 @@ export default {
 
 @media (max-width: 768px) {
     .pagination-controls {
-        gap: 0.75rem;
         padding: 0 0.5rem;
     }
 
-    .pagination-container {
+    .pagination-wrapper {
         gap: 0.25rem;
         padding: 0;
         max-width: calc(100vw - 1rem);
@@ -357,11 +355,8 @@ export default {
     }
 
     .go-to-page {
-        flex-direction: row;
         gap: 0.25rem;
-        height: auto;
-        padding: 0.25rem;
-        flex-wrap: nowrap;
+        margin-left: 0.25rem;
     }
 
     .page-input {
@@ -382,7 +377,7 @@ export default {
         padding: 0 0.25rem;
     }
 
-    .pagination-container {
+    .pagination-wrapper {
         gap: 0.125rem;
         max-width: calc(100vw - 0.5rem);
     }
@@ -400,16 +395,21 @@ export default {
         gap: 0.0625rem;
     }
 
+    .go-to-page {
+        gap: 0.125rem;
+        margin-left: 0.125rem;
+    }
+
+    .divider {
+        display: none;
+    }
+
     .page-input {
         min-width: 2rem;
         width: calc(var(--input-length, 3) * 0.8ch + 0.8rem);
         max-width: 3rem;
         font-size: 0.75rem;
         padding: 0.2rem 0.4rem;
-    }
-
-    .go-to-page {
-        gap: 0.125rem;
     }
 }
 </style>
