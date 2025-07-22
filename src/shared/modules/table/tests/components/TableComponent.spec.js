@@ -6,7 +6,7 @@ import {createStore} from "vuex";
 
 config.global.mocks.$t = key => key;
 
-describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
+describe("src/shared/modules/table/components/TableComponent.vue", () => {
     let store;
 
     before(function () {
@@ -54,6 +54,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
     describe("DOM", () => {
         it("should render the title if present", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: ["foo"],
@@ -68,6 +71,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render without a title", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: ["foo"],
@@ -81,6 +87,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render the hits if present", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: ["foo"],
@@ -95,6 +104,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render without the hits", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: ["foo"],
@@ -108,6 +120,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render the table with one row", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}],
@@ -122,6 +137,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render the table with multiple columns and rows", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -142,6 +160,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render table without sorting arrows", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}]
@@ -155,6 +176,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render table with sorting arrows", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}]
@@ -169,6 +193,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render table without settings menu", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}]
@@ -182,6 +209,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render table with sorting arrows", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}]
@@ -195,6 +225,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render table with multiselect", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -211,6 +244,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render table without multiselect, when filterable is false", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -227,6 +263,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render table without multiselect, when filterable doesn't exist", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -242,6 +281,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should not render hint text", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {},
                     totalProp: true
@@ -252,6 +294,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render hint text", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {},
                     totalProp: {
@@ -266,6 +311,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should not render total button", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {},
                     totalProp: false
@@ -276,6 +324,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render total button", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {},
                     totalProp: {
@@ -301,7 +352,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render total row", async () => {
             const wrapper = shallowMount(TableComponent, {
-                plugins: [store],
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     totalProp: {
                         enabled: true,
@@ -327,6 +380,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
     describe("column visibility", () => {
         it("should render all checkboxes and include them in 'visibleHeaders'", async () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [
@@ -342,6 +398,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
         it("should render download button if 'downloadable' is true", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}],
@@ -355,6 +414,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should not render download button if 'downloadable' is not given", () => {
             const wrapper = shallowMount(TableComponent, {
+                global: {
+                    plugins: [store]
+                },
                 props: {
                     data: {
                         headers: [{name: "foo", index: 0}],
@@ -369,6 +431,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
     describe("User Interactions", () => {
         it("should call 'resetAll' when the resetAll button is clicked", async () => {
             const wrapper = mount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}]
@@ -388,6 +453,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("exportTable", () => {
             it("should return editedTable.items if no additional columns are passed", () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -398,6 +466,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return extended items if additional columns are passed", () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "Key_0", index: 0}],
@@ -424,6 +495,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("getIconClassByOrder", () => {
             it("should return 'bi-arrow-down-up origin-order' if sorting column name not equals current sorting name", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -435,6 +509,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should return 'bi-arrow-up' if current sorting order is asc", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -449,6 +526,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should return 'bi-arrow-down' if current sorting order is desc", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -463,6 +543,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should return 'bi-arrow-down-up origin-order' if current sorting order is not desc nor asc", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -479,6 +562,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("getNextSortOrder", () => {
             it("should return 'desc' order when passed 'origin'", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -490,6 +576,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return 'asc' order when passed 'desc'", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -501,6 +590,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return 'origin' order when passed 'asc'", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -513,6 +605,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("getSortedItems", () => {
             it("should return the 'originItems' if the items are to be sorted in their origin order", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -531,11 +626,11 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should return the items in ascending order", () => {
                 const wrapper = shallowMount(TableComponent, {
-                        props: {
-                            data: {}
-                        },
                         global: {
                             plugins: [store]
+                        },
+                        props: {
+                            data: {}
                         }
                     }),
                     items = [{
@@ -666,6 +761,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("runSorting", () => {
             it("should call expected functions", () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         }
@@ -677,6 +775,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -698,6 +799,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -719,6 +823,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set the sort order for the columns correctly", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -742,6 +849,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("isHeaderVisible", () => {
             it("should return false if the parameter is not string", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -758,6 +868,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return false if there are no visible headers", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -772,6 +885,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return false if the parameter is not in visible header", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -788,6 +904,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return true if the parameter is  in visible header", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -805,6 +924,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("resetAll", () => {
             it("should set sorted data to origin order", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -825,6 +947,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set all headers to origin order", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [
@@ -847,6 +972,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set all headers to visible", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [
@@ -866,6 +994,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should toggle the fixed column", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [
@@ -892,6 +1023,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("toggleColumnFix", () => {
             it("should not change fixedColumn if parameter is not type of string", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [
@@ -922,6 +1056,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should not change fixedColumn if given string is not found in headers array", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}]
@@ -938,6 +1075,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set fixedColumn to undefined if the same column is give", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [
@@ -956,6 +1096,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should set fixedColumns to given columnName", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [
@@ -977,6 +1120,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("moveColumnToFirstPlace", () => {
             it("should not update the draggableHeaders if parameter is not type of string", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {}
                         },
@@ -1006,6 +1152,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should update the draggableHeader as expected", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1028,6 +1177,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("preventMoveAboveFixedColumn", () => {
             it("should return false if fixedColumn is set and futureIndex is 0", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -1039,6 +1191,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should return true", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
@@ -1055,6 +1210,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return an empty array if first param is not a string", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1077,6 +1235,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return an empty array if second param is not an array", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1099,6 +1260,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return an empty array if second param is an empty array", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1126,6 +1290,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
                     ],
                     head = "fow",
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1153,6 +1320,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
                     ],
                     head = "foo",
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1170,6 +1340,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("addFilter", () => {
             it("should not update the filterObject property", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1189,6 +1362,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             it("should update the filterObject property", async () => {
                 const result = {foo: {bar: true}},
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1207,6 +1383,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("removeFilter", () => {
             it("should not update the filterObject property", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1227,6 +1406,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
             it("should update the filterObject property", async () => {
                 const result = {foo: {bar: true}},
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1247,6 +1429,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("getFilteredRows", () => {
             it("should return an empty array if first param is not an object", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1269,6 +1454,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
 
             it("should return an empty array if the second param is not an array", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {
                             headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1297,6 +1485,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
                     ],
                     expected = [{foo: "bar", fow: "wow"}],
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1320,6 +1511,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
                     ],
                     expected = [{foo: "bar", fow: "wow"}],
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1341,6 +1535,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
                         {foo: "baz", fow: "wow"}
                     ],
                     wrapper = shallowMount(TableComponent, {
+                        global: {
+                            plugins: [store]
+                        },
                         props: {
                             data: {
                                 headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
@@ -1421,6 +1618,9 @@ describe.skip("src/shared/modules/table/components/TableComponent.vue", () => {
         describe("getTotalData", () => {
             it("should return empty array", async () => {
                 const wrapper = shallowMount(TableComponent, {
+                    global: {
+                        plugins: [store]
+                    },
                     props: {
                         data: {}
                     }
