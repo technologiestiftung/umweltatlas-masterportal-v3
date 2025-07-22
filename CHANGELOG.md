@@ -104,6 +104,10 @@
 - LayerPills: Added toggle button to show multiple lines of LayerPills. When toggled, they are shown in multiple lines and do not disappear off-screen.
 - WFS-T: Errorhandling informs user of slow fetch-time for layer-information.
 - WFS-T: Transaction buttons are disabled for fetch-time at module start and when the user saves new values to fields.
+- GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
+- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection.
+- IconButton extended by further property label. If a label is given, it will be displayed under the button.
+- Added Shared Component for pagination.
 - Routing:
     - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
