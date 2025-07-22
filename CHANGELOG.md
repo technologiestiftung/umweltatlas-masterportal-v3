@@ -279,6 +279,9 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - WFS-T: Info message is configurable and is visible in the multiupdate so that users know that they can overwrite things.
 - WFS-T: Multiedit name is changed to Edit.
 - WFS-T: Box selection was removed from default ones for multiupdate.
+- GraphicalSelect: Added line feature with buffer geometry for selection.
+- FeatureLister: Added spatial selection of features that are shown in the list.
+- TableComponent: Added GeoJSON Download
 - StatisticDashboard:
   - Replaced the old color scheme generating algorithm with the colorbrewer schemes.
   - Enabled colored map for more than one selected statistic.
@@ -316,7 +319,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
-- TableComponent: Added GeoJSON Download
 
 ### Changed
 - Webpack: Replaced relative import paths with Webpack aliases to enhance code maintainability and readability.
@@ -327,8 +329,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
-- GraphicalSelect: Added line feature with buffer geometry for selection.
-- FeatureLister: Added spatial selection of features that are shown in the list.
 
 ### Deprecated
 
