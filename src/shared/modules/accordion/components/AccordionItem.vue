@@ -63,6 +63,7 @@ export default {
                     aria-expanded="true"
                     :aria-controls="`#flush-collapse-${id}`"
                     @click="updateState"
+                    @keydown.enter="updateState"
                 >
                     <i
                         v-if="icon"

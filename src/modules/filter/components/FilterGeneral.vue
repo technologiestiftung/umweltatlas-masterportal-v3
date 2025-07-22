@@ -1,5 +1,5 @@
 <script>
-import AccordionItem from "../../../../src/shared/modules/accordion/components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersFilter.js";
 import mutations from "../store/mutationsFilter.js";
