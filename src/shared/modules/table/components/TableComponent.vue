@@ -920,7 +920,7 @@ export default {
                 :text="$t('common:shared.modules.table.fullscreenView')"
                 :title="fullViewActivated ? $t('common:shared.modules.table.fullscreenViewActiveToolTip') : $t('common:shared.modules.table.fullscreenViewToolTip') "
                 :icon="'bi-fullscreen'"
-                :class="'me-3 rounded-pill'"
+                :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 rounded-pill'"
                 :interaction="() => fullView()"
             />
         </div>
@@ -1162,6 +1162,9 @@ export default {
             }
         }
     }
+}
+.active-Fullview {
+    --bs-btn-bg:  #151C27;
 }
 .title {
     font-family: $font_family_accent;

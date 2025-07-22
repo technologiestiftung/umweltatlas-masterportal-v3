@@ -13,6 +13,7 @@
 - AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
 - Orientation: added parameter iconGeolocationMarker to configure the icon used for the current position in the map.
 - WFS-T: Save button is disabled when user gave no input.
+- TableComponent: Implemented Fullscreen-View-Button of the table component within secondaryMenu with compressed table columns.
 
 ### Changed
 - WFS-T: Success save message is changed.
