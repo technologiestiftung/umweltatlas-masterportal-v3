@@ -201,7 +201,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should not render hint text", () => {
             wrapper = createWrapper({
-                data: {},
                 totalProp: true
             });
 
@@ -209,7 +208,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render hint text", async () => {
             wrapper = createWrapper({
-                data: {},
                 totalProp: {
                     hintText: "some text"
                 }
@@ -221,7 +219,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should not render total button", () => {
             wrapper = createWrapper({
-                data: {},
                 totalProp: false
             });
 
@@ -229,7 +226,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         it("should render total button", () => {
             wrapper = createWrapper({
-                data: {},
                 totalProp: {
                     enabled: true,
                     hintText: "some text"
@@ -239,9 +235,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             expect(wrapper.find(".total-button").exists()).to.be.true;
         });
         it("should not render total row", async () => {
-            wrapper = createWrapper({
-                data: {}
-            });
+            wrapper = createWrapper();
 
             expect(wrapper.find(".total").exists()).to.be.false;
         });
@@ -327,9 +321,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
     describe("methods", () => {
         describe("exportTable", () => {
             it("should return editedTable.items if no additional columns are passed", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 expect(wrapper.vm.exportTable()).to.deep.equal(wrapper.vm.editedTable.items);
             });
@@ -359,18 +351,14 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("getIconClassByOrder", () => {
             it("should return 'bi-arrow-down-up origin-order' if sorting column name not equals current sorting name", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const expected = "bi-arrow-down-up origin-order";
 
                 wrapper.vm.currentSorting = {};
                 expect(wrapper.vm.getIconClassByOrder("foo")).to.be.equals(expected);
             });
             it("should return 'bi-arrow-up' if current sorting order is asc", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const expected = "bi-arrow-up";
 
                 wrapper.vm.currentSorting = {
@@ -380,9 +368,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getIconClassByOrder("foo")).to.be.equals(expected);
             });
             it("should return 'bi-arrow-down' if current sorting order is desc", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const expected = "bi-arrow-down";
 
                 wrapper.vm.currentSorting = {
@@ -392,9 +378,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getIconClassByOrder("foo")).to.be.equals(expected);
             });
             it("should return 'bi-arrow-down-up origin-order' if current sorting order is not desc nor asc", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const expected = "bi-arrow-down-up origin-order";
 
                 wrapper.vm.currentSorting = {
@@ -406,27 +390,21 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("getNextSortOrder", () => {
             it("should return 'desc' order when passed 'origin'", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const order = wrapper.vm.getNextSortOrder("origin");
 
                 expect(order).to.be.equal("desc");
             });
 
             it("should return 'asc' order when passed 'desc'", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const order = wrapper.vm.getNextSortOrder("desc");
 
                 expect(order).to.be.equal("asc");
             });
 
             it("should return 'origin' order when passed 'asc'", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const order = wrapper.vm.getNextSortOrder("asc");
 
                 expect(order).to.be.equal("origin");
@@ -450,9 +428,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(originRows).to.deep.equal(wrapper.vm.data.items);
             });
             it("should return the items in ascending order", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const items = [{
                         "bar": "bara"
                     },
@@ -478,9 +454,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(sortedItems).to.deep.equal(expectItems);
             });
             it("should return the items in descending order", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const items = [{
                         "bar": "bara"
                     },
@@ -506,9 +480,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(sortedItems).to.deep.equal(expectItems);
             });
             it("should sort number strings by alphabet by default", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const items = [{
                         "bar": "2"
                     },
@@ -535,7 +507,6 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
             it("should sort number strings by their value if prop is set", () => {
                 wrapper = createWrapper({
-                    data: {},
                     sortByNumericValue: true
                 });
                 const items = [{
@@ -565,18 +536,14 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("runSorting", () => {
             it("should call expected functions", () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const getNextSortOrderStub = sinon.stub(wrapper.vm, "getNextSortOrder");
 
                 wrapper.vm.runSorting("foo");
                 expect(getNextSortOrderStub.called).to.be.true;
             });
             it("should set the sort order for the columns correctly", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
@@ -593,9 +560,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.currentSorting.order).to.be.equal("desc");
             });
             it("should set the sort order for the columns correctly", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
@@ -612,9 +577,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.currentSorting.order).to.be.equal("asc");
             });
             it("should set the sort order for the columns correctly", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 sinon.stub(wrapper.vm, "getSortedItems").returns([{foo: "bar"}]);
@@ -633,9 +596,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("isHeaderVisible", () => {
             it("should return false if the parameter is not string", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.isHeaderVisible(null)).to.be.false;
@@ -647,9 +608,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return false if there are no visible headers", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 await wrapper.setData({
@@ -659,9 +618,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return false if the parameter is not in visible header", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 await wrapper.setData({
@@ -673,9 +630,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return true if the parameter is  in visible header", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 await wrapper.setData({
@@ -688,9 +643,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("resetAll", () => {
             it("should set sorted data to origin order", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 await wrapper.setData({
@@ -1243,9 +1196,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("checkTotalHint", () => {
             it("should return false if there is no hint text", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint(true, true)).to.be.false;
@@ -1253,9 +1204,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return false if the hint text is not string", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: {}})).to.be.false;
@@ -1266,9 +1215,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return false if the total data is not shown", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: "test"}, false)).to.be.false;
@@ -1276,9 +1223,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return true", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.checkTotalHint({hintText: "test"}, true)).to.be.true;
@@ -1286,9 +1231,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
         describe("getTotalData", () => {
             it("should return empty array", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
 
                 await wrapper.vm.$nextTick();
                 expect(wrapper.vm.getTotalData(false)).to.deep.equal([]);
@@ -1296,9 +1239,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
             });
 
             it("should return total data", async () => {
-                wrapper = createWrapper({
-                    data: {}
-                });
+                wrapper = createWrapper();
                 const data = {
                         headers: [{name: "foo", index: 0}, {name: "bar", index: 1}, {name: "buz", index: 2}],
                         items: [
