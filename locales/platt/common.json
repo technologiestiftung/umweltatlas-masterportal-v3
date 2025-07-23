@@ -78,7 +78,6 @@
       "description": "Twee Karten neveneen oder übereen vergelieken",
       "horizontal": "horizontal",
       "leftLayer": "Linker Layer",
-      "loadingWait": "Bitte warten Sie, dat Tool laadt de Vergleichskarten",
       "lowerLayer": "Unner Layer",
       "name": "Karten vergelieken",
       "reset": "Resetten",

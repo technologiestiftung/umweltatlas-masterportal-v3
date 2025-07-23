@@ -78,7 +78,6 @@
       "description": "İki haritayı yan yana veya üst üste karşılaştırın",
       "horizontal": "yatay",
       "leftLayer": "Sol Katman",
-      "loadingWait": "Lütfen bekleyin, araç karşılaştırma haritalarını yüklüyor",
       "lowerLayer": "Alt Katman",
       "name": "Haritaları Karşılaştır",
       "reset": "Sıfırla",

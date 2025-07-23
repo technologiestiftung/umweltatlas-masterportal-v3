@@ -78,7 +78,6 @@
       "description": "Comparar dois mapas lado a lado ou um sobre o outro",
       "horizontal": "horizontal",
       "leftLayer": "Camada esquerda",
-      "loadingWait": "Por favor, aguarde, a ferramenta está carregando os mapas de comparação",
       "lowerLayer": "Camada inferior",
       "name": "Comparar Mapas",
       "reset": "Redefinir",

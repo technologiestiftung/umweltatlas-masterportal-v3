@@ -78,7 +78,6 @@
       "description": "Confrontare due mappe affiancate o una sopra l'altra",
       "horizontal": "orizzontale",
       "leftLayer": "Strato sinistro",
-      "loadingWait": "Attendere, lo strumento sta caricando le mappe di confronto",
       "lowerLayer": "Strato inferiore",
       "name": "Confronta mappe",
       "reset": "Reimposta",

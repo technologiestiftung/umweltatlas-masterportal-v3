@@ -107,7 +107,6 @@
       "description": "Compare two maps side by side or on top of each other",
       "horizontal": "horizontal",
       "leftLayer": "Left Layer",
-      "loadingWait": "Please wait, the tool is loading the comparison maps",
       "lowerLayer": "Lower Layer",
       "name": "Compare Maps",
       "reset": "Reset",

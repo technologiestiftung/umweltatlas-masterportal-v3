@@ -104,7 +104,6 @@
         "description": "Vergelijk twee kaarten naast elkaar of op elkaar",
         "horizontal": "horizontaal",
         "leftLayer": "Linkerlaag",
-        "loadingWait": "Een ogenblik geduld terwijl de tool de vergelijkingskaarten laadt",
         "lowerLayer": "Onderste laag",
         "name": "Vergelijk kaarten",
         "reset": "Opnieuw instellen",

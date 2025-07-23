@@ -11,7 +11,6 @@ export default {
             splitDirection: "vertical",
             selectedLayer1: null,
             selectedLayer2: null,
-            spinnerActive: false,
             visibleLayers: []
         };
     },
@@ -62,7 +61,7 @@ export default {
             if (newValue) {
                 this.setSelectedLayer1Id(newValue.id);
                 if (this.selectedLayer2) {
-                    this.handleLoadend();
+                    this.updateCompareMaps();
                 }
             }
         },
@@ -75,7 +74,7 @@ export default {
             if (newValue) {
                 this.setSelectedLayer2Id(newValue.id);
 
-                this.handleLoadend();
+                this.updateCompareMaps();
             }
         },
         /**
@@ -86,9 +85,7 @@ export default {
         splitDirection (newValue) {
             if (newValue) {
                 this.setLayerSwiperSplitDirection(newValue);
-                this.spinnerActive = true;
                 this.updateMap();
-                this.spinnerActive = false;
             }
         }
     },
@@ -158,26 +155,21 @@ export default {
         handleMapMove () {
             if (this.selectedLayer2) {
                 this.setLayerSwiperActive(false);
-                this.handleLoadend();
+                this.updateCompareMaps();
             }
         },
         /**
-         * Handle the loadend event of the map to deactivate the spinner, activate the swiper and update the map.
+         * Activate the swiper and update the map.
          * @returns {void}
          */
-        handleLoadend () {
+        updateCompareMaps () {
             if (this.selectedLayer1Id === this.selectedLayer2Id) {
                 this.selectedLayer2Id = "";
                 this.selectedLayer2 = null;
                 return;
             }
-            this.spinnerActive = true;
+            this.activateSwiper();
             this.updateMap();
-            mapCollection.getMap("2D").once("loadend", () => {
-                this.activateSwiper();
-                this.updateMap();
-                this.spinnerActive = false;
-            });
         }
     }
 };
@@ -188,17 +180,7 @@ export default {
         id="compare-maps"
         class="p-3"
     >
-        <div
-            v-if="spinnerActive"
-            class="overlay"
-        >
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <span class="loading-text">{{ $t("common:modules.compareMaps.loadingWait") }}</span>
-                <div class="spinner-border ms-2" />
-            </div>
-        </div>
-
-        <div :class="{ 'blurred': spinnerActive }">
+        <div>
             <div class="toggle-buttons mb-4">
                 <span class="me-2">{{ $t("common:modules.compareMaps.splitDirection") }}</span>
                 <div class="form-check form-check-inline">

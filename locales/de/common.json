@@ -107,7 +107,6 @@
       "description": "Zwei Karten nebeneinander oder übereinander vergleichen",
       "horizontal": "horizontal",
       "leftLayer": "Linker Layer",
-      "loadingWait": "Bitte warten Sie, das Tool lädt die Vergleichskarten",
       "lowerLayer": "Unterer Layer",
       "name": "Karten vergleichen",
       "reset": "Zurücksetzen",
