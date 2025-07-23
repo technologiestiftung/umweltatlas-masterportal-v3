@@ -771,8 +771,12 @@ export default {
                     }
                     for (let i = 0; i < tableRow.cells.length; i++) {
                         tableRow.cells[i].classList.add("fixedWidth");
-                        tags[i].classList.remove("fullscreen_view");
-                        select[i].style.display = "";
+                        if (tags[i]) {
+                            tags[i].classList.remove("fullscreen_view");
+                        }
+                        if (select[i]) {
+                            select[i].style.display = "";
+                        }
                     }
                 }
                 this.fullViewActivated = false;
@@ -793,8 +797,12 @@ export default {
                 this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 95}});
                 for (let i = 0; i < tableRow.cells.length; i++) {
                     tableRow.cells[i].classList.remove("fixedWidth");
-                    tags[i].classList.add("fullscreen_view");
-                    select[i].style.display = "none";
+                    if (tags[i]) {
+                        tags[i].classList.add("fullscreen_view");
+                    }
+                    if (select[i]) {
+                        select[i].style.display = "none";
+                    }
                 }
                 this.fullViewActivated = true;
             }
