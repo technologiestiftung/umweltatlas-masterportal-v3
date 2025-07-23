@@ -25,7 +25,6 @@ import {mapActions} from "vuex";
 * @vue-prop {Number} snippetId - The snippet's id.
 * @vue-prop {Boolean} visible - Shows if snippet is visible.
 *
-* @vue-data {Boolean} disable - Shows if snippet is disabled.
 * @vue-data {Boolean} isInitializing - Shows if snippet is initializing.
 * @vue-data {Boolean} isAdjusting - Shows if snippet is adjusting.
 * @vue-data {Number} minimumValue - The minimum value for the slider.
@@ -170,7 +169,6 @@ export default {
     emits: ["changeRule", "deleteRule", "disableFilterButton", "enableFilterButton", "registerUniqueValueOnMove", "setSnippetPrechecked"],
     data () {
         return {
-            disable: true,
             isInitializing: true,
             isAdjusting: false,
             value: 0,
@@ -268,9 +266,6 @@ export default {
                 return;
             }
             this.setInput(value);
-        },
-        disabled (value) {
-            this.disable = typeof value === "boolean" ? value : true;
         }
     },
     created () {

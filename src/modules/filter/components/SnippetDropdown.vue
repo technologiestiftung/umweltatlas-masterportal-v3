@@ -47,7 +47,6 @@ import mutations from "../store/mutationsFilter.js";
 * @vue-prop {String} value - The value for a date.
 * @vue-prop {Boolean} visible - Shows if snippet is visible.
 *
-* @vue-data {Boolean} disable - Shows if snippet is disabled.
 * @vue-data {Boolean} isInitializing - Shows if snippet is initializing.
 * @vue-data {Boolean} isAdjusting - Shows if snippet is adjusting.
 * @vue-data {Array} dropdownValue - The list of values for the dropdown.
@@ -253,7 +252,6 @@ export default {
     emits: ["changeRule", "deleteRule", "setSnippetPrechecked", "registerUniqueValueOnMove"],
     data () {
         return {
-            disable: true,
             isInitializing: true,
             isAdjusting: false,
             dropdownValue: [],
@@ -447,12 +445,11 @@ export default {
         },
         disabled (value) {
             if (typeof this.selectedValue === "undefined") {
-                this.disable = typeof value === "boolean" ? value : true;
+                this.isLoading = typeof value === "boolean" ? value : true;
             }
             else {
-                this.disable = false;
+                this.isLoading = false;
             }
-            this.isLoading = typeof value === "boolean" ? value : true;
         },
         legendsInfo: {
             handler (value) {
@@ -476,7 +473,6 @@ export default {
                 this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.isLoading = false;
                     this.emitSnippetPrechecked();
                 });
@@ -486,7 +482,6 @@ export default {
                 this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
@@ -502,7 +497,6 @@ export default {
                 }
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
@@ -548,13 +542,11 @@ export default {
         gatherUniqueValues () {
             if (this.preventUniqueValueRequest) {
                 this.isInitializing = false;
-                this.disable = false;
                 this.isLoading = false;
                 return;
             }
             this.$nextTick(() => {
                 this.isInitializing = true;
-                this.disable = true;
                 this.isLoading = true;
                 this.api.getUniqueValues(this.attrName, list => {
                     this.$nextTick(() => {
@@ -562,7 +554,6 @@ export default {
                         this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                         this.$nextTick(() => {
                             this.isInitializing = false;
-                            this.disable = false;
                             this.isLoading = false;
                             this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                             if (this.showAllValues && this.prechecked === "all") {
@@ -571,7 +562,6 @@ export default {
                         });
                     });
                 }, error => {
-                    this.disable = false;
                     this.isLoading = false;
                     this.isInitializing = false;
                     this.emitSnippetPrechecked();
@@ -904,7 +894,7 @@ export default {
                     :aria-label="ariaLabelDropdown"
                     :options="typeof searchedResult !== 'undefined' ? searchedResult : dropdownValueComputed"
                     name="select-box"
-                    :disabled="disable"
+                    :disabled="isLoading"
                     :multiple="multiselect"
                     :placeholder="placeholder"
                     :show-labels="false"
@@ -914,7 +904,7 @@ export default {
                     :allow-empty="allowEmptySelection"
                     :close-on-select="typeof closeDropdownOnSelect === 'boolean' ? closeDropdownOnSelect: true"
                     :clear-on-select="false"
-                    :loading="disable"
+                    :loading="isLoading"
                     :group-select="multiselect && addSelectAll"
                     :group-values="(multiselect && addSelectAll) ? 'list' : ''"
                     :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
