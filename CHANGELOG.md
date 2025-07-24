@@ -25,6 +25,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1223: Gazetteer: Fixed filtering of search results where only the address was used as identifier, which led to errors if the same address was used in multiple cities.
 - Issue #1418: Routing: Fixed add waypoint button functionality via keyboard input.
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - Issue #1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.

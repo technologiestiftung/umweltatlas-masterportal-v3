@@ -114,15 +114,17 @@ SearchInterfaceGazetteer.prototype.normalizeResults = function (searchResults) {
     const normalizedResults = [];
 
     searchResults.forEach(searchResult => {
-        const translatedType = this.getTranslationByType(searchResult.type);
+        const translatedType = this.getTranslationByType(searchResult.type),
+            name = searchResult.properties?.geographicIdentifier?._ || searchResult.name,
+            id = name.replace(/ /g, "") + translatedType;
 
-        if (!normalizedResults.some(e => e.id === searchResult.name.replace(/ /g, "") + translatedType)) {
+        if (!normalizedResults.some(e => e.id === id)) {
             normalizedResults.push({
                 events: this.normalizeResultEvents(this.resultEvents, searchResult),
                 category: translatedType,
-                id: searchResult.name.replace(/ /g, "") + translatedType,
+                id: id,
                 icon: "bi-signpost-split",
-                name: searchResult.name
+                name: name
             });
         }
     });
