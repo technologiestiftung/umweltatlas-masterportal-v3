@@ -54,6 +54,7 @@
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
+- MainMenu: Refactored Portal Title behavior for smaller menu sizes. Title now moves below logo when space is limited.
 
 ### Changed
 - Replaced layer 452, which will be deleted.
