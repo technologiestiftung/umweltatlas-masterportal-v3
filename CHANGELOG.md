@@ -21,6 +21,7 @@
 
 ### Fixed
 - Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
+- CompareFeatures: Fixed failing for layers with alphanumeric IDs. 
 
 ---
 
