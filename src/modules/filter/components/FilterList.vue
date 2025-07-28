@@ -169,7 +169,7 @@ export default {
          * @returns {Boolean} if button should be disabled
          */
         disabled (filterId) {
-            return !this.multiLayerSelector && this.selectedLayers.length > 0 && !this.selectedLayers.some(accordion => accordion.filterId === filterId);
+            return this.selectedLayers.length === 0 || !this.multiLayerSelector && this.selectedLayers.length > 0 && !this.selectedLayers.some(accordion => accordion.filterId === filterId);
         }
     }
 };
@@ -188,13 +188,48 @@ export default {
                 :id="'filter-' + filter.filterId"
                 :ref="setItemRef"
                 :key="filter.filterId"
-                :disabled="disabled(filter.filterId)"
                 class="panel panel-default"
             >
                 <AccordionItem
+                    v-if="filter.active && multiLayerSelector"
                     :id="filter.layerId + '-' + filter.filterId"
                     :title="filter.title ? filter.title : filter.layerId"
-                    :is-open="filter.active === true"
+                    :is-open="true"
+                    class="filter-layer"
+                    @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div
+                        v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                        class="layerInfoText"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                    </div>
+                    <slot
+                        :layer="filter"
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    v-else-if="!multiLayerSelector"
+                    :id="filter.layerId + '-' + filter.filterId"
+                    :title="filter.title ? filter.title : filter.layerId"
+                    :is-open="!disabled(filter.filterId)"
+                    class="filter-layer"
+                    @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div
+                        v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                        class="layerInfoText"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                    </div>
+                    <slot
+                        :layer="filter"
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    v-else
+                    :id="filter.layerId + '-' + filter.filterId"
+                    :title="filter.title ? filter.title : filter.layerId"
                     class="filter-layer"
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
@@ -262,7 +297,6 @@ export default {
                 <button
                     class="button-collapse btn btn-secondary"
                     :class="{active: selectedLayers.some(layers => layers.filterId === filter.filterId)}"
-                    :disabled="disabled(filter.filterId)"
                     data-bs-toggle="collapse"
                     data-bs-target="multi-collapse"
                     aria-expanded="false"

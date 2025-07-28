@@ -737,7 +737,7 @@ export default {
                         #default="slotProps"
                     >
                         <div
-                            :class="['accordion-collapse', 'mt-3', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '', layerGroup.collapseButtons ? 'pt-4 card card-body ps-2' : '']"
+                            :class="['accordion-collapse', 'mt-3', layerGroup.collapseButtons ? 'collapse' : '', isLayerFilterSelected(slotProps.layer.filterId) && layerGroup.collapseButtons ? 'show' : '', layerGroup.collapseButtons ? 'pt-4 card card-body ps-2' : '']"
                             role="tabpanel"
                         >
                             <LayerFilterSnippet
@@ -782,7 +782,7 @@ export default {
                 #default="slotProps"
             >
                 <div
-                    :class="['accordion-collapse', 'mt-3', 'collapse', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
+                    :class="['accordion-collapse', 'mt-3', collapseButtons ? 'collapse' : '', isLayerFilterSelected(slotProps.layer.filterId) ? 'show' : '']"
                     role="tabpanel"
                 >
                     <LayerFilterSnippet
