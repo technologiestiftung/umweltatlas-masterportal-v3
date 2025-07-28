@@ -204,18 +204,6 @@ export default {
             }
         },
         /**
-         * Getting the tag title from rule
-         * @param {Object} rule the rule to set
-         * @returns {String} the tag title
-         */
-        getTagTitle (rule) {
-            if (Object.prototype.hasOwnProperty.call(rule, "tagTitle")) {
-                return String(rule.tagTitle);
-            }
-
-            return String(rule.value);
-        },
-        /**
          * Generates the layer rules.
          * @param {Object[]} val The rules of filter.
          * @returns {void}
@@ -592,6 +580,17 @@ export default {
         },
 
         /**
+         * Triggers onValueDeselect change, which can be watched by other snippets.
+         * @param {Number} snippetId The ID of the snippet affected by the change.
+         * @param {Number} filterId The ID of the filter affected by the change.
+         * @param {Number} value The value that is deselected.
+         * @returns {void}
+         */
+        setDeleteValue (snippetId, filterId, value) {
+            this.setOnValueDeselect({filterId, snippetId, value});
+        },
+
+        /**
          * Triggers to set all tags deleted.
          * @returns {void}
          */
@@ -643,18 +642,19 @@ export default {
                     <div>
                         {{ layerRule.layerTitle }}
                     </div>
-                    <div
-                        v-for="(rule, ruleIndex) in layerRule.rule"
-                        :key="'rule-' + ruleIndex"
-                        class="snippetTagsWrapper"
-                    >
-                        <SnippetTag
-                            v-if="isRule(rule) && rule.fixed === false"
-                            :filter-id="layerRule.filterId"
-                            :snippet-id="rule.snippetId"
-                            :value="getTagTitle(rule)"
-                            @delete-rule="setDeleteRule"
-                        />
+                    <div class="snippetTagsWrapper">
+                        <div
+                            v-for="(rule, ruleIndex) in layerRule.rule"
+                            :key="'rule-' + ruleIndex"
+                        >
+                            <SnippetTag
+                                v-if="isRule(rule) && rule.fixed === false"
+                                :filter-id="layerRule.filterId"
+                                :rule="rule"
+                                @delete-rule="setDeleteRule"
+                                @delete-value="setDeleteValue"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div
@@ -876,6 +876,12 @@ export default {
         }
         .w-100 {
             margin-top: 10px;
+        }
+        .snippetTagsWrapper {
+            display: flex;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            row-gap: 5px;
         }
         .show-more {
             span {

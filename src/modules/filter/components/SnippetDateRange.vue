@@ -697,6 +697,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: translateKeyWithPlausibilityCheck(this.getTitle(), key => this.$t(key)),
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.getOperator(),
                 format: this.format,

@@ -395,6 +395,7 @@ describe("src/modules/filter/components/SnippetSliderRange.vue", () => {
                     startup: "startup",
                     fixed: true,
                     attrName: "attrName",
+                    attrLabel: "attrName",
                     operatorForAttrName: "AND",
                     operator: "INTERSECTS",
                     value: "value",

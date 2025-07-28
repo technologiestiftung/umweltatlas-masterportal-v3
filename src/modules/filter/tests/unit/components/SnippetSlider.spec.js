@@ -292,6 +292,7 @@ describe("src/modules/filter/components/SnippetSlider.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operator: "EQ",
                 operatorForAttrName: "AND",
                 value: "value"

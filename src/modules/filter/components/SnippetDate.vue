@@ -329,6 +329,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 format: this.format,

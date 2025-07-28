@@ -342,29 +342,6 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
                 expect(wrapper.vm.getTagClass(2, false)).to.equal("d-none");
             });
         });
-        describe("getTagTitle", () => {
-            it("should return value if there is no tagTitle defined", () => {
-                const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }});
-
-                expect(wrapper.vm.getTagTitle({value: "title"})).to.equal("title");
-                expect(wrapper.vm.getTagTitle({value: false})).to.equal("false");
-                expect(wrapper.vm.getTagTitle({value: 0})).to.equal("0");
-                expect(wrapper.vm.getTagTitle({value: undefined})).to.equal("undefined");
-                expect(wrapper.vm.getTagTitle({value: null})).to.equal("null");
-            });
-            it("should return tagTitle if there is tagTitle defined", () => {
-                const wrapper = shallowMount(FilterGeneral, {global: {
-                    plugins: [store]
-                }});
-
-                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: "tagTitle"})).to.equal("tagTitle");
-                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: false})).to.equal("false");
-                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: 0})).to.equal("0");
-                expect(wrapper.vm.getTagTitle({value: "title", tagTitle: null})).to.equal("null");
-            });
-        });
         describe("updateSelectedGroups", () => {
             it("should remove given index from selectedGroups if found in array", async () => {
                 const wrapper = shallowMount(FilterGeneral, {global: {

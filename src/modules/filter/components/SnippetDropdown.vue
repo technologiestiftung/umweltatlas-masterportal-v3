@@ -276,7 +276,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Filter", ["closeDropdownOnSelect", "preventAdjust"]),
+        ...mapGetters("Modules/Filter", ["closeDropdownOnSelect", "onValueDeselect", "preventAdjust"]),
         ariaLabelDropdown () {
             return this.$t("common:modules.filter.ariaLabel.dropdown", {param: this.attrName});
         },
@@ -458,6 +458,16 @@ export default {
                 }
             },
             deep: true
+        },
+        onValueDeselect ({filterId, snippetId, value}) {
+            if (filterId === this.filterId && snippetId === this.snippetId) {
+                const indexOfValue = this.dropdownSelected.indexOf(value);
+
+                if (indexOfValue === -1) {
+                    return;
+                }
+                this.dropdownSelected.splice(indexOfValue, 1);
+            }
         }
     },
     created () {
@@ -733,6 +743,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 delimiter: this.delimiter,

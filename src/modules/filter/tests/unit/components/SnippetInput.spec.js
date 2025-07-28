@@ -131,6 +131,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operatorForAttrName: "AND",
                 operator: "IN",
                 value: "value"

@@ -582,6 +582,7 @@ describe("src/modules/filter/components/SnippetDateRange.vue", () => {
                     startup: "startup",
                     fixed: true,
                     attrName: "attrName",
+                    attrLabel: "attrName",
                     operator: "INTERSECTS",
                     operatorForAttrName: "AND",
                     format: "DD.MM.YYYY",

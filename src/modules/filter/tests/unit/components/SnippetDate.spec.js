@@ -217,6 +217,7 @@ describe("src/modules/generalFilter/components/SnippetDate.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operatorForAttrName: "AND",
                 operator: "EQ",
                 format: "format",

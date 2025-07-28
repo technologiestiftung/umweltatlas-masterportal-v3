@@ -3,9 +3,10 @@
 /**
 * Snippet Tag
 * @module modules/SnippetTag
-* @vue-prop {Number} snippetId - The snippet id.
-* @vue-prop {String} value - Shows if the checkbox is disabled.
-* @vue-event {Number} deleteRule - Emits rule to delete by id.
+* @vue-prop {Number} filterId - The filter ID.
+* @vue-prop {Object} rule - Rule object containing snippetId and value.
+* @vue-event {Number, Number} deleteRule - Emits snippet and filter ID of rule to delete.
+* @vue-event {Number, Number, Number} deleteValue - Emits snippet and filter ID of value to delete.
 */
 export default {
     name: "SnippetTag",
@@ -15,25 +16,40 @@ export default {
             required: false,
             default: undefined
         },
-        snippetId: {
-            type: Number,
+        rule: {
+            type: Object,
             required: false,
-            default: 0
-        },
-        value: {
-            type: String,
-            required: false,
-            default: ""
+            default: () => ({})
         }
     },
-    emits: ["deleteRule"],
+    emits: ["deleteRule", "deleteValue"],
+    computed: {
+        /**
+         * Gets the value tags to display from the rule.
+         * @returns {Array} An array of value tags.
+         */
+        valueTags () {
+            if (Object.prototype.hasOwnProperty.call(this.rule, "tagTitle")) {
+                return [this.rule.tagTitle];
+            }
+            else if (!Array.isArray(this.rule.value)) {
+                return [this.rule.value];
+            }
+            return this.rule.value;
+        }
+    },
     methods: {
         /**
          * Triggers the functions to reset the snippet and change the rules.
+         * @param {String} value The value to be removed.
          * @returns {void}
          */
-        removeTag () {
-            this.$emit("deleteRule", this.snippetId, this.filterId);
+        removeTag (value) {
+            if (this.valueTags.length >= 2) {
+                this.$emit("deleteValue", this.rule.snippetId, this.filterId, value);
+                return;
+            }
+            this.$emit("deleteRule", this.rule.snippetId, this.filterId);
         }
     }
 };
@@ -41,16 +57,26 @@ export default {
 
 <template>
     <div
+        v-for="value in valueTags"
+        :key="value"
         class="snippetTagContainer"
     >
         <button
             type="button"
-            class="btn-tags"
+            class="btn-tags text-start"
             title="löschen"
-            @click="removeTag()"
-            @keydown.enter="removeTag()"
+            @click="removeTag(value)"
+            @keydown.enter="removeTag(value)"
         >
-            <span class="snippetTagValue float-lg-start">{{ value }}</span>
+            <div>
+                <span
+                    v-if="rule.attrLabel"
+                    class="snippetTagLabel"
+                >
+                    {{ rule.attrLabel }}:
+                </span>
+                <span class="snippetTagValue">{{ value }}</span>
+            </div>
             <span class="bi bi-x-lg float-end" />
         </button>
     </div>
@@ -63,21 +89,29 @@ export default {
         margin: 0 0 2px 2px;
         float: left;
 
-        .snippetTagLabel {
-            font-size: $font-size-sm;
-        }
-
         button {
             padding: 5px 6px 2px;
             font-size: $font-size-base;
             background-color: $primary;
             border: none;
             border-radius: 20px;
+            display: flex;
+            align-items: center;
+
+            .snippetTagLabel {
+                font-size: $font-size-sm;
+                color: $dark_grey;
+            }
+
             &:hover {
                 opacity: 1;
                 background-color: $dark_blue;
                 color: $white;
                 cursor: pointer;
+
+                .snippetTagLabel {
+                    color: $white;
+                }
             }
         }
     }

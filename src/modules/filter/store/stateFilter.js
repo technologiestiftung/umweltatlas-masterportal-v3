@@ -24,6 +24,7 @@
  * @property {Boolean} triggerAllTagsDeleted - triggered if all snippet tags are deleted.
  * @property {Number} deletedRuleFilterId - the deleted rule filter id
  * @property {Number} deletedRuleSnippetId - the deleted rule snippet id
+ * @property {Object} onValueDeselect - triggered when a value is deselected
  * @property {Array} filtersHits - contains the filter hits
  * @property {Object/Boolean} filterGeometry - contains geometry/area to filter in
  * @property {Boolean} geometryFeature - the geometry feature
@@ -62,6 +63,7 @@ const state = {
     selectedGroups: [],
     totalResults: {},
     triggerAllTagsDeleted: false,
+    onValueDeselect: null,
     deletedRuleFilterId: undefined,
     deletedRuleSnippetId: undefined,
     filtersHits: [],
