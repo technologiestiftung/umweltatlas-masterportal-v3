@@ -184,6 +184,10 @@ describe("src/core/js/layers/layer2dVector.js", () => {
                 {
                     id: "2",
                     getGeometry: () => undefined
+                },
+                {
+                    id: "2",
+                    getGeometry: () => null
                 }];
 
             expect(layer2d.featuresFilter(attributes, features).length).to.be.equals(1);
