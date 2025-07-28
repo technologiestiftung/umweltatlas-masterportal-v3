@@ -14,6 +14,7 @@
 - Orientation: added parameter iconGeolocationMarker to configure the icon used for the current position in the map.
 - WFS-T: Save button is disabled when user gave no input.
 - TableComponent: Implemented Fullscreen-View-Button of the table component within secondaryMenu with compressed table columns.
+- MainMenu: Refactored Portal Title behavior for smaller menu sizes. Title now moves below logo when space is limited.
 
 ### Changed
 - WFS-T: Success save message is changed.
@@ -54,7 +55,6 @@
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
-- MainMenu: Refactored Portal Title behavior for smaller menu sizes. Title now moves below logo when space is limited.
 
 ### Changed
 - Replaced layer 452, which will be deleted.
