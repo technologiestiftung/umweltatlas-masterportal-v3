@@ -91,7 +91,7 @@ Layer2dVector.prototype.clusterGeometryFunction = function (feature) {
  * @returns {module:ol/Feature~Feature[]} to filter features with
  */
 Layer2dVector.prototype.featuresFilter = function (attributes, features) {
-    let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
+    let filteredFeatures = features.filter(feature => Boolean(feature.getGeometry()));
 
     if (attributes.bboxGeometry) {
         filteredFeatures = filteredFeatures.filter(
