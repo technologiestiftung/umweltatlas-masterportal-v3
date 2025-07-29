@@ -138,24 +138,30 @@ export default {
 <template>
     <form
         id="tool-filter-download"
-        :class="['form-horizontal', outOfZoom ? 'disabledClass': '']"
+        :class="['form-horizontal', 'mt-3', outOfZoom ? 'disabledClass': '']"
         role="form"
     >
-        <div>
+        <h6>
             {{ $t("common:modules.filter.download.label") }}
-        </div>
-        <div class="form-group form-group-sm row">
-            <div class="col-md-6">
+        </h6>
+        <div class="form-group row">
+            <div class="form-floating col-md-6">
                 <input
                     id="tool-filter-download-filename"
                     v-model="filename"
+                    class="form-control"
                     type="text"
-                    class="form-control form-control-sm"
                     :placeholder="$t('common:modules.filter.download.filename')"
                     @keyup="enableDownloadBtn"
                 >
+                <label
+                    for="tool-filter-download-filename"
+                    class="form-label ms-2"
+                >
+                    {{ $t('common:modules.filter.download.filename') }}
+                </label>
             </div>
-            <div class="col-md-6">
+            <div class="form-floating col-md-6">
                 <select
                     id="tool-filter-download-format"
                     class="form-select form-select-sm"
@@ -173,12 +179,22 @@ export default {
                         {{ format }}
                     </option>
                 </select>
+                <label
+                    for="tool-filter-download-format"
+                    class="form-label ms-2"
+                >
+                    {{ $t("common:modules.filter.download.format") }}
+                </label>
             </div>
         </div>
-        <div class="form-group form-group-sm row">
-            <div class="col-md-12">
-                <div v-if="selectedFormat==='GeoJSON'">
+        <div class="form-group row ">
+            <div class="col-md-12 mt-3">
+                <div
+                    v-if="selectedFormat==='GeoJSON'"
+                    class="d-flex justify-content-center"
+                >
                     <ExportButtonGeoJSON
+                        class="py-2 px-3 rounded-pill"
                         :disabled="!enableFileDownload"
                         :title="$t('common:modules.filter.download.labelBtn')"
                         :data="json"
@@ -186,8 +202,12 @@ export default {
                         postfix-format=""
                     />
                 </div>
-                <div v-else>
+                <div
+                    v-else
+                    class="d-flex justify-content-center"
+                >
                     <ExportButtonCSV
+                        class="py-2 px-3 rounded-pill"
                         :disabled="!enableFileDownload"
                         :url="false"
                         :filename="filename"
@@ -207,10 +227,6 @@ export default {
 @import "~variables";
 
 form {
-    margin: 10px 0;
-    .form-group {
-        margin-top: 5px;
-    }
 
     &.disabledClass {
         color: #9B9A9A;

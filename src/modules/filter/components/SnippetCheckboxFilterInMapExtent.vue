@@ -62,7 +62,7 @@ export default {
     <div
         class="snippetCheckboxContainer"
     >
-        <div class="form-check form-switch">
+        <div class="form-check form-switch d-flex align-items-center">
             <SwitchInput
                 id="showExistingItems"
                 :label="$t('common:modules.filter.searchInMapExtent')"
@@ -70,14 +70,14 @@ export default {
                 :checked="preselected"
                 :interaction="emitCurrentCommand"
             />
-        </div>
-        <div
-            v-if="info"
-        >
-            <SnippetInfo
-                :info="info"
-                :translation-key="translationKey"
-            />
+            <div
+                v-if="info"
+            >
+                <SnippetInfo
+                    :info="info"
+                    :translation-key="translationKey"
+                />
+            </div>
         </div>
     </div>
 </template>

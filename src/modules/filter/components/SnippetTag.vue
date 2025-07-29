@@ -77,7 +77,7 @@ export default {
                 </span>
                 <span class="snippetTagValue">{{ value }}</span>
             </div>
-            <span class="bi bi-x-lg float-end" />
+            <span class="bi bi bi-x" />
         </button>
     </div>
 </template>

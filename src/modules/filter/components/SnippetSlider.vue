@@ -689,7 +689,7 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetSliderContainer"
+        class="snippetSliderContainer container"
     >
         <div
             v-if="info"
@@ -700,25 +700,27 @@ export default {
                 :translation-key="translationKey"
             />
         </div>
-        <label
-            v-if="title !== false"
-            :for="'snippetSlider-' + snippetId"
-            class="snippetSliderLabel left"
-        >{{ titleText }}</label>
-        <input
-            :id="'snippetSlider-' + snippetId"
-            ref="inputNumber"
-            v-model="input"
-            :aria-label="ariaLabelSlider"
-            class="input-single form-control"
-            :class="{ disabledClass: disabled || outOfZoom }"
-            type="number"
-            :min="currentSliderMin"
-            :max="currentSliderMax"
-            :name="title"
-            :disabled="disabled"
-            @input="setCurrentSource('input')"
-        >
+        <div class="row pb-3">
+            <label
+                v-if="title !== false"
+                :for="'snippetSlider-' + snippetId"
+                class="snippetSliderLabel col col-md-auto align-self-center me-1"
+            >{{ titleText }}</label>
+            <input
+                :id="'snippetSlider-' + snippetId"
+                ref="inputNumber"
+                v-model="input"
+                :aria-label="ariaLabelSlider"
+                class="input-single form-control col col-md-3 align-self-center mb-0 p-1"
+                :class="{ disabledClass: disabled || outOfZoom }"
+                type="number"
+                :min="currentSliderMin"
+                :max="currentSliderMax"
+                :name="title"
+                :disabled="disabled"
+                @input="setCurrentSource('input')"
+            >
+        </div>
         <div class="slider-input-container">
             <input
                 v-model="slider"

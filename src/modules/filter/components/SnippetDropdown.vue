@@ -924,6 +924,17 @@ export default {
                     @remove="setCurrentSource('dropdown')"
                     @select="onSelect"
                 >
+                    <template #tag="{ option, remove }">
+                        <button
+                            class="multiselect__tag"
+                            :class="option.code"
+                            @click="remove(option)"
+                            @keypress="remove(option)"
+                        >
+                            {{ option }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
                     <template #caret>
                         <div
                             class="multiselect__select"
@@ -1039,8 +1050,8 @@ export default {
     .filter-select-box-container .multiselect .multiselect__tag {
         position: relative;
         display: inline-block;
-        padding: 4px 26px 4px 10px;
-        border-radius: 10px;
+        padding: 4px 10px 4px 10px;
+        border-radius: 50px;
         margin-right: 15px;
         color: $black;
         line-height: 1;
@@ -1050,6 +1061,11 @@ export default {
         overflow: hidden;
         max-width: 100%;
         text-overflow: ellipsis;
+        border: none;
+    }
+    .filter-select-box-container .multiselect .multiselect__tag:hover {
+        background: $dark_blue;
+            color: $white;
     }
     .disabledClass {
         .filter-select-box-container .multiselect .multiselect__tag {
@@ -1080,7 +1096,7 @@ export default {
         color: $black;
     }
     .filter-select-box-container .multiselect .multiselect__placeholder {
-        color: $light_grey;
+        color: $placeholder-color;
         display: inline-block;
         margin-bottom: 0;
         padding-top: 0;

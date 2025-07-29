@@ -242,6 +242,7 @@ export default {
                 >
                     {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
                 </div>
+                <hr class="mb-1">
             </div>
         </div>
     </div>
@@ -378,6 +379,14 @@ export default {
 }
 .btn-secondary {
     border-radius: $badge-border-radius;
+}
+
+.panel-group hr {
+    border-width: 1px;
+    border-color: $light_grey_active;
+}
+.panel-group div:last-child hr {
+  display: none;
 }
 </style>
 

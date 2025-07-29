@@ -646,6 +646,7 @@ export default {
                         <div
                             v-for="(rule, ruleIndex) in layerRule.rule"
                             :key="'rule-' + ruleIndex"
+                            class="ms-2"
                         >
                             <SnippetTag
                                 v-if="isRule(rule) && rule.fixed === false"
@@ -671,7 +672,7 @@ export default {
                     />
                     {{ !isFilterShown ? $t("common:modules.filter.snippetTags.showMore") : $t("common:modules.filter.snippetTags.showLess") }}
                 </div>
-                <div class="d-inline-block text-center deleteAll">
+                <div class="d-inline-block text-center deleteAll d-flex justify-content-center mt-3">
                     <FlatButton
                         :aria-label="$t('common:modules.filter.filterResetAll')"
                         :text="$t('common:modules.filter.filterResetAll')"
@@ -680,10 +681,12 @@ export default {
                     />
                 </div>
             </div>
+            <hr>
         </div>
         <AccordionItem
             v-if="isGeometrySelectorVisible()"
             id="geometry-filter-accordion"
+            class="ps-3"
             :title="$t('common:modules.filter.geometryFilter.title')"
             font-size="font-size-big"
             @update-accordion-state="toggleGeometryFilter()"
@@ -706,6 +709,7 @@ export default {
                 @update-geometry-selector-options="updateGeometrySelectorOptions"
             />
         </AccordionItem>
+        <hr class="mb-4">
         <div v-if="Array.isArray(layerGroups) && layerGroups.length">
             <div
                 v-for="(layerGroup, key) in layerGroups"
@@ -865,7 +869,6 @@ export default {
         }
     }
     .result {
-        border-bottom: 1px solid #9B9A9A;
         margin-bottom: 20px;
         .title {
             min-height: 30px;

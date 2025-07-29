@@ -1545,20 +1545,20 @@ export default {
                 </div>
             </div>
             <div class="snippet">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-center mt-2">
                     <FlatButton
                         v-if="!isStrategyActive()"
                         id="runFilter"
                         :aria-label="labelFilterButton"
                         :text="labelFilterButton"
                         :icon="'bi bi-sliders'"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary me-1"
                         :disabled="filterButtonDisabled || disabled"
                         :interaction="filter"
                     />
                     <FlatButton
                         v-if="hasUnfixedRules(filterRules) && (!(paging.page < paging.total) || !showStop)"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary me-1"
                         :aria-label="$t('common:modules.filter.filterReset')"
                         :text="$t('common:modules.filter.filterReset')"
                         :disabled="filterButtonDisabled || disabled"
@@ -1567,7 +1567,7 @@ export default {
                     />
                     <FlatButton
                         v-if="initialRules.length && !isInitialValue(initialRules, filterRules)"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary me-1"
                         :aria-label="$t('common:modules.filter.filterResetOrigin')"
                         :text="$t('common:modules.filter.filterResetOrigin')"
                         :disabled="filterButtonDisabled || disabled"
@@ -1576,7 +1576,7 @@ export default {
                     />
                     <FlatButton
                         v-if="paging.page < paging.total && showStop"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary me-1"
                         :aria-label="$t('common:modules.filter.button.stop')"
                         :text="$t('common:modules.filter.button.stop')"
                         :icon="'bi-x-circle'"

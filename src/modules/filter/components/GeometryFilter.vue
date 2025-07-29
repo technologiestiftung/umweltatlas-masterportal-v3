@@ -627,13 +627,13 @@ export default {
             />
             <div
                 v-if="selectedGroup === 'addit'"
-                class="form-text mt-2 ms-2"
+                class="mt-3 mb-3 ms-0"
             >
                 {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.selectRegion", key => $t(key)) }}
             </div>
             <div
                 v-else
-                class="form-text mt-2 ms-2"
+                class="mt-3 mb-3 ms-0"
             >
                 {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.selectGeometry", key => $t(key)) }}
             </div>
@@ -655,7 +655,7 @@ export default {
                             :aria="$t('common:modules.filter.geometryFilter.selectGeometry')"
                             :class-array="[
                                 'btn-primary',
-                                selectedGeometryIndex === index ? 'selected' : ''
+                                selectedGeometryIndex === index ? 'active' : ''
                             ]"
                             :interaction="() => setSelectedGeometryIndex(index)"
                             :icon="getIcon(geometry.type)"
@@ -683,14 +683,8 @@ export default {
         </div>
         <div
             v-if="isBufferInputVisible"
-            class="mb-3"
+            class="form-floating mb-3 mt-3"
         >
-            <label
-                for="inputLineBuffer"
-                class="form-label"
-            >
-                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.buffer", key => $t(key)) }}
-            </label>
             <input
                 id="inputLineBuffer"
                 v-model="buffer"
@@ -698,20 +692,20 @@ export default {
                 type="number"
                 min="1"
             >
+            <label
+                for="inputLineBuffer"
+                class="form-label"
+            >
+                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.buffer", key => $t(key)) }}
+            </label>
         </div>
-        <hr class="mb-4">
     </div>
 </template>
 
 <style lang="scss">
 @import "~variables";
 #geometryFilter {
-    .selected {
-        color: var(--bs-btn-active-color);
-        background-color: #3C5F94;
-        border-color: var(--bs-btn-active-border-color);
-        box-shadow: var(--bs-btn-active-shadow);
-    }
+
     .btn-check:checked + .btn {
         background: $secondary;
         color: $white;
@@ -750,8 +744,12 @@ export default {
             }
         }
     }
-
-    font-size: $font-size-lg;
+    .form-control:focus ~ label {
+    color: $secondary;
+}
+    .input-label {
+        color: $placeholder-color;
+    }
 
     hr {
         margin-left: -20px;
@@ -788,6 +786,9 @@ export default {
         color: var(--bs-btn-hover-color);
         background-color: var(--bs-btn-hover-bg);
         border-color: var(--bs-btn-hover-border-color);
+    }
+    .btn-label {
+        margin-top: $content_space;
     }
 }
 </style>

@@ -201,7 +201,7 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="input-container d-flex justify-content-between align-items-center"
+        class="form-floating input-container d-flex justify-content-between align-items-center"
     >
         <InputText
             :id="'snippetInput-' + snippetId"
@@ -231,8 +231,10 @@ export default {
     }
     .snippetInput {
         box-sizing: border-box;
-        outline: 0;
         position: relative;
         width: 100%;
+    }
+    .input-label {
+        color: $placeholder-color;
     }
 </style>
