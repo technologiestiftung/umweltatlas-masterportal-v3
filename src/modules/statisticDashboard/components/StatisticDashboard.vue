@@ -27,6 +27,8 @@ import {
 import dayjs from "dayjs";
 import WFS from "ol/format/WFS";
 import sortBy from "@shared/js/utils/sortBy";
+import {colorbrewer} from "../js/colorbrewer";
+import {convertColor} from "@shared/js/utils/convertColor";
 
 export default {
     name: "StatisticDashboard",
@@ -598,29 +600,9 @@ export default {
          * @returns {Number[][]} - An array of rgb arrays containing the color palette.
          */
         createColorPalette () {
-            const color = this.selectableColorPalettes?.[this.selectedColorPaletteIndex]?.baseColor,
-                r = color?.[0],
-                g = color?.[1],
-                b = color?.[2],
-                palette = [];
-
-            let baseColor;
-
-            if (typeof r === "number" && r >= 0 && r <= 255 &&
-                typeof g === "number" && g >= 0 && g <= 255 &&
-                typeof b === "number" && b >= 0 && b <= 255) {
-
-                baseColor = [r, g, b];
-            }
-            else {
-                baseColor = [0, 0, 0];
-            }
-
-            for (let i = 0; i < this.numberOfClasses; i++) {
-                const newColor = baseColor.map(v => Math.floor(v + i * (255 - v) / this.numberOfClasses));
-
-                palette.unshift(newColor);
-            }
+            const key = this.selectableColorPalettes[this.selectedColorPaletteIndex].key,
+                hexPalette = colorbrewer[key][this.numberOfClasses],
+                palette = hexPalette.map(color => convertColor(color, "rgb"));
 
             return palette;
         },

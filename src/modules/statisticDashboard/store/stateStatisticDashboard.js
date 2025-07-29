@@ -20,6 +20,8 @@
  * @property {Number} maxNumberOfClasses - Maximum Number of classes selectable when editing the legend.
  * @property {Number} numberOfClasses - Current number of classes selected in range.
  * @property {Object[]} selectableColorPalettes - Available options for color palettes.
+ * @property {String} selectableColorPalettes[].label - The label of the color palette option. If not set, key is used.
+ * @property {String} selectableColorPalettes[].key - The key of the colorbrewer scheme.
  * @property {Number} selectedColorPaletteIndex - Index of chosen color palette option.
  * @property {Number[]} stepValues - The values defining the thresolds for classification.
  * @property {Number[][]} colorPalette - The current set of colors used for classification.
@@ -56,12 +58,7 @@ const state = {
     minNumberOfClasses: 2,
     maxNumberOfClasses: 5,
     numberOfClasses: 5,
-    selectableColorPalettes: [
-        {
-            label: "Blau",
-            baseColor: [8, 81, 156]
-        }
-    ],
+    selectableColorPalettes: [],
     selectedColorPaletteIndex: 0,
     stepValues: [],
     colorPalette: [],

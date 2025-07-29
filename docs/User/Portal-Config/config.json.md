@@ -3897,7 +3897,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 |minNumberOfClasses|no|Number|2|Minimum selectable number of classes for choropleth map and legend. At least 2.|false|
 |maxNumberOfClasses|no|Number|5|Maximum selectable number of classes for choropleth map and legend. At least 3.|false|
 |numberOfClasses|no|Number|5|Current selected number of classes.|false|
-|selectableColorPalettes|no|**[selectableColorPalettes](#portalconfigmenusectionsmodulesstatisticdashboardselectablecolorpalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Available options for color palettes |false|
+|selectableColorPalettes|no|**[selectableColorPalettes](#portalconfigmenusectionsmodulesstatisticdashboardselectablecolorpalettes)**|[]|Available options for color palettes |false|
 |downloadFilename|no|String|"Statistic Dashboard Download"|The filename of the exported csv file.|false|
 
 **Example**
@@ -3999,7 +3999,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 [
         {
             "label": "Blau",
-            "baseColor": [8, 81, 156]
+            "key": "Blues"
         }
 ]
 ```

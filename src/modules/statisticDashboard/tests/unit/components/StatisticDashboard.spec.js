@@ -1611,10 +1611,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 });
 
-                wrapper.vm.setSelectableColorPalettes({baseColor: [0, 0, 0]});
+                wrapper.vm.setSelectableColorPalettes([{key: "YlGn"}]);
 
                 expect(wrapper.vm.createColorPalette()).to.deep.equal(
-                    [[204, 204, 204], [153, 153, 153], [102, 102, 102], [51, 51, 51], [0, 0, 0]]
+                    [[255, 255, 204], [194, 230, 153], [120, 198, 121], [49, 163, 84], [0, 104, 55]]
                 );
             });
         });

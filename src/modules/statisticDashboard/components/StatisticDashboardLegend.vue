@@ -175,7 +175,7 @@ export default {
                         :value="i"
                         :selected="i === selectedColorPaletteIndex"
                     >
-                        {{ scheme.label }}
+                        {{ scheme.label || scheme.key }}
                     </option>
                 </select>
                 <label for="custom-color-palette">

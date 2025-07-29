@@ -3887,7 +3887,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|
 |numberOfClasses|nein|Number|5|Aktuell ausgewählte Zahl der Klassen für Choroplethen und Legende.|false|
-|selectableColorPalettes|nein|**[selectableColorPalettes](#portalconfigmenusectionsmodulesstatisticdashboardselectablecolorpalettes)**|{"label": "Blau", "baseColor": [8, 81, 156]}|Optionen für die Farbpalette der Choroplethen.|false|
+|selectableColorPalettes|nein|**[selectableColorPalettes](#portalconfigmenusectionsmodulesstatisticdashboardselectablecolorpalettes)**|[]|Optionen für die Farbpalette der Choroplethen.|false|
 |downloadFilename|nein|String|"Statistic Dashboard Download"|Der Titel der exportierten CSV Datei.|false|
 
 **Beispiel**
@@ -3989,7 +3989,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 {
         {
             "label": "Blau",
-            "baseColor": [8, 81, 156]
+            "key": "Blues"
         }
 }
 ```
