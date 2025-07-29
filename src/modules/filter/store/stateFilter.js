@@ -7,6 +7,7 @@
  * @property {String} description The description that should be shown in the button in the menu.
  * @property {String}   name - Module name
  * @property {String} menuSide Specifies in which menu the GFI should be rendered
+ * @property {Boolean} clearAll - if true it will clear the filtered layer and shows no feature.
  * @property {Boolean} resetLayer - if true it will change the reset button to a button which resets the whole layer and ignores the prechecked values
  * @property {Boolean} multiLayerSelector - Controls whether all filters can be active or only one at same time.
  * @property {Boolean} liveZoomToFeatures - defines whether the filter immediately zooms to filter results
@@ -47,6 +48,7 @@ const state = {
     description: "common:modules.filter.description",
     name: "common:modules.filter.name",
     menuSide: "mainMenu",
+    clearAll: false,
     resetLayer: false,
     multiLayerSelector: true,
     collapseButtons: false,

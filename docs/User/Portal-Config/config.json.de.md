@@ -2769,6 +2769,7 @@ Das Filterwerkzeug bietet eine Reihe von Optionen zum Filtern von Vektordaten au
 |questionLink|nein|String|""|Die URL für den Werkzeuginfo-Button (Fragezeichen)|false|
 |closeDropdownOnSelect|nein|Boolean|true|Aktivieren/Deaktivieren des Schließens der Dropdownliste nach Auswahl einer Option.|false|
 |collapseButtons|nein|Boolean|false|Wenn collapseButtons auf `true` gesetzt ist, werden Buttons statt Accordions angezeigt.|false|
+|clearAll|nein|Boolean|false|Beim Klick auf den Zurücksetzen-Button werden alle Features angezeigt. Wird das clearAll-Flag auf `true` gestellt, werden beim Zurücksetzen keine Features angezeigt.|false|
 
 **Beispiel**
 
@@ -2779,6 +2780,7 @@ Beispiel für die Konfiguration eines Filters mit einem einzigen Layer. Der Laye
     "type": "filter",
     "icon": "bi-funnel-fill",
     "closeDropdownOnSelect": true,
+    "clearAll": false,
     "geometrySelectorOptions": {
         "visible": true
     },

@@ -158,6 +158,7 @@ export default {
     computed: {
         ...mapGetters("Maps", ["scale"]),
         ...mapGetters("Modules/Filter", [
+            "clearAll",
             "deletedRuleFilterId",
             "deletedRuleSnippetId",
             "rulesOfFilters",
@@ -175,6 +176,12 @@ export default {
         },
         filterRules () {
             return typeof this.rulesOfFilters?.[this.layerConfig?.filterId] !== "undefined" ? this.rulesOfFilters[this.layerConfig?.filterId] : [];
+        },
+        isClearAll () {
+            if (typeof this.layerConfig?.clearAll === "boolean") {
+                return this.layerConfig?.clearAll;
+            }
+            return this.clearAll;
         }
     },
     watch: {
@@ -660,7 +667,7 @@ export default {
             this.deleteRulesOfParallelSnippets(this.getSnippetById(snippetId));
             if (this.isStrategyActive() || this.isParentSnippet(snippetId)) {
                 this.$nextTick(() => {
-                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
+                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.isClearAll ? true : undefined);
                 });
             }
         },
@@ -728,7 +735,7 @@ export default {
                     this.isLockedHandleActiveStrategy = false;
                     this.handleActiveStrategy(
                         undefined,
-                        this.layerConfig.resetLayer || this.layerConfig.initialStartupReset && !this.layerConfig.clearAll ? true : undefined
+                        this.layerConfig.resetLayer || this.layerConfig.initialStartupReset && !this.isClearAll ? true : undefined
                     );
                 });
             }
@@ -866,11 +873,11 @@ export default {
                             if (
                                 !this.hasUnfixedRules(filterQuestion.rules)
                                 && (
-                                    this.layerConfig.clearAll || this.layerConfig.initialStartupReset || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
+                                    this.isClearAll || this.layerConfig.initialStartupReset || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
                                 )
                                 && !filterQuestion.commands.filterGeometry
                             ) {
-                                if (this.layerConfig.clearAll && Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")) {
+                                if (this.isClearAll && Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")) {
                                     this.mapHandler.toggleWMSLayer(this.layerConfig.wmsRefId, false, false);
                                 }
                                 this.amountOfFilteredItems = false;
