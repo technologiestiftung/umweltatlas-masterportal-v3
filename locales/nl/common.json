@@ -361,7 +361,7 @@
         "more": "Meer...",
         "name": "lijst",
         "requestFailedAlert": "Het ophalen van de functies is mislukt. Probeer het later opnieuw.",
-        "spatialSelection": "Selecteer functie met geometrie",
+        "spatialSelection": "Filter objecten ruimtelijk",
         "visibleVectorLayers": "Zichtbare vectorlagen"
       },
       "fileImport": {

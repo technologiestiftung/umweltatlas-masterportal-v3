@@ -400,7 +400,7 @@
       "more": "Mehr...",
       "name": "Liste",
       "requestFailedAlert": "Die Abfrage der Features ist fehlgeschlagen. Bitte versuchen Sie es später erneut.",
-      "spatialSelection": "Feature über Geometrie auswählen",
+      "spatialSelection": "Objekte räumlich filtern",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
     },
     "fileImport": {

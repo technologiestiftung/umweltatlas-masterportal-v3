@@ -401,7 +401,7 @@
       "more": "More...",
       "name": "List",
       "requestFailedAlert": "The feature request failed. Please try again later.",
-      "spatialSelection": "Select feature by geometry",
+      "spatialSelection": "Filter features spatially",
       "visibleVectorLayers": "Visible vector layers"
     },
     "fileImport": {

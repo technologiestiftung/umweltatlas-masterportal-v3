@@ -314,7 +314,7 @@
       "more": "Mehr...",
       "name": "Lista",
       "requestFailedAlert": "De Afraag na de Features is fehlslaan. Versöök dat later nochmaal.",
-      "spatialSelection": "Feature mit Geometrie utwählen",
+      "spatialSelection": "Objekte räumlich filtern",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
     },
     "fileImport": {

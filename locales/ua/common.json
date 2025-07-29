@@ -297,7 +297,7 @@
       "more": "Більше...",
       "name": "Список",
       "requestFailedAlert": "Запит об'єктів не вдався. Будь ласка, спробуйте пізніше.",
-      "spatialSelection": "Вибрати об'єкт за геометрією",
+      "spatialSelection": "Фільтрувати об'єкти просторово",
       "visibleVectorLayers": "Видимі векторні шари (Vektorlayer)"
     },
     "fileImport": {

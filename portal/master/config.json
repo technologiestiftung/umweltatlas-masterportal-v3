@@ -840,7 +840,7 @@
       },
       "highlightedFeatures": {
         "layerName": "common:shared.js.utils.selectedFeatures",
-        "active": true
+        "active": false
       },
       "layerIDsToStyle": [
         {

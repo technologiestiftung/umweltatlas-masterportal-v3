@@ -296,7 +296,7 @@
       "more": "Más...",
       "name": "Lista",
       "requestFailedAlert": "La consulta de entidades ha fallado. Por favor, inténtelo de nuevo más tarde.",
-      "spatialSelection": "Seleccionar entidad con geometría",
+      "spatialSelection": "Filtrar entidades espacialmente",
       "visibleVectorLayers": "Capas vectoriales visibles"
     },
     "fileImport": {

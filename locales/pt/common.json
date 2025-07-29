@@ -296,7 +296,7 @@
       "more": "Mais...",
       "name": "Lista",
       "requestFailedAlert": "A consulta das características falhou. Por favor, tente novamente mais tarde.",
-      "spatialSelection": "Selecionar elemento com geometria",
+      "spatialSelection": "Filtrowanie obiektów przestrzennie",
       "visibleVectorLayers": "Camadas vectoriais visíveis"
     },
     "fileImport": {

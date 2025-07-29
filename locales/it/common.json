@@ -296,7 +296,7 @@
       "more": "Scaria di più",
       "name": "Elenco elementi",
       "requestFailedAlert": "La richiesta delle caratteristiche non è riuscita. Si prega di riprovare più tardi.",
-      "spatialSelection": "Seleziona elemento con geometria",
+      "spatialSelection": "Filtra elementi spazialmente",
       "visibleVectorLayers": "Livelli vettoriali visibili"
     },
     "fileImport": {

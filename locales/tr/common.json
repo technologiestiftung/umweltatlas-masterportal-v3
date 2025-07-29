@@ -296,7 +296,7 @@
       "more": "Daha...",
       "name": "liste",
       "requestFailedAlert": "Özellik sorgusu başarısız oldu. Lütfen daha sonra tekrar deneyin.",
-      "spatialSelection": "Geometri ile özellik seç",
+      "spatialSelection": "Özellikleri mekansal olarak filtrele",
       "visibleVectorLayers": "Görünür vektör katmanları"
     },
     "fileImport": {
