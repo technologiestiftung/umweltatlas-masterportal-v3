@@ -53,6 +53,11 @@ export default {
             required: false,
             default: false
         },
+        fullViewEnabled: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         enableSettings: {
             type: Boolean,
             required: false,
@@ -754,6 +759,10 @@ export default {
                 tableRow = this.$refs.headerRow,
                 clientWidth = document.body.clientWidth;
 
+            if (!this.fullViewEnabled) {
+                return;
+            }
+
             if (this.fullViewActivated) {
                 if (!this.mainExpanded) {
                     this.toggleMenu("mainMenu");
@@ -921,8 +930,11 @@ export default {
                 :interaction="() => resetAll()"
             />
         </div>
-        <div class="btn-toolbar justify-content-between sticky-top bg-white">
+        <div
+            class="btn-toolbar justify-content-between sticky-top bg-white"
+        >
             <FlatButton
+                v-if="fullViewEnabled"
                 id="table-view-full"
                 aria-label="$t('common:shared.modules.table.reset')"
                 :text="$t('common:shared.modules.table.fullscreenView')"
@@ -930,6 +942,16 @@ export default {
                 :icon="'bi-fullscreen'"
                 :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 rounded-pill'"
                 :interaction="() => fullView()"
+            />
+            <ExportButtonCSV
+                v-if="downloadable"
+                id="table-download"
+                class="btn btn-secondary align-items-center mb-3"
+                :url="false"
+                :data="exportTable()"
+                :filename="exportFileName"
+                :use-semicolon="true"
+                :title="$t('common:shared.modules.table.download')"
             />
         </div>
         <button
@@ -942,20 +964,6 @@ export default {
         >
             <span class="btn-texts">&Sigma;</span>
         </button>
-        <div
-            v-if="downloadable"
-            class="btn-group"
-        >
-            <ExportButtonCSV
-                id="table-download"
-                class="btn btn-secondary align-items-center mb-3"
-                :url="false"
-                :data="exportTable()"
-                :filename="exportFileName"
-                :use-semicolon="true"
-                :title="$t('common:shared.modules.table.download')"
-            />
-        </div>
     </div>
     <div
         class="fixed"

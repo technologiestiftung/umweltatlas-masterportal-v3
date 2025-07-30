@@ -1354,7 +1354,8 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                         data: {
                             headers: ["foo"],
                             items: [["bar"]]
-                        }
+                        },
+                        fullViewEnabled: true
                     }
                 });
 

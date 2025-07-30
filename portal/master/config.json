@@ -1033,7 +1033,8 @@
               "isFilterable": true,
               "isSortable": true,
               "enableDownload": true,
-              "exportFileName": "Schwermetallmessungen"
+              "exportFileName": "Schwermetallmessungen",
+              "fullViewEnabled": true
             }
           }
         },
