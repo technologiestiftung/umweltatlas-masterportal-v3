@@ -32,6 +32,7 @@
  * @property {Number} barLimit The number of bars from which the line diagram is limited.
  * @property {String} downloadFilename the exported file name.
  * @property {String} chosenStatisticName the clicked chosen statistic name.
+ * @property {Boolean} isFeatureLoaded If true, the features of layer will be loaded.
  */
 const state = {
     id: "statisticDashboard",
@@ -69,7 +70,8 @@ const state = {
     lineLimit: null,
     downloadFilename: "Statistic Dashboard Download",
     barLimit: null,
-    chosenStatisticName: ""
+    chosenStatisticName: "",
+    isFeatureLoaded: true
 };
 
 export default state;

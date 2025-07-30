@@ -18,7 +18,6 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import Multiselect from "vue-multiselect";
-
 import {
     and as andFilter,
     equalTo as equalToFilter,
@@ -29,6 +28,7 @@ import WFS from "ol/format/WFS";
 import sortBy from "@shared/js/utils/sortBy";
 import {colorbrewer} from "../js/colorbrewer";
 import {convertColor} from "@shared/js/utils/convertColor";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 export default {
     name: "StatisticDashboard",
@@ -42,7 +42,8 @@ export default {
         AccordionItem,
         FlatButton,
         Multiselect,
-        IconButton
+        IconButton,
+        SpinnerItem
     },
     data () {
         return {
@@ -119,7 +120,8 @@ export default {
             "barLimit",
             "levelTitle",
             "subtitle",
-            "addTotalCount"
+            "addTotalCount",
+            "isFeatureLoaded"
         ]),
         ...mapGetters("Maps", ["projection"]),
 
@@ -193,6 +195,14 @@ export default {
         }
     },
     watch: {
+        loadedFeatures: {
+            handler (val) {
+                if (Array.isArray(val) && val.length) {
+                    this.setIsFeatureLoaded(true);
+                }
+            },
+            deep: true
+        },
         selectedReferenceData () {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
                 this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
@@ -396,7 +406,8 @@ export default {
             "setSelectedDates",
             "setSelectedReferenceData",
             "setSelectedStatistics",
-            "setSelectableColorPalettes"
+            "setSelectableColorPalettes",
+            "setIsFeatureLoaded"
         ]),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
@@ -627,6 +638,7 @@ export default {
          * @returns {void}
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
+            this.setIsFeatureLoaded(false);
             this.layer.getSource().clear();
 
             const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
@@ -640,8 +652,6 @@ export default {
             else {
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
             }
-
-            this.layer.getSource().addFeatures(filteredFeatures);
 
             FeaturesHandler.styleFeaturesByStatistic(
                 filteredFeatures,
@@ -661,6 +671,8 @@ export default {
 
                 FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
             }
+
+            this.layer.getSource().addFeatures(filteredFeatures);
         },
 
         /**
@@ -1591,6 +1603,7 @@ export default {
                 :time-steps-filter="timeStepsFilter"
                 :regions="selectedLevelRegionNameAttribute"
                 :selected-level="selectedLevel"
+                :checked="isFeatureLoaded"
                 @change-category="setStatisticsByCategories"
                 @change-filter-settings="checkFilterSettings"
                 @reset-statistics="handleReset"
@@ -1680,12 +1693,7 @@ export default {
                 v-else
                 class="d-flex justify-content-center"
             >
-                <div
-                    class="spinner-border spinner-color"
-                    role="status"
-                >
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+                <SpinnerItem />
             </div>
             <hr
                 v-if="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
@@ -1880,9 +1888,6 @@ img {
     min-height: 60vh;
 
 }
-</style>
-<style lang="scss" scoped>
-@import "~variables";
 .static-dashboard .multiselect__tags {
     padding-left: 25px;
 }
@@ -1891,5 +1896,4 @@ img {
     top: 12px;
     left:20px;
 }
-
 </style>

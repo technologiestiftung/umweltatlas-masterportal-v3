@@ -5,10 +5,15 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+
+### Added
 - MouseHover: Add additional parameters for configuration. Parameters can be set in the portal configuration to overwrite default values. If no values are set, the usual defaults are used.
+
+### Changed
 - StatisticDashboard:
   - Replaced the old color scheme generating algorithm with the colorbrewer schemes.
   - Enabled colored map for more than one selected statistic.
+  - A loading spinner shows before the styled features are loaded.
 
 ### __Breaking Changes__
 
@@ -68,7 +73,7 @@
 - WFS-T: Errorhandling informs user of slow fetch-time for layer-information.
 - WFS-T: Transaction buttons are disabled for fetch-time at module start and when the user saves new values to fields.
 - Routing:
-    - button for adding a new waypoint was moved between start and endpoint 
+    - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
 

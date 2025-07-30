@@ -140,6 +140,15 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             expect(wrapper.findAllComponents(AccordionItem).at(0).attributes().id).to.equal("legend-accordion");
         });
+        it("should display spinnerItem component", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.findComponent({name: "SpinnerItem"}).exists()).to.be.true;
+        });
         it("should not display statistic dashboard filter component", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
                 global: {
@@ -148,6 +157,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
 
             await wrapper.setData({loadedFilterData: true});
+            expect(wrapper.findComponent({name: "SpinnerItem"}).exists()).to.be.false;
             expect(wrapper.findComponent({name: "StatisticFilter"}).exists()).to.be.true;
             expect(wrapper.findComponent({name: "StatisticFilter"}).isVisible()).to.be.false;
         });

@@ -6,6 +6,7 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import sortBy from "@shared/js/utils/sortBy";
 import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -13,7 +14,8 @@ export default {
         Multiselect,
         AccordionItem,
         FlatButton,
-        StatisticDashboardFilterRegions
+        StatisticDashboardFilterRegions,
+        SpinnerItem
     },
     props: {
         categories: {
@@ -61,11 +63,11 @@ export default {
             sortedDates: []
         };
     },
-
     computed: {
         ...mapGetters("Maps", ["projection"]),
         ...mapGetters("Modules/StatisticDashboard", [
             "flattenedRegions",
+            "isFeatureLoaded",
             "selectedCategories",
             "selectedRegions",
             "selectedRegionsValues",
@@ -145,6 +147,7 @@ export default {
 
     methods: {
         ...mapMutations("Modules/StatisticDashboard", [
+            "setIsFeatureLoaded",
             "setSelectedCategories",
             "setSelectedRegions",
             "setSelectedDates",
@@ -254,6 +257,7 @@ export default {
          */
         emitFilterSettings (statistics, regions, dates) {
             if (this.allFilterSettingsSelected(statistics, regions, dates)) {
+                this.setIsFeatureLoaded(false);
                 this.$emit("changeFilterSettings", regions, dates, this.selectedReferenceData);
             }
             else {
@@ -300,6 +304,12 @@ export default {
 
 <template>
     <div>
+        <div
+            v-if="!isFeatureLoaded"
+            class="is-loading"
+        >
+            <SpinnerItem />
+        </div>
         <h5 class="mb-1">
             {{ $t("common:modules.statisticDashboard.headings.addFilter") }}
         </h5>
@@ -430,7 +440,7 @@ export default {
                 :interaction="() => $emit('toggleFilter')"
                 :text="$t('common:modules.statisticDashboard.button.done')"
                 :icon="'bi-check2'"
-                :disabled="!validated"
+                :disabled="!validated || !isFeatureLoaded"
             />
         </div>
     </div>
@@ -493,5 +503,18 @@ export default {
 
 .static-dashboard .multiselect__select {
     height: 30px;
+}
+</style>
+<style lang="scss" scoped>
+@import "~variables";
+
+.is-loading {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding-top: 30%;
+    z-index: 100001;
+    background: rgba(255, 255, 255, 0.5);
 }
 </style>
