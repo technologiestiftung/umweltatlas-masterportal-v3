@@ -30,5 +30,5 @@ module.exports = function getMastercodeVersionFolderName () {
         folderName += `_${gitRevSync.branch()}_git_last_commit_at_${gitLastCommitDate }_created_at_${createdAtDate}`;
     }
 
-    return folderName.replace(/[\s:]+/g, "");
+    return folderName.replace(/[\s:]+/g, "").replace(/#/g, "");
 };
