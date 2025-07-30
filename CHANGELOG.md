@@ -36,6 +36,7 @@
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
 - About: Ensure the primary contact is displayed in the imprint, fallback to the publisher if no contact is defined.
+- BuildPortal: Fixed mastercodeVersionFolderName to prevent time conflicts and avoid hashtags in folder name.
 
 ## 2025-07-08 v3.12.1
 
