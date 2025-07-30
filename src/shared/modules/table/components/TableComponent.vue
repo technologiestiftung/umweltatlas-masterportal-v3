@@ -930,9 +930,7 @@ export default {
                 :interaction="() => resetAll()"
             />
         </div>
-        <div
-            class="btn-toolbar justify-content-between sticky-top bg-white"
-        >
+        <div class="btn-toolbar justify-content-between sticky-top bg-white">
             <FlatButton
                 v-if="fullViewEnabled"
                 id="table-view-full"
