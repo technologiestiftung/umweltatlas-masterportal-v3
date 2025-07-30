@@ -1017,10 +1017,9 @@
           "typ": "SensorThings"
         },
         {
-          "id": "4538",
-          "name": "ek pv",
+          "id": "30916",
+          "name": "Solarpotenzialflächen",
           "typ": "WMS",
-          "gfiTheme": "solaratlas",
           "visibility": false
         },
         {
