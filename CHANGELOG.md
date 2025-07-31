@@ -6,7 +6,9 @@
 
 ## Unreleased - in development
 - MouseHover: Add additional parameters for configuration. Parameters can be set in the portal configuration to overwrite default values. If no values are set, the usual defaults are used.
-- StatisticDashboard: Replaced the old color scheme generating algorithm with the colorbrewer schemes.
+- StatisticDashboard:
+  - Replaced the old color scheme generating algorithm with the colorbrewer schemes.
+  - Enabled colored map for more than one selected statistic.
 
 ### __Breaking Changes__
 

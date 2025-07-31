@@ -215,6 +215,18 @@ export default {
         chosenStatisticName (val) {
             this.$nextTick(() => {
                 this.chosenTableData = this.getTableData(this.statisticsData, val);
+                if (!this.statisticsData) {
+                    return;
+                }
+                this.setStepValues(
+                    FeaturesHandler.getStepValue(
+                        this.statisticsData[this.chosenStatisticName],
+                        this.numberOfClasses,
+                        this.selectedColumn,
+                        this.classificationMode,
+                        this.allowPositiveNegativeClasses
+                    )
+                );
                 this.handleChartData(
                     this.statisticNameOfChart,
                     this.selectedRegionsValues,
@@ -266,7 +278,7 @@ export default {
             }
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.statisticsData[this.chosenStatisticName],
                     this.numberOfClasses,
                     this.selectedColumn,
                     val,
@@ -278,7 +290,7 @@ export default {
         allowPositiveNegativeClasses (val) {
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.statisticsData[this.chosenStatisticName],
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
@@ -296,7 +308,7 @@ export default {
                 return;
             }
             this.setStepValues(FeaturesHandler.getStepValue(
-                this.statisticsData[this.selectedStatisticsNames[0]],
+                this.statisticsData[this.chosenStatisticName],
                 val,
                 this.selectedColumn,
                 this.classificationMode,
@@ -437,7 +449,7 @@ export default {
          * @returns {void}
          */
         updateAfterLegendChange () {
-            if (this.selectedStatisticsNames?.length === 1) {
+            if (this.selectedStatisticsNames?.length) {
                 this.updateFeatureStyle(
                     this.selectedColumn,
                     typeof this.selectedReferenceData !== "undefined",
@@ -633,7 +645,7 @@ export default {
 
             FeaturesHandler.styleFeaturesByStatistic(
                 filteredFeatures,
-                this.statisticsData[this.selectedStatisticsNames[0]],
+                this.statisticsData[this.chosenStatisticName],
                 this.colorPalette.map(v => [...v, this.opacity]),
                 date,
                 regionNameAttribute,
@@ -689,14 +701,14 @@ export default {
 
             if (this.classificationMode === "custom") {
                 this.noDataInColumn =
-                    FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.selectedStatisticsNames[0]], this.selectedColumn).length === 0;
+                    FeaturesHandler.getStatisticValuesByDate(this.statisticsData[this.chosenStatisticName], this.selectedColumn).length === 0;
                 this.updateAfterLegendChange();
                 return;
             }
 
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.selectedStatisticsNames[0]],
+                    this.statisticsData[this.chosenStatisticName],
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
@@ -815,10 +827,10 @@ export default {
 
             this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
 
-            if (this.selectedStatisticsNames.length === 1 && this.classificationMode !== "custom") {
+            if (this.selectedStatisticsNames.length && this.classificationMode !== "custom") {
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
-                        this.statisticsData[this.selectedStatisticsNames[0]],
+                        this.statisticsData[this.chosenStatisticName],
                         this.numberOfClasses,
                         this.selectedColumn || this.timeStepsFilter.find(v => v.value === dates[0])?.label,
                         this.classificationMode,
@@ -827,7 +839,7 @@ export default {
                 );
                 this.setColorPalette(this.createColorPalette());
             }
-            else if (this.selectedStatisticsNames.length === 1) {
+            else if (this.selectedStatisticsNames.length) {
                 this.updateFeatureStyle(
                     this.selectedColumn,
                     typeof this.selectedReferenceData !== "undefined",
@@ -843,7 +855,7 @@ export default {
                     return FeaturesHandler.styleFeature(feature);
                 });
             }
-            this.showNoLegendData = this.selectedStatisticsNames.length !== 1;
+            this.showNoLegendData = !this.selectedStatisticsNames.length;
             if (this.selectedColumn) {
                 this.$nextTick(() => {
                     this.updateReferenceTag(this.selectedColumn, this.selectedLevel, this.referenceFeatures);
@@ -1696,7 +1708,7 @@ export default {
                         >
                             <div class="row my-0">
                                 <div class="col-6 mt-2">
-                                    {{ selectedStatisticsNames[0] }}
+                                    {{ chosenStatisticName }}
                                 </div>
                                 <div class="col-6">
                                     <FlatButton
