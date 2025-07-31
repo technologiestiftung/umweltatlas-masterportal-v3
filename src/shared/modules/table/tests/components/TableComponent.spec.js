@@ -1302,7 +1302,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getClassForSelectedColumn(0)).to.be.equal("selected");
             });
         });
-        describe("fullView", () => {
+        describe.only("fullView", () => {
             let layerPillsMock, footerMock, tableRowMock, selectMock, tagsMock;
 
             beforeEach(() => {
@@ -1473,6 +1473,18 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(footer.style.display).to.equal("");
                 expect(fullViewSpy.calledTwice).to.be.true;
                 expect(toggleMenuStub.calledOnce).to.be.true;
+            });
+            it("should render the full view button when fullViewEnabled is true", () => {
+                const flatButton = wrapper.findComponent({name: "FlatButton"});
+
+                expect(flatButton.exists()).to.be.true;
+            });
+            it("should not render the full view button when fullViewEnabled is false", async () => {
+                await wrapper.setProps({fullViewEnabled: false});
+
+                const flatButton = wrapper.findComponent({name: "FlatButton"});
+
+                expect(flatButton.exists()).to.be.false;
             });
         });
     });
