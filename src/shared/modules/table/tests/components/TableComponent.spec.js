@@ -1302,7 +1302,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(wrapper.vm.getClassForSelectedColumn(0)).to.be.equal("selected");
             });
         });
-        describe.only("fullView", () => {
+        describe("fullView", () => {
             let layerPillsMock, footerMock, tableRowMock, selectMock, tagsMock;
 
             beforeEach(() => {
