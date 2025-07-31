@@ -45,7 +45,8 @@
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
 - About: Ensure the primary contact is displayed in the imprint, fallback to the publisher if no contact is defined.
 - BuildPortal: Fixed mastercodeVersionFolderName to prevent time conflicts and avoid hashtags in folder name.
-- Layer2dVector: should also filter for null geometries, not only undefined
+- Layer2dVector: should also filter for null geometries, not only undefined.
+- Tests: Fixed failing tests for WMTS layers without capabilities. 
 
 ## 2025-07-08 v3.12.1
 

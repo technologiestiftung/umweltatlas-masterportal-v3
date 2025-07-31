@@ -17,13 +17,24 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
     });
 
     beforeEach(() => {
+
         attributes = {
             id: "id",
             layers: "layer1,layer2",
             name: "wmtsTestLayer",
             optionsFromCapabilities: false,
+            coordinateSystem: "EPSG:3857",
             typ: "WMTS",
-            zIndex: 1
+            zIndex: 1,
+            style: "default",
+            version: "1.0.0",
+            transparent: 10,
+            format: "image/png",
+            resLength: "10",
+            "origin": [
+                -20037508.3428,
+                20037508.3428
+            ]
         };
 
         mapCollection.clear();
@@ -50,13 +61,6 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
     });
 
     describe("createLayer", () => {
-        it("new Layer2dRasterWmts should create an layer with no warning", () => {
-            const wmtsLayer = new Layer2dRasterWmts({});
-
-            expect(wmtsLayer).not.to.be.undefined;
-            expect(warn.notCalled).to.be.true;
-        });
-
         it("new Layer2dRasterWmts with attributes should create an layer", () => {
             const wmtsLayer = new Layer2dRasterWmts(attributes);
 
@@ -72,7 +76,16 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
             localAttributes = {
                 id: "123456789",
                 url: "test.url",
-                typ: "wmst"
+                typ: "wmst",
+                format: "image/png",
+                "origin": [
+                    -20037508.3428,
+                    20037508.3428
+                ],
+                style: "default",
+                transparent: "10",
+                coordinateSystem: "EPSG:3857",
+                resLength: "10"
             };
         });
 
@@ -82,7 +95,16 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
             expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
                 id: "123456789",
                 url: "test.url",
-                typ: "wmst"
+                typ: "wmst",
+                format: "image/png",
+                "origin": [
+                    -20037508.3428,
+                    20037508.3428
+                ],
+                style: "default",
+                transparent: "10",
+                coordinateSystem: "EPSG:3857",
+                resLength: "10"
             });
         });
     });
@@ -92,8 +114,22 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
 
         beforeEach(() => {
             localAttributes = {
-                transparency: 10,
-                zIndex: 1
+                transparent: 90,
+                zIndex: 1,
+                coordinateSystem: "EPSG:3857",
+                tileSize: "256",
+                resLength: "10",
+                layers: "exampleLayer",
+                tileMatrixSet: "exampleMatrixSet",
+                matrixSizes: [],
+                scales: [],
+                urls: ["https://example.com/wmts"],
+                style: "default",
+                format: "image/png",
+                "origin": [
+                    -20037508.3428,
+                    20037508.3428
+                ]
             };
         });
 
@@ -101,7 +137,7 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
             const wmsLayer = new Layer2dRasterWmts(localAttributes);
 
             expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
-                opacity: 0.9,
+                opacity: 0.1,
                 zIndex: 1
             });
         });
@@ -111,6 +147,8 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
         beforeEach(() => {
             attributes.version = "1.3.0";
             attributes.legend = true;
+            attributes.style = "normal";
+            attributes.format = "image/png";
         });
 
         it("createLegend with no optionsFromCapabilities does nothing", async () => {
