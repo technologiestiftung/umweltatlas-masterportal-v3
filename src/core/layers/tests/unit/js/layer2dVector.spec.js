@@ -186,7 +186,7 @@ describe("src/core/js/layers/layer2dVector.js", () => {
                     getGeometry: () => undefined
                 },
                 {
-                    id: "2",
+                    id: "3",
                     getGeometry: () => null
                 }];
 
