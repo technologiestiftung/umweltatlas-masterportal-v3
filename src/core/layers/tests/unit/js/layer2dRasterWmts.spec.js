@@ -4,9 +4,24 @@ import sinon from "sinon";
 import Layer2dRasterWmts from "@core/layers/js/layer2dRasterWmts";
 
 describe("src/core/js/layers/layer2dRasterWmts.js", () => {
-    let attributes,
-        fetch,
+    let fetch,
         warn;
+
+    const attributes = {
+        id: "id",
+        layers: "layer1,layer2",
+        name: "wmtsTestLayer",
+        optionsFromCapabilities: false,
+        coordinateSystem: "EPSG:3857",
+        typ: "WMTS",
+        zIndex: 1,
+        style: "default",
+        version: "1.0.0",
+        transparent: 10,
+        format: "image/png",
+        resLength: "10",
+        origin: [-20037508.3428, 20037508.3428]
+    };
 
     before(() => {
         fetch = global.fetch;
@@ -17,26 +32,6 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
     });
 
     beforeEach(() => {
-
-        attributes = {
-            id: "id",
-            layers: "layer1,layer2",
-            name: "wmtsTestLayer",
-            optionsFromCapabilities: false,
-            coordinateSystem: "EPSG:3857",
-            typ: "WMTS",
-            zIndex: 1,
-            style: "default",
-            version: "1.0.0",
-            transparent: 10,
-            format: "image/png",
-            resLength: "10",
-            "origin": [
-                -20037508.3428,
-                20037508.3428
-            ]
-        };
-
         mapCollection.clear();
         const map = {
             id: "ol",
@@ -70,41 +65,24 @@ describe("src/core/js/layers/layer2dRasterWmts.js", () => {
     });
 
     describe("getRawLayerAttributes", () => {
-        let localAttributes;
-
-        beforeEach(() => {
-            localAttributes = {
-                id: "123456789",
-                url: "test.url",
-                typ: "wmst",
-                format: "image/png",
-                "origin": [
-                    -20037508.3428,
-                    20037508.3428
-                ],
-                style: "default",
-                transparent: "10",
-                coordinateSystem: "EPSG:3857",
-                resLength: "10"
-            };
-        });
 
         it("should return the raw layer attributes", () => {
-            const wmsLayer = new Layer2dRasterWmts(localAttributes);
+            const wmsLayer = new Layer2dRasterWmts(attributes);
 
-            expect(wmsLayer.getRawLayerAttributes(localAttributes)).to.deep.equals({
-                id: "123456789",
-                url: "test.url",
-                typ: "wmst",
-                format: "image/png",
-                "origin": [
-                    -20037508.3428,
-                    20037508.3428
-                ],
-                style: "default",
-                transparent: "10",
+            expect(wmsLayer.getRawLayerAttributes(attributes)).to.deep.equals({
+                id: "id",
+                layers: "layer1,layer2",
+                name: "wmtsTestLayer",
+                optionsFromCapabilities: false,
                 coordinateSystem: "EPSG:3857",
-                resLength: "10"
+                typ: "WMTS",
+                zIndex: 1,
+                style: "default",
+                version: "1.0.0",
+                transparent: 10,
+                format: "image/png",
+                resLength: "10",
+                origin: [-20037508.3428, 20037508.3428]
             });
         });
     });
