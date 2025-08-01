@@ -169,7 +169,7 @@ describe("src/modules/tools/wfst/utils/handleMultipolygon.js", async () => {
     });
     describe("splitOuterFeatures", () => {
         it("should split outer features of a given array of features into separate features", async () => {
-            const multipolygon = new Feature({
+            const multiPolygon = new Feature({
                     geometry: new MultiPolygon(
                         [
                             [
@@ -225,9 +225,9 @@ describe("src/modules/tools/wfst/utils/handleMultipolygon.js", async () => {
                 }),
                 drawLayer = new VectorLayer({source: new VectorSource()});
 
-            drawLayer.getSource().addFeatures(multipolygon);
+            drawLayer.getSource().addFeatures(multiPolygon);
             // eslint-disable-next-line one-var
-            const result = await handleMultipolygonUtils.splitOuterFeatures([multipolygon], drawLayer);
+            const result = await handleMultipolygonUtils.splitOuterFeatures([multiPolygon], drawLayer);
 
             expect(result.length).to.equal(2);
             expect(drawLayer.getSource().getFeatures().length).to.equal(2);

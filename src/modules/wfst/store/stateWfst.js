@@ -17,7 +17,7 @@
  * @property {(ButtonConfig[]|Boolean)} lineButton Configuration of the different layers whether they should display the button to add lines.
  * @property {(ButtonConfig[]|Boolean)} pointButton Configuration of the different layers whether they should display the button to add points.
  * @property {(ButtonConfig[]|Boolean)} polygonButton Configuration of the different layers whether they should display the button to add polygons.
- * @property {(ButtonConfig[]|Boolean)} multipolygonButton Configuration of the different layers whether they should display the button to add multipolygons.
+ * @property {(ButtonConfig[]|Boolean)} multiPolygonButton Configuration of the different layers whether they should display the button to add multiPolygons.
  * @property {Boolean} transactionProcessing Flag if a process like delete, update is currently active with axios post,get.
  * @property {Boolean} showConfirmModal Flag if the modal dialog should be shown.
  * @property {Boolean} toggleLayer Whether the already added features should be displayed while inserting new features.
@@ -66,12 +66,6 @@ const state = {
     isFormDisabled: false,
     active: false,
     buttonsDisabled: false,
-    // buttons interaction
-    selectIcons: {
-        box: "bi-square",
-        pen: "bi-pencil-fill"
-    },
-    selectTypes: ["pen", "box"],
     selectedUpdate: null,
     processedMultiPolygons: new Set(),
     isDrawMode: false,

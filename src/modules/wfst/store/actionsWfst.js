@@ -251,9 +251,7 @@ const actions = {
 
             selectedFeature.set("selected", true);
 
-            if (event.element.getGeometry().getType() !== "MultiPolygon") {
-                modifyFeature = selectedFeature.clone();
-            }
+            modifyFeature = selectedFeature.clone();
             modifyFeatureSaveId = selectedFeature.getId();
             modifyFeature.setId(modifyFeatureSaveId);
 
@@ -533,7 +531,6 @@ const actions = {
             condition: e => primaryAction(e) && platformModifierKeyOnly(e)
         });
 
-        dispatch("handleMultipolygonCreation", {context, payload});
         dispatch("Maps/addInteraction", modifyInteraction, {root: true});
         dispatch("Maps/addInteraction", translateInteraction, {root: true});
     },

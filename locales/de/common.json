@@ -1370,8 +1370,8 @@
         "point": "Punkt erfassen",
         "polygon": "Fläche erfassen",
         "update": "Bearbeiten",
-        "multiUpdate": "Mehrfachbearbeitung",
-        "multipolygon": "Multipolygon erfassen"
+        "multiUpdate": "Bearbeiten",
+        "multiPolygon": "Multipolygon erfassen"
       },
       "multiUpdate": {
         "oneSelected": "Objekt wurde ausgewählt:",

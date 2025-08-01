@@ -21,7 +21,7 @@ export const defaultInteractionConfig = {
             available: false,
             icon: "bi-hexagon-fill",
             multi: false,
-            text: "common:modules.wfst.interactionSelect.multipolygon"
+            text: "common:modules.wfst.interactionSelect.multiPolygon"
         },
         update: {
             available: false,
