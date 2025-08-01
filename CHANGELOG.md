@@ -91,6 +91,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Filter:
     - Adds parameter collapseButtons to show collapsible buttons instead of accordions.
     - Adds parameter clearAll to enable to clear the layers for the whole filter.
+    - New parameter icon to set an icon for the filter.
 
 ### Changed
 - Routing: Changed input fields for hgv parameters.

@@ -226,15 +226,30 @@ export default {
 
 <style lang="scss" scoped>
     @import "~mixins";
-    .form-floating > .input-label {
-        padding: 0;
-    }
     .snippetInput {
         box-sizing: border-box;
         position: relative;
         width: 100%;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+        -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        &:focus-within {
+            border: 1px solid $form-check-input-checked-bg-color;
+        }
     }
-    .input-label {
-        color: $placeholder-color;
+</style>
+
+<style lang="scss">
+    @import "~mixins";
+    .snippetInput {
+        .form-control {
+            height: unset;
+            min-height: unset;
+        }
+        .input-label {
+            padding: 1rem 0.75rem;
+        }
     }
 </style>

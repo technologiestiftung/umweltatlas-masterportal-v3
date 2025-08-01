@@ -2897,6 +2897,7 @@ An object to define a layer to filter with.
 |filterOnMove|no|Boolean||If it is `true`, the layer will be filtered dynamically after the map moves. Only works with `multiLayerSelector`: `false`. With this combination the filter is triggerd when the accordeon will be opened.|false|
 |filterOnOpen|no|Boolean||If set to `true`, the filter is triggered when the accorden is clicked.|false|
 |geometryName|no|String|""|Only for extern `true` in connection with filtering within polygons: The geometry name of the features to be able to detect an intersection.|false|
+|icon|no|String||Icon to show in the accordion title. Can be any of **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |labelFilterButton|no|String|"common:modules.filter.filterButton"|If strategy is set to `passive` only: The text of the filter button. Can be a translation key.|false|
 |layerId|no|String||The layer id of the layer to filter. Must be configured in the `layerconfig`.|false|
 |maxZoom|no|Number||The maximum zoom level for current filter, if current zoom level is bigger than the maximum zoom level, the current filter will be deactivated.|false|

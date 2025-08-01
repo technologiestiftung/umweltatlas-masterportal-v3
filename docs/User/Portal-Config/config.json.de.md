@@ -2894,6 +2894,7 @@ Die Konfiguration eines Layers.
 |filterOnMove|nein|Boolean||Wenn auf `true` eingestellt, wird der Layer bei Kartenbewegung dynamisch gefiltert. Funktioniert nur in Verbindung mit `multiLayerSelector`: `false`. Löst in dieser Verbindung beim Öffnen des Akkordeons die Filterung aus.|false|
 |filterOnOpen|nein|Boolean||Wenn auf `true` eingestellt, wird der Filter bei Klick auf das accordeon ausgelöst.|false|
 |geometryName|nein|String|""|Nur für `extern: true` in Verbindung mit Filterung innerhalb von Polygonen: Der Geometrie-Name der Features um eine Schnittmenge feststellen zu können.|false|
+|icon|nein|String||Icon das im Akkordeon vor dem Layernamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |labelFilterButton|nein|String|"common:modules.filter.filterButton"|Bei passiver Strategie (`passive`): Der verwendete Text vom Filter-Button. Kann auch ein Übersetzungs-Key sein.|false|
 |layerId|nein|String||Die Layer-Id, muss identisch sein mit der unter `layerconfig` konfigurierten Id des Layers.|false|
 |maxZoom|nein|Number||Die maximale Zoomstufe. Wenn die aktuelle Zoomstufe größer als `maxZoom` ist, wird der aktuelle Filter deaktiviert.|false|

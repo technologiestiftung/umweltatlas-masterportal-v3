@@ -195,6 +195,7 @@ export default {
                     :id="filter.layerId + '-' + filter.filterId"
                     :title="filter.title ? filter.title : filter.layerId"
                     :is-open="true"
+                    :icon="filter.icon"
                     class="filter-layer"
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
@@ -213,6 +214,7 @@ export default {
                     :id="filter.layerId + '-' + filter.filterId"
                     :title="filter.title ? filter.title : filter.layerId"
                     :is-open="!disabled(filter.filterId)"
+                    :icon="filter.icon"
                     class="filter-layer"
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
@@ -230,6 +232,7 @@ export default {
                     v-else
                     :id="filter.layerId + '-' + filter.filterId"
                     :title="filter.title ? filter.title : filter.layerId"
+                    :icon="filter.icon"
                     class="filter-layer"
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
@@ -269,13 +272,6 @@ export default {
                         :title="$t('common:modules.filter.resetButton')"
                         :interaction="() => deleteAllRulesEmit(filter.filterId)"
                     />
-                </div>
-
-                <div
-                    v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
-                    class="layerInfoText"
-                >
-                    {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
                 </div>
                 <hr class="mb-1">
             </div>
