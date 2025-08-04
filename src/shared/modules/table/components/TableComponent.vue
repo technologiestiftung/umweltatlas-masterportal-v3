@@ -1138,6 +1138,12 @@ export default {
                                     {'list-group-item-draggable': fixedColumn !== element.name && isHeaderVisible(element.name)},
                                     {'pinnedSelectRow': fixedColumn === element.name}]"
                             >
+                                <span
+                                    :class="fixedColumn !== element.name && isHeaderVisible(element.name) ? '' : 'invisible'"
+                                    class="me-2"
+                                >
+                                    <i class="bi bi-grip-vertical" />
+                                </span>
                                 <div class="ms-2 me-auto d-flex form-check">
                                     <input
                                         :id="element.name + element.index"
@@ -1170,12 +1176,6 @@ export default {
                                             :aria="$t('common:shared.modules.table.fixColumnAriaLabel')"
                                             :disabled="typeof fixedColumnWithOrder !== 'undefined'"
                                         />
-                                    </span>
-                                    <span
-                                        :class="fixedColumn !== element.name && isHeaderVisible(element.name) ? '' : 'invisible'"
-                                        class="me-2"
-                                    >
-                                        <i class="bi bi-three-dots-vertical" />
                                     </span>
                                 </div>
                             </li>
