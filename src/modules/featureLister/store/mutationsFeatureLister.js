@@ -40,6 +40,7 @@ const mutations = {
                     const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, feature.values_);
 
                     gfiFeature.id = feature.getId();
+                    gfiFeature.geom = feature.getGeometry();
                     gfiFeatures.push(gfiFeature);
                     state.nestedFeatures = false;
                 }
