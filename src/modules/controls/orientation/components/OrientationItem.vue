@@ -47,6 +47,7 @@ export default {
             "iconGeolocate",
             "iconGeolocatePOI",
             "iconGeolocationMarker",
+            "iFrameLocationEnabled",
             "onlyFilteredFeatures",
             "poiDistances",
             "poiMode",
@@ -89,7 +90,6 @@ export default {
     mounted () {
         this.addElement();
         this.checkWFS();
-
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
@@ -115,7 +115,16 @@ export default {
         track () {
             let geolocation = null;
 
-            if (this.isGeolocationDenied === false) {
+            const inIframe = window.self !== window.top,
+                iFrameLocationEnabled = this.iFrameLocationEnabled === true;
+
+            if (inIframe && !iFrameLocationEnabled) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: `<strong>${this.$t("common:modules.controls.orientation.iFrameGeoLocationError")}`
+                });
+            }
+            else if (this.isGeolocationDenied === false) {
                 mapCollection.getMap("2D").addOverlay(this.marker);
                 if (this.geolocation === null) {
                     geolocation = new Geolocation({tracking: true, projection: Proj.get("EPSG:4326")});

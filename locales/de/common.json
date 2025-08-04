@@ -172,6 +172,7 @@
       "orientation": {
         "distanceUnit": "Meter",
         "geolocationDeniedText": "Lokalisierung nicht verfügbar",
+        "iFrameGeoLocationError": "Die Geolokalisierung innerhalb eines Iframes ist aktuell nicht verfügbar.<br/>Bitte öffnen Sie das <a href='#' target=`_blank`>Geoportal</a> in einem neuen Tab oder Fenster.",
         "imgAlt": "Bild für Point of Interest",
         "poiChoiceCurrentPosition": "Standort",
         "poiChoiceCustomPosition": "Adresssuche oder Punkt in Karte setzen",
