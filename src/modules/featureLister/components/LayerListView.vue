@@ -13,7 +13,8 @@ export default {
     },
     data () {
         return {
-            supportedLayerTypes: ["WFS", "OAF", "GeoJSON"]
+            supportedLayerTypes: ["WFS", "OAF", "GeoJSON"],
+            unsupportedRenderers: ["WEBGL"]
         };
     },
     computed: {
@@ -31,7 +32,7 @@ export default {
          */
         visibleVectorLayers () {
             return this.visibleLayerConfigs
-                .filter(layer => this.supportedLayerTypes.includes(layer.typ))
+                .filter(layer => this.supportedLayerTypes.includes(layer.typ) && !this.unsupportedRenderers.includes(layer.renderer.toUpperCase()))
                 .map(layer => ({
                     name: layer.name,
                     id: layer.id,
