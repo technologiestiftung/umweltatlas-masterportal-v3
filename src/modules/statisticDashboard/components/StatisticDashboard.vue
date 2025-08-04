@@ -1654,15 +1654,15 @@ export default {
                 <button
                     id="add-filter-button"
                     type="button"
-                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
+                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2 pe-3"
                     @click="toggleFilter"
                 >
-                    <i class="bi bi-plus fs-6 pe-2" />{{ $t("common:modules.statisticDashboard.button.add") }}
+                    <i class="bi bi-plus fs-6 pe-2" />{{ selectedFilters.length ? $t("common:modules.statisticDashboard.button.edit") : $t("common:modules.statisticDashboard.button.add") }}
                 </button>
                 <button
                     v-for="(tag, index) in selectedFilters"
                     :key="index"
-                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 btn-pb"
+                    class="btn btn-sm btn-primary rounded-pill lh-1 me-2 mb-2"
                     :class="index > 4 && !showAllHiddenTags ? 'more-statistics' : ''"
                     @click="removeFilter(tag)"
                 >
@@ -1673,7 +1673,7 @@ export default {
                     v-if="selectedFilters.length"
                     id="reset-button"
                     type="button"
-                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2"
+                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2 pe-3 pt-1"
                     @click="resetAll"
                 >
                     <i class="bi bi-x-circle fs-6 pe-2" />
@@ -1766,6 +1766,17 @@ export default {
                 @show-chart-table="toggleChartTable"
                 @download="downloadData"
             />
+            <div
+                v-if="statisticsData === undefined"
+                class="no-data-content row justify-content-center"
+            >
+                <span class="col-1 info-icon d-flex align-items-center justify-content-center">
+                    <i class="bi-info-circle" />
+                </span>
+                <p class="col col-md-8">
+                    {{ $t("common:modules.statisticDashboard.infoTextNoData") }}
+                </p>
+            </div>
             <div v-show="showTable">
                 <TableComponent
                     v-for="(data, index) in chosenTableData"
@@ -1863,6 +1874,9 @@ export default {
 hr {
     clear: both;
 }
+.no-data-content {
+    margin-top: 10%;
+}
 
 .btn-pb {
     padding-bottom: 2px;
@@ -1879,6 +1893,7 @@ img {
 }
 .info-icon i {
     font-size: $icon_length_small;
+    color: $dark_grey;
 }
 .info-text {
     font-size: $font_size_sm;
@@ -1888,6 +1903,18 @@ img {
     min-height: 60vh;
 
 }
+.btn-light {
+    background: $light_grey;
+        &:hover {
+            background: $light_blue;
+    }
+        &:active {
+            background: $dark_blue
+    }
+}
+</style>
+<style lang="scss" scoped>
+@import "~variables";
 .static-dashboard .multiselect__tags {
     padding-left: 25px;
 }

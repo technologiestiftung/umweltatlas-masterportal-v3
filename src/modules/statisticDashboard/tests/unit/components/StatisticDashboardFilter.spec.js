@@ -106,6 +106,27 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
 
             expect(wrapper.find("#filter-accordion-date").exists()).to.be.true;
         });
+        it("should render an info alert if data is not validated", async () => {
+            const wrapper = shallowMount(StatisticDashboardFilter, {
+                propsData: {
+                    categories: [],
+                    timeStepsFilter,
+                    regions,
+                    areCategoriesGrouped: false
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setSelectedStatistics({});
+            wrapper.vm.setSelectedDates([]);
+            wrapper.vm.setSelectedRegions([]);
+
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".alert").exists()).to.be.true;
+        });
         it("should render a flat button component", () => {
             const wrapper = shallowMount(StatisticDashboardFilter, {
                 propsData: {

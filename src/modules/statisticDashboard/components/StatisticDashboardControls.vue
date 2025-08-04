@@ -4,13 +4,15 @@ import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
 import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 export default {
     name: "StatisticDashboardControls",
     components: {
         DifferenceModal,
         StatisticSwitcher,
-        ExportButtonCSV
+        ExportButtonCSV,
+        IconButton
     },
     props: {
         descriptions: {
@@ -363,25 +365,25 @@ export default {
         </div>
         <div
             v-if="showStatisticnameInTable"
-            class="container static-name"
+            class="container static-name mb-3"
         >
-            <button
-                class="p-2 fs-5 lh-1 border-0 bg-transparent"
-                @click="prevStatistic(indexSelectedStatistics, selectedStatistics)"
-                @keydown.enter="prevStatistic(indexSelectedStatistics, selectedStatistics)"
-            >
-                <i class="bi bi-chevron-left" />
-            </button>
-            <div>
-                {{ chosenStatisticName }}
+            <div class="row justify-content-center align-items-center mt-5">
+                <IconButton
+                    class="slider-control col col-1 btn-light bg-transparent"
+                    :aria="$t('common:modules.statisticDashboard.button.arrowLeft')"
+                    icon="bi bi-chevron-left"
+                    :interaction="() => prevStatistic(indexSelectedStatistics, selectedStatistics)"
+                />
+                <div class="statistic-name col col-auto">
+                    {{ chosenStatisticName }}
+                </div>
+                <IconButton
+                    class="slider-control col col-1 btn-light bg-transparent"
+                    :aria="$t('common:modules.statisticDashboard.button.arrowRight')"
+                    icon="bi bi-chevron-right"
+                    :interaction="() => nextStatistic(indexSelectedStatistics, selectedStatistics)"
+                />
             </div>
-            <button
-                class="p-2 fs-5 lh-1 border-0 bg-transparent"
-                @click="nextStatistic(indexSelectedStatistics, selectedStatistics)"
-                @keydown.enter="nextStatistic(indexSelectedStatistics, selectedStatistics)"
-            >
-                <i class="bi bi-chevron-right" />
-            </button>
         </div>
     </div>
 </template>
@@ -446,19 +448,14 @@ export default {
     }
  }
 
+.statistic-name {
+    font-family: $font_family_accent;
+    font-size: $font_size_big;
+}
+
 .back-overview {
     margin-top: 20px;
     font-size: 12px;
     cursor: pointer;
-}
-
-.static-name {
-    margin-top: 20px;
-    display: flex;
-    div {
-        width: calc(100% - 64px);
-        text-align: center;
-        padding-top: 6px;
-    }
 }
 </style>

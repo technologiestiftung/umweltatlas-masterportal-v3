@@ -1222,11 +1222,13 @@
         "addFilter": "Add Filter"
       },
       "infoText": "Note: For many areas, only a part is initially shown in the diagram (based on the table sorting). Additional areas can be added using the field at the bottom.",
+      "infoTextNoData": "No or not all necessary filters have been added yet. To display statistical data in tables and diagrams, the data must first be filtered.",
       "button": {
         "difference": "Difference",
         "table": "Table",
         "chart": "Chart",
-        "add": "Add",
+        "add": "Add Filter",
+        "edit": "Edit Filter",
         "reset": "Delete All",
         "filter": "Filter",
         "showMore": "show more...",
@@ -1261,6 +1263,8 @@
         "nodata": "Visualization of data from multiple statistics on the map is not available.",
         "legend": "Map legend",
         "edit": "Edit",
+        "arrowLeft": "Slide to left",
+        "arrowRight": "Slide to right",
         "editClassification": "Edit classification",
         "classification": "Classification",
         "numberOfClasses": "Number of classes",
@@ -1277,7 +1281,9 @@
         "invalidCustomStepsAlert": "Warning: Threshold values for classification must be ascending numbers!"
       },
       "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics.",
-      "backToOverview": "Overview of Diagrams"
+      "backToOverview": "Overview of Diagrams",
+      "filterHint": "All fields must be completed in order to display the filter results.",
+      "backToStatisticDashboard":"Back to Overview"
     },
     "shadow": {
       "name": "Shadows",

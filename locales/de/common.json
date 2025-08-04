@@ -1224,11 +1224,15 @@
         "addFilter": "Filter hinzufügen"
       },
       "infoText": "Hinweis: Bei vielen Gebieten wird zunächst nur ein Teil im Diagramm gezeigt (basierend auf der Tabellensortierung). Über das untere Feld lassen sich weitere Gebiete hinzufügen.",
+      "infoTextNoData": "Es wurden noch keine oder nicht alle notwendigen Filter hinzugefügt. Um statistische Daten in Tabellen und Diagrammen anzeigen zu lassen, müssen die Daten erst gefiltert werden.",
       "button": {
         "difference": "Differenz",
         "table": "Tabelle",
         "chart": "Diagramm",
-        "add": "Hinzufügen",
+        "add": "Filter hinzufügen",
+        "edit": "Filter ändern",
+        "arrowLeft": "Nach links blättern",
+        "arrowRight": "Nach rechts blättern",
         "reset": "Alle entfernen",
         "filter": "Filter",
         "showMore": "weitere anzeigen...",
@@ -1279,7 +1283,9 @@
         "invalidCustomStepsAlert": "Achtung: Die gewählten Bereichsgrenzen bilden keine aufsteigende Zahlenreihe!"
       },
       "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten.",
-      "backToOverview": "Diagrammübersicht"
+      "filterHint": "Alle Felder müssen vollständig ausgefüllt sein, um die Filterergebnisse anzuzeigen.",
+      "backToOverview": "Diagrammübersicht",
+      "backToStatisticDashboard":"Zurück zur Übersicht"
     },
     "shadow": {
       "name": "Schatten",

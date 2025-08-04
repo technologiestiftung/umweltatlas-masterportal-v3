@@ -310,15 +310,28 @@ export default {
         >
             <SpinnerItem />
         </div>
+        <div class="container stretched mb-3">
+            <div class="back row">
+                <i class="bi bi-chevron-left col col-md-auto px-0" />
+                <a
+                    href="#"
+                    class="col col-md-auto align-middle stretched-link"
+                    @click="$emit('toggleFilter')"
+                    @keypress="$emit('toggleFilter')"
+                >{{ $t('common:modules.statisticDashboard.backToStatisticDashboard') }}
+                </a>
+            </div>
+        </div>
         <h5 class="mb-1">
             {{ $t("common:modules.statisticDashboard.headings.addFilter") }}
         </h5>
         <AccordionItem
             id="filter-accordion-statistic"
             title="Statistiken"
-            :is-open="true"
-            :font-size="'font-size-base'"
+            icon="bi bi-bar-chart"
             :coloured-header="true"
+            :is-open="true"
+            font-size="font_size_big"
         >
             <div class="col-sm-12">
                 <label
@@ -349,6 +362,17 @@ export default {
                         <div class="multiselect__clear">
                             <i class="bi bi-search" />
                         </div>
+                    </template>
+                    <template #tag="{ option, remove }">
+                        <button
+                            class="multiselect__tag"
+                            :class="option"
+                            @click="remove(option)"
+                            @keypress="remove(option)"
+                        >
+                            {{ option.name }}
+                            <i class="bi bi-x" />
+                        </button>
                     </template>
                 </Multiselect>
             </div>
@@ -381,14 +405,26 @@ export default {
                             <i class="bi bi-search" />
                         </div>
                     </template>
+                    <template #tag="{ option, remove }">
+                        <button
+                            class="multiselect__tag"
+                            :class="option"
+                            @click="remove(option)"
+                            @keypress="remove(option)"
+                        >
+                            {{ option.name }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
                 </Multiselect>
             </div>
         </AccordionItem>
         <AccordionItem
             id="filter-accordion-region"
             :title="$t('common:modules.statisticDashboard.label.geographical')"
+            icon="bi bi-geo-fill"
             :is-open="true"
-            :font-size="'font-size-base'"
+            font-size="font_size_big"
             :coloured-header="true"
         >
             <StatisticDashboardFilterRegions
@@ -399,9 +435,10 @@ export default {
         <AccordionItem
             id="filter-accordion-date"
             :title="$t('common:modules.statisticDashboard.label.time')"
+            icon="bi bi-calendar"
             :is-open="true"
-            :font-size="'font-size-base'"
             :coloured-header="true"
+            font-size="$font_size_big"
         >
             <div class="col-sm-12">
                 <label
@@ -431,9 +468,32 @@ export default {
                             <i class="bi bi-search" />
                         </div>
                     </template>
+                    <template #tag="{ option, remove }">
+                        <button
+                            class="multiselect__tag"
+                            :class="option"
+                            @click="remove(option)"
+                            @keypress="remove(option)"
+                        >
+                            {{ option.label }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
                 </Multiselect>
             </div>
         </AccordionItem>
+        <div
+            v-if="!validated"
+            class="row justify-content-center my-3"
+        >
+            <div
+                class="col col-md-auto d-flex align-items-center justify-content-center mt-2 alert alert-primary"
+                role="alert"
+            >
+                <i class="info-icon bi bi-info-circle me-4" />
+                {{ $t('common:modules.statisticDashboard.filterHint') }}
+            </div>
+        </div>
         <div class="col-md-12 d-flex justify-content-center mt-2">
             <FlatButton
                 :aria-label="$t('common:modules.statisticDashboard.button.done')"
@@ -445,7 +505,19 @@ export default {
         </div>
     </div>
 </template>
+<style lang="scss" scoped>
+@import "~variables";
+.stretched {
+    position: relative
+}
+.back i, .back a {
+    color: $dark-grey;
+}
 
+.info-icon {
+    font-size: $icon_length_small;
+}
+</style>
 <style lang="scss">
 @import "~variables";
 
@@ -463,12 +535,17 @@ export default {
 }
 
 .static-dashboard .multiselect__tag {
-        border-radius: 25px;
-        padding-top: 5px;
-        color: $black;
+    background: $primary;
+    padding: 4px 10px 4px 10px;
+    border-radius: 50px;
+    border: none;
 }
-.static-dashboard .multiselect__tag-icon::after {
-    color: $black;
+.static-dashboard .multiselect__tag:hover {
+    background: $dark_blue;
+    color: $white;
+}
+.static-dashboard .multiselect .multiselect__tag i::before {
+    vertical-align: middle;
 }
 
 .static-dashboard .multiselect__clear {
@@ -477,21 +554,13 @@ export default {
     top: 12px;
     left: 9px;
 }
-.multiselect__tag-icon:focus, .multiselect__tag-icon:hover{
-  background: $secondary;
-  color: $white;
-}
-.multiselect__tag-icon:focus:after,
-.multiselect__tag-icon:hover:after {
-    color: $white;
-}
+
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight,
 .static-dashboard .multiselect__option--selected.multiselect__option--highlight:after,
 .static-dashboard .multiselect__option:after,
 .static-dashboard .multiselect__option--selected,
 .static-dashboard .multiselect__option--selected:after,
 .static-dashboard .multiselect__tag {
-  background: $light-blue;
   color: $black;
   font-weight: normal;
 }

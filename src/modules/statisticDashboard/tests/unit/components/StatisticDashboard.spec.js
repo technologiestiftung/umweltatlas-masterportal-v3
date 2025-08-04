@@ -196,6 +196,50 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             expect(wrapper.find(".filtered-areas").exists()).to.be.true;
         });
+        it("should render info text, if no statistical data is available", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({statisticsData: undefined});
+
+            expect(wrapper.find(".no-data-content").exists()).to.be.true;
+        });
+        it("should not render info text, if statistical data is available", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                statData = {
+                    "Arbeitslose": {
+                        "Herzogtum Lauenburg": {
+                            "2020": 5785,
+                            "2021": 5603
+                        },
+                        "Harburg": {
+                            "2020": 6166,
+                            "2021": 6186
+                        }
+                    },
+                    "Arbeitslose 15 bis unter 25 Jahre": {
+                        "Herzogtum Lauenburg": {
+                            "2020": 643,
+                            "2021": 597
+                        },
+                        "Harburg": {
+                            "2020": 670,
+                            "2021": 591
+                        }
+                    }
+                };
+
+            await wrapper.setData({statisticsData: statData});
+
+            expect(wrapper.find(".no-data-content").exists()).to.be.false;
+        });
     });
 
     describe("computed properties", () => {

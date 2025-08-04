@@ -42,7 +42,7 @@ export default {
             >
                 <div
                     v-if="titles"
-                    class="title m-2 fs-6"
+                    class="title m-2"
                 >
                     {{ titles[idx] }}
                 </div>
@@ -86,6 +86,7 @@ export default {
     margin-top: 30px;
     .title {
         font-family: $font_family_accent;
+        font-size: $font_size_big;
     }
 }
 

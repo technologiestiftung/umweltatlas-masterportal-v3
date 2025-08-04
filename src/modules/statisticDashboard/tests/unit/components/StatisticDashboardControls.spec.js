@@ -719,7 +719,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             await wrapper.vm.$nextTick();
             wrapper.vm.setData({indexSelectedStatistics: 1});
-            prevStatisticButton = wrapper.findAll(".static-name button").at(0);
+            prevStatisticButton = wrapper.findAll(".slider-control").at(0);
             prevStatisticButton.trigger("click");
             await wrapper.vm.$nextTick();
 
@@ -735,7 +735,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                         plugins: [store]
                     }
                 }),
-                nextStatisticButton = wrapper.findAll(".static-name button").at(1);
+                nextStatisticButton = wrapper.findAll(".slider-control").at(1);
 
             wrapper.vm.setData({indexSelectedStatistics: 0});
             wrapper.vm.setSelectedStatistics({

@@ -320,7 +320,8 @@ export default {
                 <br>
                 <button
                     v-if="region?.values.length"
-                    class="btn btn-sm btn-outline-secondary rounded-pill lh-1 me-2 mb-2 p-2"
+                    class="btn btn-sm btn-light rounded-pill lh-1 me-2 mb-2 p-2"
+                    :class="region?.selectedValues.length === region?.values.length ? 'active-button' : ''"
                     @click="selectAll(region)"
                 >
                     <i class="bi bi-toggles" />
@@ -330,7 +331,7 @@ export default {
                     v-for="(value, idx) in region.values"
                     :id="'top-region-filter' + index"
                     :key="idx"
-                    class="btn btn-sm btn-outline-secondary lh-1 rounded-pill me-2 mb-2 p-2"
+                    class="btn btn-sm btn-light lh-1 rounded-pill me-2 mb-2 p-2"
                     :class="toggleButtonActive(value, region.selectedValues)"
                     @click="updatesTopLevelRegionSelectedValues(value, region)"
                 >
@@ -371,6 +372,17 @@ export default {
                             <i class="bi bi-search" />
                         </div>
                     </template>
+                    <template #tag="{ option, remove }">
+                        <button
+                            class="multiselect__tag"
+                            :class="option"
+                            @click="remove(option)"
+                            @keypress="remove(option)"
+                        >
+                            {{ option.label }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
                 </Multiselect>
             </div>
         </div>
@@ -380,10 +392,18 @@ export default {
 <style lang="scss">
 @import "~variables";
     .region-filter {
+        .btn-light {
+            background: $light_grey;
+            &:hover {
+                background: $dark_blue;
+                color: $white;
+            }
+            &:active {
+                background: $dark_blue;
+            }
+        }
         .active-button {
-            background: $light-blue;
-            color: $black;
-            border-color: $light-blue;
+            background: $primary;
         }
 
         .multiselect .multiselect__spinner:after, .multiselect__spinner:before {
@@ -398,6 +418,19 @@ export default {
             border: 2px solid transparent;
             border-top-color: $dark_grey;
             box-shadow: 0 0 0 1px transparent;
+        }
+        .multiselect .multiselect__tag {
+            background: $primary;
+            padding: 4px 10px 4px 10px;
+            border-radius: 50px;
+            border: none;
+        }
+        .multiselect .multiselect__tag:hover {
+            background: $dark_blue;
+            color: $white;
+        }
+        .multiselect .multiselect__tag i::before {
+            vertical-align: middle;
         }
     }
 </style>
