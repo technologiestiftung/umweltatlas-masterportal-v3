@@ -2644,9 +2644,9 @@ Object to change the drawing tool's download preselected format. It should be on
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-This module can display loaded vector data from WFS(❗) layers in a table. All visible vector layers from the map are displayed in the first tab. The features of the layer are listed in the second tab of the table. The number of displayed features is configurable.
+This module can display loaded vector data from WFS and OAF layers in a table. All visible vector layers from the map are displayed in the first tab. The features to be displayed from WFS layers can be selected using a drawing tool after selecting the layer. The features of the layer are listed in the second tab of the table. The number of displayed features is configurable.
 
-As soon as you position the mouse pointer over a feature in the list, it will be highlighted in the map. By clicking on a feature, its attributes are displayed in a third tab.
+As soon as you position the mouse pointer over a feature in the list, it will be marked in the map. By clicking on a feature, its attributes are displayed in a third tab.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
