@@ -616,6 +616,40 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
                 expect(sortedItems).to.deep.equal(expectItems);
             });
+            it("should sort strings and numbers alphanumerically if prop is set", () => {
+                const wrapper = shallowMount(TableComponent, {
+                        props: {
+                            data: {},
+                            sortAlphanumerical: true
+                        },
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    items = [{
+                        "bar": "2"
+                    },
+                    {
+                        "bar": "alpha"
+                    },
+                    {
+                        "bar": "1"
+                    }],
+                    expectItems = [
+                        {
+                            "bar": "1"
+                        },
+                        {
+                            "bar": "2"
+                        },
+                        {
+                            "bar": "alpha"
+                        }
+                    ],
+                    sortedItems = wrapper.vm.getSortedItems(items, "bar", "asc");
+
+                expect(sortedItems).to.deep.equal(expectItems);
+            });
         });
         describe("runSorting", () => {
             it("should call expected functions", () => {
