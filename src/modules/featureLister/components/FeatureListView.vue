@@ -86,6 +86,7 @@ export default {
             :filterable="true"
             :enable-settings="true"
             :sortable="true"
+            :sort-alphanumerical="true"
             export-file-name="Feature Lister Export"
             select-mode="row"
             :run-select-row-on-mount="false"

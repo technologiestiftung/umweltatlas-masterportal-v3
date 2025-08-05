@@ -141,6 +141,11 @@ export default {
             required: false,
             default: false
         },
+        sortAlphanumerical: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         maxDecimalPlaces: {
             type: [Number, Boolean],
             required: false,
@@ -415,32 +420,83 @@ export default {
          * @returns {Object[]} the sorted items.
          */
         getSortedItems (items, columnToSort, order) {
+            let sorted;
+
             if (!Array.isArray(items)) {
                 return [];
             }
             if (order === "origin") {
                 return items;
             }
-            const sorted = [...items].sort((a, b) => {
-                if (typeof a[columnToSort] === "undefined") {
-                    return -1;
-                }
-                if (typeof b[columnToSort] === "undefined") {
-                    return 1;
-                }
-                if (this.sortByNumericValue) {
+
+            if (this.sortAlphanumerical) {
+                sorted = this.getAlphanumericalSortedItems(items, columnToSort);
+            }
+
+            else {
+                sorted = [...items].sort((a, b) => {
+                    if (typeof a[columnToSort] === "undefined") {
+                        return -1;
+                    }
+                    if (typeof b[columnToSort] === "undefined") {
+                        return 1;
+                    }
+                    if (this.sortByNumericValue) {
                     if (!isNaN(parseFloat(a[columnToSort])) && isNaN(parseFloat(b[columnToSort]))) {
                         return 1;
                     }
                     if (isNaN(parseFloat(a[columnToSort])) && !isNaN(parseFloat(b[columnToSort]))) {
                         return -1;
                     }
-                    return parseFloat(a[columnToSort]) - parseFloat(b[columnToSort]);
+                        return parseFloat(a[columnToSort]) - parseFloat(b[columnToSort]);
+                    }
+                    return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
+                });
+            }
+            return order === "asc" ? sorted : sorted.reverse();
+        },
+        /**
+         * Sorts the data alphanumerical.
+         * @param {Object} totalProp - The items to sort.
+         * @param {Object} columnToSort - The column to sort.
+         * @returns {Object} the sorted items.
+         */
+        getAlphanumericalSortedItems (items, columnToSort) {
+            /**
+             * Checks if a value is numeric.
+             * @param {any} val - The value to check.
+             * @returns {boolean} true if the value is numeric, false otherwise.
+             */
+            function isNumeric (val) {
+                return typeof val === "string" && val.trim() !== "" && !isNaN(val);
+            }
+
+            const sorted = [...items].sort((a, b) => {
+                const va = a[columnToSort],
+                    vb = b[columnToSort];
+
+                if (va === null || va === "") {
+                    return 1;
                 }
-                return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
+                if (vb === null || vb === "") {
+                    return -1;
+                }
+
+                if (isNumeric(va) && isNumeric(vb)) {
+                    return parseFloat(va) - parseFloat(vb);
+                }
+
+                if (isNumeric(va)) {
+                    return -1;
+                }
+
+                if (isNumeric(vb)) {
+                    return 1;
+                }
+                return localeCompare(va, vb, this.currentLocale, {ignorePunctuation: true});
             });
 
-            return order === "asc" ? sorted : sorted.reverse();
+            return sorted;
         },
         /**
          * Gets the rows based on given filter.
