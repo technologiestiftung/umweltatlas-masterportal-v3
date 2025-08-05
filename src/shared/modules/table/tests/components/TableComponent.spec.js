@@ -289,46 +289,42 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
         });
 
         it("should render download button if 'downloadable' is true", () => {
-            const wrapper = createWrapper({
-                 
-                        data: {
-                            headers: [{name: "foo", index: 0}],
-                            items: [["bar"]]
-                        },
-                        downloadable: true
+            wrapper = createWrapper({
+                data: {
+                    headers: [{name: "foo", index: 0}],
+                    items: [["bar"]]
+                },
+                downloadable: true
 
-                }), found = wrapper.find("#table-download").exists() || wrapper.find("#table-download-csv").exists() || wrapper.find("#table-download-geojson").exists();
+            });
+            const found = wrapper.find("#table-download").exists() || wrapper.find("#table-download-csv").exists() || wrapper.find("#table-download-geojson").exists();
 
             expect(found).to.be.true;
         });
-        it("should only render expandable download button if more than one download format is given", () => {
-            const wrapper = shallowMount(TableComponent, {
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}],
-                        items: [["bar"]]
-                    },
-                    downloadable: true,
-                    downloadFormat: ["csv", "geojson"]
-                }
+        it("should render expandable download button if more than one download format is given", () => {
+            wrapper = createWrapper({
+                data: {
+                    headers: [{name: "foo", index: 0}],
+                    items: [["bar"]]
+                },
+                downloadable: true,
+                downloadFormat: ["csv", "geojson"]
+
             });
 
             expect(wrapper.find("#table-download").exists()).to.be.true;
             expect(wrapper.find("#table-download-csv").isVisible()).to.be.false;
             expect(wrapper.find("#table-download-geojson").isVisible()).to.be.false;
-            
+
         });
         it("should only render geojson download button if downloadFormat is geojson", () => {
-            const wrapper = shallowMount(TableComponent, {
-
-                props: {
-                    data: {
-                        headers: [{name: "foo", index: 0}],
-                        items: [["bar"]]
-                    },
-                    downloadable: true,
-                    downloadFormat: ["geojson"]
-                }
+            wrapper = createWrapper({
+                data: {
+                    headers: [{name: "foo", index: 0}],
+                    items: [["bar"]]
+                },
+                downloadable: true,
+                downloadFormat: ["geojson"]
             });
 
             expect(wrapper.find("#table-download-geojson").exists()).to.be.true;
@@ -617,16 +613,16 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                 expect(sortedItems).to.deep.equal(expectItems);
             });
             it("should sort strings and numbers alphanumerically if prop is set", () => {
-                const wrapper = shallowMount(TableComponent, {
-                        props: {
-                            data: {},
-                            sortAlphanumerical: true
-                        },
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    items = [{
+                wrapper = shallowMount(TableComponent, {
+                    props: {
+                        data: {},
+                        sortAlphanumerical: true
+                    },
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                const items = [{
                         "bar": "2"
                     },
                     {

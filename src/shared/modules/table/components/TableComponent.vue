@@ -457,7 +457,7 @@ export default {
         },
         /**
          * Sorts the data alphanumerical.
-         * @param {Object} totalProp - The items to sort.
+         * @param {Object} items - The items to sort.
          * @param {Object} columnToSort - The column to sort.
          * @returns {Object} the sorted items.
          */
@@ -963,78 +963,6 @@ export default {
                 }
             }
         },
-
-        /**
-         * Expands table to fullscreen view, hides sorting elements, footer and layerPills to make space. Also enlarges the header row of the table on smaller screens.
-         * @param {boolean} unmounted True if leaving the tableComponent by navigating back to menu or closing the secondary Menu
-         * @returns {void}
-         */
-        fullView (unmounted = false) {
-            const footer = document.getElementById("module-portal-footer"),
-                layerPills = document.getElementById("layer-pills"),
-                select = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__select"),
-                tags = document.querySelectorAll("#mp-menu-secondaryMenu .multiselect > .multiselect__tags"),
-                tableRow = this.$refs.headerRow,
-                clientWidth = document.body.clientWidth;
-
-            if (!this.fullViewEnabled) {
-                return;
-            }
-
-            if (this.fullViewActivated) {
-                if (!this.mainExpanded) {
-                    this.toggleMenu("mainMenu");
-                }
-                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 25}});
-                if (layerPills) {
-                    layerPills.style.display = "";
-                }
-                if (footer) {
-                    footer.style.display = "";
-                }
-                if (!unmounted) {
-                    if (clientWidth <= 1280) {
-                        tableRow.classList.remove("fullscreen-tr");
-                    }
-                    for (let i = 0; i < tableRow.cells.length; i++) {
-                        tableRow.cells[i].classList.add("fixedWidth");
-                        if (tags[i]) {
-                            tags[i].classList.remove("fullscreen_view");
-                        }
-                        if (select[i]) {
-                            select[i].style.display = "";
-                        }
-                    }
-                }
-                this.fullViewActivated = false;
-            }
-            else {
-                if (this.mainExpanded) {
-                    this.toggleMenu("mainMenu");
-                }
-                if (layerPills) {
-                    layerPills.style.display = "none";
-                }
-                if (footer) {
-                    footer.style.display = "none";
-                }
-                if (clientWidth <= 1280) {
-                    tableRow.classList.add("fullscreen-tr");
-                }
-                this.setCurrentMenuWidth({type: "secondaryMenu", attributes: {width: 95}});
-                for (let i = 0; i < tableRow.cells.length; i++) {
-                    tableRow.cells[i].classList.remove("fixedWidth");
-                    if (tags[i]) {
-                        tags[i].classList.add("fullscreen_view");
-                    }
-                    if (select[i]) {
-                        select[i].style.display = "none";
-                    }
-                }
-                this.fullViewActivated = true;
-            }
-        },
-
         /**
          * Expands table to fullscreen view, hides sorting elements, footer and layerPills to make space. Also enlarges the header row of the table on smaller screens.
          * @param {boolean} unmounted True if leaving the tableComponent by navigating back to menu or closing the secondary Menu
@@ -1320,27 +1248,27 @@ export default {
                     </button>
                 </div>
             </div>
+            <ExportButtonCSV
+                v-show="!exportDropdownRequired && downloadFormat.includes('csv')"
+                id="table-download-csv"
+                ref="exportCsvButton"
+                :url="false"
+                :data="exportTable('csv')"
+                :filename="exportFileName"
+                :use-semicolon="true"
+                :title="$t('common:shared.modules.table.download')"
+                :class="'me-3 rounded-pill export-button'"
+            />
+            <ExportButtonGeoJSON
+                v-show="!exportDropdownRequired && downloadFormat.includes('geojson')"
+                id="table-download-geojson"
+                ref="exportGeoJsonButton"
+                :data="exportTable('geojson')"
+                :filename="exportFileName"
+                :title="$t('common:shared.modules.table.download')"
+                :class="'me-3 rounded-pill export-button'"
+            />
         </div>
-        <ExportButtonCSV
-            v-show="!exportDropdownRequired && downloadFormat.includes('csv')"
-            id="table-download-csv"
-            ref="exportCsvButton"
-            :url="false"
-            :data="exportTable('csv')"
-            :filename="exportFileName"
-            :use-semicolon="true"
-            :title="$t('common:shared.modules.table.download')"
-            :class="'me-3 rounded-pill export-button'"
-        />
-        <ExportButtonGeoJSON
-            v-show="!exportDropdownRequired && downloadFormat.includes('geojson')"
-            id="table-download-geojson"
-            ref="exportGeoJsonButton"
-            :data="exportTable('geojson')"
-            :filename="exportFileName"
-            :title="$t('common:shared.modules.table.download')"
-            :class="'me-3 rounded-pill export-button'"
-        />
     </div>
     <div
         class="fixed"
