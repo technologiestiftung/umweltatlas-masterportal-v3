@@ -323,6 +323,7 @@ Layer2dRasterWmsTimeLayer.prototype.removeLayer = function (layerId) {
             }]});
         }
         store.dispatch("Modules/WmsTime/toggleSwiper", layerId);
+        console.log("Remove Layer", layerId, "from WMS-T time slider and layerSwiper");
     }
     else {
         store.commit("Modules/WmsTime/setTimeSliderActive", {active: false, currentLayerId: ""});

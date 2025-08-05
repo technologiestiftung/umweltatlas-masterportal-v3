@@ -126,15 +126,23 @@ export default {
             const targetLayer = layerCollection.getLayerById(secondId),
                 sourceLayer = layerCollection.getLayerById(id);
 
-            targetLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-            targetLayer?.getLayer().un("postrender", ({context}) => {
-                context.restore();
-            });
+            if (targetLayer?._onPrerenderListener) {
+                targetLayer.getLayer().un("prerender", targetLayer._onPrerenderListener);
+                delete targetLayer._onPrerenderListener;
+            }
+            if (targetLayer?._onPostrenderListener) {
+                targetLayer.getLayer().un("postrender", targetLayer._onPostrenderListener);
+                delete targetLayer._onPostrenderListener;
+            }
 
-            sourceLayer?.getLayer().un("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-            sourceLayer?.getLayer().un("postrender", ({context}) => {
-                context.restore();
-            });
+            if (sourceLayer?._onPrerenderListener) {
+                sourceLayer.getLayer().un("prerender", sourceLayer._onPrerenderListener);
+                delete sourceLayer._onPrerenderListener;
+            }
+            if (sourceLayer?._onPostrenderListener) {
+                sourceLayer.getLayer().un("postrender", sourceLayer._onPostrenderListener);
+                delete sourceLayer._onPostrenderListener;
+            }
 
             // If the button of the "original" window is clicked, it is assumed, that the time value selected in the added window is desired to be further displayed.
             if (!id.endsWith(state.layerAppendix)) {
@@ -161,7 +169,8 @@ export default {
                     layer: {
                         id: secondId,
                         visibility: false,
-                        showInLayerTree: false
+                        showInLayerTree: false,
+                        zIndex: layer.attributes.zIndex
                     }
                 }]
             }, {root: true});

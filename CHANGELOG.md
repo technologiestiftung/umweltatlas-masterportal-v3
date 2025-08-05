@@ -49,13 +49,14 @@
 - Issue #1432: CompareMaps: Remove the complete loading of maps before activating the addon or changing the map view.
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - Issue #1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.
+- Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
 - About: Ensure the primary contact is displayed in the imprint, fallback to the publisher if no contact is defined.
 - BuildPortal: Fixed mastercodeVersionFolderName to prevent time conflicts and avoid hashtags in folder name.
 - Layer2dVector: should also filter for null geometries, not only undefined.
-- Tests: Fixed failing tests for WMTS layers without capabilities. 
+- Tests: Fixed failing tests for WMTS layers without capabilities.
 
 ## 2025-07-08 v3.12.1
 
