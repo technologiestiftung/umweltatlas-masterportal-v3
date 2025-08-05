@@ -32,7 +32,7 @@ export default {
          */
         visibleVectorLayers () {
             return this.visibleLayerConfigs
-                .filter(layer => this.supportedLayerTypes.includes(layer.typ) && !this.unsupportedRenderers.includes(layer.renderer.toUpperCase()))
+                .filter(layer => this.supportedLayerTypes.includes(layer.typ) && !this.unsupportedRenderers.includes(layer.renderer?.toUpperCase()))
                 .map(layer => ({
                     name: layer.name,
                     id: layer.id,
