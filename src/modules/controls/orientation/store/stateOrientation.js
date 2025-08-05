@@ -31,7 +31,7 @@ const state = {
 
     activeCategory: "",
     geolocation: null,
-    iFrameLocationEnabled: "common:modules.controls.orientation.iFrame",
+    iFrameGeolocationEnabled: "common:modules.controls.orientation.iFrameGeolocationEnabled",
     onlyFilteredFeatures: false,
     poiMode: "currentPosition",
     customPosition: "common:modules.controls.orientation.poiChoiceCustomPosition",

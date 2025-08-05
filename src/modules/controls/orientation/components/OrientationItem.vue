@@ -47,7 +47,7 @@ export default {
             "iconGeolocate",
             "iconGeolocatePOI",
             "iconGeolocationMarker",
-            "iFrameLocationEnabled",
+            "iFrameGeolocationEnabled",
             "onlyFilteredFeatures",
             "poiDistances",
             "poiMode",
@@ -116,12 +116,12 @@ export default {
             let geolocation = null;
 
             const inIframe = window.self !== window.top,
-                iFrameLocationEnabled = this.iFrameLocationEnabled === true;
+                iFrameGeolocationEnabled = this.iFrameGeolocationEnabled === true;
 
-            if (inIframe && !iFrameLocationEnabled) {
+            if (inIframe && !iFrameGeolocationEnabled) {
                 this.addSingleAlert({
                     category: "error",
-                    content: `<strong>${this.$t("common:modules.controls.orientation.iFrameGeoLocationError")}`
+                    content: `<strong>${this.$t("common:modules.controls.orientation.iFrameGeolocationError")}`
                 });
             }
             else if (this.isGeolocationDenied === false) {

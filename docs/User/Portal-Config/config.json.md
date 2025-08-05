@@ -228,6 +228,7 @@ Orientation uses the browser's geolocation to determine the user's location. A l
 |iconGeolocate|no|String|"bi-geo-alt"|Icon that is displayed in the Controls menu for the control location. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |iconGeolocatePOI|no|String|"bi-record-circle"|Icon that is displayed in the Controls menu for the "Close to me" control. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |iconGeolocationMarker|no|String|"bi-circle-fill"|Icon that is displayed in the map to mark the current position. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
+|iFrameGeolocationEnabled|no|Boolean|false|If 'iFrameGeolocationEnabled' is true, orientation will try to fetch geolocation within an iFrame. This only works if the iFrame-Tag of the containing page has the attribute allow="geolocation".|false|
 |onlyFilteredFeatures|no|boolean|false|If 'onlyFilteredFeatures' is true, only features filtered via the filter are taken into account in the poi results display.|false|
 |poiDistances|no|Boolean/Integer[]|true|Defines whether the feature "Close to me", which shows a list of nearby points of interest, is provided. If an array is configured, multiple such lists with the given distance in meters are offered. When simply setting `poiDistances: true`, the used distances are `[500,1000,2000]`.|false|
 |supportedDevices|no|String|["Desktop", "Mobile"]|Devices on which the module can be used and is displayed in the menu.|false|
