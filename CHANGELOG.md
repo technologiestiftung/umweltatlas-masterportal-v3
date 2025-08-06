@@ -58,6 +58,7 @@
 - BuildPortal: Fixed mastercodeVersionFolderName to prevent time conflicts and avoid hashtags in folder name.
 - Layer2dVector: should also filter for null geometries, not only undefined.
 - Tests: Fixed failing tests for WMTS layers without capabilities.
+- CompareMaps: Both maps are now still visible after reset.
 
 ## 2025-07-08 v3.12.1
 

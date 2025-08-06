@@ -49,7 +49,7 @@ const actions = {
             await mapCollection.getMap(rootGetters["Maps/mode"]).render();
         }
 
-        if (!targetLayer?._onPrerenderListener && !targetLayer?._onPostrenderListener) {
+        if (targetLayer && !targetLayer?._onPrerenderListener && !targetLayer?._onPostrenderListener) {
             targetLayer._onPrerenderListener = renderEvent => {
                 dispatch("drawLayer", renderEvent);
             };
@@ -62,7 +62,7 @@ const actions = {
             targetLayer.getLayer().on("postrender", targetLayer._onPostrenderListener);
         }
 
-        if (!sourceLayer?._onPrerenderListener && !sourceLayer?._onPostrenderListener) {
+        if (sourceLayer && !sourceLayer?._onPrerenderListener && !sourceLayer?._onPostrenderListener) {
             sourceLayer._onPrerenderListener = renderEvent => {
                 dispatch("drawLayer", renderEvent);
             };
