@@ -172,7 +172,7 @@
       "orientation": {
         "distanceUnit": "meters",
         "geolocationDeniedText": "Localisation is not available",
-        "iFrameGeolocationError": "Localisation within an iFrame is currently not possible, please open this <a href='#' target=`_blank`>Geoportal</a> in a new Tab or Window",
+        "iFrameGeolocationError": "Localisation within an iFrame is currently not possible, please open this <a href='#' target=`_blank`>portal</a> in a new Tab or Window",
         "imgAlt": "picture for point of interest",
         "poiChoiceCurrentPosition": "Current location",
         "poiChoiceCustomPosition": "Search address or set point in map",

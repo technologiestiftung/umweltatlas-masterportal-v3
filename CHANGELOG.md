@@ -10,6 +10,7 @@
 ### Added
 - WFS-T: Enables layers to support the insertion, update, and deletion of multipolygon geometries
 - WFS-T: Added confirmation dialogue for creating multipolygons with voids
+- Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
@@ -27,7 +28,6 @@
 ### Added
 - AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
 - Orientation: added parameter iconGeolocationMarker to configure the icon used for the current position in the map.
-- Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
 - WFS-T: Save button is disabled when user gave no input.
 - TableComponent: Implemented configurable Fullscreen-View-Button of the table component within secondaryMenu with compressed table columns.
 - MainMenu: Refactored Portal Title behavior for smaller menu sizes. Title now moves below logo when space is limited.
