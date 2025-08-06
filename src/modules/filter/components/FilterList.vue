@@ -200,7 +200,7 @@ export default {
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
                     <div
-                        v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
                         class="layerInfoText"
                     >
                         {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
@@ -219,7 +219,7 @@ export default {
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
                     <div
-                        v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
                         class="layerInfoText"
                     >
                         {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
@@ -237,7 +237,7 @@ export default {
                     @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
                 >
                     <div
-                        v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
                         class="layerInfoText"
                     >
                         {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
@@ -272,6 +272,12 @@ export default {
                         :title="$t('common:modules.filter.resetButton')"
                         :interaction="() => deleteAllRulesEmit(filter.filterId)"
                     />
+                </div>
+                <div
+                    v-if="filter.shortDescription && !selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                    class="layerInfoText"
+                >
+                    {{ translateKeyWithPlausibilityCheck(filter?.shortDescription, key => $t(key)) }}
                 </div>
                 <hr class="mb-1">
             </div>
@@ -410,7 +416,11 @@ export default {
 .btn-secondary {
     border-radius: $badge-border-radius;
 }
-
+hr {
+    background-color: $navbar-light-color;
+    height: 1px;
+    border: none;
+}
 .panel-group hr {
     border-width: 1px;
     border-color: $light_grey_active;

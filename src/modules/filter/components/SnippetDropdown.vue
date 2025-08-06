@@ -1055,7 +1055,7 @@ export default {
         margin-right: 15px;
         color: $black;
         line-height: 1;
-        background: $primary;
+        background: $light_blue;
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;

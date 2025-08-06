@@ -642,7 +642,7 @@ export default {
                     <div>
                         {{ layerRule.layerTitle }}
                     </div>
-                    <div class="snippetTagsWrapper">
+                    <div class="snippetTagsWrapper mt-1">
                         <div
                             v-for="(rule, ruleIndex) in layerRule.rule"
                             :key="'rule-' + ruleIndex"
@@ -709,7 +709,7 @@ export default {
                 @update-geometry-selector-options="updateGeometrySelectorOptions"
             />
         </AccordionItem>
-        <hr class="mb-4">
+        <hr class="dividing-line mb-4">
         <div v-if="Array.isArray(layerGroups) && layerGroups.length">
             <div
                 v-for="(layerGroup, key) in layerGroups"
@@ -762,7 +762,7 @@ export default {
                         </div>
                     </template>
                 </FilterList>
-                <hr class="mb-4">
+                <hr class="dividing-line mb-4">
             </div>
         </div>
         <FilterList
@@ -853,6 +853,11 @@ export default {
     .panel {
         position: relative;
     }
+    .dividing-line {
+        background-color: $dark_blue;
+        height: 1px;
+        border: none;
+    }
     .link-section {
         position: relative;
         .toast-container {
@@ -869,7 +874,10 @@ export default {
         }
     }
     .result {
-        margin-bottom: 20px;
+        box-shadow: 0 1px 5px $shadow;
+        margin-bottom: 30px;
+        padding: 15px 15px 15px 15px;
+        border-radius: 10px;
         .title {
             min-height: 30px;
             span {

@@ -71,13 +71,13 @@ export default {
             <div>
                 <span
                     v-if="rule.attrLabel"
-                    class="snippetTagLabel"
+                    class="ps-2 snippetTagLabel"
                 >
                     {{ rule.attrLabel }}:
                 </span>
                 <span class="snippetTagValue">{{ value }}</span>
+                <i class="align-middle bi bi bi-x" />
             </div>
-            <span class="bi bi bi-x" />
         </button>
     </div>
 </template>
@@ -92,7 +92,7 @@ export default {
         button {
             padding: 5px 6px 2px;
             font-size: $font-size-base;
-            background-color: $primary;
+            background-color: $light_blue;
             border: none;
             border-radius: 20px;
             display: flex;
@@ -117,8 +117,5 @@ export default {
     }
     .snippetTagContainer .snippetTagValue {
         padding-right: 5px;
-    }
-    .bi-x-lg:hover {
-        color: $light_red;
     }
 </style>
