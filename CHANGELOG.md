@@ -4,7 +4,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2020-08-05 v3.13.0
 
 ### Added
 - MouseHover: Add additional parameters for configuration. Parameters can be set in the portal configuration to overwrite default values. If no values are set, the usual defaults are used.
@@ -14,8 +14,6 @@
   - Replaced the old color scheme generating algorithm with the colorbrewer schemes.
   - Enabled colored map for more than one selected statistic.
   - A loading spinner shows before the styled features are loaded.
-
-### __Breaking Changes__
 
 ### Added
 - AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
@@ -29,10 +27,6 @@
 - WFS-T: Info message is configurable and is visssible in the multiupdate so that users know that they can overwrite things.
 - WFS-T: Multiedit name is changed to Edit.
 - WFS-T: Box selection was removed from default ones for multiupdate.
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Issue #1223: Gazetteer: Fixed filtering of search results where only the address was used as identifier, which led to errors if the same address was used in multiple cities.
