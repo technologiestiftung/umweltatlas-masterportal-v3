@@ -20,6 +20,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 
 ---
 
@@ -49,7 +50,6 @@
 - Issue #1432: CompareMaps: Remove the complete loading of maps before activating the addon or changing the map view.
 - Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
 - Issue #1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.
-- Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
