@@ -1616,8 +1616,8 @@
       "table": {
         "fixColumnAriaLabel": "Click here to pin this column",
         "download": "Download",
-        "reset": "Reset",
-        "settings": "Settings",
+        "reset": "Reset table",
+        "settings": "Customize table",
         "total": "Total",
         "totalTitle": "Calculate the total count of each list.",
         "fullscreenViewToolTip": "Switch to a bigger table view",

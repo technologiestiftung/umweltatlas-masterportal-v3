@@ -1008,6 +1008,19 @@
         "selection": "",
         "zoomToResult": "",
         "zoomToResults": ""
+      },
+      "table": {
+        "fixColumnAriaLabel": "Hier klicken, üm dissen Striep to fixeeren",
+        "download": "Rünner loaden",
+        "reset": "Tabell trüggsetten",
+        "settings": "Tabell anpassen",
+        "total": "Alltohoop",
+        "totalTitle": "De Gesamttall vun jeder List bereken",
+        "fullscreenViewToolTip": "To en gröttere Tabellansicht wesseln",
+        "fullscreenViewActiveToolTip": "Na de lüttere Tabell wesselt",
+        "settingsTooltip": "Tabellinholt filtern",
+        "resetToolTip": "Tabellenfilter trüggsetten",
+        "fullscreenView": "Vullbild"
       }
     }
   }

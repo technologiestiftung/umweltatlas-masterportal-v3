@@ -789,6 +789,19 @@
       "style": "Стиль",
       "theme": "Тема"
     },
+    "table": {
+      "fixColumnAriaLabel": "Закрепить столбец",
+      "download": "Скачать",
+      "reset": "Сбросить таблицу",
+      "settings": "Настроить таблицу",
+      "total": "Всего:",
+      "totalTitle": "Итого записей",
+      "fullscreenViewToolTip": "Полный экран",
+      "fullscreenViewActiveToolTip": "Выйти из полного экрана",
+      "settingsTooltip": "Настройки таблицы",
+      "resetToolTip": "Сбросить настройки таблицы",
+      "fullscreenView": "Полный экран"
+    },
     "wfsSearch": {
       "district": "Район",
       "fieldSelectionLabel": "",

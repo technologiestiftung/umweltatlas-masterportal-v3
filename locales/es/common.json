@@ -974,6 +974,19 @@
         "selection": "",
         "zoomToResult": "",
         "zoomToResults": ""
+      },
+      "table": {
+        "fixColumnAriaLabel": "Haga clic aquí para fijar esta columna",
+        "download": "Descargar",
+        "reset": "Restablecer tabla",
+        "settings": "Personalizar tabla",
+        "total": "Total",
+        "totalTitle": "Calcular el total de cada lista",
+        "fullscreenViewToolTip": "Cambiar a una vista de tabla más grande",
+        "fullscreenViewActiveToolTip": "Cambiar a una vista de tabla más pequeña",
+        "settingsTooltip": "Filtrar contenidos de la tabla",
+        "resetToolTip": "Restablecer filtros de tabla",
+        "fullscreenView": "Vista de pantalla completa"
       }
     }
   }

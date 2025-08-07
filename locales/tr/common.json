@@ -786,6 +786,19 @@
       "style": "Stil",
       "theme": "Konu"
     },
+    "table": {
+      "fixColumnAriaLabel": "Sütunu sabitle",
+      "download": "İndir",
+      "reset": "Tabloyu sıfırla",
+      "settings": "Tabloyu özelleştir",
+      "total": "Toplam:",
+      "totalTitle": "Toplam kayıt sayısı",
+      "fullscreenViewToolTip": "Tam ekran",
+      "fullscreenViewActiveToolTip": "Tam ekrandan çık",
+      "settingsTooltip": "Tablo ayarları",
+      "resetToolTip": "Tablo ayarlarını sıfırla",
+      "fullscreenView": "Tam ekran"
+    },
     "wfsSearch": {
       "district": "Bölge",
       "fieldSelectionLabel": "",

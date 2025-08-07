@@ -994,6 +994,19 @@
         "selection": "Selezione della linea",
         "zoomToResult": "Zoom sul risultato",
         "zoomToResults": "Zoom sulla selezione"
+      },
+      "table": {
+        "fixColumnAriaLabel": "Fai clic qui per fissare questa colonna",
+        "download": "Scarica",
+        "reset": "Ripristina tabella",
+        "settings": "Personalizza tabella",
+        "total": "Totale",
+        "totalTitle": "Calcola il totale di ogni lista",
+        "fullscreenViewToolTip": "Passa a una vista tabella più grande",
+        "fullscreenViewActiveToolTip": "Passa a una vista tabella più piccola",
+        "settingsTooltip": "Filtra contenuti della tabella",
+        "resetToolTip": "Ripristina filtri della tabella",
+        "fullscreenView": "Vista a schermo intero"
       }
     }
   }

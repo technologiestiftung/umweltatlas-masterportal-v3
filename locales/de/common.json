@@ -1618,8 +1618,8 @@
       "table": {
         "fixColumnAriaLabel": "Hier klicken um diese Spalte zu fixieren",
         "download": "Herunterladen",
-        "reset": "Zurücksetzen",
-        "settings": "Einstellungen",
+        "reset": "Tabelle zurücksetzen",
+        "settings": "Tabelle anpassen",
         "total": "Gesamt",
         "totalTitle": "Berechne die Gesamtzahl jeder Liste",
         "fullscreenViewToolTip": "Zu einer größeren Tabellenansicht wechseln",

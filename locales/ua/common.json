@@ -790,6 +790,19 @@
       "style": "Стиль",
       "theme": "Тема"
     },
+    "table": {
+      "fixColumnAriaLabel": "Закріпити стовпець",
+      "download": "Завантажити",
+      "reset": "Скинути таблицю",
+      "settings": "Налаштувати таблицю",
+      "total": "Всього:",
+      "totalTitle": "Загальна кількість записів",
+      "fullscreenViewToolTip": "Повноекранний режим",
+      "fullscreenViewActiveToolTip": "Вийти з повноекранного режиму",
+      "settingsTooltip": "Налаштування таблиці",
+      "resetToolTip": "Скинути налаштування таблиці",
+      "fullscreenView": "Повноекранний режим"
+    },
     "wfsSearch": {
       "district": "Район",
       "fieldSelectionLabel": "",

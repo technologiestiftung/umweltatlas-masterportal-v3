@@ -1398,12 +1398,17 @@
           "zoomToResults": "Zoom om te selecteren"
         },
         "table": {
-          "fixColumnAriaLabel": "Klik hier om deze kolom te corrigeren",
+          "fixColumnAriaLabel": "Klik hier om deze kolom vast te zetten",
           "download": "Downloaden",
-          "reset": "Opnieuw instellen",
-          "settings": "Instellingen",
-          "total": "In totaal",
-          "totalTitle": "Bereken het totale aantal van elke lijst"
+          "reset": "Tabel opnieuw instellen",
+          "settings": "Tabel aanpassen",
+          "total": "Totaal",
+          "totalTitle": "Bereken het totale aantal van elke lijst",
+          "fullscreenViewToolTip": "Schakel over naar een grotere tabelweergave",
+          "fullscreenViewActiveToolTip": "Schakel over naar een kleinere tabelweergave",
+          "settingsTooltip": "Filter tabelinhoud",
+          "resetToolTip": "Tabelfilters opnieuw instellen",
+          "fullscreenView": "Volledig scherm weergave"
         }
       }
     },
