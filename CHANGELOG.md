@@ -48,6 +48,7 @@
 - WFS-T Tool: The multiUpdate form now correctly displays checkboxes.
 - Tests: Fixed vuex warnings and stubbed console warnings end errors.
 - InputText: Fixed missing suggestions in input fields.
+- SearchInterfaceOsmNominatim: Fixed getter path in debounce check
 
 ---
 
