@@ -886,7 +886,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 await wrapper.setData({statisticsData: {}});
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(stubGetStepValue.calledWith(undefined, 5, "2022")).to.be.true;
+                expect(stubGetStepValue.calledWith(undefined, 5, "2022", "quantiles", false, 1)).to.be.true;
 
                 sinon.restore();
             });

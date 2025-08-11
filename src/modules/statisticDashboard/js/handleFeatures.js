@@ -68,12 +68,13 @@ function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
  * @param {String} date - The date for which the values are visualized
  * @param {string} [classificationMode="quantiles"] - Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
+ * @param {Number} [decimalPlaces=1] - The number of decimal places to round the values.
  * @returns {Number[]} The step values calculated for the given statistic settings.
  */
-function getStepValue (statisticData, numberOfClasses, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
+function getStepValue (statisticData, numberOfClasses, date, classificationMode = "quantiles", allowPositiveNegativeClasses = false, decimalPlaces = 1) {
     const statisticsValues = getStatisticValuesByDate(statisticData, date);
 
-    return calcStepValues(statisticsValues, numberOfClasses, classificationMode, allowPositiveNegativeClasses);
+    return calcStepValues(statisticsValues, numberOfClasses, classificationMode, allowPositiveNegativeClasses, decimalPlaces);
 }
 
 /**
@@ -82,9 +83,10 @@ function getStepValue (statisticData, numberOfClasses, date, classificationMode 
  * @param {Number} [numberOfClasses=5] The number of classes.
  * @param {String} [classificationMode="quantiles"] Method of dividing values into classes. "quantiles" or "equalIntervals".
  * @param {Boolean} [allowPositiveNegativeClasses=false] If a class may contain both negative and positive values.
+ * @param {Number} [decimalPlaces=1] The number of decimal places to round the values.
  * @return {Number[]} The calculated values.
  */
-function calcStepValues (values, numberOfClasses = 5, classificationMode = "quantiles", allowPositiveNegativeClasses = false) {
+function calcStepValues (values, numberOfClasses = 5, classificationMode = "quantiles", allowPositiveNegativeClasses = false, decimalPlaces = 1) {
 
     if (!Array.isArray(values)
         || !values.every(e => isNumber(e))
@@ -108,9 +110,7 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
     if (classificationMode === "equalIntervals") {
         const interval = (maxValue - minValue) / numberOfClasses;
 
-        for (let i = 0; i < numberOfClasses; i++) {
-            result.push(minValue + i * interval);
-        }
+        result = Array.from({length: numberOfClasses}, (_, i) => Number((minValue + i * interval).toFixed(decimalPlaces)));
     }
     else if (classificationMode === "quantiles") {
 
@@ -207,9 +207,10 @@ function prepareLegendForPolygon (legendObj, style) {
 /**
  * Gets the Legend value
  * @param {Object} val - The raw value of legend
+ * @param {Number} [decimalPlaces=2] - The number of decimal places to round the value.
  * @returns {Object[]} the legend Value
  */
-function getLegendValue (val) {
+function getLegendValue (val, decimalPlaces = 2) {
     if (!isObject(val) || !val?.color || !val?.value) {
         return [];
     }
@@ -231,7 +232,7 @@ function getLegendValue (val) {
 
             if (index === val.value.length - 1) {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Number(Number(data).toFixed(2)))
+                    "name": i18next.t("common:modules.statisticDashboard.legend.from") + " " + thousandsSeparator(Number(Number(data).toFixed(decimalPlaces)))
                 };
                 style = {
                     "polygonFillColor": val.color[index],
@@ -241,7 +242,7 @@ function getLegendValue (val) {
             }
             else {
                 legendObj = {
-                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Number(Number(data).toFixed(2))), maximum: thousandsSeparator(Number(Number(val.value[index + 1]).toFixed(2)))})
+                    "name": i18next.t("common:modules.statisticDashboard.legend.between", {minimum: thousandsSeparator(Number(Number(data).toFixed(decimalPlaces))), maximum: thousandsSeparator(Number(Number(val.value[index + 1]).toFixed(decimalPlaces)))})
                 };
                 style = {
                     "polygonFillColor": val.color[index],

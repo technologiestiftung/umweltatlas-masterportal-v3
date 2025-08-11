@@ -49,6 +49,10 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "equalIntervals", true)).to.deep.equal([-2, 1]);
             expect(FeatureHandler.calcStepValues([-2, 0, 2, 4], 2, "equalIntervals", false)).to.deep.equal([-2, 0]);
         });
+        it("should return expected array according to decimalPlaces", () => {
+            expect(FeatureHandler.calcStepValues([0.12345, 2.12345], 2, "quantiles", false, 2)).to.deep.equal([0.12345, 1.12345]);
+            expect(FeatureHandler.calcStepValues([0.12345, 2.12345], 2, "equalIntervals", false, 3)).to.deep.equal([0.123, 1.123]);
+        });
     });
     describe("styleFeaturesByStatistic", () => {
         it("should set the styles correctly according to the values from the features", () => {

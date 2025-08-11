@@ -11,6 +11,7 @@
 - WFS-T: Enables layers to support the insertion, update, and deletion of multipolygon geometries
 - WFS-T: Added confirmation dialogue for creating multipolygons with voids
 - Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
+- StatisticDashboard: Added config parameter `decimalPlaces` to set the number of decimal places for the statistic values.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.

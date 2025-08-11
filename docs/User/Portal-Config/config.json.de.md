@@ -3884,6 +3884,7 @@ Das ShadowTool bietet eine Oberfläche zur Definition einer Zeitangabe. Über Sl
 |active|nein|Boolean|false|Wenn `true`, wird das Tool nach der Initialisierung des Portals geöffnet.|false|
 |data|ja|**[data](#portalconfigmenusectionsmodulesstatisticdashboarddata)**|""|Daten für das statistic Dashboard Werkzeug.|false|
 |classificationMode|nein|String|"quantiles"|Methode zur Klassenbildung für Choroplethen und Legende: "quantiles", "equalIntervals" oder "benutzerdefiniert"|false|
+|decimalPlaces|nein|Number|2|Anzahl der Dezimalstellen für statistische Werte.|false|
 |allowPositiveNegativeMix|nein|Boolean|false|Ob bei der Klassenbildung für Choroplethen und Legende Klassen mit sowohl negativen als auch positiven Werten erlaubt sind.|false|
 |minNumberOfClasses|nein|Number|2|Minimal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 2.|false|
 |maxNumberOfClasses|nein|Number|5|Maximal auswählbare Zahl der Klassen für Choroplethen und Legende. Mindestens 3.|false|

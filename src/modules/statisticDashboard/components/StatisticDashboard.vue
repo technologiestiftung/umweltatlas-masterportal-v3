@@ -106,6 +106,7 @@ export default {
             "numberOfClasses",
             "allowPositiveNegativeClasses",
             "classificationMode",
+            "decimalPlaces",
             "stepValues",
             "legendData",
             "selectedLevel",
@@ -234,7 +235,8 @@ export default {
                         this.numberOfClasses,
                         this.selectedColumn,
                         this.classificationMode,
-                        this.allowPositiveNegativeClasses
+                        this.allowPositiveNegativeClasses,
+                        this.decimalPlaces
                     )
                 );
                 this.handleChartData(
@@ -277,7 +279,7 @@ export default {
         },
         legendData: {
             handler (val) {
-                this.legendValue = FeaturesHandler.getLegendValue(val);
+                this.legendValue = FeaturesHandler.getLegendValue(val, this.decimalPlaces);
             },
             deep: true
         },
@@ -292,7 +294,8 @@ export default {
                     this.numberOfClasses,
                     this.selectedColumn,
                     val,
-                    this.allowPositiveNegativeClasses
+                    this.allowPositiveNegativeClasses,
+                    this.decimalPlaces
                 ));
             this.setColorPalette(this.createColorPalette());
         },
@@ -304,7 +307,8 @@ export default {
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
-                    val
+                    val,
+                    this.decimalPlaces
                 )
             );
         },
@@ -322,7 +326,8 @@ export default {
                 val,
                 this.selectedColumn,
                 this.classificationMode,
-                this.allowPositiveNegativeClasses
+                this.allowPositiveNegativeClasses,
+                this.decimalPlaces
             ));
             this.setColorPalette(this.createColorPalette());
         },
@@ -724,7 +729,8 @@ export default {
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
-                    this.allowPositiveNegativeClasses
+                    this.allowPositiveNegativeClasses,
+                    this.decimalPlaces
                 )
             );
         },
@@ -846,7 +852,8 @@ export default {
                         this.numberOfClasses,
                         this.selectedColumn || this.timeStepsFilter.find(v => v.value === dates[0])?.label,
                         this.classificationMode,
-                        this.allowPositiveNegativeClasses
+                        this.allowPositiveNegativeClasses,
+                        this.decimalPlaces
                     )
                 );
                 this.setColorPalette(this.createColorPalette());
@@ -1244,16 +1251,16 @@ export default {
 
             if (differenceMode === "date") {
                 refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
-                value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
+                value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(this.decimalPlaces));
                 this.setSelectedReferenceValueTag("");
 
                 return isNaN(value) ? "-" : value;
             }
             refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
-            value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(2));
+            value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(this.decimalPlaces));
 
-            this.referenceFeatures[date] = Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2));
-            this.setSelectedReferenceValueTag(Number(parseFloat(refFeature?.get(statisticKey)).toFixed(2)));
+            this.referenceFeatures[date] = Number(parseFloat(refFeature?.get(statisticKey)).toFixed(this.decimalPlaces));
+            this.setSelectedReferenceValueTag(Number(parseFloat(refFeature?.get(statisticKey)).toFixed(this.decimalPlaces)));
 
             return isNaN(value) ? "-" : value;
         },
