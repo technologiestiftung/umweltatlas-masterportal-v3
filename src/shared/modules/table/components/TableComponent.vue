@@ -1065,46 +1065,62 @@ export default {
                         v-for="(entry, columnIdx) in visibleHeaders"
                         v-show="columnIdx < maxAttributesToShow"
                         :key="columnIdx"
-                        :class="['p-2', fixedColumn === entry.name ? 'fixedColumn' : '', selectMode === 'column' && columnIdx > 0 ? 'selectable' : '', getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left']"
+                        :class="[
+                            'p-2',
+                            fixedColumn === entry.name ? 'fixedColumn' : '',
+                            selectMode === 'column' && columnIdx > 0 ? 'selectable' : '',
+                            getClassForSelectedColumn(columnIdx),
+                            fontSize === 'medium' ? 'medium-font-size' : '',
+                            fontSize === 'small' ? 'small-font-size' : '',
+                            typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left'
+                        ]"
                     >
-                        {{ item[entry.key] }}
-                        <p v-if="isWebLink(item[entry.name])">
-                            <a
-                                :href="item[entry.name]"
-                                target="_blank"
-                            >{{ item[entry.name] }}</a>
-                        </p>
-                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'true' || item[entry.name].toLowerCase() === 'yes')">
-                            <span>{{ $t('common:modules.compareFeatures.trueFalse.true') }}</span>
-                        </p>
-                        <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
-                            <span>{{ $t('common:modules.compareFeatures.trueFalse.false') }}</span>
-                        </p>
-                        <p v-else-if="isEmailAddress(item[entry.name])">
-                            <a :href="`mailto:${item[entry.name]}`">{{ item[entry.name] }}</a>
-                        </p>
-                        <p v-else-if="isPhoneNumber(item[entry.name])">
-                            <a :href="getPhoneNumberAsWebLink(item[entry.name])">{{ item[entry.name] }}</a>
-                        </p>
-                        <p
-                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('|')"
-                        >
-                            <span v-html="removeVerticalBar(item[entry.name])" />
-                        </p>
-                        <p
-                            v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('<br>')"
-                        >
-                            <span v-html="item[entry.name]" />
-                        </p>
-                        <p v-else-if="typeof item[entry.name] === 'number'">
-                            {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
-                        </p>
-                        <p v-else-if="typeof item[entry.name] === 'string'">
-                            {{ item[entry.name] || "" }}
-                        </p>
-                        <p v-else>
-                            {{ parseDecimalPlaces(item[entry.name]) }}
-                        </p>
+                        <template v-if="$slots['cell-' + entry.name]">
+                            <slot
+                                :name="'cell-' + entry.name"
+                                :row="item"
+                            />
+                        </template>
+
+                        <template v-else>
+                            <p v-if="isWebLink(item[entry.name])">
+                                <a
+                                    :href="item[entry.name]"
+                                    target="_blank"
+                                >{{ item[entry.name] }}</a>
+                            </p>
+                            <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'true' || item[entry.name].toLowerCase() === 'yes')">
+                                <span>{{ $t('common:modules.compareFeatures.trueFalse.true') }}</span>
+                            </p>
+                            <p v-else-if="item[entry.name] && typeof item[entry.name] === 'string' && (item[entry.name].toLowerCase() === 'false' || item[entry.name].toLowerCase() === 'no')">
+                                <span>{{ $t('common:modules.compareFeatures.trueFalse.false') }}</span>
+                            </p>
+                            <p v-else-if="isEmailAddress(item[entry.name])">
+                                <a :href="`mailto:${item[entry.name]}`">{{ item[entry.name] }}</a>
+                            </p>
+                            <p v-else-if="isPhoneNumber(item[entry.name])">
+                                <a :href="getPhoneNumberAsWebLink(item[entry.name])">{{ item[entry.name] }}</a>
+                            </p>
+                            <p
+                                v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('|')"
+                            >
+                                <span v-html="removeVerticalBar(item[entry.name])" />
+                            </p>
+                            <p
+                                v-else-if="typeof item[entry.name] === 'string' && item[entry.name].includes('<br>')"
+                            >
+                                <span v-html="item[entry.name]" />
+                            </p>
+                            <p v-else-if="typeof item[entry.name] === 'number'">
+                                {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
+                            </p>
+                            <p v-else-if="typeof item[entry.name] === 'string'">
+                                {{ item[entry.name] || "" }}
+                            </p>
+                            <p v-else>
+                                {{ parseDecimalPlaces(item[entry.name]) }}
+                            </p>
+                        </template>
                     </td>
                 </tr>
                 <template v-if="showTotalData">

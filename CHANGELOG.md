@@ -23,6 +23,7 @@
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
 - Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - Issue #1451: CompareMaps: Both maps are now still visible after reset.
+- Issue #1453: WfsSearch: The geometry cell in the search results table is now displayed as a button that allows users to zoom to the parcel coordinates.
 - CompareFeatures: Fixed failing for layers with alphanumeric IDs.
 
 ---

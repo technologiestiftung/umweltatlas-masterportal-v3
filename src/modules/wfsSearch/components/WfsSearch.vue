@@ -329,11 +329,19 @@ export default {
                 select-mode="row"
                 :run-select-row-on-mount="false"
                 table-class="tableHeight"
-                @rowSelected="row => {
-                    const geometry = returnGeometryFromRow(row);
-                    if (geometry) markerAndZoom(geometry);
-                }"
-            />
+            >
+                <template #cell-geometry="{ row }">
+                    <FlatButton
+                        id="zoom-to-btn"
+                        :aria-label="$t('common:modules.searchBar.actions.zoomToResult')"
+                        :interaction="() => {
+                            const geometry = returnGeometryFromRow(row);
+                            if (geometry) markerAndZoom(geometry);
+                        }"
+                        :text="$t('common:modules.searchBar.actions.zoomToResult')"
+                    />
+                </template>
+            </TableComponent>
         </div>
         <div v-else-if="noResultsFound">
             {{ $t("common:modules.wfsSearch.noResults") }}
