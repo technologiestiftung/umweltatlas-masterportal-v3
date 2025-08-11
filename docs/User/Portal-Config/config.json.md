@@ -2673,7 +2673,7 @@ If you use this modul in conjunction with external filtering (`external`: `true`
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|additionalGeometries|no|Boolean|false|Geometries from a layer can additionally be added to the filter by the id. In that case, an attribute for the name of the geometry must also be specified.|false|
+|additionalGeometries|no|Boolean|false|Geometries from a layer can additionally be added to the filter by the id. In that case, an attribute for the name of the geometry must also be specified. Currently only possible with WFS layer.|false|
 |circleSides|no|Number|256|The geometry "Circle" is converted to a polygon for technical reasons. This is the number of polygon points of the resulting geometry.|false|
 |defaultBuffer|no|Number|20|The geometry "LineString" is given a buffer (in meters) to make the LineString a "tube". This is the default distance from the center to the edge in meters.|false|
 |fillColor|no|String|"rgba(0, 0, 0, 0.33)"|The fill color of the outer area (or geometry if invertGeometry = `false`).|false|

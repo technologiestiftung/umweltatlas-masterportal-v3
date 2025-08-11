@@ -20,9 +20,10 @@
 ### Removed
 
 ### Fixed
+- Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
 - Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - Issue #1451: CompareMaps: Both maps are now still visible after reset.
-- CompareFeatures: Fixed failing for layers with alphanumeric IDs. 
+- CompareFeatures: Fixed failing for layers with alphanumeric IDs.
 
 ---
 
