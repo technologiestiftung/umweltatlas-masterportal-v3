@@ -1,5 +1,4 @@
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
@@ -93,34 +92,7 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         });
         expect(wrapper.findComponent(AccordionItem).exists()).to.be.true;
     });
-    it("should render an icon button if initialStartupReset is true on the filter", async () => {
-        wrapper.vm.hasUnfixedRules = () => true;
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 0
-            }],
-            filters: [{
-                filterId: 0,
-                layerId: "19091",
-                initialStartupReset: true
-            }]
-        });
-        expect(wrapper.findComponent(IconButton).exists()).to.be.true;
-    });
-    it("should not render an icon button if initialStartupReset is false on the filter", async () => {
-        wrapper.vm.hasUnfixedRules = () => true;
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 0
-            }],
-            filters: [{
-                filterId: 0,
-                layerId: "19091",
-                initialStartupReset: false
-            }]
-        });
-        expect(wrapper.findComponent(IconButton).exists()).to.be.false;
-    });
+
     it("should render collapse element if collapseButton is true", async () => {
         wrapper.vm.hasUnfixedRules = () => true;
         await wrapper.setProps({
@@ -129,8 +101,7 @@ describe("src/modules/filter/components/FilterList.vue", () => {
             }],
             collapseButtons: true,
             filters: [{
-                filterId: 0,
-                initialStartupReset: false
+                filterId: 0
             }]
         });
         expect(wrapper.find(".button-collapse").exists()).to.be.true;

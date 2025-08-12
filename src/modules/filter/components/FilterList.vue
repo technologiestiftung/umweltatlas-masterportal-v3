@@ -1,6 +1,5 @@
 <script>
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {mapActions, mapGetters} from "vuex";
 import {isRule} from "../utils/isRule.js";
@@ -22,8 +21,7 @@ import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 export default {
     name: "FilterList",
     components: {
-        AccordionItem,
-        IconButton
+        AccordionItem
     },
     props: {
         collapseButtons: {
@@ -259,19 +257,6 @@ export default {
                             </span>
                         </div>
                     </div>
-                </div>
-                <div
-                    v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
-                    class="reset"
-                    @click.stop=""
-                >
-                    <IconButton
-                        icon="bi bi-arrow-counterclockwise bi-xs"
-                        :class-array="['btn-light']"
-                        :aria="$t('common:modules.filter.resetButton')"
-                        :title="$t('common:modules.filter.resetButton')"
-                        :interaction="() => deleteAllRulesEmit(filter.filterId)"
-                    />
                 </div>
                 <div
                     v-if="filter.shortDescription && !selectedLayers.find(layers => layers.filterId === filter.filterId)"

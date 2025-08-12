@@ -170,7 +170,9 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 ### Removed
 - Removed configuration portal/layer.
-- Filter: The layerSelectorVisible parameter has been removed. If all filters are to be opened initially, the parameter active of all filters can be set to true.
+- Filter:
+    - The layerSelectorVisible parameter has been removed. If all filters are to be opened initially, the parameter active of all filters can be set to true.
+    - Parameter 'initialStartupReset' has been removed. The behaviour is now default for each filter which has child-snippets.
 
 ### Fixed
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.

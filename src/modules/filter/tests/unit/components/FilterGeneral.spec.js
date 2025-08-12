@@ -6,7 +6,6 @@ import FilterStore from "@modules/filter/store/indexFilter";
 import sinon from "sinon";
 import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
 import layerCollection from "@core/layers/js/layerCollection.js";
-import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -81,16 +80,6 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
             await wrapper.vm.$nextTick();
             expect(wrapper.findAll(".link-text")).to.have.lengthOf(0);
 
-        });
-
-        it("should not render an icon button if initialStartupReset is false", async () => {
-            const wrapper = shallowMount(FilterGeneral, {global: {
-                plugins: [store]
-            }});
-
-            wrapper.vm.hasUnfixedRules = () => true;
-            await wrapper.vm.$nextTick();
-            expect(wrapper.findComponent(IconButton).exists()).to.be.false;
         });
 
         it("should not render questionLink button by default", async () => {

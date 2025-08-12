@@ -2912,7 +2912,6 @@ Die Konfiguration eines Layers.
 |strategy|nein|String||Es gibt zwei Filter-Strategien: `passive` - Filtern nur nach Klick auf den Filter-Button. Und `active` - Filterung findet immer sofort statt, wenn die Einstellung irgendeines der Snippets verändert wird. Die passive Strategie ist der Default.|false|
 |title|nein|String||Der Titel der für den Auswahl-Selektor verwendet werden soll. Kann ein Übersetzungs-Key sein. Wenn nicht eingestellt, dann wird die Layer-Id per default verwendet.|false|
 |wmsRefId|nein|String/String[]|""|Wenn der Layer gefiltert wird, wird der WMS-Layer mit der wmsRefId unsichtbar und im Themenbaum deaktiviert. Stattdessen wird der WFS aus der Filter-Konfiguration angezeigt. Nach dem Zurücksetzen des Filters wird die WMS-Ebene wieder aktiviert und wieder sichtbar.|false|
-|initialStartupReset|nein|Boolean|false|Wenn der Parameter auf `true` gesetzt wird, dann erscheint ein Knopf zum Zurücksetzen des Filters. Hierbei ist zu beachten, dass dieser das Nachjustieren unterbindet und somit nur für Filterkonfigurationen mit einem `Datatypes.Snippets.Children` empfohlen.|false|
 
 **Beispiel**
 

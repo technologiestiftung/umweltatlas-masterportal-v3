@@ -78,7 +78,6 @@ const state = {
     closeGfi: false,
     preventAdjust: false,
     linkText: "",
-    initialStartupReset: false,
     questionLink: "",
     closeDropdownOnSelect: true
 };

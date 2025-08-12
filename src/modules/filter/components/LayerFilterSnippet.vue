@@ -735,7 +735,7 @@ export default {
                     this.isLockedHandleActiveStrategy = false;
                     this.handleActiveStrategy(
                         undefined,
-                        this.layerConfig.resetLayer || this.layerConfig.initialStartupReset && !this.isClearAll ? true : undefined
+                        this.layerConfig.resetLayer || this.hasChildSnippets(this.snippets) && !this.isClearAll ? true : undefined
                     );
                 });
             }
@@ -873,7 +873,7 @@ export default {
                             if (
                                 !this.hasUnfixedRules(filterQuestion.rules)
                                 && (
-                                    this.isClearAll || this.layerConfig.initialStartupReset || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
+                                    this.isClearAll || this.hasChildSnippets(this.snippets) || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
                                 )
                                 && !filterQuestion.commands.filterGeometry
                             ) {
