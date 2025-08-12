@@ -16,6 +16,7 @@
 - MouseHover:
   - Added highlighting Vector Layers on mouseHover as in Version 2.
   - Configurable in config.js
+  - Added an active value that allows enabling or disabling MouseHover through the configuration.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
