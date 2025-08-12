@@ -28,7 +28,7 @@
 
 ---
 
-## 2020-08-05 v3.13.0
+## 2025-08-06 v3.13.0
 
 ### Added
 - AddWMS: added parameters showInLayerTree and visibility to set the flags for imported layers.
