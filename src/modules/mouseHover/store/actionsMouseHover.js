@@ -1,6 +1,7 @@
 import {buffer} from "ol/extent";
 import Point from "ol/geom/Point";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 
 export default {
     /**
@@ -12,7 +13,7 @@ export default {
      * @returns {void}
      */
     initialize ({commit, dispatch, state}) {
-        const {numFeaturesToShow, infoText} = state,
+        const {numFeaturesToShow, infoText, highlightOnHover} = state,
             map = mapCollection.getMap("2D");
         let featuresAtPixel = [];
 
@@ -26,8 +27,11 @@ export default {
         if (infoText) {
             commit("setInfoText", infoText);
         }
+        if (highlightOnHover) {
+            dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
+        }
         map.on("pointermove", (evt) => {
-            if (!state.isActive || evt.originalEvent.pointerType === "touch") {
+            if (!state.active || evt.originalEvent.pointerType === "touch") {
                 return;
             }
             featuresAtPixel = [];
@@ -35,6 +39,9 @@ export default {
             // works for WebGL layers that are point layers
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
                 if (layer?.getVisible()) {
+                    if (highlightOnHover) {
+                        dispatch("highlightFeature", {feature, layer});
+                    }
                     if (feature.getProperties().features) {
                         feature.get("features").forEach(clusteredFeature => {
                             featuresAtPixel.push(createGfiFeature(
@@ -127,7 +134,43 @@ export default {
             return layer?.mouseHoverField && layer.mouseHoverField !== "";
         }));
     },
+    highlightFeature ({dispatch, state}, {feature, layer}) {
+        const {highlightVectorRulesPointLine, highlightVectorRulesPolygon} = state,
+            layerId = layer.get("id"),
+            featureGeometryType = feature.getGeometry().getType(),
+            featureId = feature.getId(),
+            styleObj = featureGeometryType.toLowerCase().indexOf("polygon") > -1 ?
+                highlightVectorRulesPolygon ?? state.highlightVectorRulesPolygon :
+                highlightVectorRulesPointLine ?? state.highlightVectorRulesPointLine,
+            highlightObject = {
+                type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
+                id: featureId,
+                layer: layer,
+                feature: feature,
+                scale: styleObj.image?.scale
+            },
+            rawLayer = rawLayerList.getLayerWhere({id: layerId});
 
+        if (featureGeometryType === "LineString" || featureGeometryType === "MultiLineString") {
+            highlightObject.type = "highlightLine";
+        }
+        layer.id = layerId;
+        highlightObject.zoomLevel = styleObj.zoomLevel;
+        if (rawLayer && rawLayer.styleId) {
+            highlightObject.styleId = rawLayer.styleId;
+        }
+        else if (layer && layer.styleId) {
+            highlightObject.styleId = layer.styleId;
+        }
+
+        highlightObject.highlightStyle = {
+            fill: styleObj.fill,
+            stroke: styleObj.stroke,
+            image: styleObj.image
+        };
+
+        dispatch("Maps/highlightFeature", highlightObject, {root: true});
+    },
     /**
      * Filters the infos from each feature that should be displayed.
      * @param {Object} param.commit the commit

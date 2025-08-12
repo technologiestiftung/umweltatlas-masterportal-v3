@@ -23,7 +23,8 @@ export default {
             "fontColor",
             "titleFontColor",
             "infoBorderRadius",
-            "lineHeight"
+            "lineHeight",
+            "active"
         ])
     },
     mounted () {
@@ -39,6 +40,7 @@ export default {
 
 <template>
     <div
+        v-if="active"
         id="mousehover-overlay"
     >
         <div
