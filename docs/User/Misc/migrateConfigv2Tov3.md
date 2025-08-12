@@ -16,8 +16,8 @@ npm run migrateConfig help
 4. Certain packages with specific versions are mandatory for the migration. These include Node.js and npm with the version numbers defined in the package.json. In Masterportal version 3.13.0, it states::
 ```json
   "engines": {
-    "node": "^18.16.0 || ^20.12.2",
-    "npm": "^9.5.1 || ^10.5.0"
+    "node": "^22.19.0",
+    "npm": "^10.5.0"
   }
 ```
 To check whether the packages are already installed and which versions are being used, the following commands can be executed:
@@ -32,7 +32,7 @@ If these versions are not correct, the correct versions can be installed using t
 npm install -g npm@10.5.0
 ```
 ```json
-npm install -g node@20.12.2
+npm install -g node@22.19.0
 ```
 5. MigrateConfig script without parameters: The information in the console guides you through the file conversion. You will be asked for the paths of the portal to be migrated.
 ```json

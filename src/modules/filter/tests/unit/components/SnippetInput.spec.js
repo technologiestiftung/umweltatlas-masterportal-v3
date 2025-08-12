@@ -23,20 +23,28 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render hidden if visible is false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
-                    visible: false
-                }
-            });
-
-            expect(wrapper.find(".snippetInputContainer").element.style._values.display).to.be.equal("none");
-        });
-        it("should render but also be disabled", () => {
-            const wrapper = shallowMount(SnippetInput, {
-                    propsData: {
-                        disabled: true
+                    props: {
+                        visible: false
                     }
                 }),
 
+                el = wrapper.find(".snippetInputContainer");
+
+            if (el.exists()) {
+                // v-show
+                expect(el.isVisible()).to.be.false;
+            }
+            else {
+                // v-if
+                expect(el.exists()).to.be.false;
+            }
+        });
+        it("should render but also be disabled", () => {
+            const wrapper = shallowMount(SnippetInput, {
+                    props: {
+                        disabled: true
+                    }
+                }),
                 input = wrapper.findComponent({name: "InputText"});
 
             expect(input.exists()).to.be.true;
@@ -45,7 +53,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render snippet with placeholder", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     placeholder: "this is a placeholder"
                 }
             });
@@ -54,7 +62,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render with a title if the title is a string", () => {
             const wrapper = shallowMount(SnippetInput, {
-                    propsData: {
+                    props: {
                         title: "foobar"
                     }
                 }),
@@ -65,7 +73,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should render without a title if title is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     title: false
                 }
             });
@@ -74,7 +82,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should not render the info button if info is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     info: false
                 }
             });
@@ -83,7 +91,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should not use the given operator if an invalid operator is given", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     operator: "operator"
                 }
             });
@@ -95,7 +103,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("emitCurrentRule", () => {
         it("should emit changeRule function with the expected values", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
@@ -121,7 +129,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("deleteCurrentRule", () => {
         it("should emit deleteRule function with its snippetId", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     snippetId: 1234
                 }
             });
@@ -136,7 +144,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("resetSnippet", () => {
         it("should reset the snippet value and call the given onsuccess handler", async () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     prechecked: "value"
                 }
             });

@@ -16,8 +16,8 @@ npm run migrateConfig help
 4. Für die Migration sind gewisse Packages auf gewissen Versionen zwingend erforderlich. Dabei handelt es sich um node und npm mit den in der package.json definierten Versionsnummern. In der Masterportal Version 3.13.0 steht dort:
 ```json
   "engines": {
-    "node": "^18.16.0 || ^20.12.2",
-    "npm": "^9.5.1 || ^10.5.0"
+    "node": "^22.19.0",
+    "npm": "^10.5.0"
   }
 ```
 Ob die packages schon installiert sind und auf welcher Version lässt sich über folgende Befehle herausfinden:
@@ -32,7 +32,7 @@ Falls diese Versionen nicht korrekt sind, lassen sich die korrekten Versionen mi
 npm install -g npm@10.5.0
 ```
 ```json
-npm install -g node@20.12.2
+npm install -g node@20.19.0
 ```
 5. MigrateConfig script ohne Parameter: Die Angaben in der Konsole leiten durch die Dateikonvertierung. Es wird nach den Pfaden des zu migrierenden Portals gefragt.
 ```json

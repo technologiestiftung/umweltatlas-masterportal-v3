@@ -60,7 +60,7 @@
     }
   ],
   "dependencies": {
-    "@masterportal/masterportalapi": "2.50.0",
+    "@masterportal/masterportalapi": "2.51.0",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
@@ -90,11 +90,12 @@
     "@geoblocks/print": "^0.7.9",
     "@masterportal/mpconfigparser": "^2.0.0",
     "@sinonjs/fake-timers": "^14.0.0",
-    "@stylistic/eslint-plugin-js": "2.13.0",
-    "@vue/compiler-sfc": "^3.5.13",
+    "@stylistic/eslint-plugin-js": "^2.13.0",
+    "@vue/compiler-sfc": "3.3.4",
     "@vue/devtools-api": "^7.7.2",
+    "@vue/server-renderer": "3.3.4",
     "@vue/test-utils": "^2.4.6",
-    "canvas": "2.11.2",
+    "canvas": "^3.2.0",
     "chai": "^5.2.0",
     "child-process-promise": "^2.2.1",
     "css-loader": "4.3.0",
@@ -143,10 +144,17 @@
   },
   "overrides": {
     "@cesium/engine": "npm:dry-uninstall",
-    "@cesium/widgets": "npm:dry-uninstall"
+    "@cesium/widgets": "npm:dry-uninstall",
+    "@vue/server-renderer": "3.3.4",
+    "@vue/compiler-sfc": "3.3.4",
+    "@vue/compiler-dom": "3.3.4",
+    "@vue/compiler-core": "3.3.4",
+    "@vue/shared": "3.3.4",
+    "@vue/runtime-dom": "3.3.4",
+    "@vue/runtime-core": "3.3.4"
   },
   "engines": {
-    "node": "^18.16.0 || ^20.12.2",
-    "npm": "^9.5.1 || ^10.5.0"
+    "node": "^22.19.0",
+    "npm": "^10.5.0"
   }
 }

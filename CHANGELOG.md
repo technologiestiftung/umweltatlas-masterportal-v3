@@ -6,6 +6,7 @@
 
 ## Unreleased - in development
 ### __Breaking Changes__
+- Dropped support for **Node.js 18.x**, **20.x** and **npm 9**. Minimum required is now **Node.js 22.19.0 (LTS)** with **npm 10.x**.
 
 ### Added
 - Shared TableComponent:
@@ -15,6 +16,17 @@
 
 ### Changed
 - Shared TableComponent: Changes Props fixedData into fixedBottomData.
+- The following packages have been updated:
+  - devDependencies:
+    - canvas: ^2.11.2 to ^3.1.2
+- Temporarily pinned Vue core packages via `overrides` to `3.3.4`:
+    - @vue/compiler-sfc
+    - @vue/server-renderer
+    - @vue/compiler-dom
+    - @vue/compiler-core
+    - @vue/shared
+    - @vue/runtime-dom
+    - @vue/runtime-core
 
 ### Deprecated
 

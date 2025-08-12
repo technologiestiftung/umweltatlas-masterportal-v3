@@ -43,7 +43,7 @@ The Node Package Manager (**[NPM](http://npmjs.org)**) comes bundled with your N
 
 ```console
 $ node -v
-v20.12.2
+v22.19.0
 
 $ npm -v
 10.5.0
