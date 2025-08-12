@@ -1,13 +1,17 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import Layer2dRaster from "@core/layers/js/layer2dRaster";
+import Layer2d from "@core/layers/js/layer2d";
 
 describe("src/core/js/layers/layer2dRaster.js", () => {
-    let warn;
+    let warn,
+        layer2dSpy;
 
-    before(() => {
+    beforeEach(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
+
+        layer2dSpy = sinon.spy();
 
         mapCollection.clear();
         const map = {
@@ -27,7 +31,7 @@ describe("src/core/js/layers/layer2dRaster.js", () => {
         mapCollection.addMap(map, "2D");
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 
@@ -38,5 +42,28 @@ describe("src/core/js/layers/layer2dRaster.js", () => {
             expect(layerWrapper).not.to.be.undefined;
             expect(warn.calledOnce).to.be.true;
         });
+
+        it("default infoFormat from config should be used", () => {
+            Config.defaultInfoFormat = "text/html";
+
+            sinon.stub(Layer2d, "call").callsFake(layer2dSpy);
+
+            new Layer2dRaster({});
+
+            expect(layer2dSpy.calledOnce).to.be.true;
+            expect(layer2dSpy.firstCall.args[1]).to.be.deep.equal({infoFormat: "text/html"});
+
+            delete Config.defaultInfoFormat;
+        });
+
+        it("infoFormat should be text/xml if not set in config", () => {
+            sinon.stub(Layer2d, "call").callsFake(layer2dSpy);
+
+            new Layer2dRaster({});
+
+            expect(layer2dSpy.calledOnce).to.be.true;
+            expect(layer2dSpy.firstCall.args[1]).to.be.deep.equal({infoFormat: "text/xml"});
+        });
     });
 });
+

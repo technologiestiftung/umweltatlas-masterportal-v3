@@ -11,7 +11,7 @@ import Layer2d from "./layer2d";
  */
 export default function Layer2dRaster (attributes) {
     const defaultAttributes = {
-        infoFormat: "text/xml"
+        infoFormat: Config?.defaultInfoFormat || "text/xml"
     };
 
     this.attributes = Object.assign(defaultAttributes, attributes);
