@@ -248,7 +248,7 @@ export default {
             this.resetAllSnippets(this.deleteAllRules());
         },
         paging (val) {
-            if (val.page >= val.total) {
+            if (val?.page >= val?.total) {
                 this.setFormDisable(false);
                 if (!this.isRefreshing && !this.getSearchInMapExtent() && this.liveZoomToFeatures) {
                     if (this.filterGeometry) {
@@ -1056,6 +1056,10 @@ export default {
             this.api.stop(() => {
                 this.showStopButton(false);
                 this.setFormDisable(false);
+                this.paging = {
+                    page: 0,
+                    total: 0
+                };
             },
             err => {
                 console.warn(err);
