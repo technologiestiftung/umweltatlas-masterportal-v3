@@ -25,6 +25,7 @@
 - Issue #1451: CompareMaps: Both maps are now still visible after reset.
 - Issue #1453: WfsSearch: The geometry cell in the search results table is now displayed as a button that allows users to zoom to the parcel coordinates.
 - CompareFeatures: Fixed failing for layers with alphanumeric IDs.
+- sortObjects: Ensure stable sortByLayerSequence order in Chrome/Firefox.
 
 ---
 
