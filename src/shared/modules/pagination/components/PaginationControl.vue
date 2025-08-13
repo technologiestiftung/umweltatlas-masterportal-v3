@@ -138,7 +138,8 @@ export default {
 
 <template>
     <div class="pagination-controls">
-        <div class="pagination-wrapper">
+        <!-- Desktop/Tablet View -->
+        <div class="pagination-wrapper desktop-view">
             <div class="navigation-button-container left-nav">
                 <IconButton
                     :aria="$t('common:modules.pagination.aria.previous')"
@@ -200,6 +201,41 @@ export default {
                 />
             </div>
         </div>
+
+        <!-- Mobile View -->
+        <div class="pagination-wrapper mobile-view">
+            <div class="mobile-nav-container">
+                <IconButton
+                    :aria="$t('common:modules.pagination.aria.previous')"
+                    icon="bi bi-chevron-left"
+                    :disabled="currentPage === 1"
+                    :interaction="() => changePage(currentPage - 1)"
+                />
+
+                <div class="mobile-page-info">
+                    <div class="current-page-display">
+                        <span class="page-number">{{ currentPage }}</span>
+                        <span class="page-separator">/</span>
+                        <span class="total-pages">{{ totalPages }}</span>
+                    </div>
+                    <div class="page-dots">
+                        <div
+                            v-for="dot in Math.min(totalPages, 5)"
+                            :key="dot"
+                            class="page-dot"
+                            :class="{ 'active': dot === currentPage || (totalPages > 5 && dot === 5 && currentPage >= 5) }"
+                        />
+                    </div>
+                </div>
+
+                <IconButton
+                    :aria="$t('common:modules.pagination.aria.next')"
+                    icon="bi bi-chevron-right"
+                    :disabled="currentPage === totalPages"
+                    :interaction="() => changePage(currentPage + 1)"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -224,6 +260,17 @@ export default {
     max-width: 100%;
     overflow: visible;
     flex-wrap: wrap;
+}
+
+.desktop-view {
+    display: flex;
+}
+
+.mobile-view {
+    display: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: auto;
 }
 
 .navigation-button-container {
@@ -334,110 +381,108 @@ export default {
     flex-shrink: 0;
 }
 
+.mobile-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.mobile-page-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.current-page-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    font-weight: 500;
+    color: $primary;
+
+    .page-number {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .page-separator {
+        font-size: 1rem;
+        color: $dark_grey;
+    }
+
+    .total-pages {
+        font-size: 1rem;
+        color: $dark_grey;
+    }
+}
+
+.page-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.page-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $light_grey;
+    transition: all 0.2s ease;
+
+    &.active {
+        background: $primary;
+        transform: scale(1.5);
+    }
+}
+
 @media (max-width: 768px) {
+    .desktop-view {
+        display: none;
+    }
+
+    .mobile-view {
+        display: flex;
+    }
+
     .pagination-controls {
-        padding: 0 0.5rem;
-    }
-
-    .pagination-wrapper {
-        gap: 0.25rem;
-        padding: 0;
-        max-width: calc(100vw - 1rem);
-        min-height: 2.5rem;
-        height: auto;
-    }
-
-    .navigation-button-container {
-        flex-shrink: 0;
-        min-width: 2.5rem;
-    }
-
-    .page-buttons-scroll-container {
-        padding: 0 0.125rem;
-        margin: 0 0.125rem;
-        scrollbar-width: auto;
-        &::-webkit-scrollbar {
-            height: 6px;
-        }
-    }
-
-    .page-buttons-container {
-        gap: 0.0625rem;
-        min-width: auto;
-        justify-content: flex-start;
-    }
-
-    .go-to-page {
-        gap: 0.25rem;
-        margin-left: 0.25rem;
-        flex-wrap: nowrap;
-    }
-
-    .page-input {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
-        width: calc(var(--input-width, 3) * 0.9ch + 1rem);
-        min-width: 2.5rem;
-        max-width: 5rem;
-    }
-
-    .input-label {
-        font-size: 0.7rem;
+        padding: 0.75rem 0.5rem;
     }
 }
 
 @media (max-width: 480px) {
+    .mobile-nav-container {
+        max-width: 260px;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .current-page-display .page-number {
+        font-size: 1.375rem;
+    }
+
     .pagination-controls {
-        padding: 0 0.25rem;
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .mobile-nav-container {
+        max-width: 240px;
+        padding: 0.25rem 0.5rem;
     }
 
-    .pagination-wrapper {
-        gap: 0.125rem;
-        max-width: calc(100vw - 0.5rem);
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .navigation-button-container {
-        min-width: 2rem;
-    }
-
-    .page-buttons-scroll-container {
-        padding: 0;
-        margin: 0 0.0625rem;
-        flex-basis: 100%;
-        order: 2;
-    }
-
-    .page-buttons-container {
-        gap: 0.0625rem;
-    }
-
-    .go-to-page {
-        gap: 0.125rem;
-        margin-left: 0.125rem;
-        order: 3;
-        flex-basis: auto;
-    }
-
-    .left-nav {
-        order: 1;
-    }
-
-    .right-nav {
-        order: 1;
-    }
-
-    .divider {
-        display: none;
-    }
-
-    .page-input {
-        width: calc(var(--input-width, 3) * 0.8ch + 0.8rem);
-        min-width: 2rem;
-        max-width: 4rem;
-        font-size: 0.75rem;
-        padding: 0.2rem 0.4rem;
+    .current-page-display .page-number {
+        font-size: 1.25rem;
     }
 }
 </style>
