@@ -1,9 +1,9 @@
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import sinon from "sinon";
 import PaginationControl from "../../../components/PaginationControl.vue";
 import LightButton from "../../../../buttons/components/LightButton.vue";
 import IconButton from "../../../../buttons/components/IconButton.vue";
+import InputText from "../../../../inputs/components/InputText.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -73,9 +73,11 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages, showGoToPage: true, goToPageText}
             }),
-            goToPage = wrapper.find(".go-to-page");
+            goToPage = wrapper.find(".go-to-page"),
+            inputText = wrapper.findComponent(InputText);
 
         expect(goToPage.exists()).to.be.true;
+        expect(inputText.exists()).to.be.true;
     });
 
     it("should not show 'Go to page' input when showGoToPage is false", async () => {
@@ -113,13 +115,26 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 2, totalPages: 10, showGoToPage: true}
             }),
-            input = wrapper.find("input");
+            inputTextComponent = wrapper.findComponent(InputText),
+            inputElement = inputTextComponent.find("input");
 
         wrapper.vm.tempPage = "5";
-        await input.trigger("keydown", {key: "Enter"});
+        await inputElement.trigger("keydown", {key: "Enter"});
 
         expect(wrapper.emitted("page-change")).to.exist;
         expect(wrapper.emitted("page-change")[0][0]).to.equal(5);
+    });
+
+    it("should validate numeric input through InputText component", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+            }),
+            inputText = wrapper.findComponent(InputText);
+
+        expect(inputText.exists()).to.be.true;
+        expect(inputText.props("value")).to.equal("2");
+        expect(inputText.props("placeholder")).to.equal("common:modules.pagination.input.placeholder");
+        expect(inputText.props("type")).to.equal("text");
     });
 
     it("should show tooltip on input container", async () => {
@@ -196,80 +211,6 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             expect(wrapper.emitted("page-change")).to.exist;
             expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
             expect(wrapper.vm.tempPage).to.equal(1);
-        });
-    });
-
-    describe("onlyAllowNumbers method", () => {
-        it("should allow numeric characters", () => {
-            const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 1, totalPages: 10}
-                }),
-                event = {
-                    charCode: 49, // ASCII code for '1'
-                    preventDefault: () => {
-                        // Empty function for testing
-                    }
-                },
-                preventDefaultSpy = sinon.spy(event, "preventDefault");
-
-            wrapper.vm.onlyAllowNumbers(event);
-
-            expect(preventDefaultSpy.called).to.be.false;
-        });
-
-        it("should prevent non-numeric characters", () => {
-            const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 1, totalPages: 10}
-                }),
-                event = {
-                    charCode: 65, // ASCII code for 'A'
-                    preventDefault: () => {
-                        // Empty function for testing
-                    }
-                },
-                preventDefaultSpy = sinon.spy(event, "preventDefault");
-
-            wrapper.vm.onlyAllowNumbers(event);
-
-            expect(preventDefaultSpy.called).to.be.true;
-        });
-
-        it("should prevent special characters", () => {
-            const wrapper = mount(PaginationControl, {
-                    props: {currentPage: 1, totalPages: 10}
-                }),
-                event = {
-                    charCode: 33, // ASCII code for '!'
-                    preventDefault: () => {
-                        // Empty function for testing
-                    }
-                },
-                preventDefaultSpy = sinon.spy(event, "preventDefault");
-
-            wrapper.vm.onlyAllowNumbers(event);
-
-            expect(preventDefaultSpy.called).to.be.true;
-        });
-
-        it("should allow all digits 0-9", () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 1, totalPages: 10}
-            });
-
-            // Test all digits 0-9
-            for (let i = 48; i <= 57; i++) { // ASCII codes 48-57 are digits 0-9
-                const event = {
-                        charCode: i,
-                        preventDefault: () => {
-                            // Empty function for testing
-                        }
-                    },
-                    preventDefaultSpy = sinon.spy(event, "preventDefault");
-
-                wrapper.vm.onlyAllowNumbers(event);
-
-                expect(preventDefaultSpy.called).to.be.false;
-            }
         });
     });
 
