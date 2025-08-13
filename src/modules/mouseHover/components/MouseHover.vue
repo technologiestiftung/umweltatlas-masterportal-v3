@@ -23,9 +23,9 @@ export default {
             "fontColor",
             "titleFontColor",
             "infoBorderRadius",
-            "lineHeight",
-            "active"
-        ])
+            "lineHeight"
+        ]),
+        ...mapGetters(["mouseHover"])
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
@@ -40,7 +40,7 @@ export default {
 
 <template>
     <div
-        v-if="active"
+        v-if="mouseHover && Object.keys(mouseHover).length > 0"
         id="mousehover-overlay"
     >
         <div

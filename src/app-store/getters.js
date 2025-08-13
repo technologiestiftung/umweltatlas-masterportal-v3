@@ -419,6 +419,15 @@ export default {
     },
 
     /**
+     * Returns the configured value for mouseHover.
+     * @param {Object} state state of the app-store.
+     * @returns {Array} value for mouseHover
+     */
+    mouseHover: state => {
+        return state.portalConfig?.map?.mouseHover || {};
+    },
+
+    /**
      * Returns the named projections from config.js.
      * @param {Object} state state of the app-store.
      * @returns {Array}  the named projections from config.js

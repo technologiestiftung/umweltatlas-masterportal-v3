@@ -127,28 +127,8 @@
         }
       },
       "mouseHover": {
-        "active": true,
         "numFeaturesToShow": 2,
-        "infoText": "Exampletext",
-        "highlightOnHover": true,
-        "highlightVectorRulesPolygon": {
-          "fill": {
-              "color": [255, 255, 255, 0.5]
-          },
-          "stroke": {
-              "width": 1,
-              "color": [255, 0, 0, 0.9]
-          }
-      },
-      "highlightVectorRulesPointLine": {
-          "stroke": {
-              "width": 1,
-              "color": [255, 0, 255, 0.9]
-          },
-          "image": {
-              "scale": 1
-          }
-      }
+        "infoText": "Exampletext"
       },
       "startingMapMode": "2D",
       "zoomTo": [

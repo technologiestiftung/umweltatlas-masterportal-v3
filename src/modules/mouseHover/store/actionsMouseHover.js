@@ -2,6 +2,7 @@ import {buffer} from "ol/extent";
 import Point from "ol/geom/Point";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import store from "@appstore";
 
 export default {
     /**
@@ -31,7 +32,7 @@ export default {
             dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         }
         map.on("pointermove", (evt) => {
-            if (!state.active || evt.originalEvent.pointerType === "touch") {
+            if (!store.getters.mouseHover || evt.originalEvent.pointerType === "touch") {
                 return;
             }
             featuresAtPixel = [];

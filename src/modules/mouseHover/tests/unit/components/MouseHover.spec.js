@@ -20,8 +20,7 @@ describe("src/modules/mouseHover/components/MouseHover.vue", () => {
             initialize: sinon.stub()
         };
         MouseHover.mutations = {
-            ...MouseHover.mutations,
-            setActive: sinon.stub()
+            ...MouseHover.mutations
         };
         store = createStore({
             namespaced: true,
@@ -29,18 +28,7 @@ describe("src/modules/mouseHover/components/MouseHover.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        MouseHover: {
-                            namespaced: true,
-                            state: {
-                                active: true
-                            },
-                            getters: {
-                                active: state => state.active,
-                                infoBox: () => null,
-                                configPaths: () => [],
-                                type: () => "default"
-                            }
-                        }
+                        MouseHover
                     }
                 },
                 Maps: {
@@ -49,7 +37,11 @@ describe("src/modules/mouseHover/components/MouseHover.vue", () => {
                 }
             },
             getters: {
-                mobile: () => false
+                mobile: () => false,
+                mouseHover: () => ({
+                    numFeaturesToShow: 2,
+                    infoText: "Test info"
+                })
             },
             actions: {
                 initializeModule: sinon.stub()
