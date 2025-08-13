@@ -19,7 +19,8 @@ function compileLayers (originalLayerGroups, originalLayers, FilterApi) {
         prepareLayers(layersOfGroup, nextFilter, FilterApi);
         groups.push({
             title: group.title,
-            layers: layersOfGroup
+            layers: layersOfGroup,
+            collapseButtons: group.collapseButtons
         });
         nextFilterId = layersOfGroup.length > 0 ?
             layersOfGroup[layersOfGroup.length - 1].filterId + 1 :

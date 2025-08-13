@@ -131,20 +131,17 @@ export default {
 
         if (Array.isArray(this.layerConfigs.groups) && this.layerConfigs.groups.length > 0) {
             this.layerConfigs.groups.forEach(layerGroup => {
-                if (isObject(layerGroup)) {
-                    this.preparedLayerGroups.push(layerGroup);
+                if (!isObject(layerGroup)) {
+                    return;
                 }
-            });
-            if (Array.isArray(this.preparedLayerGroups) && this.preparedLayerGroups.length > 0) {
-                this.preparedLayerGroups.forEach(group => {
-                    group.layers.forEach(layer => {
-                        this.flattenPreparedLayerGroups.push(layer);
-                        if (layer?.active === true && typeof layer?.filterId !== "undefined") {
-                            selectedFilterIds.push(layer.filterId);
-                        }
-                    });
+                this.preparedLayerGroups.push(layerGroup);
+                layerGroup.layers.forEach(layer => {
+                    this.flattenPreparedLayerGroups.push(layer);
+                    if (layer?.active === true && typeof layer?.filterId !== "undefined") {
+                        selectedFilterIds.push(layer.filterId);
+                    }
                 });
-            }
+            });
         }
         if (selectedFilterIds.length > 0) {
             this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
@@ -338,12 +335,35 @@ export default {
          */
         updateSelectedAccordions (filterId) {
             const selectedGroups = JSON.parse(JSON.stringify(this.selectedGroups)),
-                filterIdsOfAccordions = [];
+                filterIdsOfAccordions = [],
+                collapseButtonGroups = this.preparedLayerGroups.filter(group => group.collapseButtons);
             let selectedFilterIds = [],
                 selectedAccordionIndex = -1;
 
-            if (!this.multiLayerSelector || this.layerGroups.some(filter => filter.collapseButtons === true) || this.collapseButtons) {
-                selectedFilterIds = this.selectedAccordions.some(accordion => accordion.filterId === filterId) ? [] : [filterId];
+            if (!this.multiLayerSelector || collapseButtonGroups.length || this.collapseButtons) {
+                selectedFilterIds = this.selectedAccordions.map(accordion => accordion.filterId);
+                const idxOfFilter = selectedFilterIds.indexOf(filterId);
+
+                if (idxOfFilter >= 0) {
+                    selectedFilterIds.splice(idxOfFilter, 1);
+                }
+                else {
+                    collapseButtonGroups.forEach(group => {
+                        console.log(group);
+                        if (group.layers.findIndex(filter => filter.filterId === filterId) >= 0) {
+                            group.layers.forEach(filter => {
+                                const idxOfFilterInSameGroup = selectedFilterIds.indexOf(filter.filterId);
+
+                                console.log(idxOfFilterInSameGroup, filter.filterId);
+                                if (idxOfFilterInSameGroup >= 0) {
+                                    selectedFilterIds.splice(idxOfFilterInSameGroup, 1);
+                                }
+                            });
+                        }
+                    });
+                    selectedFilterIds.push(filterId);
+                }
+                console.log("selectedFilterIds", selectedFilterIds);
                 this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
                 return;
             }
@@ -364,7 +384,7 @@ export default {
             else {
                 filterIdsOfAccordions.push(filterId);
             }
-
+            console.log("filterIdsOfAccordions", filterIdsOfAccordions);
             this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], filterIdsOfAccordions));
         },
         /**
