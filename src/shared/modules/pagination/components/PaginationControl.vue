@@ -1,12 +1,14 @@
 <script>
 import IconButton from "../../buttons/components/IconButton.vue";
 import LightButton from "../../buttons/components/LightButton.vue";
+import InputText from "../../inputs/components/InputText.vue";
 
 export default {
     name: "PaginationControl",
     components: {
         IconButton,
-        LightButton
+        LightButton,
+        InputText
     },
     props: {
         /**
@@ -97,18 +99,6 @@ export default {
         },
 
         /**
-         * Restricts input to only allow numbers
-         * @param {Event} event - The input event
-         */
-        onlyAllowNumbers (event) {
-            const char = String.fromCharCode(event.charCode);
-
-            if (!(/^\d$/).test(char)) {
-                event.preventDefault();
-            }
-        },
-
-        /**
          * Determines the visible pages in a pagination component
          * Always shows consistent structure to prevent button shifting
          * @returns {Array} An array of page numbers or placeholders that should be visible
@@ -178,19 +168,19 @@ export default {
                 <div
                     class="input-container"
                     :title="$t('common:modules.pagination.input.tooltip')"
+                    :style="{ '--input-width': inputWidth }"
                 >
-                    <input
-                        id="pagination-input"
-                        v-model="tempPage"
-                        type="text"
-                        class="page-input"
-                        :style="{ '--input-width': inputWidth }"
+                    <InputText
+                        :id="'pagination-input'"
+                        :label="''"
                         :placeholder="$t('common:modules.pagination.input.placeholder')"
-                        :aria-label="$t('common:modules.pagination.input.label')"
+                        :value="tempPage.toString()"
+                        type="text"
+                        :class-obj="{ 'pagination-input': true }"
+                        :input="(value) => { if (/^\d*$/.test(value)) tempPage = value }"
+                        :change="(value) => { if (/^\d+$/.test(value)) tempPage = Number(value) }"
                         @keydown="handleInputKeydown"
-                        @input="event => { if (/^\d*$/.test(event.target.value)) tempPage = event.target.value }"
-                        @change="event => { if (/^\d+$/.test(event.target.value)) tempPage = Number(event.target.value) }"
-                    >
+                    />
                 </div>
                 <IconButton
                     :aria="$t('common:modules.pagination.aria.go')"
@@ -336,45 +326,23 @@ export default {
     flex-shrink: 0;
     margin-left: 0.25rem;
     min-width: 0;
-}
 
-.input-container {
+    :deep(.form-floating) {
+        margin-bottom: 0;
+        min-width: fit-content;
+
+        .form-control.pagination-input {
+            text-align: center;
+            width: calc(var(--input-width, 3) * 1ch + 1.5rem);
+            min-width: 3rem;
+            max-width: 8rem;
+        }
+    }
+}.input-container {
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: fit-content;
-}
-
-.page-input {
-    padding: 0.375rem 0.75rem;
-    border: 1px solid $dark_grey;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    text-align: center;
-    background-color: white;
-    width: calc(var(--input-width, 3) * 1ch + 1.5rem);
-    min-width: 3rem;
-    max-width: 8rem;
-    flex: 0 0 auto;
-
-    &:focus {
-        outline: none;
-        border-color: $secondary;
-        box-shadow: 0 0 0 0.2rem rgba($secondary, 0.25);
-    }
-
-    &::placeholder {
-        color: $placeholder-color;
-        text-align: center;
-    }
-}
-
-.input-label {
-    font-size: 0.75rem;
-    color: $placeholder-color;
-    margin-bottom: 0.25rem;
-    text-align: center;
-    white-space: nowrap;
 }
 
 .go-button {
