@@ -36,6 +36,16 @@ export default {
             tempPage: this.currentPage
         };
     },
+    computed: {
+        /**
+         * Calculate the input width based on the total pages
+         */
+        inputWidth () {
+            const maxDigits = this.totalPages.toString().length;
+
+            return Math.max(maxDigits, 2);
+        }
+    },
     watch: {
         /**
          * Watch for changes to currentPage prop and update tempPage
@@ -173,6 +183,7 @@ export default {
                         v-model="tempPage"
                         type="text"
                         class="page-input"
+                        :style="{ '--input-width': inputWidth }"
                         :placeholder="$t('common:modules.pagination.input.placeholder')"
                         :aria-label="$t('common:modules.pagination.input.label')"
                         @keydown="handleInputKeydown"
@@ -207,11 +218,12 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.3125rem;
+    gap: 0.125rem;
     height: 2.5rem;
     width: 100%;
     max-width: 100%;
     overflow: visible;
+    flex-wrap: wrap;
 }
 
 .navigation-button-container {
@@ -236,7 +248,7 @@ export default {
     max-width: 100%;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 0 0.25rem;
+    padding: 0 0.0625rem;
     scrollbar-width: thin;
     scrollbar-color: $dark_grey transparent;
 
@@ -261,7 +273,7 @@ export default {
 .page-buttons-container {
     display: flex;
     align-items: center;
-    gap: 0.3125rem;
+    gap: 0.03125rem;
     flex-wrap: nowrap;
     width: max-content;
     min-width: 100%;
@@ -272,10 +284,11 @@ export default {
     order: 4;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
     height: 2.5rem;
     flex-shrink: 0;
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
+    min-width: 0;
 }
 
 .input-container {
@@ -292,12 +305,10 @@ export default {
     font-size: 0.875rem;
     text-align: center;
     background-color: white;
+    width: calc(var(--input-width, 3) * 1ch + 1.5rem);
     min-width: 3rem;
-    width: auto;
+    max-width: 8rem;
     flex: 0 0 auto;
-    min-width: calc(1ch + 1.5rem);
-    width: calc(var(--input-length, 3) * 1ch + 1.5rem);
-    max-width: 6rem;
 
     &:focus {
         outline: none;
@@ -332,6 +343,8 @@ export default {
         gap: 0.25rem;
         padding: 0;
         max-width: calc(100vw - 1rem);
+        min-height: 2.5rem;
+        height: auto;
     }
 
     .navigation-button-container {
@@ -349,7 +362,7 @@ export default {
     }
 
     .page-buttons-container {
-        gap: 0.125rem;
+        gap: 0.0625rem;
         min-width: auto;
         justify-content: flex-start;
     }
@@ -357,14 +370,15 @@ export default {
     .go-to-page {
         gap: 0.25rem;
         margin-left: 0.25rem;
+        flex-wrap: nowrap;
     }
 
     .page-input {
         font-size: 0.8rem;
         padding: 0.25rem 0.5rem;
+        width: calc(var(--input-width, 3) * 0.9ch + 1rem);
         min-width: 2.5rem;
-        width: calc(var(--input-length, 3) * 0.9ch + 1rem);
-        max-width: 4rem;
+        max-width: 5rem;
     }
 
     .input-label {
@@ -380,6 +394,8 @@ export default {
     .pagination-wrapper {
         gap: 0.125rem;
         max-width: calc(100vw - 0.5rem);
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .navigation-button-container {
@@ -389,6 +405,8 @@ export default {
     .page-buttons-scroll-container {
         padding: 0;
         margin: 0 0.0625rem;
+        flex-basis: 100%;
+        order: 2;
     }
 
     .page-buttons-container {
@@ -398,6 +416,16 @@ export default {
     .go-to-page {
         gap: 0.125rem;
         margin-left: 0.125rem;
+        order: 3;
+        flex-basis: auto;
+    }
+
+    .left-nav {
+        order: 1;
+    }
+
+    .right-nav {
+        order: 1;
     }
 
     .divider {
@@ -405,9 +433,9 @@ export default {
     }
 
     .page-input {
+        width: calc(var(--input-width, 3) * 0.8ch + 0.8rem);
         min-width: 2rem;
-        width: calc(var(--input-length, 3) * 0.8ch + 0.8rem);
-        max-width: 3rem;
+        max-width: 4rem;
         font-size: 0.75rem;
         padding: 0.2rem 0.4rem;
     }
