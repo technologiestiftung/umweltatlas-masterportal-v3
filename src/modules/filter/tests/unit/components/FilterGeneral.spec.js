@@ -406,6 +406,90 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
                 expect(wrapper.vm.rulesOfFilters).to.deep.equal(rule);
             });
         });
+        describe("toggleFilterSelectionOfCollapseButtonGroup", () => {
+            it("should remove the filterId if it is already selected", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}}),
+                    selectedFilterIds = ["filter1", "filter2"],
+                    result = wrapper.vm.toggleFilterSelectionOfCollapseButtonGroup(
+                        "filter1",
+                        [],
+                        selectedFilterIds
+                    );
+
+                expect(result).to.deep.equal(["filter2"]);
+            });
+
+            it("should add the filterId if it is not selected and no other from the same group exists", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}}),
+                    collapseButtonGroups = [
+                        {
+                            layers: [{filterId: "filter1"}, {filterId: "filter2"}]
+                        }
+                    ],
+                    selectedFilterIds = [],
+                    result = wrapper.vm.toggleFilterSelectionOfCollapseButtonGroup(
+                        "filter1",
+                        collapseButtonGroups,
+                        selectedFilterIds
+                    );
+
+                expect(result).to.deep.equal(["filter1"]);
+            });
+
+            it("should remove other filterIds from the same group before adding the new one", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}}),
+                    collapseButtonGroups = [
+                        {
+                            layers: [{filterId: "filter1"}, {filterId: "filter2"}]
+                        }
+                    ],
+                    selectedFilterIds = ["filter2", "filter3"],
+                    result = wrapper.vm.toggleFilterSelectionOfCollapseButtonGroup(
+                        "filter1",
+                        collapseButtonGroups,
+                        selectedFilterIds
+                    );
+
+                expect(result).to.deep.equal(["filter3", "filter1"]);
+            });
+
+            it("should not remove filterIds from other groups", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}}),
+                    collapseButtonGroups = [
+                        {
+                            layers: [{filterId: "filter1"}, {filterId: "filter2"}]
+                        },
+                        {
+                            layers: [{filterId: "filter3"}, {filterId: "filter4"}]
+                        }
+                    ],
+                    selectedFilterIds = ["filter2", "filter3"],
+                    result = wrapper.vm.toggleFilterSelectionOfCollapseButtonGroup(
+                        "filter1",
+                        collapseButtonGroups,
+                        selectedFilterIds
+                    );
+
+                expect(result).to.deep.equal(["filter3", "filter1"]);
+            });
+
+            it("should handle case where filterId does not belong to any group", () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}}),
+                    collapseButtonGroups = [
+                        {
+                            layers: [{filterId: "filter1"}, {filterId: "filter2"}]
+                        }
+                    ],
+                    selectedFilterIds = [],
+                    result = wrapper.vm.toggleFilterSelectionOfCollapseButtonGroup(
+                        "unknownFilter",
+                        collapseButtonGroups,
+                        selectedFilterIds
+                    );
+
+                expect(result).to.deep.equal(["unknownFilter"]);
+            });
+        });
         describe("handleStateForAlreadyActiveLayers", () => {
             it("should not do anything if if first param is not an object", () => {
                 const wrapper = shallowMount(FilterGeneral, {global: {

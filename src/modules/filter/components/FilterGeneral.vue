@@ -337,34 +337,15 @@ export default {
             const selectedGroups = JSON.parse(JSON.stringify(this.selectedGroups)),
                 filterIdsOfAccordions = [],
                 collapseButtonGroups = this.preparedLayerGroups.filter(group => group.collapseButtons);
-            let selectedFilterIds = [],
-                selectedAccordionIndex = -1;
+            let selectedAccordionIndex = -1;
 
             if (!this.multiLayerSelector || collapseButtonGroups.length || this.collapseButtons) {
-                selectedFilterIds = this.selectedAccordions.map(accordion => accordion.filterId);
-                const idxOfFilter = selectedFilterIds.indexOf(filterId);
-
-                if (idxOfFilter >= 0) {
-                    selectedFilterIds.splice(idxOfFilter, 1);
-                }
-                else {
-                    collapseButtonGroups.forEach(group => {
-                        console.log(group);
-                        if (group.layers.findIndex(filter => filter.filterId === filterId) >= 0) {
-                            group.layers.forEach(filter => {
-                                const idxOfFilterInSameGroup = selectedFilterIds.indexOf(filter.filterId);
-
-                                console.log(idxOfFilterInSameGroup, filter.filterId);
-                                if (idxOfFilterInSameGroup >= 0) {
-                                    selectedFilterIds.splice(idxOfFilterInSameGroup, 1);
-                                }
-                            });
-                        }
-                    });
-                    selectedFilterIds.push(filterId);
-                }
-                console.log("selectedFilterIds", selectedFilterIds);
-                this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], selectedFilterIds));
+                this.setSelectedAccordions(
+                    this.transformLayerConfig(
+                        [...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups],
+                        this.toggleFilterSelectionOfCollapseButtonGroup(filterId, collapseButtonGroups, this.selectedAccordions.map(accordion => accordion.filterId))
+                    )
+                );
                 return;
             }
 
@@ -384,8 +365,46 @@ export default {
             else {
                 filterIdsOfAccordions.push(filterId);
             }
-            console.log("filterIdsOfAccordions", filterIdsOfAccordions);
             this.setSelectedAccordions(this.transformLayerConfig([...this.layerConfigs.layers, ...this.flattenPreparedLayerGroups], filterIdsOfAccordions));
+        },
+        /**
+         * Parses the collapseButtonGroups and toggles the filter selection of the collapse button group.
+         * This function checks if any filterId from the same collapseButtonGroup is already selected and removes it.
+         * @param {String} filterId The filterId to toggle selection for.
+         * @param {Object[]} collapseButtonGroups The collapse button groups to check against.
+         * @param {String[]} selectedFilterIds The currently selected filter ids.
+         * @returns {String[]} The updated selected filter ids array after toggling the selection.
+         */
+        toggleFilterSelectionOfCollapseButtonGroup (filterId, collapseButtonGroups, selectedFilterIds) {
+            const idx = selectedFilterIds.indexOf(filterId);
+
+            if (idx >= 0) {
+                selectedFilterIds.splice(idx, 1);
+                return selectedFilterIds;
+            }
+
+            collapseButtonGroups.forEach(group => {
+                let isInCurrentGroup = false;
+
+                group.layers.forEach(layer => {
+                    if (layer.filterId === filterId) {
+                        isInCurrentGroup = true;
+                    }
+                });
+
+                if (isInCurrentGroup) {
+                    group.layers.forEach(layer => {
+                        const otherIdx = selectedFilterIds.indexOf(layer.filterId);
+
+                        if (otherIdx >= 0) {
+                            selectedFilterIds.splice(otherIdx, 1);
+                        }
+                    });
+                }
+            });
+
+            selectedFilterIds.push(filterId);
+            return selectedFilterIds;
         },
         /**
          * Transform given layer config to an lightweight array of layerIds and filterIds.
