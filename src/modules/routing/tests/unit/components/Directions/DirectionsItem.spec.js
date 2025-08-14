@@ -16,6 +16,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         batchProcessingEnabled,
         directionsAvoidSource,
         directionsAvoidPointSource,
+        directionsWaypointsSourceSpy,
         mapInteractionMode,
         routingDirections,
         setMapInteractionModeSpy,
@@ -31,6 +32,9 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
         routingDirections = null;
         activeSpeedProfile = "CAR";
         elevation = false;
+        directionsWaypointsSourceSpy = sinon.spy(() => ({
+            getFeatures: sinon.stub().returns([])
+        }));
 
         mapCollection.clear();
         mapCollection.addMap({
@@ -58,6 +62,7 @@ describe("src/modules/routing/components/Directions/DirectionsItem.vue", () => {
                                                 getFeatures: () => []
                                             };
                                         },
+                                        directionsWaypointsSource: directionsWaypointsSourceSpy,
                                         isInputDisabled: () => false,
                                         mapInteractionMode: () => mapInteractionMode,
                                         routingAvoidFeaturesOptions: () => [],

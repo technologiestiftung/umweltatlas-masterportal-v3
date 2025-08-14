@@ -4,7 +4,8 @@ import getters from "@modules/shareView/store/gettersShareView";
 import shareViewState from "@modules/shareView/store/stateShareView";
 
 describe("src/modules/shareView/store/gettersShareView.js", () => {
-    let rootGetters, circular;
+    let rootGetters,
+        circular;
 
     const testLocation = "https://test.de/app.html?existingKey=existingValue&layerids=abc123";
 

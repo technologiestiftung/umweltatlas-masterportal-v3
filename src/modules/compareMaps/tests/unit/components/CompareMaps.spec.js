@@ -34,6 +34,9 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                             mutations: {
                                 ...mutations
                             },
+                            actions: {
+                                activateSwiper: sinon.stub()
+                            },
                             getters: {
                                 layerNames: () => [{name: "Layer 1", id: "layer1"}, {name: "Layer 2", id: "layer2"}],
                                 initialBaseLayer: () => ({name: "Base Layer", id: "baseLayer"}),

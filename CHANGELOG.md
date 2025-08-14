@@ -42,6 +42,7 @@
 - Housekeeping: Multiple Occurences of document.getElementById() have been replaced by vue-ref-logic.
 - WFS-T Tool: Fixed an issue when the module is set as the currentComponent of a menu in the portal config.
 - WFS-T Tool: The multiUpdate form now correctly displays checkboxes.
+- Tests: Fixed vuex warnings and stubbed console warnings end errors.
 
 ---
 
