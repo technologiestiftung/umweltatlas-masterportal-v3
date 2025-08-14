@@ -20,6 +20,7 @@
 ### Deprecated
 
 ### Removed
+- Removed configuration portal/layer.
 
 ### Fixed
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
