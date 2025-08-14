@@ -374,8 +374,8 @@ export default {
     }
 }
 .feature-lister-list-table-container {
-    border-left: 1px solid $light_grey !important;
-    border-right: 1px solid $light_grey !important;
+    border-left: 1px solid $light_grey;
+    border-right: 1px solid $light_grey;
 }
 #feature-lister-list-table {
     overflow: auto;

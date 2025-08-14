@@ -1066,12 +1066,13 @@ export default {
                         v-show="columnIdx < maxAttributesToShow"
                         :key="columnIdx"
                         :class="[
-                            'p-2',
+                            'custom-p-2',
                             fixedColumn === entry.name ? 'fixedColumn' : '',
                             selectMode === 'column' && columnIdx > 0 ? 'selectable' : '',
                             getClassForSelectedColumn(columnIdx),
                             fontSize === 'medium' ? 'medium-font-size' : '',
                             fontSize === 'small' ? 'small-font-size' : '',
+                            console.warn(typeof item[entry.name]),
                             typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left'
                         ]"
                     >
@@ -1132,7 +1133,7 @@ export default {
                             v-for="(entry, index) in totalRow"
                             :key="'total-'+index"
                             :fixed="typeof fixedColumn !== 'undefined'"
-                            class="p-2 total"
+                            class="custom-p-2 total"
                             :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index), typeof entry === 'number' ? 'pull-right' : '']"
                         >
                             {{ typeof entry === 'number' ? thousandsSeparator(entry, getSeparator('group'), getSeparator('decimal')) : entry }}
@@ -1213,13 +1214,15 @@ export default {
 .medium-font-size {
     font-size: 14px;
 }
-
+.custom-p-2 {
+    padding: 0.5rem;
+}
 .pull-left {
     text-align: left;
 }
 .pull-right {
     text-align: right;
-    padding-right: 25px !important;
+    padding-right: 25px;
 }
 
 .fullscreen-tr {

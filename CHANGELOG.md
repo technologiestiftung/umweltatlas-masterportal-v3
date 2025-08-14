@@ -32,6 +32,7 @@
 - Issue #1454: MkDocs: Added instructions for packages needed to run the portalconfig-migrator.
 - CompareFeatures: Fixed failing for layers with alphanumeric IDs.
 - sortObjects: Ensure stable sortByLayerSequence order in Chrome/Firefox.
+- Housekeeping: multiple important css-rules have been refactored to not use important.
 
 ---
 

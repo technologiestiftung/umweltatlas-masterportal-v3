@@ -114,7 +114,7 @@ export default {
     flex-wrap: nowrap;
     padding-left: 0;
     padding-right: 0;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
 }
 
 .layer-selection-folder > i {
