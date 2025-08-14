@@ -1,17 +1,13 @@
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import PaginationControl from "../../../components/PaginationControl.vue";
-import LightButton from "../../../../buttons/components/LightButton.vue";
-import IconButton from "../../../../buttons/components/IconButton.vue";
-import InputText from "../../../../inputs/components/InputText.vue";
 
 config.global.mocks.$t = key => key;
 
 describe("src/shared/modules/pagination/components/PaginationControl.vue", () => {
 
     const currentPage = 2,
-        totalPages = 10,
-        goToPageText = "Go to page";
+        totalPages = 10;
 
     it("should render a pagination control", async () => {
         const wrapper = mount(PaginationControl, {
@@ -22,204 +18,152 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
         expect(paginationControls.exists()).to.be.true;
     });
 
+    it("should render Bootstrap pagination structure", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage, totalPages}
+            }),
+            nav = wrapper.find("nav"),
+            ul = wrapper.find("ul.pagination"),
+            pageItems = wrapper.findAll("li.page-item");
+
+        expect(nav.exists()).to.be.true;
+        expect(ul.exists()).to.be.true;
+        expect(pageItems.length).to.be.greaterThan(0);
+    });
+
     it("should display the correct current page", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            lightButtons = wrapper.findAllComponents(LightButton),
-            activeButton = lightButtons.find(button => button.props("customclass") === "active");
+            activePageItem = wrapper.find("li.page-item.active"),
+            activeButton = activePageItem.find("button.page-link");
 
-        expect(activeButton).to.exist;
-        expect(activeButton.props("text")).to.equal("2");
+        expect(activePageItem.exists()).to.be.true;
+        expect(activeButton.text()).to.equal("2");
     });
 
     it("should have next and previous buttons", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            iconButtons = wrapper.findAllComponents(IconButton),
-            prevButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-left"),
-            nextButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-right");
+            buttons = wrapper.findAll("button.page-link"),
+            prevButton = buttons[0],
+            nextButton = buttons[buttons.length - 1];
 
-        expect(iconButtons.length).to.be.at.least(2);
-
-        expect(prevButton).to.exist;
-        expect(nextButton).to.exist;
+        expect(prevButton.find("i.bi-chevron-left").exists()).to.be.true;
+        expect(nextButton.find("i.bi-chevron-right").exists()).to.be.true;
     });
 
     it("should disable previous button on first page", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 1, totalPages}
             }),
-            iconButtons = wrapper.findAllComponents(IconButton),
-            prevButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-left");
+            pageItems = wrapper.findAll("li.page-item"),
+            prevPageItem = pageItems[0],
+            prevButton = prevPageItem.find("button");
 
-        expect(prevButton).to.exist;
-        expect(prevButton.props("disabled")).to.be.true;
+        expect(prevPageItem.classes()).to.include("disabled");
+        expect(prevButton.attributes("disabled")).to.exist;
     });
 
     it("should disable next button on last page", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: totalPages, totalPages}
             }),
-            iconButtons = wrapper.findAllComponents(IconButton),
-            nextButton = iconButtons.find(button => button.props("icon") === "bi bi-chevron-right");
+            pageItems = wrapper.findAll("li.page-item"),
+            nextPageItem = pageItems[pageItems.length - 1],
+            nextButton = nextPageItem.find("button");
 
-        expect(nextButton).to.exist;
-        expect(nextButton.props("disabled")).to.be.true;
-    });
-
-    it("should show 'Go to page' input when showGoToPage is true", async () => {
-        const wrapper = mount(PaginationControl, {
-                props: {currentPage, totalPages, showGoToPage: true, goToPageText}
-            }),
-            goToPage = wrapper.find(".go-to-page"),
-            inputText = wrapper.findComponent(InputText);
-
-        expect(goToPage.exists()).to.be.true;
-        expect(inputText.exists()).to.be.true;
-    });
-
-    it("should not show 'Go to page' input when showGoToPage is false", async () => {
-        const wrapper = mount(PaginationControl, {
-                props: {currentPage, totalPages, showGoToPage: false}
-            }),
-            goToPage = wrapper.find(".go-to-page");
-
-        expect(goToPage.exists()).to.be.false;
+        expect(nextPageItem.classes()).to.include("disabled");
+        expect(nextButton.attributes("disabled")).to.exist;
     });
 
     it("should emit page-change event when a page is clicked", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage, totalPages}
             }),
-            lightButtons = wrapper.findAllComponents(LightButton),
-            pageButton = lightButtons.find(button => button.props("text") === "1");
+            pageButtons = wrapper.findAll("button.page-link"),
+            pageOneButton = pageButtons.find(button => button.text() === "1");
 
-        expect(pageButton).to.exist;
-        await pageButton.props("interaction")();
+        expect(pageOneButton).to.exist;
+        await pageOneButton.trigger("click");
         expect(wrapper.emitted("page-change")).to.exist;
         expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
+    });
+
+    it("should emit page-change event when previous button is clicked", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages}
+            }),
+            buttons = wrapper.findAll("button.page-link"),
+            prevButton = buttons[0];
+
+        await prevButton.trigger("click");
+        expect(wrapper.emitted("page-change")).to.exist;
+        expect(wrapper.emitted("page-change")[0][0]).to.equal(2);
+    });
+
+    it("should emit page-change event when next button is clicked", async () => {
+        const wrapper = mount(PaginationControl, {
+                props: {currentPage: 3, totalPages}
+            }),
+            buttons = wrapper.findAll("button.page-link"),
+            nextButton = buttons[buttons.length - 1];
+
+        await nextButton.trigger("click");
+        expect(wrapper.emitted("page-change")).to.exist;
+        expect(wrapper.emitted("page-change")[0][0]).to.equal(4);
     });
 
     it("should show dots for pagination when there are many pages", async () => {
         const wrapper = mount(PaginationControl, {
                 props: {currentPage: 5, totalPages: 20}
             }),
-            visiblePages = wrapper.vm.determineVisiblePages();
+            visiblePages = wrapper.vm.visiblePages;
 
-        expect(visiblePages).to.deep.equal([1, "...", 5, "...", 20]);
+        expect(visiblePages).to.deep.equal([1, "...", 4, 5, 6, "...", 20]);
     });
 
-    it("should handle Enter key on input field", async () => {
+    it("should show ellipsis elements correctly", async () => {
         const wrapper = mount(PaginationControl, {
-                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+                props: {currentPage: 5, totalPages: 20}
             }),
-            inputTextComponent = wrapper.findComponent(InputText),
-            inputElement = inputTextComponent.find("input");
+            ellipsisElements = wrapper.findAll("span.ellipsis");
 
-        wrapper.vm.tempPage = "5";
-        await inputElement.trigger("keydown", {key: "Enter"});
-
-        expect(wrapper.emitted("page-change")).to.exist;
-        expect(wrapper.emitted("page-change")[0][0]).to.equal(5);
+        expect(ellipsisElements.length).to.equal(2);
+        ellipsisElements.forEach(el => {
+            expect(el.text()).to.equal("...");
+        });
     });
 
-    it("should validate numeric input through InputText component", async () => {
+    it("should not emit page-change when clicking disabled button", async () => {
         const wrapper = mount(PaginationControl, {
-                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+                props: {currentPage: 1, totalPages}
             }),
-            inputText = wrapper.findComponent(InputText);
+            buttons = wrapper.findAll("button.page-link"),
+            prevButton = buttons[0];
 
-        expect(inputText.exists()).to.be.true;
-        expect(inputText.props("value")).to.equal("2");
-        expect(inputText.props("placeholder")).to.equal("common:modules.pagination.input.placeholder");
-        expect(inputText.props("type")).to.equal("text");
+        await prevButton.trigger("click");
+        expect(wrapper.emitted("page-change")).to.not.exist;
     });
 
-    it("should show tooltip on input container", async () => {
+    it("should not emit page-change when clicking ellipsis", async () => {
         const wrapper = mount(PaginationControl, {
-                props: {currentPage: 2, totalPages: 10, showGoToPage: true}
+                props: {currentPage: 5, totalPages: 20}
             }),
-            inputContainer = wrapper.find(".input-container");
+            ellipsisElements = wrapper.findAll("span.ellipsis");
 
-        expect(inputContainer.exists()).to.be.true;
-        expect(inputContainer.attributes("title")).to.equal("common:modules.pagination.input.tooltip");
+        expect(ellipsisElements.length).to.be.greaterThan(0);
+        await ellipsisElements[0].trigger("click");
+        expect(wrapper.emitted("page-change")).to.not.exist;
     });
 
-    describe("validateAndChangePage method", () => {
-        it("should emit page-change with valid page number", async () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 3, totalPages: 10}
-            });
-
-            wrapper.vm.tempPage = "5";
-            await wrapper.vm.validateAndChangePage();
-
-            expect(wrapper.emitted("page-change")).to.exist;
-            expect(wrapper.emitted("page-change")[0][0]).to.equal(5);
-            expect(wrapper.vm.tempPage).to.equal(5);
-        });
-
-        it("should handle NaN input and use current page", async () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 3, totalPages: 10}
-            });
-
-            wrapper.vm.tempPage = "abc";
-            await wrapper.vm.validateAndChangePage();
-
-            expect(wrapper.emitted("page-change")).to.exist;
-            expect(wrapper.emitted("page-change")[0][0]).to.equal(3);
-            expect(wrapper.vm.tempPage).to.equal(3);
-        });
-
-        it("should clamp page number to minimum of 1", async () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 3, totalPages: 10}
-            });
-
-            wrapper.vm.tempPage = "0";
-            await wrapper.vm.validateAndChangePage();
-
-            expect(wrapper.emitted("page-change")).to.exist;
-            expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
-            expect(wrapper.vm.tempPage).to.equal(1);
-        });
-
-        it("should clamp page number to maximum of totalPages", async () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 3, totalPages: 10}
-            });
-
-            wrapper.vm.tempPage = "15";
-            await wrapper.vm.validateAndChangePage();
-
-            expect(wrapper.emitted("page-change")).to.exist;
-            expect(wrapper.emitted("page-change")[0][0]).to.equal(10);
-            expect(wrapper.vm.tempPage).to.equal(10);
-        });
-
-        it("should handle negative numbers and clamp to 1", async () => {
-            const wrapper = mount(PaginationControl, {
-                props: {currentPage: 3, totalPages: 10}
-            });
-
-            wrapper.vm.tempPage = "-5";
-            await wrapper.vm.validateAndChangePage();
-
-            expect(wrapper.emitted("page-change")).to.exist;
-            expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
-            expect(wrapper.vm.tempPage).to.equal(1);
-        });
-    });
-
-    describe("determineVisiblePages method", () => {
+    describe("visiblePages computed property", () => {
         it("should show all pages when totalPages <= 7", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 3, totalPages: 5}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
             expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5]);
         });
@@ -228,72 +172,147 @@ describe("src/shared/modules/pagination/components/PaginationControl.vue", () =>
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 4, totalPages: 7}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
             expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
         });
 
-        it("should show correct pages when currentPage <= 3", () => {
+        it("should show correct pages when currentPage <= 4", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 1, totalPages: 10}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, 2, 3, "...", 10]);
+            expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, "...", 10]);
         });
 
         it("should show correct pages when currentPage = 3", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 3, totalPages: 10}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, 2, 3, "...", 10]);
+            expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, "...", 10]);
         });
 
-        it("should show correct pages when currentPage >= totalPages - 2", () => {
+        it("should show correct pages when currentPage >= totalPages - 3", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 8, totalPages: 10}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, "...", 8, 9, 10]);
+            expect(visiblePages).to.deep.equal([1, "...", 6, 7, 8, 9, 10]);
         });
 
         it("should show correct pages when currentPage = totalPages", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 10, totalPages: 10}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, "...", 8, 9, 10]);
+            expect(visiblePages).to.deep.equal([1, "...", 6, 7, 8, 9, 10]);
         });
 
-        it("should show correct pages for middle pages", () => {
+        it("should show correct pages for middle pages with neighbors", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 5, totalPages: 10}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, "...", 5, "...", 10]);
+            expect(visiblePages).to.deep.equal([1, "...", 4, 5, 6, "...", 10]);
         });
 
         it("should handle edge case with totalPages = 8 and currentPage = 4", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 4, totalPages: 8}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, "...", 4, "...", 8]);
+            expect(visiblePages).to.deep.equal([1, 2, 3, 4, 5, "...", 8]);
         });
 
         it("should handle edge case with totalPages = 8 and currentPage = 6", () => {
             const wrapper = mount(PaginationControl, {
                     props: {currentPage: 6, totalPages: 8}
                 }),
-                visiblePages = wrapper.vm.determineVisiblePages();
+                visiblePages = wrapper.vm.visiblePages;
 
-            expect(visiblePages).to.deep.equal([1, "...", 6, 7, 8]);
+            expect(visiblePages).to.deep.equal([1, "...", 4, 5, 6, 7, 8]);
+        });
+
+        it("should handle large page numbers correctly", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 50, totalPages: 100}
+                }),
+                visiblePages = wrapper.vm.visiblePages;
+
+            expect(visiblePages).to.deep.equal([1, "...", 49, 50, 51, "...", 100]);
+        });
+    });
+
+    describe("changePage method", () => {
+        it("should not emit page-change for invalid page numbers", () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 5, totalPages: 10}
+            });
+
+            wrapper.vm.changePage(0);
+            expect(wrapper.emitted("page-change")).to.not.exist;
+
+            wrapper.vm.changePage(11);
+            expect(wrapper.emitted("page-change")).to.not.exist;
+
+            wrapper.vm.changePage(-1);
+            expect(wrapper.emitted("page-change")).to.not.exist;
+        });
+
+        it("should emit page-change for valid page numbers", () => {
+            const wrapper = mount(PaginationControl, {
+                props: {currentPage: 5, totalPages: 10}
+            });
+
+            wrapper.vm.changePage(1);
+            expect(wrapper.emitted("page-change")[0][0]).to.equal(1);
+
+            wrapper.vm.changePage(10);
+            expect(wrapper.emitted("page-change")[1][0]).to.equal(10);
+
+            wrapper.vm.changePage(7);
+            expect(wrapper.emitted("page-change")[2][0]).to.equal(7);
+        });
+    });
+
+    describe("Mobile view", () => {
+        it("should have mobile view structure", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 5, totalPages: 10}
+                }),
+                mobileView = wrapper.find(".mobile-view"),
+                mobileNavContainer = wrapper.find(".mobile-nav-container");
+
+            expect(mobileView.exists()).to.be.true;
+            expect(mobileNavContainer.exists()).to.be.true;
+        });
+
+        it("should display current page and total pages in mobile view", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 5, totalPages: 10}
+                }),
+                pageNumber = wrapper.find(".page-number"),
+                totalPagesElement = wrapper.find(".total-pages");
+
+            expect(pageNumber.text()).to.equal("5");
+            expect(totalPagesElement.text()).to.equal("10");
+        });
+
+        it("should have page dots in mobile view", () => {
+            const wrapper = mount(PaginationControl, {
+                    props: {currentPage: 3, totalPages: 10}
+                }),
+                pageDots = wrapper.findAll(".page-dot");
+
+            expect(pageDots.length).to.equal(5);
+            expect(pageDots[2].classes()).to.include("active");
         });
     });
 });
