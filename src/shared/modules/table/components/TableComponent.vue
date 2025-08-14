@@ -1072,7 +1072,6 @@ export default {
                             getClassForSelectedColumn(columnIdx),
                             fontSize === 'medium' ? 'medium-font-size' : '',
                             fontSize === 'small' ? 'small-font-size' : '',
-                            console.warn(typeof item[entry.name]),
                             typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left'
                         ]"
                     >
