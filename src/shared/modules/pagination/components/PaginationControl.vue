@@ -221,9 +221,9 @@ export default {
 
         &.active {
             .page-link {
-                background-color: var(--bs-btn-active-bg, #001B3D);
-                border-color: var(--bs-btn-active-border-color, #001B3D);
-                color: var(--bs-btn-active-color, #ffffff);
+                background-color: var(--bs-btn-active-bg);
+                border-color: var(--bs-btn-active-border-color);
+                color: var(--bs-btn-active-color);
             }
         }
     }
@@ -239,8 +239,10 @@ export default {
         text-align: center;
         text-decoration: none;
         transition: all 0.2s ease-in-out;
-        border: 1px solid var(--bs-btn-border-color, #DCE2F3);
-        border-radius: var(--bs-btn-border-radius, 8px);
+        border: 1px solid var(--bs-btn-border-color);
+        border-radius: var(--bs-btn-border-radius);
+        background-color: var(--bs-btn-bg);
+        color: var(--bs-btn-color);
         font-size: 0.875rem;
         line-height: 1.25;
 
@@ -258,14 +260,17 @@ export default {
         }
 
         &:hover:not(.ellipsis):not(:disabled) {
-            background-color: var(--bs-btn-hover-bg, #DCE2F3);
-            border-color: var(--bs-btn-hover-border-color, #DCE2F3);
-            color: var(--bs-btn-hover-color, #151C27);
+            background-color: var(--bs-btn-hover-bg);
+            border-color: var(--bs-btn-hover-border-color);
+            color: var(--bs-btn-hover-color);
         }
 
         &:focus {
             outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(60, 95, 148, 0.25);
+            background-color: var(--bs-btn-focus-bg);
+            border-color: var(--bs-btn-focus-border-color);
+            color: var(--bs-btn-focus-color);
+            box-shadow: var(--bs-btn-box-shadow);
         }
 
         i {
@@ -300,7 +305,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--bs-btn-border-radius, 8px);
+    border-radius: var(--bs-btn-border-radius);
 
     &:disabled {
         opacity: 0.5;
@@ -326,7 +331,7 @@ export default {
     align-items: baseline;
     gap: 0.25rem;
     font-weight: 500;
-    color: var(--bs-btn-active-bg, #001B3D);
+    color: var(--bs-btn-active-bg);
 
     .page-number {
         font-size: 1.5rem;
@@ -354,11 +359,11 @@ export default {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--bs-btn-border-color, #DCE2F3);
+    background: var(--bs-btn-border-color);
     transition: all 0.2s ease;
 
     &.active {
-        background: var(--bs-btn-active-bg, #001B3D);
+        background: var(--bs-btn-active-bg);
         transform: scale(1.5);
     }
 }
