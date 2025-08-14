@@ -35,11 +35,11 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
     if (!Array.isArray(features) || !Array.isArray(colorScheme) || !Array.isArray(stepValues)) {
         return;
     }
-    Object.keys(statisticData).forEach((region) => {
-        const index = stepValues.findLastIndex(e => statisticData[region][date] >= e),
-            foundFeature = features.find(feature => feature.get(regionKey) === region);
+    features.forEach(feature => {
+        const region = feature.get(regionKey),
+            index = stepValues.findLastIndex(e => statisticData[region]?.[date] >= e);
 
-        styleFeature(foundFeature, colorScheme[index]);
+        styleFeature(feature, colorScheme[index]);
     });
 }
 

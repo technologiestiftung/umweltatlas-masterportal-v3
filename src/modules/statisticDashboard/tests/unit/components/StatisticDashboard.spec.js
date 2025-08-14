@@ -891,54 +891,6 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
-        describe("getStatisticValue", () => {
-            it("should return the right statistic value", () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr");
-
-                expect(value).to.be.equal(13);
-            });
-            it("should call prepareChartData with expected params for line chart", async () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1790", "jahr");
-
-                expect(value).to.be.equal("-");
-            });
-
-            it("should return the right statistic value if reference date is set", () => {
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1990"}});
-
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1890", "jahr", "date");
-
-                expect(value).to.be.equal(-100);
-            });
-
-            it("should return the right statistic value if reference region is set", () => {
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Bremen"});
-
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    value = wrapper.vm.getStatisticValue(featureList, "bev_maennlich", "Hamburg", "ort", "1990", "jahr", "region");
-
-                expect(value).to.be.equal(20);
-            });
-        });
         describe("prepareStatisticsData", () => {
             it("should return an object representing the statistics from the features", () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
@@ -984,12 +936,12 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     statistics = {
                         "Bevölkerung maennlich": {
                             Hamburg: {
-                                "1990": 113
+                                "1990": 113 - 13
                             }
                         },
                         "Bevölkerung weiblich": {
                             Hamburg: {
-                                "1990": 112
+                                "1990": 112 - 12
                             }
                         }
                     };
@@ -1005,7 +957,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
                 await wrapper.vm.$nextTick();
-                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"}, "date")).to.deep.equal(statistics);
             });
             it("should return an object representing the statistics from the features without the reference region", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -1016,14 +968,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     statistics = {
                         "Bevölkerung maennlich": {
                             Bremen: {
-                                "1890": "-",
-                                "1990": 93
+                                "1890": NaN,
+                                "1990": 93 - 113
                             }
                         },
                         "Bevölkerung weiblich": {
                             Bremen: {
-                                "1890": "-",
-                                "1990": 92
+                                "1890": NaN,
+                                "1990": 92 - 112
                             }
                         }
                     };
@@ -1039,7 +991,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
                 await wrapper.vm.$nextTick();
-                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg", "Bremen"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg", "Bremen"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"}, "region")).to.deep.equal(statistics);
             });
         });
         describe("getTableData", () => {

@@ -29,6 +29,7 @@ import sortBy from "@shared/js/utils/sortBy";
 import {colorbrewer} from "../js/colorbrewer";
 import {convertColor} from "@shared/js/utils/convertColor";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import isNumber from "@shared/js/utils/isNumber";
 
 export default {
     name: "StatisticDashboard",
@@ -1176,6 +1177,11 @@ export default {
                         });
                     }
 
+                    Object.keys(years).forEach(year => {
+                        if (!isNumber(years[year])) {
+                            years[year] = "-";
+                        }
+                    });
                     items.push({Gebiet: region, ...years});
 
                 });
@@ -1201,12 +1207,18 @@ export default {
          * @returns {Object} The prepared statistical data.
          */
         prepareStatisticsData (features, statistics, regions, dates, dateAttribute, regionAttribute, differenceMode) {
-            const data = {};
+            const regionKey = regionAttribute.attrName,
+                dateKey = dateAttribute.attrName,
+                refRegionValues = {},
+                refDateValues = {},
+                data = {};
 
             statistics.forEach(stat => {
                 const statsKey = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, [stat])[0];
 
                 data[stat] = {};
+                refRegionValues[stat] = {};
+                refDateValues[stat] = {};
                 regions.forEach(region => {
                     if (region === this.selectedReferenceData?.value) {
                         return;
@@ -1216,68 +1228,50 @@ export default {
                         if (date === this.selectedReferenceData?.value?.value || typeof date === "undefined") {
                             return;
                         }
-                        const formatedDate = dayjs(date).format(dateAttribute.outputFormat),
-                            regionKey = regionAttribute.attrName,
-                            dateKey = dateAttribute.attrName;
+                        const formatedDate = dayjs(date).format(dateAttribute.outputFormat);
 
-                        data[stat][region][formatedDate] = this.getStatisticValue(features, statsKey, region, regionKey, date, dateKey, differenceMode);
+                        data[stat][region][formatedDate] = NaN;
                     });
+                });
+                features.forEach(feature => {
+                    const region = feature.get(regionKey),
+                        date = feature.get(dateKey),
+                        formatedDate = dayjs(date).format(dateAttribute.outputFormat),
+                        value = parseFloat(feature?.get(statsKey));
+
+                    if (differenceMode === "region" && region === this.selectedReferenceData?.value) {
+                        refRegionValues[stat][formatedDate] = value;
+                    }
+                    else if (differenceMode === "date" && date === this.selectedReferenceData?.value?.value) {
+                        refDateValues[stat][region] = value;
+                    }
+                    else if (data[stat][region]) {
+                        data[stat][region][formatedDate] = value;
+                    }
                 });
             });
 
-            return data;
-        },
-
-        /**
-         * Finds the feature based on the region and the date.
-         * Returns the corresponding value of the passed statistic from the feature.
-         * @param {ol/Feature[]} features - The features.
-         * @param {String[]} statisticKey - The key to the statistic whose value is being looked for.
-         * @param {String} region - The region of the statistic wanted.
-         * @param {String} regionKey - The key to the region.
-         * @param {String} date - The date of the statistic wanted.
-         * @param {String} dateKey - The key to the date.
-         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
-         * @returns {String} The value of the given statistic.
-         */
-        getStatisticValue (features, statisticKey, region, regionKey, date, dateKey, differenceMode) {
-            const foundFeature = this.findFeatureByDateAndRegion(features, region, regionKey, date, dateKey);
-            let refFeature = null,
-                value = NaN;
-
-            if (differenceMode !== "date" && differenceMode !== "region" || !this.selectedReferenceData) {
-                return parseFloat(foundFeature?.get(statisticKey)) || "-";
+            if (differenceMode === "region") {
+                for (const stat in data) {
+                    for (const region in data[stat]) {
+                        for (const date in data[stat][region]) {
+                            data[stat][region][date] -= refRegionValues[stat][date];
+                            this.referenceFeatures[date] ??= refRegionValues[stat][date];
+                        }
+                    }
+                }
             }
-
             if (differenceMode === "date") {
-                refFeature = this.findFeatureByDateAndRegion(features, region, regionKey, this.selectedReferenceData.value.value, dateKey);
-                value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(this.decimalPlaces));
-                this.setSelectedReferenceValueTag("");
-
-                return isNaN(value) ? "-" : value;
+                for (const stat in data) {
+                    for (const region in data[stat]) {
+                        for (const date in data[stat][region]) {
+                            data[stat][region][date] -= refDateValues[stat][region];
+                        }
+                    }
+                }
             }
-            refFeature = this.findFeatureByDateAndRegion(features, this.selectedReferenceData.value, regionKey, date, dateKey);
-            value = Number((parseFloat(foundFeature?.get(statisticKey)) - parseFloat(refFeature?.get(statisticKey))).toFixed(this.decimalPlaces));
 
-            this.referenceFeatures[date] = Number(parseFloat(refFeature?.get(statisticKey)).toFixed(this.decimalPlaces));
-            this.setSelectedReferenceValueTag(Number(parseFloat(refFeature?.get(statisticKey)).toFixed(this.decimalPlaces)));
-
-            return isNaN(value) ? "-" : value;
-        },
-
-        /**
-         * Finds a feature by the given region and date.
-         * @param {ol/Feature[]} features - The features.
-         * @param {String} region - The region value.
-         * @param {String} regionKey - The key to the region.
-         * @param {String} date - The date value.
-         * @param {String} dateKey - The key to the date.
-         * @returns {ol/Feature} The found feature.
-         */
-        findFeatureByDateAndRegion (features, region, regionKey, date, dateKey) {
-            return features.find(feature => {
-                return feature.get(regionKey) === region && feature.get(dateKey) === date;
-            });
+            return data;
         },
 
         /**
