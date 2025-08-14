@@ -678,7 +678,10 @@ export default {
                 const geoJsonToExport = {
                     type: "FeatureCollection",
                     features: this.editedTable.items.map(obj => {
-                        const geojsonFormat = new GeoJSON(),
+                        const geojsonFormat = new GeoJSON({
+                                featureProjection: this.$store.getters["Maps/projection"],
+                                dataProjection: "EPSG:4326"
+                            }),
                             geojsonGeom = obj.geom ? geojsonFormat.writeGeometryObject(obj.geom) : undefined,
                             feature = {type: "Feature", id: obj.id, geometry: geojsonGeom, properties: {...obj}};
 
