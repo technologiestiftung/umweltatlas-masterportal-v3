@@ -52,6 +52,26 @@ export default {
             type: Object,
             default: null,
             required: false
+        },
+        min: {
+            type: Number,
+            default: null,
+            required: false
+        },
+        max: {
+            type: Number,
+            default: null,
+            required: false
+        },
+        step: {
+            type: Number,
+            default: null,
+            required: false
+        },
+        errorMessage: {
+            type: String,
+            default: null,
+            required: false
         }
     },
     emits: ["update:modelValue", "focus", "blur", "click"],
@@ -83,6 +103,10 @@ export default {
             :readonly="readonly"
             :maxLength="maxLength"
             :disabled="disabled"
+            :min="min"
+            :max="max"
+            :step="step"
+            :error-message="errorMessage"
             @input="$emit('update:modelValue', $event.target.value); onInput?.($event.target.value)"
             @change="event => onChange?.(event.target.value)"
             @focus="$emit('focus', $event)"
@@ -93,6 +117,13 @@ export default {
             class="input-label"
             :for="id"
         >{{ $t(label) }}</label>
+        <span
+            v-if="errorMessage"
+            id="input-help"
+            class="invalid-feedback"
+        >
+            {{ errorMessage }}
+        </span>
         <slot />
     </div>
 </template>

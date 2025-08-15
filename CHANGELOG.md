@@ -65,6 +65,7 @@
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
 - Draw: Added square as geometryType.
 - PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
+- Routing: Added context menu to for setting and deleting waypoints as well as barrier points via right mouse button.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.

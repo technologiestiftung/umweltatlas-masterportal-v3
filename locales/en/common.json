@@ -937,6 +937,16 @@
         "structure": "Structure",
         "uploadFile": "Upload File"
       },
+      "contextMenu": {
+        "addAvoidPoint": "Add barrier point",
+        "addEndpoint": "Add endpoint",
+        "addStartpoint": "Add startpoint",
+        "addWaypoint": "Add waypoint",
+        "avoidPointModalTitle": "Radius of barrier point",
+        "header": "Actions",
+        "removeAvoidPoint": "Remove barrier point",
+        "removePoint": "Remove point"
+      },
       "coordinateInputHelp": "Find a place or add a point by clicking on the map",
       "deleteWaypoint": "Delete Waypoint",
       "description": "Find out the fastest way to get to your destination or set a search radius",
@@ -957,6 +967,7 @@
           "errorSomeFailed": "{{countFailed}} Results could not be calculated correctly. The result file contains empty cells at these positions.",
           "errorToManyEntriesInFile": "Maximum number of lines exceeded ({{limit}})",
           "errorToManyEntriesInRow": "Line {{row}} contains more than 5 entries, please note the File-Structure (ID;lon(Startpoint);lat(Startpoint);lon(Endpoint);lat(Endpoint))",
+          "errorContextMenuSetPoint": "No point could be set here.",
           "structure": "ID;lon(Startpoint);lat(Startpoint);lon(Endpoint);lat(Endpoint)"
         },
         "deleteRestrictedAreas": "Delete Barrier areas",
@@ -1094,6 +1105,9 @@
         "axleload": "Axleload",
         "axleloadTooltip": "Truck axle load. Accepted values: 0 to 19 tons",
         "hazmat": "Hazardous materials"
+      },
+      "settings": {
+        "submit": "Submit"
       },
       "speedprofiles": {
         "CAR": "Car",

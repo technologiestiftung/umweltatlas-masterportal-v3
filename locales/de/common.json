@@ -939,6 +939,16 @@
         "structure": "Struktur",
         "uploadFile": "Datei hochladen"
       },
+      "contextMenu": {
+        "addAvoidPoint": "Sperrpunkt hinzufügen",
+        "addEndpoint": "Zielpunkt hinzufügen",
+        "addStartpoint": "Startpunkt hinzufügen",
+        "addWaypoint": "Wegpunkt hinzufügen",
+        "avoidPointModalTitle": "Radius des Sperrpunktes",
+        "header": "Aktionen",
+        "removeAvoidPoint": "Sperrfläche entfernen",
+        "removePoint": "Punkt entfernen"
+      },
       "coordinateInputHelp": "Suchen Sie einen Ort oder fügen Sie einen Punkt durch Klick in die Karte hinzu",
       "deleteWaypoint": "Wegpunkt löschen",
       "description": "Finden Sie heraus, wie Sie am schnellsten zu ihrem Ziel kommen oder legen Sie einen Suchradius fest",
@@ -959,6 +969,7 @@
           "errorSomeFailed": "Es konnten {{countFailed}} Ergebnisse nicht korrekt errechnet werden. Die Ergebnisdatei enthält an diesen Stellen Leerzellen.",
           "errorToManyEntriesInFile": "Maximale Anzahl an Zeilen überschritten ({{limit}})",
           "errorToManyEntriesInRow": "Zeile {{row}} enthält mehr als 5 Einträge, bitte beachten Sie die Struktur (ID;lon(Startpunkt);lat(Startpunkt);lon(Endpunkt);lat(Endpunkt))",
+          "errorContextMenuSetPoint": "An dieser Stelle konnte kein Punkt gesetzt werden.",
           "structure": "ID;lon(Startpunkt);lat(Startpunkt);lon(Endpunkt);lat(Endpunkt)"
         },
         "deleteRestrictedAreas": "Sperrflächen löschen",
@@ -1096,6 +1107,9 @@
         "axleload": "Achslast",
         "axleloadTooltip": "Achslast des LKW. Akzeptierte Werte: 0 bis 19 Tonnen",
         "hazmat": "Gefahrgut"
+      },
+      "settings": {
+        "submit": "Bestätigen"
       },
       "speedprofiles": {
         "CAR": "PKW",
