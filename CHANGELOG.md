@@ -228,6 +228,9 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
 - Routing: Added context menu to for setting and deleting waypoints as well as barrier points via right mouse button.
 - Documentation: Now includes a search bar for cross-site search.
+- GraphicalSelect: Added line feature with buffer geometry for selection.
+- FeatureLister: Added spatial selection of features that are shown in the list.
+- TableComponent: Added GeoJSON Download
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
@@ -279,9 +282,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - WFS-T: Info message is configurable and is visible in the multiupdate so that users know that they can overwrite things.
 - WFS-T: Multiedit name is changed to Edit.
 - WFS-T: Box selection was removed from default ones for multiupdate.
-- GraphicalSelect: Added line feature with buffer geometry for selection.
-- FeatureLister: Added spatial selection of features that are shown in the list.
-- TableComponent: Added GeoJSON Download
 - StatisticDashboard:
   - Replaced the old color scheme generating algorithm with the colorbrewer schemes.
   - Enabled colored map for more than one selected statistic.
