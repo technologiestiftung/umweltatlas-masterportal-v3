@@ -67,10 +67,10 @@ describe("src/shared/js/api/oaf", () => {
             expect(catchError).to.not.be.null;
             expect(catchError).to.deep.equal(new Error(`Please provide a collection! Got ${undefined}`));
         });
-        it("should returns a promise which rejects if last param is undefined and fourth param is set", async () => {
+        it("should returns a promise which rejects if param filterCrs is undefined and param filter is set", async () => {
             let catchError = null;
 
-            await getOAFFeature.getOAFFeatureGet("", "", undefined, {}, undefined).catch(error => {
+            await getOAFFeature.getOAFFeatureGet("", "", {filter: ""}).catch(error => {
                 catchError = error;
             });
 
@@ -96,7 +96,7 @@ describe("src/shared/js/api/oaf", () => {
                 param5 = "filterCrs",
                 param6 = undefined;
 
-            await getOAFFeature.getOAFFeatureGet(param1, param2, param3, param4, param5, param6);
+            await getOAFFeature.getOAFFeatureGet(param1, param2, {limit: param3, filter: param4, filterCrs: param5, crs: param6});
             expect(oafRecursionHelperStub.calledWith([], `${param1}/collections/${param2}/items?limit=${param3}&filter=${param4}&filter-crs=${param5}`)).to.be.true;
             sinon.restore();
         });
@@ -109,7 +109,7 @@ describe("src/shared/js/api/oaf", () => {
                 param5 = "filterCrs",
                 param6 = "crs";
 
-            await getOAFFeature.getOAFFeatureGet(param1, param2, param3, param4, param5, param6);
+            await getOAFFeature.getOAFFeatureGet(param1, param2, {limit: param3, filter: param4, filterCrs: param5, crs: param6});
             expect(oafRecursionHelperStub.calledWith([], `${param1}/collections/${param2}/items?limit=${param3}&filter=${param4}&filter-crs=${param5}&crs=${param6}`)).to.be.true;
             sinon.restore();
         });

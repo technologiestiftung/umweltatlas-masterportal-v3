@@ -118,7 +118,7 @@ async function getOAFFeatures (baseUrl, collection, propertyNames, featureProjec
     let features = [];
 
     try {
-        features = await getOAFFeature.getOAFFeatureGet(baseUrl, collection, limit, filter, filterCrs, crs, propertyNames);
+        features = await getOAFFeature.getOAFFeatureGet(baseUrl, collection, {limit, filter, filterCrs, crs, propertyNames});
     }
     catch (error) {
         console.error(error);

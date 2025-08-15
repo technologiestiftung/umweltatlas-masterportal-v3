@@ -119,7 +119,13 @@ export default {
                 }
                 else {
                     const filter = this.getFilterOAF(region.attrName, this.containsAllTag(region.selectedValues) ? region.values : region.selectedValues),
-                        features = await getOAFFeature.getOAFFeatureGet(url, collection, 400, filter, this.selectedLevel.oafRequestCRS, this.selectedLevel.oafRequestCRS, [region.child.attrName], true),
+                        features = await getOAFFeature.getOAFFeatureGet(url, collection, {
+                            filter,
+                            filterCrs: this.selectedLevel.oafRequestCRS,
+                            crs: this.selectedLevel.oafRequestCRS,
+                            propertyNames: [region.child.attrName],
+                            skipGeometry: true
+                        }),
                         fetchedProperties = features.map(feature => feature?.properties);
 
                     uniqueValues = getUniqueValuesFromOAF(fetchedProperties, [region.child.attrName], true);
