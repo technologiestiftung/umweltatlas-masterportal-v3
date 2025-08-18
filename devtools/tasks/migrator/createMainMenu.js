@@ -191,7 +191,7 @@ function addSearchbar (data, mainMenu) {
                     }
                 }
                 if (searchName.toLowerCase() === "visiblewfs") {
-                    searchType = "visibleWfs";
+                    console.info("--- HINT: " + searchType + " seems to be a very old configuration, this type is not supported. Delete ist or use visibleVector instead and configure it by hand!");
                 }
                 searchConfig.type = searchType;
                 console.info("   searchbar entry " + searchType);
