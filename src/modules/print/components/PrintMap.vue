@@ -399,13 +399,13 @@ export default {
                 valid = regex.test(value);
 
             if (!valid) {
-                document.getElementById("outputFileTitleWarning").classList.remove("active");
+                this.$refs.outputFileTitleWarning.classList.remove("active");
                 document.getElementById("outputFileTitle").classList.add("danger");
 
                 document.getElementById("printBtn").disabled = true;
             }
             else {
-                document.getElementById("outputFileTitleWarning").classList.add("active");
+                this.$refs.outputFileTitleWarning.classList.add("active");
                 document.getElementById("outputFileTitle").classList.remove("danger");
                 document.getElementById("printBtn").disabled = false;
             }
@@ -667,6 +667,7 @@ export default {
                 />
                 <small
                     id="outputFileTitleWarning"
+                    ref="outputFileTitleWarning"
                     class="offset-md-5 col-md-7 active"
                 >
                     {{ $t("common:modules.print.validationWarning") }}

@@ -275,7 +275,7 @@ export default {
          * @returns {void}
          */
         afterFileValidation () {
-            const modalElement = document.getElementById("uploadModal"),
+            const modalElement = this.$refs.uploadModal,
                 modal = Modal.getInstance(modalElement);
 
             modal.hide();
@@ -285,7 +285,7 @@ export default {
          * @returns {void}
          */
         appendModalToBody () {
-            const uploadModal = document.getElementById("uploadModal");
+            const uploadModal = this.$refs.uploadModal;
 
             if (uploadModal) {
                 document.body.appendChild(uploadModal);
@@ -296,10 +296,10 @@ export default {
          * @returns {void}
          */
         removeModalFromBody () {
-            const uploadModal = document.getElementById("uploadModal");
+            const uploadModal = this.$refs.uploadModal;
 
             if (uploadModal) {
-                document.body.removeChild(document.getElementById("uploadModal"));
+                document.body.removeChild(uploadModal);
             }
         },
         /**
@@ -553,6 +553,7 @@ export default {
                 <!-- Modal -->
                 <div
                     id="uploadModal"
+                    ref="uploadModal"
                     class="modal fade"
                     tabindex="-1"
                     aria-labelledby="uploadModalLabel"
