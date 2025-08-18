@@ -90,7 +90,7 @@ export default {
             if (evt.target.closest(".difference-button")) {
                 return;
             }
-            document.querySelector(".dropdown-menu").classList.remove("show");
+            document.querySelector(".dropdown-menu")?.classList?.remove("show");
         },
         /**
          * Updates the emit value.

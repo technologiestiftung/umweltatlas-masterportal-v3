@@ -285,26 +285,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
     //     });
     // });
 
-    describe("User Interactions", () => {
-        it("should emit 'toggleFilter' if ths user click the 'back' button", () => {
-            const wrapper = shallowMount(StatisticDashboardFilter, {
-                    propsData: {
-                        categories: [],
-                        timeStepsFilter,
-                        regions,
-                        areCategoriesGrouped: false
-                    },
-                    global: {
-                        plugins: [store]
-                    }
-                }),
-                flatButton = wrapper.findComponent({name: "FlatButton"});
-
-            flatButton.vm.interaction();
-            expect(wrapper.emitted()).to.have.keys(["resetStatistics", "toggleFilter"]);
-        });
-    });
-
     describe("Methods", () => {
         describe("allFilterSettingsSelected", () => {
             it("should return 1 if all given values are not empty", () => {

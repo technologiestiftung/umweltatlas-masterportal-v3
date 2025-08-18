@@ -367,9 +367,14 @@ export default {
             "PropertyIsGreaterThanOrEqualTo": ">="
         };
     },
+    deactivated () {
+        document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
+    },
+    activated () {
+        document.getElementById("mp-menu-secondaryMenu").style.width = "47vw";
+    },
     mounted () {
         this.sideMenuWidth = document.getElementById("mp-menu-secondaryMenu").style.width;
-        document.getElementById("mp-menu-secondaryMenu").style.width = "47vw";
 
         if (typeof this.selectedLevel === "undefined") {
             this.setSelectedLevel(this.data[0]);
@@ -387,9 +392,6 @@ export default {
         else if (this.numberOfClasses > this.maxNumberOfClasses) {
             this.setNumberOfClasses(this.maxNumberOfClasses);
         }
-    },
-    unmounted () {
-        document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", [
@@ -645,7 +647,7 @@ export default {
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
             this.setIsFeatureLoaded(false);
-            this.layer.getSource().clear();
+            this.layer?.getSource().clear();
 
             const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
@@ -678,7 +680,9 @@ export default {
                 FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
             }
 
-            this.layer.getSource().addFeatures(filteredFeatures);
+            if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
+                this.layer?.getSource().addFeatures(filteredFeatures);
+            }
         },
 
         /**
@@ -812,6 +816,7 @@ export default {
                     propertyNames: [...statsKeys, selectedLevelRegionNameAttribute.attrName, selectedLevelDateAttribute.attrName, this.selectedLevel.geometryAttribute],
                     filter: this.getFilter(regions, dates)
                 };
+
             let response = null;
 
             if (selectedLayer.typ === "WFS") {
@@ -839,7 +844,24 @@ export default {
                 this.referenceFeatures = {};
             }
 
-            this.statisticsData = this.prepareStatisticsData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
+            this.prepareData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
+        },
+        /**
+         * Prepares and sets the data.
+         * @param {ol/Feature[]} features - The features.
+         * @param {String[]} statistics - The key to the statistic whose value is being looked for.
+         * @param {String[]} regions - The regions of the statistic wanted.
+         * @param {String[]} dates - The dates of the statistic wanted.
+         * @param {String} dateAttribute - The configured date attribute.
+         * @param {String} regionAttribute - The configured region attribute.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') otherwise false.
+         * @returns {void}
+         */
+        prepareData (loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode) {
+            if (!Array.isArray(loadedFeatures) || loadedFeatures.length === 0 || !Array.isArray(selectedStatisticsNames) || !Array.isArray(regions) || !Array.isArray(dates) || !selectedLevelDateAttribute || !selectedLevelRegionNameAttribute) {
+                return;
+            }
+            this.statisticsData = this.prepareStatisticsData(loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
             this.chartCounts = this.selectedStatisticsNames.length;
@@ -869,7 +891,9 @@ export default {
                 this.layer.getSource().clear();
                 const filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, this.selectedColumn || dates[0]);
 
-                this.layer.getSource().addFeatures(filteredFeatures);
+                if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
+                    this.layer.getSource().addFeatures(filteredFeatures);
+                }
 
                 filteredFeatures.map(feature => {
                     return FeaturesHandler.styleFeature(feature);
@@ -882,7 +906,6 @@ export default {
                 });
             }
         },
-
         /**
          * Handles chart data and resets the showGrid property.
          * @param {String[]} filteredStatistics The statistics.

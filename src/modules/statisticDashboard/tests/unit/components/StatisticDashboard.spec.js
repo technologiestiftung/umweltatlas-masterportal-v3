@@ -891,6 +891,145 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
+        describe("prepareData", () => {
+            it("should return undefined, wenn loadedFeatures is not correct", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(null)).to.be.undefined;
+                expect(wrapper.vm.prepareData({})).to.be.undefined;
+                expect(wrapper.vm.prepareData([])).to.be.undefined;
+                expect(wrapper.vm.prepareData(false)).to.be.undefined;
+                expect(wrapper.vm.prepareData("str")).to.be.undefined;
+                expect(wrapper.vm.prepareData(123)).to.be.undefined;
+            });
+            it("should return undefined, if selectedStatisticsNames is not an array", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(featureList, null)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, {})).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, false)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, "str")).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, 123)).to.be.undefined;
+            });
+            it("should return undefined, if regions is not an array", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], null)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], {})).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], false)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], "str")).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], 123)).to.be.undefined;
+            });
+            it("should return undefined, if dates is not an array", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], null)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], {})).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], false)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], 123)).to.be.undefined;
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], "str")).to.be.undefined;
+            });
+            it("should return undefined, if selectedLevelDateAttribute is not defined", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], null)).to.be.undefined;
+            });
+            it("should return undefined, if selectedLevelRegionNameAttribute is not an array", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
+
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.statisticsByCategory = [{
+                    "bev_maennlich": {
+                        "name": "Bevölkerung maennlich"
+                    },
+                    "bev_weiblich": {
+                        "name": "Bevölkerung weiblich"
+                    }
+                }];
+
+                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, null)).to.be.undefined;
+            });
+        });
         describe("prepareStatisticsData", () => {
             it("should return an object representing the statistics from the features", () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
