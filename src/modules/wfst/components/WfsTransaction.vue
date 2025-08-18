@@ -51,10 +51,8 @@ export default {
             deep: true
         }
     },
-    created () {
-        this.initializeLayers();
-    },
     mounted () {
+        this.initializeLayers();
         this.prepareEditButton();
     },
     beforeUnmount () {

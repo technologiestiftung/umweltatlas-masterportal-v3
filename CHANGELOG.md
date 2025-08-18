@@ -35,6 +35,7 @@
 - sortObjects: Ensure stable sortByLayerSequence order in Chrome/Firefox.
 - Housekeeping: Multiple important css-rules have been refactored to not use important.
 - Housekeeping: Multiple Occurences of document.getElementById() have been replaced by vue-ref-logic.
+- WFST-Tool: Fixed an issue when the module is set as the currentComponent of a menu in the portal config.
 
 ---
 
