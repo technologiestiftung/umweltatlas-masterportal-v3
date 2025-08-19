@@ -174,7 +174,7 @@ $secondary_table_style: #F2F2F2;  // background for table view style
   --bs-btn-box-shadow: none;
 }
 
-.btn-pagination {
+.btn-pagination, .page-dot {
   --bs-btn-color: #151C27;
   --bs-btn-bg: #ffffff;
   --bs-btn-border-color: #DCE2F3;
