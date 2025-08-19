@@ -34,7 +34,8 @@
             ]
           },
           "freeze": true,
-          "fullScreen": true
+          "fullScreen": true,
+          "exampleControl": true
         }
       },
       "featureViaURL": {
