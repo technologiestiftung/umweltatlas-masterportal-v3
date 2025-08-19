@@ -15,6 +15,7 @@ export default {
      * @returns {void}
      */
     highlightFeature ({dispatch}, highlightObject) {
+        dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
         switch (highlightObject.type) {
             case "increase":
                 dispatch("increaseFeature", highlightObject);
@@ -300,8 +301,11 @@ export default {
     async fetchAndApplyStyle (context, {highlightObject, feature, returnFirst = true}) {
         const styleId = highlightObject.styleId || highlightObject.layer.id,
             stylelistObject = styleList.returnStyleObject(styleId);
-        let style;
 
+
+        let style;
+        console.log(highlightObject);
+        console.log(feature);
         if (stylelistObject) {
             style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
             if (returnFirst && Array.isArray(style) && style.length > 0) {

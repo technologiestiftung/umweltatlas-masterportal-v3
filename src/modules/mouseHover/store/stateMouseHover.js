@@ -23,6 +23,7 @@ import Overlay from "ol/Overlay.js";
  * @property {Array} infoBox Array with the Infos from the currently hovered feature/s.
  * @property {Array} hoverPosition Array with coordinates of the currently hovered feature/s.
  * @property {Boolean} pleaseZoom True if more features are being hovered than the configured max in numFeaturesToShow.
+ * @property {Boolean} highlightOnHover True if it highlights on hover.
  * @property {Object} highlightVectorRulesPolygon Rules for highlighting polygon features.
  * @property {Object} highlightVectorRulesPointLine Rules for highlighting point and line features.
  * @property {String} type The type of the mouseHover component.
@@ -53,6 +54,7 @@ export default {
     infoBox: null,
     hoverPosition: null,
     pleaseZoom: false,
+    highlightOnHover: false,
     highlightVectorRulesPolygon: {
         "fill": {
             "color": [255, 255, 255, 0.5]
@@ -64,7 +66,7 @@ export default {
     },
     highlightVectorRulesPointLine: {
         "stroke": {
-            "width": 8,
+            "width": 2,
             "color": [255, 0, 255, 0.9]
         },
         "image": {
