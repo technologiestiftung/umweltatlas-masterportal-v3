@@ -4,7 +4,7 @@ import DrawItemComponent from "@modules/draw_old/components/DrawItem.vue";
 import Draw_old from "@modules/draw_old/store/indexDraw";
 import {expect} from "chai";
 import sinon from "sinon";
-import main from "@modules/draw_old/js/main";
+import app from "@modules/draw_old/js/main";
 
 afterEach(() => {
     sinon.restore();
@@ -26,6 +26,9 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
         wrapper,
         componentData;
 
+    // console.log(Draw_old);
+
+
     beforeEach(() => {
         const map = {
             id: "ol",
@@ -37,11 +40,15 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
             }
         };
 
-        main.getApp().config.globalProperties.$layer = {
+        Draw_old.actions = {
+            startInteractions: sinon.stub()
+        };
+
+        app.config.globalProperties.$layer = {
             visible: true,
-            getVisible: () => main.getApp().config.globalProperties.$layer.visible,
+            getVisible: () => app.config.globalProperties.$layer.visible,
             setVisible: value => {
-                main.getApp().config.globalProperties.$layer.visible = value;
+                app.config.globalProperties.$layer.visible = value;
             },
             getSource: () => {
                 return {
@@ -78,7 +85,7 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
                 drawing: true
             };
         };
-        store.dispatch("Modules/Draw_old/startInteractions");
+        // store.dispatch("Modules/Draw_old/startInteractions");
 
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
@@ -101,7 +108,7 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
         expect(wrapper.find("#tool-draw-drawLayerVisible").exists()).to.be.true;
 
         expect(wrapper.vm.drawLayerVisible).to.be.true;
-        expect(wrapper.vm.layer.getVisible()).to.be.true;
+        expect(wrapper.vm.getLayer().getVisible()).to.be.true;
         expect(wrapper.find("#tool-draw-drawType").element.disabled).to.be.false;
         expect(wrapper.find("#tool-draw-undoInteraction").element.disabled).to.be.false;
         expect(wrapper.find("#tool-draw-redoInteraction").element.disabled).to.be.false;

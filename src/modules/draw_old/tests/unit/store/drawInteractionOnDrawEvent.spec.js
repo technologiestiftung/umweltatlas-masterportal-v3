@@ -4,7 +4,6 @@ import {Style} from "ol/style.js";
 import createStyleModule from "@modules/draw_old/js/style/createStyle";
 import circleCalculations from "@modules/draw_old/js/circleCalculations";
 import {drawInteractionOnDrawEvent, featureStyle, handleDrawEvent} from "@modules/draw_old/store/actions/drawInteractionOnDrawEvent";
-import main from "@modules/draw_old/js/main";
 
 
 describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () => {
@@ -19,7 +18,8 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
         finishDrawingSpy,
         createdStyle,
         createStyleStub,
-        calculateCircleStub;
+        calculateCircleStub,
+        mockApp;
 
     before(() => {
         i18next.init({
@@ -44,19 +44,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
         createdStyle = new Style();
         createStyleStub = sinon.stub(createStyleModule, "createStyle").returns(createdStyle);
         calculateCircleStub = sinon.stub(circleCalculations, "calculateCircle");
-        main.getApp().config.globalProperties.$layer = {
-            getSource: () => ({
-                once: onceSpy,
-                removeFeature: removeFeatureSpy
-            })
-        };
         state = {
-            // layer: {
-            //     getSource: () => ({
-            //         once: onceSpy,
-            //         removeFeature: removeFeatureSpy
-            //     })
-            // },
             drawType: {
                 id: "drawSymbol",
                 geometry: "Point"
@@ -86,6 +74,18 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
                 mode: "2D"
             }
         };
+        mockApp = {
+            config: {
+                globalProperties: {
+                    $layer: {
+                        getSource: () => ({
+                            once: onceSpy,
+                            removeFeature: removeFeatureSpy
+                        })
+                    }
+                }
+            }
+        };
     });
     afterEach(sinon.restore);
 
@@ -93,7 +93,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
         it("drawInteractionOnDrawEvent no circle", () => {
             const drawInteraction = "";
 
-            drawInteractionOnDrawEvent({state, commit, dispatch}, drawInteraction);
+            drawInteractionOnDrawEvent.call({$app: mockApp}, {state, commit, dispatch}, drawInteraction);
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setAddFeatureListener");
@@ -108,7 +108,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
 
             const drawInteraction = "";
 
-            drawInteractionOnDrawEvent({state, commit, dispatch}, drawInteraction);
+            drawInteractionOnDrawEvent.call({$app: mockApp}, {state, commit, dispatch}, drawInteraction);
 
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setAddFeatureListener");
@@ -154,7 +154,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
         it("handleDrawEvent no circle call createStyle", () => {
             state.zIndex = 1;
             isVisible = true;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -175,7 +175,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
 
         it("handleDrawEvent no circle", () => {
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -199,7 +199,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawType.geometry = "Circle";
             state.drawType.id = "drawCircle";
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -225,7 +225,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawType.geometry = "Circle";
             state.drawType.id = "drawDoubleCircle";
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -252,7 +252,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawType.id = "drawDoubleCircle";
             state.drawDoubleCircleSettings.circleOuterRadius = 10;
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -280,7 +280,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawDoubleCircleSettings.circleRadius = 10;
             state.drawDoubleCircleSettings.circleOuterRadius = 0;
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -308,7 +308,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawCircleSettings.circleRadius = 10;
             state.drawCircleSettings.circleOuterRadius = 0;
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -339,7 +339,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawCircleSettings.circleRadius = 10;
             state.drawCircleSettings.circleOuterRadius = 0;
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -370,7 +370,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             state.drawCircleSettings.circleRadius = 10;
             state.drawCircleSettings.circleOuterRadius = 10;
             state.zIndex = 1;
-            handleDrawEvent({state, commit, dispatch, rootState}, event);
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
@@ -421,7 +421,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
                     }
                 };
 
-            featureStyle(state.drawSymbolSettings)(feature);
+            featureStyle.call({$app: mockApp}, state.drawSymbolSettings)(feature);
 
             expect(createStyleStub.calledOnce).to.be.true;
             expect(createStyleStub.firstCall.args[0]).to.be.deep.equal(drawState);

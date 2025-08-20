@@ -5,7 +5,6 @@ import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
 import DrawItemAttributes from "./DrawItemAttributes.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "@core/layers/js/layerCollection.js";
-import main from "../js/main";
 import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
 import VectorSource from "ol/source/Vector";
@@ -67,7 +66,6 @@ export default {
             "selectedFeature",
             "iconList",
             "symbol",
-            "layer",
             "styleSettings",
             "download",
             "filterList",
@@ -292,7 +290,7 @@ export default {
          * @returns {Boolean} True if there are visible features otherwise false.
          */
         isFromDrawTool () {
-            const visibleFeatures = this.layer?.getSource()?.getFeatures()?.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
+            const visibleFeatures = this.getLayer()?.getSource()?.getFeatures()?.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
                 feature.get("masterportal_attributes").isVisible
             );
 
@@ -304,7 +302,7 @@ export default {
          * @returns {module:ol/Feature[]} The features from drawTool
          */
         featuresFromDrawTool () {
-            return this.layer.getSource().getFeatures().filter(feature => feature.get("masterportal_attributes").fromDrawTool);
+            return this.getLayer().getSource().getFeatures().filter(feature => feature.get("masterportal_attributes").fromDrawTool);
         }
     },
     created () {
@@ -321,10 +319,9 @@ export default {
         this.checkLayer(importDrawLayer).then((layerExists) => {
             if (!layerExists) {
                 this.addLayer(importDrawLayer);
-                this.setLayer(importDrawLayer);
             }
         });
-        main.getApp().config.globalProperties.$layer = importDrawLayer;
+        this.$.appContext.app.config.globalProperties.$layer = importDrawLayer;
     },
     mounted () {
         this.startInteractions();
@@ -350,7 +347,6 @@ export default {
             "setDrawLineSettings",
             "setDrawAreaSettings",
             "setDrawCircleSettings",
-            "setLayer",
             "setAttributesKeyList"
         ]),
         ...mapActions("Modules/Draw_old", [
@@ -387,6 +383,14 @@ export default {
             "addLayer",
             "checkLayer"
         ]),
+
+        /**
+         * Returns the layer from globalProperties.
+         * @returns {Object} The layer from globalProperties.
+         */
+        getLayer () {
+            return this.$.appContext.app.config.globalProperties.$layer;
+        },
 
         /**
          * Adds all symbols found in layerModels to the iconList.
@@ -592,7 +596,7 @@ export default {
         >
             <DrawItemAttributes
                 :selected-feature="selectedFeature"
-                :layer="layer"
+                :layer="getLayer()"
                 :attributes-key-list="attributesKeyList"
                 @update-attributes-key-list="updateAttributesKeyList"
             />

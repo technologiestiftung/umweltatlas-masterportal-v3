@@ -1,6 +1,6 @@
 <script>
 import {mapGetters} from "vuex";
-import layerFactory from "@core/layers/js/layerFactory";
+import layerTypes from "@core/layers/js/layerTypes";
 import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 import LayerCheckBox from "./LayerCheckBox.vue";
 import LayerComponentIconFilter from "./LayerComponentIconFilter.vue";
@@ -62,7 +62,7 @@ export default {
          * @returns {Boolean} true, if layer configuration shall be shown in tree
          */
         show () {
-            const showLayerTyp = this.mode === "2D" ? !layerFactory.getLayerTypes3d().includes(this.conf.typ?.toUpperCase()) : !layerFactory.getLayerTypesNotVisibleIn3d().includes(this.conf.typ?.toUpperCase());
+            const showLayerTyp = this.mode === "2D" ? !layerTypes.getLayerTypes3d().includes(this.conf.typ?.toUpperCase()) : !layerTypes.getLayerTypesNotVisibleIn3d().includes(this.conf.typ?.toUpperCase());
 
             if (this.isLayerTree()) {
                 return this.conf.showInLayerTree === true && showLayerTyp && this.conf.isNeverVisibleInTree !== true;

@@ -1,6 +1,5 @@
 import {generateSimpleMutations} from "@shared/js/utils/generators";
 import initialState from "./stateDraw";
-import main from "../js/main";
 
 const mutations = {
     /**
@@ -156,15 +155,6 @@ const mutations = {
         state.drawCircleSettings.opacity = styleSettings.opacity;
         state.drawCircleSettings.opacityContour = styleSettings.opacityContour;
         state.drawCircleSettings.strokeWidth = styleSettings.strokeWidth;
-    },
-    /**
-     * Sets the Layer drawn with.
-     * @param {Object} state the state of draw-module
-     * @param {Object} layer the data to set
-     * @returns {void}
-     */
-    setLayer: (state, layer) => {
-        main.getApp().config.globalProperties.$layer = layer;
     },
     /**
     * Sets the Layer drawn with.

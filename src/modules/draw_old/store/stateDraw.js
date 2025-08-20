@@ -219,7 +219,9 @@ const symbol = {
         },
         attributesKeyList: [],
         semicolonCSVDelimiter: true,
-        oldStyle: undefined
+        oldStyle: undefined,
+        // only to avoid warnings when using global $app
+        $app: null
     };
 
 export default state;

@@ -7,7 +7,6 @@ import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes.js";
 import {setKmlAttributes} from "@modules/draw_old/js/setKmlAttributes.js";
 import transform from "@modules/draw_old/js/download/transform.js";
 import {transformGeometry} from "@modules/draw_old/js/download/transformGeometry";
-import main from "@modules/draw_old/js/main";
 
 /**
  * Converts the features from OpenLayers Features to features in the chosen format.
@@ -133,7 +132,7 @@ function prepareDownload ({state, commit, dispatch}) {
  */
 function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
     const downloadFeatures = [],
-        drawnFeatures = main.getApp().config.globalProperties.$layer.getSource().getFeatures();
+        drawnFeatures = this.$app.config.globalProperties.$layer.getSource().getFeatures();
 
     drawnFeatures?.forEach(drawnFeature => {
         const feature = drawnFeature.clone(),
@@ -181,7 +180,7 @@ function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
 function setDownloadFileName ({commit, dispatch}, value) {
     commit("setDownloadFileName", value);
 
-    const features = main.getApp().config.globalProperties?.$layer?.getSource()?.getFeatures?.() || [];
+    const features = this.$app.config.globalProperties?.$layer?.getSource()?.getFeatures?.() || [];
 
     if (features.length > 0) {
         dispatch("prepareDownload");
@@ -199,7 +198,7 @@ function setDownloadFileName ({commit, dispatch}, value) {
 async function setDownloadSelectedFormat ({commit, dispatch}, value) {
 
     commit("setDownloadSelectedFormat", value);
-    if (main.getApp().config.globalProperties.$layer.getSource().getFeatures().length > 0) {
+    if (this.$app.config.globalProperties.$layer.getSource().getFeatures().length > 0) {
         await dispatch("setDownloadFeatures");
         await dispatch("prepareData");
         dispatch("prepareDownload");

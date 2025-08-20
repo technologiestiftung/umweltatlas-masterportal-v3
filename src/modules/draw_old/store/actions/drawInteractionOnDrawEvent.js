@@ -1,6 +1,5 @@
 import createStyleModule from "@modules/draw_old/js/style/createStyle";
 import circleCalculations from "@modules/draw_old/js/circleCalculations";
-import main from "@modules/draw_old/js/main";
 
 const errorBorder = "#E10019";
 
@@ -18,7 +17,7 @@ export function drawInteractionOnDrawEvent ({state, commit, dispatch}, drawInter
     const styleSettings = JSON.parse(JSON.stringify(state[state.drawType.id + "Settings"])),
         circleMethod = styleSettings.circleMethod;
 
-    commit("setAddFeatureListener", main.getApp().config.globalProperties.$layer.getSource().once("addfeature", event => dispatch("handleDrawEvent", event)));
+    commit("setAddFeatureListener", this.$app.config.globalProperties.$layer.getSource().once("addfeature", event => dispatch("handleDrawEvent", event)));
     if (state.currentInteraction === "draw" && circleMethod === "defined" && state.drawType.geometry === "Circle") {
         const interaction = state["drawInteraction" + drawInteraction];
 
@@ -35,7 +34,7 @@ export function drawInteractionOnDrawEvent ({state, commit, dispatch}, drawInter
 export function handleDrawEvent ({state, commit, dispatch, rootState}, event) {
     const stateKey = state.drawType.id + "Settings",
         drawType = state.drawType,
-        layerSource = main.getApp().config.globalProperties.$layer.getSource(),
+        layerSource = this.$app.config.globalProperties.$layer.getSource(),
         styleSettings = JSON.parse(JSON.stringify(state[stateKey])),
         circleMethod = styleSettings.circleMethod;
 

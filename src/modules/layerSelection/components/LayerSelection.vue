@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerFactory from "@core/layers/js/layerFactory";
+import layerTypes from "@core/layers/js/layerTypes";
 import sortBy from "@shared/js/utils/sortBy";
 import LayerCheckBox from "../../layerTree/components/LayerCheckBox.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
@@ -198,7 +198,7 @@ export default {
          * @returns {Boolean} true, if configuration shall be controlled by SelectAllCheckBox
          */
         isControlledBySelectAll (conf) {
-            return conf.type === "layer" && (this.mode === "2D" ? !layerFactory.getLayerTypes3d().includes(conf.typ?.toUpperCase()) : true);
+            return conf.type === "layer" && (this.mode === "2D" ? !layerTypes.getLayerTypes3d().includes(conf.typ?.toUpperCase()) : true);
         },
         /**
          * Provides data for SelectAllCheckBox props.
@@ -235,7 +235,7 @@ export default {
          */
         filterBaseLayer () {
             if (this.mode === "3D") {
-                return this.baselayerConfs.filter(conf => !layerFactory.getLayerTypesNotVisibleIn3d().includes(conf.typ?.toUpperCase()));
+                return this.baselayerConfs.filter(conf => !layerTypes.getLayerTypesNotVisibleIn3d().includes(conf.typ?.toUpperCase()));
             }
             return this.baselayerConfs;
         },

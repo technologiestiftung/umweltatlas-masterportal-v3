@@ -122,6 +122,7 @@
 - WFS-T: Multisave doesn't overwrite configAttribute.
 - WFS-T: A Bug that mistakenly showed empty fields was fixed.
 - Layer tree: fixed function sortObjects.
+- Circular dependencies in imports are removed.
 
 ---
 

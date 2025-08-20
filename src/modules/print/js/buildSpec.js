@@ -13,7 +13,6 @@ import {convertColor} from "@shared/js/utils/convertColor";
 import isObject from "@shared/js/utils/isObject";
 import differenceJS from "@shared/js/utils/differenceJS";
 import findWhereJs from "@shared/js/utils/findWhereJs";
-import {getLastPrintedExtent} from "../store/actionsPrintInitialization";
 import sortBy from "@shared/js/utils/sortBy";
 import store from "@appstore";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
@@ -221,6 +220,16 @@ const BuildSpecModel = {
 
         return undefined;
     },
+
+    /**
+     * Setter for lastPrintedExtent.
+     * @param {Array} extent the extent
+     * @returns {void}
+     */
+    setLastPrintedExtent: function (extent) {
+        this.lastPrintedExtent = extent;
+
+    },
     /**
      * Returns information about the layer depending on the layer type.
      *
@@ -242,9 +251,7 @@ const BuildSpecModel = {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
-                const maskExtent = getLastPrintedExtent();
-
-                returnLayer = await this.buildVectorTile(layer, currentResolution, maskExtent);
+                returnLayer = await this.buildVectorTile(layer, currentResolution, this.lastPrintedExtent);
             }
             else if (layer instanceof Image) {
                 returnLayer = this.buildImageWms(layer, dpi);
