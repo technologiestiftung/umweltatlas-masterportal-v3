@@ -271,7 +271,10 @@ export default {
                 :disabled="!areStepValuesAscending"
             />
         </div>
-        <div class="d-flex justify-content-center">
+        <div
+            v-if="classificationMode === 'custom'"
+            class="d-flex justify-content-center"
+        >
             <FlatButton
                 id="reset-legend"
                 :aria-label="$t('common:modules.statisticDashboard.legend.reset')"

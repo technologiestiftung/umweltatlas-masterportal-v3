@@ -134,6 +134,29 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
 
             expect(wrapper.findAll("#value-ranges").length).to.equal(5);
         });
+
+        it("should not render a reset button if classification mode is not 'custom'", () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find("#reset-legend").exists()).to.be.false;
+        });
+
+        it("should render a reset button if classification mode is 'custom'", async () => {
+            const wrapper = shallowMount(StatisticDashboardLegend, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.setClassificationMode("custom");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find("#reset-legend").exists()).to.be.true;
+        });
     });
     describe("Number of classes", () => {
         it("should show correct default status according to store", async () => {
