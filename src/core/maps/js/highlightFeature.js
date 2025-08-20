@@ -301,11 +301,8 @@ export default {
     async fetchAndApplyStyle (context, {highlightObject, feature, returnFirst = true}) {
         const styleId = highlightObject.styleId || highlightObject.layer.id,
             stylelistObject = styleList.returnStyleObject(styleId);
-
-
         let style;
-        console.log(highlightObject);
-        console.log(feature);
+
         if (stylelistObject) {
             style = createStyle.createStyle(stylelistObject, feature, false, Config.wfsImgPath);
             if (returnFirst && Array.isArray(style) && style.length > 0) {
