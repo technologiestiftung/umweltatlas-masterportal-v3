@@ -18,6 +18,7 @@
   - Configurable in config.js
   - Added an active value that allows enabling or disabling MouseHover through the configuration.
 - Added Shared Component for pagination.
+- UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
