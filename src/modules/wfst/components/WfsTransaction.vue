@@ -320,6 +320,7 @@ export default {
                                     @input="event => setFeaturesBatchProperty({key: property.key, type: getInputType(property.type), value: event.target.checked})"
                                 >
                                 <input
+                                    v-else
                                     :id="`tool-wfs-transaction-form-input-${property.key}`"
                                     :key="`${property.key}-input`"
                                     class="form-control"
