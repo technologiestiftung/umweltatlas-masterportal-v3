@@ -24,9 +24,9 @@ export default {
             type: Object,
             required: true
         },
-        enableDownload: {
+        enableButtons: {
             type: Boolean,
-            required: false,
+            required: true,
             default: false
         }
     },
@@ -284,13 +284,14 @@ export default {
                         class="difference-button mt-0 float-right text-right"
                         data-toggle="tooltip"
                         data-placement="top"
-                        :title="$t('common:modules.statisticDashboard.reference.description')"
+                        :title="enableButtons ? $t('common:modules.statisticDashboard.reference.description') : ''"
                     >
                         <button
                             :aria-label="$t('common:modules.statisticDashboard.button.difference')"
                             icon="bi bi-intersect"
                             class="btn btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
-                            :class="typeof referenceTag === 'string' ? 'active' : ''"
+                            :class="[typeof referenceTag === 'string' ? 'active' : '', !enableButtons ? 'disabled' : '']"
+                            :disabled="!enableButtons"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                             data-bs-auto-close="outside"
@@ -317,7 +318,7 @@ export default {
                         id="download-button"
                         :handler="onsuccesss => $emit('download', onsuccesss)"
                         :filename="downloadFilename"
-                        :disabled="!enableDownload"
+                        :disabled="!enableButtons"
                         use-semicolon
                         class="text-nowrap btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
                     >

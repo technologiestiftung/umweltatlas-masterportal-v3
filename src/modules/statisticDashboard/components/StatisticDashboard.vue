@@ -1785,7 +1785,7 @@ export default {
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
-                :enable-download="tableData.length > 0"
+                :enable-buttons="tableData.length > 0"
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
                 @download="downloadData"
