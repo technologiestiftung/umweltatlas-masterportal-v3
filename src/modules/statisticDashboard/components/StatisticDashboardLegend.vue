@@ -191,20 +191,20 @@ export default {
                 v-for="index in numberOfClasses"
                 id="value-ranges"
                 :key="index"
-                class="row"
+                class="row gx-0"
             >
                 <InputText
                     :id="'value-range' + index"
                     :label="$t('common:modules.statisticDashboard.legend.range') + ' ' + index"
                     :class="['col', 'col-3']"
                     :placeholder="$t('common:modules.statisticDashboard.legend.range')"
-                    type="number"
+                    type="text"
                     :disabled="index > stepValues.length + 1"
                     :model-value="stepValues[index - 1]?.toString()"
                     @update:modelValue="value => changeStepValues(index - 1, value)"
                 />
                 <div
-                    class="col col-auto align-self-center my-0"
+                    class="col col-auto align-self-center mb-3 mx-3"
                 >
                     {{ index === numberOfClasses ?
                         $t('common:modules.statisticDashboard.legend.andAbove') :

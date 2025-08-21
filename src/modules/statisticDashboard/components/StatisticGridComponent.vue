@@ -102,17 +102,4 @@ export default {
     }
 }
 
-.flex-container .mx-5 {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    margin-right: 0px !important;
-    margin-left: 0px !important;
-}
-
-.flex-container .my-5 {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    margin-left: 0px !important;
-    margin-left: 0px !important;
-}
 </style>
