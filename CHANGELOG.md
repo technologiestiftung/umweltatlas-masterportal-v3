@@ -26,6 +26,8 @@
 - VectorTile, WebGL: Feature detection for MouseHover/GFI uses forEachFeatureAtPixel to support WebGL-rendered layers and avoid issues with getFeaturesInExtent.
 - InputText: Replace input text with InputText.
 - HTML input elements: Replaced HTML input elements of type text with shared modules component InputText.
+- Shared utils: Optimized function isEmailAddress to return early to avoid running the regex for invalid input values.
+
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.49.0 to 2.50.0 (This also raised ol to version 10.6.0)
