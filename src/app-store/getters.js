@@ -424,7 +424,7 @@ export default {
      * @returns {Array} value for mouseHover
      */
     mouseHover: state => {
-        return state.portalConfig?.map?.mouseHover || {};
+        return state.portalConfig?.map?.mouseHover || false;
     },
 
     /**
