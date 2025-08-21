@@ -333,7 +333,7 @@ export default {
             :is-open="true"
             font-size="font_size_big"
         >
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <label
                     class="col-form-label-sm"
                     for="categoryfilter"
@@ -376,7 +376,7 @@ export default {
                     </template>
                 </Multiselect>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <label
                     class="col-form-label-sm"
                     for="dropdownButton"
@@ -440,7 +440,7 @@ export default {
             :coloured-header="true"
             font-size="$font_size_big"
         >
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <label
                     class="col-form-label-sm"
                     for="timefilter"

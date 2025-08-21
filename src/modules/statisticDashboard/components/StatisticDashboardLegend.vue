@@ -87,7 +87,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="col-sm-10">
         <h5 class="mb-5">
             {{ $t('common:modules.statisticDashboard.legend.editClassification') }}
         </h5>
