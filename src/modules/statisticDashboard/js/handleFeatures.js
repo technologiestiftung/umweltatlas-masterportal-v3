@@ -39,6 +39,7 @@ function styleFeaturesByStatistic (features, statisticData, colorScheme, date, r
         const region = feature.get(regionKey),
             index = stepValues.findLastIndex(e => statisticData[region]?.[date] >= e);
 
+        feature?.set("noValue", index === -1);
         styleFeature(feature, colorScheme[index]);
     });
 }
@@ -208,22 +209,36 @@ function prepareLegendForPolygon (legendObj, style) {
  * Gets the Legend value
  * @param {Object} val - The raw value of legend
  * @param {Number} [decimalPlaces=2] - The number of decimal places to round the value.
+ * @param {Boolean} [withoutValue=false] - true if there are feature without value.
  * @returns {Object[]} the legend Value
  */
-function getLegendValue (val, decimalPlaces = 2) {
+function getLegendValue (val, decimalPlaces = 2, withoutValue = false) {
+    const legengValue = [];
+
+    if (withoutValue) {
+        const legendObj = {
+                "name": i18next.t("common:modules.statisticDashboard.legend.noValue")
+            },
+            style = {
+                "polygonFillColor": [255, 255, 255, 0.9],
+                "polygonStrokeColor": [166, 166, 166, 1],
+                "polygonStrokeWidth": 1
+            };
+
+        legengValue.push(prepareLegendForPolygon(legendObj, style));
+    }
+
     if (!isObject(val) || !val?.color || !val?.value) {
-        return [];
+        return legengValue;
     }
 
     if (!Array.isArray(val.color) || !Array.isArray(val.value)) {
-        return [];
+        return legengValue;
     }
 
     if (val.color.length < val.value.length) {
-        return [];
+        return legengValue;
     }
-
-    const legengValue = [];
 
     val.value.forEach((data, index) => {
         if (!isNaN(data) && isFinite(data)) {
@@ -251,7 +266,7 @@ function getLegendValue (val, decimalPlaces = 2) {
                 };
             }
 
-            legengValue[index] = prepareLegendForPolygon(legendObj, style);
+            legengValue.push(prepareLegendForPolygon(legendObj, style));
         }
     });
 

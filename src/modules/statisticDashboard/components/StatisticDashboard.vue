@@ -88,7 +88,8 @@ export default {
             sideMenuWidth: undefined,
             canvasSize: undefined,
             statisticsData: undefined,
-            noDataInColumn: undefined
+            noDataInColumn: undefined,
+            featureWithoutValue: false
         };
     },
     computed: {
@@ -280,7 +281,7 @@ export default {
         },
         legendData: {
             handler (val) {
-                this.legendValue = FeaturesHandler.getLegendValue(val, this.decimalPlaces);
+                this.legendValue = FeaturesHandler.getLegendValue(val, this.decimalPlaces, this.featureWithoutValue);
             },
             deep: true
         },
@@ -669,6 +670,9 @@ export default {
                 regionNameAttribute,
                 this.stepValues
             );
+
+            this.featureWithoutValue = filteredFeatures.some(feature => feature.get("noValue") === true);
+
             this.setLegendData({
                 "color": this.colorPalette.map(v => [...v, this.opacity]),
                 "value": this.stepValues

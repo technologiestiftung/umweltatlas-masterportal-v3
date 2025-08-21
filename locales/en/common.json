@@ -1279,7 +1279,8 @@
         "quantile": "Equal class sizes (quantiles)",
         "customized": "Customized",
         "andAbove": "and above",
-        "invalidCustomStepsAlert": "Warning: Threshold values for classification must be ascending numbers!"
+        "invalidCustomStepsAlert": "Warning: Threshold values for classification must be ascending numbers!",
+        "noValue": "Missing values are in white color"
       },
       "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics.",
       "backToOverview": "Overview of Diagrams",

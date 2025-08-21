@@ -102,6 +102,8 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
 
             FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], statisticData, colorScheme, "2018", "region", [0, 80, 100]);
 
+            expect(feature3.get("noValue")).to.be.false;
+
             expect(feature1.getStyle().getStroke()).to.be.deep.equals(stroke);
             expect(feature2.getStyle().getStroke()).to.be.deep.equals(stroke);
             expect(feature3.getStyle().getStroke()).to.be.deep.equals(stroke);
@@ -198,6 +200,29 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.getLegendValue({"color": []})).to.be.deep.equals([]);
             expect(FeatureHandler.getLegendValue({"value": []})).to.be.deep.equals([]);
             expect(FeatureHandler.getLegendValue({"color": [], "value": ["test"]})).to.be.deep.equals([]);
+        });
+
+        it("should return the legend value with no-value feature", () => {
+            const val = {
+                    "color": [[198, 219, 239, 0.9], [158, 202, 225, 0.9]],
+                    "value": [80, 90]
+                },
+                expectedVal = [
+                    {
+                        "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(255, 255, 255);fill-opacity:0.9;stroke:rgb(166, 166, 166);stroke-opacity:1;stroke-width:1;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                        "name": "modules.statisticDashboard.legend.noValue"
+                    },
+                    {
+                        "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(198, 219, 239);fill-opacity:0.9;stroke:rgb(198, 219, 239);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                        "name": "modules.statisticDashboard.legend.between"
+                    },
+                    {
+                        "graphic": "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(158, 202, 225);fill-opacity:0.9;stroke:rgb(158, 202, 225);stroke-opacity:0.9;stroke-width:3;stroke-linecap:round;stroke-dasharray:;'/></svg>",
+                        "name": "modules.statisticDashboard.legend.from 90"
+                    }
+                ];
+
+            expect(FeatureHandler.getLegendValue(val, 2, true)).to.be.deep.equals(expectedVal);
         });
 
         it("should return the legend value", () => {
