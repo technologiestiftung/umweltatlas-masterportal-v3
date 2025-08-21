@@ -533,6 +533,40 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
 
                 expect(sortedItems).to.deep.equal(expectItems);
             });
+            it("should sort combination of number strings and strings by their value if prop is set", () => {
+                wrapper = createWrapper({
+                    sortByNumericValue: true
+                });
+                const items = [{
+                        "bar": "2"
+                    },
+                    {
+                        "bar": "11"
+                    },
+                    {
+                        "bar": "-"
+                    },
+                    {
+                        "bar": "1"
+                    }],
+                    expectItems = [
+                        {
+                            "bar": "-"
+                        },
+                        {
+                            "bar": "1"
+                        },
+                        {
+                            "bar": "2"
+                        },
+                        {
+                            "bar": "11"
+                        }
+                    ],
+                    sortedItems = wrapper.vm.getSortedItems(items, "bar", "asc");
+
+                expect(sortedItems).to.deep.equal(expectItems);
+            });
         });
         describe("runSorting", () => {
             it("should call expected functions", () => {
@@ -1245,6 +1279,7 @@ describe("src/shared/modules/table/components/TableComponent.vue", () => {
                         items: [
                             {foo: "Total", bar: 1, buz: 1},
                             {foo: "Total", bar: 2, buz: 2},
+                            {foo: "Total", bar: "-", buz: "-"},
                             {foo: "Total", bar: 3, buz: 3}
                         ]
                     },

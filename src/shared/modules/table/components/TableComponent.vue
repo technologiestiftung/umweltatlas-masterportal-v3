@@ -342,6 +342,12 @@ export default {
                     return 1;
                 }
                 if (this.sortByNumericValue) {
+                    if (!isNaN(parseFloat(a[columnToSort])) && isNaN(parseFloat(b[columnToSort]))) {
+                        return 1;
+                    }
+                    if (isNaN(parseFloat(a[columnToSort])) && !isNaN(parseFloat(b[columnToSort]))) {
+                        return -1;
+                    }
                     return parseFloat(a[columnToSort]) - parseFloat(b[columnToSort]);
                 }
                 return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
@@ -682,11 +688,13 @@ export default {
                             return;
                         }
 
+                        const parsedData = isNaN(parseFloat(item[header.name])) ? 0 : parseFloat(item[header.name]);
+
                         if (typeof this.maxDecimalPlaces === "number") {
-                            value = Number((parseFloat(item[header.name]) + parseFloat(value)).toFixed(this.maxDecimalPlaces));
+                            value = Number((parsedData + parseFloat(value)).toFixed(this.maxDecimalPlaces));
                         }
                         else {
-                            value += item[header.name];
+                            value += parsedData;
                         }
                     });
 
