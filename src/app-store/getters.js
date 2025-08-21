@@ -421,7 +421,7 @@ export default {
     /**
      * Returns the configured value for mouseHover.
      * @param {Object} state state of the app-store.
-     * @returns {Array} value for mouseHover
+     * @returns {Array} value for mouseHover or false if not configured
      */
     mouseHover: state => {
         return state.portalConfig?.map?.mouseHover || false;
