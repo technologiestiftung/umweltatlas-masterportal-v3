@@ -487,10 +487,10 @@ export default {
             class="row justify-content-center my-3"
         >
             <div
-                class="col col-md-auto d-flex align-items-center justify-content-center mt-2 alert alert-primary"
+                class="col col-md-auto d-flex align-items-center justify-content-center mt-2 alert alert-secondary info-text"
                 role="alert"
             >
-                <i class="info-icon bi bi-info-circle me-4" />
+                <i class="bi bi-info-circle me-4" />
                 {{ $t('common:modules.statisticDashboard.filterHint') }}
             </div>
         </div>
@@ -513,9 +513,9 @@ export default {
 .back i, .back a {
     color: $dark-grey;
 }
-
-.info-icon {
-    font-size: $icon_length_small;
+.info-text {
+    font-size: $font_size_sm;
+    margin-top: 15px;
 }
 </style>
 <style lang="scss">

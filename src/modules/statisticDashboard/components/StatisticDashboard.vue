@@ -1797,14 +1797,15 @@ export default {
             />
             <div
                 v-if="statisticsData === undefined"
-                class="no-data-content row justify-content-center"
+                class="row justify-content-center my-3"
             >
-                <span class="col-1 info-icon d-flex align-items-center justify-content-center">
-                    <i class="bi-info-circle" />
-                </span>
-                <p class="col col-md-8">
+                <div
+                    class="col col-md-9 d-flex align-items-center justify-content-center mt-2 alert alert-secondary info-text"
+                    role="alert"
+                >
+                    <i class="bi bi-info-circle me-4" />
                     {{ $t("common:modules.statisticDashboard.infoTextNoData") }}
-                </p>
+                </div>
             </div>
             <div v-show="showTable">
                 <TableComponent
@@ -1831,13 +1832,12 @@ export default {
                     v-if="showLimitView"
                     class="filtered-areas"
                 >
-                    <div
-                        class="row info mb-4 mt-2"
-                    >
-                        <span class="col-1 info-icon d-flex align-items-center justify-content-center">
-                            <i class="bi-info-circle" />
-                        </span>
-                        <div class="col info-text">
+                    <div class="row justify-content-center my-3">
+                        <div
+                            class="col col-md-9 d-flex align-items-center justify-content-center mt-2 alert alert-secondary info-text"
+                            role="alert"
+                        >
+                            <i class="bi bi-info-circle me-4" />
                             {{ $t("common:modules.statisticDashboard.infoText") }}
                         </div>
                     </div>
@@ -1903,9 +1903,6 @@ export default {
 hr {
     clear: both;
 }
-.no-data-content {
-    margin-top: 10%;
-}
 
 .btn-pb {
     padding-bottom: 2px;
@@ -1919,10 +1916,6 @@ img {
 }
 .legend-names {
     font-size: 12px;
-}
-.info-icon i {
-    font-size: $icon_length_small;
-    color: $dark_grey;
 }
 .info-text {
     font-size: $font_size_sm;

@@ -205,7 +205,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             await wrapper.setData({statisticsData: undefined});
 
-            expect(wrapper.find(".no-data-content").exists()).to.be.true;
+            expect(wrapper.find(".bi-info-circle").exists()).to.be.true;
         });
         it("should not render info text, if statistical data is available", async () => {
             const wrapper = shallowMount(StatisticDashboard, {
