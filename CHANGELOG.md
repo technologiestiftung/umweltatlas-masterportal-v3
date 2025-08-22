@@ -27,7 +27,7 @@
 - Shared TableComponent:
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
-- Added config parameter `defaultInfoFormat` to override global default in 2d raster layer.
+- Added config parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.

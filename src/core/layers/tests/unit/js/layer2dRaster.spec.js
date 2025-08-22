@@ -2,10 +2,13 @@ import {expect} from "chai";
 import sinon from "sinon";
 import Layer2dRaster from "@core/layers/js/layer2dRaster";
 import Layer2d from "@core/layers/js/layer2d";
+import store from "@appstore";
+import {nextTick} from "vue";
 
 describe("src/core/js/layers/layer2dRaster.js", () => {
     let warn,
-        layer2dSpy;
+        layer2dSpy,
+        origGetters;
 
     beforeEach(() => {
         warn = sinon.spy();
@@ -28,11 +31,13 @@ describe("src/core/js/layers/layer2dRaster.js", () => {
             }
         };
 
+        origGetters = store.getters;
         mapCollection.addMap(map, "2D");
     });
 
     afterEach(() => {
         sinon.restore();
+        store.getters = origGetters;
     });
 
     describe("createLayer", () => {
@@ -43,17 +48,22 @@ describe("src/core/js/layers/layer2dRaster.js", () => {
             expect(warn.calledOnce).to.be.true;
         });
 
-        it("default infoFormat from config should be used", () => {
-            Config.defaultInfoFormat = "text/html";
-
+        it("default infoFormat from config should be used", async () => {
+            store.getters = {
+                portalConfig: {
+                    tree: {
+                        rasterLayerDefaultInfoFormat: "text/html"
+                    }
+                }
+            };
             sinon.stub(Layer2d, "call").callsFake(layer2dSpy);
 
-            new Layer2dRaster({});
+            await nextTick(() => {
+                new Layer2dRaster({});
+            });
 
             expect(layer2dSpy.calledOnce).to.be.true;
             expect(layer2dSpy.firstCall.args[1]).to.be.deep.equal({infoFormat: "text/html"});
-
-            delete Config.defaultInfoFormat;
         });
 
         it("infoFormat should be text/xml if not set in config", () => {
