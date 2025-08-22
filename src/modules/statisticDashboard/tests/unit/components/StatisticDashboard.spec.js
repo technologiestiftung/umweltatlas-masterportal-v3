@@ -309,7 +309,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 }),
                 spyHandleChartData = sinon.stub(wrapper.vm, "handleChartData");
 
-            wrapper.setData({statisticsData: {}});
+            await wrapper.setData({statisticsData: {foo: {}}});
             store.commit("Modules/StatisticDashboard/setChosenStatisticName", "foo");
             await wrapper.vm.$nextTick();
             await wrapper.vm.$nextTick();

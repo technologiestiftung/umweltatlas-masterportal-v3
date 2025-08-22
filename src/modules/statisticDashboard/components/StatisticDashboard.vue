@@ -1,50 +1,46 @@
 <script>
-import {mapGetters, mapMutations, mapActions} from "vuex";
-import TableComponent from "@shared/modules/table/components/TableComponent.vue";
-import isObject from "@shared/js/utils/isObject";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import {and as andFilter, equalTo as equalToFilter, or as orFilter} from "ol/format/filter";
+import ChartProcessor from "../js/chartProcessor.js";
+import {colorbrewer} from "../js/colorbrewer";
+import Controls from "./StatisticDashboardControls.vue";
+import {convertColor} from "@shared/js/utils/convertColor";
+import dayjs from "dayjs";
+import FeaturesHandler from "../js/handleFeatures.js";
+import FetchDataHandler from "../js/fetchData.js";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
 import getters from "../store/gettersStatisticDashboard";
 import GridComponent from "./StatisticGridComponent.vue";
-import Controls from "./StatisticDashboardControls.vue";
-import StatisticFilter from "./StatisticDashboardFilter.vue";
-import LegendComponent from "./StatisticDashboardLegend.vue";
-import FetchDataHandler from "../js/fetchData.js";
-import StatisticsHandler from "../js/handleStatistics.js";
-import FeaturesHandler from "../js/handleFeatures.js";
-import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
-import {rawLayerList} from "@masterportal/masterportalapi";
-import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
-import ChartProcessor from "../js/chartProcessor.js";
-import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import LegendComponent from "./StatisticDashboardLegend.vue";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 import Multiselect from "vue-multiselect";
-import {
-    and as andFilter,
-    equalTo as equalToFilter,
-    or as orFilter
-} from "ol/format/filter";
-import dayjs from "dayjs";
-import WFS from "ol/format/WFS";
-import sortBy from "@shared/js/utils/sortBy";
-import {colorbrewer} from "../js/colorbrewer";
-import {convertColor} from "@shared/js/utils/convertColor";
-import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import isNumber from "@shared/js/utils/isNumber";
+import isObject from "@shared/js/utils/isObject";
+import {rawLayerList} from "@masterportal/masterportalapi";
+import sortBy from "@shared/js/utils/sortBy";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import StatisticFilter from "./StatisticDashboardFilter.vue";
+import StatisticsHandler from "../js/handleStatistics.js";
+import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
+import WFS from "ol/format/WFS";
 
 export default {
     name: "StatisticDashboard",
     components: {
-        TableComponent,
-        GridComponent,
+        AccordionItem,
         Controls,
+        FlatButton,
+        GridComponent,
+        IconButton,
+        LegendComponent,
+        Multiselect,
+        SpinnerItem,
         StatisticFilter,
         StatisticSwitcher,
-        LegendComponent,
-        AccordionItem,
-        FlatButton,
-        Multiselect,
-        IconButton,
-        SpinnerItem
+        TableComponent
     },
     data () {
         return {
@@ -225,15 +221,33 @@ export default {
                 this.updateLimitedData();
             }
         },
-        chosenStatisticName (val) {
+
+        /**
+         * Updates the table and the chart data when the chosen statistic name changes.
+         * If the statistic name is an empty string, the chart overview is created.
+         * @param {String} statisticName - The new value of `chosenStatisticName`.
+         */
+        chosenStatisticName (statisticName) {
+            if (statisticName === "") {
+                this.handleChartData(
+                    this.selectedStatisticsNames,
+                    this.selectedRegionsValues,
+                    this.selectedDatesValues,
+                    this.statisticsData,
+                    this.selectedReferenceData?.type
+                );
+                return;
+            }
             this.$nextTick(() => {
-                this.chosenTableData = this.getTableData(this.statisticsData, val);
+                this.chosenTableData = this.getTableData(this.statisticsData, statisticName);
+
                 if (!this.statisticsData) {
                     return;
                 }
+
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
-                        this.statisticsData[this.chosenStatisticName],
+                        this.statisticsData?.[this.chosenStatisticName],
                         this.numberOfClasses,
                         this.selectedColumn,
                         this.classificationMode,
@@ -241,6 +255,7 @@ export default {
                         this.decimalPlaces
                     )
                 );
+
                 this.handleChartData(
                     this.statisticNameOfChart,
                     this.selectedRegionsValues,
@@ -260,24 +275,6 @@ export default {
                 this.chosenTableData = [];
                 this.setChosenStatisticName("");
             }
-            this.handleChartData(
-                this.statisticNameOfChart,
-                this.selectedRegionsValues,
-                this.selectedDatesValues,
-                this.statisticsData,
-                this.selectedReferenceData?.type
-            );
-
-        },
-        statisticsData (val) {
-            this.chosenTableData = this.getTableData(val, this.chosenStatisticName);
-            this.handleChartData(
-                this.statisticNameOfChart,
-                this.selectedRegionsValues,
-                this.selectedDatesValues,
-                this.statisticsData,
-                this.selectedReferenceData?.type
-            );
         },
         legendData: {
             handler (val) {
@@ -1325,6 +1322,10 @@ export default {
          * @returns {Object} The deepest child.
          */
         getSelectedLevelRegionNameAttributeInDepth (region) {
+            if (typeof region === "undefined") {
+                return {};
+            }
+
             let child;
 
             if (!Object.prototype.hasOwnProperty.call(region, "child")) {
