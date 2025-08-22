@@ -1185,7 +1185,7 @@ export default {
                 return [];
             }
 
-            if (statisticName === "" && Object.keys(statisticsData).length && this.chartTableToggle === "table") {
+            if (statisticName === "" && Object.keys(statisticsData).length) {
                 this.setChosenStatisticName(Object.keys(statisticsData)[0]);
             }
 
