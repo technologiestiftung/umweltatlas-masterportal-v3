@@ -54,7 +54,7 @@ export default {
             required: false
         }
     },
-    emits: ["update:modelValue"],
+    emits: ["update:modelValue", "focus", "blur", "click"],
     methods: {
         /**
          * Sets focus to the input element of the component.
@@ -85,6 +85,9 @@ export default {
             :disabled="disabled"
             @input="$emit('update:modelValue', $event.target.value); onInput?.($event.target.value)"
             @change="event => onChange?.(event.target.value)"
+            @focus="$emit('focus', $event)"
+            @blur="$emit('blur', $event)"
+            @click="$emit('click', $event)"
         >
         <label
             class="input-label"
