@@ -5,6 +5,7 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+- MouseHover: Add font weight options for desciption and title.
 ### __Breaking Changes__
 
 ### Added

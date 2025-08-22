@@ -964,10 +964,12 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 |numFeaturesToShow|nein|Integer|2|Maximale Menge an Elementinformationen pro Tooltip; bei Überschreitung informiert ein Informationstext den Benutzer über den abgeschnittenen Inhalt.|false|
 |fontFamily|nein|String|"common:modules.mouseHover.fontFamily"|Schriftart für die Beschreibung|false|
 |fontStyle|nein|String|"common:modules.mouseHover.fontStyle"|Schriftstil für die Beschreibung|false|
+|fontWeight|nein|String|"common:modules.mouseHover.fontWeight"|Schriftstärke für die Beschreibung|false|
 |fontSize|nein|String|"common:modules.mouseHover.fontSize"|Schriftgröße für die Beschreibung|false|
 |fontColor|nein|String|"common:modules.mouseHover.fontColor"|Schriftfarbe für die Beschreibung|false|
 |titleFontFamily|nein|String|"common:modules.mouseHover.titleFontFamily"|Schriftart für den Titel|false|
 |titleFontStyle|nein|String|"common:modules.mouseHover.titleFontStyle"|Schriftstil für den Titel|false|
+|titleFontWeight|nein|String|"common:modules.mouseHover.titleFontWeight"|Schriftstärke für den Titel|false|
 |titleFontSize|nein|String|"common:modules.mouseHover.titleFontSize"|Schriftgröße für den Titel|false|
 |titleFontColor|nein|String|"common:modules.mouseHover.titleFontColor"|Schriftfarbe für den Titel|false|
 |infoBorderRadius|nein|Integer|"common:modules.mouseHover.infoBorderRadius"|Abrundung der Tooltip-Ecken|false|
@@ -981,10 +983,12 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
     "infoText": "Beispieltext",
     "fontFamily": "Arial",
     "fontStyle": "Italic",
+    "fontWeight": "Normal",
     "fontSize": 12,
     "fontColor": "#FF0000",
 	"titleFontFamily": "Helvetica",
-	"titleFontStyle": "Bold",
+	"titleFontStyle": "Normal",
+    "titleFontWeight": "Bold",
 	"titleFontSize": 16,
 	"titleFontColor": "#1A43BF",
 	"infoBorderRadius": 4,

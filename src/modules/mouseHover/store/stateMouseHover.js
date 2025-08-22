@@ -10,6 +10,8 @@ import Overlay from "ol/Overlay.js";
  * @property {String} titleFontFamily The font that will be used for the title in the popup.
  * @property {String} fontStyle The font style that will be used in the popup.
  * @property {String} titleFontStyle The font style that will be used for the title in the popup.
+ * @property {String} fontWeight The font weight that will be used in the popup.
+ * @property {String} titleFontWeight The font weight that will be used for the title in the popup.
  * @property {Number} fontSize The font size that will be used in the popup.
  * @property {Number} titleFontSize The font size that will be used for the title in the popup.
  * @property {String} fontColor The color of the font that will be used in the popup.
@@ -42,6 +44,8 @@ export default {
     titleFontFamily: "common:modules.mouseHover.titleFontFamily",
     fontStyle: "common:modules.mouseHover.fontStyle",
     titleFontStyle: "common:modules.mouseHover.titleFontStyle",
+    fontWeight: "common:modules.mouseHover.fontWeight",
+    titleFontWeight: "common:modules.mouseHover.titleFontWeight",
     fontSize: "common:modules.mouseHover.fontSize",
     titleFontSize: "common:modules.mouseHover.titleFontSize",
     fontColor: "common:modules.mouseHover.fontColor",
