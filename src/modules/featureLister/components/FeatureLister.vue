@@ -165,33 +165,6 @@ export default {
     width: fit-content;
     max-width: 90%;
 }
-.feature-lister-list-table-container {
-    border-left: 1px solid $light_grey;
-    border-right: 1px solid $light_grey;
-}
-#feature-lister-list-table {
-    overflow: auto;
-}
-.feature-lister-list-button {
-    position: relative;
-    right: 0;
-}
-.feature-lister-list-message {
-    float: left;
-    text-align: center;
-    align-items: center;
-}
-.feature-lister-details-ul {
-    max-height: 400px;
-    overflow: auto;
-    cursor: auto;
-}
-.feature-lister-details {
-    display: block;
-    margin-bottom: 0;
-    max-height: 100%;
-    overflow: auto;
-}
 .feature-lister-list {
     margin-bottom: 0;
     display: contents;
