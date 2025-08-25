@@ -442,12 +442,12 @@ export default {
                         return 1;
                     }
                     if (this.sortByNumericValue) {
-                    if (!isNaN(parseFloat(a[columnToSort])) && isNaN(parseFloat(b[columnToSort]))) {
-                        return 1;
-                    }
-                    if (isNaN(parseFloat(a[columnToSort])) && !isNaN(parseFloat(b[columnToSort]))) {
-                        return -1;
-                    }
+                        if (!isNaN(parseFloat(a[columnToSort])) && isNaN(parseFloat(b[columnToSort]))) {
+                            return 1;
+                        }
+                        if (isNaN(parseFloat(a[columnToSort])) && !isNaN(parseFloat(b[columnToSort]))) {
+                            return -1;
+                        }
                         return parseFloat(a[columnToSort]) - parseFloat(b[columnToSort]);
                     }
                     return localeCompare(a[columnToSort], b[columnToSort], this.currentLocale, {ignorePunctuation: true});
