@@ -20,7 +20,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             title: "TitleThree",
             content: "ContentThree"
         }],
-        referenceData = {};
+        referenceData = {},
+        enableButtons = false;
 
     let store;
 
@@ -50,7 +51,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should exist", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -63,7 +65,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should find no description", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -77,7 +80,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     descriptions,
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -91,7 +95,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should find a button toolbar", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -104,7 +109,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should find switcher component", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -117,7 +123,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should find difference component", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -133,7 +140,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("The close button should exist", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -148,7 +156,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     descriptions,
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -162,7 +171,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     descriptions,
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -196,7 +206,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     descriptions,
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -214,7 +225,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     descriptions,
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -249,7 +261,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set hasDescription to false", () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -263,7 +276,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -277,7 +291,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -292,7 +307,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -310,7 +326,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -325,7 +342,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -340,7 +358,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -355,7 +374,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -373,7 +393,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
-                    descriptions
+                    descriptions,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -406,7 +427,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set the referenceTag undefined", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -421,7 +443,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set the referenceTag value with label", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -436,7 +459,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set the referenceTag value with value", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -454,7 +478,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             it("should set the referenceTag to undefined if undefined is given", () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
-                        referenceData
+                        referenceData,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -468,7 +493,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             it("should set the referenceTag to expected string if given param is an object with value attribute", () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
-                        referenceData
+                        referenceData,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -482,7 +508,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             it("should set the referenceTag to expected string if given param is an object with an object as value for the property value", () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
-                        referenceData
+                        referenceData,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -499,7 +526,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions: [descriptions[0]]
+                        descriptions: [descriptions[0]],
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -517,7 +545,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -539,7 +568,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions: [descriptions[0]]
+                        descriptions: [descriptions[0]],
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -557,7 +587,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -578,7 +609,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             it("should set the chosenStatisticName to the previous name", async () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
                         propsData: {
-                            referenceData
+                            referenceData,
+                            enableButtons
                         },
                         global: {
                             plugins: [store]
@@ -609,7 +641,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             it("should set the chosenStatisticName to the next name", async () => {
                 const wrapper = shallowMount(StatisticDashboardControls, {
                         propsData: {
-                            referenceData
+                            referenceData,
+                            enableButtons
                         },
                         global: {
                             plugins: [store]
@@ -643,7 +676,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -659,7 +693,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
                         referenceData,
-                        descriptions
+                        descriptions,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]
@@ -674,7 +709,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should remove the reference data", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -690,7 +726,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set the chosenStatisticName to the previous name", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
-                    referenceData
+                    referenceData,
+                    enableButtons
                 },
                 global: {
                     plugins: [store]
@@ -729,7 +766,8 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
         it("should set the chosenStatisticName to the next name", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                     propsData: {
-                        referenceData
+                        referenceData,
+                        enableButtons
                     },
                     global: {
                         plugins: [store]

@@ -664,7 +664,7 @@ export default {
 
             FeaturesHandler.styleFeaturesByStatistic(
                 filteredFeatures,
-                this.statisticsData[this.chosenStatisticName],
+                this.statisticsData?.[this.chosenStatisticName],
                 this.colorPalette.map(v => [...v, this.opacity]),
                 date,
                 regionNameAttribute,
