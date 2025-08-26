@@ -266,7 +266,7 @@ export default {
         getGetCapabilitiesUrl (layerInfo) {
             const typ = layerInfo.typ,
                 config = this.layerConfigById(layerInfo.id),
-                url = config.origUrl ? config.origUrl : layerInfo.url,
+                url = config?.origUrl ? config.origUrl : layerInfo.url,
                 urlObject = new URL(url, location.href);
 
             if (typ !== "OAF") {

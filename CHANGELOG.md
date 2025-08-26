@@ -50,6 +50,7 @@
 - Tests: Fixed vuex warnings and stubbed console warnings end errors.
 - InputText: Fixed missing suggestions in input fields.
 - SearchInterfaceOsmNominatim: Fixed getter path in debounce check
+- GroupLayer: Fixed errors when opening layer info for layers within a group.
 
 ---
 
