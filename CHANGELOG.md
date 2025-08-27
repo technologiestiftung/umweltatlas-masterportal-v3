@@ -42,6 +42,7 @@
 - Removed configuration portal/layer.
 
 ### Fixed
+- Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
 - Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - Issue #1451: CompareMaps: Both maps are now still visible after reset.
