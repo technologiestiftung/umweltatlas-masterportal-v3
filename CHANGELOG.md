@@ -13,10 +13,9 @@
 - Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
 - StatisticDashboard: Added config parameter `decimalPlaces` to set the number of decimal places for the statistic values.
 - CustomMenuElement: Added support for configuring multiple viewpoint folders with the properties "showOnlyByLayersVisible" and "showEntryDirectly".
-- MouseHover:
-  - Added highlighting Vector Layers on mouseHover as in Version 2.
-  - Configurable in config.js
-  - Added an active value that allows enabling or disabling MouseHover through the configuration.
+- MouseHover: Added highlighting Vector Layers on mouseHover as in Version 2.
+- MouseHover: Configurable in config.js
+- MouseHover: Added an active value that allows enabling or disabling MouseHover through the configuration.
 - Added Shared Component for pagination.
 - UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
