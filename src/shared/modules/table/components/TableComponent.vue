@@ -98,7 +98,17 @@ export default {
             required: false,
             default: ""
         },
-        fixedData: {
+        fixedColumnWithOrder: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
+        fixedRow: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
+        fixedBottomData: {
             type: Object,
             required: false,
             default: undefined
@@ -158,7 +168,10 @@ export default {
             showTotal: this.totalProp === true || this.totalProp.enabled,
             showTotalData: false,
             firstColumnName: "",
-            fullViewActivated: false
+            fullViewActivated: false,
+            fixedColumnTitle: undefined,
+            fixedRowTitle: undefined,
+            fixedTopData: undefined
         };
     },
     computed: {
@@ -220,14 +233,19 @@ export default {
 
         visibleHeadersIndices: {
             handler (val) {
+                if (typeof this.fixedColumnWithOrder !== "undefined") {
+                    this.toggleColumnFix(this.fixedColumnWithOrder?.name, this.fixedColumnWithOrder?.index);
+                    this.fixedColumn = this.fixedColumnWithOrder?.name;
+                    this.fixedColumnTitle = this.fixedColumnWithOrder?.title;
+                }
                 this.visibleHeaders = this.draggableHeader?.filter(header => val.includes(header.index));
                 if (this.fixedColumn && !this.isHeaderVisible(this.fixedColumn)) {
                     this.toggleColumnFix(this.fixedColumn);
                 }
-
                 if (!Array.isArray(this.visibleHeaders)) {
                     return;
                 }
+
                 const clonedFilterObject = JSON.parse(JSON.stringify(this.filterObject));
 
                 Object.keys(this.filterObject).forEach(filteredColumn => {
@@ -241,7 +259,24 @@ export default {
             deep: true,
             immediate: true
         },
-
+        fixedColumnWithOrder: {
+            handler (val) {
+                if (typeof val === "undefined") {
+                    this.resetAll();
+                }
+            },
+            immediate: true
+        },
+        fixedRow: {
+            handler (val) {
+                this.fixedRowTitle = val?.title;
+                if (typeof val === "undefined") {
+                    this.fixedTopData = undefined;
+                    this.resetAll();
+                }
+            },
+            immediate: true
+        },
         filterObject: {
             handler () {
                 const filteredRows = this.getFilteredRows(this.filterObject, this.originRows);
@@ -262,6 +297,28 @@ export default {
                     this.fullView();
                 }
             }
+        },
+        editedTable: {
+            handler (val) {
+                const items = val?.items;
+
+                val.items = [];
+                for (let i = 0; i < items.length; i++) {
+                    const newItem = {};
+
+                    this.visibleHeaders.forEach(header => {
+                        newItem[header.name] = items[i][header.name] ?? "";
+                    });
+
+                    if (this.fixedRow?.name !== newItem?.[Object.keys(newItem).reverse()[0]]) {
+                        val.items.push(newItem);
+                    }
+                    else if (typeof this.fixedRow?.name !== "undefined") {
+                        this.fixedTopData = newItem;
+                    }
+                }
+            },
+            deep: true
         }
     },
     mounted () {
@@ -444,6 +501,18 @@ export default {
             this.filterObject = filterObject;
         },
         /**
+         * Gets the fixed row title.
+         * @param {String} val The fixed column name.
+         * @returns {String} The fixed row title.
+         */
+        getFixedRowTitle (val) {
+            if (this.fixedRow?.name === val) {
+                return this.fixedRow?.title;
+            }
+
+            return undefined;
+        },
+        /**
          * Gets a specific icon class to the passed order.
          * @param {String} column - The column in which the table is sorted.
          * @returns {String} The icon css class for the given order.
@@ -547,9 +616,10 @@ export default {
         /**
          * Toggles the fixed column.
          * @param {String} columnName The name of the column.
+         * @param {Number} [index=0] The index of column.
          * @returns {void}
          */
-        toggleColumnFix (columnName) {
+        toggleColumnFix (columnName, index = 0) {
             if (typeof columnName !== "string"
                 || typeof this.draggableHeader.find(header => header.name === columnName) === "undefined") {
                 return;
@@ -559,15 +629,16 @@ export default {
                 return;
             }
             this.fixedColumn = columnName;
-            this.moveColumnToFirstPlace(columnName);
+            this.moveColumnToPlace(columnName, index);
         },
 
         /**
          * Moves the given column by name to the first place in array.
          * @param {String} columnName The name of the column.
+         * @param {Number} [newIndex=0] The new index of column.
          * @returns {void}
          */
-        moveColumnToFirstPlace (columnName) {
+        moveColumnToPlace (columnName, newIndex = 0) {
             if (typeof columnName !== "string") {
                 return;
             }
@@ -580,7 +651,7 @@ export default {
                 }
                 if (draggableElement.name === columnName) {
                     oldIndex = draggableElement.index;
-                    draggableElement.index = 0;
+                    draggableElement.index = newIndex;
                 }
                 else if (oldIndex === null) {
                     draggableElement.index += 1;
@@ -896,6 +967,7 @@ export default {
                                         :id="element.name + element.index"
                                         v-model="visibleHeadersIndices"
                                         :value="element.index"
+                                        :disabled="typeof fixedColumnWithOrder !== 'undefined'"
                                         class="me-2 mt-1 form-check-input"
                                         type="checkbox"
                                     >
@@ -903,7 +975,14 @@ export default {
                                         class="text-nowrap form-check-label"
                                         :for="element.name + element.index"
                                     >
-                                        {{ element.name }}
+                                        <span
+                                            v-if="fixedColumn === element.name && typeof fixedColumnTitle !== 'undefined'"
+                                        >
+                                            {{ fixedColumnTitle + " " + element.name }}
+                                        </span>
+                                        <span v-else>
+                                            {{ element.name }}
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -913,6 +992,7 @@ export default {
                                             :interaction="() => toggleColumnFix(element.name)"
                                             :icon="fixedColumn !== element.name ? 'bi bi-pin-angle' : 'bi bi-pin-angle-fill'"
                                             :aria="$t('common:shared.modules.table.fixColumnAriaLabel')"
+                                            :disabled="typeof fixedColumnWithOrder !== 'undefined'"
                                         />
                                     </span>
                                     <span
@@ -994,7 +1074,7 @@ export default {
                         v-show="idx < maxAttributesToShow"
                         :key="idx"
                         class="filter-select-box-wrapper fixedWidth"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof fixedColumnTitle !== 'undefined' ? 'reference' : '']"
                         @click="selectColumn(column, idx)"
                     >
                         <div
@@ -1033,6 +1113,12 @@ export default {
                                 v-else
                                 class="mx-2 my-3 th-style"
                             >
+                                <span
+                                    v-if="fixedColumn === column.name && typeof fixedColumnTitle !== 'undefined'"
+                                    class="subtitle"
+                                >
+                                    {{ fixedColumnTitle }}
+                                </span>
                                 {{ column.displayName ? column.displayName : column.name }}
                             </span>
                             <span
@@ -1050,6 +1136,34 @@ export default {
                 </tr>
             </thead>
             <tbody>
+                <template v-if="typeof fixedTopData !== 'undefined'">
+                    <tr
+                        class="fixed-row"
+                    >
+                        <td
+                            v-for="(entry, columnIdx) in draggableHeader"
+                            :key="'fixed-top-'+columnIdx"
+                            class="custom-p-2"
+                            :class="[
+                                selectMode === 'column' && columnIdx > 0 ? 'selectable' : '',
+                                getClassForSelectedColumn(columnIdx), fontSize === 'medium' ? 'medium-font-size' : '',
+                                fontSize === 'small' ? 'small-font-size' : '',
+                                typeof fixedTopData[entry.name] === 'number' ? 'pull-right' : 'pull-left',
+                                fixedColumn === entry.name ? 'fixedColumn' : '',
+                            ]"
+                        >
+                            <p>
+                                <span
+                                    v-if="typeof getFixedRowTitle(fixedTopData[entry?.name]) === 'string'"
+                                    class="subtitle"
+                                >
+                                    {{ getFixedRowTitle(fixedTopData[entry?.name]) }}
+                                </span>
+                                {{ fixedTopData[entry?.name] }}
+                            </p>
+                        </td>
+                    </tr>
+                </template>
                 <tr
                     v-for="(item, idx) in editedTable.items"
                     :key="idx"
@@ -1080,7 +1194,8 @@ export default {
                             getClassForSelectedColumn(columnIdx),
                             fontSize === 'medium' ? 'medium-font-size' : '',
                             fontSize === 'small' ? 'small-font-size' : '',
-                            typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left'
+                            typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left',
+                            typeof fixedColumnTitle !== 'undefined' ? 'reference' : ''
                         ]"
                     >
                         <template v-if="$slots['cell-' + entry.name]">
@@ -1147,9 +1262,9 @@ export default {
                         </td>
                     </tr>
                 </template>
-                <template v-if="typeof fixedData !== 'undefined' || Array.isArray(fixedData?.items)">
+                <template v-if="typeof fixedBottomData !== 'undefined' || Array.isArray(fixedBottomData?.items)">
                     <tr
-                        v-for="(row, idx) in fixedData.items"
+                        v-for="(row, idx) in fixedBottomData.items"
                         :key="'fixed-'+idx"
                         :class="[selectMode === 'row' ? 'selectable' : '', selectedRow === processedRow(row) ? 'selected' : '', 'fixed']"
                     >
@@ -1242,6 +1357,21 @@ table {
     --bs-table-hover-bg: #D6E3FF;
     border-collapse: separate;
     border-spacing: 0;
+    tr.fixed-row td{
+        background-color: $white;
+        border-top: 1px solid $secondary;
+        border-bottom: 1px solid $secondary;
+        vertical-align: middle;
+        p {
+            color: $secondary;
+            font-family: "MasterPortalFont Bold";
+            .subtitle {
+                font-family: "MasterPortalFont";
+                font-size: $font_size_sm;
+                display: block;
+            }
+        }
+    }
     td {
         word-wrap: break-word;
         white-space: normal;
@@ -1287,20 +1417,37 @@ table {
         left: 0;
         background-color: $light_blue;
         z-index: 1;
+        &.reference {
+            color: $secondary;
+            font-family: "MasterPortalFont Bold";
+            background-color: $white;
+            border-left: 1px solid $secondary;
+            border-right: 1px solid $secondary;
+            p {
+                color: $secondary;
+            }
+        }
     }
     .fixedColumn {
-        border-bottom: 1px solid $light_grey_hover;
-        border-right: 1px solid $light_grey_hover;
+        &:not(.reference) {
+            border-bottom: 1px solid $light_grey_hover;
+            border-right: 1px solid $light_grey_hover;
+        }
     }
     th.fixedColumn {
         z-index: 3;
+        .subtitle {
+            font-family: "MasterPortalFont";
+            font-size: $font_size_sm;
+            display: block;
+        }
     }
     td:first-child[fixed=true] {
-            position: sticky;
-            left: 0;
-            background-color: $light_blue;
-            z-index: 1;
-            }
+        position: sticky;
+        left: 0;
+        background-color: $light_blue;
+        z-index: 1;
+    }
 }
 
 .dynamic-column-table {

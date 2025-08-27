@@ -1274,7 +1274,10 @@
         "optionArea": "Welches Gebiet soll als Referenz dienen?",
         "description": "Differenzwerte darstellen, bezogen auf ein Referenzjahr oder Gebiet",
         "placeholder": "Bitte wählen Sie mind. eine Option!",
-        "tagLabel": "Referenz"
+        "tagLabel": "Referenz",
+        "year": "Referenzjahr {{value}}",
+        "region": "Referenzgebiet {{value}}",
+        "difference": "Differenz"
       },
       "legend": {
         "under": "unter",

@@ -253,6 +253,28 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             expect(wrapper.find(".legend-names").exists()).to.be.true;
         });
+
+        it("should not find a statistic-name-subtitle element", () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".statistic-name-subtitle").exists()).to.be.false;
+        });
+
+        it("should find a statistic-name-subtitle element", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({tableData: [{foo: {}}], referenceSubTitle: "title"});
+
+            expect(wrapper.find(".statistic-name-subtitle").exists()).to.be.true;
+        });
     });
 
     describe("computed properties", () => {
@@ -1078,8 +1100,11 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
+        });
+        describe("getChartDataOutOfDifference", () => {
+            it("should return an object representing the statistics from the features", () => {
+                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
-            it("should return an object representing the statistics from the features without the reference date", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
                         global: {
                             plugins: [store]
@@ -1088,12 +1113,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     statistics = {
                         "Bevölkerung maennlich": {
                             Hamburg: {
-                                "1990": 113 - 13
+                                "1890": 13,
+                                "1990": 113
                             }
                         },
                         "Bevölkerung weiblich": {
                             Hamburg: {
-                                "1990": 112 - 12
+                                "1890": 12,
+                                "1990": 112
                             }
                         }
                     };
@@ -1107,43 +1134,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: {value: "1890"}});
-                await wrapper.vm.$nextTick();
-                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"}, "date")).to.deep.equal(statistics);
-            });
-            it("should return an object representing the statistics from the features without the reference region", async () => {
-                const wrapper = shallowMount(StatisticDashboard, {
-                        global: {
-                            plugins: [store]
-                        }
-                    }),
-                    statistics = {
-                        "Bevölkerung maennlich": {
-                            Bremen: {
-                                "1890": NaN,
-                                "1990": 93 - 113
-                            }
-                        },
-                        "Bevölkerung weiblich": {
-                            Bremen: {
-                                "1890": NaN,
-                                "1990": 92 - 112
-                            }
-                        }
-                    };
-
-                wrapper.vm.statisticsByCategory = [{
-                    "bev_maennlich": {
-                        "name": "Bevölkerung maennlich"
-                    },
-                    "bev_weiblich": {
-                        "name": "Bevölkerung weiblich"
-                    }
-                }];
-
-                store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {value: "Hamburg"});
-                await wrapper.vm.$nextTick();
-                expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg", "Bremen"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"}, "region")).to.deep.equal(statistics);
+                expect(wrapper.vm.getChartDataOutOfDifference(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
             });
         });
         describe("getTableData", () => {

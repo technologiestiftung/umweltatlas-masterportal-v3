@@ -30,7 +30,7 @@ export default {
             default: false
         }
     },
-    emits: ["showChartTable", "download"],
+    emits: ["showChartTable", "download", "setTableSubtitle"],
     data () {
         return {
             currentDescriptionIndex: 0,
@@ -94,6 +94,27 @@ export default {
         isStatisticsSelected () {
             return this.selectedDatesValues.length > 0 && this.selectedRegionsValues.length > 0 && Object.keys(this.selectedStatistics)?.length > 1;
         },
+        /**
+         * Gets the reference subtitle.
+         * @returns {String} The subtitle of reference.
+         */
+        referenceSubTitle () {
+            if (typeof this.selectedReferenceData === "undefined") {
+                return "";
+            }
+
+            let value = "";
+
+            if (this.selectedReferenceData?.type === "region") {
+                value = this.selectedReferenceData.value;
+
+                return i18next.t("common:modules.statisticDashboard.reference.region", {value});
+            }
+
+            value = this.selectedReferenceData?.value?.label;
+
+            return i18next.t("common:modules.statisticDashboard.reference.year", {value});
+        },
         showStatisticnameInChart () {
             return this.isStatisticsSelected && typeof this.chosenStatisticName === "string" && this.chosenStatisticName !== "" && this.chartTableToggle === "chart";
         },
@@ -108,6 +129,7 @@ export default {
         selectedReferenceData (val) {
             this.differenceModalContainer?.hide();
             this.handleReferenceTag(val);
+            this.$emit("setTableSubtitle", this.referenceSubTitle);
         },
         selectedReferenceValueTag (val) {
             if (typeof this.referenceTag !== "undefined") {
@@ -371,7 +393,15 @@ export default {
                     :interaction="() => prevStatistic(indexSelectedStatistics, selectedStatistics)"
                 />
                 <div class="statistic-name col col-auto">
-                    {{ chosenStatisticName }}
+                    <span>{{ chosenStatisticName }}</span>
+                    <span
+                        v-if="referenceSubTitle !== ''"
+                        class="text-center"
+                    >
+                        <span> - {{ $t('common:modules.statisticDashboard.reference.difference') }}</span>
+                        <br>
+                        <span class="statistic-name-subtitle col col-auto">{{ referenceSubTitle }}</span>
+                    </span>
                 </div>
                 <IconButton
                     class="slider-control col col-1 btn-light bg-transparent"
@@ -467,6 +497,11 @@ export default {
     font-size: $font_size_big;
 }
 
+.statistic-name-subtitle {
+    font-family: $font_family_accent;
+    font-size: $font_size_sm;
+    display: block;
+}
 .back-overview {
     margin-top: 20px;
     font-size: 12px;

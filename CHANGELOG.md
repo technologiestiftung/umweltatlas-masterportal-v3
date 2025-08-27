@@ -24,6 +24,9 @@
 - UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
 - Draw: Added square as geometryType.
+- Shared TableComponent:
+    - fixedColumnWithOrder in Props enable to insert the column with index.
+    - fixedRow in Props enable to insert a row directly after the header.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
@@ -31,7 +34,7 @@
 - InputText: Replace input text with InputText.
 - HTML input elements: Replaced HTML input elements of type text with shared modules component InputText.
 - Shared utils: Optimized function isEmailAddress to return early to avoid running the regex for invalid input values.
-
+- Shared TableComponent: Changes Props fixedData into fixedBottomData.
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.49.0 to 2.50.0 (This also raised ol to version 10.6.0)

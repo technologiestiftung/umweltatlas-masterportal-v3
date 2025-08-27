@@ -269,6 +269,40 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             expect(wrapper.find(".static-name").exists()).to.be.true;
         });
+
+        it("should not find a statistic-name-subtitle element", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.setSelectedReferenceData(undefined);
+
+            expect(wrapper.find(".statistic-name-subtitle").exists()).to.be.false;
+        });
+
+        it("should find a statistic-name-subtitle element", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    descriptions,
+                    referenceData,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.setSelectedReferenceData({value: "test"});
+
+            expect(wrapper.find(".statistic-name-subtitle").exists()).to.be.true;
+        });
     });
 
     describe("Computed Properties", () => {
@@ -434,6 +468,51 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
                 }
             });
             expect(wrapper.vm.showStatisticnameInChart).to.be.true;
+        });
+        it("should set referenceSubTitle to be an empty string", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.setSelectedReferenceData(undefined);
+            expect(wrapper.vm.referenceSubTitle).to.be.equal("");
+        });
+        it("should set referenceSubTitle to be a string with region", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.setSelectedReferenceData({type: "region", value: ""});
+            expect(wrapper.vm.referenceSubTitle).to.be.equal("modules.statisticDashboard.reference.region");
+        });
+        it("should set referenceSubTitle to be a string with year", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    descriptions,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.vm.setSelectedReferenceData({type: "date", value: {label: ""}});
+            expect(wrapper.vm.referenceSubTitle).to.be.equal("modules.statisticDashboard.reference.year");
         });
     });
 

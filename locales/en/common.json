@@ -1270,7 +1270,10 @@
         "optionArea": "Which area should be used as reference?",
         "description": "Differential values, related to a reference year or area.",
         "placeholder": "Please choose at least one option!",
-        "tagLabel": "Reference"
+        "tagLabel": "Reference",
+        "year": "Reference year {{value}}",
+        "region": "Reference region {{value}}",
+        "difference": "Difference"
       },
       "legend": {
         "under": "under",

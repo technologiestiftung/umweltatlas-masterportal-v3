@@ -86,8 +86,12 @@ export default {
             sideMenuWidth: undefined,
             canvasSize: undefined,
             statisticsData: undefined,
+            chartData: undefined,
             noDataInColumn: undefined,
-            featureWithoutValue: false
+            featureWithoutValue: false,
+            referenceSubTitle: "",
+            fixedColumn: undefined,
+            fixedRow: undefined
         };
     },
     computed: {
@@ -196,9 +200,9 @@ export default {
         }
     },
     watch: {
-        selectedReferenceData () {
+        selectedReferenceData (val) {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
-                this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
+                this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), val);
             }
         },
         selectedDatesValues () {
@@ -227,7 +231,7 @@ export default {
                     this.selectedStatisticsNames,
                     this.selectedRegionsValues,
                     this.selectedDatesValues,
-                    this.statisticsData,
+                    this.chartData,
                     this.selectedReferenceData?.type
                 );
                 return;
@@ -254,7 +258,7 @@ export default {
                     this.statisticNameOfChart,
                     this.selectedRegionsValues,
                     this.selectedDatesValues,
-                    this.statisticsData,
+                    this.chartData,
                     this.selectedReferenceData?.type
                 );
             });
@@ -873,12 +877,20 @@ export default {
             if (!Array.isArray(loadedFeatures) || loadedFeatures.length === 0 || !Array.isArray(selectedStatisticsNames) || !Array.isArray(regions) || !Array.isArray(dates) || !selectedLevelDateAttribute || !selectedLevelRegionNameAttribute) {
                 return;
             }
+
             this.statisticsData = this.prepareStatisticsData(loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
             this.tableData = this.getTableData(this.statisticsData);
             this.chosenTableData = this.getTableData(this.statisticsData, this.chosenStatisticName);
             this.chartCounts = this.selectedStatisticsNames.length;
 
-            this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
+            if (typeof differenceMode === "string") {
+                this.chartData = this.getChartDataOutOfDifference(loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
+            }
+            else {
+                this.chartData = this.statisticsData;
+            }
+
+            this.handleChartData(this.statisticNameOfChart, regions, dates, this.chartData, differenceMode);
 
             this.selectedColumn ||= this.timeStepsFilter.find(v => v.value === dates[0])?.label;
             if (this.selectedStatisticsNames.length && this.classificationMode !== "custom") {
@@ -934,6 +946,7 @@ export default {
             const directionBarChart = this.getChartDirection(regions, differenceMode);
 
             this.showGrid = false;
+
             if (filteredStatistics.length > 1) {
                 this.prepareGridCharts(filteredStatistics, preparedData, directionBarChart, differenceMode, dates.length >= 2 && !differenceMode || dates.length >= 3 || dates.length === 2 && differenceMode === "region");
             }
@@ -1071,7 +1084,7 @@ export default {
             this.allFilteredRegions = this.allFilteredRegions.filter(item => item !== region);
             this.allFilteredRegions.unshift(region);
             this.numberOfColouredBars = this.selectedFilteredRegions.length;
-            this.handleChartData(this.statisticNameOfChart, this.diagramType === "line" ? this.selectedFilteredRegions : this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+            this.handleChartData(this.statisticNameOfChart, this.diagramType === "line" ? this.selectedFilteredRegions : this.allFilteredRegions, this.selectedDatesValues, this.chartData, this.selectedReferenceData?.type);
         },
         /**
          * Increases the canvas size by 45 pixels.
@@ -1093,7 +1106,7 @@ export default {
         removeRegion (region) {
             if (this.diagramType === "line") {
                 this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
-                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.selectedFilteredRegions, this.selectedDatesValues, this.chartData, this.selectedReferenceData?.type);
             }
             else if (this.diagramType === "bar") {
                 const index = this.allFilteredRegions.indexOf(region);
@@ -1101,7 +1114,7 @@ export default {
                 this.selectedFilteredRegions = this.selectedFilteredRegions.filter(item => item !== region);
                 this.allFilteredRegions.push(this.allFilteredRegions.splice(index, 1)[0]);
                 this.numberOfColouredBars = this.selectedFilteredRegions.length;
-                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.statisticsData, this.selectedReferenceData?.type);
+                this.handleChartData(this.statisticNameOfChart, this.allFilteredRegions, this.selectedDatesValues, this.chartData, this.selectedReferenceData?.type);
             }
         },
         /**
@@ -1245,6 +1258,95 @@ export default {
          * @returns {Object} The prepared statistical data.
          */
         prepareStatisticsData (features, statistics, regions, dates, dateAttribute, regionAttribute, differenceMode) {
+            const regionKey = regionAttribute.attrName,
+                dateKey = dateAttribute.attrName,
+                refRegionValues = {},
+                refDateValues = {},
+                data = {};
+
+            if (!differenceMode || typeof differenceMode === "undefined") {
+                this.fixedColumn = undefined;
+                this.fixedRow = undefined;
+            }
+
+            statistics.forEach(stat => {
+                const statsKey = StatisticsHandler.getStatsKeysByName(this.statisticsByCategory, [stat])[0];
+
+                data[stat] = {};
+                refRegionValues[stat] = {};
+                refDateValues[stat] = {};
+                regions.forEach(region => {
+                    data[stat][region] = {};
+                    dates.forEach(date => {
+                        if (date === this.selectedReferenceData?.value?.value || typeof date === "undefined") {
+                            return;
+                        }
+                        const formatedDate = dayjs(date).format(dateAttribute.outputFormat);
+
+                        data[stat][region][formatedDate] = NaN;
+                    });
+                });
+                features.forEach(feature => {
+                    const region = feature.get(regionKey),
+                        date = feature.get(dateKey),
+                        formatedDate = dayjs(date).format(dateAttribute.outputFormat),
+                        value = parseFloat(feature?.get(statsKey));
+
+                    if (differenceMode === "region" && region === this.selectedReferenceData?.value) {
+                        refRegionValues[stat][formatedDate] = value;
+                        this.fixedRow = {name: this.selectedReferenceData?.value, title: i18next.t("common:modules.statisticDashboard.reference.region")};
+                        this.fixedColumn = undefined;
+                    }
+                    else if (differenceMode === "date" && date === this.selectedReferenceData?.value?.value) {
+                        refDateValues[stat][region] = value;
+                        this.fixedColumn = {name: this.selectedReferenceData?.value?.label, index: 1, title: i18next.t("common:modules.statisticDashboard.reference.year")};
+                        this.fixedRow = undefined;
+                    }
+                    else {
+                        refRegionValues[stat][region] = undefined;
+                    }
+
+                    if (data[stat][region]) {
+                        data[stat][region][formatedDate] = value;
+                    }
+                });
+            });
+
+            if (differenceMode === "region") {
+                for (const stat in data) {
+                    for (const region in data[stat]) {
+                        for (const date in data[stat][region]) {
+                            region !== this.fixedRow.name ? data[stat][region][date] -= refRegionValues[stat][date] : data[stat][region][date];
+                            this.referenceFeatures[date] ??= refRegionValues[stat][date];
+                        }
+                    }
+                }
+            }
+            if (differenceMode === "date") {
+                for (const stat in data) {
+                    for (const region in data[stat]) {
+                        for (const date in data[stat][region]) {
+                            date !== this.fixedColumn.name ? data[stat][region][date] -= refDateValues[stat][region] : data[stat][region][date];
+                        }
+                    }
+                }
+            }
+
+            return data;
+        },
+
+        /**
+         * Prepares the statistical data from the features.
+         * @param {ol/Feature[]} features - The features.
+         * @param {String[]} statistics - The key to the statistic whose value is being looked for.
+         * @param {String[]} regions - The regions of the statistic wanted.
+         * @param {String[]} dates - The dates of the statistic wanted.
+         * @param {String} dateAttribute - The configured date attribute.
+         * @param {String} regionAttribute - The configured region attribute.
+         * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') ohterwise false.
+         * @returns {Object} The prepared statistical data.
+         */
+        getChartDataOutOfDifference (features, statistics, regions, dates, dateAttribute, regionAttribute, differenceMode) {
             const regionKey = regionAttribute.attrName,
                 dateKey = dateAttribute.attrName,
                 refRegionValues = {},
@@ -1629,6 +1731,15 @@ export default {
             this.setFlattenedRegions([]);
             this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
             this.handleReset();
+        },
+
+        /**
+         * Sets the subtitle of table.
+         * @param {String} val - the subtile of table.
+         * @returns {void}
+         */
+        setTableSubtitle (val) {
+            this.referenceSubTitle = val;
         }
     }
 };
@@ -1832,6 +1943,7 @@ export default {
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
                 @download="downloadData"
+                @set-table-subtitle="setTableSubtitle"
             />
             <div
                 v-if="!isFeatureLoaded"
@@ -1852,12 +1964,25 @@ export default {
                 </div>
             </div>
             <div v-show="showTable">
+                <div
+                    v-if="tableData.length === 1 && referenceSubTitle !== ''"
+                    class="statistic-name col col-auto mb-3 text-center"
+                >
+                    <span>{{ chosenStatisticName }}</span>
+                    <span class="text-center">
+                        <span> - {{ $t('common:modules.statisticDashboard.reference.difference') }}</span>
+                        <br>
+                        <span class="statistic-name-subtitle col col-auto">{{ referenceSubTitle }}</span>
+                    </span>
+                </div>
                 <TableComponent
                     v-for="(data, index) in chosenTableData"
                     :key="index"
-                    :title="tableData.length <= 1 ? chosenStatisticName : ''"
+                    :title="tableData.length <= 1 && referenceSubTitle === '' ? chosenStatisticName : ''"
                     :data="data"
-                    :fixed-data="testFixedData"
+                    :fixed-column-with-order="fixedColumn"
+                    :fixed-row="fixedRow"
+                    :fixed-bottom-data="testFixedData"
                     :total-prop="getTotalProp(addTotalCount, chosenStatisticName)"
                     :select-mode="selectMode"
                     :show-header="showHeader"
@@ -1993,9 +2118,18 @@ img {
             background: $dark_blue
     }
 }
-</style>
-<style lang="scss" scoped>
-@import "~variables";
+
+.statistic-name {
+    font-family: $font_family_accent;
+    font-size: $font_size_big;
+}
+
+.statistic-name-subtitle {
+    font-family: $font_family_accent;
+    font-size: $font_size_sm;
+    display: block;
+}
+
 .static-dashboard .multiselect__tags {
     padding-left: 25px;
 }
