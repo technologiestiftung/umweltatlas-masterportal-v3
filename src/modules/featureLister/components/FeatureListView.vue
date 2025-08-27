@@ -78,7 +78,7 @@ export default {
 
 <template>
     <div
-        class="table-responsive feature-lister-list-table-container"
+        class="table-responsive feature-lister-list-table-container mt-3 mb-3"
     >
         <TableComponent
             id="feature-lister-list-table"

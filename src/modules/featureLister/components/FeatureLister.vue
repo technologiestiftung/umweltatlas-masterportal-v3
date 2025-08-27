@@ -161,10 +161,6 @@ export default {
 <style lang="scss" scoped>
     @import "~variables";
 
-#feature-lister {
-    width: fit-content;
-    max-width: 90%;
-}
 .feature-lister-list {
     margin-bottom: 0;
     display: contents;
