@@ -311,16 +311,19 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
                 maxFeatures: 10,
                 layer: layer,
                 gfiFeaturesOfLayer: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}]
-            };
+            },
+            dispatchStub = sinon.stub();
 
-        it("switches to the feature list view", () => {
-            actions.switchToList({state, rootGetters, commit, dispatch}, layer);
-            expect(commit.callCount).to.equal(6);
-            expect(commit.firstCall.args[0]).to.equal("setGfiFeaturesOfLayer");
-            expect(commit.secondCall.args[0]).to.equal("setFeatureCount");
-            expect(commit.thirdCall.args[0]).to.equal("setShownFeatures");
-            expect(commit.thirdCall.args[1]).to.equal(3);
-            expect(dispatch.notCalled).to.be.true;
+        dispatchStub.withArgs("processGfiFeatures").resolves();
+
+        it("switches to the feature list view", async () => {
+            await actions.switchToList({state, rootGetters, commit, dispatch}, layer);
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(commit.callCount).to.equal(5);
+            expect(commit.firstCall.args[0]).to.equal("setFeatureCount");
+            expect(commit.secondCall.args[0]).to.equal("setShownFeatures");
+            expect(commit.secondCall.args[1]).to.equal(3);
         });
     });
 

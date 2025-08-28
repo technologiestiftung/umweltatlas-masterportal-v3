@@ -100,7 +100,7 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
 
             mutations.resetToThemeChooser(state);
             expect(state.selectedRow).to.eql(null);
-            expect(state.layer).to.eql(null);
+            expect(state.layer).to.eql(layer);
             expect(state.selectedArea).to.eql(null);
             expect(state.layerListView).to.eql(tabStatus.ACTIVE);
             expect(state.featureListView).to.eql(tabStatus.DISABLED);
