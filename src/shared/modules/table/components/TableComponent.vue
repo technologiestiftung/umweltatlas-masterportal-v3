@@ -1587,7 +1587,8 @@ export default {
 }
 
 table {
-    table-layout: fixed;
+    table-layout: auto;
+    width: 100%;
     --bs-table-hover-bg: #D6E3FF;
     border-collapse: separate;
     border-spacing: 0;
@@ -1618,18 +1619,18 @@ table {
         }
     }
     .fixedWidth {
-        width: 15rem;
+        min-width: 15rem;
     }
     th {
+        white-space: nowrap;
+        overflow: visible;
         position: sticky;
         top: 0px;
         background: $light_blue;
         font-family: $font_family_accent;
         z-index: 2;
         span.sortable-icon {
-            position: absolute;
-            top: 12px;
-            left: 187px;
+            align-content: center;
             cursor: pointer;
         }
         &.selected {
