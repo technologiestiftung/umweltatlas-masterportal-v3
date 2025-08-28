@@ -57,7 +57,6 @@ const mutations = {
      */
     resetToThemeChooser: (state) => {
         state.selectedRow = null;
-        state.layer = null;
         state.layerListView = tabStatus.ACTIVE;
         state.featureListView = tabStatus.DISABLED;
         state.featureDetailView = tabStatus.DISABLED;
