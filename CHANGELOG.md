@@ -230,8 +230,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Documentation: Now includes a search bar for cross-site search.
 - GraphicalSelect: Added line feature with buffer geometry for selection.
 - FeatureLister: Added spatial selection of features that are shown in the list.
-- TableComponent: Added GeoJSON Download.
-- TableComponent: Added alphanumerical sorting.
+- TableComponent: Added GeoJSON Download and alphanumerical sorting.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
