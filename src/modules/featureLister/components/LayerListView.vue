@@ -126,7 +126,7 @@ export default {
 .selected-layer {
     font-weight: bold;
     background-color: $light_blue;
-    color: var(--bs-btn-hover-color);
+    color: $accent_contrast;
     border-radius: 4px;
     margin-bottom: 1em;
 }
