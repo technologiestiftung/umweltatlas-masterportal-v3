@@ -126,12 +126,6 @@ export default {
             return;
         }
 
-        if (selectedFeatures.length === 0) {
-            dispatch("Alerting/addSingleAlert", {
-                category: "info",
-                content: "Keine Feature in der Auswahl gefunden."
-            }, {root: true});
-        }
         commit("setGfiFeaturesOfLayer", selectedFeatures);
         dispatch("highlightSelectedFeatures", selectedFeatures);
     },
@@ -152,10 +146,34 @@ export default {
      * Switches to the feature list of the selected layer.
      * @param {Object} param.state the state
      * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
      * @param {Object} layer reduced selected layer, only contains name, id and geometryType
      * @returns {void}
      */
     switchToList: async ({state, commit, dispatch}) => {
+        await dispatch("processGfiFeatures");
+
+        if (state.gfiFeaturesOfLayer.length === 0) {
+            dispatch("Alerting/addSingleAlert", {
+                category: "info",
+                content: "Keine Feature in der Auswahl gefunden."
+            }, {root: true});
+            return;
+
+        }
+        commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
+        commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
+        commit("setLayerListView", tabStatus.ENABLED);
+        commit("setFeatureListView", tabStatus.ACTIVE);
+        commit("setFeatureDetailView", tabStatus.DISABLED);
+    },
+    /**
+     * Processes the GFI features of the selected layer depending on whether the user selected an area or not.
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @param {Object} param.dispatch the dispatch
+     */
+    processGfiFeatures: async ({state, commit, dispatch}) => {
         if (state.layer) {
             if (state.selectedArea) {
                 commit("setLoading", true);
@@ -165,11 +183,6 @@ export default {
             else {
                 commit("setGfiFeaturesOfLayer");
             }
-            commit("setFeatureCount", state.gfiFeaturesOfLayer.length);
-            commit("setShownFeatures", state.gfiFeaturesOfLayer.length < state.maxFeatures ? state.gfiFeaturesOfLayer.length : state.maxFeatures);
-            commit("setLayerListView", tabStatus.ENABLED);
-            commit("setFeatureListView", tabStatus.ACTIVE);
-            commit("setFeatureDetailView", tabStatus.DISABLED);
         }
     },
     /**
