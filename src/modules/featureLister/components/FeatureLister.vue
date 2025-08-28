@@ -167,13 +167,13 @@ export default {
     overflow: auto;
 }
 .panel-heading {
-    background: $light_grey;
     color: $dark_grey;
     cursor: default;
-    border-left: 1px solid $dark_grey;
-    border-right: 1px solid $dark_grey;
+    border-left: 1px solid $light_grey;
+    border-right: 1px solid $light_grey;
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
+    font-weight: bold;
 }
 
 </style>
