@@ -121,11 +121,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+ @import "~variables";
+
 .selected-layer {
     font-weight: bold;
-    background-color: #e3f2fd;
-    color: #1565c0;
-    border-left: 4px solid #1976d2;
+    background-color: $light_blue;
+    color: var(--bs-btn-hover-color);
     border-radius: 4px;
     margin-bottom: 1em;
 }
