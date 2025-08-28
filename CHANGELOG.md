@@ -5,7 +5,6 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
-- MouseHover: Add font weight options for desciption and title.
 ### __Breaking Changes__
 
 ### Added
@@ -17,6 +16,7 @@
 - MouseHover: Added highlighting Vector Layers on mouseHover as in Version 2.
 - MouseHover: Configurable in config.js
 - MouseHover: Added an active value that allows enabling or disabling MouseHover through the configuration.
+- MouseHover: Added font weight options for desciption and title.
 - Added Shared Component for pagination.
 - UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
