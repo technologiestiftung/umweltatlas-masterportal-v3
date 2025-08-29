@@ -1,4 +1,65 @@
 /**
+ * Sets the length of the current drawType.
+ * @info the internal representation of length is always in meters
+ * @param {Object} context actions context object.
+ * @param {Number} length the length in meters
+ * @returns {void}
+ */
+function setLength ({getters, commit}, length) {
+    const {styleSettings} = getters;
+
+    styleSettings.length = length;
+
+    setStyleSettings({getters, commit}, styleSettings);
+}
+
+/**
+ * Sets the area of the current drawType.
+ * @info the internal representation of area is always in meters
+ * @param {Object} context actions context object.
+ * @param {Number} area the area of the geometry in meters
+ * @returns {void}
+ */
+function setArea ({getters, commit}, area) {
+    const {styleSettings} = getters;
+
+    styleSettings.area = area;
+
+    setStyleSettings({getters, commit}, styleSettings);
+}
+
+/**
+ * Sets the area of the current drawType.
+ * @info the internal representation of squareArea is always in meters
+ * @param {Object} context actions context object.
+ * @param {Number} area the area of the square in meters
+ * @returns {void}
+ */
+function setSquareArea ({getters, commit}, area) {
+    const {styleSettings} = getters;
+
+    styleSettings.squareArea = area;
+
+    setStyleSettings({getters, commit}, styleSettings);
+}
+
+/**
+ * Sets the method for drawing a square of the current drawType.
+ *
+ * @param {Object} context actions context object.
+ * @param {Event} event event fired by changing the input for the squareMethod.
+ * @param {HTMLSelectElement} event.target The HTML select element for the squareMethod.
+ * @returns {void}
+ */
+function setSquareMethod ({getters, commit}, {target}) {
+    const squareMethod = target.options[target.selectedIndex].value,
+        {styleSettings} = getters;
+
+    styleSettings.squareMethod = squareMethod;
+
+    setStyleSettings({getters, commit}, styleSettings);
+}
+/**
  * sets the styleSettings for the current drawType
  *
  * @param {Object} context the dipendencies
@@ -355,5 +416,9 @@ export {
     setSymbol,
     addSymbolIfNotExists,
     setText,
-    setUnit
+    setUnit,
+    setLength,
+    setArea,
+    setSquareArea,
+    setSquareMethod
 };

@@ -45,23 +45,27 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
             }
 
             feature.set("masterportal_attributes", Object.assign(feature.get("masterportal_attributes") ?? {}, {"drawState": {
-                strokeWidth: styleSettingsCopy.strokeWidth,
-                opacity: styleSettingsCopy.opacity,
-                opacityContour: styleSettingsCopy.opacityContour,
-                font: styleSettingsCopy.font,
-                fontSize: parseInt(styleSettingsCopy.fontSize, 10),
-                text: styleSettingsCopy.text,
+                area: styleSettingsCopy.area,
                 circleMethod: styleSettingsCopy.circleMethod,
-                circleRadius: styleSettingsCopy.circleRadius,
                 circleOuterRadius: styleSettingsCopy.circleOuterRadius,
-                drawType,
-                symbol,
-                zIndex,
-                imgPath,
-                pointSize,
+                circleRadius: styleSettingsCopy.circleRadius,
                 color: styleSettingsCopy.color,
                 colorContour: styleSettingsCopy.colorContour,
-                outerColorContour: styleSettingsCopy.outerColorContour
+                drawType,
+                font: styleSettingsCopy.font,
+                fontSize: parseInt(styleSettingsCopy.fontSize, 10),
+                imgPath,
+                lineLength: styleSettingsCopy.length,
+                opacity: styleSettingsCopy.opacity,
+                opacityContour: styleSettingsCopy.opacityContour,
+                outerColorContour: styleSettingsCopy.outerColorContour,
+                pointSize,
+                squareArea: styleSettingsCopy.squareArea,
+                squareMethod: styleSettingsCopy.squareMethod,
+                strokeWidth: styleSettingsCopy.strokeWidth,
+                symbol,
+                text: styleSettingsCopy.text,
+                zIndex
             }}), false);
 
         },
@@ -194,10 +198,17 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 event.feature.set("masterportal_attributes", Object.assign(event.feature.get("masterportal_attributes") ?? {}, {"isOuterCircle": isOuterCircle, "isVisible": true}));
                 dispatch("drawInteractionOnDrawEvent", drawInteraction);
 
-                if (!tooltip && state?.drawType?.id === "drawCircle" || state?.drawType?.id === "drawDoubleCircle") {
-                    tooltip = createTooltipOverlay({getters, commit, dispatch});
-                    mapCollection.getMap(rootState.Maps.mode).addOverlay(tooltip);
-                    mapCollection.getMap(rootState.Maps.mode).on("pointermove", tooltip.get("mapPointerMoveEvent"));
+                const drawTypeId = state?.drawType?.id;
+
+                if (drawTypeId === "drawSquare") {
+                    commit("setSquareSide", 0);
+                }
+                if (drawTypeId === "drawCircle" || drawTypeId === "drawDoubleCircle" || drawTypeId === "drawSquare" || drawTypeId === "drawArea" || drawTypeId === "drawLine") {
+                    tooltip = createTooltipOverlay({state, getters, commit, dispatch}, mapCollection.getMap("2D").getView().getProjection());
+                    const map = mapCollection.getMap(rootState.Maps.mode);
+
+                    map.addOverlay(tooltip);
+                    map.on("pointermove", tooltip.get("mapPointerMoveEvent"));
                     event.feature.getGeometry().on("change", tooltip.get("featureChangeEvent"));
                 }
             });
@@ -282,6 +293,9 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                 if (state.selectedFeature) {
                     commit("setSelectedFeature", null);
                 }
+                if (state.drawType.id === "drawSquare") {
+                    commit("setSquareSide", "-");
+                }
 
                 event.features.getArray().forEach(feature => {
                     let center = null;
@@ -296,15 +310,23 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
                         changeInProgress = true;
 
                         if (!state.selectedFeature || state.selectedFeature.ol_uid !== feature.ol_uid) {
+                            const map = mapCollection.getMap(rootState.Maps.mode);
+
                             await dispatch("saveAsCurrentFeatureAndApplyStyleSettings", feature);
 
-                            if (!tooltip && (state.drawType.id === "drawCircle" || state.drawType.id === "drawDoubleCircle")) {
+                            if (!tooltip && ["drawCircle", "drawDoubleCircle"].includes(state.drawType.id)) {
                                 if (center === JSON.stringify(feature.getGeometry().getCenter())) {
-                                    tooltip = createTooltipOverlay({getters, commit, dispatch});
-                                    mapCollection.getMap(rootState.Maps.mode).addOverlay(tooltip);
-                                    mapCollection.getMap(rootState.Maps.mode).on("pointermove", tooltip.get("mapPointerMoveEvent"));
+                                    tooltip = createTooltipOverlay({state, getters, commit, dispatch}, mapCollection.getMap("2D").getView().getProjection());
+                                    map.addOverlay(tooltip);
+                                    map.on("pointermove", tooltip.get("mapPointerMoveEvent"));
                                     state.selectedFeature.getGeometry().on("change", tooltip.get("featureChangeEvent"));
                                 }
+                            }
+                            else if (!tooltip && state.drawType.id === "drawSquare" || state.drawType.id === "drawArea" || state.drawType.id === "drawLine") {
+                                tooltip = createTooltipOverlay({state, getters, commit, dispatch}, mapCollection.getMap("2D").getView().getProjection());
+                                map.addOverlay(tooltip);
+                                map.on("pointermove", tooltip.get("mapPointerMoveEvent"));
+                                state.selectedFeature.getGeometry().on("change", tooltip.get("featureChangeEvent"));
                             }
                         }
                     });
@@ -382,7 +404,7 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
 
                             if (!tooltip && (state.drawType.id === "drawCircle" || state.drawType.id === "drawDoubleCircle")) {
                                 if (center === JSON.stringify(feature.getGeometry().getCenter())) {
-                                    tooltip = createTooltipOverlay({getters, commit, dispatch});
+                                    tooltip = createTooltipOverlay({state, getters, commit, dispatch}, mapCollection.getMap("2D").getView().getProjection());
                                     mapCollection.getMap(rootState.Maps.mode).addOverlay(tooltip);
                                     mapCollection.getMap(rootState.Maps.mode).on("pointermove", tooltip.get("mapPointerMoveEvent"));
                                     state.selectedFeature.getGeometry().on("change", tooltip.get("featureChangeEvent"));

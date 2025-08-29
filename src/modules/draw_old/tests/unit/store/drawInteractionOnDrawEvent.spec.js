@@ -3,6 +3,7 @@ import {expect} from "chai";
 import {Style} from "ol/style.js";
 import createStyleModule from "@modules/draw_old/js/style/createStyle";
 import circleCalculations from "@modules/draw_old/js/circleCalculations";
+import squareCalculations from "@modules/draw_old/js/squareCalculations";
 import {drawInteractionOnDrawEvent, featureStyle, handleDrawEvent} from "@modules/draw_old/store/actions/drawInteractionOnDrawEvent";
 
 
@@ -44,6 +45,7 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
         createdStyle = new Style();
         createStyleStub = sinon.stub(createStyleModule, "createStyle").returns(createdStyle);
         calculateCircleStub = sinon.stub(circleCalculations, "calculateCircle");
+        sinon.stub(squareCalculations, "calculateSquare");
         state = {
             drawType: {
                 id: "drawSymbol",
@@ -63,6 +65,10 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             drawSymbolSettings: {
                 color: [153, 153, 153, 1],
                 opacity: 1
+            },
+            drawSquareSettings: {
+                squareMethod: "defined",
+                squareArea: 0
             },
             drawInteraction: {
                 finishDrawing: finishDrawingSpy
@@ -99,6 +105,20 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(commit.firstCall.args[0]).to.equal("setAddFeatureListener");
             expect(onceSpy.calledOnce).to.be.true;
             expect(onceSpy.firstCall.args[0]).to.equal("addfeature");
+        });
+
+        it("drawInteractionOnDrawEvent draw square shall call finishDrawing on interaction", () => {
+            state.currentInteraction = "draw";
+            state.drawType.geometry = "Square";
+            state.drawType.id = "drawSquare";
+
+            const drawInteraction = "";
+
+            drawInteractionOnDrawEvent.call({$app: mockApp}, {state, commit, dispatch}, drawInteraction);
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setAddFeatureListener");
+            expect(finishDrawingSpy.calledOnce).to.be.true;
         });
 
         it("drawInteractionOnDrawEvent draw circle shall call finishDrawing on interaction", () => {
@@ -144,7 +164,16 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
                     setStyle: sinon.spy(),
                     getGeometry: () => {
                         return {
-                            getCenter: () => [0, 0]
+                            getCenter: () => [0, 0],
+                            getCoordinates: () => [
+                                [
+                                    [0, 0],
+                                    [0, 1],
+                                    [1, 1],
+                                    [1, 0],
+                                    [0, 0]
+                                ]
+                            ]
                         };
                     }
                 }
@@ -296,6 +325,32 @@ describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () 
             expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(state.outerBorderColor).to.equal(errorBorder);
             expect(state.innerBorderColor).to.equal("");
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setZIndex");
+            expect(commit.firstCall.args[1]).to.equal(2);
+        });
+
+        it("handleDrawEvent square: alert area not defined", () => {
+            state.currentInteraction = "draw";
+            state.drawType.geometry = "Square";
+            state.drawType.id = "drawSquare";
+            state.drawCircleSettings.squareArea = 0;
+            state.zIndex = 1;
+
+            handleDrawEvent.call({$app: mockApp}, {state, commit, dispatch, rootState}, event);
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("updateUndoArray");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equal({remove: false, feature: event.feature});
+            expect(dispatch.secondCall.args[0]).to.equal("Alerting/addSingleAlert");
+            expect(dispatch.secondCall.args[1]).to.be.equal("modules.draw_old.undefinedSquareArea");
+            expect(event.feature.set.calledTwice).to.be.true;
+            expect(event.feature.set.firstCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.firstCall.args[1]).to.deep.include({"fromDrawTool": true});
+            expect(event.feature.set.secondCall.args[0]).to.equal("masterportal_attributes");
+            expect(event.feature.set.secondCall.args[1].invisibleStyle).to.be.an.instanceof(Style);
+            expect(event.feature.setStyle.calledOnce).to.be.true;
+            expect(removeFeatureSpy.calledOnce).to.be.true;
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setZIndex");
             expect(commit.firstCall.args[1]).to.equal(2);

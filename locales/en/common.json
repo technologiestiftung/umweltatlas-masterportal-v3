@@ -356,7 +356,8 @@
         "drawDoubleCircle": "Double circle",
         "drawLine": "Line",
         "drawSymbol": "Symbol",
-        "writeText": "Text"
+        "writeText": "Text",
+        "drawSquare": "Square"
       },
       "fontName": "Font",
       "fontSize": "Font size",
@@ -386,9 +387,14 @@
       "transparencyOutline": "Transparency Outline",
       "undefinedInnerCircle": "Please also define the inner circle.",
       "undefinedOuterCircle": "Please also define the outer circle.",
+      "undefinedSquareArea": "Please define the area of the square.",
       "undefinedRadius": "Please specify a radius.",
       "undefinedTwoCircles": "Please define both circles.",
-      "unit": "Unit"
+      "unit": "Unit",
+      "squareDefinedInfo": " (without taking into account the curvature of the earth)",
+      "areaLabel": "Area",
+      "squareSideLengthLabel": "Side Length",
+      "lineLengthLabel": "Total Length"
     },
     "featureLister": {
       "chooseTheme": "Choose theme",

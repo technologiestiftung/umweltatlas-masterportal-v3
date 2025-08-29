@@ -1,4 +1,5 @@
-import {Select, Modify, Draw} from "ol/interaction.js";
+import {Select, Modify} from "ol/interaction.js";
+import Draw, {createRegularPolygon} from "ol/interaction/Draw.js";
 import createStyleModule from "./style/createStyle";
 
 /**
@@ -8,12 +9,25 @@ import createStyleModule from "./style/createStyle";
  * @returns {module:ol/interaction/Draw} draw interaction
  */
 function createDrawInteraction (state, styleSettings, app) {
-    return new Draw({
-        source: app.config.globalProperties.$layer.getSource(),
-        type: state.drawType.geometry,
-        style: createStyleModule.createStyle(state, styleSettings),
-        freehand: state.freeHand
-    });
+    let draw;
+
+    if (state.drawType.id === "drawSquare") {
+        draw = new Draw({
+            source: app.config.globalProperties.$layer.getSource(),
+            type: "Circle",
+            geometryFunction: createRegularPolygon(4),
+            style: createStyleModule.createStyle(state, styleSettings)
+        });
+    }
+    else {
+        draw = new Draw({
+            source: app.config.globalProperties.$layer.getSource(),
+            type: state.drawType.geometry,
+            style: createStyleModule.createStyle(state, styleSettings),
+            freehand: state.freeHand
+        });
+    }
+    return draw;
 }
 /**
  * Creates a modify interaction and returns it.

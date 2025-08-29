@@ -199,7 +199,7 @@ async function initializeWithoutGUI ({state, commit, dispatch, getters, rootStat
     commit("setFreeHand", false);
     commit("setWithoutGUI", true);
 
-    if (["Point", "LineString", "Polygon", "Circle"].indexOf(drawType) > -1) {
+    if (["Point", "LineString", "Polygon", "Circle", "Square"].indexOf(drawType) > -1) {
         const {styleSettings} = getters;
         let layerExists = false;
 
@@ -289,6 +289,8 @@ function getDrawId (drawType) {
             return "drawSymbol";
         case "Polygon":
             return "drawArea";
+        case "Square":
+            return "drawSquare";
         default:
             return "draw";
     }

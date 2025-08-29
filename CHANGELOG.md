@@ -10,6 +10,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Issue #1038: Added tooltips to display area of drawn polygons/squares and length of drawn lines, as in version 2.
 - WFS-T: Enables layers to support the insertion, update, and deletion of multipolygon geometries
 - WFS-T: Added confirmation dialogue for creating multipolygons with voids
 - Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
@@ -22,6 +23,7 @@
 - Added Shared Component for pagination.
 - UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
+- Draw: Added square as geometryType.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.

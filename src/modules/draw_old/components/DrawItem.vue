@@ -79,7 +79,8 @@ export default {
             "modifyInteraction",
             "attributesKeyList",
             "outerBorderColor",
-            "innerBorderColor"
+            "innerBorderColor",
+            "drawSquareSettings"
         ]),
         /**
          * Enables or disables all the select or input elements depending on if the currentInteraction is "draw".
@@ -110,6 +111,147 @@ export default {
                 return !this.drawLayerVisible || this.styleSettings?.circleMethod !== "defined";
             }
             return this.drawHTMLElementsModifyFeature;
+        },
+
+        /**
+         * Enables the input for the radius if the squareMethod is "defined", for interaction "modify" the rule of drawHTMLElementsModifyFeature takes place.
+         * @returns {Boolean} returns true to disable the input, false to enable the input
+         */
+        drawSquareMethods () {
+            if (this.currentInteraction === "draw") {
+                return !this.drawLayerVisible || this.styleSettings?.squareMethod !== "defined";
+            }
+            return this.drawHTMLElementsModifyFeature;
+        },
+
+        lineLengthComputed: {
+            /**
+             * Getter for the computed property length of the current drawType
+             * @info the internal representation of length is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const lineKm = this.styleSettings?.length / 1000;
+
+                    return lineKm.toFixed(2);
+                }
+                return this.styleSettings?.length;
+            },
+            /**
+             * Setter for the computed property line of the current drawType
+             * @info the internal representation of line is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setLength(parseFloat(value, 10) * 1000);
+                }
+                else {
+                    this.setLength(parseFloat(value, 10));
+                }
+            }
+        },
+
+        areaComputed: {
+            /**
+             * Getter for the computed property area of the current drawType
+             * @info the internal representation of area is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const areaKm = this.styleSettings?.area / 1000000;
+
+                    return areaKm.toFixed(2);
+                }
+                return this.styleSettings?.area;
+            },
+            /**
+             * Setter for the computed property area of the current drawType
+             * @info the internal representation of area is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setArea(parseFloat(value) * 1000);
+                }
+                else {
+                    this.setArea(parseFloat(value, 10));
+                }
+            }
+        },
+
+        squareAreaComputed: {
+            /**
+             * Getter for the computed property squareArea of the current drawType
+             * @info the internal representation of squareArea is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const squareAreaKm = this.styleSettings?.squareArea / 1000;
+
+                    return squareAreaKm.toFixed(2);
+                }
+                return this.styleSettings?.squareArea;
+            },
+            /**
+             * Setter for the computed property squareArea of the current drawType
+             * @info the internal representation of squareArea is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setSquareArea(parseFloat(value, 10) * 1000);
+                }
+                else {
+                    this.setSquareArea(parseFloat(value, 10));
+                }
+            }
+        },
+
+
+        squareSideLengthComputed: {
+        /**
+         * Getter for the computed property squareSideLength based on squareArea
+         * @info the internal representation of squareArea is always in meters
+         * @returns {Number} the current square side length as an integer
+         */
+            get () {
+                const squareAreaMeters = this.styleSettings?.squareArea || 0;
+
+                if (this.drawSquareSettings.squareSide !== "-") {
+                    if (this.styleSettings?.unit === "km") {
+                        const squareSideLengthKm = Math.sqrt(squareAreaMeters) / 1000;
+
+                        return squareSideLengthKm.toFixed(2);
+                    }
+                    return Math.round(Math.sqrt(squareAreaMeters));
+                }
+                return this.drawSquareSettings.squareSide;
+            },
+            /**
+         * Setter for the computed property squareSideLength based on squareArea
+         * @info the internal representation of squareArea is always in meters
+         * @param {Number} value the value to set the square side length to
+         * @returns {void}
+         */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    const squareAreaKm = Math.pow(value / 1000, 2);
+
+                    this.setSquareSide(squareAreaKm);
+                }
+                else {
+                    const squareAreaMeters = Math.pow(value, 2);
+
+                    this.setSquareSide(squareAreaMeters);
+                }
+            }
         },
 
         circleRadiusComputed: {
@@ -172,6 +314,13 @@ export default {
          */
         circleMethodComputed () {
             return this.styleSettings?.circleMethod;
+        },
+        /**
+         * computed property for squareMethod of the current drawType
+         * @returns {String} "defined" or "interactive"
+         */
+        squareMethodComputed () {
+            return this.styleSettings?.squareMethod;
         },
         /**
          * computed property for the unit of the current drawType
@@ -353,6 +502,8 @@ export default {
             "undoLastStep",
             "redoLastStep",
             "clearLayer",
+            "setLength",
+            "setArea",
             "setDrawType",
             "setOpacity",
             "setStrokeWidth",
@@ -362,6 +513,9 @@ export default {
             "setFont",
             "setSymbol",
             "setText",
+            "setUnit",
+            "setSquareMethod",
+            "setSquareArea",
             "setCircleRadius",
             "setCircleMethod",
             "setCircleOuterRadius",
@@ -640,6 +794,163 @@ export default {
                 </div>
             </div>
             <div
+                v-if="drawType.id === 'drawArea'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-area"
+                >
+                    {{ $t('common:modules.draw_old.areaLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-area"
+                        v-model="areaComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :placeholder="$t('common:modules.draw_old.areaPlaceholder')"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawArea'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-areaUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-areaUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare' && currentInteraction !== 'modify'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareMethod"
+                >
+                    {{ $t("common:modules.draw_old.method") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-squareMethod"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setSquareMethod"
+                    >
+                        <option
+                            value="interactive"
+                            :selected="squareMethodComputed === 'interactive'"
+                        >
+                            {{ $t("common:modules.draw_old.interactive") }}
+                        </option>
+                        <option
+                            value="defined"
+                            :selected="squareMethodComputed === 'defined'"
+                        >
+                            {{ $t("common:modules.draw_old.defined") + $t("common:modules.draw_old.squareDefinedInfo") }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareArea"
+                >
+                    {{ $t('common:modules.draw_old.areaLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-squareArea"
+                        v-model="squareAreaComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="number"
+                        step="1"
+                        :placeholder="$t('common:modules.draw_old.squareAreaPlaceholder')"
+                        :disabled="drawSquareMethods"
+                        min="0"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareSideLength"
+                >
+                    {{ $t('common:modules.draw_old.squareSideLengthLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-squareSideLength"
+                        :value="squareSideLengthComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+
+
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-squareUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
                 v-if="drawType.id === 'drawCircle' || drawType.id === 'drawDoubleCircle'"
                 class="form-group form-group-sm row"
             >
@@ -816,6 +1127,55 @@ export default {
                             :selected="option.id === symbol.id"
                         >
                             {{ $t(getIconLabelKey(option)) }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawLine'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-lineLength"
+                >
+                    {{ $t('common:modules.draw_old.lineLengthLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-lineLength"
+                        :value="lineLengthComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawLine'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-lineUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-lineUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
                         </option>
                     </select>
                 </div>

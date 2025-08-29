@@ -350,6 +350,7 @@
       "drawLayerVisible": "Zeichnung sichtbar",
       "drawTypeOptions": {
         "drawArea": "Fläche",
+        "drawSquare": "Quadrat",  
         "drawCircle": "Kreis",
         "drawCurve": "Freihandlinie",
         "drawDoubleCircle": "Doppelkreis",
@@ -385,9 +386,14 @@
       "transparencyOutline": "Transparenz Umriss",
       "undefinedInnerCircle": "Bitte definieren Sie auch den inneren Kreis.",
       "undefinedOuterCircle": "Bitte definieren Sie auch den äußeren Kreis.",
+      "undefinedSquareArea": "Bitte definieren Sie den Flächeninhalt des Quadrats.",
       "undefinedRadius": "Bitte geben Sie einen Radius an.",
       "undefinedTwoCircles": "Bitte definieren Sie beide Kreise.",
-      "unit": "Einheit"
+      "unit": "Einheit",
+      "squareDefinedInfo": " (ohne Berücksichtung der Erdkrümmung)",
+      "areaLabel": "Flächeninhalt",
+      "squareSideLengthLabel": "Seitenlänge",
+      "lineLengthLabel": "Gesamtlänge" 
     },
     "featureLister": {
       "chooseTheme": "Thema wählen",
