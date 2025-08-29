@@ -3175,7 +3175,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|additionalLayers|nein|**[additionalLayers](#portalconfigmenusectionsmodulesprintadditionallayers)**||Defines layers that can be added to print.|false|
+|additionalLayers|no|**[additionalLayers](#portalconfigmenusectionsmodulesprintadditionallayers)**||Defines layers that can be added to print.|false|
 |capabilitiesFilter|no|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||Filter for the response of the configured print service. Possible keys are layouts and outputFormats.|false|
 |currentLayoutName|no|String|"A4 Hochformat"|Defines which layout is the default layout on opening the print tool, e.g. "A4 portrait format". If the given layout is not available oder none is provided, the first layout mentioned in the Capabilities is used.|false|
 |defaultCapabilitiesFilter|no|**[capabilitiesFilter](#portalconfigmenusectionsmodulesprintcapabilitiesfilter)**||If there is no key set in capabilitiesFilter, the key from this object is taken.|false|
@@ -3192,6 +3192,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printServiceId|yes|String||Print service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |showInvisibleLayerInfo|no|Boolean|true|Defines whether an infobox is shown when layers will not be printed because they are invisible due to scale.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
+|transferParameter|no|Object|{}|Enables the transfer of any number of freely definable parameters. The layout design (JRXML) must then be customized by the user in a meaningful way.
 |type|no|String|"print"|The type of the module. Defines which module is configured.|false|
 
 **High Resolution PlotService example configuration**
@@ -3225,7 +3226,11 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
     "printServiceId": "mapfish_printservice_id",
     "printAppId": "mrh",
     "filename": "Ausdruck",
-    "title": "Mein Titel"
+    "title": "Mein Titel",
+    "transferParameter": {
+        "exampleParameter1": "example placeholder",
+        "exampleParameter2": "example placeholder 2"
+    }
 }
 ```
 

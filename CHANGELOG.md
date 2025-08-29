@@ -5,6 +5,8 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
+- PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
+
 ### __Breaking Changes__
 
 ### Added
