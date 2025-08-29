@@ -3192,7 +3192,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printServiceId|yes|String||Print service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |showInvisibleLayerInfo|no|Boolean|true|Defines whether an infobox is shown when layers will not be printed because they are invisible due to scale.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
-|transferParameter|no|**[transferParameter](#portalconfigmenusectionsmodulesprinttransferParameter)**|{}|Enables the transfer of any number of freely definable parameters. The layout design (JRXML) must then be customized by the user in a meaningful way.|false|
+|transferParameter|no|**[transferParameter](#portalconfigmenusectionsmodulesprinttransferparameter)**|{}|Enables the transfer of any number of freely definable parameters. The layout design (JRXML) must then be customized by the user in a meaningful way.|false|
 |type|no|String|"print"|The type of the module. Defines which module is configured.|false|
 
 **High Resolution PlotService example configuration**
@@ -3228,6 +3228,22 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
     "filename": "Ausdruck",
     "title": "Mein Titel"
 }
+```
+***
+
+###### portalConfig.menu.sections.modules.print.transferParameter {data-toc-label='Print Transfer-Parameter'}
+Object with parameters.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|exampleParameter1|no|String|""|Contains parameter|false|
+
+
+```json title="Example additionalLayers"
+"transferParameter": {
+        "exampleParameter1": "example placeholder",
+        "exampleParameter2": "example placeholder 2"
+    }
 ```
 
 ***

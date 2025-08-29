@@ -3189,7 +3189,7 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
 |printServiceId|ja|String||Id des Druckdienstes der verwendet werden soll. Wird in der rest-services.json abgelegt.|false|
 |showInvisibleLayerInfo|nein|Boolean|true|Definiert, ob eine Infobox angezeigt werden soll, wenn Layer aufgrund des Maßstabs unsichtbar sind und nicht mitgedruckt werden.|false|
 |title|nein|String|"PrintResult"|Titel des Dokuments. Erscheint als Kopfzeile.|false|
-|transferParameter|nein|**[transferParameter](#portalconfigmenusectionsmodulesprinttransferParameter)**|{}|Ermöglicht die Übertragung einer beliebigen Anzahl frei definierbarer Parameter. Das Layout-Design (JRXML) muss dann vom Benutzer sinnvoll angepasst werden.|false|
+|transferParameter|nein|**[transferParameter](#portalconfigmenusectionsmodulesprinttransferparameter)**|{}|Ermöglicht die Übertragung einer beliebigen Anzahl frei definierbarer Parameter. Das Layout-Design (JRXML) muss dann vom Benutzer sinnvoll angepasst werden.|false|
 |type|nein|String|"print"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 
 **Beispiel Konfiguration mit High Resolution PlotService**
@@ -3225,6 +3225,23 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
     "filename": "Ausdruck",
     "title": "Mein Titel"
 }
+```
+***
+
+###### portalConfig.menu.sections.modules.print.transferParameter {data-toc-label='Print Transfer-Parameter'}
+Object with parameters.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|exampleParameter1|nein|String|""|Enthält Parameter für den Transfer.|false|
+
+**Beispiel Transfer Parameter**
+
+```json"
+"transferParameter": {
+        "exampleParameter1": "example placeholder",
+        "exampleParameter2": "example placeholder 2"
+    }
 ```
 
 ***
