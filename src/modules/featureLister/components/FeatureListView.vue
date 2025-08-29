@@ -97,9 +97,7 @@ export default {
             @rowOnHover="row => hoverOverFeature(row)"
         />
     </div>
-    <div
-        class="panel-footer feature-lister-list-footer"
-    >
+    <div>
         <FlatButton
             id="module-feature-lister-show-more"
             aria-label="$t('commonmodules.featureLister.more')"
