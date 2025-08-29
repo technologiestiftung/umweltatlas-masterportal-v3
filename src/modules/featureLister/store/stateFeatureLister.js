@@ -66,7 +66,8 @@ const state = {
     supportedDevices: ["Desktop", "Mobile", "Table"],
     supportedMapModes: ["2D", "3D"],
     selectedArea: null,
-    loading: false
+    loading: false,
+    showGraphicalSelect: false
 };
 
 export default state;

@@ -14,6 +14,7 @@ export default {
     data () {
         return {
             supportedLayerTypes: ["WFS", "OAF", "GeoJSON"],
+            supportedTypesForGraphicalSelect: ["WFS"],
             unsupportedRenderers: ["WEBGL"]
         };
     },
@@ -24,7 +25,8 @@ export default {
         ]),
         ...mapGetters("Modules/FeatureLister", [
             "layer",
-            "loading"
+            "loading",
+            "showGraphicalSelect"
         ]),
         /**
          * Returns the visible vector layers that are supported by the feature lister.
@@ -52,7 +54,7 @@ export default {
          * OAF layers are not yet supported for graphical selection, so we switch to the list view.
          */
         layer (newValue) {
-            if (newValue && newValue.typ === "OAF") {
+            if (newValue && (!this.supportedTypesForGraphicalSelect.includes(newValue.typ) || !this.showGraphicalSelect)) {
                 this.setSelectedArea(null);
                 this.switchToList();
             }
@@ -100,7 +102,7 @@ export default {
         </li>
     </ul>
     <div
-        v-if="layer && layer.typ === 'WFS'"
+        v-if="layer && supportedTypesForGraphicalSelect.includes(layer.typ) && showGraphicalSelect"
     >
         <GraphicalSelect
             ref="graphicalSelection"
