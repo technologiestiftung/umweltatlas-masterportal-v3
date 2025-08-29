@@ -2641,7 +2641,7 @@ Objekt zum Ändern des voreingestellten Formats beim Herunterladen einer Zeichnu
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-Dieses Modul kann geladene Vektordaten von WFS und OAF Layern in einer Tabelle darstellen. Alle sichtbaren Vektorlayer aus der Karte werden im ersten Reiter angezeigt. Die darzustellenden Feature von WFS Layern können nach der Selektion des Layers über ein Zeichentool ausgewählt werden. Die Features des Layers werden im zweiten Reiter der Tabelle aufgelistet. Die Anzahl der angezeigten Features ist konfigurierbar.
+Dieses Modul kann geladene Vektordaten von WFS, GeoJSON und OAF Layern in einer Tabelle darstellen. Alle sichtbaren Vektorlayer aus der Karte werden im ersten Reiter angezeigt. Die darzustellenden Feature von WFS Layern können nach der Selektion des Layers über ein Zeichentool ausgewählt werden. Die Features des Layers werden im zweiten Reiter der Tabelle aufgelistet. Die Anzahl der angezeigten Features ist konfigurierbar.
 
 Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird dieses in der Karte hervorgehoben. Durch Klick auf ein Feature werden dessen Attribute in einem dritten Reiter sortierbar dargestellt.
 
@@ -2653,6 +2653,8 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
 |maxFeatures|nein|Integer|20|Anzahl der zu zeigenden Features. Über einen Button können weitere Features in dieser Anzahl zugeladen werden.|false|
 |name|nein|String|"common:modules.featureLister.name"|Name des Moduls im Menü.|false|
 |type|ja|String|"featureLister"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
+|showGraphicalSelect|nein|Boolean|false|Gibt an, ob es die Möglichkeit geben soll Feature über Geometriezeichnen auszuwählen (nur für WFS).|false|
+|bufferDistance|nein|Number|100|Die default Distanz für den Buffer der gezeichneten Linie in dem Graphical Select. Nur relevant, wenn `showGraphicalSelect=true`.|false|
 
 **Beispiel**
 
@@ -2682,7 +2684,9 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
         "image": {
             "scale": 2
         },
-        "zoomLevel": 5
+        "zoomLevel": 5,
+        "showGraphicalSelect": true,
+        "bufferDistance": 500
     }
 }
 ```
