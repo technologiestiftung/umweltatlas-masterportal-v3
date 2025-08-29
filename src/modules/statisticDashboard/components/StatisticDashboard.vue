@@ -26,6 +26,7 @@ import StatisticFilter from "./StatisticDashboardFilter.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import WFS from "ol/format/WFS";
+import {CanceledError} from "axios";
 
 export default {
     name: "StatisticDashboard",
@@ -44,6 +45,7 @@ export default {
     },
     data () {
         return {
+            abortController: new AbortController(),
             tableData: [],
             chosenTableData: [],
             testFixedData: {
@@ -194,14 +196,6 @@ export default {
         }
     },
     watch: {
-        loadedFeatures: {
-            handler (val) {
-                if (Array.isArray(val) && val.length) {
-                    this.setIsFeatureLoaded(true);
-                }
-            },
-            deep: true
-        },
         selectedReferenceData () {
             if (this.selectedRegionsValues.length && this.selectedDates.length) {
                 this.checkFilterSettings(this.selectedRegionsValues, getters.selectedDatesValues(null, {selectedDates: this.selectedDates}), this.selectedReferenceData);
@@ -339,12 +333,16 @@ export default {
             this.updateAfterLegendChange();
         },
 
-        stepValues () {
-            this.updateAfterLegendChange();
+        stepValues (val, oldVal) {
+            if (val?.length !== oldVal?.length || val.some((value, index) => value !== oldVal[index])) {
+                this.updateAfterLegendChange();
+            }
         },
 
-        colorPalette () {
-            this.updateAfterLegendChange();
+        colorPalette (value, oldValue) {
+            if (oldValue.length) {
+                this.updateAfterLegendChange();
+            }
         },
         chartTableToggle (val) {
             if (val === "table" && isObject(this.statisticsData) && Object.keys(this.statisticsData).length && this.chosenStatisticName === "") {
@@ -644,7 +642,8 @@ export default {
          * @returns {void}
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
-            this.setIsFeatureLoaded(false);
+            this.abortController.abort();
+            this.abortController = new AbortController();
             this.layer?.getSource().clear();
 
             const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
@@ -682,7 +681,9 @@ export default {
             }
 
             if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
-                this.layer?.getSource().addFeatures(filteredFeatures);
+                FeaturesHandler.addFeaturesAsync(this.layer.getSource(), filteredFeatures, {
+                    signal: this.abortController.signal, batchSize: this.selectedLevel.renderingBatchSize
+                });
             }
         },
 
@@ -806,6 +807,9 @@ export default {
          * @returns {void}
          */
         async handleFilterSettings (regions, dates, differenceMode) {
+            this.handleReset();
+            this.setIsFeatureLoaded(false);
+
             const statsKeys = Object.keys(this.selectedStatistics),
                 selectedLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 selectedLevelRegionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel.mappingFilter.regionNameAttribute),
@@ -828,18 +832,27 @@ export default {
             }
             else if (selectedLayer.typ === "OAF") {
                 payload.propertyNames.splice(payload.propertyNames.indexOf(this.selectedLevel.geometryAttribute), 1);
-                this.loadedFeatures = await FetchDataHandler.getOAFFeatures(
-                    selectedLayer.url,
-                    selectedLayer.collection,
-                    payload.propertyNames,
-                    this.projection.getCode(),
-                    this.selectedLevel.oafRequestCRS,
-                    this.selectedLevel.oafDataProjectionCode,
-                    this.parseOLFilterToOAF(payload.filter, this.filterMap),
-                    this.selectedLevel.oafRequestCRS,
-                    400
-                );
+                try {
+                    this.loadedFeatures = await FetchDataHandler.getOAFFeatures(
+                        selectedLayer.url,
+                        selectedLayer.collection,
+                        payload.propertyNames,
+                        this.projection.getCode(),
+                        this.selectedLevel.oafRequestCRS,
+                        this.selectedLevel.oafDataProjectionCode,
+                        this.parseOLFilterToOAF(payload.filter, this.filterMap),
+                        this.selectedLevel.oafRequestCRS,
+                        this.abortController.signal
+                    );
+                }
+                catch (error) {
+                    if (!(error instanceof CanceledError)) {
+                        console.error(error);
+                    }
+                    return;
+                }
             }
+            this.setIsFeatureLoaded(true);
 
             if (differenceMode) {
                 this.referenceFeatures = {};
@@ -858,7 +871,7 @@ export default {
          * @param {String|Boolean} differenceMode - Indicates the difference mode('date' or 'region') otherwise false.
          * @returns {void}
          */
-        prepareData (loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode) {
+        async prepareData (loadedFeatures, selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode) {
             if (!Array.isArray(loadedFeatures) || loadedFeatures.length === 0 || !Array.isArray(selectedStatisticsNames) || !Array.isArray(regions) || !Array.isArray(dates) || !selectedLevelDateAttribute || !selectedLevelRegionNameAttribute) {
                 return;
             }
@@ -869,12 +882,13 @@ export default {
 
             this.handleChartData(this.statisticNameOfChart, regions, dates, this.statisticsData, differenceMode);
 
+            this.selectedColumn ||= this.timeStepsFilter.find(v => v.value === dates[0])?.label;
             if (this.selectedStatisticsNames.length && this.classificationMode !== "custom") {
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
                         this.statisticsData[this.chosenStatisticName],
                         this.numberOfClasses,
-                        this.selectedColumn || this.timeStepsFilter.find(v => v.value === dates[0])?.label,
+                        this.selectedColumn,
                         this.classificationMode,
                         this.allowPositiveNegativeClasses,
                         this.decimalPlaces
@@ -893,7 +907,9 @@ export default {
                 const filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, this.selectedColumn || dates[0]);
 
                 if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
-                    this.layer.getSource().addFeatures(filteredFeatures);
+                    await FeaturesHandler.addFeaturesAsync(this.layer.getSource(), filteredFeatures, {
+                        signal: this.abortController.signal, batchSize: this.selectedLevel.renderingBatchSize
+                    });
                 }
 
                 filteredFeatures.map(feature => {
@@ -1368,6 +1384,8 @@ export default {
          * @returns {void}
          */
         handleReset () {
+            this.abortController.abort();
+            this.abortController = new AbortController();
             this.layer?.getSource()?.clear();
             this.tableData = [];
 
@@ -1796,7 +1814,13 @@ export default {
                 @download="downloadData"
             />
             <div
-                v-if="statisticsData === undefined"
+                v-if="!isFeatureLoaded"
+                class="text-center"
+            >
+                <SpinnerItem />
+            </div>
+            <div
+                v-if="!statisticsData && isFeatureLoaded"
                 class="row justify-content-center my-3"
             >
                 <div

@@ -892,7 +892,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
             });
         });
         describe("prepareData", () => {
-            it("should return undefined, wenn loadedFeatures is not correct", () => {
+            it("should return undefined, wenn loadedFeatures is not correct", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -910,14 +910,14 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(null)).to.be.undefined;
-                expect(wrapper.vm.prepareData({})).to.be.undefined;
-                expect(wrapper.vm.prepareData([])).to.be.undefined;
-                expect(wrapper.vm.prepareData(false)).to.be.undefined;
-                expect(wrapper.vm.prepareData("str")).to.be.undefined;
-                expect(wrapper.vm.prepareData(123)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData({})).to.be.undefined;
+                expect(await wrapper.vm.prepareData([])).to.be.undefined;
+                expect(await wrapper.vm.prepareData(false)).to.be.undefined;
+                expect(await wrapper.vm.prepareData("str")).to.be.undefined;
+                expect(await wrapper.vm.prepareData(123)).to.be.undefined;
             });
-            it("should return undefined, if selectedStatisticsNames is not an array", () => {
+            it("should return undefined, if selectedStatisticsNames is not an array", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -935,13 +935,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(featureList, null)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, {})).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, false)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, "str")).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, 123)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, {})).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, false)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, "str")).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, 123)).to.be.undefined;
             });
-            it("should return undefined, if regions is not an array", () => {
+            it("should return undefined, if regions is not an array", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -959,13 +959,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], null)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], {})).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], false)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], "str")).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], 123)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], {})).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], false)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], "str")).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], 123)).to.be.undefined;
             });
-            it("should return undefined, if dates is not an array", () => {
+            it("should return undefined, if dates is not an array", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -983,13 +983,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], null)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], {})).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], false)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], 123)).to.be.undefined;
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], "str")).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], {})).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], false)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], 123)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], "str")).to.be.undefined;
             });
-            it("should return undefined, if selectedLevelDateAttribute is not defined", () => {
+            it("should return undefined, if selectedLevelDateAttribute is not defined", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -1007,9 +1007,9 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], null)).to.be.undefined;
             });
-            it("should return undefined, if selectedLevelRegionNameAttribute is not an array", () => {
+            it("should return undefined, if selectedLevelRegionNameAttribute is not an array", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", {});
 
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -1027,7 +1027,7 @@ describe("src/modules/StatisticDashboard.vue", () => {
                     }
                 }];
 
-                expect(wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, null)).to.be.undefined;
+                expect(await wrapper.vm.prepareData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, null)).to.be.undefined;
             });
         });
         describe("prepareStatisticsData", () => {

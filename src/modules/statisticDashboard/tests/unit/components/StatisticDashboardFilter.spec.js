@@ -142,40 +142,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardFilter.vu
 
             expect(wrapper.findComponent({name: "FlatButton"}).exists()).to.be.true;
         });
-        it("should not render a loading spinner", async () => {
-            const wrapper = shallowMount(StatisticDashboardFilter, {
-                propsData: {
-                    categories: [],
-                    timeStepsFilter,
-                    regions,
-                    areCategoriesGrouped: false
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            await store.commit("Modules/StatisticDashboard/setIsFeatureLoaded", true);
-
-            expect(wrapper.findComponent({name: "SpinnerItem"}).exists()).to.be.false;
-        });
-        it("should render a loading spinner", async () => {
-            const wrapper = shallowMount(StatisticDashboardFilter, {
-                propsData: {
-                    categories: [],
-                    timeStepsFilter,
-                    regions,
-                    areCategoriesGrouped: false
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            await store.commit("Modules/StatisticDashboard/setIsFeatureLoaded", false);
-
-            expect(wrapper.findComponent({name: "SpinnerItem"}).exists()).to.be.true;
-        });
     });
     describe("Computed", () => {
         describe("validated", () => {

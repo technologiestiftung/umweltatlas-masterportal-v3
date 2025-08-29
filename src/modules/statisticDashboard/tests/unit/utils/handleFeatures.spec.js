@@ -1,4 +1,5 @@
 import {expect} from "chai";
+import sinon from "sinon";
 import FeatureHandler from "@modules/statisticDashboard/js/handleFeatures";
 import Feature from "ol/Feature";
 
@@ -242,6 +243,31 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                 ];
 
             expect(FeatureHandler.getLegendValue(val)).to.be.deep.equals(expectedVal);
+        });
+    });
+    describe("addFeaturesAsync", () => {
+        it("should call source.addFeatures the correct number of times based on batchSize", async () => {
+            const features = [1, 2, 3, 4, 5],
+                source = {addFeatures: sinon.spy()};
+
+            await FeatureHandler.addFeaturesAsync(source, features, {batchSize: 2});
+            // 5 features, batchSize 2: calls should be 3 (2,2,1)
+            expect(source.addFeatures.callCount).to.equal(3);
+            expect(source.addFeatures.firstCall.args[0]).to.deep.equal([1, 2]);
+            expect(source.addFeatures.secondCall.args[0]).to.deep.equal([3, 4]);
+            expect(source.addFeatures.thirdCall.args[0]).to.deep.equal([5]);
+        });
+
+        it("should stop adding features if the abort signal is triggered", async () => {
+            const features = [1, 2, 3, 4, 5],
+                source = {addFeatures: sinon.spy()},
+                controller = new AbortController();
+
+            // abort after first batch
+            setTimeout(() => controller.abort(), 10);
+            await FeatureHandler.addFeaturesAsync(source, features, {batchSize: 1, signal: controller.signal});
+            // Should only call addFeatures once or twice depending on timing, but never all 5
+            expect(source.addFeatures.callCount).to.be.lessThan(5);
         });
     });
 });

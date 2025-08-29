@@ -6,6 +6,27 @@ import quantile from "@shared/js/utils/quantile";
 import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 
 /**
+ * Adds features to a source in batches.
+ * @param {ol/VectorSource} source - The source to which features are added.
+ * @param {ol/Feature[]} features - The features to be added.
+ * @param {Object} options - Additional parameters.
+ * @param {AbortSignal} [options.signal] - An optional AbortSignal to cancel the operation.
+ * @param {Number} [options.batchSize=1] - The number of features to add in each batch.
+ * @returns {Promise<void>} A promise that resolves when all features are added.
+ */
+async function addFeaturesAsync (source, features, {signal, batchSize = 1} = {}) {
+    let index = 0;
+
+    while (index < features.length && !signal?.aborted) {
+        const featuresToAdd = features.slice(index, index + batchSize);
+
+        source.addFeatures(featuresToAdd);
+        await new Promise(resolve => setTimeout(resolve));
+        index += batchSize;
+    }
+}
+
+/**
  * Filters the features by the passed key and value.
  * @param {ol/Feature[]} features - The features that are filtered.
  * @param {String} key - The name of the key.
@@ -274,6 +295,7 @@ function getLegendValue (val, decimalPlaces = 2, withoutValue = false) {
 }
 
 export default {
+    addFeaturesAsync,
     filterFeaturesByKeyValue,
     styleFeaturesByStatistic,
     styleFeature,

@@ -6,7 +6,6 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import sortBy from "@shared/js/utils/sortBy";
 import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
-import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 export default {
     name: "StatisticDashboardFilter",
@@ -14,8 +13,7 @@ export default {
         Multiselect,
         AccordionItem,
         FlatButton,
-        StatisticDashboardFilterRegions,
-        SpinnerItem
+        StatisticDashboardFilterRegions
     },
     props: {
         categories: {
@@ -304,12 +302,6 @@ export default {
 
 <template>
     <div>
-        <div
-            v-if="!isFeatureLoaded"
-            class="is-loading"
-        >
-            <SpinnerItem />
-        </div>
         <div class="container stretched mb-3">
             <div class="back row">
                 <i class="bi bi-chevron-left col col-md-auto px-0" />
@@ -500,7 +492,7 @@ export default {
                 :interaction="() => $emit('toggleFilter')"
                 :text="$t('common:modules.statisticDashboard.button.done')"
                 :icon="'bi-check2'"
-                :disabled="!validated || !isFeatureLoaded"
+                :disabled="!validated"
             />
         </div>
     </div>
@@ -577,13 +569,4 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.is-loading {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    padding-top: 30%;
-    z-index: 100001;
-    background: rgba(255, 255, 255, 0.5);
-}
 </style>

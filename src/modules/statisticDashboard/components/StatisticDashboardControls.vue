@@ -5,6 +5,7 @@ import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
 import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import {Dropdown} from "bootstrap";
 
 export default {
     name: "StatisticDashboardControls",
@@ -26,7 +27,6 @@ export default {
         },
         enableButtons: {
             type: Boolean,
-            required: true,
             default: false
         }
     },
@@ -34,7 +34,7 @@ export default {
     data () {
         return {
             currentDescriptionIndex: 0,
-            showDifferenceModal: false,
+            differenceModalContainer: null,
             referenceLabel: undefined,
             buttonGroupControls: [{
                 name: "Tabelle",
@@ -106,6 +106,7 @@ export default {
             this.$emit("showChartTable");
         },
         selectedReferenceData (val) {
+            this.differenceModalContainer?.hide();
             this.handleReferenceTag(val);
         },
         selectedReferenceValueTag (val) {
@@ -120,6 +121,12 @@ export default {
         }
     },
     mounted () {
+        const container = document.getElementById("difference-modal-container");
+
+        if (container) {
+            this.differenceModalContainer = new Dropdown(container);
+        }
+
         if (typeof this.selectedReferenceValueTag !== "undefined") {
             this.referenceTag = this.selectedReferenceValueTag;
         }
@@ -301,6 +308,7 @@ export default {
                             {{ $t('common:modules.statisticDashboard.button.difference') }}
                         </button>
                         <div
+                            id="difference-modal-container"
                             class="dropdown-menu p-4"
                         >
                             <DifferenceModal
