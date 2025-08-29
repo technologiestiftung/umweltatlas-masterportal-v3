@@ -26,7 +26,8 @@ export default {
         ...mapGetters("Modules/FeatureLister", [
             "layer",
             "loading",
-            "showGraphicalSelect"
+            "showGraphicalSelect",
+            "bufferDistance"
         ]),
         /**
          * Returns the visible vector layers that are supported by the feature lister.
@@ -107,6 +108,7 @@ export default {
         <GraphicalSelect
             ref="graphicalSelection"
             :label="$t('common:modules.featureLister.spatialSelection')"
+            :buffer-distance="bufferDistance"
         />
         <FlatButton
             id="module-feature-lister-show-more"

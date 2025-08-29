@@ -24,9 +24,10 @@ import tabStatus from "../tabStatus";
  * @property {Object} selectedRow the selected row of the table of gfiFeatures
  * @property {Object} highlightVectorRulesPolygon default style for highlighting polygons
  * @property {Object} highlightVectorRulesPointLine default style for highlighting lines and points
+ * @property {Boolean} showGraphicalSelect if true the graphical select component gets displayed
+ * @property {Number} bufferDistance value will be used as default for the line buffer geometry from the graphical select component
  */
 const state = {
-    // defaults for config.json parameters
     hasMouseMapInteractions: true,
     type: "featureLister",
     description: "common:modules.featureLister.description",
@@ -63,11 +64,12 @@ const state = {
         },
         "zoomLevel": 7
     },
-    supportedDevices: ["Desktop", "Mobile", "Table"],
+    supportedDevices: ["Desktop", "Mobile", "Tablet"],
     supportedMapModes: ["2D", "3D"],
     selectedArea: null,
     loading: false,
-    showGraphicalSelect: false
+    showGraphicalSelect: false,
+    bufferDistance: 100
 };
 
 export default state;
