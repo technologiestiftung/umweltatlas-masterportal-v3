@@ -1,7 +1,7 @@
 import {getCenter} from "ol/extent";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
 import tabStatus from "../tabStatus";
-import spatialSelection from "../getSpatialSelection";
+import spatialSelection from "../js/getSpatialSelection";
 
 export default {
     /**
