@@ -3192,7 +3192,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 |printServiceId|yes|String||Print service id. Resolved using the **[rest-services.json](../Global-Config/rest-services.json.md)** file.|false|
 |showInvisibleLayerInfo|no|Boolean|true|Defines whether an infobox is shown when layers will not be printed because they are invisible due to scale.|false|
 |title|no|String|"PrintResult"|Document title appearing as header.|false|
-|transferParameter|no|Object|{}|Enables the transfer of any number of freely definable parameters. The layout design (JRXML) must then be customized by the user in a meaningful way.
+|transferParameter|no|**[transferParameter](#portalconfigmenusectionsmodulesprinttransferParameter)**|{}|Enables the transfer of any number of freely definable parameters. The layout design (JRXML) must then be customized by the user in a meaningful way.|false|
 |type|no|String|"print"|The type of the module. Defines which module is configured.|false|
 
 **High Resolution PlotService example configuration**
@@ -3226,11 +3226,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
     "printServiceId": "mapfish_printservice_id",
     "printAppId": "mrh",
     "filename": "Ausdruck",
-    "title": "Mein Titel",
-    "transferParameter": {
-        "exampleParameter1": "example placeholder",
-        "exampleParameter2": "example placeholder 2"
-    }
+    "title": "Mein Titel"
 }
 ```
 
@@ -3270,6 +3266,24 @@ List of layouts and formats that filters the response from the print service in 
     "layouts": ["A4 Hochformat", "A3 Hochformat"],
     "outputFormats": ["PDF"]
 }
+```
+
+***
+###### portalConfig.menu.sections.modules.print.transferParameter {data-toc-label='Transfer Parameter'}
+Any number of parameters that can be passed to MapFish. `exampleParameter` is just an example.
+Any names can be chosen for the variables, and they can contain any values of type string.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|exampleParameter1|nein|String||Beispiel für einen String.|false|
+|exampleParameter2|nein|String||Beispiel für einen String.|false|
+
+**Beispiel transferParameter:**
+```json
+"transferParameter": {
+        "exampleParameter1": "example placeholder",
+        "exampleParameter2": "example placeholder 2"
+    }
 ```
 
 ***
