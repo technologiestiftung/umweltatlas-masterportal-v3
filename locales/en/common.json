@@ -398,6 +398,7 @@
       "description": "List all entries for a topic",
       "key": "{{shownFeatures}} of {{featureCount}} features listed",
       "list": "List",
+      "manualSelection": "Select features manually on the map",
       "more": "More...",
       "name": "List",
       "requestFailedAlert": "The feature request failed. Please try again later.",

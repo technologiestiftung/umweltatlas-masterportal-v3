@@ -3,19 +3,22 @@ import {mapGetters, mapMutations, mapActions} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import GraphicalSelect from "@shared/modules/graphicalSelect/components/GraphicalSelect.vue";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 export default {
     name: "LayerListView",
     components: {
         GraphicalSelect,
         FlatButton,
-        SpinnerItem
+        SpinnerItem,
+        SwitchInput
     },
     data () {
         return {
             supportedLayerTypes: ["WFS", "OAF", "GeoJSON"],
             supportedTypesForGraphicalSelect: ["WFS"],
-            unsupportedRenderers: ["WEBGL"]
+            unsupportedRenderers: ["WEBGL"],
+            manualSelection: false
         };
     },
     computed: {
@@ -27,7 +30,8 @@ export default {
             "layer",
             "loading",
             "showGraphicalSelect",
-            "bufferDistance"
+            "bufferDistance",
+            "selectedArea"
         ]),
         /**
          * Returns the visible vector layers that are supported by the feature lister.
@@ -76,6 +80,18 @@ export default {
          */
         isSelectedLayer (visibleLayer = {}) {
             return this.layer && this.layer.id === visibleLayer.id;
+        },
+        /**
+         * Toggles the mode in which the features for the list are chosen.
+         * If manualSelection is true, the user can select a spatial area on the map.
+         * Otherwise, the features are chosen based on the current map extent.
+         */
+        chooseMode () {
+            this.manualSelection = !this.manualSelection;
+
+            if (!this.manualSelection) {
+                this.setSelectedArea(null);
+            }
         }
     }
 };
@@ -105,23 +121,33 @@ export default {
     <div
         v-if="layer && supportedTypesForGraphicalSelect.includes(layer.typ) && showGraphicalSelect"
     >
+        <SwitchInput
+            id="module-feature-lister-choose-mode"
+            :label="$t('common:modules.featureLister.manualSelection')"
+            :aria="$t('common:modules.featureLister.manualSelection')"
+            class="form-switch mt-4 mb-3"
+            :checked="manualSelection"
+            :interaction="chooseMode"
+        />
         <GraphicalSelect
+            v-if="manualSelection"
             ref="graphicalSelection"
             :label="$t('common:modules.featureLister.spatialSelection')"
             :buffer-distance="bufferDistance"
         />
         <FlatButton
-            id="module-feature-lister-show-more"
+            id="module-feature-lister-continue"
             :aria-label="$t('common:modules.featureLister.continueButton')"
             type="button"
             :text="$t('common:modules.featureLister.continueButton')"
             :icon="'bi-list'"
+            :disabled="manualSelection ? !selectedArea : false"
             :interaction="switchToList"
         />
+        <SpinnerItem
+            v-if="loading"
+        />
     </div>
-    <SpinnerItem
-        v-if="loading"
-    />
 </template>
 
 <style lang="scss" scoped>

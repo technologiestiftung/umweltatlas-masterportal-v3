@@ -17,7 +17,9 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
             ignoredKeys: () => [],
             layer: () => ({id: "1", name: "Layer 1", typ: "WFS"}),
             loading: () => false,
-            showGraphicalSelect: () => true
+            showGraphicalSelect: () => true,
+            bufferDistance: () => 100,
+            selectedArea: () => null
         };
         mutations = {
             setLayer: sinon.stub(),
@@ -40,7 +42,9 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
                             getters: {
                                 layer: getters.layer,
                                 loading: getters.loading,
-                                showGraphicalSelect: getters.showGraphicalSelect
+                                showGraphicalSelect: getters.showGraphicalSelect,
+                                bufferDistance: getters.bufferDistance,
+                                selectedArea: getters.selectedArea
                             },
                             mutations,
                             actions
@@ -91,7 +95,13 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
     });
 
     it("shows GraphicalSelect and FlatButton if a layer is selected", () => {
-        const wrapper = shallowMount(LayerListView, {global: {plugins: [store], mocks}});
+        const wrapper = shallowMount(LayerListView, {global: {plugins: [store], mocks},
+            data () {
+                return {
+                    manualSelection: true
+                };
+            }
+        });
 
         expect(wrapper.findComponent({name: "GraphicalSelect"}).exists()).to.be.true;
         expect(wrapper.findComponent({name: "FlatButton"}).exists()).to.be.true;
@@ -112,7 +122,10 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
                                 namespaced: true,
                                 getters: {
                                     layer: getters.layer,
-                                    loading: getters.loading
+                                    loading: getters.loading,
+                                    showGraphicalSelect: getters.showGraphicalSelect,
+                                    bufferDistance: getters.bufferDistance,
+                                    selectedArea: getters.selectedArea
                                 },
                                 mutations,
                                 actions
@@ -127,7 +140,8 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
                     }
                 }
             }),
-            wrapper = shallowMount(LayerListView, {global: {plugins: [storeWithLoading], mocks}});
+            wrapper = shallowMount(LayerListView, {global: {plugins: [storeWithLoading], mocks}
+            });
 
         expect(wrapper.findComponent({name: "SpinnerItem"}).exists()).to.be.true;
     });

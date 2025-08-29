@@ -397,6 +397,7 @@
       "description": "Listen Sie alle Einträge zu einem Thema auf",
       "key": "{{shownFeatures}} von {{featureCount}} Features gelistet",
       "list": "Liste",
+      "manualSelection": "Features manuell auf Karte auswählen",
       "more": "Mehr...",
       "name": "Liste",
       "requestFailedAlert": "Die Abfrage der Features ist fehlgeschlagen. Bitte versuchen Sie es später erneut.",
