@@ -16,7 +16,8 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
             ],
             ignoredKeys: () => [],
             layer: () => ({id: "1", name: "Layer 1", typ: "WFS"}),
-            loading: () => false
+            loading: () => false,
+            showGraphicalSelect: () => true
         };
         mutations = {
             setLayer: sinon.stub(),
@@ -38,7 +39,8 @@ describe("src/modules/featureLister/components/LayerListView.vue", () => {
                             namespaced: true,
                             getters: {
                                 layer: getters.layer,
-                                loading: getters.loading
+                                loading: getters.loading,
+                                showGraphicalSelect: getters.showGraphicalSelect
                             },
                             mutations,
                             actions
