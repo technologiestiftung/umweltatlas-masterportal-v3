@@ -229,7 +229,9 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Routing: Added context menu to for setting and deleting waypoints as well as barrier points via right mouse button.
 - Documentation: Now includes a search bar for cross-site search.
 - GraphicalSelect: Added line feature with buffer geometry for selection.
-- FeatureLister: Added spatial selection of features that are shown in the list.
+- FeatureLister:
+  - Added spatial selection of features that are shown in the list.
+  - GeoJSON is now supported.
 - TableComponent: 
   - Added GeoJSON Download.
   - Added alphanumerical sorting.
