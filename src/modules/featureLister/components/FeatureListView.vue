@@ -85,6 +85,7 @@ export default {
             :data="tableData"
             :filterable="true"
             :enable-settings="true"
+            :full-view-enabled="true"
             :sortable="true"
             :sort-alphanumerical="true"
             export-file-name="Feature Lister Export"
