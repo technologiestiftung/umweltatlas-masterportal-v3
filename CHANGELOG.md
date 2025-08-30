@@ -75,6 +75,7 @@
 - InputText: Replace input text with InputText.
 - HTML input elements: Replaced HTML input elements of type text with shared modules component InputText.
 - Shared utils: Optimized function isEmailAddress to return early to avoid running the regex for invalid input values.
+- Documentation: Links are now underlined to improve visibility (WCAG 2.2 (A) - 1.4.1).
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.49.0 to 2.50.0 (This also raised ol to version 10.6.0)
