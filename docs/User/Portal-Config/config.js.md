@@ -131,8 +131,8 @@ Specify the fill color and outline color and stroke width for highlighting the p
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
+|fill|no|**[fill](#mousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#mousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
 
 ***
 
@@ -171,9 +171,9 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
-|image|no|**[image](#markdown-header-mousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
+|fill|no|**[fill](#mousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#mousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
+|image|no|**[image](#mousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
 
 ***
 ### mouseHover.highlightVectorRulesPointLine.fill
