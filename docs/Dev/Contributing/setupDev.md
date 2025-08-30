@@ -188,7 +188,7 @@ Please refer to the [npm update documentation](https://docs.npmjs.com/cli/v6/com
 
 
 
-## Setup Debugging in Visual Studio Code
+## Set up Debugging in Visual Studio Code
 
 1. Install extension Firefox/Chrome-Debugger
 
@@ -255,6 +255,6 @@ To prevent conflicts between Python packages on the system and project level, a 
 
 1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment in a folder named `.venv`.
 2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
-3. Now run `pip install -r .\python-dependencies.txt` to install the required Python packages.
+3. Now run `pip install -r devtools/docsValidation/python-dependencies.txt` to install the required Python packages.
    You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
 
