@@ -110,7 +110,7 @@ to <br>
 Possible configuration for the time related parameters of a WMS-T.
 If a parameter is also present in the service, the definition in this config is used.
 
-> ⚠️ Please mind that `version` must be set to `1.1.1`. The Masterportal implementation does currently not support newer versions.
+> Please note that current versions of the Masterportal support WMS-T versions `1.1.1` and `1.3.0`.
 
 | Name             | Verpflichtend | Typ    | default  | Beschreibung                                                                                                                                                                    | Beispiel           |
 |------------------|---------------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
