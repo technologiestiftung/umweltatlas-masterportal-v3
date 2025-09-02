@@ -11,7 +11,11 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
 
     beforeEach(() => {
         rootGetters = {
-            layerUrlParams: {layerIds: ["layerA", "layerB"]},
+            layerUrlParams: [
+                {id: "layer1", visibility: true},
+                {id: "highlight_point_layer", visibility: true, isDynamic: true},
+                {id: "layer2", visibility: false}
+            ],
             "Maps/urlParams": "zoom=5&center=10,10",
             "Menu/urlParams": {
                 main: {

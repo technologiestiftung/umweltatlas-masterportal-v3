@@ -171,7 +171,10 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
             expect(writeTextSpy.firstCall.args[0]).to.equal("stub#");
         });
         it("includes existing URL parameters in the share URL", () => {
-            const mockLayerUrlParams = "LAYER=layerValue",
+            const mockLayerUrlParams = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ],
                 mockMapUrlParams = "MAP=mapValue",
                 mockMenuUrlParams = {
                     main: {
@@ -190,7 +193,7 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 originalLocation = global.location,
                 state = {},
                 getters = {},
-                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=\"LAYER=layerValue\"&ADDONPARAM=addonValue";
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=[{\"id\":\"layer1\",\"visibility\":true},{\"id\":\"layer2\",\"visibility\":false}]&ADDONPARAM=addonValue";
 
             global.location = {
                 ...originalLocation,
@@ -203,7 +206,10 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
             global.location = originalLocation;
         });
         it("ignore existing basic URL parameters in the share URL", () => {
-            const mockLayerUrlParams = "LAYER=layerValue",
+            const mockLayerUrlParams = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ],
                 mockMapUrlParams = "MAP=mapValue",
                 mockMenuUrlParams = {
                     main: {
@@ -222,7 +228,7 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 originalLocation = global.location,
                 state = {},
                 getters = {},
-                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=\"LAYER=layerValue\"&ADDONPARAM=addonValue";
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=[{\"id\":\"layer1\",\"visibility\":true},{\"id\":\"layer2\",\"visibility\":false}]&ADDONPARAM=addonValue";
 
             global.location = {
                 ...originalLocation,

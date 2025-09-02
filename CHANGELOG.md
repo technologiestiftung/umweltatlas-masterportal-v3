@@ -78,6 +78,7 @@
 - GroupLayer: Fixed errors when opening layer info for layers within a group.
 - wfsSearch: secured layers can now be searched.
 - Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
+- HighlightFeaturesByAttribute: Resolved console warning that appeared repeatedly when opening URL with highlight parameters.
 
 ---
 
