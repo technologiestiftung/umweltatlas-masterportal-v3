@@ -101,8 +101,8 @@ export default {
     watch: {
         rulesOfFilters: {
             handler (val) {
-                this.checkActiveFilter(val);
                 this.generateLayerRules(val);
+                this.isFilterActive = this.layerRules.length > 0;
             },
             deep: true
         }
@@ -175,21 +175,21 @@ export default {
 
         /**
          * Check if there are active filter.
-         * @param {Object[]} val The rules of filter.
+         * @param {Object[]} rules The rules of filter.
          * @returns {void}
          */
-        checkActiveFilter (val) {
-            if (!Array.isArray(val) || !val.length) {
+        checkActiveFilter (rules) {
+            if (!Array.isArray(rules) || !rules.length) {
                 this.isFilterActive = false;
                 return;
             }
 
-            for (let i = 0; i < val.length; i++) {
-                if (val[i] === null) {
+            for (let i = 0; i < rules.length; i++) {
+                if (rules[i] === null) {
                     this.isFilterActive = false;
                 }
-                else if (Array.isArray(val[i]) && val[i].length) {
-                    this.isFilterActive = val[i].filter(v => v !== false && v !== null && !v?.fixed).length > 0;
+                else if (Array.isArray(rules[i]) && rules[i].length) {
+                    this.isFilterActive = rules[i].filter(v => v !== false && v !== null && !v?.fixed).length > 0;
                 }
                 else {
                     this.isFilterActive = false;
@@ -202,28 +202,37 @@ export default {
         },
         /**
          * Generates the layer rules.
-         * @param {Object[]} val The rules of filter.
+         * @param {Object[]} rules The rules of filter.
          * @returns {void}
          */
-        generateLayerRules (val) {
-            if (!this.isFilterActive) {
-                this.layerRules = [];
-                return;
-            }
-
-            const rules = [];
+        generateLayerRules (rules) {
+            const tmpRules = [];
 
             [...this.flattenPreparedLayerGroups, ...this.layerConfigs.layers].forEach(layerConfig => {
-                if (val[layerConfig.filterId] && val[layerConfig.filterId].filter(v => v !== false && v !== null && !v?.fixed).length) {
-                    rules.push({
+                if (rules[layerConfig.filterId] && rules[layerConfig.filterId].filter(rule => rule !== false && rule !== null && !rule?.fixed).length) {
+                    const rulesToShow = [];
+
+                    rules[layerConfig.filterId].forEach(rule => {
+                        if (!this.isRule(rule)) {
+                            return;
+                        }
+                        if (Array.isArray(rule.appliedPassiveValues) && !rule?.appliedPassiveValues?.length) {
+                            return;
+                        }
+                        rulesToShow.push(rule);
+                    });
+                    if (rulesToShow.length === 0) {
+                        return;
+                    }
+                    tmpRules.push({
                         filterId: layerConfig.filterId,
                         layerTitle: layerConfig.title,
-                        rule: val[layerConfig.filterId]
+                        rule: rulesToShow
                     });
                 }
             });
 
-            this.layerRules = rules;
+            this.layerRules = tmpRules;
         },
 
         /**

@@ -161,6 +161,7 @@ export default {
             "clearAll",
             "deletedRuleFilterId",
             "deletedRuleSnippetId",
+            "onValueDeselect",
             "rulesOfFilters",
             "triggerAllTagsDeleted",
             "totalResults"
@@ -220,10 +221,30 @@ export default {
             },
             deep: true
         },
+        onValueDeselect: {
+            handler (val) {
+                if (this.layerConfig.filterId !== val.filterId || typeof val.snippetId !== "number") {
+                    return;
+                }
+                const rule = this.filterRules.find(r => r?.snippetId === val.snippetId);
+                let valueIndex = null;
+
+                if (!isRule(rule)) {
+                    return;
+                }
+                valueIndex = rule.value.indexOf(val.value);
+
+                if (valueIndex !== -1) {
+                    rule.value.splice(valueIndex, 1);
+                }
+                this.changeRule(rule, true);
+            },
+            deep: true
+        },
         deletedRuleSnippetId: {
             handler (val) {
                 if (typeof val === "number" && this.layerConfig.filterId === this.deletedRuleFilterId) {
-                    this.resetSnippet(val, this.deleteRule(val));
+                    this.resetSnippet(val, this.deleteRule.bind(this, val));
                     this.setDeletedRuleSnippetId(undefined);
                 }
             },
@@ -437,6 +458,29 @@ export default {
             }
         },
         /**
+         * Applies the passive values to the tags section.
+         * @param {Object[]} rules an array of rules.
+         * @returns {void}
+         */
+        applyPassiveValuesToTags (rules) {
+            if (!Array.isArray(rules)) {
+                return;
+            }
+            rules.forEach(rule => {
+                if (!this.isRule(rule)) {
+                    return;
+                }
+                if (Array.isArray(rule.appliedPassiveValues) && rule.value.length !== rule.appliedPassiveValues.length) {
+                    rule.appliedPassiveValues = rule.value;
+                    this.$emit("updateRules", {
+                        filterId: this.layerConfig.filterId,
+                        snippetId: rule.snippetId,
+                        rule
+                    });
+                }
+            });
+        },
+        /**
          * Set the prechecked value for each snippet by state data.
          * @param {Object[]} rules an array of rules
          * @returns {void}
@@ -628,18 +672,26 @@ export default {
         /**
          * Triggered when a rule changed at a snippet.
          * @param {Object} rule the rule to set
+         * @param {Boolean} [ignoreStrategyCheck=false] true if the active strategy should be triggered regardlessly
          * @returns {void}
          */
-        changeRule (rule) {
+        changeRule (rule, ignoreStrategyCheck = false) {
+            const oldRule = this.filterRules[rule.snippetId];
+
+            if (!this.isStrategyActive() && isObject(oldRule) && rule.value.length < oldRule.value.length) {
+                rule.appliedPassiveValues = oldRule.value;
+            }
             if (this.isRule(rule)) {
+                const appliedPassiveValues = oldRule?.appliedPassiveValues?.length ? oldRule.appliedPassiveValues : [];
+
                 this.$emit("updateRules", {
                     filterId: this.layerConfig.filterId,
                     snippetId: rule.snippetId,
-                    rule
+                    rule: Object.assign(!this.isStrategyActive() && !("appliedPassiveValues" in rule) ? {appliedPassiveValues} : {}, rule)
                 });
                 this.deleteRulesOfChildren(this.getSnippetById(rule.snippetId));
                 this.deleteRulesOfParallelSnippets(this.getSnippetById(rule.snippetId));
-                if (!rule.startup && (this.isStrategyActive() || this.isParentSnippet(rule.snippetId))) {
+                if (ignoreStrategyCheck || (!rule.startup && (this.isStrategyActive() || this.isParentSnippet(rule.snippetId)))) {
                     this.$nextTick(() => {
                         this.handleActiveStrategy(rule.snippetId);
                     });
@@ -842,6 +894,7 @@ export default {
                     rules: Array.isArray(rules) ? rules : this.getCleanArrayOfRules()
                 };
 
+            this.applyPassiveValuesToTags(this.filterRules);
             this.setFormDisable(true);
             this.showStopButton(true);
             if (this.closeGfi) {

@@ -46,7 +46,7 @@ export default {
         }
         else {
             try {
-                rules = JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId]));
+                rules = typeof context.state.rulesOfFilters?.[filterId] !== "undefined" ? JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId])) : [];
             }
             catch (error) {
                 console.warn("Cannot parse rules in action updateRules", error);
@@ -73,7 +73,7 @@ export default {
         let rules;
 
         try {
-            rules = JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId]));
+            rules = typeof context.state.rulesOfFilters?.[filterId] !== "undefined" ? JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId])) : [];
         }
         catch (error) {
             console.warn("Cannot parse rules in action updateRules", error);

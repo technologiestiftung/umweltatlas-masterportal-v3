@@ -284,27 +284,68 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
             });
 
             it("should generate a rule", async () => {
-                const wrapper = shallowMount(FilterGeneral, {global: {
-                        plugins: [store]
-                    }}),
+                const wrapper = shallowMount(FilterGeneral,
+                        {
+                            global: {
+                                plugins: [store]
+                            }
+                        }),
                     expected = [
                         {
-                            "filterId": 0,
-                            "layerTitle": "layerOne",
-                            "rule": [
-                                {
-                                    "snippetId": 0
-                                }
-                            ]
+                            filterId: 0,
+                            layerTitle: "layerOne",
+                            rule: [{snippetId: 0}]
                         }
-                    ];
+                    ],
+                    tmpLayerConfigs = store.state.Modules.Filter.layerConfigs;
 
-                wrapper.setData({isFilterActive: true});
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                store.commit("Modules/Filter/setLayerConfigs", {
+                    layers: [{filterId: 0, title: "layerOne"}]
+                });
+
+                await wrapper.setData({
+                    isFilterActive: true,
+                    flattenPreparedLayerGroups: []
+                });
+
                 await wrapper.vm.$nextTick();
 
                 wrapper.vm.generateLayerRules([[{snippetId: 0}]]);
                 await wrapper.vm.$nextTick();
-                expect(wrapper.vm.layerRules).to.be.deep.equal(expected);
+
+                expect(wrapper.vm.layerRules).to.deep.equal(expected);
+                store.commit("Modules/Filter/setLayerConfigs", tmpLayerConfigs);
+            });
+
+            it("should skip rules that are not valid according to isRule", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}});
+
+                wrapper.setData({isFilterActive: true});
+                await wrapper.vm.$nextTick();
+
+                sinon.stub(wrapper.vm, "isRule").returns(false);
+
+                wrapper.vm.generateLayerRules([[{snippetId: 0}]]);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.layerRules).to.deep.equal([]);
+                sinon.restore();
+            });
+
+            it("should skip rules with empty appliedPassiveValues", async () => {
+                const wrapper = shallowMount(FilterGeneral, {global: {plugins: [store]}});
+
+                wrapper.setData({isFilterActive: true});
+                await wrapper.vm.$nextTick();
+
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+
+                wrapper.vm.generateLayerRules([[{snippetId: 0, appliedPassiveValues: []}]]);
+                await wrapper.vm.$nextTick();
+
+                expect(wrapper.vm.layerRules).to.deep.equal([]);
+                sinon.restore();
             });
         });
         describe("getTagClass ", () => {

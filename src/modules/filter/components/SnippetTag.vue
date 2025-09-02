@@ -32,6 +32,9 @@ export default {
             if (Object.prototype.hasOwnProperty.call(this.rule, "tagTitle")) {
                 return [this.rule.tagTitle];
             }
+            else if (Array.isArray(this.rule.appliedPassiveValues) && this.rule.appliedPassiveValues.length > 0) {
+                return this.rule.appliedPassiveValues;
+            }
             else if (!Array.isArray(this.rule.value)) {
                 return [this.rule.value];
             }

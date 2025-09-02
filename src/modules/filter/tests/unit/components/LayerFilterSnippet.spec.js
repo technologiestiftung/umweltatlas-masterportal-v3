@@ -49,7 +49,8 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                                 deletedRuleSnippetId: sinon.stub(),
                                 triggerAllTagsDeleted: sinon.stub(),
                                 totalResults: sinon.stub(),
-                                rulesOfFilters: () => [[{value: "rule2"}]]
+                                rulesOfFilters: () => [[{value: "rule2"}]],
+                                onValueDeselect: sinon.stub()
                             }
                         }
                     }
@@ -374,6 +375,81 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
     });
 
     describe("Methods", () => {
+        describe("applyPassiveValuesToTags", () => {
+            it("should return early if rules is not an array", () => {
+                expect(wrapper.vm.applyPassiveValuesToTags(undefined)).to.be.undefined;
+                expect(wrapper.vm.applyPassiveValuesToTags(null)).to.be.undefined;
+                expect(wrapper.vm.applyPassiveValuesToTags(123)).to.be.undefined;
+                expect(wrapper.vm.applyPassiveValuesToTags("string")).to.be.undefined;
+                expect(wrapper.vm.applyPassiveValuesToTags({})).to.be.undefined;
+            });
+
+            it("should skip rule if it is not a valid rule", () => {
+                const isRuleStub = sinon.stub(wrapper.vm, "isRule").returns(false),
+                    rules = [{foo: "bar"}];
+
+                wrapper.vm.applyPassiveValuesToTags(rules);
+                expect(isRuleStub.calledOnce).to.be.true;
+                expect(wrapper.emitted().updateRules).to.be.undefined;
+                sinon.restore();
+            });
+
+            it("should not emit updateRules if appliedPassiveValues has same length as value", () => {
+                const rule = {
+                    snippetId: 1,
+                    value: ["a", "b"],
+                    appliedPassiveValues: ["a", "b"]
+                };
+
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                wrapper.vm.applyPassiveValuesToTags([rule]);
+                expect(wrapper.emitted().updateRules).to.be.undefined;
+                sinon.restore();
+            });
+
+            it("should set appliedPassiveValues and emit updateRules if lengths differ", async () => {
+                const rule = {
+                    snippetId: 1,
+                    value: ["a", "b"],
+                    appliedPassiveValues: ["a"]
+                };
+
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                await wrapper.setProps({
+                    layerConfig: {
+                        filterId: 42
+                    }
+                });
+
+                wrapper.vm.applyPassiveValuesToTags([rule]);
+
+                expect(rule.appliedPassiveValues).to.deep.equal(["a", "b"]);
+                expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+                expect(wrapper.emitted().updateRules[0][0]).to.deep.equal({
+                    filterId: 42,
+                    snippetId: 1,
+                    rule
+                });
+
+                sinon.restore();
+            });
+
+            it("should skip rule if appliedPassiveValues is not an array", () => {
+                const rule = {
+                    snippetId: 2,
+                    value: ["a"],
+                    appliedPassiveValues: null
+                };
+
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                wrapper.vm.applyPassiveValuesToTags([rule]);
+
+                expect(rule.appliedPassiveValues).to.be.null;
+                expect(wrapper.emitted().updateRules).to.be.undefined;
+                sinon.restore();
+            });
+        });
+
         describe("hasThisSnippetTheExpectedType", () => {
             it("should return false if the given snippet has not the expected type", () => {
                 expect(wrapper.vm.hasThisSnippetTheExpectedType(undefined)).to.be.false;
@@ -435,6 +511,121 @@ describe("src/modules/filter/components/LayerFilterSnippet.vue", () => {
                 });
                 await wrapper.vm.$nextTick();
                 expect(wrapper.emitted().updateRules).to.be.an("array").with.lengthOf(1);
+            });
+            it("should set appliedPassiveValues from oldRule if strategy is not active and new rule has fewer values", async () => {
+                sinon.stub(wrapper.vm, "isStrategyActive").returns(false);
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                store = createStore({
+                    namespaced: true,
+                    modules: {
+                        Maps: {
+                            namespaced: true,
+                            getters: {
+                                scale: sinon.stub()
+                            }
+                        },
+                        Modules: {
+                            namespaced: true,
+                            modules: {
+                                Filter: {
+                                    namespaced: true,
+                                    getters: {
+                                        clearAll: () => true,
+                                        deletedRuleFilterId: sinon.stub(),
+                                        deletedRuleSnippetId: sinon.stub(),
+                                        triggerAllTagsDeleted: sinon.stub(),
+                                        totalResults: sinon.stub(),
+                                        rulesOfFilters: () => [
+                                            [
+                                                {
+                                                    snippetId: 0,
+                                                    value: ["a", "b"],
+                                                    appliedPassiveValues: ["x", "y"]
+                                                }
+                                            ]
+                                        ],
+                                        onValueDeselect: sinon.stub()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                wrapper = shallowMount(LayerFilterSnippet, {
+                    global: {
+                        plugins: [store],
+                        components: {InputText}
+                    },
+                    propsData: {
+                        layerConfig: {
+                            service: {
+                                type: "something external"
+                            }
+                        },
+                        mapHandler
+                    }
+                });
+                await wrapper.setProps({
+                    layerConfig: {filterId: 0}
+                });
+                const rule = {snippetId: 0, value: ["a"]};
+
+                wrapper.vm.changeRule(rule);
+
+                expect(rule.appliedPassiveValues).to.deep.equal(["a", "b"]);
+                sinon.restore();
+            });
+
+            it("should call deleteRulesOfChildren and deleteRulesOfParallelSnippets", async () => {
+                sinon.stub(wrapper.vm, "isStrategyActive").returns(true);
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                const spyChildren = sinon.stub(wrapper.vm, "deleteRulesOfChildren"),
+                    spyParallel = sinon.stub(wrapper.vm, "deleteRulesOfParallelSnippets");
+
+                sinon.stub(wrapper.vm, "getSnippetById").returns({snippetId: 0});
+                wrapper.vm.changeRule({snippetId: 0, value: []});
+
+                expect(spyChildren.calledOnce).to.be.true;
+                expect(spyParallel.calledOnce).to.be.true;
+                sinon.restore();
+            });
+
+            it("should call handleActiveStrategy if ignoreStrategyCheck is true", async () => {
+                sinon.stub(wrapper.vm, "isStrategyActive").returns(false);
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                const spyHandle = sinon.stub(wrapper.vm, "handleActiveStrategy");
+
+                wrapper.vm.changeRule({snippetId: 0, value: []}, true);
+                await wrapper.vm.$nextTick();
+
+                expect(spyHandle.calledOnce).to.be.true;
+                sinon.restore();
+            });
+
+            it("should call handleActiveStrategy if strategy is active", async () => {
+                sinon.stub(wrapper.vm, "isStrategyActive").returns(true);
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                sinon.stub(wrapper.vm, "isParentSnippet").returns(false);
+                const spyHandle = sinon.stub(wrapper.vm, "handleActiveStrategy");
+
+                wrapper.vm.changeRule({snippetId: 0, value: [], startup: false});
+                await wrapper.vm.$nextTick();
+
+                expect(spyHandle.calledOnce).to.be.true;
+                sinon.restore();
+            });
+
+            it("should call handleActiveStrategy if parent snippet returns true", async () => {
+                sinon.stub(wrapper.vm, "isStrategyActive").returns(false);
+                sinon.stub(wrapper.vm, "isRule").returns(true);
+                sinon.stub(wrapper.vm, "isParentSnippet").returns(true);
+                const spyHandle = sinon.stub(wrapper.vm, "handleActiveStrategy");
+
+                wrapper.vm.changeRule({snippetId: 0, value: [], startup: false});
+                await wrapper.vm.$nextTick();
+
+                expect(spyHandle.calledOnce).to.be.true;
+                sinon.restore();
             });
         });
 
