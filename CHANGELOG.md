@@ -147,6 +147,7 @@
     - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
+- Optimized large test files: mapHandler.spec.js, GetFeatureInfo.spec.js, StatisticDashboard.spec.js
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.

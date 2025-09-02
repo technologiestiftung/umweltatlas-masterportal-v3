@@ -304,32 +304,70 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
         it("should call setVisible and expand menu, if gfiFeatures changed, oldFeatures are null", () => {
             menuExpanded = false;
             const gfiFeaturesNew = [{
-                getId: () => "new"
-            }];
+                    getId: () => "new"
+                }],
+                // eslint-disable-next-line no-shadow
+                store = getGfiStore(false, undefined, gfiFeaturesNew, []);
+            // eslint-disable-next-line no-shadow
+            let wrapper = null;
 
-            store = getGfiStore(false, undefined, gfiFeaturesNew, []);
-            wrapper = createWrapper({
-                data: {pagerIndex: 1}
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
             });
 
             wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, gfiFeaturesNew, null);
-
             expect(mockMutations.setVisible.calledOnce).to.be.true;
             expect(toggleMenuSpy.calledOnce).to.be.true;
         });
 
         it("should call setVisible and not expand menu, if gfiFeatures changed, oldFeatures are null", () => {
             const gfiFeaturesNew = [{
-                getId: () => "new"
-            }];
+                    getId: () => "new"
+                }],
+                // eslint-disable-next-line no-shadow
+                store = getGfiStore(false, undefined, gfiFeaturesNew, []);
+            // eslint-disable-next-line no-shadow
+            let wrapper = null;
 
-            store = getGfiStore(false, undefined, gfiFeaturesNew, []);
-            wrapper = createWrapper({
-                data: {pagerIndex: 1}
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
             });
 
             wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, gfiFeaturesNew, null);
-
             expect(mockMutations.setVisible.calledOnce).to.be.true;
             expect(toggleMenuSpy.notCalled).to.be.true;
         });
@@ -350,31 +388,69 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfo.vue", () => {
                         return {};
                     },
                     getFeatures: sinon.stub()
-                }];
+                }],
+                // eslint-disable-next-line no-shadow
+                store = getGfiStore(false, undefined, gfiFeaturesNew.concat(gfiFeaturesOld), []);
+            // eslint-disable-next-line no-shadow
+            let wrapper = null;
 
-            store = getGfiStore(false, undefined, gfiFeaturesNew.concat(gfiFeaturesOld), []);
-            wrapper = createWrapper({
-                data: {pagerIndex: 1}
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
             });
 
             wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, gfiFeaturesNew, gfiFeaturesOld);
-
             expect(mockMutations.setVisible.calledOnce).to.be.true;
             expect(toggleMenuSpy.notCalled).to.be.true;
         });
 
         it("should not call setVisible, if gfiFeatures not changed", () => {
             const gfiFeaturesNew = [{
-                getId: () => "new"
-            }];
+                    getId: () => "new"
+                }],
+                // eslint-disable-next-line no-shadow
+                store = getGfiStore(false, undefined, gfiFeaturesNew, []);
+            // eslint-disable-next-line no-shadow
+            let wrapper = null;
 
-            store = getGfiStore(false, undefined, gfiFeaturesNew, []);
-            wrapper = createWrapper({
-                data: {pagerIndex: 1}
+            wrapper = shallowMount(GfiComponent, {
+                components: {
+                    GetFeatureInfoDetached: {
+                        name: "GetFeatureInfoDetached",
+                        template: "<span />"
+                    },
+                    IconButton: {
+                        name: "IconButton",
+                        template: "<button>Hier</button>"
+                    }
+                },
+                data () {
+                    return {
+                        pagerIndex: 1
+                    };
+                },
+                global: {
+                    plugins: [store]
+                }
             });
 
             wrapper.vm.$options.watch.gfiFeatures.handler.call(wrapper.vm, gfiFeaturesNew, gfiFeaturesNew);
-
             expect(mockMutations.setVisible.notCalled).to.be.true;
             expect(toggleMenuSpy.notCalled).to.be.true;
         });
