@@ -1747,7 +1747,7 @@ export default {
             <AccordionItem
                 v-show="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
                 id="legend-accordion"
-                :title="$t('common:modules.statisticDashboard.legend.legend')"
+                :title="$t('common:modules.statisticDashboard.legend.legend') + ' - ' + chosenStatisticName"
                 icon="bi bi-map"
                 is-open
             >
@@ -1759,11 +1759,28 @@ export default {
                             v-if="!showNoLegendData"
                             class="container"
                         >
-                            <div class="row my-0">
-                                <div class="col-6 mt-2">
-                                    {{ chosenStatisticName }}
+                            <div class="row">
+                                <div class="col col-md-6">
+                                    <div
+                                        v-for="legendObj in legendValue"
+                                        :key="legendObj.name"
+                                        class="row layer"
+                                    >
+                                        <div class="col">
+                                            <img
+                                                :alt="legendObj.name"
+                                                :src="legendObj.graphic"
+                                                class="legend-img col-3 col-xs px-0 py-0 left"
+                                            >
+                                            <span
+                                                class="col col-xs legend-names px-0 ms-1"
+                                            >
+                                                {{ legendObj.name }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col col-md-6">
                                     <FlatButton
                                         id="edit-legend"
                                         aria-label="$t('common:modules.statisticDashboard.legend.edit')"
@@ -1774,26 +1791,6 @@ export default {
                                     />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div
-                                    v-for="legendObj in legendValue"
-                                    :key="legendObj.name"
-                                    class="row layer"
-                                >
-                                    <div class="col">
-                                        <img
-                                            :alt="legendObj.name"
-                                            :src="legendObj.graphic"
-                                            class="col-3 col-xs px-0 left"
-                                        >
-                                        <span
-                                            class="col col-xs legend-names px-0 ms-1"
-                                        >
-                                            {{ legendObj.name }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div v-else>
                             {{ $t("common:modules.statisticDashboard.legend.nodata") }}
@@ -1801,7 +1798,7 @@ export default {
                     </div>
                 </div>
             </AccordionItem>
-            <hr class="mb-0">
+            <hr class="my-0">
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
@@ -1892,6 +1889,17 @@ export default {
                                     <i class="bi bi-search" />
                                 </div>
                             </template>
+                            <template #tag="{ option, remove }">
+                                <button
+                                    class="multiselect__tag"
+                                    :class="option"
+                                    @click="remove(option)"
+                                    @keypress="remove(option)"
+                                >
+                                    {{ option }}
+                                    <i class="bi bi-x" />
+                                </button>
+                            </template>
                         </Multiselect>
                     </div>
                 </div>
@@ -1938,6 +1946,10 @@ img {
 }
 .legend-names {
     font-size: 12px;
+}
+.legend-img {
+    border-radius: 50%;
+    width: 15px;
 }
 .info-text {
     font-size: $font_size_sm;

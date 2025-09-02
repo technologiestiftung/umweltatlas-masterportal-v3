@@ -108,7 +108,7 @@ function createBarChart (topic, preparedData, direction, canvas, differenceMode,
                     data: dataValues,
                     borderColor: dataColors,
                     backgroundColor: dataColors,
-                    hoverBackgroundColor: "rgb(214, 227, 255)"
+                    hoverBackgroundColor: "rgb(60, 95, 148)"
                 }]
             },
             options: {

@@ -147,7 +147,7 @@ export default {
             </datalist>
         </div>
         <div v-if="classificationMode !== 'custom'">
-            <div class="form-check">
+            <div class="form-check mb-3">
                 <input
                     id="allowPosNegMix"
                     class="form-check-input"

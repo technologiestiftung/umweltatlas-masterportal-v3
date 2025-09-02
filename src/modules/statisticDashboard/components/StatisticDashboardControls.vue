@@ -295,7 +295,7 @@ export default {
                         <button
                             :aria-label="$t('common:modules.statisticDashboard.button.difference')"
                             icon="bi bi-intersect"
-                            class="btn btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
+                            class="btn btn-secondary btn-sm px-3 py-2 dropdown-toggle text-right"
                             :class="[typeof referenceTag === 'string' ? 'active' : '', !enableButtons ? 'disabled' : '']"
                             :disabled="!enableButtons"
                             data-bs-toggle="dropdown"
@@ -327,7 +327,7 @@ export default {
                         :filename="downloadFilename"
                         :disabled="!enableButtons"
                         use-semicolon
-                        class="text-nowrap btn-light btn-sm px-3 py-2 dropdown-toggle text-right"
+                        class="text-nowrap btn-secondary btn-sm px-3 py-2 dropdown-toggle text-right"
                     >
                         <i class="bi bi-cloud-arrow-down-fill" />
                         {{ $t("common:modules.statisticDashboard.button.download") }}

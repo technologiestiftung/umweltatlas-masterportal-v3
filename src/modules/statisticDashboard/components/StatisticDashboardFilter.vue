@@ -527,7 +527,7 @@ export default {
 }
 
 .static-dashboard .multiselect__tag {
-    background: $primary;
+    background: $light_blue;
     padding: 4px 10px 4px 10px;
     border-radius: 50px;
     border: none;

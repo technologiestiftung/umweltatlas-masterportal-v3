@@ -399,7 +399,7 @@ export default {
 @import "~variables";
     .region-filter {
         .btn-light {
-            background: $light_grey;
+            background: $light_blue;
             &:hover {
                 background: $dark_blue;
                 color: $white;
@@ -409,7 +409,8 @@ export default {
             }
         }
         .active-button {
-            background: $primary;
+            background: $dark_blue;
+            color: $white;
         }
 
         .multiselect .multiselect__spinner:after, .multiselect__spinner:before {
@@ -426,7 +427,7 @@ export default {
             box-shadow: 0 0 0 1px transparent;
         }
         .multiselect .multiselect__tag {
-            background: $primary;
+            background: $light_blue;
             padding: 4px 10px 4px 10px;
             border-radius: 50px;
             border: none;
