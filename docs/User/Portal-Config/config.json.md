@@ -4624,7 +4624,7 @@ Possibility to make settings for the topic selection tree. The layers are render
 |layerIDsToStyle|no|**[layerIDsToStyle](#portalconfigtreelayeridstostyle)**[]||Special implementation for a HVV service (Hamburger Verkehrsbetriebe). Contains objects to query different styles of a layer ID.|true|
 |metaIDsToIgnore|no|String[]||All layers found in `services.json` that match these meta IDs will not be displayed in the tree and map. Only for the tree.type `auto`.|false|
 |metaIDsToMerge|no|String[]||All layers found in `services.json` that match these meta-IDs will be merged into a single layer in the tree. Only for the tree.type `auto`.|true|
-|rasterLayerDefaultInfoFormat|no|String|`"text/xml"`|InfoFormat for Raster-Layer if not specified in layer configuration.|false|
+|rasterLayerDefaultInfoFormat|no|String|"`text/xml`"|InfoFormat for Raster-Layer if not specified in layer configuration.|false|
 |showFolderPath|no|Boolean|false|Determines whether the folder structure of visible layers is displayed in 'Show more functions'.|false|
 |singleBaselayer|no|Boolean|false|Specifies whether only one base layer may be active at any time.|false|
 |type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#layerconfig)**. If the type `auto` is configured, all layers from the [services.json](../Global-Config/services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|

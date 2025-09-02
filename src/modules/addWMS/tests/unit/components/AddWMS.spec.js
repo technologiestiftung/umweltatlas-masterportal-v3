@@ -172,9 +172,9 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         });
         it("should return 'text/json' if defined as default and included in possible formats and gml or 'application/vnd.ogc.gml' are not included", () => {
             store.getters.portalConfig = {
-                    tree: {
-                        rasterLayerDefaultInfoFormat: "text/json"
-                    }
+                tree: {
+                    rasterLayerDefaultInfoFormat: "text/json"
+                }
             };
             expect(wrapper.vm.getInfoFormat(["text/xml", "text/json"])).to.equals("text/json");
         });
