@@ -588,7 +588,6 @@ export default {
             }
             this.statisticsByCategory = statistics;
         },
-
         /**
          * Sets the sorted rows.
          * @param {Array[]} value - An array of arrays of sorted rows.
@@ -597,7 +596,6 @@ export default {
         setSortedRows (value) {
             this.sortedRows = value;
         },
-
         /**
          * Checks if there is a reference value for the regions or dates and merges them.
          * @param {String[]} regions - The selected regions for the statistic(s).

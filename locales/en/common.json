@@ -1234,7 +1234,7 @@
         "mrhstatisticsTooltip": "Link to the metadata",
         "addFilter": "Add Filter"
       },
-      "infoText": "Note: For many areas, only a part is initially shown in the diagram (based on the table sorting). Additional areas can be added using the field at the bottom.",
+      "infoText": "Note: For many areas, only a part is initially shown in the diagram. Additional areas can be added using the field at the bottom.",
       "infoTextNoData": "No or not all necessary filters have been added yet. To display statistical data in tables and diagrams, the data must first be filtered.",
       "button": {
         "difference": "Difference",

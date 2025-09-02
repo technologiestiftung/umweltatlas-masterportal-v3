@@ -350,7 +350,7 @@
       "drawLayerVisible": "Zeichnung sichtbar",
       "drawTypeOptions": {
         "drawArea": "Fläche",
-        "drawSquare": "Quadrat",  
+        "drawSquare": "Quadrat",
         "drawCircle": "Kreis",
         "drawCurve": "Freihandlinie",
         "drawDoubleCircle": "Doppelkreis",
@@ -393,7 +393,7 @@
       "squareDefinedInfo": " (ohne Berücksichtung der Erdkrümmung)",
       "areaLabel": "Flächeninhalt",
       "squareSideLengthLabel": "Seitenlänge",
-      "lineLengthLabel": "Gesamtlänge" 
+      "lineLengthLabel": "Gesamtlänge"
     },
     "featureLister": {
       "chooseTheme": "Thema wählen",
@@ -1236,7 +1236,7 @@
         "mrhstatisticsTooltip": "Link zu den Metadaten",
         "addFilter": "Filter hinzufügen"
       },
-      "infoText": "Hinweis: Bei vielen Gebieten wird zunächst nur ein Teil im Diagramm gezeigt (basierend auf der Tabellensortierung). Über das untere Feld lassen sich weitere Gebiete hinzufügen.",
+      "infoText": "Hinweis: Bei vielen Gebieten wird zunächst nur ein Teil im Diagramm gezeigt. Über das untere Feld lassen sich weitere Gebiete hinzufügen.",
       "infoTextNoData": "Es wurden noch keine oder nicht alle notwendigen Filter hinzugefügt. Um statistische Daten in Tabellen und Diagrammen anzeigen zu lassen, müssen die Daten erst gefiltert werden.",
       "button": {
         "difference": "Differenz",
