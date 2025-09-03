@@ -15,7 +15,8 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         visibility,
         showInLayerTree,
         store,
-        wrapper;
+        wrapper,
+        portalConfig;
 
     beforeEach(() => {
         crs.registerProjections();
@@ -24,6 +25,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
         visibility = false;
         showInLayerTree = false;
         featureCount = undefined;
+        portalConfig = {};
 
         store = createStore({
             modules: {
@@ -64,6 +66,9 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             },
             actions: {
                 addLayerToLayerConfig: addLayerToLayerConfigSpy
+            },
+            getters: {
+                portalConfig: () => portalConfig
             }
         });
 
@@ -154,7 +159,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             expect(wrapper.vm.getInfoFormat([])).to.equals("text/xml");
         });
         it("should return configured default format, if possible formats are empty", () => {
-            store.getters.portalConfig = {
+            portalConfig = {
                 tree: {
                     rasterLayerDefaultInfoFormat: "text/html"
                 }
@@ -171,7 +176,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             expect(wrapper.vm.getInfoFormat(["text/json", "text/xml"])).to.equals("text/json");
         });
         it("should return 'text/json' if defined as default and included in possible formats and gml or 'application/vnd.ogc.gml' are not included", () => {
-            store.getters.portalConfig = {
+            portalConfig = {
                 tree: {
                     rasterLayerDefaultInfoFormat: "text/json"
                 }
@@ -179,7 +184,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
             expect(wrapper.vm.getInfoFormat(["text/xml", "text/json"])).to.equals("text/json");
         });
         it("should not return configured default format if not included in possible formats", () => {
-            store.getters.portalConfig = {
+            portalConfig = {
                 tree: {
                     rasterLayerDefaultInfoFormat: "text/html"
                 }
