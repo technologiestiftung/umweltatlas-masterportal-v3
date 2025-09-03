@@ -38,23 +38,25 @@ pipelines:
                         - pip install -r devtools/docsValidation/python-dependencies.txt
                         - mike deploy $BITBUCKET_TAG
                         - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
-                        -   pipe: atlassian/ftp-deploy:0.7.0
+                        -   pipe: atlassian/ftp-deploy:0.7.1
                             variables:
                                 USER: $MKDOCS_FTP_NAME
                                 PASSWORD: $MKDOCS_FTP_PW
                                 SERVER: $MKDOCS_FTP_SERVER
-                                REMOTE_PATH: '/doc/'
+                                REMOTE_PATH: '/$BITBUCKET_TAG'
                                 LOCAL_PATH: $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
                                 DEBUG: 'true'
+                                DELETE_FLAG: 'false'
                         - mv $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG $BITBUCKET_CLONE_DIR/Latest
-                        -   pipe: atlassian/ftp-deploy:0.7.0
+                        -   pipe: atlassian/ftp-deploy:0.7.1
                             variables:
                                 USER: $MKDOCS_FTP_NAME
                                 PASSWORD: $MKDOCS_FTP_PW
                                 SERVER: $MKDOCS_FTP_SERVER
-                                REMOTE_PATH: '/doc/'
+                                REMOTE_PATH: '/Latest'
                                 LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
                                 DEBUG: 'true'
+                                DELETE_FLAG: 'false'
             -   step:
                     name: deploy on openCode
                     script:
@@ -89,7 +91,7 @@ pipelines:
                         - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                         - cd masterportal
                         - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
-        mkdocs to masterportal.org:
+        mkdocs version to masterportal.org (no update of latest):
             - variables:
                 - name: BITBUCKET_TAG
                   description: tag to publish docs for, e.g. v3.1.0
@@ -101,26 +103,44 @@ pipelines:
                     script:
                         - apt-get update && apt-get install zip && apt-get install -y curl wput jq  && apt-get install zip
                         - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - git fetch --all --tags
+                        - git checkout tags/$BITBUCKET_TAG
                         - mike deploy $BITBUCKET_TAG
                         - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
-                        -   pipe: atlassian/ftp-deploy:0.7.0
+                        -   pipe: atlassian/ftp-deploy:0.7.1
                             variables:
                                 USER: $MKDOCS_FTP_NAME
                                 PASSWORD: $MKDOCS_FTP_PW
                                 SERVER: $MKDOCS_FTP_SERVER
-                                REMOTE_PATH: '/doc/'
+                                REMOTE_PATH: '/$BITBUCKET_TAG'
                                 LOCAL_PATH: $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG
                                 DEBUG: 'true'
-                        # TODO: enable, if version 3 shall be Latest
-                        # - mv $BITBUCKET_CLONE_DIR/$BITBUCKET_TAG $BITBUCKET_CLONE_DIR/Latest
-                        # -   pipe: atlassian/ftp-deploy:0.7.0
-                        #     variables:
-                        #         USER: $MKDOCS_FTP_NAME
-                        #         PASSWORD: $MKDOCS_FTP_PW
-                        #         SERVER: $MKDOCS_FTP_SERVER
-                        #         REMOTE_PATH: '/doc/'
-                        #         LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
-                        #         DEBUG: 'true'
+                                DELETE_FLAG: 'false'
+        mkdocs latest to masterportal.org:
+            - variables:
+                - name: BITBUCKET_TAG
+                  description: tag to publish docs for, e.g. v3.1.0
+            -   step:
+                    name: create mkdocs
+                    image: python:3.8
+                    caches:
+                        - pip
+                    script:
+                        - apt-get update && apt-get install zip && apt-get install -y curl wput jq  && apt-get install zip
+                        - pip install -r devtools/docsValidation/python-dependencies.txt
+                        - git fetch --all --tags
+                        - git checkout tags/$BITBUCKET_TAG
+                        - mike deploy $BITBUCKET_TAG
+                        - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/$Latest
+                        -   pipe: atlassian/ftp-deploy:0.7.1
+                            variables:
+                                USER: $MKDOCS_FTP_NAME
+                                PASSWORD: $MKDOCS_FTP_PW
+                                SERVER: $MKDOCS_FTP_SERVER
+                                REMOTE_PATH: '/Latest'
+                                LOCAL_PATH: '$BITBUCKET_CLONE_DIR/Latest'
+                                DEBUG: 'true'
+                                DELETE_FLAG: 'false'                                
         validate mkdocs:
             -   step:
                     name: validate mkdocs
