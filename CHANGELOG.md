@@ -5,9 +5,28 @@
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
 ## Unreleased - in development
-- PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
-
 ### __Breaking Changes__
+
+### Added
+- Shared TableComponent:
+    - fixedColumnWithOrder in Props enable to insert the column with index.
+    - fixedRow in Props enable to insert a row directly after the header.
+- Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
+
+### Changed
+- Shared TableComponent: Changes Props fixedData into fixedBottomData.
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
+- wfsSearch: secured layers can now be searched.
+
+---
+
+## 2025-09-03 v3.14.0
 
 ### Added
 - Issue #1038: Added tooltips to display area of drawn polygons/squares and length of drawn lines, as in version 2.
@@ -24,10 +43,7 @@
 - UserManual: Added translation for user manual which is used in Gebeudewermeplannung Portal
 - SearchBar: Render images in search result if `imagePath` is provided in SearchBarSuggestionList and SearchBarResultListGeneralItem components.
 - Draw: Added square as geometryType.
-- Shared TableComponent:
-    - fixedColumnWithOrder in Props enable to insert the column with index.
-    - fixedRow in Props enable to insert a row directly after the header.
-- Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
+- PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
@@ -35,18 +51,14 @@
 - InputText: Replace input text with InputText.
 - HTML input elements: Replaced HTML input elements of type text with shared modules component InputText.
 - Shared utils: Optimized function isEmailAddress to return early to avoid running the regex for invalid input values.
-- Shared TableComponent: Changes Props fixedData into fixedBottomData.
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.49.0 to 2.50.0 (This also raised ol to version 10.6.0)
-
-### Deprecated
 
 ### Removed
 - Removed configuration portal/layer.
 
 ### Fixed
-- Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
 - Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
 - Issue #1451: CompareMaps: Both maps are now still visible after reset.
@@ -62,7 +74,6 @@
 - InputText: Fixed missing suggestions in input fields.
 - SearchInterfaceOsmNominatim: Fixed getter path in debounce check
 - GroupLayer: Fixed errors when opening layer info for layers within a group.
-- wfsSearch: secured layers can now be searched.
 
 ---
 
