@@ -1656,6 +1656,31 @@ export default {
             />
         </template>
         <template v-if="showLegendView">
+            <div v-if="classificationMode !== 'custom'">
+                <h5 class="mb-3 mt-3">
+                    {{ $t('common:modules.statisticDashboard.legend.previewLegend') + ' - ' + chosenStatisticName }}
+                </h5>
+                <div class="row mb-2 ms-2">
+                    <div
+                        v-for="legendObj in legendValue"
+                        :key="legendObj.name"
+                        class="row layer"
+                    >
+                        <div class="col">
+                            <img
+                                :alt="legendObj.name"
+                                :src="legendObj.graphic"
+                                class="legend-img col-3 col-xs px-0 py-0 left"
+                            >
+                            <span
+                                class="col col-xs legend-names px-0 ms-1"
+                            >
+                                {{ legendObj.name }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <LegendComponent
                 class="mt-3"
                 @change-legend-view="changeLegendView"

@@ -1297,7 +1297,8 @@
         "customized": "benutzerdefiniert",
         "andAbove": "und darüber",
         "invalidCustomStepsAlert": "Achtung: Die gewählten Bereichsgrenzen bilden keine aufsteigende Zahlenreihe!",
-        "noValue": "Gebiete mit fehlendem Wert sind weiß eingefärbt"
+        "noValue": "Gebiete mit fehlendem Wert sind weiß eingefärbt",
+        "previewLegend": "Vorschau Klasseneinteilung"
       },
       "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten.",
       "filterHint": "Alle Felder müssen vollständig ausgefüllt sein, um die Filterergebnisse anzuzeigen.",

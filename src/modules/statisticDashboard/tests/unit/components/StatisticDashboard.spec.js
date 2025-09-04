@@ -240,6 +240,19 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
             expect(wrapper.find(".no-data-content").exists()).to.be.false;
         });
+        it("should render legend if classification mode is not 'custom' ", async () => {
+            const wrapper = shallowMount(StatisticDashboard, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({legendValue: ["legend"], showLegendView: true});
+            store.commit("Modules/StatisticDashboard/setClassificationMode", "quantiles");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".legend-names").exists()).to.be.true;
+        });
     });
 
     describe("computed properties", () => {
