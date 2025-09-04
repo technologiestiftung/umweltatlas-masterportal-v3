@@ -163,6 +163,9 @@ export default {
                 v-if="referenceType === buttonGroupReference[0].name"
                 class="col-md-12 mt-2"
             >
+                <div class="des">
+                    {{ $t("common:modules.statisticDashboard.reference.optionDate") }}
+                </div>
                 <Multiselect
                     v-model="selectedDate"
                     :multiple="false"
@@ -179,6 +182,9 @@ export default {
                 v-else
                 class="col-md-12  mt-2"
             >
+                <div class="des">
+                    {{ $t("common:modules.statisticDashboard.reference.optionArea") }}
+                </div>
                 <Multiselect
                     id="reference-value"
                     v-model="selectedRegion"
@@ -212,6 +218,10 @@ export default {
     margin-top: 0.5rem;
     margin-bottom: 0.8rem;
 }
+.des {
+    margin-top: 0.5rem;;
+    margin-bottom: 0.25rem;;
+}
 </style>
 
 <style lang="scss">
@@ -221,4 +231,6 @@ export default {
     font-family: inherit;
     font-size: 11px;
 }
+
+
 </style>

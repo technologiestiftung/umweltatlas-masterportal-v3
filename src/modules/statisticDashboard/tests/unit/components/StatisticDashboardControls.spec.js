@@ -137,7 +137,21 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
             expect(wrapper.find(".difference-modal").exists()).to.be.true;
         });
 
-        it("The close button should exist", async () => {
+        it("The reference tag should not exist", async () => {
+            const wrapper = shallowMount(StatisticDashboardControls, {
+                propsData: {
+                    referenceData,
+                    enableButtons
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".reference-tag").exists()).to.be.false;
+        });
+
+        it("The reference tag with 1 should exist", async () => {
             const wrapper = shallowMount(StatisticDashboardControls, {
                 propsData: {
                     referenceData,
@@ -704,23 +718,6 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardControls.
 
             await chevronRightButton.trigger("click");
             expect(wrapper.vm.currentDescriptionIndex).to.be.equal(1);
-        });
-
-        it("should remove the reference data", async () => {
-            const wrapper = shallowMount(StatisticDashboardControls, {
-                propsData: {
-                    referenceData,
-                    enableButtons
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            await wrapper.setData({referenceTag: "2001"});
-            await wrapper.find(".reference-tag button").trigger("click");
-            expect(wrapper.vm.selectedReferenceData).to.be.undefined;
-            expect(wrapper.vm.referenceTag).to.be.undefined;
         });
 
         it("should set the chosenStatisticName to the previous name", async () => {

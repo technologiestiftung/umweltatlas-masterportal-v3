@@ -1269,7 +1269,9 @@
         "additional": "Sonstiges"
       },
       "reference": {
-        "title": "Referenzart",
+        "title": "Differenzmodus",
+        "optionDate": "Welches Jahr soll als Referenz dienen?",
+        "optionArea": "Welches Gebiet soll als Referenz dienen?",
         "description": "Differenzwerte darstellen, bezogen auf ein Referenzjahr oder Gebiet",
         "placeholder": "Bitte wählen Sie mind. eine Option!",
         "tagLabel": "Referenz"

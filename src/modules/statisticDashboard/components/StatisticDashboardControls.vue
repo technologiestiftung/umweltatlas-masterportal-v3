@@ -295,8 +295,8 @@ export default {
                         <button
                             :aria-label="$t('common:modules.statisticDashboard.button.difference')"
                             icon="bi bi-intersect"
-                            class="btn btn-secondary btn-sm px-3 py-2 dropdown-toggle text-right"
-                            :class="[typeof referenceTag === 'string' ? 'active' : '', !enableButtons ? 'disabled' : '']"
+                            class="btn btn-secondary btn-sm px-3 py-2 dropdown-toggle text-right rounded"
+                            :class="[typeof referenceTag === 'string' ? 'activated' : '']"
                             :disabled="!enableButtons"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -306,6 +306,13 @@ export default {
                                 class="bi bi-intersect pe-2"
                             />
                             {{ $t('common:modules.statisticDashboard.button.difference') }}
+                            <span
+                                v-if="typeof referenceTag === 'string'"
+                                class="reference-tag"
+                            >
+                                1
+                            </span>
+                            <i class="bi bi-caret-down-fill" />
                         </button>
                         <div
                             id="difference-modal-container"
@@ -332,25 +339,6 @@ export default {
                         <i class="bi bi-cloud-arrow-down-fill" />
                         {{ $t("common:modules.statisticDashboard.button.download") }}
                     </ExportButtonCSV>
-                </div>
-                <div
-                    v-if="typeof referenceTag === 'string'"
-                    class="reference-tag row justify-content-end"
-                >
-                    <div class="col col-auto align-self-end ">
-                        <div class="col-form-label-sm pb-0">
-                            {{ $t("common:modules.statisticDashboard.reference.tagLabel") }}:
-                        </div>
-                        <button
-                            class="btn btn-sm btn-outline-secondary lh-1 rounded-pill shadow-none me-2 btn-pb"
-                            aria-label="Close"
-                            @click="removeReference()"
-                            @keydown.enter="removeReference()"
-                        >
-                            {{ referenceTag }}
-                            <i class="bi bi-x fs-5 align-middle" />
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -449,11 +437,29 @@ export default {
     border-color: $secondary;
     box-shadow: none;
 }
-.reference-tag button {
-    color: $secondary;
-    &:hover {
-        color: $white;
+
+.btn {
+    &.activated {
+        background-color: $dark_grey;
+        &:hover {
+            background-color: $primary;
+            color: $black;
+            .reference-tag {
+                background-color: $secondary;
+                color: $primary;
+            }
+        }
     }
+}
+.reference-tag {
+    background-color: $primary;
+    color: $black;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
  }
 
 .statistic-name {

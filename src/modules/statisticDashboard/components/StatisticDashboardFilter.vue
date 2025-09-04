@@ -532,6 +532,11 @@ export default {
     border-radius: 50px;
     border: none;
 }
+
+.static-dashboard .difference-modal .multiselect__tag {
+    padding: 4px 26px 4px 10px;
+    border-radius: 10px;
+}
 .static-dashboard .multiselect__tag:hover {
     background: $dark_blue;
     color: $white;

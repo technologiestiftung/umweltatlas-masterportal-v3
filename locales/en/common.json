@@ -1265,7 +1265,9 @@
         "additional": "Additional"
       },
       "reference": {
-        "title": "Reference type",
+        "title": "Difference mode",
+        "optionDate": "Which year should be used as reference?",
+        "optionArea": "Which area should be used as reference?",
         "description": "Differential values, related to a reference year or area.",
         "placeholder": "Please choose at least one option!",
         "tagLabel": "Reference"
