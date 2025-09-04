@@ -571,6 +571,8 @@
           {
             "type": "featureLister",
             "maxFeatures": 10,
+            "showGraphicalSelect": true,
+            "bufferDistance": 500,
             "highlightVectorRulesPolygon": {
               "fill": {
                 "color": [
