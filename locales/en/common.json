@@ -1171,6 +1171,7 @@
         "addressDistrict": "Search address, district",
         "addressHospitalBplan": "Search for Address/Hospital/B-Plan",
         "addressTopic": "Search address, district, topics",
+        "addressOrTopic": "Search address or topics",
         "addressTopicParcel": "Search address, district, topics, parcel",
         "startWithAddress": "Start here with address!"
       },

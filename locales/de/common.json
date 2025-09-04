@@ -1173,6 +1173,7 @@
         "addressDistrict": "Suche Adresse, Stadtteil",
         "addressHospitalBplan": "Suche nach Adresse/Krankenhaus/B-Plan",
         "addressTopic": "Suche Adresse, Stadtteil, Thema",
+        "addressOrTopic": "Suche nach Adressen oder Themen",
         "addressTopicParcel": "Suche Adresse, Stadtteil, Thema, Flurstück",
         "startWithAddress": "Hier mit Adresse starten!"
       },
