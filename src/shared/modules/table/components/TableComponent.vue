@@ -169,6 +169,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        stayInFullViewOnUnmount: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem", "rowOnHover"],
@@ -200,7 +205,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded"]),
+        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded", "currentMenuWidth"]),
         ...mapGetters("Modules/Language", ["currentLocale"]),
 
         editedTable () {
@@ -356,6 +361,10 @@ export default {
         }
     },
     mounted () {
+        if (this.stayInFullViewOnUnmount) {
+            this.fullViewActivated = this.currentMenuWidth("secondaryMenu") === "95%";
+        }
+
         this.setupTableData();
 
         if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
@@ -372,7 +381,7 @@ export default {
         this.setFixedReferenceColumnPosition();
     },
     unmounted () {
-        if (this.fullViewActivated) {
+        if (this.fullViewActivated && !this.stayInFullViewOnUnmount) {
             this.fullView(true);
         }
     },
