@@ -154,8 +154,7 @@ export default {
  @import "~variables";
 
 .selected-layer {
-    font-weight: bold;
-    background-color: $light_blue;
+    background-color: $secondary;
     color: $accent_contrast;
     border-radius: 4px;
     margin-bottom: 1em;
