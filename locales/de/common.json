@@ -1235,7 +1235,11 @@
       "headings": {
         "mrhstatistics": "Zahlen, Daten, Fakten der MRH - Regionalstatistik",
         "mrhstatisticsTooltip": "Link zu den Metadaten",
-        "addFilter": "Filter hinzufügen"
+        "addFilter": "Filter hinzufügen",
+        "filter": "Filter",
+        "addStatisticalData": "Statistische Daten auswählen",
+        "addArea": "Gebiete auswählen",
+        "addTime": "Zeitraum auswählen"
       },
       "infoText": "Hinweis: Bei vielen Gebieten wird zunächst nur ein Teil im Diagramm gezeigt. Über das untere Feld lassen sich weitere Gebiete hinzufügen.",
       "infoTextNoData": "Es wurden noch keine oder nicht alle notwendigen Filter hinzugefügt. Um statistische Daten in Tabellen und Diagrammen anzeigen zu lassen, müssen die Daten erst gefiltert werden.",
@@ -1252,7 +1256,10 @@
         "showMore": "weitere anzeigen...",
         "showLess": "weniger anzeigen...",
         "done": "Fertig",
-        "all": "Alle"
+        "all": "Alle",
+        "statistics": "Statistiken",
+        "geographical": "Geografische Filter",
+        "timeBased": "Zeitbezogene Filter"
       },
       "label": {
         "category": "Kategorie",

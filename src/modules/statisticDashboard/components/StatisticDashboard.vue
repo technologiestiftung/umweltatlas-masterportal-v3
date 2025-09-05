@@ -22,7 +22,6 @@ import isObject from "@shared/js/utils/isObject";
 import {rawLayerList} from "@masterportal/masterportalapi";
 import sortBy from "@shared/js/utils/sortBy";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
-import StatisticFilter from "./StatisticDashboardFilter.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import WFS from "ol/format/WFS";
@@ -39,7 +38,6 @@ export default {
         LegendComponent,
         Multiselect,
         SpinnerItem,
-        StatisticFilter,
         StatisticSwitcher,
         TableComponent
     },
@@ -75,8 +73,6 @@ export default {
             colorArrayDifference: ["#E28574", "#89C67F"],
             legendValue: [],
             showNoLegendData: false,
-            showFilter: false,
-            showAllHiddenTags: false,
             showLegendView: false,
             showLimitView: false,
             selectedFilteredRegions: [],
@@ -141,13 +137,6 @@ export default {
                 selectedDates = this.selectedDates.map(dates => dates.label);
 
             return [...new Set([...this.selectedStatisticsNames, ...selectedRegions, ...selectedDates])];
-        },
-        /**
-         * Returns true or false, depending on the number of selected filters.
-         * @returns {Boolean} True if the number of filters are more than five.
-         */
-        countSelectedFilters () {
-            return this.selectedFilters.length > 5;
         },
         /**
          * Gets the names of the selected statistics.
@@ -1689,42 +1678,11 @@ export default {
         },
 
         /**
-         * Toggles the show filter flag.
-         * @returns {void}
-         */
-        toggleFilter () {
-            this.showFilter = !this.showFilter;
-        },
-
-        /**
          * Toggle the legend view.
          * @returns {void}
          */
         changeLegendView () {
             this.showLegendView = !this.showLegendView;
-        },
-
-        /**
-         * Removes the given the filter.
-         * @param {String} filter - Filter to remove.
-         * @returns {void}
-         */
-        removeFilter (filter) {
-            const isFilterDate = this.selectedDates.filter(date => date.label !== filter),
-                isFilterRegion = this.selectedRegions.filter(date => date.label !== filter),
-                isFilterStatistic = Object.values(this.selectedStatistics).filter(statistic => statistic?.name !== filter);
-
-            if (isFilterDate.length !== this.selectedDates.length) {
-                this.setSelectedDates(isFilterDate);
-            }
-            else if (isFilterRegion.length !== this.selectedRegions.length) {
-                this.setSelectedRegions(isFilterRegion);
-            }
-            else if (isFilterStatistic.length !== Object.values(this.selectedStatistics).length) {
-                const keyToDelete = Object.keys(this.selectedStatistics).find(key => this.selectedStatistics[key]?.name === filter);
-
-                delete this.selectedStatistics[keyToDelete];
-            }
         },
 
         /**
@@ -1772,22 +1730,6 @@ export default {
         id="modules-statisticDashboard"
         class="static-dashboard"
     >
-        <template v-if="loadedFilterData">
-            <StatisticFilter
-                v-show="showFilter"
-                :categories="categories"
-                :are-categories-grouped="areCategoriesGrouped"
-                :statistics="statisticsByCategory"
-                :time-steps-filter="timeStepsFilter"
-                :regions="selectedLevelRegionNameAttribute"
-                :selected-level="selectedLevel"
-                :checked="isFeatureLoaded"
-                @change-category="setStatisticsByCategories"
-                @change-filter-settings="checkFilterSettings"
-                @reset-statistics="handleReset"
-                @toggle-filter="toggleFilter"
-            />
-        </template>
         <template v-if="showLegendView">
             <div v-if="classificationMode !== 'custom'">
                 <h5 class="mb-3 mt-3">
@@ -1819,7 +1761,7 @@ export default {
                 @change-legend-view="changeLegendView"
             />
         </template>
-        <div v-show="!showFilter && !showLegendView">
+        <div v-show="!showLegendView">
             <div class="row justify-content-between">
                 <div class="col-md-12 d-flex align-items-center">
                     <h5 class="m-0">
@@ -1846,57 +1788,6 @@ export default {
                         @show-view="toggleLevel"
                     />
                 </div>
-            </div>
-            <AccordionItem
-                v-if="loadedFilterData"
-                id="filter-accordion"
-                title="Filter"
-                icon="bi bi-sliders"
-                :is-open="true"
-            >
-                <button
-                    id="add-filter-button"
-                    type="button"
-                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2 pe-3"
-                    @click="toggleFilter"
-                >
-                    <i class="bi bi-plus fs-6 pe-2" />{{ selectedFilters.length ? $t("common:modules.statisticDashboard.button.edit") : $t("common:modules.statisticDashboard.button.add") }}
-                </button>
-                <button
-                    v-for="(tag, index) in selectedFilters"
-                    :key="index"
-                    class="btn btn-sm btn-primary rounded-pill lh-1 me-2 mb-2"
-                    :class="index > 4 && !showAllHiddenTags ? 'more-statistics' : ''"
-                    @click="removeFilter(tag)"
-                >
-                    {{ tag }}
-                    <i class="bi bi-x fs-6 align-middle" />
-                </button>
-                <button
-                    v-if="selectedFilters.length"
-                    id="reset-button"
-                    type="button"
-                    class="btn btn-sm btn-secondary rounded-pill lh-1 me-2 mb-2 pe-3 pt-1"
-                    @click="resetAll"
-                >
-                    <i class="bi bi-x-circle fs-6 pe-2" />
-                    {{ $t("common:modules.statisticDashboard.button.reset") }}
-                </button>
-                <button
-                    v-if="countSelectedFilters"
-                    id="more-button"
-                    type="button"
-                    class="btn btn-link btn-sm p-0"
-                    @click="showAllHiddenTags = !showAllHiddenTags"
-                >
-                    {{ !showAllHiddenTags ? $t("common:modules.statisticDashboard.button.showMore") : $t("common:modules.statisticDashboard.button.showLess") }}
-                </button>
-            </AccordionItem>
-            <div
-                v-else
-                class="d-flex justify-content-center"
-            >
-                <SpinnerItem />
             </div>
             <hr
                 v-if="Array.isArray(legendValue) && legendValue.length && !noDataInColumn || showNoLegendData"
@@ -1956,15 +1847,26 @@ export default {
                     </div>
                 </div>
             </AccordionItem>
-            <hr class="my-0">
+            <hr class="mt-3 mb-0">
             <Controls
                 v-if="loadedReferenceData"
                 :descriptions="controlDescription"
                 :reference-data="referenceData"
                 :enable-buttons="tableData.length > 0"
+                :categories="categories"
+                :are-categories-grouped="areCategoriesGrouped"
+                :regions="selectedLevelRegionNameAttribute"
+                :selected-level="selectedLevel"
+                :statistics="statisticsByCategory"
+                :time-steps-filter="timeStepsFilter"
+                :checked="isFeatureLoaded"
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
                 @set-table-subtitle="setTableSubtitle"
+                @change-category="setStatisticsByCategories"
+                @change-filter-settings="checkFilterSettings"
+                @reset-statistics="handleReset"
+                @reset-filter="resetAll"
             />
             <div
                 v-if="!isFeatureLoaded"

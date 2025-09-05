@@ -1233,7 +1233,11 @@
       "headings": {
         "mrhstatistics": "MRH Statistics",
         "mrhstatisticsTooltip": "Link to the metadata",
-        "addFilter": "Add Filter"
+        "addFilter": "Add Filter",
+        "filter": "Filter",
+        "addStatisticalData": "Select statistical data",
+        "addArea": "Select areas",
+        "addTime": "Select time period"
       },
       "infoText": "Note: For many areas, only a part is initially shown in the diagram. Additional areas can be added using the field at the bottom.",
       "infoTextNoData": "No or not all necessary filters have been added yet. To display statistical data in tables and diagrams, the data must first be filtered.",
@@ -1248,7 +1252,10 @@
         "showMore": "show more...",
         "showLess": "show less...",
         "done": "Done",
-        "all": "All"
+        "all": "All",
+        "statistics": "Statistics",
+        "geographical": "Geographical filters",
+        "timeBased": "Time-based filters"
       },
       "label": {
         "category": "Category",
