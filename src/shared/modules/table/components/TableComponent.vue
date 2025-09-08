@@ -29,6 +29,11 @@ export default {
                 return [];
             }
         },
+        exportData: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
+        },
         data: {
             type: Object,
             required: true
@@ -1034,7 +1039,7 @@ export default {
                 id="table-download"
                 class="btn btn-secondary align-items-center mb-3"
                 :url="false"
-                :data="exportTable()"
+                :data="!exportData ? exportTable() : exportData"
                 :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"

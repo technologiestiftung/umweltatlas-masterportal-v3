@@ -3,7 +3,6 @@ import DifferenceModal from "./StatisticDashboardDifference.vue";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import isObject from "@shared/js/utils/isObject";
 import {mapGetters, mapMutations} from "vuex";
-import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {Dropdown} from "bootstrap";
 
@@ -12,7 +11,6 @@ export default {
     components: {
         DifferenceModal,
         StatisticSwitcher,
-        ExportButtonCSV,
         IconButton
     },
     props: {
@@ -30,7 +28,7 @@ export default {
             default: false
         }
     },
-    emits: ["showChartTable", "download", "setTableSubtitle"],
+    emits: ["showChartTable", "setTableSubtitle"],
     data () {
         return {
             currentDescriptionIndex: 0,
@@ -57,8 +55,7 @@ export default {
             "selectedReferenceValueTag",
             "selectedReferenceData",
             "selectedDatesValues",
-            "selectedRegionsValues",
-            "downloadFilename"
+            "selectedRegionsValues"
         ]),
 
         /**
@@ -346,21 +343,6 @@ export default {
                             />
                         </div>
                     </div>
-                </div>
-                <div
-                    class="col col-md-auto mt-0 p-0"
-                >
-                    <ExportButtonCSV
-                        id="download-button"
-                        :handler="onsuccesss => $emit('download', onsuccesss)"
-                        :filename="downloadFilename"
-                        :disabled="!enableButtons"
-                        use-semicolon
-                        class="text-nowrap btn-secondary btn-sm px-3 py-2 dropdown-toggle text-right"
-                    >
-                        <i class="bi bi-cloud-arrow-down-fill" />
-                        {{ $t("common:modules.statisticDashboard.button.download") }}
-                    </ExportButtonCSV>
                 </div>
             </div>
         </div>

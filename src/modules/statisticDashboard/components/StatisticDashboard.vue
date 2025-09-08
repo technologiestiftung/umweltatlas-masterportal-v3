@@ -91,7 +91,8 @@ export default {
             featureWithoutValue: false,
             referenceSubTitle: "",
             fixedColumn: undefined,
-            fixedRow: undefined
+            fixedRow: undefined,
+            exportTableData: {}
         };
     },
     computed: {
@@ -126,7 +127,8 @@ export default {
             "levelTitle",
             "subtitle",
             "addTotalCount",
-            "isFeatureLoaded"
+            "isFeatureLoaded",
+            "downloadFilename"
         ]),
         ...mapGetters("Maps", ["projection"]),
 
@@ -420,6 +422,20 @@ export default {
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
 
+        /**
+         * Loads the exportable table data by processing the statistics data using the downloadData function.
+         * @returns {void}
+         */
+        loadTableExportData () {
+            this.downloadData((data) => {
+                if (data) {
+                    this.exportTableData = data;
+                }
+                else {
+                    this.exportTableData = {};
+                }
+            });
+        },
         /**
          * Prepares and downloads the statistic data.
          * @param {Function} onsuccess The function which is called when the data is ready to download.
@@ -1243,6 +1259,10 @@ export default {
                 });
             });
 
+            this.$nextTick(() => {
+                this.loadTableExportData();
+            });
+
             return data;
         },
 
@@ -1942,7 +1962,6 @@ export default {
                 :enable-buttons="tableData.length > 0"
                 class="mb-3"
                 @show-chart-table="toggleChartTable"
-                @download="downloadData"
                 @set-table-subtitle="setTableSubtitle"
             />
             <div
@@ -1979,6 +1998,9 @@ export default {
                     v-for="(data, index) in chosenTableData"
                     :key="index"
                     :title="tableData.length <= 1 && referenceSubTitle === '' ? chosenStatisticName : ''"
+                    :export-data="exportTableData"
+                    :export-file-name="downloadFilename"
+                    :downloadable="true"
                     :data="data"
                     :fixed-column-with-order="fixedColumn"
                     :fixed-row="fixedRow"

@@ -416,6 +416,39 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 sinon.restore();
             });
         });
+        describe("loadTableExportData", () => {
+            it("should set exportTableData to empty object when downloadData returns null", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    downloadDataStub = sinon.stub(wrapper.vm, "downloadData").callsFake((callback) => {
+                        callback(null);
+                    });
+
+                wrapper.vm.loadTableExportData();
+
+                expect(downloadDataStub.calledOnce).to.be.true;
+                expect(wrapper.vm.exportTableData).to.deep.equal({});
+            });
+            it("should set exportTableData when downloadData returns data", () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                        global: {
+                            plugins: [store]
+                        }
+                    }),
+                    fakeData = [["header1", "header2"], ["val1", "val2"]],
+                    stub = sinon.stub(wrapper.vm, "downloadData").callsFake((callback) => {
+                        callback(fakeData);
+                    });
+
+                wrapper.vm.loadTableExportData();
+
+                expect(stub.calledOnce).to.be.true;
+                expect(wrapper.vm.exportTableData).to.deep.equal(fakeData);
+            });
+        });
         describe("getUniqueValuesForLevel", () => {
             it("should return an empty object if first parm is not an object", async () => {
                 const wrapper = shallowMount(StatisticDashboard, {
@@ -1140,12 +1173,12 @@ describe("src/modules/StatisticDashboard.vue", () => {
         describe("getTableData", () => {
             it("should return an empty array if there are no statistic data", () => {
                 const wrapper = shallowMount(StatisticDashboard, {
-                    global: {
-                        plugins: [store]
-                    }
-                });
+                        global: {
+                            plugins: [store]
+                        }}),
+                    result = wrapper.vm.getTableData({}, "");
 
-                expect(wrapper.vm.getTableData({}, "")).to.deep.equal([]);
+                expect(result).to.deep.equal([]);
             });
 
             it("should return the data for the table(s) from the statistics object according the chosen statistic name", () => {
@@ -1179,9 +1212,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
                             "1990": "112",
                             "Gebiet": "Hamburg"
                         }]
-                    }];
+                    }],
+                    result = wrapper.vm.getTableData(preparedData, "Bevölkerung weiblich");
 
-                expect(wrapper.vm.getTableData(preparedData, "Bevölkerung weiblich")).to.deep.equal(expectedValue);
+                expect(result).to.deep.equal(expectedValue);
             });
         });
         describe("handleChartData", () => {
