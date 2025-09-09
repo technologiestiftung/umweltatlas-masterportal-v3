@@ -235,10 +235,15 @@ export default {
             </div>
             <div
                 v-if="!areStepValuesAscending"
-                class="alert alert-danger"
-                role="alert"
+                class="row justify-content-center my-3"
             >
-                {{ $t('common:modules.statisticDashboard.legend.invalidCustomStepsAlert') }}
+                <div
+                    class="col col-md-9 d-flex align-items-center alert alert-danger"
+                    role="alert"
+                >
+                    <i class="bi bi-exclamation-circle me-4" />
+                    {{ $t('common:modules.statisticDashboard.legend.invalidCustomStepsAlert') }}
+                </div>
             </div>
         </div>
         <div class="form-floating mb-5">

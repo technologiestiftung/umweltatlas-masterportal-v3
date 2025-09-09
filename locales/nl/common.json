@@ -1151,7 +1151,7 @@
           "andAbove": "en hoger",
           "invalidCustomStepsAlert": "Let op: De geselecteerde bereikgrenzen vormen geen oplopende getallenreeks!"
         },
-        "totalHint": "Let op: De somfunctie maakt geen onderscheid tussen absolute aantallen, percentages, gemiddelde waarden of relatieve groottes (bijvoorbeeld inwoners per vierkante meter). ",
+        "totalHint": "Let op: De somfunctie maakt geen onderscheid tussen absolute aantallen, percentages, gemiddelde waarden of relatieve groottes (bijvoorbeeld inwoners per vierkante meter). Ontbrekende waarden worden niet meegenomen in de berekening.",
         "backToOverview": "Grafiekoverzicht"
       },
       "shadow": {

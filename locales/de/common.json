@@ -1303,7 +1303,7 @@
         "noValue": "Gebiete mit fehlendem Wert sind weiß eingefärbt",
         "previewLegend": "Vorschau Klasseneinteilung"
       },
-      "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten.",
+      "totalHint": "Achtung: Die Summenfunktion unterscheidet nicht zwischen absoluten Zahlen, Prozenten, Mittelwerten oder relativen Größen (z.B. Einwohner pro Quadratmeter). Die Summen sind daher nicht immer interpretierbar. Bitte im Kontext der ausgewählten Statistik beachten. Fehlende Werte werden bei der Berechnung nicht berücksichtigt.",
       "filterHint": "Alle Felder müssen vollständig ausgefüllt sein, um die Filterergebnisse anzuzeigen.",
       "backToOverview": "Diagrammübersicht",
       "backToStatisticDashboard":"Zurück zur Übersicht"

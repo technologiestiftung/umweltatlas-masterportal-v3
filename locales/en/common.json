@@ -1301,7 +1301,7 @@
         "noValue": "Missing values are in white color",
         "previewLegend": "Preview classification"
       },
-      "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics.",
+      "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics. Missing values are not included in the calculation.",
       "backToOverview": "Overview of Diagrams",
       "filterHint": "All fields must be completed in order to display the filter results.",
       "backToStatisticDashboard":"Back to Overview"

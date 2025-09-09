@@ -1297,7 +1297,15 @@ export default {
             v-if="checkTotalHint(totalProp, showTotalData)"
             class="hint"
         >
-            {{ totalProp.hintText }}
+            <div class="row justify-content-center my-3">
+                <div
+                    class="col col-md-9 d-flex align-items-center justify-content-center mt-2 alert alert-secondary info-text"
+                    role="note"
+                >
+                    <i class="bi bi-info-circle me-4" />
+                    {{ totalProp.hintText }}
+                </div>
+            </div>
         </div>
     </div>
 </template>
