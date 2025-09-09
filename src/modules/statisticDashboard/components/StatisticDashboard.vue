@@ -629,10 +629,12 @@ export default {
                 return;
             }
             if (typeof referenceData.value === "string") {
-                if (!regions.includes(referenceData.value)) {
-                    regions.push(referenceData.value);
+                const regionsWithReference = JSON.parse(JSON.stringify(regions));
+
+                if (!regionsWithReference.includes(referenceData.value)) {
+                    regionsWithReference.push(referenceData.value);
                 }
-                this.handleFilterSettings([...new Set(regions)], dates, "region");
+                this.handleFilterSettings([...new Set(regionsWithReference)], dates, "region");
             }
             else if (isObject(referenceData.value) && typeof referenceData.value.label === "string") {
                 dates.push(referenceData.value.value);
