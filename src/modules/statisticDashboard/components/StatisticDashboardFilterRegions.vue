@@ -32,7 +32,13 @@ export default {
             }
         }
     },
-
+    data () {
+        return {
+            openStates: {
+                regionFilterRef1: false
+            }
+        };
+    },
     computed: {
         ...mapGetters("Maps", ["projection"])
     },
@@ -40,6 +46,55 @@ export default {
     methods: {
         ...mapMutations("Modules/StatisticDashboard", ["setSelectedRegions"]),
 
+        /**
+         * Toggles the open state of a multiselect component referenced by `refName`.
+         * If the dropdown is open, it will be closed (deactivated), otherwise it will be opened (activated).
+         * After opening, the search input inside the multiselect is focused.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        toggle (refName) {
+            const multiselectRef = this.$refs[refName][0];
+
+            if (!multiselectRef) {
+                return;
+            }
+
+            if (this.openStates[refName]) {
+                multiselectRef.deactivate();
+            }
+            else {
+                multiselectRef.activate();
+                this.$nextTick(() => {
+                    const input = multiselectRef.$refs.search;
+
+                    if (input) {
+                        input.focus();
+                    }
+                });
+            }
+        },
+        /**
+         * Sets the open state of the multiselect referenced by `refName` to true.
+         * Called when the multiselect is opened.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        onOpen (refName) {
+            this.openStates[refName] = true;
+        },
+        /**
+         * Sets the open state of the multiselect referenced by `refName` to false.
+         * Called when the multiselect is closed.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        onClose (refName) {
+            this.openStates[refName] = false;
+        },
         /**
          * Checks whether the region has child.
          * @param {Object} region - The region to be checked.
@@ -354,42 +409,54 @@ export default {
                 >
                     {{ region.name }}
                 </label>
-                <Multiselect
-                    :id="'region-filter' + index"
-                    :model-value="region.selectedValues"
-                    :multiple="true"
-                    :options="getRegionsSorted(region.values, region.selectedValues)"
-                    :searchable="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :show-labels="false"
-                    :limit="3"
-                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                    :allow-empty="true"
-                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    :loading="region.loadingDataCounter > 0"
-                    :disabled="region.loadingDataCounter > 0"
-                    label="label"
-                    track-by="label"
-                    @update:model-value="setSelectedValuesToRegion($event, region)"
+                <div
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('regionFilterRef' + index)"
+                    @mousedown.prevent
+                    @keydown.enter.stop.prevent="toggle('regionFilterRef' + index)"
+                    @keydown.space.stop.prevent="toggle('regionFilterRef' + index)"
                 >
-                    <template #clear>
-                        <div class="multiselect__clear">
-                            <i class="bi bi-search" />
-                        </div>
-                    </template>
-                    <template #tag="{ option, remove }">
-                        <button
-                            class="multiselect__tag"
-                            :class="option"
-                            @click="remove(option)"
-                            @keypress="remove(option)"
-                        >
-                            {{ option.label }}
-                            <i class="bi bi-x" />
-                        </button>
-                    </template>
-                </Multiselect>
+                    <Multiselect
+                        :id="'region-filter' + index"
+                        :ref="'regionFilterRef' + index"
+                        :model-value="region.selectedValues"
+                        :multiple="true"
+                        :options="getRegionsSorted(region.values, region.selectedValues)"
+                        :searchable="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :show-labels="false"
+                        :limit="3"
+                        :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                        :allow-empty="true"
+                        :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                        :loading="region.loadingDataCounter > 0"
+                        :disabled="region.loadingDataCounter > 0"
+                        label="label"
+                        track-by="label"
+                        @open="onOpen('regionFilterRef' + index)"
+                        @close="onClose('regionFilterRef' + index)"
+                        @update:model-value="setSelectedValuesToRegion($event, region)"
+                    >
+                        <template #clear>
+                            <div class="multiselect__clear">
+                                <i class="bi bi-search" />
+                            </div>
+                        </template>
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option"
+                                @click="remove(option)"
+                                @keypress="remove(option)"
+                            >
+                                {{ option.label }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                    </Multiselect>
+                </div>
             </div>
         </div>
     </div>

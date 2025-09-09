@@ -58,7 +58,12 @@ export default {
             sortedCategories: [],
             sortedStatisticNames: [],
             sortedSelectedStatistics: [],
-            sortedDates: []
+            sortedDates: [],
+            openStates: {
+                categoryfilter: false,
+                statisticfilter: false,
+                timefilter: false
+            }
         };
     },
     computed: {
@@ -151,7 +156,55 @@ export default {
             "setSelectedDates",
             "setSelectedStatistics"
         ]),
+        /**
+         * Toggles the open state of a multiselect component referenced by `refName`.
+         * If the dropdown is open, it will be closed (deactivated), otherwise it will be opened (activated).
+         * After opening, the search input inside the multiselect is focused.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        toggle (refName) {
+            const multiselectRef = this.$refs[refName];
 
+            if (!multiselectRef) {
+                return;
+            }
+
+            if (this.openStates[refName]) {
+                multiselectRef.deactivate();
+            }
+            else {
+                multiselectRef.activate();
+                this.$nextTick(() => {
+                    const input = multiselectRef.$refs.search;
+
+                    if (input) {
+                        input.focus();
+                    }
+                });
+            }
+        },
+        /**
+         * Sets the open state of the multiselect referenced by `refName` to true.
+         * Called when the multiselect is opened.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        onOpen (refName) {
+            this.openStates[refName] = true;
+        },
+        /**
+         * Sets the open state of the multiselect referenced by `refName` to false.
+         * Called when the multiselect is closed.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        onClose (refName) {
+            this.openStates[refName] = false;
+        },
         /**
          * Gets the categories sorted.
          * @param {Object[]} categories The categories.
@@ -331,42 +384,54 @@ export default {
                     for="categoryfilter"
                 >
                     {{ $t("common:modules.statisticDashboard.label.category") }}</label>
-                <Multiselect
-                    id="categoryfilter"
-                    :model-value="selectedCategories"
-                    :options="sortedCategories"
-                    :searchable="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :show-labels="false"
-                    :allow-empty="true"
-                    :multiple="true"
-                    :group-values="areCategoriesGrouped ? 'categories' : ''"
-                    :group-label="areCategoriesGrouped ? 'name' : ''"
-                    :group-select="false"
-                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    track-by="name"
-                    label="name"
-                    @update:model-value="setSelectedCategories"
-                    @remove="removeSelectedStatsByCategory"
+                <div
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('categoryfilterRef')"
+                    @mousedown.prevent
+                    @keydown.enter.stop.prevent="toggle('categoryfilterRef')"
+                    @keydown.space.stop.prevent="toggle('categoryfilterRef')"
                 >
-                    <template #clear>
-                        <div class="multiselect__clear">
-                            <i class="bi bi-search" />
-                        </div>
-                    </template>
-                    <template #tag="{ option, remove }">
-                        <button
-                            class="multiselect__tag"
-                            :class="option"
-                            @click="remove(option)"
-                            @keypress="remove(option)"
-                        >
-                            {{ option.name }}
-                            <i class="bi bi-x" />
-                        </button>
-                    </template>
-                </Multiselect>
+                    <Multiselect
+                        id="categoryfilter"
+                        ref="categoryfilterRef"
+                        :model-value="selectedCategories"
+                        :options="sortedCategories"
+                        :searchable="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :show-labels="false"
+                        :allow-empty="true"
+                        :multiple="true"
+                        :group-values="areCategoriesGrouped ? 'categories' : ''"
+                        :group-label="areCategoriesGrouped ? 'name' : ''"
+                        :group-select="false"
+                        :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                        track-by="name"
+                        label="name"
+                        @open="onOpen('categoryfilterRef')"
+                        @close="onClose('categoryfilterRef')"
+                        @update:model-value="setSelectedCategories"
+                        @remove="removeSelectedStatsByCategory"
+                    >
+                        <template #clear>
+                            <div class="multiselect__clear">
+                                <i class="bi bi-search" />
+                            </div>
+                        </template>
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option"
+                                @click="remove(option)"
+                                @keypress="remove(option)"
+                            >
+                                {{ option.name }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                    </Multiselect>
+                </div>
             </div>
             <div class="col-sm-10">
                 <label
@@ -375,40 +440,52 @@ export default {
                 >
                     {{ $t("common:modules.statisticDashboard.label.statistics") }}
                 </label>
-                <Multiselect
-                    id="statisticfilter"
-                    :model-value="sortedSelectedStatistics"
-                    :options="sortedStatisticNames"
-                    :searchable="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :show-labels="false"
-                    :allow-empty="true"
-                    :multiple="true"
-                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    :limit="3"
-                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                    track-by="key"
-                    label="name"
-                    @update:model-value="addStatisticsToSelect"
+                <div
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('statisticfilterRef')"
+                    @mousedown.prevent
+                    @keydown.enter.stop.prevent="toggle('statisticfilterRef')"
+                    @keydown.space.stop.prevent="toggle('statisticfilterRef')"
                 >
-                    <template #clear>
-                        <div class="multiselect__clear">
-                            <i class="bi bi-search" />
-                        </div>
-                    </template>
-                    <template #tag="{ option, remove }">
-                        <button
-                            class="multiselect__tag"
-                            :class="option"
-                            @click="remove(option)"
-                            @keypress="remove(option)"
-                        >
-                            {{ option.name }}
-                            <i class="bi bi-x" />
-                        </button>
-                    </template>
-                </Multiselect>
+                    <Multiselect
+                        id="statisticfilter"
+                        ref="statisticfilterRef"
+                        :model-value="sortedSelectedStatistics"
+                        :options="sortedStatisticNames"
+                        :searchable="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :show-labels="false"
+                        :allow-empty="true"
+                        :multiple="true"
+                        :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                        :limit="3"
+                        :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                        track-by="key"
+                        label="name"
+                        @open="onOpen('statisticfilterRef')"
+                        @close="onClose('statisticfilterRef')"
+                        @update:model-value="addStatisticsToSelect"
+                    >
+                        <template #clear>
+                            <div class="multiselect__clear">
+                                <i class="bi bi-search" />
+                            </div>
+                        </template>
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option"
+                                @click="remove(option)"
+                                @keypress="remove(option)"
+                            >
+                                {{ option.name }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                    </Multiselect>
+                </div>
             </div>
         </AccordionItem>
         <AccordionItem
@@ -438,40 +515,52 @@ export default {
                     for="timefilter"
                 >
                     {{ $t("common:modules.statisticDashboard.label.year") }}</label>
-                <Multiselect
-                    id="timefilter"
-                    :model-value="selectedDates"
-                    :multiple="true"
-                    :options="sortedDates"
-                    :searchable="true"
-                    :close-on-select="false"
-                    :clear-on-select="false"
-                    :show-labels="false"
-                    :limit="3"
-                    :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
-                    :allow-empty="true"
-                    :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
-                    label="label"
-                    track-by="label"
-                    @update:model-value="setSelectedDates"
+                <div
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('timefilterRef')"
+                    @mousedown.prevent
+                    @keydown.enter.stop.prevent="toggle('timefilterRef')"
+                    @keydown.space.stop.prevent="toggle('timefilterRef')"
                 >
-                    <template #clear>
-                        <div class="multiselect__clear">
-                            <i class="bi bi-search" />
-                        </div>
-                    </template>
-                    <template #tag="{ option, remove }">
-                        <button
-                            class="multiselect__tag"
-                            :class="option"
-                            @click="remove(option)"
-                            @keypress="remove(option)"
-                        >
-                            {{ option.label }}
-                            <i class="bi bi-x" />
-                        </button>
-                    </template>
-                </Multiselect>
+                    <Multiselect
+                        id="timefilter"
+                        ref="timefilterRef"
+                        :model-value="selectedDates"
+                        :multiple="true"
+                        :options="sortedDates"
+                        :searchable="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :show-labels="false"
+                        :limit="3"
+                        :limit-text="count => count + ' ' + $t('common:modules.statisticDashboard.label.more')"
+                        :allow-empty="true"
+                        :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
+                        label="label"
+                        track-by="label"
+                        @open="onOpen('timefilterRef')"
+                        @close="onClose('timefilterRef')"
+                        @update:model-value="setSelectedDates"
+                    >
+                        <template #clear>
+                            <div class="multiselect__clear">
+                                <i class="bi bi-search" />
+                            </div>
+                        </template>
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option"
+                                @click="remove(option)"
+                                @keypress="remove(option)"
+                            >
+                                {{ option.label }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                    </Multiselect>
+                </div>
             </div>
         </AccordionItem>
         <div
