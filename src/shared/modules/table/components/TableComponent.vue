@@ -1203,16 +1203,6 @@ export default {
                 :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 me-3 rounded-pill'"
                 :interaction="() => fullView()"
             />
-            <ExportButtonCSV
-                v-if="downloadable"
-                id="table-download"
-                class="btn btn-secondary align-items-center mb-3 me-3"
-                :url="false"
-                :data="!exportData ? exportTable() : exportData"
-                :filename="exportFileName"
-                :use-semicolon="true"
-                :title="$t('common:shared.modules.table.download')"
-            />
         </div>
         <button
             v-if="showTotal"
@@ -1265,7 +1255,7 @@ export default {
                 id="table-download-csv"
                 ref="exportCsvButton"
                 :url="false"
-                :data="exportTable('csv')"
+                :data="!exportData ? exportTable('csv') : exportData"
                 :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"
