@@ -38,7 +38,7 @@ export default {
                             await this.loadJavascriptAddons(addonKey);
                         }
                         else if (addonConf.type === "filterSnippet") {
-                            await this.loadFilterSnippetAddons(addonKey);
+                            await this.loadFilterSnippetAddons(addonKey, app);
                         }
                     }
                 }
@@ -125,11 +125,11 @@ export default {
         moduleCollection[addonName] = addon.component;
     },
 
-    loadFilterSnippetAddons: async function (addonKey) {
+    loadFilterSnippetAddons: async function (addonKey, app) {
         const addon = await this.loadAddon(addonKey),
             addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
 
-        main.getApp().component(addon.component.name, addon.component);
+        app.component(addon.component.name, addon.component);
         if (addon.store) {
             store.registerModule(["Modules", addon.component.name], addon.store);
             moduleCollection[addonName] = addon.component;
