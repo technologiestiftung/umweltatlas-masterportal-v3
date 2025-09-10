@@ -995,6 +995,87 @@ export default {
                 </div>
             </div>
         </div>
+        <div
+            v-if="display === 'list'"
+            class="snippetListContainer"
+        >
+            <div class="grid-container">
+                <div
+                    class="grid-item"
+                >
+                    {{ titleText }}
+                </div>
+                <div
+                    v-if="multiselect && addSelectAll"
+                    class="grid-item"
+                >
+                    <a
+                        href="#"
+                        class="link-dark"
+                        @click="!allSelected ? selectAll() : deselectAll()"
+                    >
+                        {{ selectAllTitle }}
+                    </a>
+                </div>
+                <div
+                    v-for="val in getDropdownValueForList()"
+                    :key="snippetId + '-' + val"
+                    class="grid-item"
+                >
+                    <span
+                        v-if="anyIconExists()"
+                        class="subItem"
+                    >
+                        <label
+                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                        >
+                            <img
+                                v-show="iconExists(val)"
+                                class="snippetListContainerIcon"
+                                :src="iconList[val]"
+                                :alt="val"
+                            >
+                        </label>
+                    </span>
+                    <span
+                        class="subItem"
+                    >
+                        <input
+                            v-if="multiselect"
+                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            v-model="dropdownSelected"
+                            :aria-label="ariaLabelCheckbox"
+                            class="checkbox"
+                            :disabled="isLoading"
+                            type="checkbox"
+                            :value="val"
+                            tabindex="0"
+                            @click="setCurrentSource('dropdown')"
+                        >
+                        <input
+                            v-else
+                            :id="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                            v-model="dropdownSelected[0]"
+                            :aria-label="ariaLabelRadio"
+                            class="radio"
+                            :disabled="isLoading"
+                            type="radio"
+                            :value="val"
+                            tabindex="0"
+                            @click="setCurrentSource('dropdown')"
+                        >
+                    </span>
+                    <span
+                        class="subItem"
+                    >
+                        <label
+                            class="check-box-label"
+                            :for="'snippetRadioCheckbox-' + snippetId + '-' + val"
+                        >{{ val }}</label>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

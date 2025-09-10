@@ -757,7 +757,10 @@ export default {
                 @update-geometry-selector-options="updateGeometrySelectorOptions"
             />
         </AccordionItem>
-        <hr class="dividing-line mb-4">
+        <hr
+            v-if="isGeometrySelectorVisible()"
+            class="dividing-line mb-4"
+        >
         <div v-if="Array.isArray(layerGroups) && layerGroups.length">
             <div
                 v-for="(layerGroup, key) in layerGroups"
