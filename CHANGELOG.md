@@ -36,6 +36,7 @@
 - Removed temporary `overrides` that pinned Vue core packages to 3.3.4.
 - Adjusted test webpack config for Vue 3.5 (aliases/loaders).
 - Add missing .js/.vue extensions in import paths project-wide
+- Filter: Updated UI to match masterportal design
 
 ### Deprecated
 
@@ -45,6 +46,9 @@
     - dom-storage
     - html2canvas
     - bootstrap-sass
+- Filter:
+    - The layerSelectorVisible parameter has been removed. If all filters are to be opened initially, the parameter active of all filters can be set to true.
+    - Parameter 'initialStartupReset' has been removed. The behaviour is now default for each filter which has child-snippets.
 
 ### Fixed
 - Issue #1385: Add missing internationalization calls for layer names.
@@ -88,6 +92,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
+- Added Shared Component for buttonGroup in buttons.
 - Filter:
     - Adds parameter collapseButtons to show collapsible buttons instead of accordions.
     - Adds parameter clearAll to enable to clear the layers for the whole filter.
@@ -170,9 +175,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 ### Removed
 - Removed configuration portal/layer.
-- Filter:
-    - The layerSelectorVisible parameter has been removed. If all filters are to be opened initially, the parameter active of all filters can be set to true.
-    - Parameter 'initialStartupReset' has been removed. The behaviour is now default for each filter which has child-snippets.
 
 ### Fixed
 - Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
@@ -247,7 +249,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
-- Added Shared Component for buttonGroup in buttons.
 
 ### Changed
 - Replaced layer 452, which will be deleted.
