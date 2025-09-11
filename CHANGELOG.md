@@ -29,6 +29,7 @@
 - Dropped support for **Node.js 18.x**, **20.x** and **npm 9**. Minimum required is now **Node.js 22.19.0 (LTS)** with **npm 10.x**.
 
 ### Added
+- Routing: Added enhanced isochrones legend.
 - Shared TableComponent:
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
