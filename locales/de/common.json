@@ -1078,7 +1078,14 @@
           "area": "Fläche:"
         },
         "interval": "Intervall",
-        "legend": "Legende",
+        "legend": {
+          "area": "Fläche",
+          "color": "Farbe",
+          "distance": "Distanz",
+          "population": "Bevölkerung",
+          "time": "Zeit",
+          "title": "Legende"
+        },
         "maxDistance": "Maximale Entfernung",
         "maxTraveltime": "Maximale Reisedauer",
         "optimization": {

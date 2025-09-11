@@ -1076,7 +1076,14 @@
           "area": "Area:"
         },
         "interval": "Interval",
-        "legend": "Legend",
+        "legend": {
+          "area": "Area",
+          "color": "Color",
+          "distance": "Distance",
+          "population": "Population",
+          "time": "Time",
+          "title": "Legend"
+        },
         "maxDistance": "Maximum distance",
         "maxTraveltime": "Maximum travel time",
         "optimization": {
