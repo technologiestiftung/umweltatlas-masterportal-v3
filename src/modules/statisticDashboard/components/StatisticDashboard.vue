@@ -26,6 +26,7 @@ import StatisticsHandler from "../js/handleStatistics.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 import WFS from "ol/format/WFS";
 import {CanceledError} from "axios";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 
 export default {
     name: "StatisticDashboard",
@@ -651,10 +652,6 @@ export default {
          * @returns {void}
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
-            this.abortController.abort();
-            this.abortController = new AbortController();
-            this.layer?.getSource().clear();
-
             const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
                 selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
 
@@ -667,16 +664,17 @@ export default {
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
             }
 
-            FeaturesHandler.styleFeaturesByStatistic(
-                filteredFeatures,
+            this.layer.setStyle(FeaturesHandler.getStyleFunction(
                 this.statisticsData?.[this.chosenStatisticName],
                 this.colorPalette.map(v => [...v, this.opacity]),
                 date,
                 regionNameAttribute,
                 this.stepValues
-            );
+            ));
 
-            this.featureWithoutValue = filteredFeatures.some(feature => feature.get("noValue") === true);
+            this.featureWithoutValue = Object.values(this.statisticsData[this.chosenStatisticName]).some(
+                regionValue => !isNumber(regionValue[date])
+            );
 
             this.setLegendData({
                 "color": this.colorPalette.map(v => [...v, this.opacity]),
@@ -687,12 +685,6 @@ export default {
                 const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);
 
                 FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
-            }
-
-            if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
-                FeaturesHandler.addFeaturesAsync(this.layer.getSource(), filteredFeatures, {
-                    signal: this.abortController.signal, batchSize: this.selectedLevel.renderingBatchSize
-                });
             }
         },
 
@@ -831,7 +823,8 @@ export default {
                     filter: this.getFilter(regions, dates)
                 };
 
-            let response = null;
+            let response = null,
+                statFeatures = [];
 
             if (selectedLayer.typ === "WFS") {
                 response = await getFeaturePOST(selectedLayer.url, payload, error => {
@@ -842,16 +835,18 @@ export default {
             else if (selectedLayer.typ === "OAF") {
                 payload.propertyNames.splice(payload.propertyNames.indexOf(this.selectedLevel.geometryAttribute), 1);
                 try {
-                    this.loadedFeatures = await FetchDataHandler.getOAFFeatures(
+                    statFeatures = await getOAFFeature.getOAFFeatureGet(
                         selectedLayer.url,
                         selectedLayer.collection,
-                        payload.propertyNames,
-                        this.projection.getCode(),
-                        this.selectedLevel.oafRequestCRS,
-                        this.selectedLevel.oafDataProjectionCode,
-                        this.parseOLFilterToOAF(payload.filter, this.filterMap),
-                        this.selectedLevel.oafRequestCRS,
-                        this.abortController.signal
+                        {
+                            signal: this.abortController.signal,
+                            filter: this.parseOLFilterToOAF(payload.filter, this.filterMap),
+                            filterCrs: this.selectedLevel.oafRequestCRS,
+                            crs: this.selectedLevel.oafRequestCRS,
+                            propertyNames: payload.propertyNames,
+                            limit: 10000,
+                            skipGeometry: true
+                        }
                     );
                 }
                 catch (error) {
@@ -867,7 +862,7 @@ export default {
                 this.referenceFeatures = {};
             }
 
-            this.prepareData(this.loadedFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
+            this.prepareData(statFeatures, this.selectedStatisticsNames, regions, dates, selectedLevelDateAttribute, selectedLevelRegionNameAttribute, differenceMode);
         },
         /**
          * Prepares and sets the data.
@@ -918,20 +913,6 @@ export default {
                     this.selectedColumn,
                     typeof this.selectedReferenceData !== "undefined",
                     this.selectedReferenceData);
-            }
-            else {
-                this.layer.getSource().clear();
-                const filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, this.selectedColumn || dates[0]);
-
-                if (Array.isArray(filteredFeatures) && filteredFeatures.length > 0) {
-                    await FeaturesHandler.addFeaturesAsync(this.layer.getSource(), filteredFeatures, {
-                        signal: this.abortController.signal, batchSize: this.selectedLevel.renderingBatchSize
-                    });
-                }
-
-                filteredFeatures.map(feature => {
-                    return FeaturesHandler.styleFeature(feature);
-                });
             }
             this.showNoLegendData = !this.selectedStatisticsNames.length;
             if (this.selectedColumn) {
@@ -1298,10 +1279,10 @@ export default {
                     });
                 });
                 features.forEach(feature => {
-                    const region = feature.get(regionKey),
-                        date = feature.get(dateKey),
+                    const region = feature.properties[regionKey],
+                        date = feature.properties[dateKey],
                         formatedDate = dayjs(date).format(dateAttribute.outputFormat),
-                        value = parseFloat(feature?.get(statsKey));
+                        value = parseFloat(feature?.properties[statsKey]);
 
                     if (differenceMode === "region" && region === this.selectedReferenceData?.value) {
                         refRegionValues[stat][formatedDate] = value;
@@ -1385,10 +1366,10 @@ export default {
                     });
                 });
                 features.forEach(feature => {
-                    const region = feature.get(regionKey),
-                        date = feature.get(dateKey),
+                    const region = feature.properties[regionKey],
+                        date = feature.properties[dateKey],
                         formatedDate = dayjs(date).format(dateAttribute.outputFormat),
-                        value = parseFloat(feature?.get(statsKey));
+                        value = parseFloat(feature?.properties[statsKey]);
 
                     if (differenceMode === "region" && region === this.selectedReferenceData?.value) {
                         refRegionValues[stat][formatedDate] = value;
@@ -1497,7 +1478,7 @@ export default {
         handleReset () {
             this.abortController.abort();
             this.abortController = new AbortController();
-            this.layer?.getSource()?.clear();
+            this.layer.setStyle(null);
             this.tableData = [];
 
             if (this.$refs.chartContainer && this.$refs.chartContainer.hasChildNodes()) {
@@ -1615,6 +1596,30 @@ export default {
 
             if (!this.flattenedRegions.length) {
                 this.flattenRegionHierarchy(this.selectedLevelRegionNameAttribute);
+            }
+            this.prepareLayer();
+        },
+
+        /**
+         * Prepares the layer by fetching features from the OAF endpoint and adding them to the layer source.
+         * @returns {void}
+         */
+        async prepareLayer () {
+            this.layer.getSource().clear();
+            this.layer.setStyle(null);
+
+            const regionKey = this.getSelectedLevelRegionNameAttributeInDepth(
+                    this.selectedLevel.mappingFilter.regionNameAttribute
+                ).attrName,
+                rawLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
+                featureStream = getOAFFeature.getOAFFeatureStream(`${rawLayer.url}/collections/${rawLayer.collection}/items`, {
+                    crs: this.selectedLevel.oafRequestCRS,
+                    properties: regionKey,
+                    ...this.selectedLevel.geomRequestParams
+                });
+
+            for await (const feature of featureStream) {
+                this.layer.getSource().addFeature(feature);
             }
         },
 

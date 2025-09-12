@@ -107,6 +107,44 @@ async function oafRecursionHelper (result, url, signal) {
 }
 
 /**
+ * Fetches OAF features as a readable stream, following next links.
+ * @param {String} url - The initial OAF endpoint URL.
+ * @param {Object} searchParams - OAF-specific search parameters.
+ * @returns {ReadableStream} - A readable stream of features.
+ */
+function getOAFFeatureStream (url, searchParams = {}) {
+    const geoJSON = new GeoJSON();
+
+    return new ReadableStream({
+        async start (controller) {
+            let nextUrl = url,
+                params = {...searchParams};
+
+            try {
+                while (nextUrl) {
+                    const response = await axios.get(nextUrl, {params}),
+                        nextLink = response.data.links?.find(link => link.rel === "next");
+
+                    response.data.features.forEach(feature => {
+                        const olFeature = geoJSON.readFeature(feature);
+
+                        controller.enqueue(olFeature);
+                    });
+
+                    nextUrl = nextLink ? nextLink.href : null;
+                    params = {};
+                }
+
+                controller.close();
+            }
+            catch (err) {
+                controller.error(err);
+            }
+        }
+    });
+}
+
+/**
  * Gets the schema of the given collection.
  * @param {String} baseUrl - The base url of the oaf api.
  * @param {String} collection - The collection name.
@@ -283,6 +321,7 @@ async function getTemporalExtent (baseUrl, collection) {
 export default {
     getCollectionSchema,
     getOAFFeatureGet,
+    getOAFFeatureStream,
     readAllOAFToGeoJSON,
     oafRecursionHelper,
     getNextLinkFromFeatureCollection,

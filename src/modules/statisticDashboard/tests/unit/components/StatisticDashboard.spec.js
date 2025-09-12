@@ -13,7 +13,7 @@ import {
     and as andFilter,
     equalTo as equalToFilter
 } from "ol/format/filter";
-import Feature from "ol/Feature.js";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
 
 config.global.mocks.$t = key => key;
 
@@ -35,25 +35,36 @@ describe("src/modules/StatisticDashboard.vue", () => {
             addFeatures: sinon.stub()
         },
         featureList = [
-            new Feature({
-                bev_maennlich: "13",
-                bev_weiblich: "12",
-                jahr: "1890",
-                ort: "Hamburg"
-
-            }),
-            new Feature({
-                bev_maennlich: "113",
-                bev_weiblich: "112",
-                jahr: "1990",
-                ort: "Hamburg"
-            }),
-            new Feature({
-                bev_maennlich: "93",
-                bev_weiblich: "92",
-                jahr: "1990",
-                ort: "Bremen"
-            })
+            {
+                type: "Feature",
+                properties: {
+                    bev_maennlich: "13",
+                    bev_weiblich: "12",
+                    jahr: "1890",
+                    ort: "Hamburg"
+                },
+                geometry: null
+            },
+            {
+                type: "Feature",
+                properties: {
+                    bev_maennlich: "113",
+                    bev_weiblich: "112",
+                    jahr: "1990",
+                    ort: "Hamburg"
+                },
+                geometry: null
+            },
+            {
+                type: "Feature",
+                properties: {
+                    bev_maennlich: "93",
+                    bev_weiblich: "92",
+                    jahr: "1990",
+                    ort: "Bremen"
+                },
+                geometry: null
+            }
         ];
 
     let store;
@@ -314,6 +325,35 @@ describe("src/modules/StatisticDashboard.vue", () => {
 
 
     describe("methods", () => {
+        describe("prepareLayer", () => {
+            it("add the correct number of features", async () => {
+                const wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.setSelectedLevel({mappingFilter: {}});
+
+                sinon.stub(wrapper.vm, "getSelectedLevelRegionNameAttributeInDepth").returns({attrName: "ort"});
+                sinon.stub(getOAFFeature, "getOAFFeatureStream").callsFake(async function* () {
+                    yield {id: 1, properties: {name: "Feature 1"}};
+                    yield {id: 2, properties: {name: "Feature 2"}};
+                    yield {id: 3, properties: {name: "Feature 3"}};
+                });
+
+                wrapper.vm.layer = {
+                    getSource: () => ({
+                        clear: sinon.stub(),
+                        addFeature: sinon.stub()
+                    }),
+                    setStyle: sinon.stub()
+                };
+
+                await wrapper.vm.prepareLayer();
+                expect(wrapper.vm.layer.getSource().addFeature.callCount).to.equal(3);
+            });
+        });
         describe("downloadData", () => {
             it("should call onsuccess without params", () => {
                 const wrapper = shallowMount(StatisticDashboard, {

@@ -6,27 +6,6 @@ import quantile from "@shared/js/utils/quantile";
 import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 
 /**
- * Adds features to a source in batches.
- * @param {ol/VectorSource} source - The source to which features are added.
- * @param {ol/Feature[]} features - The features to be added.
- * @param {Object} options - Additional parameters.
- * @param {AbortSignal} [options.signal] - An optional AbortSignal to cancel the operation.
- * @param {Number} [options.batchSize=1] - The number of features to add in each batch.
- * @returns {Promise<void>} A promise that resolves when all features are added.
- */
-async function addFeaturesAsync (source, features, {signal, batchSize = 1} = {}) {
-    let index = 0;
-
-    while (index < features.length && !signal?.aborted) {
-        const featuresToAdd = features.slice(index, index + batchSize);
-
-        source.addFeatures(featuresToAdd);
-        await new Promise(resolve => setTimeout(resolve));
-        index += batchSize;
-    }
-}
-
-/**
  * Filters the features by the passed key and value.
  * @param {ol/Feature[]} features - The features that are filtered.
  * @param {String} key - The name of the key.
@@ -42,27 +21,37 @@ function filterFeaturesByKeyValue (features, key, value) {
 }
 
 /**
- * Styles the features by values in the statistics.
+ * Gets a style function to be used for the statistics visualization layer.
  * The number of colors in the scheme indicates the number of classes for the styling.
- * @param {ol/Feature[]} features - The features that are styled.
  * @param {Object} statisticData - The statistic whose values are visualized.
  * @param {Number[][]} colorScheme - The color scheme used for styling.
  * @param {String} date - The date for which the values are visualized
  * @param {String} regionKey - The key to the region in the feature.
  * @param {Number[]} stepValues - The step values used as thresholds for classification.
- * @returns {void}
+ * @returns {Function} An OpenLayers style function for the layer.
  */
-function styleFeaturesByStatistic (features, statisticData, colorScheme, date, regionKey, stepValues) {
-    if (!Array.isArray(features) || !Array.isArray(colorScheme) || !Array.isArray(stepValues)) {
-        return;
-    }
-    features.forEach(feature => {
-        const region = feature.get(regionKey),
-            index = stepValues.findLastIndex(e => statisticData[region]?.[date] >= e);
+function getStyleFunction (statisticData, colorScheme, date, regionKey, stepValues) {
+    const styleCache = {};
 
-        feature?.set("noValue", index === -1);
-        styleFeature(feature, colorScheme[index]);
-    });
+    return function (feature) {
+        const region = feature.get(regionKey),
+            value = statisticData[region]?.[date],
+            index = stepValues.findLastIndex(e => value >= e),
+            color = colorScheme[index] || [255, 255, 255, 0.9],
+            colorKey = color.join("-");
+
+        if (typeof value === "undefined") {
+            return null;
+        }
+
+        if (!styleCache[colorKey]) {
+            styleCache[colorKey] = new Style({
+                fill: new Fill({color}),
+                stroke: new Stroke({color: [166, 166, 166, 1], width: 1})
+            });
+        }
+        return styleCache[colorKey];
+    };
 }
 
 /**
@@ -295,9 +284,8 @@ function getLegendValue (val, decimalPlaces = 2, withoutValue = false) {
 }
 
 export default {
-    addFeaturesAsync,
     filterFeaturesByKeyValue,
-    styleFeaturesByStatistic,
+    getStyleFunction,
     styleFeature,
     calcStepValues,
     getStatisticValuesByDate,

@@ -1,5 +1,4 @@
 import {expect} from "chai";
-import sinon from "sinon";
 import FeatureHandler from "@modules/statisticDashboard/js/handleFeatures";
 import Feature from "ol/Feature";
 
@@ -55,7 +54,7 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues([0.12345, 2.12345], 2, "equalIntervals", false, 3)).to.deep.equal([0.123, 1.123]);
         });
     });
-    describe("styleFeaturesByStatistic", () => {
+    describe("getStyleFunction", () => {
         it("should set the styles correctly according to the values from the features", () => {
             const feature1 = new Feature({
                     region: "Cuxhaven"
@@ -99,19 +98,18 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                     "Stade": {
                         "2018": 99
                     }
-                };
+                },
+                styleFunction = FeatureHandler.getStyleFunction(statisticData, colorScheme, "2018", "region", [0, 80, 100]);
 
-            FeatureHandler.styleFeaturesByStatistic([feature1, feature2, feature3], statisticData, colorScheme, "2018", "region", [0, 80, 100]);
+            expect(feature3.get("noValue")).to.be.undefined;
 
-            expect(feature3.get("noValue")).to.be.false;
+            expect(styleFunction(feature1).getStroke()).to.be.deep.equals(stroke);
+            expect(styleFunction(feature2).getStroke()).to.be.deep.equals(stroke);
+            expect(styleFunction(feature3).getStroke()).to.be.deep.equals(stroke);
 
-            expect(feature1.getStyle().getStroke()).to.be.deep.equals(stroke);
-            expect(feature2.getStyle().getStroke()).to.be.deep.equals(stroke);
-            expect(feature3.getStyle().getStroke()).to.be.deep.equals(stroke);
-
-            expect(feature1.getStyle().getFill()).to.be.deep.equals(fill3);
-            expect(feature2.getStyle().getFill()).to.be.deep.equals(fill1);
-            expect(feature3.getStyle().getFill()).to.be.deep.equals(fill2);
+            expect(styleFunction(feature1).getFill()).to.be.deep.equals(fill3);
+            expect(styleFunction(feature2).getFill()).to.be.deep.equals(fill1);
+            expect(styleFunction(feature3).getFill()).to.be.deep.equals(fill2);
         });
     });
     describe("filterFeaturesByKeyValue", () => {
@@ -243,31 +241,6 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                 ];
 
             expect(FeatureHandler.getLegendValue(val)).to.be.deep.equals(expectedVal);
-        });
-    });
-    describe("addFeaturesAsync", () => {
-        it("should call source.addFeatures the correct number of times based on batchSize", async () => {
-            const features = [1, 2, 3, 4, 5],
-                source = {addFeatures: sinon.spy()};
-
-            await FeatureHandler.addFeaturesAsync(source, features, {batchSize: 2});
-            // 5 features, batchSize 2: calls should be 3 (2,2,1)
-            expect(source.addFeatures.callCount).to.equal(3);
-            expect(source.addFeatures.firstCall.args[0]).to.deep.equal([1, 2]);
-            expect(source.addFeatures.secondCall.args[0]).to.deep.equal([3, 4]);
-            expect(source.addFeatures.thirdCall.args[0]).to.deep.equal([5]);
-        });
-
-        it("should stop adding features if the abort signal is triggered", async () => {
-            const features = [1, 2, 3, 4, 5],
-                source = {addFeatures: sinon.spy()},
-                controller = new AbortController();
-
-            // abort after first batch
-            setTimeout(() => controller.abort(), 1);
-            await FeatureHandler.addFeaturesAsync(source, features, {batchSize: 1, signal: controller.signal});
-            // Should only call addFeatures once or twice depending on timing, but never all 5
-            expect(source.addFeatures.callCount).to.be.lessThan(5);
         });
     });
 });

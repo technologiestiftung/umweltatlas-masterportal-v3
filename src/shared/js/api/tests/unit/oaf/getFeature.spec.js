@@ -197,6 +197,55 @@ describe("src/shared/js/api/oaf", () => {
             ]})).to.equal("hrefD");
         });
     });
+    describe("getOAFFeatureStream", () => {
+        it("should return a ReadableStream", () => {
+            const stream = getOAFFeature.getOAFFeatureStream();
+
+            expect(stream).to.be.instanceOf(ReadableStream);
+        });
+
+        it("should enqueue the correct number of features", async () => {
+            sinon.stub(axios, "get").resolves({
+                data: {
+                    features: [
+                        {type: "Feature", geometry: null, properties: {id: 1}},
+                        {type: "Feature", geometry: null, properties: {id: 2}}
+                    ]
+                }
+            });
+
+            const stream = getOAFFeature.getOAFFeatureStream("http://test"),
+                reader = stream.getReader(),
+                features = [];
+            let done, value;
+
+            do {
+                ({done, value} = await reader.read());
+                if (value) {
+                    features.push(value);
+                }
+            } while (!done);
+
+            expect(features.length).to.equal(2);
+            sinon.restore();
+        });
+
+        it("should request the nextUrl if present", async () => {
+            const axiosGetStub = sinon.stub(axios, "get");
+
+            getOAFFeature.getOAFFeatureStream();
+
+            axiosGetStub.onFirstCall().resolves({
+                data: {
+                    links: [{rel: "next", href: "http://next"}]
+                }
+            }).onSecondCall().callsFake(() => {
+                expect(axiosGetStub.secondCall.args[0]).to.equal("http://next");
+            });
+
+            sinon.restore();
+        });
+    });
     describe("getUniqueValuesByScheme", () => {
         it("should return an empty object if first param is not a string", async () => {
             expect(await getOAFFeature.getUniqueValuesByScheme(undefined)).to.be.an("object").that.is.empty;
