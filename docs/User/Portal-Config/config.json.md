@@ -4457,6 +4457,7 @@ When editing properties of a feature / adding properties to a new feature, the a
 |toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
 |type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
 |update|no|[TransactionConfig](#portalconfigmenusectionsmoduleswfsttransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
+|multi|no|Boolean|false|Allows the user to select and update multiple features at the same time.|false|
 
 **Example**
 
@@ -4489,7 +4490,8 @@ When editing properties of a feature / adding properties to a new feature, the a
     "update": [
         {
             "layerId": "4389",
-            "available": true
+            "available": true,
+            "multi": true
         }
     ]
 }

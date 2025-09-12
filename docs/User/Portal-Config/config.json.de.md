@@ -4448,6 +4448,7 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
 |toggleLayer|nein|Boolean|false|Legt fest, ob die Feature des ausgewählten Layers weiterhin angezeigt werden sollen, wenn neue Feature hinzugefügt werden.|false|
 |type|nein|String|"wfst"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |update|nein|[TransactionConfig](#portalconfigmenusectionsmoduleswfsttransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
+|multi|nein|Boolean|false|Ermöglicht die gleichzeitige Auswahl und Aktualisierung mehrerer Features in einem Vorgang.|false|
 
 **Beispiel**
 
@@ -4480,7 +4481,8 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
     "update": [
         {
             "layerId": "4389",
-            "available": true
+            "available": true,
+            "multi": true
         }
     ]
 }
