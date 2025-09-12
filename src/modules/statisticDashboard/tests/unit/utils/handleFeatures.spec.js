@@ -264,7 +264,7 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                 controller = new AbortController();
 
             // abort after first batch
-            setTimeout(() => controller.abort(), 10);
+            setTimeout(() => controller.abort(), 1);
             await FeatureHandler.addFeaturesAsync(source, features, {batchSize: 1, signal: controller.signal});
             // Should only call addFeatures once or twice depending on timing, but never all 5
             expect(source.addFeatures.callCount).to.be.lessThan(5);
