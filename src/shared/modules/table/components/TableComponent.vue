@@ -899,6 +899,14 @@ export default {
                 }
                 this.fullViewActivated = true;
             }
+        },
+        /**
+         * Checks if the given value is numeric.
+         * @param {string|number} val - The value to check.
+         * @returns {boolean} True if the value is numeric, otherwise false.
+         */
+        isNumeric (val) {
+            return typeof val === "number" || (typeof val === "string" && (/^[\d.,]+$/).test(val));
         }
     }
 };
@@ -1199,7 +1207,7 @@ export default {
                             getClassForSelectedColumn(columnIdx),
                             fontSize === 'medium' ? 'medium-font-size' : '',
                             fontSize === 'small' ? 'small-font-size' : '',
-                            typeof item[entry.name] === 'number' ? 'pull-right' : 'pull-left',
+                            isNumeric(item[entry.name]) ? 'pull-right' : 'pull-left',
                             typeof fixedColumnTitle !== 'undefined' ? 'reference' : ''
                         ]"
                     >
@@ -1239,8 +1247,8 @@ export default {
                             >
                                 <span v-html="item[entry.name]" />
                             </p>
-                            <p v-else-if="typeof item[entry.name] === 'number'">
-                                {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal')) }}
+                            <p v-else-if="isNumeric(item[entry.name])">
+                                {{ thousandsSeparator(parseDecimalPlaces(item[entry.name]), getSeparator('group'), getSeparator('decimal'), true) }}
                             </p>
                             <p v-else-if="typeof item[entry.name] === 'string'">
                                 {{ item[entry.name] || "" }}
@@ -1263,7 +1271,7 @@ export default {
                             class="custom-p-2 total"
                             :class="[selectMode === 'column' && index > 0 ? 'selectable' : '', getClassForSelectedColumn(index), typeof entry === 'number' ? 'pull-right' : '']"
                         >
-                            {{ typeof entry === 'number' ? thousandsSeparator(entry, getSeparator('group'), getSeparator('decimal')) : entry }}
+                            {{ typeof entry === 'number' ? thousandsSeparator(entry, getSeparator('group'), getSeparator('decimal'), true) : entry }}
                         </td>
                     </tr>
                 </template>

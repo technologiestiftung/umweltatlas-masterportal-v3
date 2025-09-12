@@ -23,6 +23,8 @@
 ### Fixed
 - Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
 - wfsSearch: secured layers can now be searched.
+- TableComponent: Fixed right alignment for numeric string values.
+- thousandsSeparator: Added optional skipFourDigitYear parameter to prevent formatting plain 4-digit years (e.g., 2025 stays 2025 instead of 2.025).
 
 ---
 
@@ -72,7 +74,7 @@
 - WFS-T Tool: The multiUpdate form now correctly displays checkboxes.
 - Tests: Fixed vuex warnings and stubbed console warnings end errors.
 - InputText: Fixed missing suggestions in input fields.
-- SearchInterfaceOsmNominatim: Fixed getter path in debounce check
+- SearchInterfaceOsmNominatim: Fixed getter path in debounce check.
 - GroupLayer: Fixed errors when opening layer info for layers within a group.
 - wfsSearch: secured layers can now be searched.
 - Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
