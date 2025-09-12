@@ -84,15 +84,26 @@ export default {
             if (!this.isLayerTree() || this.conf.maxScale === undefined) {
                 return false;
             }
-            if (this.mode === "3D" && this.conf.visibility === true && (this.scale > parseInt(this.conf.maxScale, 10) || this.scale < parseInt(this.conf.minScale, 10))) {
-                const layer = layerCollection.getLayerById(this.conf.id).layer;
 
-                layer.setVisible(false);
+            const isOutOfRange = this.scale > parseInt(this.conf.maxScale, 10) || this.scale < parseInt(this.conf.minScale, 10),
+                layerEntry = layerCollection.getLayerById(this.conf.id);
+
+            if (this.mode === "3D" && this.conf.visibility === true && layerEntry && layerEntry.attributes && layerEntry.attributes.is3DLayer) {
+
+                if (isOutOfRange) {
+                    layerEntry.layer.setVisible(false, mapCollection.getMap("3D"), layerEntry.attributes);
+                }
+                else {
+                    layerEntry.layer.setVisible(true, mapCollection.getMap("3D"), layerEntry.attributes);
+                }
             }
-            else if (this.mode === "3D" && this.conf.visibility === true) {
-                const layer = layerCollection.getLayerById(this.conf.id).layer;
-
-                layer.setVisible(true);
+            else if (this.mode === "3D" && this.conf.visibility === true && layerEntry && layerEntry.attributes) {
+                if (isOutOfRange) {
+                    layerEntry.layer.setVisible(false);
+                }
+                else {
+                    layerEntry.layer.setVisible(true);
+                }
             }
 
             return this.scale > parseInt(this.conf.maxScale, 10) || this.scale < parseInt(this.conf.minScale, 10);
