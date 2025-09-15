@@ -15,6 +15,13 @@
 - Build Script: Added support for providing the portal path via environment variable `PORTAL_PATH` in the build script.
   - If `PORTAL_PATH` is set, the build script will use it instead of prompting the user.
   - This enables automated builds in CI/CD pipelines without manual input.
+- Shared TableComponent: New style in ButtonGroup to show the buttons in individual way.
+- Added Shared Component for buttonGroup in buttons.
+- Filter:
+    - Adds parameter collapseButtons to show collapsible buttons instead of accordions.
+    - Adds parameter clearAll to enable to clear the layers for the whole filter.
+    - New parameter icon to set an icon for the filter.
+    - New parameter showCurrentlyActiveFilters to control the visibility of the active filter area
 
 ### Changed
 - The following packages have been updated:
@@ -49,6 +56,7 @@
 - Filter:
     - The layerSelectorVisible parameter has been removed. If all filters are to be opened initially, the parameter active of all filters can be set to true.
     - Parameter 'initialStartupReset' has been removed. The behaviour is now default for each filter which has child-snippets.
+    - Parameter 'snippetTag' has been removed. The new active filter area can be controled by the paramter 'showCurrentlyActiveFilters'
 
 ### Fixed
 - Issue #1385: Add missing internationalization calls for layer names.
@@ -92,11 +100,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
-- Added Shared Component for buttonGroup in buttons.
-- Filter:
-    - Adds parameter collapseButtons to show collapsible buttons instead of accordions.
-    - Adds parameter clearAll to enable to clear the layers for the whole filter.
-    - New parameter icon to set an icon for the filter.
 
 ### Changed
 - Routing: Changed input fields for hgv parameters.
@@ -249,7 +252,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Routing:
     - added avoid points, avoid area import and export
     - selecting a waypoint input field and adding a point by clicking into the map, the new waypoint is added into the previously selected field instead of the first empty field on the list
-- Added Shared Component for buttonGroup in buttons.
 
 ### Changed
 - Replaced layer 452, which will be deleted.

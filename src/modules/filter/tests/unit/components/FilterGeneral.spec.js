@@ -160,6 +160,41 @@ describe("src/modules/filter/components/FilterGeneral.vue", () => {
 
             expect(wrapper.findComponent({name: "AccordionItem", id: "geometry-filter-accordion"}).exists()).to.be.true;
         });
+        it("should render currently active filters div if showCurrentlyActiveFilters is true and a filter is active", async () => {
+            store.commit("Modules/Filter/setShowCurrentlyActiveFilters", true);
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            await wrapper.setData({isFilterActive: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".d-block").exists()).to.be.true;
+        });
+
+        it("should not render currently active filters div if showCurrentlyActiveFilters is true but no filter is active", async () => {
+            store.commit("Modules/Filter/setShowCurrentlyActiveFilters", true);
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            await wrapper.setData({isFilterActive: false});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".d-block").exists()).to.be.false;
+        });
+
+        it("should not render currently active filters div if showCurrentlyActiveFilters is false", async () => {
+            store.commit("Modules/Filter/setShowCurrentlyActiveFilters", false);
+            const wrapper = shallowMount(FilterGeneral, {global: {
+                plugins: [store]
+            }});
+
+            await wrapper.setData({isFilterActive: true});
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.find(".d-block").exists()).to.be.false;
+        });
     });
 
     describe("Methods", () => {

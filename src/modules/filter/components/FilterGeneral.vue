@@ -671,7 +671,7 @@ export default {
                 :interaction="() => openLink(questionLink)"
             />
         </div>
-        <div v-if="isFilterActive">
+        <div v-if="showCurrentlyActiveFilters && isFilterActive">
             <div class="d-block result">
                 <div class="title">
                     <h5 class="float-start">

@@ -63,6 +63,7 @@ const state = {
     serializedString: "",
     selectedAccordions: [],
     selectedGroups: [],
+    showCurrentlyActiveFilters: true,
     totalResults: {},
     triggerAllTagsDeleted: false,
     onValueDeselect: null,

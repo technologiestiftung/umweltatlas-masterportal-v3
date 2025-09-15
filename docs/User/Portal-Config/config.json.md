@@ -2766,6 +2766,7 @@ The filter tool offers a range of options to filter vector data from WFS, OAF, G
 |multiLayerSelector|no|Boolean|true|Controls whether all filters can be active or only one at same time.|false|
 |name|no|String|"common:modules.filter.name"|Name of the module in the menu.|false|
 |saveTo|no|String|"void"|If set to "url", the current filter setting is saved. The shareView module can be used to create a link containing the filter settings.|false|
+|showCurrentlyActiveFilters|no|Boolean|true|Displays an area above all configured filters in which the currently active filters are shown. Here, you can also delete individual values or all filter settings that the user has made.|false|
 |linkText|no|String|""|Link text at the bottom containing a url link to the current filter setting, or empty string if no such link should be displayed. Requires "saveTo": "url"|false|
 |type|no|String|"filter"|The type of the module. Defines which module is configured.|false|
 |closeGfi|no|Boolean|false|If it is true and a gfi window is open, the gfi window could be closed after new filtering.|false|
@@ -2789,6 +2790,7 @@ The following example uses only a layer id to generate the filter automatically.
     },
     "closeGfi": false,
     "questionLink": "https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/cosi/manuals/005filter.md",
+    "showCurrentlyActiveFilters": true,
     "layerGroups":
     [
         {
@@ -2911,7 +2913,6 @@ An object to define a layer to filter with.
 |shortDescription|no|String|""|The shorter version of the description, displayed under the selector title. Can be a translation key also.|false|
 |showHits|no|Boolean|true|After filtering, the hits are displayed. Set to `false` to not show the hits.|false|
 |snippets|no|**[Snippets](#datatypessnippets)**[]|[]|Configuration of snippets to adjust the filtering. Can be a minimalistic array of attribute names. Can be left empty to use the automatic identification of all snippets possible.|false|
-|snippetTags|no|Boolean|true|After filtering the current setting is displayed as tags. Set to `false` to turn of this feature.|false|
 |strategy|no|String||There are two filter strategies: `passive` - a filter button is used. And `active` - the filter will be triggered immediately by any choice made. Passive strategy is used by default.|false|
 |title|no|String||The title to use for the selector. Can be a translation key also. If not set, the layerId will be used by default.|false|
 |wmsRefId|no|String/String[]|""|If the layer is filtered, the WMS layer with `wmsRefId` will be invisible and deactivated from Tree. After resetting the layer, the WMS layer will be activated and visible again.|false|
@@ -2932,7 +2933,6 @@ In this example, one snippet is set with only an attrName. The snippet type is d
     "wmsRefId": "21066",
     "shortDescription": "School master data and pupil numbers of Hamburg schools",
     "description": "School master data and pupil numbers of Hamburg schools",
-    "snippetTags": true,
     "paging": 100,
     "filterOnMove": false,
     "minZoom": 7,
@@ -6298,7 +6298,6 @@ The `children` parameter instructs a snippet not to trigger any filtering itself
 (Example: `mammals` will shrink the resulting animal species to an acceptable range).
 Only the selection in one of the child snippets (example: "blue whale") finally performs the filtering.
 
-In case of using parent-child relationships, we recommend setting `snippetTags` to `false`.
 Multi-dimensional nesting (grandparent, parent, child) is not currently provided.
 
 |Name|Required|Type|Default|Description|Expert|
