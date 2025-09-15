@@ -4448,7 +4448,7 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
 |toggleLayer|nein|Boolean|false|Legt fest, ob die Feature des ausgewählten Layers weiterhin angezeigt werden sollen, wenn neue Feature hinzugefügt werden.|false|
 |type|nein|String|"wfst"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
 |update|nein|[TransactionConfig](#portalconfigmenusectionsmoduleswfsttransactionconfig)/Boolean|false|Legt fest, welche der zu `layerIds` zugehörigen Layer das Bearbeiten von Geometrien erlauben.|false|
-|multiUpdate|nein|TransactionConfig[]|[]|Definiert, für welche Layer die gleichzeitige Aktualisierung mehrerer Features möglich ist. Diese Konfiguration wird nur in Verbindung mit "update": true verwendet.|false|
+|multiUpdate|nein|[TransactionConfig]|[]|Definiert, für welche Layer die gleichzeitige Aktualisierung mehrerer Features möglich ist. Diese Konfiguration wird nur in Verbindung mit "update": true verwendet.|false|
 
 **Beispiel**
 
@@ -4488,9 +4488,50 @@ Beim Bearbeiten eines Features / Hinzufügen von Attributen zu einem neuen Featu
             "layerId": "4389",
             "available": true,
             "configAttributes": ["name", "description"],
-            "controlAttributes": ["gemeinde"]
+            "controlAttributes": ["gemeinde"],
+            "warningText": "common:modules.wfst.multiUpdate.warningText",
+		    "selectTypes": ["pen"],
+                "selectIcons":
+                {
+                  "pen": "bi-pencil-fill"
+                }
         }
     ]
+}
+```
+
+***
+
+##### portalConfig.map.mapView.mapInteractions.multiupdate {data-toc-label='Multiupdate'}
+
+Defines the configuration for updating multiple features at once. This configuration is only used in combination with "update": true.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|--------|----|-------|-----------|------|
+|layerId|ja|String|Die ID des Layers aus der services.json, für den die Multiupdate-Funktion konfiguriert wird.|false|
+|available|nein|Boolean|false|Eine Flag, das festlegt, ob die Funktion für diesen Layer verfügbar ist.|false|
+|configAttributes|nein|String[]|[]|Ein Array von Attributnamen, deren Werte im Multiupdate-Formular angezeigt und editierbar sein sollen.|false|
+|controlAttributes|nein|String[]|[]|Ein Array von Attributnamen, deren Werte zur Steuerung des Multiupdate-Prozesses verwendet werden.|false|
+|warningText|nein|String|Ein optionaler Text, der beim Auswählen von Features als Warnung angezeigt wird. Kann ein Sprachschlüssel sein.|false|
+|selectTypes|nein|String[]|["pen"]|Definiert, welche Werkzeuge zum Auswählen von Features zur Verfügung stehen. Mögliche Werte sind "pen".|false|
+|selectIcons|nein|Object|Ein Objekt, das die Icons für die selectTypes definiert, z. B. {"pen": "bi-pencil-fill"}. Siehe auch Bootstrap Icons.|false|
+
+
+**Beispiele**
+
+```json
+"multiUpdate": 
+        {
+            "layerId": "4389",
+            "available": true,
+            "configAttributes": ["name", "description"],
+            "controlAttributes": ["gemeinde"],
+            "warningText": "common:modules.wfst.multiUpdate.warningText",
+		    "selectTypes": ["pen"],
+                "selectIcons":
+                {
+                  "pen": "bi-pencil-fill"
+                }
 }
 ```
 

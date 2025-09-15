@@ -4497,9 +4497,51 @@ When editing properties of a feature / adding properties to a new feature, the a
             "layerId": "4389",
             "available": true,
             "configAttributes": ["name", "description"],
-            "controlAttributes": ["gemeinde"]
+            "controlAttributes": ["gemeinde"],
+            "warningText": "common:modules.wfst.multiUpdate.warningText",
+		    "selectTypes": ["pen"],
+                "selectIcons":
+                {
+                  "pen": "bi-pencil-fill"
+                }
         }
     ]
+}
+
+```
+
+***
+
+##### portalConfig.map.mapView.mapInteractions.multiupdate {data-toc-label='Multiupdate'}
+
+Defines the configuration for updating multiple features at once. This configuration is only used in combination with "update": true.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|layerId|yes|String|The ID of the layer from services.json for which the multiupdate function is configured.|false|
+|available|no|Boolean|false|A flag to determine if the function is available for this layer.|false|
+|configAttributes|no|String[]|[]|An array of attribute names whose values are to be displayed and editable in the multiupdate form.|false|
+|controlAttributes|no|String[]|[]|An array of attribute names whose values are to be used for controlling the multiupdate process.|false|
+|warningText|no|String|An optional text that is displayed as a warning when selecting features. Can be a locale key.|false|
+|selectTypes|no|String[]|["pen"]|Defines which tools are available for selecting features. Possible values include "pen".|false|
+|selectIcons|no|Object|An object that defines the icons for the selectTypes, for example, {"pen": "bi-pencil-fill"}. See also Bootstrap Icons.|false|
+
+
+**Example**
+
+```json
+"multiUpdate": 
+        {
+            "layerId": "4389",
+            "available": true,
+            "configAttributes": ["name", "description"],
+            "controlAttributes": ["gemeinde"],
+            "warningText": "common:modules.wfst.multiUpdate.warningText",
+		    "selectTypes": ["pen"],
+                "selectIcons":
+                {
+                  "pen": "bi-pencil-fill"
+                }
 }
 ```
 
