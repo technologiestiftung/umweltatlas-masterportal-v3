@@ -1018,10 +1018,12 @@
       },
       "errors": {
         "titleErrorRouteFetch": "Failed to calculate route",
+        "titleErrorIsochroneFetch": "Failed to calculate isochrones",
         "avoidAreaBig": "The barrier areas specified are too large. Please correct your input.",
         "errorIsochronesFetch": "Error while calculating reachability",
         "errorRouteFetch": "Error while calculating route",
         "fetchingCoordinates": "Error when querying the coordinates",
+        "hgvRestrictionOutOfRange": "HGV parameters contain invalid values. Please check your input and settings.",
         "noRouteFound": "No Route found"
       },
       "exportAvoidAreas": {
@@ -1102,17 +1104,17 @@
       "resetSettings": "Reset settings",
       "restrictions": {
         "header": "HGV Parameter",
-        "length": "Length",
+        "length": "Length (m)",
         "lengthTooltip": "Truck length. Accepted values: 0 to 30 meters",
-        "width": "Width",
+        "width": "Width (m)",
         "widthTooltip": "Truck width. Accepted values: 0 to 3.5 meters",
-        "height": "Height",
+        "height": "Height (m)",
         "heightTooltip": "Truck height. Accepted values: 0 to 5 meters",
-        "weight": "Weight",
+        "weight": "Weight (t)",
         "weightTooltip": "Truck weight. Accepted values: 0 to 65 tons",
-        "axleload": "Axleload",
+        "axleload": "Axleload (t)",
         "axleloadTooltip": "Truck axle load. Accepted values: 0 to 19 tons",
-        "hazmat": "Hazardous materials"
+        "hazmat": "Hazardous materials"      
       },
       "settings": {
         "submit": "Submit"

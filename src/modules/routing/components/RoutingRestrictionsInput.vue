@@ -1,5 +1,5 @@
 <script>
-import {mapGetters, mapActions} from "vuex";
+import {mapGetters, mapActions, mapMutations} from "vuex";
 
 /**
  * RoutingRestrictionsInput
@@ -10,17 +10,25 @@ export default {
     name: "RoutingRestrictionsInput",
     data () {
         return {
-            showRestrictions: false
+            showRestrictions: false,
+            isValid: {
+                length: true,
+                width: true,
+                height: true,
+                weight: true,
+                axleload: true
+            },
+            length: 0,
+            width: 0,
+            height: 0,
+            weight: 0,
+            axleload: 0
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", ["routingRestrictionsInputData"]),
+        ...mapGetters("Modules/Routing/Directions", ["routingRestrictionsInputData", "routingRestrictionIsValid"]),
         ...mapGetters("Modules/Routing/Isochrones", ["isochronesRestrictionsInputData"]),
-        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"])
-
-    },
-    methods: {
-        ...mapActions("Modules/Routing/Directions", ["findDirections"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
 
         /**
          * Selects correct store dependent on which module is used
@@ -31,7 +39,48 @@ export default {
                 return this.routingRestrictionsInputData;
             }
             return this.isochronesRestrictionsInputData;
+        }
+
+    },
+    watch: {
+        length () {
+            this.validateInput("length", this.length, 0.0, 30.0);
         },
+        width () {
+            this.validateInput("width", this.width, 0.0, 3.5);
+        },
+        height () {
+            this.validateInput("height", this.height, 0.0, 5);
+        },
+        weight () {
+            this.validateInput("weight", this.weight, 0.0, 65);
+        },
+        axleload () {
+            this.validateInput("axleload", this.axleload, 0.0, 19);
+        }
+
+    },
+    mounted () {
+        this.length = this.inputData.length;
+        this.width = this.inputData.width;
+        this.height = this.inputData.height;
+        this.weight = this.inputData.weight;
+        this.axleload = this.inputData.axleload;
+    },
+    methods: {
+        ...mapActions("Modules/Routing/Directions", [
+            "findDirections",
+            "removeDirectionsWaypointsDrawInteraction",
+            "createDirectionsWaypointsDrawInteraction"
+        ]),
+        ...mapMutations("Modules/Routing/Directions", [
+            "setRoutingRestrictionIsValid"
+        ]),
+        ...mapMutations("Modules/Routing/Isochrones", [
+            "setIsochronesRestrictionIsValid"
+        ]),
+
+
         /**
          * Checks user-input and sets min/max values if the input is exceeding the predefined treshold
          * @param {String} field sort of input field
@@ -39,58 +88,38 @@ export default {
          * @param {Number} max maximum value
          * @returns {void}
          */
-        validateInput (field, min, max) {
-            let value = parseFloat(this.inputData()[field]);
+        validateInput (name, field, min, max) {
+            const value = parseFloat(field);
 
-            if (value > max) {
-                value = max;
-            }
-            if (value < min) {
-                value = min;
+            if (value >= min && value <= max) {
+                if (this.activeRoutingToolOption === "DIRECTIONS") {
+                    this.setRoutingRestrictionIsValid({"name": name, "value": true});
+                }
+                else {
+                    this.setIsochronesRestrictionIsValid({"name": name, "value": true});
+
+                }
+
+                if (this.activeRoutingToolOption === "DIRECTIONS") {
+                    this.routingRestrictionsInputData[name] = value;
+                    this.isValid[name] = true;
+                }
+                else if (this.activeRoutingToolOption === "ISOCHRONES") {
+                    this.isochronesRestrictionsInputData[name] = value;
+                    this.isValid[name] = true;
+                }
+                return true;
             }
 
             if (this.activeRoutingToolOption === "DIRECTIONS") {
-                switch (field) {
-                    case "length":
-                        this.routingRestrictionsInputData.length = value;
-                        break;
-                    case "width":
-                        this.routingRestrictionsInputData.width = value;
-                        break;
-                    case "height":
-                        this.routingRestrictionsInputData.height = value;
-                        break;
-                    case "weight":
-                        this.routingRestrictionsInputData.weight = value;
-                        break;
-                    case "axleload":
-                        this.routingRestrictionsInputData.axleload = value;
-                        break;
-                    default:
-                        console.error("Field not found for: ${field}");
-                }
+                this.setRoutingRestrictionIsValid({"name": name, "value": false});
             }
-            else if (this.activeRoutingToolOption === "ISOCHRONES") {
-                switch (field) {
-                    case "length":
-                        this.isochronesRestrictionsInputData.length = value;
-                        break;
-                    case "width":
-                        this.isochronesRestrictionsInputData.width = value;
-                        break;
-                    case "height":
-                        this.isochronesRestrictionsInputData.height = value;
-                        break;
-                    case "weight":
-                        this.isochronesRestrictionsInputData.weight = value;
-                        break;
-                    case "axleload":
-                        this.isochronesRestrictionsInputData.axleload = value;
-                        break;
-                    default:
-                        console.error("Field not found for: ${field}");
-                }
+            else {
+                this.setIsochronesRestrictionIsValid({"name": name, "value": false});
+
             }
+            this.isValid[name] = false;
+            return false;
         }
     }
 };
@@ -116,137 +145,118 @@ export default {
             class="grid-container"
         >
             <div class="grid-column">
-                <div class="flex-container">
-                    <div
-                        class="form-group-row"
-                        data-bs-toggle="tooltip"
-                        :data-bs-title="$t('common:modules.routing.restrictions.lengthTooltip')"
-                        data-bs-trigger="hover focus"
+                <div class="form-floating mb-3 w-100 mt-3">
+                    <input
+                        v-model="length"
+                        type="number"
+                        :class="'w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')"
+                        min="0"
+                        step="0.1"
+                        max="30"
+                        @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     >
-                        <label
-                            for="lengthInput"
-                            class="col-form-label"
-                        >
-                            {{ $t('common:modules.routing.restrictions.length') }}
-                        </label>
-                        <input
-                            id="lengthInput"
-                            v-model="inputData().length"
-                            type="number"
-                            step="0.1"
-                            class="form-control"
-                            autocomplete="off"
-                            @focus="isFocused = true"
-                            @blur="isFocused = false"
-                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
-                            @input="validateInput('length', 0.0, 30.0)"
-                        >
-                        <span class="scale-unit">m</span>
-                    </div>
-                    <div
-                        class="form-group-row"
-                        data-bs-toggle="tooltip"
-                        :data-bs-title="$t('common:modules.routing.restrictions.widthTooltip')"
-                        data-bs-trigger="hover focus"
+                    <label for="lengthInput">
+                        {{ $t('common:modules.routing.restrictions.length') }}
+
+                    </label>
+                    <span
+                        id="length-input-help"
+                        class="invalid-feedback"
                     >
-                        <label
-                            for="widthInput"
-                            class="col-form-label"
-                        >
-                            {{ $t('common:modules.routing.restrictions.width') }}
-                        </label>
-                        <input
-                            id="widthInput"
-                            v-model="inputData().width"
-                            type="number"
-                            step="0.1"
-                            class="form-control"
-                            autocomplete="off"
-                            @focus="isFocused = true"
-                            @blur="isFocused = false"
-                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
-                            @input="validateInput('width', 0.0, 3.5)"
-                        >
-                        <span class="scale-unit">m</span>
-                    </div>
-                    <div
-                        class="form-group-row"
-                        data-bs-toggle="tooltip"
-                        :data-bs-title="$t('common:modules.routing.restrictions.heightTooltip')"
-                        data-bs-trigger="hover focus"
+                        {{ $t('common:modules.routing.restrictions.lengthTooltip') }}
+                    </span>
+                </div>
+                <div class="form-floating mb-3 w-100 mt-3">
+                    <input
+                        id="widthInput"
+                        v-model="width"
+                        type="number"
+                        :class="'w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')"
+                        min="0"
+                        step="0.1"
+                        max="3.5"
+                        @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     >
-                        <label
-                            for="heightInput"
-                            class="col-form-label"
-                        >
-                            {{ $t('common:modules.routing.restrictions.height') }}
-                        </label>
-                        <input
-                            id="heightInput"
-                            v-model="inputData().height"
-                            type="number"
-                            step="0.1"
-                            class="form-control"
-                            autocomplete="off"
-                            @focus="isFocused = true"
-                            @blur="isFocused = false"
-                            @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
-                            @input="validateInput('height', 0.0, 5.0)"
-                        >
-                        <span class="scale-unit">m</span>
-                    </div>
+                    <label for="widthInput">
+                        {{ $t('common:modules.routing.restrictions.width') }}
+
+                    </label>
+                    <span
+                        id="width-input-help"
+                        class="invalid-feedback"
+                    >
+                        {{ $t('common:modules.routing.restrictions.widthTooltip') }}
+                    </span>
+                </div>
+
+                <div class="form-floating mb-3 w-100 mt-3">
+                    <input
+                        id="heightInput"
+                        v-model="height"
+                        type="number"
+                        :class="'w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')"
+                        min="0"
+                        step="0.1"
+                        max="5"
+                        @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
+                    >
+                    <label for="heightInput">
+                        {{ $t('common:modules.routing.restrictions.height') }}
+
+                    </label>
+                    <span
+                        id="height-input-help"
+                        class="invalid-feedback"
+                    >
+                        {{ $t('common:modules.routing.restrictions.heightTooltip') }}
+                    </span>
                 </div>
             </div>
             <div class="grid-column">
-                <div
-                    class="form-group-row"
-                    data-bs-toggle="tooltip"
-                    :data-bs-title="$t('common:modules.routing.restrictions.weightTooltip')"
-                    data-bs-trigger="hover focus"
-                >
-                    <label
-                        for="weightInput"
-                        class="col-form-label"
-                    >
-                        {{ $t('common:modules.routing.restrictions.weight') }}
-                    </label>
+                <div class="form-floating mb-3 w-100 mt-3">
                     <input
                         id="weightInput"
-                        v-model="inputData().weight"
+                        v-model="weight"
                         type="number"
-                        class="form-control"
-                        autocomplete="off"
-                        @focus="isFocused = true"
-                        @blur="isFocused = false"
-                        @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
-                        @input="validateInput('weight', 0, 65)"
+                        :class="'w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')"
+                        min="0"
+                        step="1"
+                        max="65"
+                        @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     >
-                    <span class="scale-unit">t</span>
-                </div>
-                <div
-                    class="form-group-row"
-                    data-bs-toggle="tooltip"
-                    :data-bs-title="$t('common:modules.routing.restrictions.axleloadTooltip')"
-                    data-bs-trigger="hover focus"
-                >
-                    <label
-                        for="axleloadInput"
-                        class="col-form-label"
-                    >
-                        {{ $t('common:modules.routing.restrictions.axleload') }}
+                    <label for="weightInput">
+                        {{ $t('common:modules.routing.restrictions.weight') }}
+
                     </label>
+                    <span
+                        id="weight-input-help"
+                        class="invalid-feedback"
+                    >
+                        {{ $t('common:modules.routing.restrictions.weightTooltip') }}
+                    </span>
+                </div>
+
+                <div class="form-floating mb-3 w-100 mt-3">
                     <input
                         id="axleloadInput"
-                        v-model="inputData().axleload"
+                        v-model="axleload"
                         type="number"
-                        class="form-control"
-                        autocomplete="off"
-                        @focus="isFocused = true"
-                        @blur="isFocused = false"
-                        @change="activeRoutingToolOption === 'DIRECTIONS' ? findDirections() : null"
-                        @input="validateInput('axleload', 0, 19)"
+                        :class="'w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')"
+                        min="0"
+                        step="1"
+                        max="19"
+                        @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     >
-                    <span class="scale-unit">t</span>
+                    <label for="axleloadInput">
+                        {{ $t('common:modules.routing.restrictions.axleload') }}
+
+                    </label>
+                    <span
+                        id="axleload-input-help"
+                        class="invalid-feedback"
+                    >
+                        {{ $t('common:modules.routing.restrictions.axleloadTooltip') }}
+                    </span>
                 </div>
                 <div class="form-group-row">
                     <label
@@ -258,7 +268,7 @@ export default {
                     <div>
                         <input
                             id="hazmatInput"
-                            v-model="inputData().hazmat"
+                            v-model="inputData.hazmat"
                             type="checkbox"
                             autocomplete="off"
                             @focus="isFocused = true"
@@ -315,7 +325,7 @@ export default {
 }
 
 label {
-    width: 300px;
+    width: 100%;
     margin-bottom: 0;
 }
 

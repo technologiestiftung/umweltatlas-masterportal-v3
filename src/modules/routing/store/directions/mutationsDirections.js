@@ -8,7 +8,18 @@ const mutations = {
      * {setKey:   (state, payload) => *   state[key] = payload * }
      * will be returned.
      */
-    ...generateSimpleMutations(directionsState)
+    ...generateSimpleMutations(directionsState),
+
+    /**
+     * set values for HGV restriction parameters.
+     * @param {Object} state state
+     * @param {String} name name of HGV parameter
+     * @param {Number} value value of HGV parameter
+     */
+    setRoutingRestrictionIsValid: (state, {name, value}) => {
+        state.routingRestrictionIsValid[name] = value;
+    }
+
 };
 
 export default mutations;

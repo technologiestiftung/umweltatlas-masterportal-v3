@@ -43,7 +43,16 @@ const getters = {
      */
     isInputDisabled ({isLoadingDirections}) {
         return isLoadingDirections;
+    },
+    /**
+     * Check if all HGV parameters are valid.
+     * @param {Object} state state
+     * @returns {Boolean} true if all parameters are valid
+     */
+    allHGVRestrictionsValid (state) {
+        return Object.values(state.routingRestrictionIsValid).every(val => val === true);
     }
+
 };
 
 export default getters;

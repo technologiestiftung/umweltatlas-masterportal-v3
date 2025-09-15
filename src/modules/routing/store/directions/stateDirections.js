@@ -75,6 +75,13 @@ export default {
         axleload: 6,
         hazmat: false
     },
+    routingRestrictionIsValid: {
+        length: true,
+        width: true,
+        height: true,
+        weight: true,
+        axleload: true
+    },
     // addStartEndPoint defines whether a waypoint,
     // startpoint or endpoint is to be added.
     // -1: default, no input field selected

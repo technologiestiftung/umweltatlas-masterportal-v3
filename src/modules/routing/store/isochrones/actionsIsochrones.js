@@ -8,7 +8,7 @@ export default {
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async findIsochrones ({rootState, state, dispatch, commit}) {
+    async findIsochrones ({rootState, state, getters, dispatch, commit}) {
         if (state?.waypoint?.getCoordinates().length < 2) {
             return;
         }
@@ -19,6 +19,16 @@ export default {
                 {root: true}
             ),
             map = mapCollection.getMap(rootState.Maps.mode);
+
+        if (!getters.allHGVRestrictionsValid && state.settings.speedProfile === "HGV") {
+            await dispatch("resetIsochronesResult");
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                title: i18next.t("common:modules.routing.errors.titleErrorIsochroneFetch"),
+                content: i18next.t("common:modules.routing.errors.hgvRestrictionOutOfRange")
+            }, {root: true});
+            return;
+        }
 
         commit("setIsLoadingIsochrones", true);
         await dispatch("resetIsochronesResult");

@@ -32,7 +32,16 @@ const getters = {
      */
     isInputDisabled ({isLoadingIsochrones}) {
         return isLoadingIsochrones;
+    },
+    /**
+     * Check if all HGV parameters are valid.
+     * @param {Object} state state
+     * @returns {Boolean} true if all parameters are valid
+     */
+    allHGVRestrictionsValid (state) {
+        return Object.values(state.isochronesRestrictionIsValid).every(val => val === true);
     }
+
 };
 
 export default getters;

@@ -32,6 +32,13 @@ export default {
         axleload: 6,
         hazmat: false
     },
+    isochronesRestrictionIsValid: {
+        length: true,
+        width: true,
+        height: true,
+        weight: true,
+        axleload: true
+    },
     // Routing Isochrones Result
     routingIsochrones: null,
     isLoadingIsochrones: false,
