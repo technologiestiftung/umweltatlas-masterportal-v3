@@ -25,6 +25,7 @@
 - wfsSearch: secured layers can now be searched.
 - TableComponent: Fixed right alignment for numeric string values.
 - thousandsSeparator: Added optional skipFourDigitYear parameter to prevent formatting plain 4-digit years (e.g., 2025 stays 2025 instead of 2.025).
+- HighlightFeaturesByAttribute: Resolved console warning that appeared repeatedly when opening URL with highlight parameters.
 
 ---
 
@@ -78,7 +79,6 @@
 - GroupLayer: Fixed errors when opening layer info for layers within a group.
 - wfsSearch: secured layers can now be searched.
 - Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
-- HighlightFeaturesByAttribute: Resolved console warning that appeared repeatedly when opening URL with highlight parameters.
 
 ---
 
