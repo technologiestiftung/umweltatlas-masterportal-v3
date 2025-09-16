@@ -1,10 +1,10 @@
 <script>
+import {mapGetters} from "vuex";
+
 /**
  * IsochronesLegend
  * @module modules/routing/components/Isochrones/IsochronesLegend
  */
-import {mapGetters} from "vuex";
-
 export default {
     name: "IsochronesLegend",
     computed: {

@@ -177,16 +177,17 @@ describe("src/modules/routing/components/Isochrones/IsochronesLegend.vue", () =>
     });
 
     it("shows correct result", () => {
+        const toLocaleStringSpy = sinon.spy(Number.prototype, "toLocaleString"),
+            getDisplayValueSpy = sinon.spy(RoutingIsochronesArea.prototype, "getDisplayValue");
+
         wrapper = createWrapper();
-        const firstRow = wrapper.findAll("tbody tr").at(0),
-            secondRow = wrapper.findAll("tbody tr").at(1);
 
-        expect(firstRow.findAll("td").at(1).text()).equals("30");
-        expect(firstRow.findAll("td").at(2).text()).equals("250");
-        expect(firstRow.findAll("td").at(3).text()).equals("100,000");
+        expect(getDisplayValueSpy.firstCall.returnValue).equals(30);
+        expect(toLocaleStringSpy.firstCall.thisValue).equals(250);
+        expect(toLocaleStringSpy.secondCall.thisValue).equals(100000);
 
-        expect(secondRow.findAll("td").at(1).text()).equals("15");
-        expect(secondRow.findAll("td").at(2).text()).equals("100");
-        expect(secondRow.findAll("td").at(3).text()).equals("35,000");
+        expect(getDisplayValueSpy.secondCall.returnValue).equals(15);
+        expect(toLocaleStringSpy.thirdCall.thisValue).equals(100);
+        expect(toLocaleStringSpy.lastCall.thisValue).equals(35000);
     });
 });
