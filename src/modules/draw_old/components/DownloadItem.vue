@@ -24,13 +24,19 @@ export default {
             "disableFileDownload"
         ])
     },
+    watch: {
+        "download.fileName" () {
+            this.prepareDownload();
+        }
+    },
     methods: {
         ...mapActions("Modules/Draw_old", [
             "setDownloadSelectedFormat",
             "setDownloadFeatures",
             "setDownloadFileName",
             "fileDownloaded",
-            "validateFileName"
+            "validateFileName",
+            "prepareDownload"
         ]),
         startDownload (button, downloadUrl) {
             this.validateFileName().then(validName => {
