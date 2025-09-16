@@ -179,6 +179,8 @@ export default {
                             filterCrs: this.selectedLevel.oafRequestCRS,
                             crs: this.selectedLevel.oafRequestCRS,
                             propertyNames: [region.child.attrName],
+                            datetime: this.selectedLevel.geomRequestParams?.datetime,
+                            limit: 10000,
                             skipGeometry: true
                         }),
                         fetchedProperties = features.map(feature => feature?.properties);

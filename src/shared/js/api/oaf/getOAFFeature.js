@@ -11,6 +11,7 @@ import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAll
  * @param {String} [options.bbox] The bounding box to filter the features.
  * @param {String} [options.bboxCrs] The coordinate reference system of the bounding box.
  * @param {String} [options.crs] The coordinate reference system of the response geometries.
+ * @param {String} [options.datetime] An optional datetime string to filter the features temporally.
  * @param {String} [options.filter] The filter. See https://ogcapi.ogc.org/features/ for more information.
  * @param {String} [options.filterCrs] The filter crs. Needs to be set if a filter is used.
  * @param {Number} [options.limit=400] The limit of features per request.
@@ -23,6 +24,7 @@ async function getOAFFeatureGet (baseUrl, collection, {
     bbox,
     bboxCrs,
     crs,
+    datetime,
     filter,
     filterCrs,
     limit = 400,
@@ -67,6 +69,10 @@ async function getOAFFeatureGet (baseUrl, collection, {
 
     if (skipGeometry) {
         extendedUrl += `&skipGeometry=${skipGeometry}`;
+    }
+
+    if (typeof datetime === "string") {
+        extendedUrl += `&datetime=${datetime}`;
     }
 
     return this.oafRecursionHelper(result, extendedUrl, signal);
