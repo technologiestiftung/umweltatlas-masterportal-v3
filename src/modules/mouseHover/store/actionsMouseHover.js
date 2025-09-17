@@ -2,7 +2,6 @@ import {buffer} from "ol/extent";
 import Point from "ol/geom/Point";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import store from "@appstore";
 
 export default {
     /**
@@ -28,15 +27,17 @@ export default {
         if (infoText) {
             commit("setInfoText", infoText);
         }
-        if (highlightOnHover) {
-            dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
-        }
         map.on("pointermove", (evt) => {
-            if (!store.getters.mouseHover || evt.originalEvent.pointerType === "touch") {
+            if (evt.originalEvent.pointerType === "touch") {
                 return;
             }
             featuresAtPixel = [];
             commit("setHoverPosition", evt.coordinate);
+
+            if (highlightOnHover) {
+                dispatch("Maps/removeHighlightFeature", "decrease", {root: true});
+            }
+
             // works for WebGL layers that are point layers
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
                 if (layer?.getVisible()) {

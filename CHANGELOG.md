@@ -40,6 +40,7 @@
 - thousandsSeparator: Added optional skipFourDigitYear parameter to prevent formatting plain 4-digit years (e.g., 2025 stays 2025 instead of 2.025).
 - HighlightFeaturesByAttribute: Resolved console warning that appeared repeatedly when opening URL with highlight parameters.
 - Min/MaxScale: 3D Layers now work with minScale and maxScale attributes in the configuration.
+- Mousehover: The element is not highlighted when the mouse is no longer over it and there is no highlight for routing and elements with no highlightStyle.
 
 ---
 
