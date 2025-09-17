@@ -99,6 +99,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Shared TableComponent:
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
+    - New style in ButtonGroup to show the buttons in individual way.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
 
 ### Changed

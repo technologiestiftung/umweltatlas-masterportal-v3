@@ -32,6 +32,11 @@ export default {
             type: Array,
             required: false,
             default: undefined
+        },
+        isGroup: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     data () {
@@ -82,14 +87,14 @@ export default {
 <template>
     <div class="switchRadioButtons mt-0">
         <div
-            class="btn-group"
+            :class="isGroup ? 'btn-group' : 'non-group btn-toolbar d-flex align-items-center'"
             role="group"
             aria-label="First group"
         >
             <div
                 v-for="(button, idx) in buttons"
                 :key="idx"
-                class="button-wrapper"
+                :class="isGroup ? 'button-wrapper' : 'btn-group pe-2'"
             >
                 <input
                     :id="`btnradio${idx}${button.name}`"
@@ -100,7 +105,8 @@ export default {
                     :checked="idx === precheckedIndex"
                 >
                 <label
-                    class="btn text-nowrap px-3 py-2"
+                    :class="isGroup ? 'btn px-3' : ''"
+                    class="text-nowrap py-2"
                     :for="`btnradio${idx}${button.name}`"
                     role="button"
                     tabindex="0"
@@ -175,6 +181,38 @@ export default {
         .btn {
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
+        }
+    }
+}
+
+.non-group {
+    .btn-check {
+       + label {
+            display: block;
+            font-size: 0.9rem;
+           i {
+            width: 30px;
+            height: 30px;
+            display: block;
+            border-radius: 15px;
+            margin-bottom: 3px;
+            font-size: 15px;
+            padding: 5px 0 10px 7px;
+            margin-left: auto;
+            margin-right: auto;
+            &:hover {
+                background-color: $primary;
+            }
+           }
+        }
+        &:checked {
+            + label {
+                i {
+                    color: $white;
+                    background-color: $form-check-input-checked-bg-color;
+                    padding: 5px 0 10px 7px;
+                }
+            }
         }
     }
 }

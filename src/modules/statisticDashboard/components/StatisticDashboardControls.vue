@@ -566,7 +566,7 @@ export default {
 </script>
 
 <template>
-    <div class="d-flex flex-row flex-wrap align-items-center justify-content-between mb-3 dashboard-controls">
+    <div class="align-items-center justify-content-between mb-3 dashboard-controls">
         <!-- Descriptions -->
         <div
             v-if="hasDescription"
@@ -965,6 +965,7 @@ export default {
         <ButtonGroup
             :buttons="buttonGroupControls"
             :pre-checked-value="precheckedViewSwitcher"
+            :is-group="false"
             class="col col-md btn-table-diagram mb-2 p-0"
             group="dataViews"
             @set-selected-button="handleView"
@@ -988,9 +989,9 @@ export default {
         </div>
         <div
             v-if="showStatisticnameInTable"
-            class="container static-name mb-3"
+            class="container static-name"
         >
-            <div class="row justify-content-center align-items-center mt-5">
+            <div class="row justify-content-center align-items-center">
                 <IconButton
                     class="slider-control col col-1 btn-light bg-transparent"
                     :aria="$t('common:modules.statisticDashboard.button.arrowLeft')"
@@ -1106,9 +1107,16 @@ export default {
     width: 90px;
  }
 
+ .static-name {
+    margin-top: -60px;
+    margin-bottom: 40px;
+ }
+
 .statistic-name {
     font-family: $font_family_accent;
     font-size: $font_size_big;
+    max-width: calc(100% - 360px);
+    text-align: center;
 }
 
 .statistic-name-subtitle {
@@ -1117,7 +1125,6 @@ export default {
     display: block;
 }
 .back-overview {
-    margin-top: 20px;
     font-size: 12px;
     cursor: pointer;
 }

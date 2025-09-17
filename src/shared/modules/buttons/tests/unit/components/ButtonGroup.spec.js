@@ -26,7 +26,7 @@ describe("src/shared/modules/buttons/components/ButtonGroup.vue", () => {
 
             expect(wrapper.exists()).to.be.true;
         });
-        it("should render buttongroup", () => {
+        it("should render a standard style buttongroup", () => {
             const wrapper = shallowMount(ButtonGroup, {
                 propsData: {
                     buttons,
@@ -36,6 +36,18 @@ describe("src/shared/modules/buttons/components/ButtonGroup.vue", () => {
             });
 
             expect(wrapper.find(".btn-group").exists()).to.be.true;
+        });
+        it("should render a individual style buttongroup", () => {
+            const wrapper = shallowMount(ButtonGroup, {
+                propsData: {
+                    buttons,
+                    group: "buttongroup",
+                    precheckedValue,
+                    isGroup: false
+                }
+            });
+
+            expect(wrapper.find(".non-group").exists()).to.be.true;
         });
         it("should render two buttons if two button names were given", () => {
             const wrapper = shallowMount(ButtonGroup, {
