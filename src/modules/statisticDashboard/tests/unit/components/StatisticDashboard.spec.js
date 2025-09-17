@@ -32,7 +32,10 @@ describe("src/modules/StatisticDashboard.vue", () => {
     let store, wrapper;
 
     /**
+     * Creates a shallow-mounted wrapper of the StatisticDashboard component
+     * using the global Vuex store instance.
      *
+     * @returns {Wrapper} The Vue Test Utils wrapper for the component.
      */
     function createWrapper () {
         return shallowMount(StatisticDashboard, {

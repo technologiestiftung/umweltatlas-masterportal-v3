@@ -21,7 +21,11 @@ config.global.mocks.$t = key => key;
 config.global.mocks.$gfiThemeAddons = [];
 
 /**
+ * Creates an array of GFI (GetFeatureInfo) feature objects with default stub methods,
+ * which can be overridden by the provided overrides.
  *
+ * @param {Object} [overrides={}] - Optional overrides for the default GFI feature methods.
+ * @returns {Array<Object>} An array containing one or more GFI feature objects.
  */
 function createGfiFeatures (overrides = {}) {
     return [{
@@ -35,7 +39,11 @@ function createGfiFeatures (overrides = {}) {
 }
 
 /**
+ * Creates a shallow-mounted wrapper for the GfiComponent Vue component,
+ * with optional props and stubbed child components.
  *
+ * @param {Object} props - Props or data to initialize the component with.
+ * @returns {Wrapper} A Vue Test Utils shallow-mounted wrapper instance.
  */
 function createWrapper (props) {
     return shallowMount(GfiComponent, {

@@ -11,7 +11,18 @@ describe("src/modules/filter/utils/mapHandler.js", () => {
         onerror = null;
 
     /**
+     * Creates a MapHandler instance with default handlers, which can be overridden or extended
+     * by the provided extra handlers.
      *
+     * @param {function(Error): void} onError - Callback function to handle errors.
+     * @param {Object} [extraHandlers={}] - Additional or overriding handler functions for the MapHandler.
+     * @param {function} [extraHandlers.getLayerByLayerId] - Function to get a layer by its layer ID.
+     * @param {function} [extraHandlers.showFeaturesByIds] - Function to show features by their IDs.
+     * @param {function} [extraHandlers.zoomToFilteredFeatures] - Function to zoom to filtered features.
+     * @param {function} [extraHandlers.zoomToExtent] - Function to zoom to a specific extent.
+     * @param {function} [extraHandlers.getLayers] - Function to retrieve all layers.
+     * @param {function} [extraHandlers.setParserAttributeByLayerId] - Function to set parser attributes by layer ID.
+     * @returns {MapHandler} A new MapHandler instance with the provided handlers.
      */
     function createMapHandler (onError, extraHandlers = {}) {
         const defaultHandlers = {
@@ -30,7 +41,13 @@ describe("src/modules/filter/utils/mapHandler.js", () => {
     }
 
     /**
+     * Creates a stub for the layerCollection.getLayerById function, returning a default
+     * layer object which can be overridden.
      *
+     * @param {Object} [overrides={}] - Optional object to override default stub values.
+     * @param {Object} [overrides.layer] - Overrides for the layer object.
+     * @param {function} [overrides.getLayerSource] - Override for the getLayerSource function.
+     * @returns {sinon.SinonStub} A Sinon stub for layerCollection.getLayerById.
      */
     function stubGetLayerById (overrides = {}) {
         const defaultStub = {
