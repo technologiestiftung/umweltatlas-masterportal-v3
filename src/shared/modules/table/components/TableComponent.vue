@@ -1381,6 +1381,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     tr.fixed-row td{
+        position: sticky;
+        top: 47px;
         background-color: $white;
         border-top: 1px solid $secondary;
         border-bottom: 1px solid $secondary;
