@@ -1020,16 +1020,18 @@ export default {
                     </Draggable>
                 </div>
             </div>
-            <FlatButton
-                v-if="enableSettings"
-                id="table-reset"
-                aria-label="$t('common:shared.modules.table.reset')"
-                :text="$t('common:shared.modules.table.reset')"
-                :title="$t('common:shared.modules.table.resetToolTip')"
-                :icon="'bi-x-circle'"
-                :class="'me-3 rounded-pill'"
-                :interaction="() => resetAll()"
-            />
+            <div class="btn-group">
+                <FlatButton
+                    v-if="enableSettings"
+                    id="table-reset"
+                    aria-label="$t('common:shared.modules.table.reset')"
+                    :text="$t('common:shared.modules.table.reset')"
+                    :title="$t('common:shared.modules.table.resetToolTip')"
+                    :icon="'bi-x-circle'"
+                    :class="'me-3 rounded-pill'"
+                    :interaction="() => resetAll()"
+                />
+            </div>
         </div>
         <div class="btn-toolbar justify-content-between sticky-top bg-white">
             <FlatButton
@@ -1039,13 +1041,13 @@ export default {
                 :text="$t('common:shared.modules.table.fullscreenView')"
                 :title="fullViewActivated ? $t('common:shared.modules.table.fullscreenViewActiveToolTip') : $t('common:shared.modules.table.fullscreenViewToolTip') "
                 :icon="'bi-fullscreen'"
-                :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 rounded-pill'"
+                :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 me-3 rounded-pill'"
                 :interaction="() => fullView()"
             />
             <ExportButtonCSV
                 v-if="downloadable"
                 id="table-download"
-                class="btn btn-secondary align-items-center mb-3"
+                class="btn btn-secondary align-items-center mb-3 me-3"
                 :url="false"
                 :data="!exportData ? exportTable() : exportData"
                 :filename="exportFileName"
