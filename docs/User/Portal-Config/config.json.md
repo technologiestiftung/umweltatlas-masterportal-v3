@@ -4457,7 +4457,7 @@ When editing properties of a feature / adding properties to a new feature, the a
 |toggleLayer|no|Boolean|false|Whether the features of the currently selected layer should stay visible when adding a new feature.|false|
 |type|no|String|"wfst"|The type of the module. Defines which module is configured.|false|
 |update|no|[TransactionConfig](#portalconfigmenusectionsmoduleswfsttransactionconfig)/Boolean|false|Defines which layers of `layerIds` allow update transactions.|false|
-|multiUpdate|no|TransactionConfig[]|[]|Defines which layers allow multiple features to be updated at once. This configuration is only used in combination with "update": true.|false|
+|multiUpdate|no|[multiUpdate](#portalconfigmenusectionsmoduleswfstmultiupdate)[]|[]|Defines which layers allow multiple features to be updated at once.|false|
 
 **Example**
 
@@ -4476,7 +4476,8 @@ When editing properties of a feature / adding properties to a new feature, the a
         },
         {
             "layerId": "5678",
-            "available": true
+            "available": true,
+            "multi": true
         }
     ],
     "lineButton": false,
@@ -4500,52 +4501,82 @@ When editing properties of a feature / adding properties to a new feature, the a
             "controlAttributes": ["gemeinde"],
             "warningText": "common:modules.wfst.multiUpdate.warningText",
 		    "selectTypes": ["pen"],
-                "selectIcons":
+            "selectIcons":
                 {
-                  "pen": "bi-pencil-fill"
+                    "pen": "bi-pencil-fill",
+                    "box": "fa-vector-square",
+                    "select": "fa-mouse-pointer"
                 }
         }
     ]
 }
-
 ```
 
 ***
 
-##### portalConfig.map.mapView.mapInteractions.multiupdate {data-toc-label='Multiupdate'}
+###### portalConfig.menu.sections.modules.wfst.multiUpdate {data-toc-label='multiUpdate'}
 
-Defines the configuration for updating multiple features at once. This configuration is only used in combination with "update": true.
+[inherits]: # (portalConfig.menu.sections.modules.wfst)
+
+Defines the configuration for updating multiple features at once.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|layerId|yes|String|The ID of the layer from services.json for which the multiupdate function is configured.|false|
+|layerId|yes|String||The ID of the layer from services.json for which the multiupdate function is configured.|false|
 |available|no|Boolean|false|A flag to determine if the function is available for this layer.|false|
-|configAttributes|no|String[]|[]|An array of attribute names whose values are to be displayed and editable in the multiupdate form.|false|
-|controlAttributes|no|String[]|[]|An array of attribute names whose values are to be used for controlling the multiupdate process.|false|
-|warningText|no|String|An optional text that is displayed as a warning when selecting features. Can be a locale key.|false|
-|selectTypes|no|String[]|["pen"]|Defines which tools are available for selecting features. Possible values include "pen".|false|
-|selectIcons|no|Object|An object that defines the icons for the selectTypes, for example, {"pen": "bi-pencil-fill"}. See also Bootstrap Icons.|false|
+|configAttributes|no|String[]|[]|An array of attribute names whose values are only to be displayed and not editable in the multiupdate form.|false|
+|controlAttributes|no|String[]|[]|An array of attribute names whose values are to be used for controlling the multiupdate process and can be editable.|false|
+|warningText|no|String||An optional text that is displayed as a warning when selecting features.|false|
+|selectTypes|no|String[]|["pen"]|Defines which tools are available for selecting features.|false|
+|selectIcons|no|[selectIcons](#portalconfigmenusectionsmoduleswfstmultiupdateselecticons)|{}|An object that defines the icons for the selection tools specified in selectTypes.|false|
 
 
 **Example**
 
 ```json
-"multiUpdate": 
-        {
-            "layerId": "4389",
-            "available": true,
-            "configAttributes": ["name", "description"],
-            "controlAttributes": ["gemeinde"],
-            "warningText": "common:modules.wfst.multiUpdate.warningText",
-		    "selectTypes": ["pen"],
-                "selectIcons":
-                {
-                  "pen": "bi-pencil-fill"
-                }
+"multiUpdate": [
+    {
+        "layerId": "4389",
+        "available": true,
+        "configAttributes": ["name", "description"],
+        "controlAttributes": ["gemeinde"],
+        "warningText": "common:modules.wfst.multiUpdate.warningText",
+        "selectTypes": ["pen"],
+        "selectIcons": {
+            "pen": "bi-pencil-fill",
+            "box": "fa-vector-square",
+            "select": "fa-mouse-pointer"
+        }
+    }
+]
+```
+
+***
+
+###### portalConfig.menu.sections.modules.wfst.multiUpdate.selectIcons {data-toc-label='selectIcons'}
+
+[inherits]: # (portalConfig.menu.sections.modules.wfst.multiUpdate)
+
+Defines the mapping of selection tools to their corresponding icons.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|pen|no|String|"bi-pencil-fill"|The icon name used for the pen selection tool.|false|
+|box|no|String|"fa-vector-square"|The icon name used for the box selection tool.|false|
+|select|no|String|"fa-mouse-pointer"|The icon name used for the click.|false|
+
+**Example**
+
+```json
+"selectIcons": {
+        "pen": "bi-pencil-fill",
+        "box": "fa-vector-square",
+        "select": "fa-mouse-pointer"
 }
 ```
 
 ***
+
 
 ###### portalConfig.menu.sections.modules.wfst.TransactionConfig {data-toc-label='Transaction Config'}
 Specific configuration for transaction methods of given layers.

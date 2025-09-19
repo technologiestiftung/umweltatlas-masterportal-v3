@@ -45,7 +45,7 @@ plugins:
     - tablestrip:
           strip_word: "Expert"
     - mike:
-      version_selector: true
+          version_selector: true
 
 markdown_extensions:
     # Code Block Highlighting:
