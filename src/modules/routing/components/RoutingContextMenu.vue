@@ -253,13 +253,13 @@ export default {
             if (document.querySelector(".routing-popover .popover-body")) {
                 document.querySelector(".routing-popover .popover-body").classList.add("routing-popover-body");
             }
-            if (document.querySelector(".routing-popover-header")) {
+            if (document.getElementsByClassName("routing-popover-header")[0].getElementsByClassName("routing-close-context-menu")[0]) {
                 document.getElementsByClassName("routing-popover-header")[0].getElementsByClassName("routing-close-context-menu")[0].addEventListener("click", () => {
                     this.contextMenu.dispose();
                     this.contextMenu = null;
                 });
             }
-            if (document.querySelector(".routing-popover-body")) {
+            if (document.getElementsByClassName("routing-popover-body")[0].getElementsByClassName("list-group")[0]) {
                 document.getElementsByClassName("routing-popover-body")[0].getElementsByClassName("list-group")[0].addEventListener("click", this.initAction);
             }
         },
