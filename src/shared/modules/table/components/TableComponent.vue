@@ -1053,7 +1053,7 @@ export default {
                 v-if="fullViewEnabled"
                 id="table-view-full"
                 aria-label="$t('common:shared.modules.table.reset')"
-                :text="$t('common:shared.modules.table.fullscreenView')"
+                :text="fullViewActivated ? $t('common:shared.modules.table.fullscreenViewActive') : $t('common:shared.modules.table.fullscreenView')"
                 :title="fullViewActivated ? $t('common:shared.modules.table.fullscreenViewActiveToolTip') : $t('common:shared.modules.table.fullscreenViewToolTip') "
                 :icon="'bi-fullscreen'"
                 :class="fullViewActivated ? 'active-Fullview me-3 rounded-pill' : 'me-3 me-3 rounded-pill'"

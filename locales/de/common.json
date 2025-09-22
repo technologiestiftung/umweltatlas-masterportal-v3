@@ -1612,7 +1612,8 @@
         "fullscreenViewActiveToolTip": "Zur kleineren Tabellenansicht wechseln",
         "settingsTooltip": "Tabelleninhalte filtern",
         "resetToolTip": "Tabellenfilter zurücksetzen",
-        "fullscreenView": "Vollbildansicht"
+        "fullscreenView": "Vollbildansicht",
+        "fullscreenViewActive": "Seitenansicht"
       }
     }
   },

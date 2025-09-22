@@ -1611,7 +1611,8 @@
         "fullscreenViewActiveToolTip": "Switch to a smaller table view",
         "settingsTooltip": "Filter table contents",
         "resetToolTip": "Reset table filters",
-        "fullscreenView": "Fullscreen view"
+        "fullscreenView": "Fullscreen view",
+        "fullscreenViewActive": "Side view"
       }
     }
   },
