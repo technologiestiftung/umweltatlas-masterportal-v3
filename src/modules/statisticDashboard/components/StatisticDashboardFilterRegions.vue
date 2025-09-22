@@ -372,7 +372,7 @@ export default {
         >
             <div
                 v-if="hasRegionChild(region) && index === 0"
-                class="col-sm-10 mb-2"
+                class="col-sm-12 mb-2"
             >
                 <label
                     class="col-form-label-sm mb-1"
@@ -403,7 +403,7 @@ export default {
             </div>
             <div
                 v-else
-                class="col-sm-10 mb-2"
+                class="col-sm-12 mb-2"
             >
                 <label
                     class="col-form-label-sm mb-1"

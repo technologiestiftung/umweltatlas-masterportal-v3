@@ -176,7 +176,19 @@ export default {
                     label="label"
                     track-by="label"
                     @update:model-value="updateSelectedReferenceData('date')"
-                />
+                >
+                    <template #singleLabel="{ option }">
+                        <button
+                            class="multiselect__tag pe-1"
+                            :class="option"
+                            @click="selectedDate='', updateSelectedReferenceData('date')"
+                            @keypress="selectedDate='', updateSelectedReferenceData('date')"
+                        >
+                            {{ option.label }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
+                </Multiselect>
             </div>
             <div
                 v-else
@@ -194,7 +206,19 @@ export default {
                     :show-labels="false"
                     :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                     @update:model-value="updateSelectedReferenceData('region')"
-                />
+                >
+                    <template #singleLabel="{ option }">
+                        <button
+                            class="multiselect__tag pe-1"
+                            :class="option"
+                            @click="selectedRegion='', updateSelectedReferenceData('region')"
+                            @keypress="selectedRegion='', updateSelectedReferenceData('region')"
+                        >
+                            {{ option }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
+                </Multiselect>
             </div>
         </div>
     </div>
