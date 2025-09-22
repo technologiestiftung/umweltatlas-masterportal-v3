@@ -272,7 +272,8 @@ export default {
             noChangeCounter: 0,
             searchedResult: undefined,
             selectedValue: undefined,
-            isLoading: true
+            isLoading: true,
+            focused: false
         };
     },
     computed: {
@@ -872,6 +873,35 @@ export default {
          */
         onSelect (val) {
             this.selectedValue = val;
+        },
+        /**
+         * Toggles the open state of a multiselect component referenced by `refName`.
+         * If the dropdown is open, it will be closed (deactivated), otherwise it will be opened (activated).
+         * After opening, the search input inside the multiselect is focused.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        toggle (refName) {
+            const multiselectRef = this.$refs[refName];
+
+            if (!multiselectRef) {
+                return;
+            }
+
+            if (this.focused) {
+                multiselectRef.deactivate();
+            }
+            else {
+                multiselectRef.activate();
+                this.$nextTick(() => {
+                    const input = multiselectRef.$refs.search;
+
+                    if (input) {
+                        input.focus();
+                    }
+                });
+            }
         }
     }
 };
@@ -899,92 +929,108 @@ export default {
                 ref="selectBoxContainer"
                 class="filter-select-box-container d-flex justify-content-between align-items-center"
             >
-                <Multiselect
-                    :id="'snippetSelectBox-' + snippetId"
-                    v-model="dropdownSelected"
-                    :aria-label="ariaLabelDropdown"
-                    :options="typeof searchedResult !== 'undefined' ? searchedResult : dropdownValueComputed"
-                    name="select-box"
-                    :disabled="isLoading"
-                    :multiple="multiselect"
-                    :placeholder="placeholder"
-                    :show-labels="false"
-                    open-direction="auto"
-                    :options-limit="optionsLimit"
-                    :hide-selected="hideSelected"
-                    :allow-empty="allowEmptySelection"
-                    :close-on-select="typeof closeDropdownOnSelect === 'boolean' ? closeDropdownOnSelect: true"
-                    :clear-on-select="false"
-                    :loading="isLoading"
-                    :group-select="multiselect && addSelectAll"
-                    :group-values="(multiselect && addSelectAll) ? 'list' : ''"
-                    :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
-                    :internal-search="false"
-                    @search-change="getSearchedResult"
-                    @remove="setCurrentSource('dropdown')"
-                    @select="onSelect"
+                <div
+                    style="width:100%"
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('dropdown')"
+                    @mousedown.prevent
+                    @keydown.enter.stop.prevent="toggle('dropdown')"
+                    @keydown.space.stop.prevent="toggle('dropdown')"
                 >
-                    <template #tag="{ option, remove }">
-                        <button
-                            class="multiselect__tag"
-                            :class="option.code"
-                            @click="remove(option)"
-                            @keypress="remove(option)"
-                        >
-                            {{ option }}
-                            <i class="bi bi-x" />
-                        </button>
-                    </template>
-                    <template #caret>
-                        <div
-                            class="multiselect__select"
-                        >
-                            <i class="bi bi-chevron-down" />
-                        </div>
-                    </template>
+                    <Multiselect
+                        :id="'snippetSelectBox-' + snippetId"
+                        ref="dropdown"
+                        v-model="dropdownSelected"
+                        :aria-label="ariaLabelDropdown"
+                        :options="typeof searchedResult !== 'undefined' ? searchedResult : dropdownValueComputed"
+                        name="select-box"
+                        :disabled="isLoading"
+                        :multiple="multiselect"
+                        :placeholder="placeholder"
+                        :show-labels="false"
+                        open-direction="auto"
+                        :options-limit="optionsLimit"
+                        :hide-selected="hideSelected"
+                        :allow-empty="allowEmptySelection"
+                        :close-on-select="typeof closeDropdownOnSelect === 'boolean' ? closeDropdownOnSelect: true"
+                        :clear-on-select="false"
+                        :loading="isLoading"
+                        :group-select="multiselect && addSelectAll"
+                        :group-values="(multiselect && addSelectAll) ? 'list' : ''"
+                        :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
+                        :internal-search="false"
+                        @search-change="getSearchedResult"
+                        @remove="setCurrentSource('dropdown')"
+                        @select="onSelect"
+                        @open="focused = true"
+                        @close="focused = false"
+                    >
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option.code"
+                                @click="remove(option)"
+                                @keypress="remove(option)"
+                            >
+                                {{ option }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                        <template #caret>
+                            <div
+                                class="multiselect__select"
+                            >
+                                <i
+                                    class="bi bi-chevron-down"
+                                    :class="[focused ? 'rotate' : '']"
+                                />
+                            </div>
+                        </template>
 
-                    <template #noOptions>
-                        <span>
-                            {{ emptyList }}
-                        </span>
-                    </template>
-                    <template #noResult>
-                        <span>
-                            {{ noElements }}
-                        </span>
-                    </template>
-                    <template
-                        v-if="anyIconExists()"
-                        #singleLabel="props"
-                    >
-                        <img
-                            class="option__image"
-                            :src="iconList[props.option]"
-                            :alt="iconList[props.option]"
-                        >
-                        <span class="option__desc">
-                            <span
-                                class="option__title"
-                            >{{ props.option }}
+                        <template #noOptions>
+                            <span>
+                                {{ emptyList }}
                             </span>
-                        </span>
-                    </template>
-                    <template
-                        v-if="anyIconExists()"
-                        #option="props"
-                    >
-                        <img
-                            class="option__image"
-                            :src="iconList[props.option]"
-                            :alt="props.option"
-                        >
-                        <span class="option__desc">
-                            <span class="option__title">
-                                {{ props.option }}
+                        </template>
+                        <template #noResult>
+                            <span>
+                                {{ noElements }}
                             </span>
-                        </span>
-                    </template>
-                </Multiselect>
+                        </template>
+                        <template
+                            v-if="anyIconExists()"
+                            #singleLabel="props"
+                        >
+                            <img
+                                class="option__image"
+                                :src="iconList[props.option]"
+                                :alt="iconList[props.option]"
+                            >
+                            <span class="option__desc">
+                                <span
+                                    class="option__title"
+                                >{{ props.option }}
+                                </span>
+                            </span>
+                        </template>
+                        <template
+                            v-if="anyIconExists()"
+                            #option="props"
+                        >
+                            <img
+                                class="option__image"
+                                :src="iconList[props.option]"
+                                :alt="props.option"
+                            >
+                            <span class="option__desc">
+                                <span class="option__title">
+                                    {{ props.option }}
+                                </span>
+                            </span>
+                        </template>
+                    </Multiselect>
+                </div>
                 <div
                     v-if="info"
                 >
@@ -1290,5 +1336,12 @@ export default {
     .snippetDropdownContainer .bottom {
         clear: left;
         width: 100%;
+    }
+    .multiselect__select .bi.bi-chevron-down {
+        transition: transform 0.25s ease-out;
+        transform-origin: 0.5rem 1.3rem;
+    }
+    .rotate {
+        transform: rotate(180deg);
     }
 </style>

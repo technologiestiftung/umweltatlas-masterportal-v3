@@ -805,6 +805,81 @@ export default {
             >
                 {{ translateKeyWithPlausibilityCheck(getTitle(), key => $t(key)) }}
             </div>
+        </div>
+        <div class="d-flex">
+            <div class="sliderInputWrapper">
+                <div
+                    class="sliderWrapper"
+                    :class="{ disabledClass: disabled || outOfZoom }"
+                >
+                    <div
+                        class="track"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                    >
+                        <div
+                            class="measure"
+                            :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                        />
+                    </div>
+                    <input
+                        v-model="sliderFrom"
+                        type="range"
+                        :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                        class="from"
+                        :disabled="disabled || outOfZoom"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                        :step="getSliderSteps(decimalPlaces)"
+                        :min="currentSliderMin"
+                        :max="currentSliderMax"
+                        @mousedown="setSliderMouseDown"
+                        @mouseup="setSliderMouseUp"
+                    >
+                    <input
+                        v-model="sliderUntil"
+                        type="range"
+                        :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                        class="until"
+                        :disabled="disabled || outOfZoom"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                        :step="getSliderSteps(decimalPlaces)"
+                        :min="currentSliderMin"
+                        :max="currentSliderMax"
+                        @mousedown="setSliderMouseDown"
+                        @mouseup="setSliderMouseUp"
+                    >
+                </div>
+                <div class="inputWrapper">
+                    <div class="from">
+                        <input
+                            v-model="inputFrom"
+                            type="number"
+                            :step="getSliderSteps(decimalPlaces)"
+                            :min="currentSliderMin"
+                            :max="currentSliderMax"
+                            :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                            :disabled="disabled"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                            class="form-control"
+                            @input="setCurrentSource('input')"
+                        >
+                    </div>
+                    <div class="until">
+                        <input
+                            v-model="inputUntil"
+                            type="number"
+                            :step="getSliderSteps(decimalPlaces)"
+                            :min="currentSliderMin"
+                            :max="currentSliderMax"
+                            :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                            :disabled="disabled"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                            class="form-control"
+                            @input="setCurrentSource('input')"
+                        >
+                    </div>
+                </div>
+            </div>
             <div
                 v-if="info"
                 class="info"
@@ -813,77 +888,6 @@ export default {
                     :info="info"
                     translation-key="snippetSliderRange"
                 />
-            </div>
-        </div>
-        <div
-            class="sliderWrapper"
-            :class="{ disabledClass: disabled || outOfZoom }"
-        >
-            <div
-                class="track"
-                :class="{ disabledClass: disabled || outOfZoom }"
-            >
-                <div
-                    class="measure"
-                    :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
-                    :class="{ disabledClass: disabled || outOfZoom }"
-                />
-            </div>
-            <input
-                v-model="sliderFrom"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                class="from"
-                :disabled="disabled || outOfZoom"
-                :class="{ disabledClass: disabled || outOfZoom }"
-                :step="getSliderSteps(decimalPlaces)"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
-            <input
-                v-model="sliderUntil"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                class="until"
-                :disabled="disabled || outOfZoom"
-                :class="{ disabledClass: disabled || outOfZoom }"
-                :step="getSliderSteps(decimalPlaces)"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
-        </div>
-        <div class="inputWrapper">
-            <div class="from">
-                <input
-                    v-model="inputFrom"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled || outOfZoom }"
-                    class="form-control"
-                    @input="setCurrentSource('input')"
-                >
-            </div>
-            <div class="until">
-                <input
-                    v-model="inputUntil"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled || outOfZoom }"
-                    class="form-control"
-                    @input="setCurrentSource('input')"
-                >
             </div>
         </div>
     </div>
@@ -908,6 +912,9 @@ export default {
         }
         .disabledClass {
             cursor: wait;
+        }
+        .sliderInputWrapper {
+            width: 100%;
         }
         .inputWrapper {
             position: relative;

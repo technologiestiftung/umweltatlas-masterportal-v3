@@ -767,9 +767,9 @@ export default {
                 :key="key"
                 class="layerGroupContainer"
             >
-                <h4 class="mb-4">
+                <h5 class="mb-4">
                     {{ layerGroup.title ? layerGroup.title : key }}
-                </h4>
+                </h5>
                 <FilterList
                     v-if="Array.isArray(preparedLayerGroups) && preparedLayerGroups.length"
                     class="layerSelector"

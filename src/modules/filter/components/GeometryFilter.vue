@@ -667,7 +667,7 @@ export default {
                         v-if="selectedGroup === 'addit' && geometry.type === 'additional'"
                         :text="geometry.name"
                         :interaction="() => setSelectedGeometryIndex(index)"
-                        :customclass="selectedGeometryIndex === index ? 'selected me-1 button-primary' : 'me-1 button-primary'"
+                        :customclass="selectedGeometryIndex === index ? 'active selected me-1 button-primary' : 'me-1 button-primary'"
                     />
                 </div>
                 <div class="flex-column d-flex trash-btn-wrapper">

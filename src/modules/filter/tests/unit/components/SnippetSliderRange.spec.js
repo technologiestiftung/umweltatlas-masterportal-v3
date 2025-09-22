@@ -135,7 +135,7 @@ describe("src/modules/filter/components/SnippetSliderRange.vue", () => {
                         info: true
                     }});
 
-                    expect(wrapper.find(".titleWrapper").find(".info").exists()).to.be.true;
+                    expect(wrapper.find(".snippetSliderRangeContainer").find(".info").exists()).to.be.true;
                 });
             });
             describe("inputWrapper", () => {

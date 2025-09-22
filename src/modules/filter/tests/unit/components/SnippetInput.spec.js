@@ -29,7 +29,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 }
             });
 
-            expect(wrapper.find(".input-container").element.style._values.display).to.be.equal("none");
+            expect(wrapper.find(".input-container").element.style.display).to.be.equal("none");
         });
         it("should render but also be disabled", () => {
             const wrapper = shallowMount(SnippetInput, {

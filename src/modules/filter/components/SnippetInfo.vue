@@ -23,7 +23,8 @@ export default {
     },
     data () {
         return {
-            showInfo: false
+            showInfo: false,
+            listenerAdded: false
         };
     },
     computed: {
@@ -39,6 +40,9 @@ export default {
             return "";
         }
     },
+    beforeUnmount () {
+        document.removeEventListener("click", this.handleClickOutside);
+    },
     methods: {
         translateKeyWithPlausibilityCheck,
         /**
@@ -47,6 +51,21 @@ export default {
          */
         toggleInfo () {
             this.showInfo = !this.showInfo;
+            if (!this.listenerAdded) {
+                document.addEventListener("click", this.handleClickOutside);
+                this.listenerAdded = true;
+            }
+        },
+
+        /**
+         * Handles clicks outside the component to close the info.
+         * @param {Event} event - The click event.
+         * @returns {void}
+         */
+        handleClickOutside (event) {
+            if (this.$refs.root && !this.$refs.root.contains(event.target)) {
+                this.showInfo = false;
+            }
         }
     }
 };
@@ -54,7 +73,10 @@ export default {
 
 <template>
     <div v-if="info">
-        <div class="info-icon">
+        <div
+            ref="root"
+            class="info-icon ms-3"
+        >
             <button
                 :class="['bi bi-info-circle', showInfo ? 'opened' : '']"
                 class="btn-info-icon"

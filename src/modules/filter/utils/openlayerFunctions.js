@@ -94,6 +94,7 @@ function isFeatureInGeometry (feature, geometry) {
     if (typeof geometry?.intersectsExtent !== "function" || !isObject(feature)) {
         return false;
     }
+
     return geometry.intersectsExtent(feature.getGeometry().getExtent());
 }
 
