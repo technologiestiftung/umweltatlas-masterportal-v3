@@ -133,7 +133,7 @@ export default {
                 :max="maxNumberOfClasses"
                 list="numbers"
                 :value="numberOfClasses"
-                @input="setNumberOfClasses(parseInt($event.target.value))"
+                @change="setNumberOfClasses(parseInt($event.target.value))"
             >
             <datalist id="numbers">
                 <option
