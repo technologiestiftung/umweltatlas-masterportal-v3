@@ -87,14 +87,12 @@ export default {
 </template>
 
 <style lang="scss">
-#legend_Transport_prices_for_apartments {
     img[src^="data:image/png"] {
         width: 26px;
         height: 26px;
         display: inline;
         margin-left: 4px;
         margin-right: 4px;
-    }
 }
 </style>
 
