@@ -1612,7 +1612,7 @@
         "settingsTooltip": "Filter table contents",
         "resetToolTip": "Reset table filters",
         "fullscreenView": "Fullscreen view",
-        "fullscreenViewActive": "Side view"
+        "fullscreenViewActive": "Compact view"
       }
     }
   },
