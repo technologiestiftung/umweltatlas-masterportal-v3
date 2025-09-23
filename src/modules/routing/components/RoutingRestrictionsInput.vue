@@ -40,7 +40,6 @@ export default {
             }
             return this.isochronesRestrictionsInputData;
         }
-
     },
     watch: {
         length () {
@@ -58,7 +57,6 @@ export default {
         axleload () {
             this.validateInput("axleload", this.axleload, 0.0, 19);
         }
-
     },
     mounted () {
         this.length = this.inputData.length;
@@ -79,7 +77,6 @@ export default {
         ...mapMutations("Modules/Routing/Isochrones", [
             "setIsochronesRestrictionIsValid"
         ]),
-
 
         /**
          * Checks user-input and sets min/max values if the input is exceeding the predefined treshold

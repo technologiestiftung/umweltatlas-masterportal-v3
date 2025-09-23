@@ -19,7 +19,6 @@ const mutations = {
     setRoutingRestrictionIsValid: (state, {name, value}) => {
         state.routingRestrictionIsValid[name] = value;
     }
-
 };
 
 export default mutations;

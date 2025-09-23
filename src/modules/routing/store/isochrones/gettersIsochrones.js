@@ -41,7 +41,6 @@ const getters = {
     allHGVRestrictionsValid (state) {
         return Object.values(state.isochronesRestrictionIsValid).every(val => val === true);
     }
-
 };
 
 export default getters;
