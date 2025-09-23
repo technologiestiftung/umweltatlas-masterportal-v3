@@ -24,9 +24,14 @@ import sortBy from "@shared/js/utils/sortBy";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
 import WFS from "ol/format/WFS";
 import {CanceledError} from "axios";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
+import Select from "ol/interaction/Select";
+import {pointerMove} from "ol/events/condition";
+import Overlay from "ol/Overlay.js";
+import debounce from "@shared/js/utils/debounce";
 
 export default {
     name: "StatisticDashboard",
@@ -89,7 +94,10 @@ export default {
             referenceSubTitle: "",
             fixedColumn: undefined,
             fixedRow: undefined,
-            exportTableData: {}
+            exportTableData: {},
+            hoverInteraction: null,
+            overlay: null,
+            maxDecimalPlaces: 2
         };
     },
     computed: {
@@ -358,6 +366,7 @@ export default {
             "PropertyIsGreaterThan": ">",
             "PropertyIsGreaterThanOrEqualTo": ">="
         };
+        this.addHoverInteraction();
     },
     deactivated () {
         document.getElementById("mp-menu-secondaryMenu").style.width = this.sideMenuWidth;
@@ -411,6 +420,7 @@ export default {
         ]),
         ...mapActions("Maps", ["addNewLayerIfNotExists"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
+        thousandsSeparator,
 
         /**
          * Loads the exportable table data by processing the statistics data using the downloadData function.
@@ -919,6 +929,130 @@ export default {
                 this.$nextTick(() => {
                     this.updateReferenceTag(this.selectedColumn, this.selectedLevel, this.referenceFeatures);
                 });
+            }
+        },
+        /**
+         * Adds a hover interaction to the map to display info overlay when hovering over a feature.
+         * @returns {void}
+         */
+        addHoverInteraction () {
+            const map = mapCollection.getMap("2D"),
+                debouncedUpdateInfo = debounce(feature => {
+                    this.updateHoverInfo(feature);
+                }, 200),
+                debouncedClearInfo = debounce(() => {
+                    this.overlay.setPosition(undefined);
+                    this.clearHoverInfo();
+                }, 200);
+
+            if (!map || !this.$refs.hoverInfoOverlay) {
+                return;
+            }
+
+            if (this.overlay) {
+                map.removeOverlay(this.overlay);
+                this.overlay = null;
+            }
+            if (this.hoverInteraction) {
+                map.removeInteraction(this.hoverInteraction);
+                this.hoverInteraction = null;
+            }
+
+            this.overlay = new Overlay({
+                element: this.$refs.hoverInfoOverlay,
+                positioning: "bottom-left",
+                stopEvent: false,
+                offset: [10, 10]
+            });
+
+            map.addOverlay(this.overlay);
+
+            this.hoverInteraction = new Select({
+                condition: pointerMove,
+                layers: [this.layer],
+                style: null
+            });
+
+            map.addInteraction(this.hoverInteraction);
+
+            this.hoverInteraction.on("select", (event) => {
+                if (event.selected.length > 0) {
+                    const feature = event.selected[0],
+                        coordinate = event.mapBrowserEvent.coordinate;
+
+                    this.overlay.setPosition(coordinate);
+
+                    debouncedUpdateInfo(feature);
+                }
+                else {
+                    debouncedClearInfo();
+                }
+            });
+        },
+        /**
+         * Updates the hover overlay to show the region name and one statistic value.
+         * @param {ol/Feature} feature - The hovered feature.
+         * @returns {void}
+         */
+        updateHoverInfo (feature) {
+            if (!feature || typeof feature.get !== "function") {
+                this.clearHoverInfo();
+                return;
+            }
+
+            const {selectedLevel, statisticsData, chosenStatisticName, selectedColumn, $refs, getSelectedLevelRegionNameAttributeInDepth, maxDecimalPlaces} = this,
+                regionNameAttribute = getSelectedLevelRegionNameAttributeInDepth(selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
+                region = feature.get(regionNameAttribute),
+                statName = chosenStatisticName,
+                statisticData = statisticsData?.[statName],
+                rawValue = statisticData?.[region]?.[selectedColumn],
+                groupSeparator = Intl.NumberFormat(i18next.language).formatToParts(1000.1).find(part => part.type === "group").value,
+                decimalSeparator = Intl.NumberFormat(i18next.language).formatToParts(1000.1).find(part => part.type === "decimal").value,
+                overlayEl = $refs.hoverInfoOverlay,
+                titleEl = document.createElement("strong"),
+                lineEl = document.createElement("div"),
+                labelEl = document.createElement("span"),
+                valueEl = document.createElement("span");
+
+            let formattedValue = rawValue;
+
+            if (typeof rawValue === "number" || (typeof rawValue === "string" && (/^[\d.,]+$/).test(rawValue))) {
+                if (typeof maxDecimalPlaces === "number" && !isNaN(rawValue)) {
+                    formattedValue = Number(parseFloat(rawValue).toFixed(maxDecimalPlaces));
+                }
+                formattedValue = thousandsSeparator(formattedValue, groupSeparator, decimalSeparator, true);
+            }
+
+            if (!region) {
+                this.clearHoverInfo();
+                return;
+            }
+
+            if (!overlayEl) {
+                return;
+            }
+
+            overlayEl.innerHTML = "";
+            overlayEl.style.display = "block";
+
+            titleEl.textContent = region;
+            labelEl.textContent = `${statName}:`;
+            valueEl.textContent = formattedValue ?? "Keine Daten vorhanden!";
+
+            lineEl.appendChild(labelEl);
+            lineEl.appendChild(valueEl);
+
+            overlayEl.appendChild(titleEl);
+            overlayEl.appendChild(lineEl);
+        },
+        /**
+         * Clears the hover overlay content and hides it.
+         * @returns {void}
+         */
+        clearHoverInfo () {
+            if (this.$refs.hoverInfoOverlay) {
+                this.$refs.hoverInfoOverlay.style.display = "none";
+                this.$refs.hoverInfoOverlay.innerHTML = "";
             }
         },
         /**
@@ -1929,7 +2063,7 @@ export default {
                     :font-size="'small'"
                     :sortable="sortable"
                     :enable-settings="true"
-                    :max-decimal-places="2"
+                    :max-decimal-places="maxDecimalPlaces"
                     sort-by-numeric-value
                     @set-sorted-rows="setSortedRows"
                     @column-selected="setSelectedColumn"
@@ -2013,11 +2147,31 @@ export default {
                 </GridComponent>
             </div>
         </div>
+        <div
+            id="tooltip"
+            ref="hoverInfoOverlay"
+            class="hover-overlay"
+        />
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~variables";
+.hover-overlay {
+    position: absolute;
+    display: none;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 6px;
+    pointer-events: none;
+    white-space: nowrap;
+    font-size: 13px;
+    color: #333;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: opacity 0.2s ease;
+  }
 
 hr {
     clear: both;

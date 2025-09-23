@@ -9,6 +9,10 @@ import sinon from "sinon";
 import fetchData from "@modules/statisticDashboard/js/fetchData";
 import ChartProcessor from "@modules/statisticDashboard/js/chartProcessor";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import Overlay from "ol/Overlay";
+import Select from "ol/interaction/Select";
+import mapCollection from "@core/maps/js/mapCollection";
+
 import {
     and as andFilter,
     equalTo as equalToFilter
@@ -959,6 +963,82 @@ describe("src/modules/StatisticDashboard.vue", () => {
                 }];
 
                 expect(wrapper.vm.prepareStatisticsData(featureList, ["Bevölkerung maennlich", "Bevölkerung weiblich"], ["Hamburg"], ["1890", "1990"], {outputFormat: "YYYY", attrName: "jahr"}, {attrName: "ort"})).to.deep.equal(statistics);
+            });
+        });
+        describe("addHoverInteraction", () => {
+            const addOverlaySpy = sinon.spy(),
+                addInteractionSpy = sinon.spy(),
+                mockMap = {
+                    addOverlay: addOverlaySpy,
+                    addInteraction: addInteractionSpy,
+                    removeOverlay: sinon.spy(),
+                    removeInteraction: sinon.spy()
+                };
+
+            let getMapStub;
+
+            beforeEach(() => {
+                getMapStub = sinon.stub(mapCollection, "getMap").returns(mockMap);
+            });
+
+            afterEach(() => {
+                getMapStub.restore();
+            });
+            it("should initialize overlay and interaction", () => {
+
+                wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+
+                wrapper.vm.layer = {};
+
+                Object.defineProperty(wrapper.vm.$refs, "hoverInfoOverlay", {
+                    value: document.createElement("div"),
+                    writable: false
+                });
+
+                wrapper.vm.addHoverInteraction();
+
+                expect(wrapper.vm.overlay).to.be.instanceOf(Overlay);
+                expect(wrapper.vm.hoverInteraction).to.be.instanceOf(Select);
+                expect(addOverlaySpy.calledOnce).to.be.true;
+                expect(addInteractionSpy.calledOnce).to.be.true;
+            });
+            it("should remove existing overlay and interaction before creating new ones", () => {
+                const removeOverlaySpy = sinon.spy(),
+                    removeInteractionSpy = sinon.spy();
+
+                wrapper = shallowMount(StatisticDashboard, {
+                    global: {
+                        plugins: [store]
+                    }
+                });
+                wrapper.vm.layer = {};
+
+                Object.defineProperty(wrapper.vm.$refs, "hoverInfoOverlay", {
+                    value: document.createElement("div"),
+                    writable: false
+                });
+
+                mockMap.removeOverlay = removeOverlaySpy;
+                mockMap.removeInteraction = removeInteractionSpy;
+
+                wrapper.vm.addHoverInteraction();
+
+                wrapper.vm.overlay = {
+                    setPosition: sinon.spy()
+                };
+
+                wrapper.vm.hoverInteraction = {
+                    on: sinon.spy()
+                };
+
+                wrapper.vm.addHoverInteraction();
+
+                expect(removeOverlaySpy.calledOnce).to.be.true;
+                expect(removeInteractionSpy.calledOnce).to.be.true;
             });
         });
         describe("getChartDataOutOfDifference", () => {
