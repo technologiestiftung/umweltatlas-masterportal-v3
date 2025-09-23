@@ -278,6 +278,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                 }
             });
 
+            wrapper.vm.setStepValuesDebounced = wrapper.vm.setStepValues; // to avoid issues with the debounce in tests
             wrapper.vm.setNumberOfClasses(2);
             wrapper.vm.setStepValues([0, 10]);
             wrapper.vm.setClassificationMode("custom");
@@ -311,6 +312,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardLegend.vu
                 }
             });
 
+            wrapper.vm.setColorPaletteDebounced = wrapper.vm.setColorPalette; // to avoid issues with the debounce in tests
             wrapper.vm.setNumberOfClasses(2);
             wrapper.vm.setStepValues([0, 10]);
             wrapper.vm.setClassificationMode("custom");

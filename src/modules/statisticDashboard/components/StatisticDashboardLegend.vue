@@ -3,6 +3,8 @@ import {mapGetters, mapMutations} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
 import {convertColor} from "@shared/js/utils/convertColor";
+import debounce from "@shared/js/utils/debounce";
+
 export default {
     name: "StatisticDashboardLegend",
     components: {
@@ -10,6 +12,12 @@ export default {
         InputText
     },
     emits: ["changeLegendView"],
+    data () {
+        return {
+            setColorPaletteDebounced: debounce(this.setColorPalette, 300),
+            setStepValuesDebounced: debounce(this.setStepValues, 300)
+        };
+    },
     computed: {
         ...mapGetters("Modules/StatisticDashboard", [
             "classificationMode",
@@ -58,7 +66,7 @@ export default {
                 return;
             }
             values[index] = number;
-            this.setStepValues(values);
+            this.setStepValuesDebounced(values);
         },
 
         /**
@@ -71,7 +79,7 @@ export default {
             const palette = [...this.colorPalette];
 
             palette[index] = value;
-            this.setColorPalette(palette);
+            this.setColorPaletteDebounced(palette);
         },
 
         /**
