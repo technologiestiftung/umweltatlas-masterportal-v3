@@ -36,6 +36,7 @@
 - Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
 - Issue #1416: Dragging a node of the layerTree now hides its tooltip. This ensures it won't be dropped on the tooltip, which lead to disabling the node in the layer tree.
 - Issue #1467: Print: The info message for printing layers with a predefined legend is now also available in German.
+- Issue #1469: Fix menu expansion state after collecting GFI features.
 - wfsSearch: secured layers can now be searched.
 - TableComponent: Fixed right alignment for numeric string values.
 - thousandsSeparator: Added optional skipFourDigitYear parameter to prevent formatting plain 4-digit years (e.g., 2025 stays 2025 instead of 2.025).
