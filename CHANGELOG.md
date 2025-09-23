@@ -74,6 +74,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
 
 ### Changed
+- Routing: Changed input fields for hgv parameters.
 - Shared TableComponent: Changes Props fixedData into fixedBottomData.
 - The following packages have been updated:
   - devDependencies:
