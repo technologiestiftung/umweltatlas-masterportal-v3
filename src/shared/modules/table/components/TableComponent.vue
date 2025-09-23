@@ -327,7 +327,6 @@ export default {
         }
     },
     mounted () {
-
         this.setupTableData();
 
         if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
@@ -340,6 +339,8 @@ export default {
         else if (this.runSelectRowOnMount && this.selectMode === "row" && Array.isArray(this.data?.items)) {
             this.selectRow(this.data.items[0]);
         }
+
+        this.setFixedReferenceColumnPosition();
     },
     unmounted () {
         if (this.fullViewActivated) {
@@ -907,6 +908,20 @@ export default {
          */
         isNumeric (val) {
             return typeof val === "number" || (typeof val === "string" && (/^[\d.,]+$/).test(val));
+        },
+        /**
+         * Sets the fixed reference column with a fixed position on left.
+         * @returns {void}
+         */
+        setFixedReferenceColumnPosition () {
+            if (document.querySelector(".fixedColumn.reference")) {
+                const fixedFirstColumnWidth = document.querySelector(".dynamic-column-table th").clientWidth;
+
+                document.querySelectorAll("table td.fixedColumn.reference:not(.first)").forEach(ele => {
+                    ele.style.left = fixedFirstColumnWidth + "px";
+                });
+                document.querySelector("table th.fixedColumn.reference:not(.first)").style.left = fixedFirstColumnWidth + "px";
+            }
         }
     }
 };
@@ -1089,7 +1104,7 @@ export default {
                         v-show="idx < maxAttributesToShow"
                         :key="idx"
                         class="filter-select-box-wrapper fixedWidth"
-                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof fixedColumnTitle !== 'undefined' ? 'reference' : '']"
+                        :class="['p-0', fixedColumn === column.name ? 'fixedColumn' : '', typeof fixedColumnTitle !== 'undefined' && idx === 0 ? 'fixedColumn first' : '', selectMode === 'column' && idx > 0 ? 'selectable' : '', selectedColumn === column.name ? 'selected' : '', fontSize === 'medium' ? 'medium-font-size' : '', fontSize === 'small' ? 'small-font-size' : '', typeof fixedColumnTitle !== 'undefined' ? 'reference' : '']"
                         @click="selectColumn(column, idx)"
                     >
                         <div
@@ -1210,7 +1225,8 @@ export default {
                             fontSize === 'medium' ? 'medium-font-size' : '',
                             fontSize === 'small' ? 'small-font-size' : '',
                             isNumeric(item[entry.name]) ? 'pull-right' : 'pull-left',
-                            typeof fixedColumnTitle !== 'undefined' ? 'reference' : ''
+                            typeof fixedColumnTitle !== 'undefined' ? 'reference' : '',
+                            typeof fixedColumnTitle !== 'undefined' && columnIdx === 0 ? 'fixedColumn first' : ''
                         ]"
                     >
                         <template v-if="$slots['cell-' + entry.name]">
@@ -1442,7 +1458,7 @@ table {
         left: 0;
         background-color: $light_blue;
         z-index: 1;
-        &.reference {
+        &.reference:not(.first) {
             color: $secondary;
             font-family: "MasterPortalFont Bold";
             background-color: $white;
