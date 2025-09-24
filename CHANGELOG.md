@@ -46,6 +46,7 @@
 - Min/MaxScale: 3D Layers now work with minScale and maxScale attributes in the configuration.
 - Mousehover: The element is not highlighted when the mouse is no longer over it and there is no highlight for routing and elements with no highlightStyle.
 - draw_old: Fixed a bug where the download would return the portals index.js instead of the desired output after a specific sequence of interactions.
+- Issue #1479: Legend is loaded for WMTS with optionsFromCapabilities.
 
 ---
 

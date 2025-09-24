@@ -93,7 +93,7 @@ Layer2dRasterWmts.prototype.createLegend = async function () {
                     const getLegend = getNestedValues(layer, "LegendURL", true);
 
                     if (getLegend !== null && getLegend !== undefined) {
-                        legend = getLegend[0]?.[0]?.href;
+                        legend = getLegend[0]?.[0]?.href ?? getLegend[0]?.href;
                         if (legend) {
                             legend = [legend];
                         }
