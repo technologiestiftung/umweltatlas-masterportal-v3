@@ -118,7 +118,8 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             getters: {
                 isModuleAvailable: () => () => true,
                 configJs: () => sinon.stub(),
-                layerConfigById: () => () => layerConfig
+                layerConfigById: () => () => layerConfig,
+                restServiceById: () => sinon.stub()
             }
         });
 

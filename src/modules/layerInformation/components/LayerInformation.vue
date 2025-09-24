@@ -3,6 +3,7 @@ import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "@shared/js/utils/urlHelper";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 
 /**
@@ -61,6 +62,8 @@ export default {
             "mainMenu",
             "secondaryMenu"
         ]),
+        ...mapGetters(["restServiceById"]),
+
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
@@ -86,6 +89,19 @@ export default {
                 return selectedLayer?.url && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
             }
             return this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
+        },
+        selectedMetaURLs () {
+            if (this.layerInfo.typ === "GROUP" && Array.isArray(this.layerInfo.layers)) {
+                const selectedLayer = this.layerInfo.layers[this.selectedOption],
+                    metaID = selectedLayer?.metaID;
+
+                return buildMetaURLs(metaID, {
+                    layerInfo: this.layerInfo,
+                    metaDataCatalogueId: this.configJs?.metaDataCatalogueId,
+                    restServiceById: this.restServiceById
+                });
+            }
+            return this.metaURLs || [];
         },
         showAttachFile () {
             return this.downloadLinks?.length > 1;
@@ -343,9 +359,9 @@ export default {
             :layer-name="layerName"
             previous-component="layerInformation"
         />
-        <div v-if="showAdditionalMetaData">
+        <div v-if="selectedMetaURLs.length">
             <p
-                v-for="url in metaURLs"
+                v-for="url in selectedMetaURLs"
                 :key="url"
                 class="float-end"
             >
