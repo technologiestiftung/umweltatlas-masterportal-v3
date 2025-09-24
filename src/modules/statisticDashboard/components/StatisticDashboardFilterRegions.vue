@@ -457,6 +457,11 @@ export default {
                                 <i class="bi bi-x" />
                             </button>
                         </template>
+                        <template #caret>
+                            <div
+                                class="multiselect__select"
+                            />
+                        </template>
                     </Multiselect>
                 </div>
             </div>

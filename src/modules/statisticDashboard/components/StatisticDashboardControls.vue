@@ -697,6 +697,11 @@ export default {
                                                         <i class="bi bi-x" />
                                                     </button>
                                                 </template>
+                                                <template #caret>
+                                                    <div
+                                                        class="multiselect__select"
+                                                    />
+                                                </template>
                                             </Multiselect>
                                         </div>
                                         <div class="col-sm-12">
@@ -749,6 +754,11 @@ export default {
                                                             {{ option.name }}
                                                             <i class="bi bi-x" />
                                                         </button>
+                                                    </template>
+                                                    <template #caret>
+                                                        <div
+                                                            class="multiselect__select"
+                                                        />
                                                     </template>
                                                 </Multiselect>
                                             </div>
@@ -885,6 +895,11 @@ export default {
                                                         {{ option.label }}
                                                         <i class="bi bi-x" />
                                                     </button>
+                                                </template>
+                                                <template #caret>
+                                                    <div
+                                                        class="multiselect__select"
+                                                    />
                                                 </template>
                                             </Multiselect>
                                         </div>
