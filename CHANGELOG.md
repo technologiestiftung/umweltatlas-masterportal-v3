@@ -10,6 +10,7 @@
 ### Added
 - SearchBar: Added search status (min characters, loading, no results).
 - LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
+- Issue #1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
 
 ### Changed
 - The following packages have been updated:
