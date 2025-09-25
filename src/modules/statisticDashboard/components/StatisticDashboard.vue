@@ -674,17 +674,21 @@ export default {
                 filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
             }
 
-            this.layer.setStyle(FeaturesHandler.getStyleFunction(
-                this.statisticsData?.[this.chosenStatisticName],
-                this.colorPalette.map(v => [...v, this.opacity]),
-                date,
-                regionNameAttribute,
-                this.stepValues
-            ));
+            if (typeof this.layer.getSource()?.get === "function") {
+                this.layer.setStyle(FeaturesHandler.getStyleFunction(
+                    this.statisticsData?.[this.chosenStatisticName],
+                    this.colorPalette.map(v => [...v, this.opacity]),
+                    date,
+                    regionNameAttribute,
+                    this.stepValues
+                ));
+            }
 
-            this.featureWithoutValue = Object.values(this.statisticsData[this.chosenStatisticName]).some(
-                regionValue => !isNumber(regionValue[date])
-            );
+            if (isObject(this.statisticsData?.[this.chosenStatisticName])) {
+                this.featureWithoutValue = Object.values(this.statisticsData[this.chosenStatisticName]).some(
+                    regionValue => !isNumber(regionValue[date])
+                );
+            }
 
             this.setLegendData({
                 "color": this.colorPalette.map(v => [...v, this.opacity]),
