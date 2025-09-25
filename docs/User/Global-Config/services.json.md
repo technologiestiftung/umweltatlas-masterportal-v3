@@ -1030,7 +1030,7 @@ If the gfiAttributes are given as an object, a key's value may also be an object
 
 | Name | Required | Type | Default | Description | Example |
 |---|---|---|---|---|---|
-| name | yes | String |  | Name to be shown on an exact match. | `"Test"` |
+| name | yes | String |  | Name to be shown on an exact match. Must be unique. | `"Test"` |
 | condition | yes | enum["contains", "startsWith", "endsWith"] |  | Condition checked on each feature attribute. | `"startsWith"` |
 | type | no | enum["string", "date", "number", "boolean", "html"] | `"string"` | If `"date"`, the portal will attempt to parse the attribute value to a date; If `"Number"`, the portal will attempt to parse the attribute value to with thousand seperator; If “boolean”, the portal will attempt to parse the attribute value to boolean value. | `"date"` |
 | html | no | **[html](#gfi-attributes)** |  | Object to define the html tag properties. this is neccessary if type ist set to 'html'. | `"Test"` |
