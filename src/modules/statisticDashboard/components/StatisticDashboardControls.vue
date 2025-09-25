@@ -67,7 +67,7 @@ export default {
             default: () => []
         }
     },
-    emits: ["showChartTable", "setTableSubtitle", "changeCategory", "changeFilterSettings", "resetStatistics", "resetFilter"],
+    emits: ["showChartTable", "setTableSubtitle", "changeCategory", "changeFilterSettings", "resetStatistics", "resetFilter", "showChartsInGrid"],
     data () {
         return {
             currentDescriptionIndex: 0,
@@ -974,8 +974,8 @@ export default {
             class="back-overview"
             role="button"
             tabindex="0"
-            @click="setChosenStatisticName('')"
-            @keydown="setChosenStatisticName('')"
+            @click="$emit('showChartsInGrid', true)"
+            @keydown="$emit('showChartsInGrid', true)"
         >
             <button
                 class="p-2 fs-5 lh-1 border-0 bg-transparent"

@@ -302,6 +302,16 @@ describe("src/modules/StatisticDashboard.vue", () => {
             sinon.restore();
         });
 
+        it("should call 'handleChartData' if showGrid is changed", async () => {
+            wrapper = createWrapper();
+            const spyHandleChartData = sinon.stub(wrapper.vm, "handleChartData");
+
+            await wrapper.setData({showGrid: true});
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            expect(spyHandleChartData.calledOnce).to.be.true;
+            sinon.restore();
+        });
     });
 
 

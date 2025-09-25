@@ -1,5 +1,5 @@
 <script>
-import {mapMutations} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 export default {
     name: "StatisticGridComponent",
     props: {
@@ -18,6 +18,10 @@ export default {
             required: false,
             default: undefined
         }
+    },
+    emits: ["showChartsInGrid"],
+    computed: {
+        ...mapGetters("Modules/StatisticDashboard", ["chosenStatisticName"])
     },
     methods: {
         ...mapMutations("Modules/StatisticDashboard", ["setChosenStatisticName"])
@@ -60,10 +64,11 @@ export default {
                 v-for="idx in chartsCount"
                 :key="idx"
                 class="flex-item"
+                :class="chosenStatisticName === titles[idx - 1] ? 'active' : ''"
                 role="button"
                 tabindex="0"
-                @click="setChosenStatisticName(titles[idx - 1])"
-                @keydown="setChosenStatisticName(titles[idx - 1])"
+                @click="setChosenStatisticName(titles[idx - 1]), $emit('showChartsInGrid', false)"
+                @keydown="setChosenStatisticName(titles[idx - 1]), $emit('showChartsInGrid', false)"
             >
                 <slot
                     name="chartContainers"
@@ -101,5 +106,10 @@ export default {
         cursor: pointer;
     }
 }
+.active {
+    border: 1px solid $light_grey;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
 
 </style>

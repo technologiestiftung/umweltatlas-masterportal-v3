@@ -219,14 +219,12 @@ export default {
                 this.updateLimitedData();
             }
         },
-
         /**
-         * Updates the table and the chart data when the chosen statistic name changes.
-         * If the statistic name is an empty string, the chart overview is created.
-         * @param {String} statisticName - The new value of `chosenStatisticName`.
+         Creates an overview and updates a chart when the overview is left.
+         * @returns {void}
          */
-        chosenStatisticName (statisticName) {
-            if (statisticName === "") {
+        showGrid () {
+            if (this.showGrid) {
                 this.handleChartData(
                     this.selectedStatisticsNames,
                     this.selectedRegionsValues,
@@ -234,15 +232,39 @@ export default {
                     this.chartData,
                     this.selectedReferenceData?.type
                 );
-                return;
             }
+            else {
+                this.$nextTick(() => {
+                    this.setStepValues(
+                        FeaturesHandler.getStepValue(
+                            this.statisticsData?.[this.chosenStatisticName],
+                            this.numberOfClasses,
+                            this.selectedColumn,
+                            this.classificationMode,
+                            this.allowPositiveNegativeClasses,
+                            this.decimalPlaces
+                        )
+                    );
+                    this.handleChartData(
+                        this.statisticNameOfChart,
+                        this.selectedRegionsValues,
+                        this.selectedDatesValues,
+                        this.chartData,
+                        this.selectedReferenceData?.type
+                    );
+                });
+            }
+        },
+        /**
+         * Updates the table and the chart data when the chosen statistic name changes.
+         * @param {String} statisticName - The new value of `chosenStatisticName`.
+         */
+        chosenStatisticName (statisticName) {
             this.$nextTick(() => {
                 this.chosenTableData = this.getTableData(this.statisticsData, statisticName);
-
                 if (!this.statisticsData) {
                     return;
                 }
-
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
                         this.statisticsData?.[this.chosenStatisticName],
@@ -253,7 +275,6 @@ export default {
                         this.decimalPlaces
                     )
                 );
-
                 this.handleChartData(
                     this.statisticNameOfChart,
                     this.selectedRegionsValues,
@@ -1871,7 +1892,16 @@ export default {
          */
         setTableSubtitle (val) {
             this.referenceSubTitle = val;
+        },
+        /**
+         * Handles the grid view.
+         * @param {Boolean} val - true if the grid should show.
+         * @returns {void}
+         */
+        handleGrid (val) {
+            this.showGrid = val;
         }
+
     }
 };
 </script>
@@ -2018,6 +2048,7 @@ export default {
                 @change-filter-settings="checkFilterSettings"
                 @reset-statistics="handleReset"
                 @reset-filter="resetAll"
+                @show-charts-in-grid="handleGrid"
             />
             <div
                 v-if="!isFeatureLoaded"
@@ -2139,6 +2170,7 @@ export default {
                     v-else
                     :charts-count="chartCounts"
                     :titles="selectedStatisticsNames"
+                    @show-charts-in-grid="handleGrid"
                 >
                     <template
                         #chartContainers="props"
