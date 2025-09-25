@@ -53,6 +53,10 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
             expect(FeatureHandler.calcStepValues([0.12345, 2.12345], 2, "quantiles", false, 2)).to.deep.equal([0.12345, 1.12345]);
             expect(FeatureHandler.calcStepValues([0.12345, 2.12345], 2, "equalIntervals", false, 3)).to.deep.equal([0.123, 1.123]);
         });
+        it("should correctly calculate step values with several negative and one positive value", () => {
+            expect(FeatureHandler.calcStepValues([-5, -3, 1], 3, "quantiles", true)).to.deep.equal([-5, -4, -1]);
+            expect(FeatureHandler.calcStepValues([-5, -3, 1], 3, "quantiles", false)).to.deep.equal([-5, -3, 0]);
+        });
     });
     describe("getStyleFunction", () => {
         it("should set the styles correctly according to the values from the features", () => {

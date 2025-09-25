@@ -138,6 +138,23 @@ export default {
         ...mapGetters("Maps", ["projection"]),
 
         /**
+         * Gets the statistics data for the currently chosen statistic name.
+         * If a region is selected as reference, it filters out that region from the statistics data.
+         * @returns {Object} The statistics data for the chosen statistic name.
+         */
+        statisticForStepValues () {
+            if (!isObject(this.statisticsData?.[this.chosenStatisticName])) {
+                return {};
+            }
+            if (this.selectedReferenceData?.type === "region") {
+                return Object.fromEntries(Object.entries(this.statisticsData[this.chosenStatisticName])
+                    .filter(([regionName]) => regionName !== this.selectedReferenceData.value)
+                );
+            }
+            return this.statisticsData[this.chosenStatisticName];
+        },
+
+        /**
          * Gets the names of the selected filters.
          * @returns {String[]} The names.
          */
@@ -237,7 +254,7 @@ export default {
                 this.$nextTick(() => {
                     this.setStepValues(
                         FeaturesHandler.getStepValue(
-                            this.statisticsData?.[this.chosenStatisticName],
+                            this.statisticForStepValues,
                             this.numberOfClasses,
                             this.selectedColumn,
                             this.classificationMode,
@@ -267,7 +284,7 @@ export default {
                 }
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
-                        this.statisticsData?.[this.chosenStatisticName],
+                        this.statisticForStepValues,
                         this.numberOfClasses,
                         this.selectedColumn,
                         this.classificationMode,
@@ -308,7 +325,7 @@ export default {
             }
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.chosenStatisticName],
+                    this.statisticForStepValues,
                     this.numberOfClasses,
                     this.selectedColumn,
                     val,
@@ -321,7 +338,7 @@ export default {
         allowPositiveNegativeClasses (val) {
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.chosenStatisticName],
+                    this.statisticForStepValues,
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
@@ -340,7 +357,7 @@ export default {
                 return;
             }
             this.setStepValues(FeaturesHandler.getStepValue(
-                this.statisticsData[this.chosenStatisticName],
+                this.statisticForStepValues,
                 val,
                 this.selectedColumn,
                 this.classificationMode,
@@ -683,27 +700,17 @@ export default {
          * @returns {void}
          */
         updateFeatureStyle (date, differenceMode, selectedReferenceData) {
-            const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName,
-                selectedLevelDateAttribute = this.getSelectedLevelDateAttribute(this.selectedLevel);
+            const regionNameAttribute = this.getSelectedLevelRegionNameAttributeInDepth(this.selectedLevel?.mappingFilter?.regionNameAttribute).attrName;
 
-            let filteredFeatures;
-
-            if (typeof date === "undefined" || typeof selectedLevelDateAttribute.attrName === "undefined") {
-                filteredFeatures = this.loadedFeatures;
-            }
-            else {
-                filteredFeatures = FeaturesHandler.filterFeaturesByKeyValue(this.loadedFeatures, selectedLevelDateAttribute.attrName, date);
-            }
-
-            if (typeof this.layer.getSource()?.get === "function") {
-                this.layer.setStyle(FeaturesHandler.getStyleFunction(
-                    this.statisticsData?.[this.chosenStatisticName],
-                    this.colorPalette.map(v => [...v, this.opacity]),
-                    date,
-                    regionNameAttribute,
-                    this.stepValues
-                ));
-            }
+            this.layer.setStyle(FeaturesHandler.getStyleFunction(
+                this.statisticsData?.[this.chosenStatisticName],
+                this.colorPalette.map(v => [...v, this.opacity]),
+                date,
+                regionNameAttribute,
+                this.stepValues,
+                selectedReferenceData?.type === "region" ? selectedReferenceData.value : null,
+                this.colorScheme.referenceRegion
+            ));
 
             if (isObject(this.statisticsData?.[this.chosenStatisticName])) {
                 this.featureWithoutValue = Object.values(this.statisticsData[this.chosenStatisticName]).some(
@@ -715,12 +722,6 @@ export default {
                 "color": this.colorPalette.map(v => [...v, this.opacity]),
                 "value": this.stepValues
             });
-
-            if (differenceMode && selectedReferenceData?.type === "region") {
-                const referenceFeature = filteredFeatures.find(feature => feature.get(regionNameAttribute) === selectedReferenceData.value);
-
-                FeaturesHandler.styleFeature(referenceFeature, this.colorScheme.referenceRegion);
-            }
         },
 
         /**
@@ -768,7 +769,7 @@ export default {
 
             this.setStepValues(
                 FeaturesHandler.getStepValue(
-                    this.statisticsData[this.chosenStatisticName],
+                    this.statisticForStepValues,
                     this.numberOfClasses,
                     this.selectedColumn,
                     this.classificationMode,
@@ -933,7 +934,7 @@ export default {
             if (this.selectedStatisticsNames.length && this.classificationMode !== "custom") {
                 this.setStepValues(
                     FeaturesHandler.getStepValue(
-                        this.statisticsData[this.chosenStatisticName],
+                        this.statisticForStepValues,
                         this.numberOfClasses,
                         this.selectedColumn,
                         this.classificationMode,

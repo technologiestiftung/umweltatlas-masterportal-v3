@@ -28,9 +28,11 @@ function filterFeaturesByKeyValue (features, key, value) {
  * @param {String} date - The date for which the values are visualized
  * @param {String} regionKey - The key to the region in the feature.
  * @param {Number[]} stepValues - The step values used as thresholds for classification.
+ * @param {String} [refRegion=null] - The reference region in difference mode, or null.
+ * @param {*} [refColor=null] - The color for the reference region, or null.
  * @returns {Function} An OpenLayers style function for the layer.
  */
-function getStyleFunction (statisticData, colorScheme, date, regionKey, stepValues) {
+function getStyleFunction (statisticData, colorScheme, date, regionKey, stepValues, refRegion = null, refColor = null) {
     const styleCache = {};
 
     return function (feature) {
@@ -40,6 +42,12 @@ function getStyleFunction (statisticData, colorScheme, date, regionKey, stepValu
             color = colorScheme[index] || [255, 255, 255, 0.9],
             colorKey = color.join("-");
 
+        if (region === refRegion) {
+            return new Style({
+                fill: new Fill({color: refColor}),
+                stroke: new Stroke({color: [166, 166, 166, 1], width: 1})
+            });
+        }
         if (typeof value === "undefined") {
             return null;
         }
@@ -52,24 +60,6 @@ function getStyleFunction (statisticData, colorScheme, date, regionKey, stepValu
         }
         return styleCache[colorKey];
     };
-}
-
-/**
- * Sets a feature style.
- * @param {ol/Feature} feature - The feature to style.
- * @param {Number[]} [fillColor = [255, 255, 255, 0.9]] - The fill color.
- * @returns {void}
- */
-function styleFeature (feature, fillColor = [255, 255, 255, 0.9]) {
-    feature?.setStyle?.(new Style({
-        fill: new Fill({
-            color: fillColor
-        }),
-        stroke: new Stroke({
-            color: [166, 166, 166, 1],
-            width: 1
-        })
-    }));
 }
 
 /**
@@ -138,12 +128,17 @@ function calcStepValues (values, numberOfClasses = 5, classificationMode = "quan
 
     if (!allowPositiveNegativeClasses && minValue < 0 && maxValue > 0 && !result.includes(0)) {
         const indexOfFirstPositiveStep = result.findIndex(e => e > 0),
-            indexOfLastNegativeStep = indexOfFirstPositiveStep - 1,
+            indexOfLastNegativeStep =
+                indexOfFirstPositiveStep === -1 ? result.length - 1 : indexOfFirstPositiveStep - 1,
             firstPositiveStep = result[indexOfFirstPositiveStep],
             lastNegativeStep = result[indexOfLastNegativeStep],
             numberOfStrictlyNegativeClasses = indexOfLastNegativeStep,
-            isMixClassRatherNegative = Math.abs(lastNegativeStep) > firstPositiveStep,
-            requiredNumberOfNegativeClasses = numberOfStrictlyNegativeClasses + (isMixClassRatherNegative ? 1 : 0) || 1,
+            isMixClassRatherPositive = firstPositiveStep > Math.abs(lastNegativeStep),
+            isMixClassRatherNegative = !isMixClassRatherPositive,
+            requiredNumberOfNegativeClasses = Math.min(
+                Math.max(numberOfStrictlyNegativeClasses + (isMixClassRatherNegative ? 1 : 0), 1),
+                result.length - 1
+            ),
             requiredNumberOfPositiveClasses = result.length - requiredNumberOfNegativeClasses;
 
         result = [
@@ -286,7 +281,6 @@ function getLegendValue (val, decimalPlaces = 2, withoutValue = false) {
 export default {
     filterFeaturesByKeyValue,
     getStyleFunction,
-    styleFeature,
     calcStepValues,
     getStatisticValuesByDate,
     getStepValue,

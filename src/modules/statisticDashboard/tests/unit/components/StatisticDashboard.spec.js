@@ -247,6 +247,24 @@ describe("src/modules/StatisticDashboard.vue", () => {
     });
 
     describe("computed properties", () => {
+        describe("statisticForStepValues", () => {
+            it("should return expected statistic data", () => {
+                wrapper = createWrapper();
+                wrapper.setData({statisticsData: {statName: {regionName: {}}}});
+                wrapper.vm.setChosenStatisticName("statName");
+
+                expect(wrapper.vm.statisticForStepValues).to.deep.equal({regionName: {}});
+            });
+            it("should filter out reference region", () => {
+                wrapper = createWrapper();
+                wrapper.setData({statisticsData: {statName: {"refRegion": {}, "otherRegion": {}}}});
+                wrapper.vm.setChosenStatisticName("statName");
+                wrapper.vm.setSelectedReferenceData({type: "region", value: "refRegion"});
+
+                expect(wrapper.vm.statisticForStepValues).to.deep.equal({"otherRegion": {}});
+            });
+        });
+
         describe("selectedStatisticsNames", () => {
             it("should return an empty array", () => {
                 wrapper = createWrapper();
@@ -826,12 +844,13 @@ describe("src/modules/StatisticDashboard.vue", () => {
             it("should call 'getStepValue' with the correct arguments", async () => {
                 store.commit("Modules/StatisticDashboard/setSelectedReferenceData", undefined);
                 wrapper = createWrapper();
+                sinon.stub(wrapper.vm, "setStepValues");
                 const stubGetStepValue = sinon.stub(FeatureHandler, "getStepValue");
 
                 await wrapper.setData({statisticsData: {}});
                 wrapper.vm.setSelectedColumn("2022");
 
-                expect(stubGetStepValue.calledWith(undefined, 5, "2022")).to.be.true;
+                expect(stubGetStepValue.calledWith({}, 5, "2022")).to.be.true;
                 sinon.restore();
             });
         });
