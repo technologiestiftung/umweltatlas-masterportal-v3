@@ -67,6 +67,8 @@
     - Fixed a bug where the download would return the portals index.js instead of the desired output after a specific sequence of interactions.
     - Hide drawing makes the drawn layer not visible.
 - Issue #1479: Legend is loaded for WMTS with optionsFromCapabilities.
+- DOCS: Reverted Markdown table formatting as it was not compatible with soft line wrapping.
+- DOCS: Minor fixes in JSON and venv setup documentation.
 
 ---
 
