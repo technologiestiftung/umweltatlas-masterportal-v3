@@ -27,7 +27,6 @@
     - @vue/shared
     - @vue/runtime-dom
     - @vue/runtime-core
-- packages: To avoid security issues, all packages have been fixed in package.json. No versions of patch releases will be accepted.
 
 ### Deprecated
 
