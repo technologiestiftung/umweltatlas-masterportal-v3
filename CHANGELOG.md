@@ -14,6 +14,9 @@
 ### Deprecated
 
 ### Removed
+- The following packages have been removed:
+  - devDependencies:
+     - dom-storage: removed and replaced by mock-class
 
 ### Fixed
 
