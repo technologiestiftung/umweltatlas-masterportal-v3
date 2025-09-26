@@ -68,6 +68,18 @@ export default {
          */
         minIntervalValue () {
             return this.settings.minInterval;
+        },
+
+        /**
+         * Computed number of isochrones based on current settings.
+         * Using Math.ceil to match API behavior that rejects results > 10
+         * @returns {Number} Number of isochrones.
+         */
+        numberOfIsochrones () {
+            if (this.settings.intervalValue === 0) {
+                return Infinity;
+            }
+            return Math.ceil(this.currentValue / this.settings.intervalValue);
         }
     },
 
@@ -311,10 +323,13 @@ export default {
                     <button
                         class="btn btn-primary"
                         type="button"
-                        :disabled="waypoint.getCoordinates().length === 0 || isInputDisabled"
+                        :disabled="waypoint.getCoordinates().length === 0 || isInputDisabled || (numberOfIsochrones > 10)"
                         @click="findIsochrones()"
                     >
-                        {{ $t('common:modules.routing.isochrones.calculate') }}
+                        {{ numberOfIsochrones > 10
+                            ? $t('common:modules.routing.isochrones.tooManyIntervalsInline')
+                            : $t('common:modules.routing.isochrones.calculate')
+                        }}
                     </button>
                 </div>
 

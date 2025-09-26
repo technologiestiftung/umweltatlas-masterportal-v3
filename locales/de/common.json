@@ -1077,6 +1077,7 @@
           "structure": "ID;lon(Startpunkt);lat(Startpunkt)"
         },
         "calculate": "Berechnen",
+        
         "hoverMenu": {
           "population": "Bevölkerung:",
           "area": "Fläche:"
@@ -1097,7 +1098,8 @@
           "TIME": "Erreichbarkeit nach Zeit"
         },
         "optimizeHeader": "Optimierung nach",
-        "startpoint": "Startpunkt"
+        "startpoint": "Startpunkt",
+        "tooManyIntervalsInline": "Limit an Isochronen überschritten. Max. 10 erlaubt."
       },
       "moveWaypointDown": "Wegpunkt nach unten verschieben",
       "moveWaypointUp": "Wegpunkt nach oben verschieben",

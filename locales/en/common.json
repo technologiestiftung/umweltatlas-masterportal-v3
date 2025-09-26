@@ -1094,7 +1094,8 @@
           "TIME": "Reachability by time"
         },
         "optimizeHeader": "Optimization",
-        "startpoint": "Startpoint"
+        "startpoint": "Startpoint",
+        "tooManyIntervalsInline": "Limit of isochrones exceeded. Max. 10 allowed."
       },
       "moveWaypointDown": "Move waypoint down",
       "moveWaypointUp": "Move waypoint up",
