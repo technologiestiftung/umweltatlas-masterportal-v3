@@ -10,13 +10,25 @@
 ### Added
 
 ### Changed
+- The following packages have been updated:
+  - devDependencies:
+    - axios: ^1.7.9 to ^1.12.2
+    - bootstrap: ^5.3.3 to ^5.3.8
+    - bootstrap-icons: ^1.11.3 to ^1.13.1
+    - chart.js: ^4.4.8 to ^4.5.0
+    - i18next: ^24.2.2 to ^25.5.2
+    - i18next-browser-languagedetector: ^8.0.3 to ^8.2.0
+    - i18next-http-backend: ^2.7.3 to ^3.0.2
+    - three: ^0.173.0 to ^0.180.0
 
 ### Deprecated
 
 ### Removed
 - The following packages have been removed:
   - devDependencies:
-     - dom-storage: removed and replaced by mock-class
+    - dom-storage
+    - html2canvas
+    - bootstrap-sass
 
 ### Fixed
 - Issue #1385: Add missing internationalization calls for layer names.
