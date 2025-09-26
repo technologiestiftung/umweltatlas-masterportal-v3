@@ -19,6 +19,7 @@
      - dom-storage: removed and replaced by mock-class
 
 ### Fixed
+- Issue #1385: Add missing internationalization calls for layer names.
 
 ---
 
