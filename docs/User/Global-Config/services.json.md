@@ -476,7 +476,7 @@ Please note the [VTL specification](https://docs.mapbox.com/vector-tiles/specifi
   "preview":{
     "src": "./resources/vectorTile.png"
     },
-  "layerSequence": 1,
+  "layerSequence": 1
 }
 ```
 
