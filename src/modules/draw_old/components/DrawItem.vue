@@ -676,7 +676,7 @@ export default {
             else {
                 this.resetCanvasCursor();
             }
-            this.updateDrawLayerVisible(value);
+            this.updateDrawLayerVisible({value, layer: this.getLayer()});
         },
         /**
          * Updates the attributes' key list.

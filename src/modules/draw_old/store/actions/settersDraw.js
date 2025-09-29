@@ -85,7 +85,7 @@ async function startInteractions ({state, commit, dispatch, rootState}) {
     dispatch("createSelectInteractionAndAddToMap", state.currentInteraction === "delete");
     dispatch("createModifyInteractionAndAddToMap", state.currentInteraction === "modify");
     dispatch("createModifyAttributesInteractionAndAddToMap", state.currentInteraction === "modifyAttributes");
-    dispatch("updateDrawLayerVisible", true);
+    dispatch("updateDrawLayerVisible", {value: true});
 
     if (state.withoutGUI) {
         dispatch("toggleInteraction", "draw");

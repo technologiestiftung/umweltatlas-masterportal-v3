@@ -48,7 +48,9 @@
 - HighlightFeaturesByAttribute: Resolved console warning that appeared repeatedly when opening URL with highlight parameters.
 - Min/MaxScale: 3D Layers now work with minScale and maxScale attributes in the configuration.
 - Mousehover: The element is not highlighted when the mouse is no longer over it and there is no highlight for routing and elements with no highlightStyle.
-- draw_old: Fixed a bug where the download would return the portals index.js instead of the desired output after a specific sequence of interactions.
+- draw_old:
+    - Fixed a bug where the download would return the portals index.js instead of the desired output after a specific sequence of interactions.
+    - Hide drawing makes the drawn layer not visible.
 - Issue #1479: Legend is loaded for WMTS with optionsFromCapabilities.
 
 ---

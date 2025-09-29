@@ -873,10 +873,8 @@ const initialState = JSON.parse(JSON.stringify(stateDraw)),
          * @param {Boolean} value The value to set.
          * @returns {void}
          */
-        updateDrawLayerVisible: ({getters, commit, dispatch}, value) => {
-            if (typeof getters?.layer?.setVisible === "function") {
-                getters.layer.setVisible(value);
-            }
+        updateDrawLayerVisible: ({getters, commit, dispatch}, {value, layer}) => {
+            layer?.setVisible(value);
 
             if (value) {
                 if (getters.formerInteraction) {
