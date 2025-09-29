@@ -142,8 +142,7 @@ myMasterPortalFolder/
 
 > **Note:** The Vuex module is namespaced and split into state/getters/mutations/actions.
 
-```js
-// myMasterPortalFolder/addons/vueAddon/store/stateVueAddon.js
+```js title="myMasterPortalFolder/addons/vueAddon/store/stateVueAddon.js"
 const state = {
     description: "additional:modules.vueAddon.description",
     icon: "bi-tools",
@@ -156,8 +155,7 @@ const state = {
 export default state;
 ```
 
-```js
-// myMasterPortalFolder/addons/vueAddon/store/gettersVueAddon.js
+```js title="myMasterPortalFolder/addons/vueAddon/store/gettersVueAddon.js"
 import {generateSimpleGetters} from "@shared/js/utils/generators";
 import state from "./stateVueAddon";
 export default {
@@ -165,8 +163,7 @@ export default {
 };
 ```
 
-```js
-// myMasterPortalFolder/addons/vueAddon/store/mutationsVueAddon.js
+```js title="myMasterPortalFolder/addons/vueAddon/store/mutationsVueAddon.js"
 import {generateSimpleMutations} from "@shared/js/utils/generators";
 import state from "./stateVueAddon";
 export default {
@@ -174,8 +171,7 @@ export default {
 };
 ```
 
-```js
-// myMasterPortalFolder/addons/vueAddon/store/actionsVueAddon.js
+```js title="myMasterPortalFolder/addons/vueAddon/store/actionsVueAddon.js"
 import i18next from "i18next";
 const actions = {
   initialize() {},
@@ -194,8 +190,7 @@ const actions = {
 export default actions;
 ```
 
-```js
-// myMasterPortalFolder/addons/vueAddon/store/indexVueAddon.js
+```js title="myMasterPortalFolder/addons/vueAddon/store/indexVueAddon.js"
 import actions from "./actionsVueAddon";
 import getters from "./gettersVueAddon";
 import mutations from "./mutationsVueAddon";
@@ -212,8 +207,7 @@ export default {
 
 ### Vue component (Options API)
 
-```vue
-<!-- myMasterPortalFolder/addons/vueAddon/components/VueAddon.vue -->
+```vue title="myMasterPortalFolder/addons/vueAddon/components/VueAddon.vue"
 <script>
 import {mapGetters, mapActions} from "vuex";
 
@@ -257,8 +251,7 @@ Within the `index.js` file, the component (Vue component), store, and translatio
 
 > **Required:** the entry point must be `index.js`, otherwise the add-on will not be loaded correctly.
 
-```js
-// myMasterPortalFolder/addons/vueAddon/index.js
+```js title="myMasterPortalFolder/addons/vueAddon/index.js"
 import VueAddonComponent from "./components/VueAddon.vue";
 import VueAddonStore from "./store/indexVueAddon";
 
@@ -277,8 +270,7 @@ export default {
 
 ### Creating the `addonsConf.json`
 
-```json
-// myMasterPortalFolder/addons/addonsConf.json
+```json title="myMasterPortalFolder/addons/addonsConf.json"
 {
   "vueAddon": {
     "type": "tool"
@@ -288,8 +280,7 @@ export default {
 
 ### Activate the add-on in the portal's `config.js` (if used)
 
-```js
-// myMasterPortalFolder/config.js
+```js title="myMasterPortalFolder/config.js"
 const Config = {
   addons: ["vueAddon"],
   // [...]
@@ -299,8 +290,7 @@ export default Config;
 
 ### Configure the add-on as a tool in the portal's `config.json` (to appear in the menu)
 
-```json
-// myMasterPortalFolder/config.json
+```json title="myMasterPortalFolder/config.json"
 {
   "portalConfig": {
     "mainMenu": {
@@ -318,8 +308,7 @@ export default Config;
 
 ### Example i18n file
 
-```json
-// myMasterPortalFolder/addons/vueAddon/locales/en/additional.json
+```json title="myMasterPortalFolder/addons/vueAddon/locales/en/additional.json"
 {
     "modules": {
             "vueAddon": {
@@ -334,8 +323,7 @@ export default Config;
 ```
 
 
-```json
-// myMasterPortalFolder/addons/vueAddon/locales/de/additional.json
+```json title="myMasterPortalFolder/addons/vueAddon/locales/de/additional.json"
 {
     "modules": {
             "vueAddon": {
@@ -351,8 +339,7 @@ export default Config;
 
 ### Unit test
 
-```js
-// myMasterPortalFolder/addons/vueAddon/tests/unit/components/VueAddon.spec.js
+```js title="myMasterPortalFolder/addons/vueAddon/tests/unit/components/VueAddon.spec.js"
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
