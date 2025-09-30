@@ -712,6 +712,23 @@
               {
                 "title": "common:modules.wfsSearch.parcelSearch",
                 "userHelp": "hide",
+                "zoomButtonInColumn": true,
+                "resultList": {
+                  "gemarkungsname": "Gemarkungsname",
+                  "gemarkung": "Gemarkung",
+                  "flurstuecksnummer": "Flurstücknummer",
+                  "flurstueck_lang": "Flurstücknummer - lang",
+                  "flurstuecksflaeche": "Flurstückfläche",
+                  "verwaltungsart": "Verwaltungsart",
+                  "gemeindename": "Gemeindename",
+                  "gemeinde": "Gemeinde",
+                  "kreisname": "Kreisname",
+                  "kreis": "Kreis",
+                  "land": "Land",
+                  "regierungsbezirk": "Regierungsbezirk",
+                  "status": "Status",
+                  "geometry": "Zoomen"
+              },
                 "requestConfig": {
                   "gazetteer": {
                     "namespaces": [

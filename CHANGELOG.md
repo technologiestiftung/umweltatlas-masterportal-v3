@@ -28,6 +28,8 @@
     - @vue/runtime-dom
     - @vue/runtime-core
 - Update the addon documentation to reflect the recent changes in the project structure and Vue3.
+- packages: To avoid security issues, all packages have been fixed in package.json. No versions of patch releases will be accepted.
+- WFSSearch: To provide configuration of version 2 it is possible to configure a zoom-button for resultlist with config parameter `zoomButtonInColumn` if column key `geometry` or `geom` is configured, default is true.
 
 ### Deprecated
 
@@ -39,6 +41,7 @@
 - Issue #1467: Print: The info message for printing layers with a predefined legend is now also available in German.
 - Issue #1469: Fix menu expansion state after collecting GFI features.
 - Issue #1475: LayerInformation: Added additional metadata in group layers.
+- Issue  #1482, #1484: WFSSearch with resultlist provides zoom on row-click by default and zoom with button.
 - wfsSearch: secured layers can now be searched.
 - TableComponent: Fixed right alignment for numeric string values.
 - thousandsSeparator: Added optional skipFourDigitYear parameter to prevent formatting plain 4-digit years (e.g., 2025 stays 2025 instead of 2.025).

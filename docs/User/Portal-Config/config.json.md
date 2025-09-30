@@ -4389,7 +4389,8 @@ A singular instance of the WFS Search which is selectable through a dropdown.
 |title|yes|String||Title of the search instance to be displayed in a dropdown inside the tool.|false|
 |userHelp|no|String||Information text regarding the search form to be displayed to the user. If not given, it will be generated from the structure of the config. May be a translation key. If the value is explicitly set to `hide`, no information regarding the structure of the form will be displayed.|false|
 |resultDialogTitle|no|String||Heading of the result list. If not configured the name `WFS search` will be displayed. May be a translation key.|false|
-|resultList|no|**[ResultList](#datatypesresultlist)**||Settings for the output of the found features in the result list. If no resultList is configured, the search will zoom directly to the first feature found.|true|
+|resultList|no|**[ResultList](#datatypesresultlist)**||Settings for the output of the found features in the result list. If no resultList is configured, the search will zoom directly to the first feature found. Otherwise, clicking on a column in the search results will zoom to the feature.|true|
+|zoomButtonInColumn|no|Boolean||If configured, a zoom button will be displayed in the column `geometry` or `geom`. The specified field must be present in the feature.|true|
 
 **Example**
 
@@ -4400,8 +4401,10 @@ A singular instance of the WFS Search which is selectable through a dropdown.
     },
     "resultList": {
         "schulname": "School name",
-        "abschluss": "Degree"
+        "abschluss": "Degree",
+        "geometry": "Zoom"
     },
+    "zoomButtonInColumn": true,
     "selectSource": "https://geoportal-hamburg.de/lgv-config/gemarkungen_hh.json",
     "title": "Parcel Search",
     "literals": [

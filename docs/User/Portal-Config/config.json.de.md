@@ -4380,7 +4380,8 @@ Eine Instanz der WFS Suche, welche durch ein Dropdown Menü im Werkzeug ausgewä
 |title|ja|String||Der Titel der Suche, welcher in einem Dropdown im Werkzeug dargestellt wird. Kann ein Übersetzungsschlüssel sein.|false|
 |userHelp|nein|String||Informationstext hinsichtlich des Suchformulars, welches oberhalb des Formulars für die Nutzenden angezeigt werden soll. Wenn der Parameter nicht gegeben ist, dann wird die Struktur aus der Konfiguration abgeleitet. Kann ein Übersetzungsschlüssel sein. Falls der Wert explizit auf `hide` gesetzt wurde, dann wird keine Beschreibung der Struktur des Formulars angezeigt.|false|
 |resultDialogTitle|nein|String||Überschrift der Ergebnisliste. Wenn dies nicht konfiguriert ist, wird der Name `WFS Suche` angezeigt. Kann ein Übersetzungsschlüssel sein.|false|
-|resultList|nein|**[ResultList](#datatypesresultlist)**||Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste. Wenn keine resultList konfiguriert ist, wird beim Ausführen der Suche direkt auf das erste gefundene Feature gezoomt.|true|
+|resultList|nein|**[ResultList](#datatypesresultlist)**||Einstellungen für die Ausgabe der gefundenen Features in der Ergebnisliste. Wenn keine resultList konfiguriert ist, wird beim Ausführen der Suche direkt auf das erste gefundene Feature gezoomt. Sonst wird bei Klick auf eine Spalte im Suchergebnis zum Feature gezoomt.|true|
+|zoomButtonInColumn|nein|Boolean||Wenn konfiguriert, dann wird ein Zoom-Button in der Spalte `geometry` oder `geom` angezeigt. Das angegebene Feld muss am Feature vorhanden sein.|true|
 
 **Beispiel**
 
@@ -4391,8 +4392,10 @@ Eine Instanz der WFS Suche, welche durch ein Dropdown Menü im Werkzeug ausgewä
     },
     "resultList": {
         "schulname": "Schulname",
-        "abschluss": "Abschluss"
+        "abschluss": "Abschluss",
+        "geometry": "Zoomen"
     },
+    "zoomButtonInColumn": true,
     "selectSource": "https://geoportal-hamburg.de/lgv-config/gemarkungen_hh.json",
     "title": "Flurstücksuche",
     "literals": [
