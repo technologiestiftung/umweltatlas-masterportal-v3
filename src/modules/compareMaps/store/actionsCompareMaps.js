@@ -50,7 +50,7 @@ export default {
             return;
         }
 
-        const layerToReset = layerCollection.getLayers().find(layer => layer.get("id") === layerId);
+        const layerToReset = layerCollection.getLayerById(layerId);
 
         updateLayerId(layerToReset, false, rootGetters["Modules/WmsTime/layerAppendix"]);
         resetRenderListeners(layerToReset);
