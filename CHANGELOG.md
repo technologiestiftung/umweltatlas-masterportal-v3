@@ -69,6 +69,7 @@
 - Issue #1479: Legend is loaded for WMTS with optionsFromCapabilities.
 - DOCS: Reverted Markdown table formatting as it was not compatible with soft line wrapping.
 - DOCS: Minor fixes in JSON and venv setup documentation.
+- SelectFeatures: unmounts correctly.
 
 ---
 
