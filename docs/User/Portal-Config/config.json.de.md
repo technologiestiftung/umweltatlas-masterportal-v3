@@ -2081,13 +2081,20 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 
 Listet die Nutzungshinweise der aktiven Layer auf.
 
-| Name | Verpflichtend | Typ    | Default                | Beschreibung                                                   | Expert |
-|------|---------------|--------|------------------------|----------------------------------------------------------------|--------|
-| type | nein          | String | "copyrightConstraints" | Der type des Moduls. Definiert welches Modul konfiguriert ist. | false  |
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|name|nein|String|"common:modules.copyrightConstraints.name"|Titel, der im Menü angezeigt wird.|false|
+|icon|nein|String|"bi-c-circle"|Icon, das neben dem Titel angezeigt wird.|false|
+|type|nein|String|"copyrightConstraints"|Definiert den Modultyp.|false|
+|cswUrl|nein|String|"https://gdk.gdi-de.org/gdi-de/srv/ger/csw"|URL der CSW-Schnittstelle, die Nutzungshinweise/Metadaten bereitstellt.|false|
+
 
 ```json title="Beispiel"
 {
-    "type": "copyrightConstraints"
+    "name": "common:modules.copyrightConstraints.name",
+    "icon": "bi-c-circle",
+    "type": "copyrightConstraints",
+    "cswUrl": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
 }
 ```
 
