@@ -4,7 +4,8 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
+## 2025-10-01 v3.15.0
+
 ### __Breaking Changes__
 - Dropped support for **Node.js 18.x**, **20.x** and **npm 9**. Minimum required is now **Node.js 22.19.0 (LTS)** with **npm 10.x**.
 
@@ -30,10 +31,6 @@
 - Update the addon documentation to reflect the recent changes in the project structure and Vue3.
 - packages: To avoid security issues, all packages have been fixed in package.json. No versions of patch releases will be accepted.
 - WFSSearch: To provide configuration of version 2 it is possible to configure a zoom-button for resultlist with config parameter `zoomButtonInColumn` if column key `geometry` or `geom` is configured, default is true.
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
