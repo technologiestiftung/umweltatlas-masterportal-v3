@@ -1107,15 +1107,15 @@
       "restrictions": {
         "header": "LKW-Parameter",
         "length": "Länge (m)",
-        "lengthTooltip": "Länge des LKW. Akzeptierte Werte: 0,1 bis 30 Meter",
+        "lengthTooltip": "Länge des LKW. Akzeptierte Werte: 0 bis 30 Meter",
         "width": "Breite (m)",
-        "widthTooltip": "Breite des LKW. Akzeptierte Werte: 0,1 bis 3,5 Meter",
+        "widthTooltip": "Breite des LKW. Akzeptierte Werte: 0 bis 3,5 Meter",
         "height": "Höhe (m)",
-        "heightTooltip": "Höhe des LKW. Akzeptierte Werte: 0,1 bis 5 Meter",
+        "heightTooltip": "Höhe des LKW. Akzeptierte Werte: 0 bis 5 Meter",
         "weight": "Gewicht (t)",
-        "weightTooltip": "Gewicht des LKW. Akzeptierte Werte: 0,1 bis 65 Tonnen",
+        "weightTooltip": "Gewicht des LKW. Akzeptierte Werte: 0 bis 65 Tonnen",
         "axleload": "Achslast (t)",
-        "axleloadTooltip": "Achslast des LKW. Akzeptierte Werte: 0,1 bis 19 Tonnen",
+        "axleloadTooltip": "Achslast des LKW. Akzeptierte Werte: 0 bis 19 Tonnen",
         "hazmat": "Gefahrgut"
       },
       "settings": {

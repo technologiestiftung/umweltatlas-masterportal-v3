@@ -47,19 +47,19 @@ export default {
     },
     watch: {
         length () {
-            this.validateInput("length", this.length, 0.1, 30.0);
+            this.validateInput("length", this.length, 0, 30.0);
         },
         width () {
-            this.validateInput("width", this.width, 0.1, 3.5);
+            this.validateInput("width", this.width, 0, 3.5);
         },
         height () {
-            this.validateInput("height", this.height, 0.1, 5);
+            this.validateInput("height", this.height, 0, 5);
         },
         weight () {
-            this.validateInput("weight", this.weight, 0.1, 65);
+            this.validateInput("weight", this.weight, 0, 65);
         },
         axleload () {
-            this.validateInput("axleload", this.axleload, 0.1, 19);
+            this.validateInput("axleload", this.axleload, 0, 19);
         }
     },
     mounted () {
@@ -151,7 +151,7 @@ export default {
                         v-model="length"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')]"
-                        :min="0.1"
+                        :min="0"
                         :max="30"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.length')"
@@ -164,7 +164,7 @@ export default {
                         v-model="width"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')]"
-                        :min="0.1"
+                        :min="0"
                         :max="3.5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.width')"
@@ -177,7 +177,7 @@ export default {
                         v-model="height"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')]"
-                        :min="0.1"
+                        :min="0"
                         :max="5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.height')"
@@ -192,7 +192,7 @@ export default {
                         v-model="weight"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')]"
-                        :min="0.1"
+                        :min="0"
                         :max="65"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.weight')"
@@ -205,7 +205,7 @@ export default {
                         v-model="axleload"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')]"
-                        :min="0.1"
+                        :min="0"
                         :max="19"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.axleload')"
