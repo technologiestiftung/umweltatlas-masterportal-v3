@@ -41,6 +41,8 @@
 - Documentation: 
     - Corrected usage of 'treeType' (version 2).
     - Corrected description of 'map3dParameter'.
+- Documentation: corrected usage of 'treeType' (version 2).
+- LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 
 ---
 
