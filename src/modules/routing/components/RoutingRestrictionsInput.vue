@@ -1,5 +1,6 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 
 /**
  * RoutingRestrictionsInput
@@ -8,6 +9,9 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
  */
 export default {
     name: "RoutingRestrictionsInput",
+    components: {
+        InputText
+    },
     data () {
         return {
             showRestrictions: false,
@@ -43,19 +47,19 @@ export default {
     },
     watch: {
         length () {
-            this.validateInput("length", this.length, 0.0, 30.0);
+            this.validateInput("length", this.length, 0.1, 30.0);
         },
         width () {
-            this.validateInput("width", this.width, 0.0, 3.5);
+            this.validateInput("width", this.width, 0.1, 3.5);
         },
         height () {
-            this.validateInput("height", this.height, 0.0, 5);
+            this.validateInput("height", this.height, 0.1, 5);
         },
         weight () {
-            this.validateInput("weight", this.weight, 0.0, 65);
+            this.validateInput("weight", this.weight, 0.1, 65);
         },
         axleload () {
-            this.validateInput("axleload", this.axleload, 0.0, 19);
+            this.validateInput("axleload", this.axleload, 0.1, 19);
         }
     },
     mounted () {
@@ -143,117 +147,71 @@ export default {
         >
             <div class="grid-column">
                 <div class="form-floating mb-3 w-100 mt-3">
-                    <input
+                    <InputText
                         v-model="length"
-                        type="number"
-                        :class="'w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')"
-                        min="0"
-                        step="0.1"
-                        max="30"
+                        :type="'number'"
+                        :class-obj="['w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')]"
+                        :min="0.1"
+                        :max="30"
+                        :step="0.1"
+                        :label="$t('common:modules.routing.restrictions.length')"
+                        :error-message="$t('common:modules.routing.restrictions.lengthTooltip')"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
-                    >
-                    <label for="lengthInput">
-                        {{ $t('common:modules.routing.restrictions.length') }}
-
-                    </label>
-                    <span
-                        id="length-input-help"
-                        class="invalid-feedback"
-                    >
-                        {{ $t('common:modules.routing.restrictions.lengthTooltip') }}
-                    </span>
+                    />
                 </div>
                 <div class="form-floating mb-3 w-100 mt-3">
-                    <input
-                        id="widthInput"
+                    <InputText
                         v-model="width"
-                        type="number"
-                        :class="'w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')"
-                        min="0"
-                        step="0.1"
-                        max="3.5"
+                        :type="'number'"
+                        :class-obj="['w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')]"
+                        :min="0.1"
+                        :max="3.5"
+                        :step="0.1"
+                        :label="$t('common:modules.routing.restrictions.width')"
+                        :error-message="$t('common:modules.routing.restrictions.widthTooltip')"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
-                    >
-                    <label for="widthInput">
-                        {{ $t('common:modules.routing.restrictions.width') }}
-
-                    </label>
-                    <span
-                        id="width-input-help"
-                        class="invalid-feedback"
-                    >
-                        {{ $t('common:modules.routing.restrictions.widthTooltip') }}
-                    </span>
+                    />
                 </div>
-
                 <div class="form-floating mb-3 w-100 mt-3">
-                    <input
-                        id="heightInput"
+                    <InputText
                         v-model="height"
-                        type="number"
-                        :class="'w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')"
-                        min="0"
-                        step="0.1"
-                        max="5"
+                        :type="'number'"
+                        :class-obj="['w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')]"
+                        :min="0.1"
+                        :max="5"
+                        :step="0.1"
+                        :label="$t('common:modules.routing.restrictions.height')"
+                        :error-message="$t('common:modules.routing.restrictions.heightTooltip')"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
-                    >
-                    <label for="heightInput">
-                        {{ $t('common:modules.routing.restrictions.height') }}
-
-                    </label>
-                    <span
-                        id="height-input-help"
-                        class="invalid-feedback"
-                    >
-                        {{ $t('common:modules.routing.restrictions.heightTooltip') }}
-                    </span>
+                    />
                 </div>
             </div>
             <div class="grid-column">
                 <div class="form-floating mb-3 w-100 mt-3">
-                    <input
-                        id="weightInput"
+                    <InputText
                         v-model="weight"
-                        type="number"
-                        :class="'w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')"
-                        min="0"
-                        step="1"
-                        max="65"
+                        :type="'number'"
+                        :class-obj="['w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')]"
+                        :min="0.1"
+                        :max="65"
+                        :step="0.1"
+                        :label="$t('common:modules.routing.restrictions.weight')"
+                        :error-message="$t('common:modules.routing.restrictions.weightTooltip')"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
-                    >
-                    <label for="weightInput">
-                        {{ $t('common:modules.routing.restrictions.weight') }}
-
-                    </label>
-                    <span
-                        id="weight-input-help"
-                        class="invalid-feedback"
-                    >
-                        {{ $t('common:modules.routing.restrictions.weightTooltip') }}
-                    </span>
+                    />
                 </div>
-
-                <div class="form-floating mb-3 w-100 mt-3">
-                    <input
-                        id="axleloadInput"
+                <div class="form-floating mb-3 w- mt-3">
+                    <InputText
                         v-model="axleload"
-                        type="number"
-                        :class="'w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')"
-                        min="0"
-                        step="1"
-                        max="19"
+                        :type="'number'"
+                        :class-obj="['w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')]"
+                        :min="0.1"
+                        :max="19"
+                        :step="0.1"
+                        :label="$t('common:modules.routing.restrictions.axleload')"
+                        :error-message="$t('common:modules.routing.restrictions.axleloadTooltip')"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
-                    >
-                    <label for="axleloadInput">
-                        {{ $t('common:modules.routing.restrictions.axleload') }}
-
-                    </label>
-                    <span
-                        id="axleload-input-help"
-                        class="invalid-feedback"
-                    >
-                        {{ $t('common:modules.routing.restrictions.axleloadTooltip') }}
-                    </span>
+                    />
                 </div>
                 <div class="form-group-row">
                     <label
@@ -324,9 +282,5 @@ export default {
 label {
     width: 100%;
     margin-bottom: 0;
-}
-
-input:focus-within {
-    font-weight: bold;
 }
 </style>
