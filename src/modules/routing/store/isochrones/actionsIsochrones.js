@@ -2,6 +2,10 @@ import {fetchRoutingOrsIsochrones} from "../../js/isochrones/routing-ors-isochro
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
 
+/**
+ * The actions for the routing isochrones.
+ * @module modules/routing/store/isochrones/actions
+ */
 export default {
     /**
      * Finds the Route for the current waypoints.

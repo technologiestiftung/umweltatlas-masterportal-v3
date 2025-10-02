@@ -1,6 +1,10 @@
 import {generateSimpleMutations} from "@shared/js/utils/generators";
 import stateIsochrones from "./stateIsochrones";
 
+/**
+ * The mutations for the routing isochrones.
+ * @module modules/routing/store/isochrones/mutations
+ */
 const mutations = {
     /**
      * Creates from every state-key a setter.

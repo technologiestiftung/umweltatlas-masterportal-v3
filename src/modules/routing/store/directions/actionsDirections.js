@@ -7,6 +7,10 @@ import Point from "ol/geom/Point";
 import {toRaw} from "vue";
 import {fromCircle} from "ol/geom/Polygon";
 
+/**
+ * The actions for the routing directions.
+ * @module modules/routing/store/directions/actions
+ */
 export default {
     /**
      * Finds the route for the current waypoints.

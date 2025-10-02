@@ -2,6 +2,10 @@ import {generateSimpleGetters} from "@shared/js/utils/generators";
 import directionsState from "./stateDirections";
 import * as constantsRouting from "../constantsRouting";
 
+/**
+ * The getters for the routing directions.
+ * @module modules/routing/store/directions/getters
+ */
 const getters = {
     /**
      * Returns an object of simple getters for a state object, where

@@ -2,6 +2,10 @@ import {generateSimpleGetters} from "@shared/js/utils/generators";
 import stateIsochrones from "./stateIsochrones";
 import * as constantsRouting from "../constantsRouting";
 
+/**
+ * The getters for the routing isochrones.
+ * @module modules/routing/store/isochrones/getters
+ */
 const getters = {
     /**
      * Returns an object of simple getters for a state object, where
