@@ -4701,7 +4701,7 @@ Möglichkeit, um Einstellungen für den Themenbaum vorzunehmen. Die Layer werden
 |rasterLayerDefaultInfoFormat|nein|String|"`text/xml`"|InfoFormat für Raster-Layer wenn nicht in der Layer-Konfiguration spezifiziert.|false|
 |showFolderPath|nein|Boolean|false|Legt fest, ob die Ordnerstruktur von sichtbaren Layern unter 'weitere Funktionen' angezeigt wird.|false|
 |singleBaselayer|nein|Boolean|false|Legt fest, ob nur ein Baselayer gleichzeitig ausgewählt werden kann.|false|
-|type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#layerconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](../Global-Config/services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geo-Online).|false|
+|type|nein|enum["auto"]||Der Themenbaum ist in der gleichen Struktur aufgebaut wie die **[layerConfig](#layerconfig)**. Wenn der Typ `auto` konfiguriert ist, werden alle Ebenen aus der [services.json](../Global-Config/services.json.md) im Baum angeboten, strukturiert durch ihre Metadaten (Geoportal-Hamburg).|false|
 |validLayerTypesAutoTree|nein|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer Typen die bei dem tree.type `auto` verwendet werden sollen.|false|
 |hideBackgroundsHeader|nein|Boolean|false|Auf true setzen, um die Überschrift für Hintergründe auszublenden.|false|
 |backgroundsHeaderText|nein|String||Alternative Überschrift für Hintergründe. Wenn gesetzt, ist eine nicht leere Zeichenkette erforderlich. Eine leere Zeichenfolge ("") gibt die Standard-i18n-Zeichenfolge/Übersetzung aus.|false|

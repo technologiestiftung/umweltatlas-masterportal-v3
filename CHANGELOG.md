@@ -20,6 +20,7 @@
 
 ### Fixed
 - Issue #1385: Add missing internationalization calls for layer names.
+- Documentation: corrected usage of 'treeType' (version 2).
 
 ---
 

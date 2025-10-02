@@ -4711,7 +4711,7 @@ Possibility to make settings for the topic selection tree. The layers are render
 |rasterLayerDefaultInfoFormat|no|String|"`text/xml`"|InfoFormat for Raster-Layer if not specified in layer configuration.|false|
 |showFolderPath|no|Boolean|false|Determines whether the folder structure of visible layers is displayed in 'Show more functions'.|false|
 |singleBaselayer|no|Boolean|false|Specifies whether only one base layer may be active at any time.|false|
-|type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#layerconfig)**. If the type `auto` is configured, all layers from the [services.json](../Global-Config/services.json.md) are offered in the tree, structured by their metadata (Geo-Online).|false|
+|type|no|enum["auto"]||The topic tree is built in the same structure as the **[topicconfig](#layerconfig)**. If the type `auto` is configured, all layers from the [services.json](../Global-Config/services.json.md) are offered in the tree, structured by their metadata (Geoportal-Hamburg).|false|
 |validLayerTypesAutoTree|no|enum|["WMS", "SENSORTHINGS", "TERRAIN3D", "TILESET3D", "OBLIQUE"]|Layer types to be used with the tree.type `auto`.|false|
 |hideBackgroundsHeader|no|Boolean|false|Set to true to hide the backgrounds headline.|false|
 |backgroundsHeaderText|no|String||Alternativ backgrounds headline. If set, a none empty string is required. An empty string will output the default i18n string/translation.|false|

@@ -74,7 +74,7 @@ describe("src/modules/addWMS/components/AddWMS.vue", () => {
 
         componentData = () => {
             return {
-                treeTyp: "custom"
+                treeTyp: ""
             };
         };
 
