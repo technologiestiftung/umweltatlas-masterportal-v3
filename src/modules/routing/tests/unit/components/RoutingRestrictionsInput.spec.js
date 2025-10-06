@@ -59,6 +59,9 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
                                     getters: {
                                         routingRestrictionsInputData: () => routingRestrictionsInputData,
                                         routingRestrictionIsValid: () => routingRestrictionIsValid
+                                    },
+                                    mutations: {
+                                        setRoutingRestrictionIsValid: () => sinon.stub()
                                     }
                                 },
                                 Isochrones: {
@@ -66,7 +69,9 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
                                     getters: {
                                         isochronesRestrictionsInputData: () => isochronesRestrictionsInputData,
                                         isochronesRestrictionIsValid: () => isochronesRestrictionIsValid
-
+                                    },
+                                    mutations: {
+                                        setIsochronesRestrictionIsValid: () => sinon.stub()
                                     }
                                 }
                             }
