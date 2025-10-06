@@ -54,6 +54,7 @@
 ### Fixed
 - Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
 - Issue #1416: Dragging a node of the layerTree now hides its tooltip. This ensures it won't be dropped on the tooltip, which lead to disabling the node in the layer tree.
+- Issue #1419: SearchInterfaceSpecialWfs: handle multisurface geometries like multipolygon, to ensure correct extraction of interior and exterior surfaces.
 - Issue #1467: Print: The info message for printing layers with a predefined legend is now also available in German.
 - Issue #1469: Fix menu expansion state after collecting GFI features.
 - Issue #1475: LayerInformation: Added additional metadata in group layers.
