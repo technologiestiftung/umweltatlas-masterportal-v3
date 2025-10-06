@@ -99,7 +99,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Shared TableComponent:
     - fixedColumnWithOrder in Props enable to insert the column with index.
     - fixedRow in Props enable to insert a row directly after the header.
-    - New style in ButtonGroup to show the buttons in individual way.
 - Added config.json parameter `rasterLayerDefaultInfoFormat` to override global default in 2d raster layer.
 
 ### Changed
@@ -264,9 +263,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - button for adding a new waypoint was moved between start and endpoint
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
-- GraphicalSelect: Added prop to enable the graphicalSelect component to start with an existing polygon
-- WFST-Tool: Saving objects now works correctly after layer reordering for multiselection.
-- IconButton extended by further property label. If a label is given, it will be displayed under the button.
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
