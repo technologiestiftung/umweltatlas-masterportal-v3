@@ -30,7 +30,20 @@ export default {
             "type",
             "visibleSubjectDataLayers"
         ]),
-        ...mapGetters("Maps", ["mode"])
+        ...mapGetters("Maps", ["mode"]),
+        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded", "secondaryExpanded", "currentMainMenuWidth"]),
+        /**
+         * combinedMenuState keeps track of the state of menu, i.e. whether the menus are expanded and their current width.
+         * Enables the use of a single watcher on all four variables.
+         */
+        combinedMenuState () {
+            return {
+                mainExpanded: this.mainExpanded,
+                secondaryExpanded: this.secondaryExpanded,
+                currentMainMenuWidth: this.currentMainMenuWidth,
+                currentSecondaryMenuWidth: this.currentSecondaryMenuWidth
+            };
+        }
     },
     watch: {
         /**
@@ -65,6 +78,17 @@ export default {
         */
         mode (value) {
             this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, value);
+        },
+        /**
+         * Detects changes to the menu state and width to update the layerPills accordingly.
+         * Animation of menus opening or closing make the timeout necessary.
+         */
+        combinedMenuState: {
+            handler () {
+                setTimeout(() => {
+                    this.setToggleButtonVisibility();
+                }, 200);
+            }
         }
     },
     created () {
@@ -198,8 +222,7 @@ export default {
             }
         },
         /**
-         * Updates the visibility state of the toggle button based on the multiline status of the pills list.
-         * Checks if the pills list spans multiple lines and sets the toggle button accordingly.
+         * Updates the visibility state of the toggle button based on the width available and the amount of layerpills present.
          * @returns {void}
          */
         setToggleButtonVisibility () {
@@ -207,17 +230,11 @@ export default {
                 const container = this.$refs.layerPillsContainer,
                     pills = container?.querySelectorAll(".nav-item");
 
-                if (container && pills) {
-                    const firstPillTop = pills[0]?.offsetTop || 0;
-                    let spansMultipleRows = false;
+                if (container && pills && pills[0]) {
+                    const pillWidth = (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length,
+                        containerWidth = container?.querySelectorAll(".nav-pills")[0].getBoundingClientRect().width;
 
-                    Array.from(pills).forEach((pill) => {
-                        if (pill.offsetTop !== firstPillTop) {
-                            spansMultipleRows = true;
-                        }
-                    });
-
-                    this.showToggleButton = spansMultipleRows;
+                    this.showToggleButton = pillWidth > containerWidth;
                 }
             });
         }

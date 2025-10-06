@@ -103,7 +103,8 @@ export default {
             "collapseMenues",
             "mergeMenuState",
             "setCurrentMenuWidth",
-            "setCurrentSecondaryMenuWidth"
+            "setCurrentSecondaryMenuWidth",
+            "setCurrentMainMenuWidth"
         ]),
         ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
         /**
@@ -118,24 +119,34 @@ export default {
             });
         },
         /**
-         * Hides or Displays layerPills and Footer depending on width of secondary Menu.
+         * Keeps track of current menu sizes and triggers function to hide layerPills and Footer with a sufficiently big secondary menu.
          * @param {object} eventData emitted Data from ResizeHandle Event
          */
         onResize (eventData) {
+            const MenuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth;
+
+            if (this.side === "mainMenu" && this.uiStyle === "DEFAULT") {
+                this.setCurrentMainMenuWidth(MenuPercentWidth);
+            }
             if (this.side === "secondaryMenu" && this.uiStyle === "DEFAULT") {
-                const secondaryMenuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth,
-                    hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
-                    footer = document.getElementById("module-portal-footer"),
-                    layerPills = document.getElementById("layer-pills");
+                this.hideElementsForBiggerMenu(MenuPercentWidth);
+                this.setCurrentSecondaryMenuWidth(MenuPercentWidth);
+            }
+        },
+        /**
+         * Hides or displays layerPills and Footer depending on width of secondary Menu.
+         * @param {number} menuPercentWidth the width of the secondary Menu in percent of the viewport.
+         */
+        hideElementsForBiggerMenu (menuPercentWidth) {
+            const hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
+                footer = document.getElementById("module-portal-footer"),
+                layerPills = document.getElementById("layer-pills");
 
-
-                if (layerPills) {
-                    layerPills.style.display = secondaryMenuPercentWidth > hideElementBreakPoint ? "none" : "";
-                }
-                if (footer) {
-                    footer.style.display = secondaryMenuPercentWidth > hideElementBreakPoint ? "none" : "";
-                }
-                this.setCurrentSecondaryMenuWidth(secondaryMenuPercentWidth);
+            if (layerPills) {
+                layerPills.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
+            }
+            if (footer) {
+                footer.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
             }
         }
     }
