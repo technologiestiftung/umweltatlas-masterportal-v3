@@ -23,6 +23,13 @@
     - i18next-browser-languagedetector: ^8.0.3 to ^8.2.0
     - i18next-http-backend: ^2.7.3 to ^3.0.2
     - three: ^0.173.0 to ^0.180.0
+    - @vue/compiler-sfc: ^3.3.4 to ^3.5.22
+    - @vue/server-renderer: ^3.3.4 to ^3.5.22
+  - dependencies:
+    - vue: ^3.3.4 to ^3.5.22
+  - devDependencies:
+- Removed temporary `overrides` that pinned Vue core packages to 3.3.4.
+- Adjusted test webpack config for Vue 3.5 (aliases/loaders). 
 
 ### Deprecated
 
