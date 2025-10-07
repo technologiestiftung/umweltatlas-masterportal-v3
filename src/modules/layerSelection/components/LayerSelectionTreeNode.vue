@@ -28,6 +28,19 @@ export default {
             type: Object,
             required: true
         },
+        /**
+         * The original, unfiltered configuration object.
+         * This is useful for operations like navigating folders,
+         * where the full structure (not the filtered one) is needed.
+         * Optional—if not provided, `conf` is used as fallback.
+         * @type {Object|null}
+         * @default null
+         */
+        originalConf: {
+            type: Object,
+            required: false,
+            default: null
+        },
         /** if true, SelectAllCheckBox is rendered */
         showSelectAllCheckBox: {
             type: Boolean,
@@ -57,12 +70,14 @@ export default {
          * @returns {void}
          */
         folderClicked () {
-            if (this.conf.elements) {
-                if (this.conf.elements.some(conf => "layerSequence" in conf)) {
-                    sortByLayerSequence(this.conf.elements);
+            const elements = this.originalConf?.elements || this.conf.elements;
+
+            if (elements) {
+                if (elements.some(conf => "layerSequence" in conf)) {
+                    sortByLayerSequence(elements);
                 }
 
-                this.$emit("showNode", this.conf.name, this.conf.elements);
+                this.$emit("showNode", this.originalConf?.name || this.conf.name, elements);
             }
         },
         /**

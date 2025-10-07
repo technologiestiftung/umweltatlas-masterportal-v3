@@ -1774,7 +1774,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 
 This module displays specific portal information like description, Masterportal version, Metadata.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |icon|no|String|"bi-info-circle"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|no|String|"common:modules.about.name"|Name of the module in the menu.|false|
@@ -2675,7 +2675,7 @@ The following example uses only a layer id to generate the filter automatically.
 An additional selection appears above the filter where a geometry can be selected and drawn on the map. The filter filters only in the selected area.
 If you use this modul in conjunction with external filtering (`external`: `true`), please remember to configure your layer filter with geometryName.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |additionalGeometries|no|Boolean|false|Geometries from a layer can additionally be added to the filter by the id. In that case, an attribute for the name of the geometry must also be specified. Currently only possible with WFS layer.|false|
 |circleSides|no|Number|256|The geometry "Circle" is converted to a polygon for technical reasons. This is the number of polygon points of the resulting geometry.|false|
@@ -4029,12 +4029,12 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 ###### portalConfig.menu.sections.modules.statisticDashboard.selectableColorPalettes {data-toc-label='Selectable Color Palettes'}
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |label|yes|String||The displayed name of the color palette.|false|
 |baseColor|yes|Number[]||The base color as an rgb array|false|
 
-**Beispiel**
+**Example**
 
 ```json
 [
@@ -4118,7 +4118,7 @@ The shadow tool provides a UI element to define a point in time by using sliders
 
 ###### portalConfig.menu.sections.modules.statisticDashboard.data.timeStepsFilter {data-toc-label='Time Steps Filter'}
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |key:value|ja|String|""|Key: The key is the number of the last "key" entry for dropdown options. Value: The description for the grouping.|false|
 |all:value|ja|String|""|Key: The keyword for selecting all entries for dropdown options. Value: The description for the grouping.|false|
@@ -4652,7 +4652,7 @@ Possibility to configure the content of the portal footer.
 |seperator|no|String|"` \| `"|The seperator between urls.|false|
 |urls|no|**[urls](#portalconfigportalfooterurls)**[]|[]|Urls, that should be displayed in the footer.|false|
 
-**Beispiel**
+**Example**
 
 ```json
 "portalFooter": {
@@ -4683,7 +4683,7 @@ A Url can be defined in various ways.
 |bezeichnung|no|String||Displayed description next to the link.|false|
 |url|yes|String||The Url for the link.|false|
 
-**Beispiel**
+**Example**
 
 ```json
 {
@@ -4736,12 +4736,13 @@ Possibility to make settings for the topic selection tree. The layers are render
             "FE4DAF57-2AF6-434D-85E3-220A20B8C0F1"
         ],
         "layerIDsToStyle": [
-        {
-            "id": "1935",
-            "styles": ["geofox_Faehre", "geofox-bahn", "geofox-bus", "geofox_BusName"],
-            "name": ["Fährverbindungen", "Bahnlinien", "Buslinien", "Busliniennummern"],
-            "legendURL": ["http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png", "http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png", "http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png", "http://87.106.16.168/legende_mrh/hvv-bus.png"]
-        },
+            {
+                "id": "1935",
+                "styles": ["geofox_Faehre", "geofox-bahn", "geofox-bus", "geofox_BusName"],
+                "name": ["Fährverbindungen", "Bahnlinien", "Buslinien", "Busliniennummern"],
+                "legendURL": ["http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-faehre.png", "http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bahn.png", "http://geoportal.metropolregion.hamburg.de/legende_mrh/hvv-bus.png", "http://87.106.16.168/legende_mrh/hvv-bus.png"]
+            }
+        ],
         "categories": [
         {
           "key": "kategorie_opendata",
@@ -4793,7 +4794,7 @@ Configuration of the addLayerButton to select layers.
 |searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
 |searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. The category of the search.|true|
 
-**Beispiel**
+**Example**
 
 ```json
 {
@@ -4803,16 +4804,17 @@ Configuration of the addLayerButton to select layers.
             "buttonTitle": "Add Layers",
             "searchBar": {
                 "active": true,
-               "searchInterfaceInstances": [
-                {
-                    "id":"elasticSearch_0",
-                    "searchCategory": "Thema (externe Fachdaten)"
-                },
-                {
-                    "id": "topicTree",
-                    "searchCategory": "Thema"
-                }
-            ]
+                "searchInterfaceInstances": [
+                    {
+                        "id":"elasticSearch_0",
+                        "searchCategory": "Thema (externe Fachdaten)"
+                    },
+                    {
+                        "id": "topicTree",
+                        "searchCategory": "Thema"
+                    }
+                ]
+            }
         }
     }
 }
@@ -4824,9 +4826,10 @@ Configuration of the addLayerButton to select layers.
             "active": true,
             "buttonTitle": "Layer hinzufügen",
             "searchBar": {
-            "active": true,
-            "searchInterfaceInstanceId": "elasticSearch_0",
-            "searchCategory": "Thema (externe Fachdaten)"
+                "active": true,
+                "searchInterfaceInstanceId": "elasticSearch_0",
+                "searchCategory": "Thema (externe Fachdaten)"
+            }
         }
     }
 }
@@ -4840,24 +4843,35 @@ A topic search is enabled within the configured SearchInterface and SearchCatego
 |----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Specifies whether the search is displayed.|false|
 |searchInterfaceInstances|ja|**[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []**||List of search interfaces from the searchbar that are to be used here.|true|
+|filter|no|Boolean|false|Enables client-side filtering of layers and folders in the tree based on the user's search input. <br>**Note:** <br>If `searchInterfaceInstances` *is* configured, `filter: true` takes **priority** and triggers local filtering **instead of** using the configured SearchInterface.|false|
 
-**Beispiel**
+**Example with `searchInterfaceInstances`**
 
 ```json
 {
-   "searchBar": {
-        "active": true,
-        "searchInterfaceInstances": [
-            {
-                "id":"elasticSearch_0",
-                "searchCategory": "Thema (externe Fachdaten)"
-            },
-            {
-                "id": "topicTree",
-                "searchCategory": "Thema"
-            }
-        ]
-    }
+  "searchBar": {
+    "active": true,
+    "searchInterfaceInstances": [
+      {
+        "id": "elasticSearch_0",
+        "searchCategory": "Topic (external data)"
+      },
+      {
+        "id": "topicTree",
+        "searchCategory": "Topic"
+      }
+    ]
+  }
+}
+```
+**Example with `filter`**
+
+```json
+{
+  "searchBar": {
+    "active": true,
+    "filter": true
+  }
 }
 ```
 
@@ -4871,7 +4885,7 @@ The search only works with interfaces that perform a topic search.
 |id|yes|String||Id des Suchinterfaces. Konfiguriert an dem Suchinterface am Parameter 'searchInterfaceId'.|false|
 |searchCategory|yes|String||the search category.|false|
 
-**Beispiel**
+**Example**
 
 ```json
 {

@@ -655,7 +655,8 @@
       "deselectAll": "Alle entfernen",
       "selectedSubjectsCount_other": "Bitte wählen sie ein Thema aus",
       "addSelectedSubjectsToMap_one": "Ausgewähltes Thema der Karte hinzufügen",
-      "addSelectedSubjectsToMap_other": "{{count}} ausgewählte Themen der Karte hinzufügen"
+      "addSelectedSubjectsToMap_other": "{{count}} ausgewählte Themen der Karte hinzufügen",
+      "noResults": "Keine Ergebnisse für \"{{filterText}}\" gefunden."
     },
     "layerSlider": {
       "description": "Starten Sie eine Slideshow",
@@ -1207,6 +1208,8 @@
       "searchResultsFrom": "Suchergebnisse von: ",
       "mark": "Wähle das Thema aus",
       "add": "Thema hinzufügen",
+      "minCharHint": "Bitte geben Sie mindestens {{min}} Zeichen ein, um die Suche zu starten.",
+      "noResults": "Keine Ergebnisse gefunden.",
       "type": {
         "address": "Adresse",
         "county": "Bezirk",

@@ -8,6 +8,8 @@
 ### __Breaking Changes__
 
 ### Added
+- SearchBar: Added search status (min characters, loading, no results).
+- LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
 
 ### Changed
 - The following packages have been updated:

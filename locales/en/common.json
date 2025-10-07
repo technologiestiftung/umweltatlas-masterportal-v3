@@ -656,7 +656,8 @@
       "deselectAll": "Remove all",
       "selectedSubjectsCount_other": "Please select a topic",
       "addSelectedSubjectsToMap_one": "Add selected topic to the map",
-      "addSelectedSubjectsToMap_other": "Add {{count}} selected topics to the map"
+      "addSelectedSubjectsToMap_other": "Add {{count}} selected topics to the map",
+      "noResults": "No results found for \"{{filterText}}\"."
     },
     "layerSlider": {
       "description": "Start a slideshow",
@@ -1216,6 +1217,8 @@
       "searchResultsFrom": "search results from: ",
       "mark": "Select the topic",
       "add": "Add Topic",
+      "minCharHint": "Please enter at least {{min}} characters to start the search.",
+      "noResults": "No results found.",
       "type": {
         "address": "address",
         "county": "county",
