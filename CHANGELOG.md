@@ -45,6 +45,7 @@
 - Issue #1385: Add missing internationalization calls for layer names.
 - Issue #1413: Fix legend toggle for featureless vector layers.
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
+- Issue #1472: Fix usage of tokens to always use freshest token from cookies. Also allow all acceptable first `fetch` parameters for intercepted URLs now.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
 - Issue #1485: Fix keyboard interaction in compareMaps.
 - Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
@@ -55,6 +56,7 @@
     - EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.
     - Use Code block headers instead of inline comments for the VueJSAddon tutorial.
 Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
+- Documentation: corrected usage of 'treeType' (version 2).
 
 ---
 
