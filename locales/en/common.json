@@ -1105,15 +1105,11 @@
       "restrictions": {
         "header": "HGV Parameter",
         "length": "Length (m)",
-        "lengthTooltip": "Truck length. Accepted values: 0 to 30 meters",
         "width": "Width (m)",
-        "widthTooltip": "Truck width. Accepted values: 0 to 3.5 meters",
         "height": "Height (m)",
-        "heightTooltip": "Truck height. Accepted values: 0 to 5 meters",
         "weight": "Weight (t)",
-        "weightTooltip": "Truck weight. Accepted values: 0 to 65 tons",
         "axleload": "Axleload (t)",
-        "axleloadTooltip": "Truck axle load. Accepted values: 0 to 19 tons",
+        "tooltip": "Enter value between {{min}} and {{max}}",
         "hazmat": "Hazardous materials"
       },
       "settings": {

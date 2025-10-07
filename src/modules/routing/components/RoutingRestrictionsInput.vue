@@ -155,7 +155,7 @@ export default {
                         :max="30"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.length')"
-                        :error-message="$t('common:modules.routing.restrictions.lengthTooltip')"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 30})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -168,7 +168,7 @@ export default {
                         :max="3.5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.width')"
-                        :error-message="$t('common:modules.routing.restrictions.widthTooltip')"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 3.5})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -181,7 +181,7 @@ export default {
                         :max="5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.height')"
-                        :error-message="$t('common:modules.routing.restrictions.heightTooltip')"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 5})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -196,7 +196,7 @@ export default {
                         :max="65"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.weight')"
-                        :error-message="$t('common:modules.routing.restrictions.weightTooltip')"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 65})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -209,7 +209,7 @@ export default {
                         :max="19"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.axleload')"
-                        :error-message="$t('common:modules.routing.restrictions.axleloadTooltip')"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 19})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
