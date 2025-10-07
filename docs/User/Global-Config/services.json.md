@@ -1379,9 +1379,9 @@ With these confurations a url in the feature properties can be displayed either 
 | legendURL | yes | String/String[] |  | Link to static legend image. `"ignore"`: No image is retrieved, `""` (empty string): The service's *GetLegendGraphic* is called. | `"ignore"` |
 | legend | no | Boolean/String/String[] |  | Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend. | `false` |
 | name | yes | String |  | Arbitrary display name used in the layer tree. | `"Traffic situation on freeways"` |
-| hiddenFeatures | no | Array |  | List of ids describing features to hide | `["id_1", "id_2"]` |
+| hiddenFeatures | no | Array |  | List of ids describing features to hide. | `["id_1", "id_2"]` |
 | typ | yes | String |  | Service type; in this case, `"TileSet3D"`. | `"TileSet3D"` |
-| url | yes | String |  | Dienste URL | `"https://geodienste.hamburg.de/buildings_lod2"` |
+| url | yes | String |  | Service URL, if it does not end with `.json`, then `/tileset.json` is appended to the URL. | `"https://geodienste.hamburg.de/buildings_lod2"` |
 | cesium3DTilesetOptions | no | **[cesium3DTilesetOptions](https://cesiumjs.org/Cesium/Build/Documentation/Cesium3DTileset.html)** |  | Cesium 3D tileset options directly forwarded to the cesium tileset object. E.g. `maximumScreenSpaceError` can be used for distance visibility. |  |
 | useProxy | no | Boolean | `false` | _Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Only used for GFI requests. The request will contain the requested URL as path, with dots replaced by underscores. | `false` |
 | sceneOptions | no | Object |  | This can be used to change the depthTestAgainstTerrain parameter on the Cesium Scene. By default, this is set to false in the mpApi so that layers do not disappear under the terrain. However, this is desired for special layers such as 3D Mesh, as they would otherwise be covered by the surface. For this purpose, an object globe{depthTestAgainstTerrain: true} can be added to the layer, as in the example. | `false` |
@@ -1438,7 +1438,7 @@ With these confurations a url in the feature properties can be displayed either 
 | legend | no | Boolean/String/String[] |  | Value of the **[services.json](services.json.md)** file. URL to be used to request a static legend image. Use a boolean value to dynamically generate the legend from a WMS request or the WFS styling respectively. Use a string to link an image or a PDF file. Use `"ignore"` or `false` for no legend. | `false` |
 | name | yes | String |  | Arbitrary display name used in the layer tree. | `"Charging locations"` |
 | typ | yes | String |  | Service type; in this case, `"Terrain3D"`. | `"Terrain3D"` |
-| url | yes | String |  | Service URL | `"https://geodienste.hamburg.de/terrain"` |
+| url | yes | String |  | Service URL; the extension `/layer.json` is appended to this URL when the layer is loaded. | `"https://geodienste.hamburg.de/terrain"` |
 | cesiumTerrainProviderOptions | no | **[cesiumTerrainProviderOptions](https://cesiumjs.org/Cesium/Build/Documentation/CesiumTerrainProvider.html)** |  | Cesium TerrainProvider options directly forwarded to the Cesium TerrainProvider. E.g. `requestVertexNormals` can be used for object shading. |  |
 | useProxy | no | Boolean | `false` | _Deprecated in the next major release. *[GDI-DE](https://www.gdi-de.org/en)* recommends setting CORS headers on the required services instead._ Only used for GFI requests. The request will contain the requested URL as path, with dots replaced by underscores. | `false` |
 | layerSequence | no | Number |  | Number to determine the sequence of layers in the layerTree and layerSelection. The layers are rendered in sequence based on the assigned value, e.g. layers with `layerSequence=1` will initially be on top, etc. Does not work for Baselayers. |  |
