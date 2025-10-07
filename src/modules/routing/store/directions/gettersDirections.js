@@ -54,7 +54,7 @@ const getters = {
      * @returns {Boolean} true if all parameters are valid
      */
     allHGVRestrictionsValid (state) {
-        return Object.values(state.routingRestrictionIsValid).every(val => val === true);
+        return Object.values(state.routingRestrictionIsValid).every(val => val);
     }
 };
 

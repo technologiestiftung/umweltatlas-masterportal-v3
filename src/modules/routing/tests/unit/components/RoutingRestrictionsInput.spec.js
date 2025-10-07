@@ -96,7 +96,7 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
         expect(wrapper.find("#routing-restrictions").exists()).to.be.true;
     });
 
-    it("should validate input", async () => {
+    it("should validate input", () => {
         const length = 29.0;
 
         activeRoutingToolOption = "DIRECTIONS";
@@ -113,7 +113,7 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
 
     });
 
-    it("should validate input (width out of range)", async () => {
+    it("should validate input (width out of range)", () => {
         activeRoutingToolOption = "DIRECTIONS";
         wrapper = mount(RoutingRestrictionsInputComponent, {
             global: {
@@ -127,7 +127,7 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
         expect(routingRestrictionsInputData.height).to.equal(2.8);
         expect(isValid).to.be.false;
     });
-    it("should validate input", async () => {
+    it("should validate input", () => {
         activeRoutingToolOption = "ISOCHRONES";
         const width = 1.0;
 
@@ -144,7 +144,7 @@ describe("src/modules/routing/components/RoutingRestrictionsInput.vue", () => {
 
     });
 
-    it("should validate input (axleload out of range)", async () => {
+    it("should validate input (axleload out of range)", () => {
         activeRoutingToolOption = "ISOCHRONES";
         wrapper = mount(RoutingRestrictionsInputComponent, {
             global: {
