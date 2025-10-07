@@ -62,6 +62,13 @@
 ### Added
 - SearchBar: Added search status (min characters, loading, no results).
 - LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
+- GraphicalSelect: Added line feature with buffer geometry for selection.
+- FeatureLister:
+  - Added spatial selection of features that are shown in the list.
+  - GeoJSON is now supported.
+- TableComponent: 
+  - Added GeoJSON Download.
+  - Added alphanumerical sorting.
 - Issue #1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
 - map3DParameter: Added new `shadowTime` configuration option to define a fixed time for shadow calculation in 3D mode.
 - Build Script: Added support for providing the portal path via environment variable `PORTAL_PATH` in the build script.
@@ -228,13 +235,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - PrintModule: Add additional parameter `transferParameter` which is an object with its parameters spread for the mapFish. `transferParameter` can have two parameters: `pagename` and `footer`, which are both strings.
 - Routing: Added context menu to for setting and deleting waypoints as well as barrier points via right mouse button.
 - Documentation: Now includes a search bar for cross-site search.
-- GraphicalSelect: Added line feature with buffer geometry for selection.
-- FeatureLister:
-  - Added spatial selection of features that are shown in the list.
-  - GeoJSON is now supported.
-- TableComponent: 
-  - Added GeoJSON Download.
-  - Added alphanumerical sorting.
 
 ### Changed
 - Orientation: Nearby: If in an iFrame and geolocation is not enabled through config parameter, geolocation option will not show.
