@@ -347,6 +347,13 @@ export default {
 
                     this.visibleHeaders.forEach(header => {
                         newItem[header.name] = items[i][header.name] ?? "";
+                        // add id and geom for export and zoom
+                        if (items[i].id) {
+                            newItem.id = items[i].id;
+                        }
+                        if (items[i].geom) {
+                            newItem.geom = items[i].geom;
+                        }
                     });
 
                     if (this.fixedRow?.name !== newItem?.[Object.keys(newItem).reverse()[0]]) {
