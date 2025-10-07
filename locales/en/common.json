@@ -1109,8 +1109,9 @@
         "height": "Height (m)",
         "weight": "Weight (t)",
         "axleload": "Axleload (t)",
+        "hazmat": "Hazardous materials",
         "tooltip": "Enter value between {{min}} and {{max}}",
-        "hazmat": "Hazardous materials"
+        "placerholder": "Please enter value"
       },
       "settings": {
         "submit": "Submit"

@@ -1111,8 +1111,9 @@
         "height": "Höhe (m)",
         "weight": "Gewicht (t)",
         "axleload": "Achslast (t)",
+        "hazmat": "Gefahrgut",
         "tooltip": "Wert zwischen {{min}} und {{max}} gültig",
-        "hazmat": "Gefahrgut"
+        "placeholder": "Bitte Wert eingeben"
       },
       "settings": {
         "submit": "Bestätigen"

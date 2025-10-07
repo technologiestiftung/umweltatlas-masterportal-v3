@@ -148,6 +148,7 @@ export default {
             <div class="grid-column">
                 <div class="form-floating mb-3 w-100 mt-3">
                     <InputText
+                        :id="'routing-restrictions-length-input'"
                         v-model="length"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')]"
@@ -155,12 +156,14 @@ export default {
                         :max="30"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.length')"
+                        :placeholder="$t('common:modules.routing.restrictions.placeholder')"
                         :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 30})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
                 <div class="form-floating mb-3 w-100 mt-3">
                     <InputText
+                        :id="'routing-restrictions-width-input'"
                         v-model="width"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')]"
@@ -168,12 +171,14 @@ export default {
                         :max="3.5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.width')"
+                        :placeholder="$t('common:modules.routing.restrictions.placeholder')"
                         :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 3.5})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
                 <div class="form-floating mb-3 w-100 mt-3">
                     <InputText
+                        :id="'routing-restrictions-height-input'"
                         v-model="height"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')]"
@@ -181,6 +186,7 @@ export default {
                         :max="5"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.height')"
+                        :placeholder="$t('common:modules.routing.restrictions.placeholder')"
                         :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 5})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
@@ -189,6 +195,7 @@ export default {
             <div class="grid-column">
                 <div class="form-floating mb-3 w-100 mt-3">
                     <InputText
+                        :id="'routing-restrictions-weight-input'"
                         v-model="weight"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')]"
@@ -196,12 +203,14 @@ export default {
                         :max="65"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.weight')"
+                        :placeholder="$t('common:modules.routing.restrictions.placeholder')"
                         :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 65})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
                 <div class="form-floating mb-3 w- mt-3">
                     <InputText
+                        :id="'routing-restrictions-axleload-input'"
                         v-model="axleload"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')]"
@@ -209,6 +218,7 @@ export default {
                         :max="19"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.axleload')"
+                        :placeholder="$t('common:modules.routing.restrictions.placeholder')"
                         :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 19})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
