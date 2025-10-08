@@ -53,6 +53,7 @@
     - Use Code block headers instead of inline comments for the VueJSAddon tutorial.
 Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
+- Issue #1485: Fix keyboard interaction in compareMaps.
 
 ---
 
