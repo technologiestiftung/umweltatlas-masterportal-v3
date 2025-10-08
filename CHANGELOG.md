@@ -46,6 +46,7 @@
 - Issue #1413: Fix legend toggle for featureless vector layers.
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
 - Issue #1472: Fix usage of tokens to always use freshest token from cookies. Also allow all acceptable first `fetch` parameters for intercepted URLs now.
+- Issue #1476: Fix automated scale adjustment in Print module getting stuck on receiving scale as url parameter.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
 - Issue #1485: Fix keyboard interaction in compareMaps.
 - Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
