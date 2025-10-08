@@ -883,25 +883,58 @@ export default {
          * @returns {void}
          */
         toggle (refName) {
+            (this.focused ? this.close : this.open)(refName);
+        },
+
+        /**
+         * Closes the multiselect component referenced by `refName`.
+         * @param {String} refName The key for the ref.
+         * @returns {void}
+         */
+        close (refName) {
+            const multiselectRef = this.$refs[refName];
+
+            if (!multiselectRef) {
+                return;
+            }
+            multiselectRef.deactivate();
+        },
+
+        /**
+         * Opens the multiselect component referenced by `refName` by focusing its search input.
+         * @param {String} refName The key of the ref.
+         * @returns {void}
+         */
+        open (refName) {
+            if (this.focused) {
+                return;
+            }
             const multiselectRef = this.$refs[refName];
 
             if (!multiselectRef) {
                 return;
             }
 
-            if (this.focused) {
-                multiselectRef.deactivate();
-            }
-            else {
-                multiselectRef.activate();
-                this.$nextTick(() => {
-                    const input = multiselectRef.$refs.search;
+            multiselectRef.activate();
+            this.$nextTick(() => {
+                const input = multiselectRef.$refs.search;
 
-                    if (input) {
-                        input.focus();
-                    }
-                });
+                if (input) {
+                    input.focus();
+                }
+            });
+        },
+        /**
+         * Handles the keydown event for the space key to open the dropdown.
+         * @param {Event} e The keydown event.
+         * @returns {void}
+         */
+        handleKeydownSpace (e) {
+            if (this.focused) {
+                return;
             }
+            e.preventDefault();
+            this.open("dropdown");
         }
     }
 };
@@ -930,13 +963,14 @@ export default {
                 class="filter-select-box-container d-flex justify-content-between align-items-center"
             >
                 <div
+                    class="mutiselect-click-wrapper"
                     style="width:100%"
                     role="button"
                     tabindex="0"
                     @click.stop="toggle('dropdown')"
                     @mousedown.prevent
-                    @keydown.enter.stop.prevent="toggle('dropdown')"
-                    @keydown.space.stop.prevent="toggle('dropdown')"
+                    @keydown.tab.stop
+                    @keydown.space="handleKeydownSpace"
                 >
                     <Multiselect
                         :id="'snippetSelectBox-' + snippetId"
@@ -960,6 +994,7 @@ export default {
                         :group-values="(multiselect && addSelectAll) ? 'list' : ''"
                         :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
                         :internal-search="false"
+                        :tabindex="-1"
                         @search-change="getSearchedResult"
                         @remove="setCurrentSource('dropdown')"
                         @select="onSelect"
@@ -971,7 +1006,8 @@ export default {
                                 class="multiselect__tag"
                                 :class="option.code"
                                 @click="remove(option)"
-                                @keypress="remove(option)"
+                                @keydown.enter="remove(option)"
+                                @keydown.space.prevent="remove(option)"
                             >
                                 {{ option }}
                                 <i class="bi bi-x" />
@@ -1343,5 +1379,11 @@ export default {
     }
     .rotate {
         transform: rotate(180deg);
+    }
+    .mutiselect-click-wrapper {
+        border-radius: 5px;
+    }
+    .mutiselect-click-wrapper:focus {
+        outline: 1px solid #001B3D;
     }
 </style>

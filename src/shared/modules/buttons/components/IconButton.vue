@@ -73,7 +73,6 @@ export default {
             class="text-center btn-label"
             :for="id"
             :aria-label="label"
-            tabindex="0"
         >
             {{ label }}
         </label>
