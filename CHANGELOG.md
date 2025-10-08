@@ -47,6 +47,7 @@
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
 - Issue #1485: Fix keyboard interaction in compareMaps.
+- Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 - Documentation: 
     - Corrected usage of 'treeType' (version 2).
