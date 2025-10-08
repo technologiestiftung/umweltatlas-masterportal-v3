@@ -22,6 +22,20 @@ export default {
                 weight: true,
                 axleload: true
             },
+            min: {
+                length: 0,
+                width: 0,
+                height: 0,
+                weight: 0,
+                axleload: 0
+            },
+            max: {
+                length: 30,
+                width: 3.5,
+                height: 5,
+                weight: 65,
+                axleload: 19
+            },
             length: 0,
             width: 0,
             height: 0,
@@ -47,19 +61,19 @@ export default {
     },
     watch: {
         length () {
-            this.validateInput("length", this.length, 0, 30.0);
+            this.validateInput("length", this.length, this.min.length, this.max.length);
         },
         width () {
-            this.validateInput("width", this.width, 0, 3.5);
+            this.validateInput("width", this.width, this.min.width, this.max.width);
         },
         height () {
-            this.validateInput("height", this.height, 0, 5);
+            this.validateInput("height", this.height, this.min.height, this.max.height);
         },
         weight () {
-            this.validateInput("weight", this.weight, 0, 65);
+            this.validateInput("weight", this.weight, this.min.weight, this.max.weight);
         },
         axleload () {
-            this.validateInput("axleload", this.axleload, 0, 19);
+            this.validateInput("axleload", this.axleload, this.min.axleload, this.max.axleload);
         }
     },
     mounted () {
@@ -152,12 +166,12 @@ export default {
                         v-model="length"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.length ? ' is-valid': ' is-invalid')]"
-                        :min="0"
-                        :max="30"
+                        :min="min.length"
+                        :max="max.length"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.length')"
                         :placeholder="$t('common:modules.routing.restrictions.placeholder')"
-                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 30})"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: min.length, max: max.length})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -167,12 +181,12 @@ export default {
                         v-model="width"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.width ? ' is-valid': ' is-invalid')]"
-                        :min="0"
-                        :max="3.5"
+                        :min="min.width"
+                        :max="max.width"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.width')"
                         :placeholder="$t('common:modules.routing.restrictions.placeholder')"
-                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 3.5})"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: min.width, max: max.width})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -182,12 +196,12 @@ export default {
                         v-model="height"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.height ? ' is-valid': ' is-invalid')]"
-                        :min="0"
-                        :max="5"
+                        :min="min.height"
+                        :max="max.height"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.height')"
                         :placeholder="$t('common:modules.routing.restrictions.placeholder')"
-                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 5})"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: min.height, max: max.height})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -199,12 +213,12 @@ export default {
                         v-model="weight"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.weight ? ' is-valid': ' is-invalid')]"
-                        :min="0"
-                        :max="65"
+                        :min="min.weight"
+                        :max="max.weight"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.weight')"
                         :placeholder="$t('common:modules.routing.restrictions.placeholder')"
-                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 65})"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: min.weight, max: max.weight})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
@@ -214,12 +228,12 @@ export default {
                         v-model="axleload"
                         :type="'number'"
                         :class-obj="['w-100 form-control' + (isValid.axleload ? ' is-valid': ' is-invalid')]"
-                        :min="0"
-                        :max="19"
+                        :min="min.axleload"
+                        :max="max.axleload"
                         :step="0.1"
                         :label="$t('common:modules.routing.restrictions.axleload')"
                         :placeholder="$t('common:modules.routing.restrictions.placeholder')"
-                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: 0, max: 19})"
+                        :error-message="$t('common:modules.routing.restrictions.tooltip', {min: min.axleload, max: max.axleload})"
                         @change="activeRoutingToolOption === 'DIRECTIONS'? findDirections() : null"
                     />
                 </div>
