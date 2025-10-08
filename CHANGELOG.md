@@ -45,6 +45,7 @@
 - Issue #1413: Fix legend toggle for featureless vector layers.
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
+- Issue #1485: Fix keyboard interaction in compareMaps.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 - Documentation: 
     - Corrected usage of 'treeType' (version 2).
@@ -52,8 +53,6 @@
     - EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.
     - Use Code block headers instead of inline comments for the VueJSAddon tutorial.
 Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
-
-- Issue #1485: Fix keyboard interaction in compareMaps.
 
 ---
 
