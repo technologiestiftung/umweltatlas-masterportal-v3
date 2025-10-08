@@ -31,7 +31,7 @@ export default {
             "visibleSubjectDataLayers"
         ]),
         ...mapGetters("Maps", ["mode"]),
-        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded", "secondaryExpanded", "currentMainMenuWidth"]),
+        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "currentMainMenuWidth"]),
         /**
          * combinedMenuState keeps track of the state of menu, i.e. whether the menus are expanded and their current width.
          * Enables the use of a single watcher on all four variables.
@@ -40,12 +40,6 @@ export default {
             return {
                 currentMainMenuWidth: this.currentMainMenuWidth,
                 currentSecondaryMenuWidth: this.currentSecondaryMenuWidth
-            };
-        },
-        combinedMenuExpandedState () {
-            return {
-                mainExpanded: this.mainExpanded,
-                secondaryExpanded: this.secondaryExpanded
             };
         }
     },
@@ -90,13 +84,6 @@ export default {
         combinedMenuWidthState: {
             handler () {
                 this.setToggleButtonVisibility();
-            }
-        },
-        combinedMenuExpandedState: {
-            handler () {
-                setTimeout(() => {
-                    this.setToggleButtonVisibility();
-                }, 200);
             }
         }
     },

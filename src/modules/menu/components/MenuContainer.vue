@@ -124,14 +124,14 @@ export default {
          * @param {object} eventData emitted Data from ResizeHandle Event
          */
         onResize (eventData) {
-            const MenuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth;
+            const menuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth;
 
             if (this.side === "mainMenu" && this.uiStyle === "DEFAULT") {
-                this.setCurrentMainMenuWidth(MenuPercentWidth);
+                this.setCurrentMainMenuWidth(menuPercentWidth);
             }
             if (this.side === "secondaryMenu" && this.uiStyle === "DEFAULT") {
-                this.hideElementsForBiggerMenu(MenuPercentWidth);
-                this.setCurrentSecondaryMenuWidth(MenuPercentWidth);
+                this.hideElementsForBiggerMenu(menuPercentWidth);
+                this.setCurrentSecondaryMenuWidth(menuPercentWidth);
             }
         },
         /**
@@ -145,6 +145,22 @@ export default {
             this.setActive(menuPercentWidth <= hideElementBreakPoint);
             if (footer) {
                 footer.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
+            }
+        },
+        /**
+         * Triggers when css transition of menu ends to propagate new menu width to the state
+         * @param {object} event data-object from the css-transition element
+         */
+        onTransitionEnd (event) {
+            const menuPercentWidth = event.target.offsetWidth / document.documentElement.clientWidth;
+
+            if (event.propertyName === "width") {
+                if (event.target.id.includes("secondary")) {
+                    this.setCurrentSecondaryMenuWidth(menuPercentWidth);
+                }
+                else {
+                    this.setCurrentMainMenuWidth(menuPercentWidth);
+                }
             }
         }
     }
@@ -165,6 +181,7 @@ export default {
         tabindex="-1"
         :style="expanded ? 'width:' + currentMenuWidth(side) : 'width:0'"
         :aria-label="titleBySide(side) ? titleBySide(side).text : null"
+        @transitionend="onTransitionEnd"
     >
         <div
             :id="'mp-header-' + side"

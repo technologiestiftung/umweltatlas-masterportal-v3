@@ -42,15 +42,6 @@ describe("src/modules/LayerPills.vue", () => {
         });
     }
 
-    /**
-     * Sleep-Function to adjust for timeout.
-     * @param {number} ms the time to sleep.
-     * @returns {promise} the promise to be resolved after.
-     */
-    function sleep (ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     beforeEach(() => {
         active = true;
         visibleSubjectDataLayers = [{
@@ -443,7 +434,7 @@ describe("src/modules/LayerPills.vue", () => {
 
     });
     describe("menus", () => {
-        it("should call setToggleButtonVisibility on mount and whenever combinedMenuState changes", async () => {
+        it("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
             const stubSetToggleButtonVisibility = sinon.stub(LayerPillsComponent.methods, "setToggleButtonVisibility");
 
             wrapper = createWrapper();
@@ -453,34 +444,31 @@ describe("src/modules/LayerPills.vue", () => {
                     Menu: {
                         namespaced: true,
                         getters: {
-                            mainExpanded: () => false,
-                            secondaryExpanded: () => true,
                             currentMainMenuWidth: () => 20,
                             currentSecondaryMenuWidth: () => 30
                         }
                     }
                 }
             });
-            expect(stubSetToggleButtonVisibility.calledTwice).to.be.false;
-            await sleep(220);
+            await wrapper.vm.$nextTick();
 
-            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
+            expect(stubSetToggleButtonVisibility.calledTwice).to.be.true;
+
             store.hotUpdate({
                 modules: {
                     Menu: {
                         namespaced: true,
                         getters: {
-                            mainExpanded: () => true,
-                            secondaryExpanded: () => false,
                             currentMainMenuWidth: () => 15,
                             currentSecondaryMenuWidth: () => 0
                         }
                     }
                 }
             });
-            await sleep(220);
 
-            expect(stubSetToggleButtonVisibility.callCount).to.equal(5);
+            await wrapper.vm.$nextTick();
+
+            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
             stubSetToggleButtonVisibility.restore();
         });
     });
