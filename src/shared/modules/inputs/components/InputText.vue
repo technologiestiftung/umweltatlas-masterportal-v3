@@ -137,7 +137,4 @@ export default {
 .input-label {
     color: $placeholder-color;
 }
-input:focus-within {
-    font-weight: bold;
-}
 </style>
