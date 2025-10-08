@@ -37,8 +37,10 @@
 - Issue #1385: Add missing internationalization calls for layer names.
 - Issue #1413: Fix legend toggle for featureless vector layers.
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
-- Documentation: corrected usage of 'treeType' (version 2).
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
+- Documentation: 
+    - Corrected usage of 'treeType' (version 2).
+    - Corrected description of 'map3dParameter'.
 
 ---
 

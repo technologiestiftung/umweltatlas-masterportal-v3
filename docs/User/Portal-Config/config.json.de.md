@@ -667,17 +667,17 @@ Layerpills sind Buttons, die oberhalb der Karte die ausgewählten Layer anzeigen
 ***
 
 #### portalConfig.map.map3dParameter {data-toc-label='Map 3D Parameter'}
-Cesium Scene settings in 3D mode.
-For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scene.html?classFilter=scene)**
+Cesium Scene Einstellungen im 3D-Modus.
+Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scene.html?classFilter=scene)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|camera|nein|**[camera](#portalconfigmapmap3dparametercamera)**||Cesium Scene camera settings in 3D mode.|false|
-|fog|nein|**[fog](#portalconfigmapmap3dparameterfog)**||Cesium Scene fog settings in 3D mode.|false|
+|camera|nein|**[camera](#portalconfigmapmap3dparametercamera)**||Cesium Scene Kamera Einstellungen im 3D-Modus.|false|
+|fog|nein|**[fog](#portalconfigmapmap3dparameterfog)**||Cesium Scene Nebel Einstellungen im 3D-Modus.|false|
 |fxaa|nein|Boolean|true|activates *fast approximate anti-aliasing*|false|
-|globe|nein|**[globe](#portalconfigmapmap3dparameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
-|maximumScreenSpaceError|nein|Number|2.0|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
-|tileCacheSize|nein|Number|100|terrain/raster tile cache size|false|
+|globe|nein|**[globe](#portalconfigmapmap3dparameterglobe)**||Cesium Scene-Globus-Einstellungen im 3D-Modus.|false|
+|maximumScreenSpaceError|nein|Number|2.0|Detailstufe, in der Gelände-/Rasterkacheln abgerufen werden. 4/3 ist die höchste Qualitätsstufe.|false|
+|tileCacheSize|nein|Number|100|Gelände-/Rasterkachel-Cachegröße|false|
 
 **Beispiel**
 
@@ -703,17 +703,21 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
 ***
 
 ##### portalConfig.map.map3dParameter.camera {data-toc-label='Camera'}
-Cesium Scene camera settings in 3D mode.
-The camera is defined by a position, orientation, and view frustum.
-For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Camera.html)**
+
+Cesium Scene-Kameraeinstellungen im 3D-Modus.
+Die Kamera wird durch eine Position, Ausrichtung und einen Sichtkegel definiert.
+Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Camera.html)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|altitude|nein|Number||Camera's initial height in meters|false|
-|heading|nein|Number||Camera's initial heading in radians|false|
-|tilt|nein|Number||Camera's initial tile in radians|false|
+|altitude|nein|Number|0|Initiale Höhe der Kamera in Metern. Wird nicht verwendet, wenn `cameraPosition` festgelegt ist.|false|
+|cameraPosition|nein|enum||Kameraposition mit Längen- und Breitengrad sowie Höhe in Metern über dem Ellipsoid. Wenn diese Option aktiviert ist, werden `pitch` und `roll` zur Erstellung der Richtung verwendet. `Altitude` und `tilt` werden dann nicht verwendet.|false|
+|heading|nein|Number|0|Die anfängliche Ausrichtung der Kamera in Radianten. Wird immer verwendet.|false|
+|pitch|nein|Number|0|Initialer Neigungswert der Kamera. Wird nur verwendet, wenn `cameraPosition` festgelegt ist.|false|
+|roll|nein|Number|0|Initialer Rollwert der Kamera. Wird nur verwendet, wenn `cameraPosition` festgelegt ist.|false|
+|tilt|nein|Number|0|Initiale Ausrichtung der Kamera in Radianten. Wird nicht verwendet, wenn `cameraPosition` festgelegt ist.|false|
 
-**Beispiel**
+**Beispiel mit tilt**
 
 ```json
 {
@@ -725,16 +729,28 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Came
 }
 ```
 
+**Beispiel mit cameraPosition**
+
+```json
+{
+    "camera": {
+        "heading": 0.5094404418943017,
+        "pitch": -40.0515352133474,
+        "cameraPosition": [9.9914497197391, 53.545716220545344, 421.1102528528311]
+    }
+}
+```
+
 ***
 
 ##### portalConfig.map.map3dParameter.fog {data-toc-label='Fog'}
-Cesium Scene fog settings in 3D mode.
-Blends the atmosphere to geometry far from the camera for horizon views.
-For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.html)**
+Cesium Scene-Nebeleinstellungen im 3D-Modus.
+Mischt die Atmosphäre mit der Geometrie weit entfernt von der Kamera für Horizontansichten.
+Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.html)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|enabled|nein|Boolean|false|True if fog is enabled.|false|
+|enabled|nein|Boolean|false|True, wenn Nebel aktiviert ist.|false|
 
 **Beispiel**
 
@@ -749,13 +765,13 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Fog.
 ***
 
 ##### portalConfig.map.map3dParameter.globe {data-toc-label='Globe'}
-Cesium Scene globe settings in 3D mode.
-The globe rendered in the scene, including its terrain and imagery layers.
-For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Globe.html)**
+Cesium Scene-Globus-Einstellungen im 3D-Modus.
+Der in der Szene gerenderte Globus, einschließlich seiner Gelände- und Bildschichten.
+Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Globe.html)**
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|enableLighting|nein|Boolean|false|Activates light effects on the map based on the sun's position.|false|
+|enableLighting|nein|Boolean|false|Aktiviert Lichteffekte auf der Karte basierend auf dem Stand der Sonne.|false|
 
 **Beispiel**
 
