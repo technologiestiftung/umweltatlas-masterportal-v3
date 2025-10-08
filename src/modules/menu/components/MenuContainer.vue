@@ -106,6 +106,7 @@ export default {
             "setCurrentSecondaryMenuWidth",
             "setCurrentMainMenuWidth"
         ]),
+        ...mapMutations("Modules/LayerPills", ["setActive"]),
         ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
         /**
          * Opens the searchbar module.
@@ -139,12 +140,9 @@ export default {
          */
         hideElementsForBiggerMenu (menuPercentWidth) {
             const hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
-                footer = document.getElementById("module-portal-footer"),
-                layerPills = document.getElementById("layer-pills");
+                footer = document.getElementById("module-portal-footer");
 
-            if (layerPills) {
-                layerPills.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
-            }
+            this.setActive(menuPercentWidth <= hideElementBreakPoint);
             if (footer) {
                 footer.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
             }

@@ -455,7 +455,7 @@ describe("src/modules/LayerPills.vue", () => {
                         getters: {
                             mainExpanded: () => false,
                             secondaryExpanded: () => true,
-                            currentMainMenuWidth: () => 30,
+                            currentMainMenuWidth: () => 20,
                             currentSecondaryMenuWidth: () => 30
                         }
                     }
@@ -464,7 +464,7 @@ describe("src/modules/LayerPills.vue", () => {
             expect(stubSetToggleButtonVisibility.calledTwice).to.be.false;
             await sleep(220);
 
-            expect(stubSetToggleButtonVisibility.calledTwice).to.be.true;
+            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
             store.hotUpdate({
                 modules: {
                     Menu: {
@@ -480,7 +480,7 @@ describe("src/modules/LayerPills.vue", () => {
             });
             await sleep(220);
 
-            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
+            expect(stubSetToggleButtonVisibility.callCount).to.equal(5);
             stubSetToggleButtonVisibility.restore();
         });
     });

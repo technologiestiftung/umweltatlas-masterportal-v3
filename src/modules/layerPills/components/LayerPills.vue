@@ -36,12 +36,16 @@ export default {
          * combinedMenuState keeps track of the state of menu, i.e. whether the menus are expanded and their current width.
          * Enables the use of a single watcher on all four variables.
          */
-        combinedMenuState () {
+        combinedMenuWidthState () {
             return {
-                mainExpanded: this.mainExpanded,
-                secondaryExpanded: this.secondaryExpanded,
                 currentMainMenuWidth: this.currentMainMenuWidth,
                 currentSecondaryMenuWidth: this.currentSecondaryMenuWidth
+            };
+        },
+        combinedMenuExpandedState () {
+            return {
+                mainExpanded: this.mainExpanded,
+                secondaryExpanded: this.secondaryExpanded
             };
         }
     },
@@ -83,7 +87,12 @@ export default {
          * Detects changes to the menu state and width to update the layerPills accordingly.
          * Animation of menus opening or closing make the timeout necessary.
          */
-        combinedMenuState: {
+        combinedMenuWidthState: {
+            handler () {
+                this.setToggleButtonVisibility();
+            }
+        },
+        combinedMenuExpandedState: {
             handler () {
                 setTimeout(() => {
                     this.setToggleButtonVisibility();

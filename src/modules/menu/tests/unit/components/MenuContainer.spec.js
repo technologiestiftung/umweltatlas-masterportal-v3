@@ -18,7 +18,8 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         defaultComponent,
         closeMenuSpy,
         collapseMenuesSpy,
-        isMobile;
+        isMobile,
+        setActiveSpy;
 
     beforeEach(() => {
         currentMenuWidth = sinon.stub();
@@ -26,6 +27,7 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         mergeMenuStateSpy = sinon.spy();
         collapseMenuesSpy = sinon.spy();
         isMobile = false;
+        setActiveSpy = sinon.spy();
 
         store = createStore({
             modules: {
@@ -33,7 +35,16 @@ describe("src/modules/menu/MenuContainer.vue", () => {
                     namespaced: true,
                     modules: {
                         namespaced: true,
-                        MenuContainer
+                        MenuContainer,
+                        LayerPills: {
+                            namespaced: true,
+                            getters: {
+                                active: () => true
+                            },
+                            mutations: {
+                                setActive: setActiveSpy
+                            }
+                        }
                     }
                 },
                 Menu: {
@@ -329,10 +340,9 @@ describe("src/modules/menu/MenuContainer.vue", () => {
             sinon.restore();
         });
 
-        it("should hide layerPills and footer when menuPercentWidth exceeds the breakpoint", () => {
+        it("should hide footer when menuPercentWidth exceeds the breakpoint", () => {
             wrapper.vm.hideElementsForBiggerMenu(0.8);
 
-            expect(layerPillsMock.style.display).to.equal("none");
             expect(footerMock.style.display).to.equal("none");
         });
 
@@ -347,11 +357,9 @@ describe("src/modules/menu/MenuContainer.vue", () => {
             sinon.stub(document.documentElement, "clientWidth").value(1200);
 
             wrapper.vm.hideElementsForBiggerMenu(0.6);
-            expect(layerPillsMock.style.display).to.equal("");
             expect(footerMock.style.display).to.equal("");
 
             wrapper.vm.hideElementsForBiggerMenu(0.8);
-            expect(layerPillsMock.style.display).to.equal("none");
             expect(footerMock.style.display).to.equal("none");
         });
     });
