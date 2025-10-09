@@ -42,9 +42,9 @@
 - Documentation: 
     - Corrected usage of 'treeType' (version 2).
     - Corrected description of 'map3dParameter'.
-- Documentation: corrected usage of 'treeType' (version 2).
-- Documentation: EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.
-- Documentation: Use Code block headers instead of inline comments for the VueJSAddon tutorial.
+    - EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.
+    - Use Code block headers instead of inline comments for the VueJSAddon tutorial.
+Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 
 ---
