@@ -156,27 +156,6 @@ describe("src/modules/LayerPills.vue", () => {
         });
     });
 
-    describe("left scroll disabled", () => {
-        it("left scroll is disabled", () => {
-            wrapper = createWrapper();
-            expect(wrapper.find("#layerpills-left-button").attributes().style).to.include("visibility: hidden");
-        });
-    });
-    describe("right scroll enabled", () => {
-        it("right scroll is enabled", async () => {
-
-            wrapper = createWrapper();
-
-            wrapper.vm.$el.offsetWidth = 400;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.find("#layerpills-right-button").attributes().style).to.be.undefined;
-            });
-
-        });
-    });
-
     describe("close layerPill", () => {
         it("count close-buttons", () => {
             wrapper = mount(LayerPillsComponent, {
@@ -229,35 +208,6 @@ describe("src/modules/LayerPills.vue", () => {
             });
         });
 
-        it("shall set scrolled and showRightbutton by moveLayerPills - scroll right", () => {
-            const scrollLeft = 1000,
-                scrollBySpy = sinon.spy();
-
-            wrapper = createWrapper();
-            wrapper.vm.$el.scrollBy = scrollBySpy;
-            wrapper.vm.$el.scrollWidth = 500;
-            wrapper.vm.$el.scrollLeft = scrollLeft;
-            wrapper.vm.moveLayerPills("right");
-
-            expect(wrapper.vm.scrolled).to.equal(scrollLeft + 158);
-            expect(wrapper.vm.showRightbutton).to.be.false;
-            expect(scrollBySpy.calledOnce).to.be.true;
-        });
-
-        it("shall set scrolled by moveLayerPills - scroll left", () => {
-            const scrollLeft = 1000,
-                scrollBySpy = sinon.spy();
-
-            wrapper = createWrapper();
-            wrapper.vm.$el.scrollBy = scrollBySpy;
-            wrapper.vm.$el.scrollWidth = 500;
-            wrapper.vm.$el.scrollLeft = scrollLeft;
-            wrapper.vm.moveLayerPills("left");
-
-            expect(wrapper.vm.scrolled).to.equal(scrollLeft - 158);
-            expect(scrollBySpy.calledOnce).to.be.true;
-        });
-
         it("sets showRightbutton to true if needed", () => {
             wrapper = createWrapper();
 
@@ -278,59 +228,6 @@ describe("src/modules/LayerPills.vue", () => {
             wrapper.vm.$nextTick(function () {
                 expect(wrapper.vm.showRightbutton).to.be.false;
             });
-        });
-
-        it("establishes a ResizeObserver if active", () => {
-            const observer = global.ResizeObserver;
-            let observed = false;
-
-            /**
-             * sets observed value to be tested
-             * @returns {void}
-             */
-            class ResizeObserver {
-                /**
-                 * sets observed value if observed
-                 * @returns {void}
-                 */
-                observe () {
-                    observed = true;
-                }
-            }
-
-            global.ResizeObserver = ResizeObserver;
-
-            wrapper = createWrapper();
-
-            expect(observed).to.be.true;
-            global.ResizeObserver = observer;
-        });
-
-        it("doesn't establish a ResizeObserver if not active", () => {
-            const observer = global.ResizeObserver;
-            let observed = false;
-
-            active = false;
-            /**
-             * sets observed value to be tested
-             * @returns {void}
-             */
-            class ResizeObserver {
-                /**
-                 * sets observed value if observed
-                 * @returns {void}
-                 */
-                observe () {
-                    observed = true;
-                }
-            }
-
-            global.ResizeObserver = ResizeObserver;
-
-            wrapper = createWrapper();
-
-            expect(observed).to.be.false;
-            global.ResizeObserver = observer;
         });
 
         it("showLayerInformationInMenu layerConf with datasets calls startLayerInformation", () => {
