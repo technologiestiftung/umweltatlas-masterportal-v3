@@ -8,22 +8,23 @@ import tabStatus from "../tabStatus";
  * @property {String} description The description that should be shown in the button in the menu.
  * @property {String} name displayed as title (config-param)
  * @property {String} icon icon next to title (config-param)
- * @property {String} description The description that should be shown
  * @property {Number} maxFeatures default value for maxFeatures that can be overwritten in config
- * @property {Array} layerlist array of layers in the format {id, name, features}
  * @property {Object} layer layer object of the selected layer
- * @property {Boolean} layerListView if true list of visibile vector layers gets displayed
- * @property {String} currentTab id of the currently displayed tab
+ * @property {String} layerListView current status of layer list view tab (enabled/active/disabled)
  * @property {Array} gfiFeaturesOfLayer array of the gfiFeatures of the selected layer
  * @property {String} featureCount number of total features of the selected layer
  * @property {String} shownFeatures currently count of features displayed in featureListView table
- * @property {Boolean} featureListView if true the list of features from selected layer gets displayed
+ * @property {String} featureListView current status of feature list view tab (enabled/active/disabled)
  * @property {Boolean} nestedFeatures some features have features themself, if true they get recognized
- * @property {Boolean} featureDetailView if true the detail page of the selected feature gets displayed
+ * @property {String} featureDetailView current status of feature detail view tab (enabled/active/disabled)
  * @property {Array} headers list of headings in list
  * @property {Object} selectedRow the selected row of the table of gfiFeatures
  * @property {Object} highlightVectorRulesPolygon default style for highlighting polygons
  * @property {Object} highlightVectorRulesPointLine default style for highlighting lines and points
+ * @property {Array} supportedDevices Array of supported device types
+ * @property {Array} supportedMapModes Array of supported map modes
+ * @property {Object} selectedArea Currently selected area object
+ * @property {Boolean} loading Loading state indicator
  * @property {Boolean} showGraphicalSelect if true the graphical select component gets displayed
  * @property {Number} bufferDistance value will be used as default for the line buffer geometry from the graphical select component
  */
@@ -64,8 +65,8 @@ const state = {
         },
         "zoomLevel": 7
     },
-    supportedDevices: ["Desktop", "Mobile", "Tablet"],
-    supportedMapModes: ["2D", "3D"],
+    supportedDevices: ["Desktop", "Mobile", "Table"],
+    supportedMapModes: ["2D"],
     selectedArea: null,
     loading: false,
     showGraphicalSelect: false,
