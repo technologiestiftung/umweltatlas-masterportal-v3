@@ -13,8 +13,10 @@ const mutations = {
      */
     ...generateSimpleMutations(stateFeatureLister),
     /**
-     * Sets the compare List.
-     * @param {Object} state context object.
+     * Sets the GFI features for the selected layer from payload or by extracting features from the layer source
+     * and converts them to the needed format. Handles nested features if present.
+     * @param {Object} state - The Vuex state object
+     * @param {Array<ol.Feature>} [payload] - Optional array of features. If not provided, features will be retrieved from the layer source
      * @returns {void}
      */
     setGfiFeaturesOfLayer: (state, payload) => {
