@@ -401,6 +401,7 @@
       "manualSelection": "Select features manually on the map",
       "more": "More...",
       "name": "List",
+      "noFeatures": "No features found in the selected area.",
       "requestFailedAlert": "The feature request failed. Please try again later.",
       "spatialSelection": "Filter features spatially",
       "visibleVectorLayers": "Visible vector layers"

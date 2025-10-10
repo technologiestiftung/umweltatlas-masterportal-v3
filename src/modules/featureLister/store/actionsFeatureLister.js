@@ -156,7 +156,7 @@ export default {
         if (state.gfiFeaturesOfLayer.length === 0) {
             dispatch("Alerting/addSingleAlert", {
                 category: "info",
-                content: "Keine Feature in der Auswahl gefunden."
+                content: i18next.t("common:modules.featureLister.noFeaturesFound")
             }, {root: true});
             return;
 

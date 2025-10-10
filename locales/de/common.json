@@ -400,6 +400,7 @@
       "manualSelection": "Features manuell auf Karte auswählen",
       "more": "Mehr...",
       "name": "Liste",
+      "noFeaturesFound": "Keine Features in der Auswahl gefunden.",
       "requestFailedAlert": "Die Abfrage der Features ist fehlgeschlagen. Bitte versuchen Sie es später erneut.",
       "spatialSelection": "Objekte räumlich filtern",
       "visibleVectorLayers": "Sichtbare Vektorlayer"
