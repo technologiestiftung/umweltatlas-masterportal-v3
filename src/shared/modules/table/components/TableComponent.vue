@@ -165,6 +165,7 @@ export default {
             required: false,
             default: true
         },
+        // emits rowOnHover event on hover over row, only if selectMode is "row"
         runSelectOnHover: {
             type: Boolean,
             required: false,
