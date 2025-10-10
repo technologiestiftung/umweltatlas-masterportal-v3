@@ -677,6 +677,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
 |globe|no|**[globe](#portalconfigmapmap3dparameterglobe)**||Cesium Scene globe settings in 3D mode.|false|
 |maximumScreenSpaceError|no|Number|2.0|Detail level in which terrain/raster tiles are fetched. 4/3 is the highest quality level.|false|
 |tileCacheSize|no|Number|100|terrain/raster tile cache size|false|
+|shadowTime|no|String|"current time"|Sets the time used to calculate shadows in 3D mode. Use the ISO-8601 string format. If not provided, shadows are calculated based on the current system time. Useful for freezing shadows for presentations or consistent visualization at a specific date/time.|false|
 
 **Example**
 
@@ -696,6 +697,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Scen
     },
     "maximumScreenSpaceError": 2,
     "tileCacheSize": 20,
+    "shadowTime": "2025-07-01T12:00:00Z"
 }
 ```
 
