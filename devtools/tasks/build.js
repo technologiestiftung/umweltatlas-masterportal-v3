@@ -1,6 +1,12 @@
 const inquirer = require("inquirer"),
-    buildFunctions = require("./buildFunctions"),
-    questions = [
+    buildFunctions = require("./buildFunctions");
+
+const portalPath = process.env.PORTAL_PATH;
+
+if (portalPath) {
+    buildFunctions({ portalPath });
+} else {
+    const questions = [
         {
             type: "input",
             name: "portalPath",
@@ -8,7 +14,7 @@ const inquirer = require("inquirer"),
             default: "portal"
         }
     ];
-
-inquirer.prompt(questions).then(function (answers) {
-    buildFunctions(answers);
-});
+    inquirer.prompt(questions).then(function (answers) {
+        buildFunctions(answers);
+    });
+}
