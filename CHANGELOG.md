@@ -17,6 +17,7 @@
  The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.52.0 to 2.53.0 (This also raised ol to version 10.7.0)
+        - replace-in-file: 7.1.0 to 8.3.0
 - Title Bar: line break for long names in the title bar has been restored.
 
 ### Deprecated

@@ -1,4 +1,4 @@
-const replace = require("replace-in-file");
+const {replaceInFileSync} = require("replace-in-file");
 
 module.exports = function (destination, mastercodeVersionFolderName) {
     const replacements = [
@@ -35,7 +35,7 @@ module.exports = function (destination, mastercodeVersionFolderName) {
     ];
 
     replacements.forEach(function (replacement) {
-        replace.sync({
+        replaceInFileSync({
             files: replacement.files,
             from: replacement.from,
             to: replacement.to

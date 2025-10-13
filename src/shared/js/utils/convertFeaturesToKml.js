@@ -273,7 +273,6 @@ export default async function convertFeaturesToKml (features) {
             const style = placemark.getElementsByTagName("Style")[0];
 
             if (hasIconUrl[i] === false && pointColors[i]) {
-                // Please be aware of devtools/tasks/replace.js and devtools/tasks/customBuildPortalconfigsReplace.js if you change the path of the SVG
                 const iconUrl = `${window.location.origin}/src/assets/img/tools/draw/circle_${getIconColor(pointColors[i])}.svg`,
                     iconStyle = createKmlIconStyle(iconUrl, pointScales[i]);
 
