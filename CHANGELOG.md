@@ -62,6 +62,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Documentation: Use Code block headers instead of inline comments for the VueJSAddon tutorial.
 - LayerPills: Layout of layerPills now gets dynamically adjusted with regard to the current menu-state and re-adjusts on changes made to the menus.
 - Shared TableComponent: Fixed remove of row.
+- ControlBar: Fix pop-ups display above other elements.
 
 ---
 
