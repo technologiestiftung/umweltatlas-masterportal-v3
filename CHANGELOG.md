@@ -26,6 +26,7 @@
     - three: ^0.173.0 to ^0.180.0
     - @vue/compiler-sfc: ^3.3.4 to ^3.5.22
     - @vue/server-renderer: ^3.3.4 to ^3.5.22
+    - mqtt": 4.3.7 to ^5.14.1
   - dependencies:
     - vue: ^3.3.4 to ^3.5.22
   - devDependencies:

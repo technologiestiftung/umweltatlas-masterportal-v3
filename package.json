@@ -71,7 +71,7 @@
     "i18next-http-backend": "^3.0.2",
     "i18next-vue": "^4.0.0",
     "jsts": "^2.12.1",
-    "mqtt": "4.3.7",
+    "mqtt": "^5.14.1",
     "object-hash": "^3.0.0",
     "qrcode": "1.5.4",
     "three": "^0.180.0",
