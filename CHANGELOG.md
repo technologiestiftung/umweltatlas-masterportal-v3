@@ -61,6 +61,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Documentation: EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.
 - Documentation: Use Code block headers instead of inline comments for the VueJSAddon tutorial.
 - LayerPills: Layout of layerPills now gets dynamically adjusted with regard to the current menu-state and re-adjusts on changes made to the menus.
+- Shared TableComponent: Fixed remove of row.
 
 ---
 
