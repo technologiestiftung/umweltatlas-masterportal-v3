@@ -12,6 +12,9 @@
 - LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
 - Issue #1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
 - map3DParameter: Added new `shadowTime` configuration option to define a fixed time for shadow calculation in 3D mode.
+- Build Script: Added support for providing the portal path via environment variable `PORTAL_PATH` in the build script.
+  - If `PORTAL_PATH` is set, the build script will use it instead of prompting the user.
+  - This enables automated builds in CI/CD pipelines without manual input.
 
 ### Changed
 - The following packages have been updated:
