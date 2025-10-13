@@ -75,6 +75,7 @@ export default {
         /**
          * Detects changes to the menu state and width to update the layerPills accordingly.
          * Animation of menus opening or closing make the timeout necessary.
+         * @returns {void}
          */
         combinedMenuWidthState: {
             handler () {
@@ -281,6 +282,7 @@ export default {
 
     .layer-pills-toggle-button {
         height: 35px;
+        margin-right: 30px;
         button {
             background: white;
             border-radius: 19px;
