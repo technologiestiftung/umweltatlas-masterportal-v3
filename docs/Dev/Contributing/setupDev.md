@@ -161,6 +161,17 @@ $ npm run build
 
 The created files are stored in the *dist* folder. The folder will be created automatically in the Masterportal folder root. The source code is bundled within the **Mastercode** folder with the current version.
 
+### Build Script Configuration
+
+You can provide the portal path in two ways:
+
+1. **Via environment variable** (preferred for automation):
+```
+PORTAL_PATH="your/portal/path"
+ ```
+2. **Interactively via prompt:** If `PORTAL_PATH` is not set, the build script will ask for the path interactively.
+
+> **Note:** Using the environment variable allows you to automate builds in CI/CD pipelines without manual input.
 
 ### `npm run buildExamples`
 
