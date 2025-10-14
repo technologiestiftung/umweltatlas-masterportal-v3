@@ -64,6 +64,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - LayerPills: Layout of layerPills now gets dynamically adjusted with regard to the current menu-state and re-adjusts on changes made to the menus.
 - Shared TableComponent: Fixed remove of row.
 - ControlBar: Fix pop-ups display above other elements.
+- Gazetteer: Restored correct click behavior in search results.
 
 ---
 
