@@ -34,7 +34,7 @@
     - vue: ^3.3.4 to ^3.5.22
   - devDependencies:
 - Removed temporary `overrides` that pinned Vue core packages to 3.3.4.
-- Adjusted test webpack config for Vue 3.5 (aliases/loaders). 
+- Adjusted test webpack config for Vue 3.5 (aliases/loaders).
 
 ### Deprecated
 
@@ -71,6 +71,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - LayerInformation: Fixed display of layerInformation for groupLayers.
 - Feature-Highlighting: Fixed feature highlighting for polygons.
 - buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
+- SensorThings layer: removed duplicate startIntervalUpdate definition, unified periodic refresh, deduplicated Cluster/source access via getActualSource(), and fixed no-data handling & timer cancellation.
 
 ---
 

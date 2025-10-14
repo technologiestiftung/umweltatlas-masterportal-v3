@@ -164,6 +164,16 @@ Layer2dVectorSensorThings.prototype.createVectorLayer = function (rawLayer = {},
 };
 
 /**
+ * Returns the underlying VectorSource, even if the layer uses clustering.
+ * @returns {ol/source/Vector} The actual vector source.
+ */
+Layer2dVectorSensorThings.prototype.getActualSource = function () {
+    const source = this.getLayerSource();
+
+    return source instanceof Cluster ? source.getSource() : source;
+};
+
+/**
  * Sets values to the ol layer.
  * @param {Object} values The new values.
  * @returns {void}
@@ -306,7 +316,7 @@ Layer2dVectorSensorThings.prototype.createMqttConnectionToSensorThings = functio
 
     this.mqttClient.on("message", (topic, observation) => {
         const datastreamId = this.getDatastreamIdFromMqttTopic(topic),
-            layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+            layerSource = this.getActualSource(),
             features = typeof layerSource.getFeatures === "function" && Array.isArray(layerSource.getFeatures()) ? layerSource.getFeatures() : [],
             feature = this.getFeatureByDatastreamId(features, datastreamId),
             phenomenonTime = this.getLocalTimeFormat(observation.phenomenonTime, timezone);
@@ -460,7 +470,7 @@ Layer2dVectorSensorThings.prototype.initializeConnection = function (onsuccess, 
     this.callSensorThingsAPI(url, version, urlParams, currentExtent, intersect, sensorData => {
         const filteredSensorData = !updateOnly ? sensorData : sensorData.filter(data => !datastreamIds.includes(data?.properties?.dataStreamId)),
             features = this.createFeaturesFromSensorData(filteredSensorData, mapProjection, epsg, gfiTheme, utc),
-            layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+            layerSource = this.getActualSource(),
             oldHistoricalFeatures = layerSource.getFeatures().filter(f => typeof f.get("dataStreamId") === "undefined"),
             copyFeatures = {};
 
@@ -1108,7 +1118,7 @@ Layer2dVectorSensorThings.prototype.aggregateDataStreamValue = function (feature
         feature.get("dataStreamId").split(" | ").forEach((id, i) => {
             const dataStreamName = feature.get("dataStreamName").split(" | ")[i];
 
-            if (this.get("showNoDataValue") && !feature.get("dataStream_" + id + "_" + dataStreamName) === "") {
+            if (this.get("showNoDataValue") && feature.get("dataStream_" + id + "_" + dataStreamName) === "") {
                 dataStreamValues.push(this.get("noDataValue"));
             }
             else if (feature.get("dataStream_" + id + "_" + dataStreamName)) {
@@ -1178,42 +1188,8 @@ Layer2dVectorSensorThings.prototype.stopSubscription = function () {
     this.isSubscribed = false;
     store.dispatch("Maps/unregisterListener", {type: "moveend", listener: this.updateSubscription.bind(this), keyForBoundFunctions: this.updateSubscription.toString() + this.attributes.id});
     this.unsubscribeFromSensorThings([], subscriptionTopics, version, mqttClient);
-    clearInterval(this.intervallRequest);
+    clearTimeout(this.intervallRequest);
     this.keepUpdating = false;
-};
-
-/**
- * Starts the interval for continous updating the features in the current extent.
- * @param {Number} timeout The timeout in milliseconds.
- * @returns {void}
- */
-Layer2dVectorSensorThings.prototype.startIntervalUpdate = function (timeout) {
-    if (!this.keepUpdating || typeof timeout !== "number") {
-        return;
-    }
-    if (this.intervallRequest !== null) {
-        clearInterval(this.intervallRequest);
-    }
-    this.intervallRequest = setTimeout(() => {
-        const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.getLayerSource().getFeatures(), store.getters["Maps/extent"]),
-            subscriptionTopics = this.get("subscriptionTopics"),
-            version = this.get("version"),
-            mqttClient = this.mqttClient,
-            rh = this.get("mqttRh"),
-            qos = this.get("mqttQos");
-
-        this.unsubscribeFromSensorThings(datastreamIds, subscriptionTopics, version, mqttClient);
-        this.initializeConnection(async features => {
-            await this.subscribeToSensorThings(
-                this.getDatastreamIdsInCurrentExtent(features, store.getters["Maps/extent"]),
-                subscriptionTopics,
-                version,
-                mqttClient,
-                {rh, qos}
-            );
-        }, true);
-        this.startIntervalUpdate(timeout);
-    }, timeout);
 };
 
 /**
@@ -1272,7 +1248,7 @@ Layer2dVectorSensorThings.prototype.startIntervalUpdate = function (timeout) {
         return;
     }
     if (this.intervallRequest !== null) {
-        clearInterval(this.intervallRequest);
+        clearTimeout(this.intervallRequest);
     }
     this.intervallRequest = setTimeout(() => {
         const datastreamIds = this.getDatastreamIdsInCurrentExtent(this.getLayerSource().getFeatures(), store.getters["Maps/extent"]),
@@ -1476,7 +1452,7 @@ Layer2dVectorSensorThings.prototype.unsubscribeFromSensorThings = function (data
                 if (typeof this.get("historicalLocations") === "number" && this.showHistoricalFeatures) {
                     this.resetHistoricalLocations(id);
                 }
-                const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+                const layerSource = this.getActualSource(),
                     feature = this.getFeatureByDatastreamId(layerSource.getFeatures(), id);
 
                 if (typeof feature?.set === "function") {
@@ -1504,7 +1480,7 @@ Layer2dVectorSensorThings.prototype.subscribeToSensorThings = async function (da
     if (!Array.isArray(dataStreamIds) || !isObject(subscriptionTopics) || !isObject(mqttClient)) {
         return false;
     }
-    const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+    const layerSource = this.getActualSource(),
         newSubscriptionTopics = subscriptionTopics;
 
     for (let i = 0; i < dataStreamIds.length; i++) {
@@ -1653,7 +1629,7 @@ Layer2dVectorSensorThings.prototype.registerInteractionMapScaleListeners = funct
  * @returns {void}
  */
 Layer2dVectorSensorThings.prototype.removeHistoricalFeatures = function () {
-    const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+    const layerSource = this.getActualSource(),
         allFeatures = layerSource.getFeatures(),
         featuresWithHistoricalIds = allFeatures.filter(feature => typeof feature.get("dataStreamId") !== "undefined" && Array.isArray(feature.get("historicalFeatureIds")));
 
@@ -1752,7 +1728,7 @@ Layer2dVectorSensorThings.prototype.fetchHistoricalLocations = function (url, ur
  * @returns {void}
  */
 Layer2dVectorSensorThings.prototype.getHistoricalLocationsOfFeatures = function () {
-    const allFeatures = (this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource()).getFeatures(),
+    const allFeatures = this.getActualSource().getFeatures(),
         featuresWithoutHistoricalIds = allFeatures.filter(feature => typeof feature.get("dataStreamId") !== "undefined" && !Array.isArray(feature.get("historicalFeatureIds"))),
         datastreamIds = this.getDatastreamIdsInCurrentExtent(featuresWithoutHistoricalIds, store.getters["Maps/extent"]),
         url = this.get("url"),
@@ -1824,7 +1800,7 @@ Layer2dVectorSensorThings.prototype.parseSensorDataToFeature = function (feature
         return;
     }
 
-    const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+    const layerSource = this.getActualSource(),
         mapProjection = store.getters["Maps/projection"].getCode(),
         epsg = this.get("epsg"),
         gfiTheme = this.get("gfiTheme"),
@@ -1851,7 +1827,7 @@ Layer2dVectorSensorThings.prototype.parseSensorDataToFeature = function (feature
  * @returns {void}
  */
 Layer2dVectorSensorThings.prototype.resetHistoricalLocations = function (datastreamId) {
-    const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+    const layerSource = this.getActualSource(),
         feature = layerSource.getFeatures().filter(layerFeature => typeof layerFeature?.get === "function" && layerFeature.get("dataStreamId") === datastreamId)[0];
 
     if (typeof feature?.get === "function" && Array.isArray(feature.get("historicalFeatureIds"))) {
@@ -1966,7 +1942,7 @@ Layer2dVectorSensorThings.prototype.registerInteractionMapResolutionListeners = 
         return;
     }
     store.watch((state, getters) => getters["Maps/resolution"], resolution => {
-        const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
+        const layerSource = this.getActualSource(),
             allFeatures = layerSource.getFeatures(),
             historicalFeatures = allFeatures.filter(feature => typeof feature.get("dataStreamId") === "undefined" && typeof feature.get("originScale") !== "undefined"),
             zoomLevel = mapCollection.getMapView("2D").getZoomForResolution(resolution) + 1,
