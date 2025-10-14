@@ -990,26 +990,142 @@ Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-
 |titleFontColor|no|String|"common:modules.mouseHover.titleFontColor"|Font color for the title|false|
 |infoBorderRadius|no|Integer|"common:modules.mouseHover.infoBorderRadius"|Border radius of the tooltip|false|
 |lineHeight|no|Float|"common:modules.mouseHover.lineHeight"|Line spacing for the tooltip|false|
+|highlightOnHover|no|Boolean|false|If hovered features should be highlighted|
+|highlightVectorRulesPolygon|no|Object||Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom parameter.|
+|highlightVectorRulesPointLine|no|Object||Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points as well as a zoom parameter.|
 
 **Example**
 
 ```json
-"mouseHover": {
-    "numFeaturesToShow": 1,
-    "infoText": "Exampletext",
-    "fontFamily": "Arial",
-    "fontStyle": "Italic",
-    "fontWeight": "Normal",
-    "fontSize": 12,
-    "fontColor": "#FF0000",
-	"titleFontFamily": "Helvetica",
-	"titleFontStyle": "Normal",
-    "titleFontWeight": "Bold",
-	"titleFontSize": 16,
-	"titleFontColor": "#1A43BF",
-	"infoBorderRadius": 4,
-	"lineHeight": 1.6
-},
+{
+    "mouseHover": {
+        "numFeaturesToShow": 1,
+        "infoText": "Exampletext",
+        "fontFamily": "Arial",
+        "fontStyle": "Italic",
+        "fontWeight": "Normal",
+        "fontSize": 12,
+        "fontColor": "#FF0000",
+        "titleFontFamily": "Helvetica",
+        "titleFontStyle": "Normal",
+        "titleFontWeight": "Bold",
+        "titleFontSize": 16,
+        "titleFontColor": "#1A43BF",
+        "infoBorderRadius": 4,
+        "lineHeight": 1.6,
+        "highlightOnHover": true,
+        "highlightVectorRulesPolygon": {
+            "fill": {
+                "color": [255, 255, 255, 0.5]
+            },
+            "stroke": {
+                "width": 4,
+                "color": [255, 0, 0, 0.9]
+            }
+        },
+        "highlightVectorRulesPointLine": {
+            "stroke": {
+                "width": 8,
+                "color": [255, 0, 255, 0.9]
+            },
+            "image": {
+                "scale": 2
+            }
+        }
+    }
+}
+```
+
+***
+
+##### portalConfig.map.mouseHover.highlightVectorRulesPolygon
+
+Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom level.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
+
+***
+
+###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+
+```json
+"fill": {
+    "color": [215, 102, 41, 0.9]
+}
+```
+
+***
+
+###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|width|no|Integer|1|Possible setting: width|false|
+|color|no|Float[]|[255, 0, 0, 0.9]|Possible setting: color (RGBA)|false|
+
+```json
+"stroke": {
+    "width": 4 ,
+    "color": [255, 0, 255, 0.9]
+}
+```
+
+***
+
+
+##### portalConfig.map.mouseHover.highlightVectorRulesPointLine
+
+Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points. Also a zoom level.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
+|image|no|**[image](#markdown-header-mousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
+
+***
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+
+```json
+"fill": {
+    "color": [215, 102, 41, 0.9]
+}
+```
+
+***
+
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|width|no|Integer|1|Possible setting: width|false|
+|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+
+```json
+"stroke": {
+    "width": 4 ,
+    "color": [255, 0, 255, 0.9]
+}
+```
+
+***
+
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
+|scale|no|Integer|1.5|Possible setting: scale|false|
+
+```json
+"image": {
+    "scale": 2
+}
 ```
 
 ***
