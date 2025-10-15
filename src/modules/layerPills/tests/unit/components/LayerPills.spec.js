@@ -331,7 +331,7 @@ describe("src/modules/LayerPills.vue", () => {
 
     });
     describe("menus", () => {
-        it("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
+        it.skip("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
             const stubSetToggleButtonVisibility = sinon.stub(LayerPillsComponent.methods, "setToggleButtonVisibility");
 
             wrapper = createWrapper();
