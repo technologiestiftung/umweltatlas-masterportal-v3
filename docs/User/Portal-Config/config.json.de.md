@@ -992,9 +992,9 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 |titleFontColor|nein|String|"common:modules.mouseHover.titleFontColor"|Schriftfarbe für den Titel|false|
 |infoBorderRadius|nein|Integer|"common:modules.mouseHover.infoBorderRadius"|Abrundung der Tooltip-Ecken|false|
 |lineHeight|nein|Float|"common:modules.mouseHover.lineHeight"|Zeilenabstand für den Tooltip|false|
-|highlightOnHover|no|Boolean|false|If hovered features should be highlighted|
-|highlightVectorRulesPolygon|no|Object||Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom parameter.|
-|highlightVectorRulesPointLine|no|Object||Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points as well as a zoom parameter.|
+|highlightOnHover|nein|Boolean|false|Ob beim Überfahren (Hover) Features hervorgehoben werden sollen|
+|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#portalconfigmapmousehoverhighlightvectorrulespolygon)**||Gibt die Füllfarbe, Konturfarbe, Strichstärke für die Hervorhebung von Polygon-Features sowie einen Zoom-Parameter an|
+|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#portalconfigmapmousehoverhighlightvectorrulespointline)**||Gibt die Konturfarbe und Strichstärke für die Hervorhebung von Linien sowie Füllfarbe und Skalierungsfaktor für die Hervorhebung von Punkten sowie einen Zoom-Parameter an|
 
 **Beispiel**
 
@@ -1037,21 +1037,21 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 ```
 
 ***
-##### portalConfig.map.mouseHover.highlightVectorRulesPolygon
+##### portalConfig.map.mouseHover.highlightVectorRulesPolygon {data-toc-label='HighlightVectorRulesPolygon'}
 
-Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom level.
+Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-Features sowie eine Zoomstufe an.
 
-|Name|Required|Type|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
+|fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill
-|Name|Required|Type|Default|Description|Expert|
+###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill {data-toc-label='Fill'}
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
 "fill": {
@@ -1061,11 +1061,11 @@ Specify the fill color and outline color and stroke width for highlighting the p
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke
-|Name|Required|Type|Default|Description|Expert|
+###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke {data-toc-label='Stroke'}
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|width|no|Integer|1|Possible setting: width|false|
-|color|no|Float[]|[255, 0, 0, 0.9]|Possible setting: color (RGBA)|false|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 0, 0, 0.9]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
 "stroke": {
@@ -1077,21 +1077,21 @@ Specify the fill color and outline color and stroke width for highlighting the p
 ***
 
 
-##### portalConfig.map.mouseHover.highlightVectorRulesPointLine
+##### portalConfig.map.mouseHover.highlightVectorRulesPointLine {data-toc-label='HighlightVectorRulesPointLine'}
 
-Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points. Also a zoom level.
+Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe und Skalierungsfaktor zur Hervorhebung von Punkten an. Außerdem eine Zoomstufe.
 
-|Name|Required|Type|Default|Description|Expert|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#markdown-header-mousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#markdown-header-mousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
-|image|no|**[image](#markdown-header-mousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
+|fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
+|image|nein|**[image](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
 
 ***
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill
-|Name|Required|Type|Default|Description|Expert|
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill {data-toc-label='Fill'}
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
 "fill": {
@@ -1101,11 +1101,11 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke
-|Name|Required|Type|Default|Description|Expert|
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke {data-toc-label='Stroke'}
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|width|no|Integer|1|Possible setting: width|false|
-|color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
+|width|nein|Integer|1|Mögliche Einstellung: width|false|
+|color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
 "stroke": {
@@ -1116,10 +1116,10 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image
-|Name|Required|Type|Default|Description|Expert|
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image {data-toc-label='Image'}
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|--------|----|-------|-----------|------|
-|scale|no|Integer|1.5|Possible setting: scale|false|
+|scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
 
 ```json
 "image": {
