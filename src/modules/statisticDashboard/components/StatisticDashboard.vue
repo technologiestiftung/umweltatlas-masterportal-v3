@@ -1199,15 +1199,15 @@ export default {
                     }
                     else {
                         this.currentChart[uniqueTopic].chart = ChartProcessor.createBarChart(topic, preparedData, direction, canvasTmp, differenceMode, false, renderSimple);
-                        if (renderSimple) {
-                            this.currentChart[uniqueTopic].chart.canvas.addEventListener("mousemove", (e) => {
-                                ChartProcessor.setTooltips(e, this.currentChart[uniqueTopic].chart, direction);
-                            });
-                            this.currentChart[uniqueTopic].chart.canvas.addEventListener("mouseout", (e) => {
-                                ChartProcessor.removeTooltips(e);
-                            });
-                        }
                     }
+                }
+                if (renderSimple) {
+                    this.currentChart[uniqueTopic].chart.canvas.addEventListener("mousemove", (e) => {
+                        ChartProcessor.setTooltips(e, this.currentChart[uniqueTopic].chart, direction);
+                    });
+                    this.currentChart[uniqueTopic].chart.canvas.addEventListener("mouseout", (e) => {
+                        ChartProcessor.removeTooltips(e);
+                    });
                 }
             }
         },
