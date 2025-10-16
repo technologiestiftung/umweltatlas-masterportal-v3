@@ -990,9 +990,9 @@ Enables the MouseHover function for vector layers, e.g. WFS or GeoJSON. For per-
 |titleFontColor|no|String|"common:modules.mouseHover.titleFontColor"|Font color for the title|false|
 |infoBorderRadius|no|Integer|"common:modules.mouseHover.infoBorderRadius"|Border radius of the tooltip|false|
 |lineHeight|no|Float|"common:modules.mouseHover.lineHeight"|Line spacing for the tooltip|false|
-|highlightOnHover|no|Boolean|false|If hovered features should be highlighted|
-|highlightVectorRulesPolygon|no|**[highlightVectorRulesPolygon](#portalconfigmapmousehoverhighlightvectorrulespolygon)**||Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom parameter.|
-|highlightVectorRulesPointLine|no|**[highlightVectorRulesPointLine](#portalconfigmapmousehoverhighlightvectorrulespointline)**||Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points as well as a zoom parameter.|
+|highlightOnHover|no|Boolean|false|If hovered features should be highlighted|false|
+|highlightVectorRulesPolygon|no|**[highlightVectorRulesPolygon](#portalconfigmapmousehoverhighlightvectorrulespolygon)**||Specify the fill color and outline color and stroke width for highlighting the polygon features as well as a zoom parameter.|false|
+|highlightVectorRulesPointLine|no|**[highlightVectorRulesPointLine](#portalconfigmapmousehoverhighlightvectorrulespointline)**||Specify outline color and stroke width for highlighting lines and fill color and scale factor for highlighting points as well as a zoom parameter.|false|
 
 **Example**
 

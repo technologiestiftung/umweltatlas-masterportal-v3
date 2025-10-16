@@ -992,9 +992,9 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 |titleFontColor|nein|String|"common:modules.mouseHover.titleFontColor"|Schriftfarbe für den Titel|false|
 |infoBorderRadius|nein|Integer|"common:modules.mouseHover.infoBorderRadius"|Abrundung der Tooltip-Ecken|false|
 |lineHeight|nein|Float|"common:modules.mouseHover.lineHeight"|Zeilenabstand für den Tooltip|false|
-|highlightOnHover|nein|Boolean|false|Ob beim Überfahren (Hover) Features hervorgehoben werden sollen|
-|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#portalconfigmapmousehoverhighlightvectorrulespolygon)**||Gibt die Füllfarbe, Konturfarbe, Strichstärke für die Hervorhebung von Polygon-Features sowie einen Zoom-Parameter an|
-|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#portalconfigmapmousehoverhighlightvectorrulespointline)**||Gibt die Konturfarbe und Strichstärke für die Hervorhebung von Linien sowie Füllfarbe und Skalierungsfaktor für die Hervorhebung von Punkten sowie einen Zoom-Parameter an|
+|highlightOnHover|nein|Boolean|false|Ob beim Überfahren (Hover) Features hervorgehoben werden sollen|false|
+|highlightVectorRulesPolygon|nein|**[highlightVectorRulesPolygon](#portalconfigmapmousehoverhighlightvectorrulespolygon)**||Gibt die Füllfarbe, Konturfarbe, Strichstärke für die Hervorhebung von Polygon-Features sowie einen Zoom-Parameter an|false|
+|highlightVectorRulesPointLine|nein|**[highlightVectorRulesPointLine](#portalconfigmapmousehoverhighlightvectorrulespointline)**||Gibt die Konturfarbe und Strichstärke für die Hervorhebung von Linien sowie Füllfarbe und Skalierungsfaktor für die Hervorhebung von Punkten sowie einen Zoom-Parameter an|false|
 
 **Beispiel**
 
