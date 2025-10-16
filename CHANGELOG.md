@@ -68,6 +68,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Shared TableComponent: Fixed remove of row.
 - ControlBar: Fix pop-ups display above other elements.
 - Gazetteer: Restored correct click behavior in search results.
+- LayerInformation: Fixed display of layerInformation for groupLayers.
 
 ---
 

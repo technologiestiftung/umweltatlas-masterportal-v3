@@ -295,23 +295,23 @@ export default {
          * @returns {String} the created URL
          */
         getLayerAddress (layerInfo) {
-            const typ = layerInfo.typ,
+            const typ = layerInfo.typ ?? layerInfo.type,
                 config = this.layerConfigById(layerInfo.id);
             let url = config?.origUrl ? config.origUrl : layerInfo.url,
                 urlObject = new URL(url, location.href);
 
-            if (typ.toUpperCase() === "TILESET3D") {
+            if (typ && typ.toUpperCase() === "TILESET3D") {
                 const baseUrl = this.cleanUrl(url);
 
                 // if no json-file is provided in masterportalAPI src/layer/tileset.js "/tileset.json" is appended
                 url = baseUrl + (baseUrl.endsWith(".json") ? "" : "/tileset.json");
                 urlObject = new URL(url, location.href);
             }
-            else if (typ.toUpperCase() === "TERRAIN3D") {
+            else if (typ && typ.toUpperCase() === "TERRAIN3D") {
                 // terrain layer: in Cesium "/layer.json" is appended to url
                 urlObject = new URL(this.cleanUrl(url) + "/layer.json", location.href);
             }
-            else if (typ !== "OAF") {
+            else if (typ && typ !== "OAF") {
                 urlObject.searchParams.set("SERVICE", typ);
                 urlObject.searchParams.set("REQUEST", "GetCapabilities");
             }
