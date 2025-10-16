@@ -99,7 +99,7 @@ export default {
      * @returns {void}
      */
     async highlightPolygonTypes ({commit, dispatch}, highlightObject) {
-        if (highlightObject.highlightStyle) {
+        if (highlightObject.highlightStyle && Object.keys(highlightObject.highlightStyle).length) {
             const newStyle = highlightObject.highlightStyle,
                 feature = highlightObject.feature,
                 styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiPolygon"},
