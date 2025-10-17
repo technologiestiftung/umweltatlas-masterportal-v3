@@ -1,7 +1,7 @@
 import axios from "axios";
-import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse";
-import {setLikeFilterProperties} from "../js/buildFilter";
-import {createUserHelp, prepareLiterals, resetFieldValues} from "../js/literalFunctions";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
+import {setLikeFilterProperties} from "../js/buildFilter.js";
+import {createUserHelp, prepareLiterals, resetFieldValues} from "../js/literalFunctions.js";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 
 const actions = {

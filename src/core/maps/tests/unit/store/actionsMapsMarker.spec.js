@@ -3,8 +3,8 @@ import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";
 import sinon from "sinon";
 
-import actions from "@core/maps/store/actionsMapsMarker";
-import mapMarker from "@core/maps/js/mapMarker";
+import actions from "@core/maps/store/actionsMapsMarker.js";
+import mapMarker from "@core/maps/js/mapMarker.js";
 
 const {
     changeMarkerStyle,

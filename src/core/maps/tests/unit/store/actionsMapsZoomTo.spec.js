@@ -6,7 +6,7 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector";
 
-import actions from "@core/maps/store/actionsMapsZoomTo";
+import actions from "@core/maps/store/actionsMapsZoomTo.js";
 
 const fs = require("fs"),
     exampleFeatureCollection = fs.readFileSync("./src/core/maps/tests/unit/resources/featureCollection.xml", "utf8"),

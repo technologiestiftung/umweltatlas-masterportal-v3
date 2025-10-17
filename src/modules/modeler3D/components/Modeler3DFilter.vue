@@ -5,10 +5,10 @@ import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vu
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
 
-import {uniqueId} from "@shared/js/utils/uniqueId";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
-import layerCollection from "@core/layers/js/layerCollection";
-import processLayerConfig from "@core/layers/js/layerProcessor";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import processLayerConfig from "@core/layers/js/layerProcessor.js";
 
 /**
  * The component that handles the 3D modeler filtering & styling.

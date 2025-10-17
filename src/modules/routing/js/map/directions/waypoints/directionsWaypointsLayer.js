@@ -1,5 +1,5 @@
-import directionsWaypointsSource from "./directionsWaypointsSource";
-import directionsWaypointsStyle from "./directionsWaypointsStyle";
+import directionsWaypointsSource from "./directionsWaypointsSource.js";
+import directionsWaypointsStyle from "./directionsWaypointsStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer2dRasterWms from "@core/layers/js/layer2dRasterWms";
+import Layer2dRasterWms from "@core/layers/js/layer2dRasterWms.js";
 
 describe("src/core/js/layers/layer2dRasterWms.js", () => {
     let attributes,

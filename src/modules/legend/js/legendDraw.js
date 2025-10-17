@@ -2,7 +2,7 @@ import Feature from "ol/Feature.js";
 import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
 import {createNominalCircleSegments} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
 import {createSVGStyle} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
-import {convertColor} from "@shared/js/utils/convertColor";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 
 export default {
     /**

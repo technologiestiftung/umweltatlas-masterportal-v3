@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../mutations";
+import mutations from "../../mutations.js";
 
 const {setLoadedConfigs} = mutations;
 

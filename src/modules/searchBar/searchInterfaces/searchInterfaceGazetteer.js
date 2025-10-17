@@ -1,4 +1,4 @@
-import SearchInterface from "./searchInterface";
+import SearchInterface from "./searchInterface.js";
 import store from "@appstore";
 import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
 import proj4 from "proj4";

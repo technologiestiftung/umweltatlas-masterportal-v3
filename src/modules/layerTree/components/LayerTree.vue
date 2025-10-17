@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapMutations, mapGetters} from "vuex";
 import LayerTreeNode from "./LayerTreeNode.vue";
-import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
-import sortBy from "@shared/js/utils/sortBy";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import sortBy from "@shared/js/utils/sortBy.js";
 import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vue";
 
 /**

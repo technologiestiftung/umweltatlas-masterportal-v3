@@ -1,6 +1,6 @@
 
 import {wms} from "@masterportal/masterportalapi";
-import Layer2dRaster from "./layer2dRaster";
+import Layer2dRaster from "./layer2dRaster.js";
 
 /**
  * Creates a 2d raster wms (Web Map Service) layer.

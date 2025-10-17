@@ -5,7 +5,7 @@ import {nextTick} from "vue";
 import sinon from "sinon";
 import View from "ol/View";
 
-import {processLayerConfig, setResolutions, updateLayerAttributes} from "@core/layers/js/layerProcessor";
+import {processLayerConfig, setResolutions, updateLayerAttributes} from "@core/layers/js/layerProcessor.js";
 
 describe("src/core/js/layers/layerProcessor.js", () => {
     let layerConfig,

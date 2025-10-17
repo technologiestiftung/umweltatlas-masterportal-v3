@@ -3,7 +3,7 @@ import draggable from "vuedraggable";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 import Layer from "./LayerComponent.vue";
-import {sortObjects, sortByLayerSequence} from "@shared/js/utils/sortObjects";
+import {sortObjects, sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
 
 /**
  * Representation of a node in layertree containing folders or layers.

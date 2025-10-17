@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import * as handleMultipolygonUtils from "../../../js/handleMultipolygon";
-import store from "../../../../../app-store";
+import * as handleMultipolygonUtils from "../../../js/handleMultipolygon.js";
+import store from "../../../../../app-store/index.js";
 import Feature from "ol/Feature";
 import MultiPolygon from "ol/geom/MultiPolygon";
 import {Vector as VectorSource} from "ol/source";

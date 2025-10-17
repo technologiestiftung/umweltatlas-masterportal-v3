@@ -1,5 +1,5 @@
 import hash from "object-hash";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import openlayerFunctions from "../../utils/openlayerFunctions.js";
 import IntervalRegister from "../../utils/intervalRegister.js";
 import InterfaceWfsIntern from "./interface.wfs.intern.js";
@@ -10,7 +10,7 @@ import InterfaceGeojsonIntern from "./interface.geojson.intern.js";
 import InterfaceGeojsonExtern from "./interface.geojson.extern.js";
 import InterfaceStaIntern from "./interface.sta.intern.js";
 import InterfaceStaExtern from "./interface.sta.extern.js";
-import InterfaceVectorTilesIntern from "./interface.vectortiles.intern";
+import InterfaceVectorTilesIntern from "./interface.vectortiles.intern.js";
 
 /**
  * FilterApi is the api to use in vue environment. It encapsulates the filter interfaces.

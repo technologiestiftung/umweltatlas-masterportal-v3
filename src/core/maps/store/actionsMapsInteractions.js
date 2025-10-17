@@ -3,8 +3,8 @@ import api from "@masterportal/masterportalapi/src/maps/api";
 import {unByKey as unlistenByKey} from "ol/Observable.js";
 import {toRaw} from "vue";
 import proj4 from "proj4";
-import actionsMapsInteractionsZoom from "./actionsMapsInteractionsZoom";
-import {treeSubjectsKey} from "@shared/js/utils/constants";
+import actionsMapsInteractionsZoom from "./actionsMapsInteractionsZoom.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 /**
  * Interactions with the Map, MapView and Scene (3D).

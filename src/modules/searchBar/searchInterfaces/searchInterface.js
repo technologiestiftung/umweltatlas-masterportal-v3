@@ -1,4 +1,4 @@
-import SearchResult from "../searchResults/searchResult";
+import SearchResult from "../searchResults/searchResult.js";
 import axios from "axios";
 
 /**

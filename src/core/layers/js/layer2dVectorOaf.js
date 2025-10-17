@@ -4,7 +4,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
 import store from "@appstore";
-import Layer2dVector from "./layer2dVector";
+import Layer2dVector from "./layer2dVector.js";
 
 /**
  * Creates a 2d vector oaf (OGC API - Features) layer.

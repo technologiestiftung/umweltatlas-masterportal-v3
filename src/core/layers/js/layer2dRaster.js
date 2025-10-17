@@ -1,4 +1,4 @@
-import Layer2d from "./layer2d";
+import Layer2d from "./layer2d.js";
 import store from "@appstore";
 
 /**

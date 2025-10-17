@@ -1,4 +1,4 @@
-import Cookie from "./utilsCookies";
+import Cookie from "./utilsCookies.js";
 import {createHash} from "crypto";
 
 /**

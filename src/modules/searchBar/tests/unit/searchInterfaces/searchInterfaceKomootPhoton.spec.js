@@ -5,7 +5,7 @@ import sinon from "sinon";
 import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
 import SearchInterfaceKomootPhoton from "@modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js";
 import store from "@appstore";
-import {reset} from "@shared/js/utils/uniqueId";
+import {reset} from "@shared/js/utils/uniqueId.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js", () => {
     let SearchInterface1 = null,

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer from "@core/layers/js/layer";
+import Layer from "@core/layers/js/layer.js";
 
 describe("src/core/js/layers/layer.js", () => {
     let attributes,

@@ -1,7 +1,7 @@
-import layerCollection from "@core/layers/js/layerCollection";
-import layerFactory from "@core/layers/js/layerFactory";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import layerFactory from "@core/layers/js/layerFactory.js";
 import store from "@appstore";
-import SearchInterface from "./searchInterface";
+import SearchInterface from "./searchInterface.js";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 
 import Cluster from "ol/source/Cluster";

@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "@shared/js/utils/generators";
-import stateLayerInformation from "./stateLayerInformation";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateLayerInformation from "./stateLayerInformation.js";
 
 /**
  * The mutations for the layerInformation.

@@ -1,5 +1,5 @@
-import directionsElevationSource from "./directionsElevationSource";
-import directionsElevationStyle from "./directionsElevationStyle";
+import directionsElevationSource from "./directionsElevationSource.js";
+import directionsElevationStyle from "./directionsElevationStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

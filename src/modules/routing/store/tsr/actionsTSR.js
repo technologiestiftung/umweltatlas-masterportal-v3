@@ -1,4 +1,4 @@
-import {RoutingWaypoint} from "../../js/classes/routing-waypoint";
+import {RoutingWaypoint} from "../../js/classes/routing-waypoint.js";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 import {fetchTSRDirections} from "../../js/tsr/routing-vroom-directions.js";

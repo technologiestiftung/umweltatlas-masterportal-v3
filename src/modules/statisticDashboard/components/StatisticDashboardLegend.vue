@@ -2,8 +2,8 @@
 import {mapGetters, mapMutations} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
-import {convertColor} from "@shared/js/utils/convertColor";
-import debounce from "@shared/js/utils/debounce";
+import {convertColor} from "@shared/js/utils/convertColor.js";
+import debounce from "@shared/js/utils/debounce.js";
 
 export default {
     name: "StatisticDashboardLegend",

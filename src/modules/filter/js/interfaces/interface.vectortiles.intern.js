@@ -1,10 +1,10 @@
 import store from "@appstore";
-import isObject from "@shared/js/utils/isObject";
-import isNumber from "@shared/js/utils/isNumber";
-import {getMinMaxFromFetchedFeatures, getUniqueValuesFromFetchedFeatures} from "../../utils/fetchAllOafProperties";
-import InterfaceOafExtern from "./interface.oaf.extern";
-import InterfaceWfsIntern from "./interface.wfs.intern";
-import layerCollection from "@core/layers/js/layerCollection";
+import isObject from "@shared/js/utils/isObject.js";
+import isNumber from "@shared/js/utils/isNumber.js";
+import {getMinMaxFromFetchedFeatures, getUniqueValuesFromFetchedFeatures} from "../../utils/fetchAllOafProperties.js";
+import InterfaceOafExtern from "./interface.oaf.extern.js";
+import InterfaceWfsIntern from "./interface.wfs.intern.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 /**
  * InterfaceVectorTilesIntern is the filter interface for VectorTiles filtered by OpenLayers.
  * It uses the the OAF Extern interface under the hood for api requests like getUniqueValues.

@@ -3,9 +3,9 @@ import api from "@masterportal/masterportalapi/src/maps/api";
 import {rawLayerList} from "@masterportal/masterportalapi/src";
 import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
 
-import {setResolutions, setValues} from "./setValuesToMapView";
+import {setResolutions, setValues} from "./setValuesToMapView.js";
 import store from "@appstore";
-import mapMarker from "./mapMarker";
+import mapMarker from "./mapMarker.js";
 
 /**
  * Create the map in different modes and update the map attributes.

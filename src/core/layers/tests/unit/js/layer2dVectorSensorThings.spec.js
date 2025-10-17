@@ -12,7 +12,7 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {Circle, Style} from "ol/style.js";
 
-import Layer2dVectorSensorThings from "@core/layers/js/layer2dVectorSensorThings";
+import Layer2dVectorSensorThings from "@core/layers/js/layer2dVectorSensorThings.js";
 
 describe("src/core/js/layers/layer2dVectorSensorThings.js", () => {
     let origDispatch,

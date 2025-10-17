@@ -7,7 +7,7 @@ import proj4 from "proj4";
 import {Point} from "ol/geom";
 import {Tooltip} from "bootstrap";
 import axios from "axios";
-import removeHtmlTags from "@shared/js/utils/removeHtmlTags";
+import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
 export default {
     name: "LayerPreview",

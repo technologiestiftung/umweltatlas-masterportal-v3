@@ -1,5 +1,5 @@
 import {nextTick} from "vue";
-import changeCase from "@shared/js/utils/changeCase";
+import changeCase from "@shared/js/utils/changeCase.js";
 import {trackMatomo} from "@plugins/matomo";
 
 export default {

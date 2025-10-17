@@ -1,8 +1,8 @@
 import {expect} from "chai";
-import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
-import getNestedValues from "@shared/js/utils/getNestedValues";
-import getters from "../../getters";
-import stateAppStore from "../../state";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import getters from "../../getters.js";
+import stateAppStore from "../../state.js";
 import sinon from "sinon";
 
 describe("src/app-store/getters.js", () => {

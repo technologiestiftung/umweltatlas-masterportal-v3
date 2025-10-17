@@ -1,4 +1,4 @@
-import layerTypes from "./layerTypes";
+import layerTypes from "./layerTypes.js";
 import store from "@appstore";
 
 const layerCollection = [];

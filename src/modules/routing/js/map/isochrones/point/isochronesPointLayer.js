@@ -1,5 +1,5 @@
-import isochronesPointSource from "./isochronesPointSource";
-import isochronesPointStyle from "./isochronesPointStyle";
+import isochronesPointSource from "./isochronesPointSource.js";
+import isochronesPointStyle from "./isochronesPointStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

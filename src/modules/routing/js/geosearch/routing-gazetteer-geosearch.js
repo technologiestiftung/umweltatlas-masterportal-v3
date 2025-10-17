@@ -1,4 +1,4 @@
-import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
+import {RoutingGeosearchResult} from "../classes/routing-geosearch-result.js";
 import {search} from "@masterportal/masterportalapi/src/searchAddress";
 
 /**

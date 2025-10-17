@@ -3,7 +3,7 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import View from "ol/View";
 
-import actions from "@core/maps/store/actionsMapsAttributesMapper";
+import actions from "@core/maps/store/actionsMapsAttributesMapper.js";
 
 const {
     initTwoFingerPan,

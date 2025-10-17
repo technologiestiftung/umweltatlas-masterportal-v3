@@ -11,12 +11,12 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjsTimezone from "dayjs/plugin/timezone";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import Layer2dVector from "./layer2dVector";
-import changeTimeZone from "@shared/js/utils/changeTimeZone";
+import Layer2dVector from "./layer2dVector.js";
+import changeTimeZone from "@shared/js/utils/changeTimeZone.js";
 import {uniqueId} from "@shared/js/utils/uniqueId.js";
-import isObject from "@shared/js/utils/isObject";
-import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp";
-import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
+import isObject from "@shared/js/utils/isObject.js";
+import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp.js";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt.js";
 import store from "@appstore";
 
 dayjs.extend(dayjsTimezone);

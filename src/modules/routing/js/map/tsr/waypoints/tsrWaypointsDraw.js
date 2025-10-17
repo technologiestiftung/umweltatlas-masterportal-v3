@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import tsrWaypointsStyle from "./tsrWaypointsStyle";
-import tsrWaypointsSource from "./tsrWaypointsSource";
+import tsrWaypointsStyle from "./tsrWaypointsStyle.js";
+import tsrWaypointsSource from "./tsrWaypointsSource.js";
 
 export default new Draw({
     source: tsrWaypointsSource,

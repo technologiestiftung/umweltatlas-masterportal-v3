@@ -1,5 +1,5 @@
 import {WKT} from "ol/format.js";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import Feature from "ol/Feature";
 
 /**

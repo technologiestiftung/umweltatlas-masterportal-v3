@@ -4,7 +4,7 @@ import InterfaceVectorTilesIntern from "@modules/filter/js/interfaces/interface.
 import sinon from "sinon";
 import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
 import store from "@appstore";
-import layerCollection from "@core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("src/modules/filter/interfaces/utils/interface.vectortiles.intern.js", () => {
     let interfaceVectorTilesIntern = null;

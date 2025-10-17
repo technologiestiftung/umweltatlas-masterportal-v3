@@ -2,7 +2,7 @@ import {Circle} from "ol/geom.js";
 import {fromCircle} from "ol/geom/Polygon.js";
 import {GeoJSON, GPX} from "ol/format.js";
 import convertFeaturesToKml from "@shared/js/utils/convertFeaturesToKml.js";
-import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv";
+import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv.js";
 import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes.js";
 import {setKmlAttributes} from "@modules/draw_old/js/setKmlAttributes.js";
 import transform from "@modules/draw_old/js/download/transform.js";

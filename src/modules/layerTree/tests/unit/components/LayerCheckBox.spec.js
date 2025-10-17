@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import escapeId from "@shared/js/utils/escapeId";
-import layerTypes from "@core/layers/js/layerTypes";
+import escapeId from "@shared/js/utils/escapeId.js";
+import layerTypes from "@core/layers/js/layerTypes.js";
 import LayerCheckBox from "@modules/layerTree/components/LayerCheckBox.vue";
 import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer";
 

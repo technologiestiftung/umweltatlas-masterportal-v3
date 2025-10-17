@@ -1,6 +1,6 @@
 import {wmts} from "@masterportal/masterportalapi";
-import getNestedValues from "@shared/js/utils/getNestedValues";
-import Layer2dRaster from "./layer2dRaster";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import Layer2dRaster from "./layer2dRaster.js";
 
 /**
  * Creates a 2d raster wmts (Web Map Tile Service) layer.

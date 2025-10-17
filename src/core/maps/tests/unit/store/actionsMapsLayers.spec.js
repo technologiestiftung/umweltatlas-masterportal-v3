@@ -5,7 +5,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import View from "ol/View";
 
-import actions from "@core/maps/store/actionsMapsLayers";
+import actions from "@core/maps/store/actionsMapsLayers.js";
 
 const {
     addLayer,

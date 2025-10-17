@@ -1,4 +1,4 @@
-import {createGfiFeature} from "./getWmsFeaturesByMimeType";
+import {createGfiFeature} from "./getWmsFeaturesByMimeType.js";
 import store from "@appstore";
 
 /**

@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import isochronesPointStyle from "./isochronesPointStyle";
-import isochronesPointSource from "./isochronesPointSource";
+import isochronesPointStyle from "./isochronesPointStyle.js";
+import isochronesPointSource from "./isochronesPointSource.js";
 
 export default new Draw({
     source: isochronesPointSource,

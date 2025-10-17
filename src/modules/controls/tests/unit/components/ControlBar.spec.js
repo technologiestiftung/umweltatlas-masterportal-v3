@@ -4,7 +4,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 
 import ControlBar from "@modules/controls/components/ControlBar.vue";
-import visibilityChecker from "@shared/js/utils/visibilityChecker";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 
 config.global.mocks.$t = key => key;
 

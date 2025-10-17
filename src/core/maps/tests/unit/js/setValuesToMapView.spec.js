@@ -2,7 +2,7 @@ import {expect} from "chai";
 import Map from "ol/Map";
 import View from "ol/View";
 
-import {setResolutions, setValues} from "@core/maps/js/setValuesToMapView";
+import {setResolutions, setValues} from "@core/maps/js/setValuesToMapView.js";
 
 describe("src/core/js/setValuesToMapView.js", () => {
     let map;

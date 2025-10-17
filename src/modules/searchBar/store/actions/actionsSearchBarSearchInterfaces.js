@@ -2,15 +2,15 @@
  * Contains actions that communicate with the search interfaces.
  * @module modules/searchBar/store/actions/actionsSearchBarSearchInterfaces
  */
-import SearchInterfaceBkg from "../../searchInterfaces/searchInterfaceBkg";
-import SearchInterfaceElasticSearch from "../../searchInterfaces/searchInterfaceElasticSearch";
-import SearchInterfaceGazetteer from "../../searchInterfaces/searchInterfaceGazetteer";
-import SearchInterfaceKomootPhoton from "../../searchInterfaces/searchInterfaceKomootPhoton";
-import SearchInterfaceLocationFinder from "../../searchInterfaces/searchInterfaceLocationFinder";
-import SearchInterfaceOsmNominatim from "../../searchInterfaces/searchInterfaceOsmNominatim";
-import SearchInterfaceTopicTree from "../../searchInterfaces/searchInterfaceTopicTree";
-import SearchInterfaceSpecialWfs from "../../searchInterfaces/searchInterfaceSpecialWfs";
-import SearchInterfaceVisibleVector from "../../searchInterfaces/searchInterfaceVisibleVector";
+import SearchInterfaceBkg from "../../searchInterfaces/searchInterfaceBkg.js";
+import SearchInterfaceElasticSearch from "../../searchInterfaces/searchInterfaceElasticSearch.js";
+import SearchInterfaceGazetteer from "../../searchInterfaces/searchInterfaceGazetteer.js";
+import SearchInterfaceKomootPhoton from "../../searchInterfaces/searchInterfaceKomootPhoton.js";
+import SearchInterfaceLocationFinder from "../../searchInterfaces/searchInterfaceLocationFinder.js";
+import SearchInterfaceOsmNominatim from "../../searchInterfaces/searchInterfaceOsmNominatim.js";
+import SearchInterfaceTopicTree from "../../searchInterfaces/searchInterfaceTopicTree.js";
+import SearchInterfaceSpecialWfs from "../../searchInterfaces/searchInterfaceSpecialWfs.js";
+import SearchInterfaceVisibleVector from "../../searchInterfaces/searchInterfaceVisibleVector.js";
 
 export default {
     /**

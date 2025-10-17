@@ -7,8 +7,8 @@ import {shallowRef} from "vue";
 
 dayjs.extend(localeData);
 
-import {calculateWorkloadForOneWeekday} from "../js/calculateWorkloadForOneWeekday";
-import {calculateArithmeticMean} from "../js/mathematicalOperations";
+import {calculateWorkloadForOneWeekday} from "../js/calculateWorkloadForOneWeekday.js";
+import {calculateArithmeticMean} from "../js/mathematicalOperations.js";
 
 /**
  * The bar chart for sensor theme of the get feature info.

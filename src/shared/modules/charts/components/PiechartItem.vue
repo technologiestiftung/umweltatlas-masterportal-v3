@@ -1,6 +1,6 @@
 <script>
 import ChartJs from "chart.js/auto";
-import deepAssign from "@shared/js/utils/deepAssign";
+import deepAssign from "@shared/js/utils/deepAssign.js";
 
 export default {
     name: "PiechartItem",

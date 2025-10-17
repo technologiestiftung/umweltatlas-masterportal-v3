@@ -1,5 +1,5 @@
 <script>
-import * as constants from "../store/constantsDraw";
+import * as constants from "../store/constantsDraw.js";
 import DownloadItem from "../components/DownloadItem.vue";
 import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
 import DrawItemAttributes from "./DrawItemAttributes.vue";

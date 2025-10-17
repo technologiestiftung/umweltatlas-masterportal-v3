@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import escapeId from "@shared/js/utils/escapeId";
+import escapeId from "@shared/js/utils/escapeId.js";
 
 describe("src/utils/escapeId.js", () => {
     describe("escapeId", () => {

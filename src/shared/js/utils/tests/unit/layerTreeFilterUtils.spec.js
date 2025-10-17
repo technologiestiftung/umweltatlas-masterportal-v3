@@ -3,7 +3,7 @@ import {
     isQueryableLayer,
     filterQueryableTree,
     filterTreeByQueryAndQueryable
-} from "../../layerTreeFilterUtils";
+} from "../../layerTreeFilterUtils.js";
 
 describe("Layer Filtering Utilities", () => {
 

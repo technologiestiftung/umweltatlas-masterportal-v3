@@ -4,7 +4,7 @@ import {Fill, Stroke} from "ol/style";
 import Feature from "ol/Feature.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import createTestFeatures from "./testHelper";
+import createTestFeatures from "./testHelper.js";
 
 describe("src/modules/print/utils/buildSpecbuildStyle", function () {
     let buildSpec,

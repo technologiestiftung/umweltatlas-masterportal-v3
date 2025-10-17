@@ -2,7 +2,7 @@ import sinon from "sinon";
 import {expect} from "chai";
 import gettersMenu from "@modules/menu/menu-store/gettersMenu";
 import stateMenu from "@modules/menu/menu-store/stateMenu";
-import idx from "@shared/js/utils/idx";
+import idx from "@shared/js/utils/idx.js";
 
 describe("src/modules/menu/menu-store/gettersMenu.js", () => {
     const mainMenuSymbol = Symbol("mainMenu"),

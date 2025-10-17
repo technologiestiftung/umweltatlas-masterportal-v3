@@ -1,5 +1,5 @@
-import tsrWaypointsSource from "./tsrWaypointsSource";
-import tsrWaypointsStyle from "./tsrWaypointsStyle";
+import tsrWaypointsSource from "./tsrWaypointsSource.js";
+import tsrWaypointsStyle from "./tsrWaypointsStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

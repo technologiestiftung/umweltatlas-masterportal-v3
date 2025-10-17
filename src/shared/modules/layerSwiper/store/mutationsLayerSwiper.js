@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "@shared/js/utils/generators";
-import stateLayerSwiper from "./stateLayerSwiper";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateLayerSwiper from "./stateLayerSwiper.js";
 
 /**
  * The mutations for the LayerSwiper.

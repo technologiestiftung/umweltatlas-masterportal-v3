@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import utilsOIDC from "../../js/utilsOIDC";
+import utilsOIDC from "../../js/utilsOIDC.js";
 
 describe("src/modules/login/js/utilsOIDC", () => {
     describe("generateRandomString", () => {

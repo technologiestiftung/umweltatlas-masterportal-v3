@@ -1,7 +1,7 @@
-import menuState from "./stateMenu";
-import {badPathSymbol, idx} from "@shared/js/utils/idx";
-import {generateSimpleGetters} from "@shared/js/utils/generators";
-import changeCase from "@shared/js/utils/changeCase";
+import menuState from "./stateMenu.js";
+import {badPathSymbol, idx} from "@shared/js/utils/idx.js";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import changeCase from "@shared/js/utils/changeCase.js";
 
 const menuGetters = {
     ...generateSimpleGetters(menuState),

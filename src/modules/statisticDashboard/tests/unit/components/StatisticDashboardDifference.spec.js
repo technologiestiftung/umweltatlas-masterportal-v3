@@ -6,7 +6,7 @@ import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStat
 import Multiselect from "vue-multiselect";
 import StatisticSwitcher from "@modules/statisticDashboard/components/StatisticDashboardSwitcher.vue";
 import {rawLayerList} from "@masterportal/masterportalapi";
-import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

@@ -1,14 +1,14 @@
 import Cluster from "ol/source/Cluster";
 import VectorSource from "ol/source/Vector";
-import {getWmsFeaturesByMimeType} from "@shared/js/utils/getWmsFeaturesByMimeType";
-import {getVisibleWmsLayersAtResolution} from "../js/getLayers";
+import {getWmsFeaturesByMimeType} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
+import {getVisibleWmsLayersAtResolution} from "../js/getLayers.js";
 import store from "@appstore";
-import layerCollection from "@core/layers/js/layerCollection";
-import transformer from "@shared/js/utils/coordToPixel3D";
-import changeCase from "@shared/js/utils/changeCase";
-import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor";
-import applyTileStyle from "@shared/js/utils/applyTileStyle";
-import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import transformer from "@shared/js/utils/coordToPixel3D.js";
+import changeCase from "@shared/js/utils/changeCase.js";
+import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor.js";
+import applyTileStyle from "@shared/js/utils/applyTileStyle.js";
+import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight.js";
 
 /**
  * The actions for the getFeatureInfo.

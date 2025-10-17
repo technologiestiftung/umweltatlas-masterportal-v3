@@ -1,5 +1,5 @@
-import {generateSimpleGetters} from "@shared/js/utils/generators";
-import stateLayerTree from "./stateLayerTree";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import stateLayerTree from "./stateLayerTree.js";
 
 /**
  * The getters for the LayerTree.

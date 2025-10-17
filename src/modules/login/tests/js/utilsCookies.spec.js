@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import cookieUtils from "../../js/utilsCookies";
+import cookieUtils from "../../js/utilsCookies.js";
 
 describe("src/modules/login/js/utilsCookies.js", () => {
     let mockCookieStore = {};

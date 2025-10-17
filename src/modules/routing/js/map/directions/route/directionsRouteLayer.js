@@ -1,5 +1,5 @@
-import directionsRouteSource from "./directionsRouteSource";
-import directionsRouteStyle from "./directionsRouteStyle";
+import directionsRouteSource from "./directionsRouteSource.js";
+import directionsRouteStyle from "./directionsRouteStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

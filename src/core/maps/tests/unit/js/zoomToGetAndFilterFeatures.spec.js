@@ -3,7 +3,7 @@ import {expect} from "chai";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import sinon from "sinon";
 
-import featureProvider from "@core/maps/js/zoomToGetAndFilterFeatures";
+import featureProvider from "@core/maps/js/zoomToGetAndFilterFeatures.js";
 
 const fs = require("fs"),
     exampleFeatureCollection = fs.readFileSync("./src/core/maps/tests/unit/resources/featureCollection.xml", "utf8");

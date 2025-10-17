@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "@shared/js/utils/generators";
-import stateResizeHandle from "./stateResizeHandle";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateResizeHandle from "./stateResizeHandle.js";
 
 const mutations = {
     /**

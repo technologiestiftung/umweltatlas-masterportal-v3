@@ -3,10 +3,10 @@ import {Vector as VectorLayer} from "ol/layer";
 import {GeoJSON} from "ol/format";
 import Feature from "ol/Feature";
 import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
-import {ResultType} from "./enums";
-import * as setters from "./settersBufferAnalysis";
-import * as initializers from "./initializersBufferAnalysis";
-import layerCollection from "@core/layers/js/layerCollection";
+import {ResultType} from "./enums.js";
+import * as setters from "./settersBufferAnalysis.js";
+import * as initializers from "./initializersBufferAnalysis.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 const actions = {
     ...initializers,

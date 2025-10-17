@@ -1,6 +1,6 @@
 import axios from "axios";
-import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
-import state from "../../store/stateRouting";
+import {RoutingGeosearchResult} from "../classes/routing-geosearch-result.js";
+import state from "../../store/stateRouting.js";
 import store from "@appstore";
 import crs from "@masterportal/masterportalapi/src/crs";
 

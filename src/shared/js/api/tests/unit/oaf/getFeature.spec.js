@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import axios from "axios";
 import Feature from "ol/Feature";
 import Polygon from "ol/geom/Polygon";

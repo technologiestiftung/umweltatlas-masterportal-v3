@@ -1,5 +1,5 @@
 <script>
-import {convertColor} from "@shared/js/utils/convertColor";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 
 /**

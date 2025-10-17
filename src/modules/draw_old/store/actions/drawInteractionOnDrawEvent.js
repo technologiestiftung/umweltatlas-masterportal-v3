@@ -1,6 +1,6 @@
 import createStyleModule from "@modules/draw_old/js/style/createStyle";
 import circleCalculations from "@modules/draw_old/js/circleCalculations";
-import squareCalculations from "../../js/squareCalculations";
+import squareCalculations from "../../js/squareCalculations.js";
 
 const errorBorder = "#E10019";
 

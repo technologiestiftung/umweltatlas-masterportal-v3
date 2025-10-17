@@ -1,5 +1,5 @@
 import {Group as LayerGroup} from "ol/layer.js";
-import Layer2d from "./layer2d";
+import Layer2d from "./layer2d.js";
 
 /**
  * Creates a 2d layer group.

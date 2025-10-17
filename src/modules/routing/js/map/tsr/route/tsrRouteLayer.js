@@ -1,5 +1,5 @@
-import tsrRouteSource from "./tsrRouteSource";
-import tsrRouteStyle from "./tsrRouteStyle";
+import tsrRouteSource from "./tsrRouteSource.js";
+import tsrRouteStyle from "./tsrRouteStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

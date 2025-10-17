@@ -2,13 +2,13 @@ import {Vector as VectorLayer} from "ol/layer";
 import {Draw, Modify, Select, Translate} from "ol/interaction";
 import VectorSource from "ol/source/Vector";
 import {platformModifierKeyOnly, primaryAction, click} from "ol/events/condition";
-import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature";
-import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties";
-import layerCollection from "@core/layers/js/layerCollection";
+import addFeaturePropertiesToFeature from "../js/addFeaturePropertiesToFeature.js";
+import prepareFeaturePropertiesModule from "../js/prepareFeatureProperties.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import wfs from "@masterportal/masterportalapi/src/layer/wfs";
 import DragBox from "ol/interaction/DragBox";
 import store from "@appstore";
-import {handleMultipolygon, buildMultipolygon, splitOuterFeatures} from "../js/handleMultipolygon";
+import {handleMultipolygon, buildMultipolygon, splitOuterFeatures} from "../js/handleMultipolygon.js";
 import {nextTick} from "vue";
 
 let drawInteraction,

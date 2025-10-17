@@ -1,10 +1,10 @@
 import store from "@appstore";
-import getCswRecordById from "@shared/js/api/getCswRecordById";
-import sortBy from "@shared/js/utils/sortBy";
-import xml2json from "@shared/js/utils/xml2json";
-import changeCase from "@shared/js/utils/changeCase";
+import getCswRecordById from "@shared/js/api/getCswRecordById.js";
+import sortBy from "@shared/js/utils/sortBy.js";
+import xml2json from "@shared/js/utils/xml2json.js";
+import changeCase from "@shared/js/utils/changeCase.js";
 import axios from "axios";
-import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper";
+import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper.js";
 
 /**
  * The actions for the layerInformation.

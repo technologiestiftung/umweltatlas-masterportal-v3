@@ -2,10 +2,10 @@
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import WfsSearchLiteral from "./WfsSearchLiteral.vue";
-import {createUserHelp} from "../js/literalFunctions";
-import requestProvider from "../js/requests";
+import {createUserHelp} from "../js/literalFunctions.js";
+import requestProvider from "../js/requests.js";
 import getGeometry from "../js/getGeometry.js";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**

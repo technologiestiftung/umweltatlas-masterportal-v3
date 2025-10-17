@@ -2,8 +2,8 @@ import axios from "axios";
 import {vectorTile} from "@masterportal/masterportalapi";
 
 import store from "@appstore";
-import webgl from "./webglRenderer";
-import Layer2d from "./layer2d";
+import webgl from "./webglRenderer.js";
+import Layer2d from "./layer2d.js";
 
 /**
  * Creates a 2d vector tile layer.

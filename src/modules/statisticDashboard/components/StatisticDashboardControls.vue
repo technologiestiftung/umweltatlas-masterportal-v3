@@ -1,11 +1,11 @@
 <script>
 import DifferenceModal from "./StatisticDashboardDifference.vue";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import {mapGetters, mapMutations} from "vuex";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import {Dropdown} from "bootstrap";
 import Multiselect from "vue-multiselect";
-import sortBy from "@shared/js/utils/sortBy";
+import sortBy from "@shared/js/utils/sortBy.js";
 import StatisticDashboardFilterRegions from "./StatisticDashboardFilterRegions.vue";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
 

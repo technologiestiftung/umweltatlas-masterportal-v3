@@ -5,15 +5,15 @@ import "./assets/css/style.css";
 
 import {createApp} from "vue";
 import App from "./App.vue";
-import store from "./app-store";
+import store from "./app-store/index.js";
 import "bootstrap/js/dist/offcanvas";
 
-import remoteInterface from "./plugins/remoteInterface";
-import utilsLogin from "../src/modules/login/js/utilsLogin";
-import globalUrlParams from "../src/core/urlParams/js/globalUrlParams";
-import {initiateVueI18Next, initLanguage} from "./plugins/i18next";
+import remoteInterface from "./plugins/remoteInterface.js";
+import utilsLogin from "./modules/login/js/utilsLogin.js";
+import globalUrlParams from "./core/urlParams/js/globalUrlParams.js";
+import {initiateVueI18Next, initLanguage} from "./plugins/i18next.js";
 
-import {initiateMatomo} from "./plugins/matomo";
+import {initiateMatomo} from "./plugins/matomo.js";
 
 
 let app;

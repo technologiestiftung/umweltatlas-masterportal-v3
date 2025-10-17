@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "@shared/js/utils/generators";
-import stateGetFeatureInfo from "./stateGetFeatureInfo";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateGetFeatureInfo from "./stateGetFeatureInfo.js";
 
 /**
  * The mutations for the getFeatureInfo.

@@ -35,6 +35,7 @@
   - devDependencies:
 - Removed temporary `overrides` that pinned Vue core packages to 3.3.4.
 - Adjusted test webpack config for Vue 3.5 (aliases/loaders).
+- Add missing .js/.vue extensions in import paths project-wide
 
 ### Deprecated
 

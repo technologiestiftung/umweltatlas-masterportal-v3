@@ -4,8 +4,8 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import View from "ol/View";
 
-import highlightFeaturesByAttribute from "@core/maps/js/highlightFeaturesByAttribute";
-import mapUrlParams from "@core/maps/js/mapUrlParams";
+import highlightFeaturesByAttribute from "@core/maps/js/highlightFeaturesByAttribute.js";
+import mapUrlParams from "@core/maps/js/mapUrlParams.js";
 import store from "@appstore";
 
 describe("src/core/maps/js/mapUrlParams.js", () => {

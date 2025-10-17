@@ -1,4 +1,4 @@
-import {convertHslToHex, convertHexToHSL, convertColor, isHexColorString} from "./convertColor";
+import {convertHslToHex, convertHexToHSL, convertColor, isHexColorString} from "./convertColor.js";
 
 /**
  * Generates a range of colors starting from a hex value

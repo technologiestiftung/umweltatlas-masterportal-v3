@@ -2,8 +2,8 @@ import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import store from "@appstore";
-import layerCollection from "@core/layers/js/layerCollection";
-import {treeSubjectsKey} from "@shared/js/utils/constants";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
 /**

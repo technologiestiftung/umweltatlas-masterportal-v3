@@ -1,5 +1,5 @@
-import directionsAvoidSource from "./directionsAvoidSource";
-import directionsAvoidStyle from "./directionsAvoidStyle";
+import directionsAvoidSource from "./directionsAvoidSource.js";
+import directionsAvoidStyle from "./directionsAvoidStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

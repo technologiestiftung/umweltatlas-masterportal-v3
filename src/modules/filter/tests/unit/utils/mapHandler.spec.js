@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import layerCollection from "@core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import store from "@appstore";
 import {nextTick} from "vue";
 import MapHandler from "@modules/filter/utils/mapHandler.js";
-import Layer2dVectorTile from "@core/layers/js/layer2dVectorTile";
+import Layer2dVectorTile from "@core/layers/js/layer2dVectorTile.js";
 
 describe("src/modules/filter/utils/mapHandler.js", () => {
     let lastError = false,

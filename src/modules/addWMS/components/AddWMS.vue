@@ -4,8 +4,8 @@ import {WMSCapabilities} from "ol/format.js";
 import {intersects} from "ol/extent";
 import crs from "@masterportal/masterportalapi/src/crs";
 import axios from "axios";
-import {treeSubjectsKey} from "@shared/js/utils/constants";
-import {deleteParams} from "@shared/js/utils/deleteUrlParams";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {deleteParams} from "@shared/js/utils/deleteUrlParams.js";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
 import buildTreeStructure from "@appstore/js/buildTreeStructure";
 

@@ -1,5 +1,5 @@
 import {Circle, Fill, Stroke, Style} from "ol/style.js";
-import stateRouting from "../../../../store/stateRouting";
+import stateRouting from "../../../../store/stateRouting.js";
 
 /**
  * Creates Direction Avoid Point Style

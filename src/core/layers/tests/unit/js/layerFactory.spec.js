@@ -3,7 +3,7 @@ import Map from "ol/Map";
 import sinon from "sinon";
 import View from "ol/View";
 
-import layerFactory from "@core/layers/js/layerFactory";
+import layerFactory from "@core/layers/js/layerFactory.js";
 
 describe("src/core/js/layers/layerFactory.js", () => {
     let layerConfig,

@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import axios from "axios";
-import Cookie from "../../js/utilsCookies";
-import utils from "../../js/utilsAxios";
+import Cookie from "../../js/utilsCookies.js";
+import utils from "../../js/utilsAxios.js";
 
 describe("src/modules/login/js/utilsAxois.js", () => {
     let mockCookieStore = {};

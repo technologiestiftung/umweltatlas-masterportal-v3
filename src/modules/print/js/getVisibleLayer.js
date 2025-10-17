@@ -1,6 +1,6 @@
 import {Group as LayerGroup} from "ol/layer.js";
-import differenceJS from "@shared/js/utils/differenceJS";
-import sortBy from "@shared/js/utils/sortBy";
+import differenceJS from "@shared/js/utils/differenceJS.js";
+import sortBy from "@shared/js/utils/sortBy.js";
 import store from "@appstore";
 /**
  * Collects all visible ol layers, including layers of groups.

@@ -4,7 +4,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import crs from "@masterportal/masterportalapi/src/crs";
 import LayerPreviewComponent from "@shared/modules/layerPreview/components/LayerPreview.vue";
-import LayerPreview from "@shared/modules/layerPreview/store/indexLayerPreview";
+import LayerPreview from "@shared/modules/layerPreview/store/indexLayerPreview.js";
 import wmts from "@masterportal/masterportalapi/src/layer/wmts";
 import axios from "axios";
 

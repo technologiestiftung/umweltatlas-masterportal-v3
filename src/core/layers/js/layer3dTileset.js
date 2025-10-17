@@ -3,8 +3,8 @@ import api from "@masterportal/masterportalapi/src/maps/api";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
 import store from "@appstore";
-import Layer3d from "./layer3d";
-import layerCollection from "./layerCollection";
+import Layer3d from "./layer3d.js";
+import layerCollection from "./layerCollection.js";
 
 /**
  * Creates a 3d layer tileset and adds event listener to tileset.tileVisible to hide hidden features.

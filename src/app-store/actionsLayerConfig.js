@@ -1,13 +1,13 @@
-import buildTreeStructure from "./js/buildTreeStructure";
-import getNestedValues from "@shared/js/utils/getNestedValues";
-import replacer from "@shared/js/utils/replaceInNestedValues";
-import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer";
-import {sortObjects} from "@shared/js/utils/sortObjects";
-import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants";
-import layerCollection from "@core/layers/js/layerCollection";
+import buildTreeStructure from "./js/buildTreeStructure.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import replacer from "@shared/js/utils/replaceInNestedValues.js";
+import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer.js";
+import {sortObjects} from "@shared/js/utils/sortObjects.js";
+import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {trackMatomo} from "../plugins/matomo";
+import {trackMatomo} from "../plugins/matomo.js";
 
 /**
  * The root actions for layer configurations.

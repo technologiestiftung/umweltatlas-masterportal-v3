@@ -2,10 +2,10 @@
  * Contains global actions of the search bar.
  * @module modules/searchBar/store/actions/actionsSearchBar
  */
-import actionsSearchBarResultList from "./actionsSearchBarResultList";
-import actionsSearchBarSearchInterfaces from "./actionsSearchBarSearchInterfaces";
-import actionsSearchBarSearchResult from "./actionsSearchBarSearchResult";
-import SearchInterface from "../../searchInterfaces/searchInterface";
+import actionsSearchBarResultList from "./actionsSearchBarResultList.js";
+import actionsSearchBarSearchInterfaces from "./actionsSearchBarSearchInterfaces.js";
+import actionsSearchBarSearchResult from "./actionsSearchBarSearchResult.js";
+import SearchInterface from "../../searchInterfaces/searchInterface.js";
 
 export default {
     ...actionsSearchBarResultList,

@@ -6,8 +6,8 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
 import {WFS} from "ol/format.js";
 import store from "@appstore";
 
-import layerCollection from "../../layers/js/layerCollection";
-import {treeSubjectsKey} from "@shared/js/utils/constants";
+import layerCollection from "../../layers/js/layerCollection.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 export default {
     /**

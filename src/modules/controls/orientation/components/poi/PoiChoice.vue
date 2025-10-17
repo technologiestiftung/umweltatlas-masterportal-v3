@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import mutations from "../../store/mutationsOrientation";
+import mutations from "../../store/mutationsOrientation.js";
 
 /**
  * Orientation control that allows the user to locate themselves on the map.

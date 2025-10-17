@@ -1,5 +1,5 @@
 import store from "@appstore";
-import {transform, transformPoint} from "./transformGeometry";
+import {transform, transformPoint} from "./transformGeometry.js";
 
 /**
  * Transforms the given geometry from EPSG:25832 to EPSG:4326.

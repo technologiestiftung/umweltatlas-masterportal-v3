@@ -2,36 +2,36 @@
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import {and as andFilter, equalTo as equalToFilter, or as orFilter} from "ol/format/filter";
 import ChartProcessor from "../js/chartProcessor.js";
-import {colorbrewer} from "../js/colorbrewer";
+import {colorbrewer} from "../js/colorbrewer.js";
 import Controls from "./StatisticDashboardControls.vue";
-import {convertColor} from "@shared/js/utils/convertColor";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 import dayjs from "dayjs";
 import FeaturesHandler from "../js/handleFeatures.js";
 import FetchDataHandler from "../js/fetchData.js";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
-import getters from "../store/gettersStatisticDashboard";
+import getters from "../store/gettersStatisticDashboard.js";
 import GridComponent from "./StatisticGridComponent.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import LegendComponent from "./StatisticDashboardLegend.vue";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import Multiselect from "vue-multiselect";
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
-import isNumber from "@shared/js/utils/isNumber";
-import isObject from "@shared/js/utils/isObject";
+import isNumber from "@shared/js/utils/isNumber.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {rawLayerList} from "@masterportal/masterportalapi";
-import sortBy from "@shared/js/utils/sortBy";
+import sortBy from "@shared/js/utils/sortBy.js";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
 import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
-import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import WFS from "ol/format/WFS";
 import {CanceledError} from "axios";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import Select from "ol/interaction/Select";
 import {pointerMove} from "ol/events/condition";
 import Overlay from "ol/Overlay.js";
-import debounce from "@shared/js/utils/debounce";
+import debounce from "@shared/js/utils/debounce.js";
 
 export default {
     name: "StatisticDashboard",

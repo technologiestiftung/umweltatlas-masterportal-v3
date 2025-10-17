@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import visibilityChecker from "@shared/js/utils/visibilityChecker";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 import MenuContainerBodyRootItemElement from "@modules/menu/components/MenuContainerBodyRootItemElement.vue";
 import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 

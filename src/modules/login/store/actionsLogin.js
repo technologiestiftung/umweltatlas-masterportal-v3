@@ -1,5 +1,5 @@
-import Cookie from "../js/utilsCookies";
-import OIDC from "../js/utilsOIDC";
+import Cookie from "../js/utilsCookies.js";
+import OIDC from "../js/utilsOIDC.js";
 
 export default {
     /**

@@ -6,13 +6,13 @@ import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWi
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimiter from "../utils/splitListWithDelimiter.js";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import SnippetInfo from "./SnippetInfo.vue";
-import localeCompare from "@shared/js/utils/localeCompare";
+import localeCompare from "@shared/js/utils/localeCompare.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
-import layerFactory from "@core/layers/js/layerFactory";
-import layerCollection from "@core/layers/js/layerCollection";
-import mutations from "../store/mutationsFilter";
+import layerFactory from "@core/layers/js/layerFactory.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import mutations from "../store/mutationsFilter.js";
 
 /**
 * Snippet Dropdown

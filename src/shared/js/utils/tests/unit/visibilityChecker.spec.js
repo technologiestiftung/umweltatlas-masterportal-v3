@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import visibilityChecker from "@shared/js/utils/visibilityChecker";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 
 describe("src/shared/js/utils/isModuleVisible", () => {
     describe("visibilityChecker.isModuleVisible", () => {

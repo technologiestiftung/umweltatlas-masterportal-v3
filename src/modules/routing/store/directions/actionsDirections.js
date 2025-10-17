@@ -1,5 +1,5 @@
-import {RoutingWaypoint} from "../../js/classes/routing-waypoint";
-import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions";
+import {RoutingWaypoint} from "../../js/classes/routing-waypoint.js";
+import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions.js";
 import Feature from "ol/Feature";
 import LineString from "ol/geom/LineString";
 import Circle from "ol/geom/Circle";

@@ -1,6 +1,6 @@
-import Cookie from "./utilsCookies";
-import OIDC from "./utilsOIDC";
-import AxiosUtils from "./utilsAxios";
+import Cookie from "./utilsCookies.js";
+import OIDC from "./utilsOIDC.js";
+import AxiosUtils from "./utilsAxios.js";
 
 /**
  * This function is used to intercept the masterportal load to

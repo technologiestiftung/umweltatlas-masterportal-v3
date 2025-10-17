@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import globalUrlParams from "../../../js/globalUrlParams";
+import globalUrlParams from "../../../js/globalUrlParams.js";
 
 describe("src/core/urlParams/js/globalUrlParams.js", () => {
     let origWindow;

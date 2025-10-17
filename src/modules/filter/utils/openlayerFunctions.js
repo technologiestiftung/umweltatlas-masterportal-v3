@@ -1,8 +1,8 @@
 import store from "@appstore";
 import {intersects} from "ol/extent.js";
 import LayerGroup from "ol/layer/Group";
-import isObject from "@shared/js/utils/isObject";
-import layerCollection from "@core/layers/js/layerCollection";
+import isObject from "@shared/js/utils/isObject.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import Cluster from "ol/source/Cluster";
 
 /**

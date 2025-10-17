@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import mutations from "../store/mutationsCompareMaps";
+import mutations from "../store/mutationsCompareMaps.js";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 export default {

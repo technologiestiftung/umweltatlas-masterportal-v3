@@ -1,5 +1,5 @@
-import tsrElevationSource from "./tsrElevationSource";
-import tsrElevationStyle from "./tsrElevationStyle";
+import tsrElevationSource from "./tsrElevationSource.js";
+import tsrElevationStyle from "./tsrElevationStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

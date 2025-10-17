@@ -1,7 +1,7 @@
 
 import crs from "@masterportal/masterportalapi/src/crs";
-import {generateSimpleGetters} from "@shared/js/utils/generators";
-import coordState from "./stateCoordToolkit";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import coordState from "./stateCoordToolkit.js";
 
 /**
  * The getters for the CoodToolkit.

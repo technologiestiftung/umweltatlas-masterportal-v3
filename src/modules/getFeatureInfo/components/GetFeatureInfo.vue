@@ -3,7 +3,7 @@ import {mapGetters, mapMutations, mapActions} from "vuex";
 
 import GetFeatureInfoDetached from "./GetFeatureInfoDetached.vue";
 import {mapAttributes} from "@masterportal/masterportalapi/src/lib/attributeMapper";
-import omit from "@shared/js/utils/omit";
+import omit from "@shared/js/utils/omit.js";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**

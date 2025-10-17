@@ -1,13 +1,13 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
 import draggable from "vuedraggable";
-import localeCompare from "@shared/js/utils/localeCompare";
+import localeCompare from "@shared/js/utils/localeCompare.js";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
-import isObject from "@shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import Multiselect from "vue-multiselect";
-import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
 import {isWebLink} from "@shared/js/utils/urlHelper.js";
 import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";

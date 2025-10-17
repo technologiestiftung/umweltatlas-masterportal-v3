@@ -1,4 +1,4 @@
-import store from "../../../app-store";
+import store from "../../../app-store/index.js";
 import MultiPolygon from "ol/geom/MultiPolygon";
 import Feature from "ol/Feature";
 /**

@@ -1,7 +1,7 @@
 import store from "@appstore";
-import changeCase from "@shared/js/utils/changeCase";
-import processUrlParams from "@shared/js/utils/processUrlParams";
-import isMobile from "@shared/js/utils/isMobile";
+import changeCase from "@shared/js/utils/changeCase.js";
+import processUrlParams from "@shared/js/utils/processUrlParams.js";
+import isMobile from "@shared/js/utils/isMobile.js";
 
 /**
  * Here the urlParams for the menu are processed.

@@ -3,7 +3,7 @@ import api from "@masterportal/masterportalapi/src/maps/api";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {initializeMaps, load3DMap, create3DMap} from "@core/maps/js/maps";
+import {initializeMaps, load3DMap, create3DMap} from "@core/maps/js/maps.js";
 import store from "@appstore";
 
 

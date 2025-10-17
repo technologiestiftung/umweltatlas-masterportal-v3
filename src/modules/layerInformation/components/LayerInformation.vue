@@ -1,9 +1,9 @@
 <script>
 import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import {isWebLink} from "@shared/js/utils/urlHelper";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper";
+import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper.js";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 
 /**

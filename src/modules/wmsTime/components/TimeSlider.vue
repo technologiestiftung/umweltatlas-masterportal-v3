@@ -1,10 +1,10 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "@core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
-import isMobile from "@shared/js/utils/isMobile";
+import isMobile from "@shared/js/utils/isMobile.js";
 
 export default {
     name: "TimeSlider",

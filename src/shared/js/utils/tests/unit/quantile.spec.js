@@ -1,4 +1,4 @@
-import quantile from "@shared/js/utils/quantile";
+import quantile from "@shared/js/utils/quantile.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/quantile.js", () => {

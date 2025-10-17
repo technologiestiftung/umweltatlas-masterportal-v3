@@ -6,7 +6,7 @@ import {GeoJSON} from "ol/format.js";
 import MultiLine from "ol/geom/MultiLineString.js";
 import MultiPoint from "ol/geom/MultiPoint.js";
 import MultiPolygon from "ol/geom/MultiPolygon.js";
-import * as setters from "./settersDraw";
+import * as setters from "./settersDraw.js";
 
 /**
  * Resets and deactivates the Draw Tool.

@@ -1,12 +1,12 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
-import layerCollection from "@core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
-import beautifyKey from "@shared/js/utils/beautifyKey";
-import {isWebLink} from "@shared/js/utils/urlHelper";
-import {isEmailAddress} from "@shared/js/utils/isEmailAddress";
-import toBold from "@shared/js/utils/toBold";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import toBold from "@shared/js/utils/toBold.js";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**

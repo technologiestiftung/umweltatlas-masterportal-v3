@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 import SensorThemeChartsData from "./SensorThemeData.vue";
 import SensorThemeChartsBarChart from "./SensorThemeBarChart.vue";
-import {processHistoricalDataByWeekdays} from "../js/processHistoricalDataByWeekdays";
+import {processHistoricalDataByWeekdays} from "../js/processHistoricalDataByWeekdays.js";
 
 /**
  * The sensor theme for the get feature info.

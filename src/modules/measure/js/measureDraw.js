@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import style from "./measureStyle";
-import source from "./measureSource";
+import style from "./measureStyle.js";
+import source from "./measureSource.js";
 
 let styleIdCounter = 0;
 

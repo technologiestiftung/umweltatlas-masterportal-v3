@@ -3,8 +3,8 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
 import MeasureInMapTooltip from "./MeasureInMapTooltip.vue";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
-import source from "../js/measureSource";
-import getStyle from "../js/measureStyle";
+import source from "../js/measureSource.js";
+import getStyle from "../js/measureStyle.js";
 
 /**
  * Measurement tool to measure lines and areas in the map.

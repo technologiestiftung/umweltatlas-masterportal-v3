@@ -1,9 +1,9 @@
 import {rawLayerList} from "@masterportal/masterportalapi";
-import {getFeatureGET} from "@shared/js/api/wfs/getFeature";
+import {getFeatureGET} from "@shared/js/api/wfs/getFeature.js";
 import {WFS} from "ol/format.js";
-import isObject from "@shared/js/utils/isObject";
-import {describeFeatureType, getFeatureDescription} from "@shared/js/api/wfs/describeFeatureType";
-import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
+import isObject from "@shared/js/utils/isObject.js";
+import {describeFeatureType, getFeatureDescription} from "@shared/js/api/wfs/describeFeatureType.js";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 
 /**
  * Gets the unique values for the given attributes.

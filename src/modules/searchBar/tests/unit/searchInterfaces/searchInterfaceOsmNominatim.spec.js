@@ -2,7 +2,7 @@ import crs from "@masterportal/masterportalapi/src/crs";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {reset} from "@shared/js/utils/uniqueId";
+import {reset} from "@shared/js/utils/uniqueId.js";
 import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
 import SearchInterfaceOsmNominatim from "@modules/searchBar/searchInterfaces/searchInterfaceOsmNominatim.js";
 import store from "@appstore";

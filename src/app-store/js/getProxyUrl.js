@@ -1,4 +1,4 @@
-import getters from "../getters";
+import getters from "../getters.js";
 /**
  * Rewrites the URL by replacing the dots with underlined
  * If a proxyHost is configured, it is prepended to the URL.

@@ -1,6 +1,6 @@
 <script>
 import {mapGetters} from "vuex";
-import * as constantsRouting from "../store/constantsRouting";
+import * as constantsRouting from "../store/constantsRouting.js";
 
 /**
  * Routing Avoid Features

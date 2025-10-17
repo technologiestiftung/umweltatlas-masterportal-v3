@@ -1,4 +1,4 @@
-import source from "../js/measureSource";
+import source from "../js/measureSource.js";
 
 /**
  * Measure tool state definition.

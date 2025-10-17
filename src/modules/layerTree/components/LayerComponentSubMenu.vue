@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
-import layerTypes from "@core/layers/js/layerTypes";
+import layerTypes from "@core/layers/js/layerTypes.js";
 import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 import LayerInfoContactButton from "./LayerInfoContactButton.vue";
 

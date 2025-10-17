@@ -1,4 +1,4 @@
-import degreesToRadians from "@shared/js/utils/degreesToRadians";
+import degreesToRadians from "@shared/js/utils/degreesToRadians.js";
 import actions from "@modules/controls/rotation/store/actionsRotation";
 import Map from "ol/Map";
 import sinon from "sinon";

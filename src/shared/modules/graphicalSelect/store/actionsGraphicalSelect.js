@@ -1,6 +1,6 @@
 import {GeoJSON} from "ol/format.js";
 import {fromCircle} from "ol/geom/Polygon.js";
-import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect.js";
 
 
 const actions = {

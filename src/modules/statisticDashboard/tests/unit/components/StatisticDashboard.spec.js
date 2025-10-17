@@ -11,13 +11,13 @@ import ChartProcessor from "@modules/statisticDashboard/js/chartProcessor";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import Overlay from "ol/Overlay";
 import Select from "ol/interaction/Select";
-import mapCollection from "@core/maps/js/mapCollection";
+import mapCollection from "@core/maps/js/mapCollection.js";
 
 import {
     and as andFilter,
     equalTo as equalToFilter
 } from "ol/format/filter";
-import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 
 config.global.mocks.$t = key => key;
 

@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerTypes from "@core/layers/js/layerTypes";
+import layerTypes from "@core/layers/js/layerTypes.js";
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**

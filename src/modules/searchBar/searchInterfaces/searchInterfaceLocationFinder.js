@@ -1,6 +1,6 @@
 import crs from "@masterportal/masterportalapi/src/crs";
 
-import SearchInterface from "./searchInterface";
+import SearchInterface from "./searchInterface.js";
 import store from "@appstore";
 
 /**

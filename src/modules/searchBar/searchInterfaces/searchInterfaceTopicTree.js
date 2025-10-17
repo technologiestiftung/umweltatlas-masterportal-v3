@@ -1,6 +1,6 @@
-import SearchInterface from "./searchInterface";
+import SearchInterface from "./searchInterface.js";
 import store from "@appstore";
-import layerTypes from "@core/layers/js/layerTypes";
+import layerTypes from "@core/layers/js/layerTypes.js";
 
 /**
  * The search interface to the topic tree.

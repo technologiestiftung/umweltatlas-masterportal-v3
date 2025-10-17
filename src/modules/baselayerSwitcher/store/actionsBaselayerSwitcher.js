@@ -1,4 +1,4 @@
-import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
+import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer.js";
 
 const actions = {
     /**

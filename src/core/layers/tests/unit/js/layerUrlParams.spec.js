@@ -1,4 +1,4 @@
-import layerUrlParams from "@core/layers/js/layerUrlParams";
+import layerUrlParams from "@core/layers/js/layerUrlParams.js";
 import store from "@appstore";
 import {expect} from "chai";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";

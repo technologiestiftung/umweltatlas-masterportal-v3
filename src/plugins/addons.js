@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import store from "@appstore";
 import {defineComponent} from "vue";
-import {upperFirst} from "@shared/js/utils/changeCase";
+import {upperFirst} from "@shared/js/utils/changeCase.js";
 
 const allAddons = typeof VUE_ADDONS !== "undefined" ? VUE_ADDONS : {};
 

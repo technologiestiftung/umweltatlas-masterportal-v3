@@ -4,14 +4,14 @@ import {Tooltip} from "bootstrap";
 import Alerting from "./modules/alerting/components/AlertingItem.vue";
 import BaselayerSwitcher from "./modules/baselayerSwitcher/components/BaselayerSwitcher.vue";
 import ControlBar from "./modules/controls/components/ControlBar.vue";
-import initializeLayers from "./core/layers/js/layerProcessor";
-import {initializeMaps} from "./core/maps/js/maps";
-import {startProcessUrlParams} from "./core/urlParams/js/urlParams";
-import isMobile from "./shared/js/utils/isMobile";
-import mapCollection from "./core/maps/js/mapCollection";
+import initializeLayers from "./core/layers/js/layerProcessor.js";
+import {initializeMaps} from "./core/maps/js/maps.js";
+import {startProcessUrlParams} from "./core/urlParams/js/urlParams.js";
+import isMobile from "./shared/js/utils/isMobile.js";
+import mapCollection from "./core/maps/js/mapCollection.js";
 import MenuContainer from "./modules/menu/components/MenuContainer.vue";
 import MenuToggleButton from "./modules/menu/components/MenuToggleButton.vue";
-import addonsPlugin from "./plugins/addons";
+import addonsPlugin from "./plugins/addons.js";
 
 export default {
     name: "App",

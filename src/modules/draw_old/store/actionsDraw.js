@@ -1,21 +1,21 @@
 import {Draw} from "ol/interaction.js";
 import crs from "@masterportal/masterportalapi/src/crs";
 
-import * as actionsDownload from "./actions/actionsDownload";
-import {drawInteractionOnDrawEvent, handleDrawEvent} from "./actions/drawInteractionOnDrawEvent";
-import * as setters from "./actions/settersDraw";
-import * as withoutGUI from "./actions/withoutGUIDraw";
+import * as actionsDownload from "./actions/actionsDownload.js";
+import {drawInteractionOnDrawEvent, handleDrawEvent} from "./actions/drawInteractionOnDrawEvent.js";
+import * as setters from "./actions/settersDraw.js";
+import * as withoutGUI from "./actions/withoutGUIDraw.js";
 
-import circleCalculations from "../js/circleCalculations";
-import {createDrawInteraction, createModifyInteraction, createModifyAttributesInteraction, createSelectInteraction} from "../js/createInteractions";
-import createStyleModule from "../js/style/createStyle";
-import {createSelectedFeatureTextStyle} from "../js/style/createSelectedFeatureTextStyle";
-import createTooltipOverlay from "../js/style/createTooltipOverlay";
-import drawTypeOptions from "./drawTypeOptions";
-import getDrawTypeByGeometryType from "../js/getDrawTypeByGeometryType";
-import postDrawEnd from "../js/postDrawEnd";
+import circleCalculations from "../js/circleCalculations.js";
+import {createDrawInteraction, createModifyInteraction, createModifyAttributesInteraction, createSelectInteraction} from "../js/createInteractions.js";
+import createStyleModule from "../js/style/createStyle.js";
+import {createSelectedFeatureTextStyle} from "../js/style/createSelectedFeatureTextStyle.js";
+import createTooltipOverlay from "../js/style/createTooltipOverlay.js";
+import drawTypeOptions from "./drawTypeOptions.js";
+import getDrawTypeByGeometryType from "../js/getDrawTypeByGeometryType.js";
+import postDrawEnd from "../js/postDrawEnd.js";
 
-import stateDraw from "./stateDraw";
+import stateDraw from "./stateDraw.js";
 
 const initialState = JSON.parse(JSON.stringify(stateDraw)),
     actions = {

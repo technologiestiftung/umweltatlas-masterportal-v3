@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import directionsWaypointsStyle from "./directionsWaypointsStyle";
-import directionsWaypointsSource from "./directionsWaypointsSource";
+import directionsWaypointsStyle from "./directionsWaypointsStyle.js";
+import directionsWaypointsSource from "./directionsWaypointsSource.js";
 
 export default new Draw({
     source: directionsWaypointsSource,
