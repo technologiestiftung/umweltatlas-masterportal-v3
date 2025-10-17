@@ -170,6 +170,15 @@ export default {
     watch: {
         currentInstanceIndex () {
             this.updateCurrentInstanceOptions();
+        },
+        selectableOptions (newOptions) {
+            if (this.value) {
+                if (newOptions.length === 0 || newOptions.findIndex(e => e.fieldValue === this.value) !== this.selectedOptions[this.fieldName]?.index) {
+                    this.value = undefined;
+                    fieldValueChanged(this.selectableParameters.fieldId, this.value, this.currentInstance.literals, this.requiredValues, this.parameterIndex);
+                    this.$el.querySelector("select").value = undefined;
+                }
+            }
         }
     },
     mounted () {

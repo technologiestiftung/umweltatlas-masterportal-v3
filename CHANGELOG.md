@@ -16,6 +16,7 @@
 ### Removed
 
 ### Fixed
+- wfsSearch: reset dependent fields at changed selection.
 
 ---
 

@@ -45,28 +45,29 @@ const mutations = {
         }
 
         const {index, options, value} = payload;
+        let keys = [];
 
-        if (value === "") {
-            const keys = Object.keys(state.selectedOptions).reverse();
 
-            for (const key of keys) {
-                delete state.selectedOptions[key];
+        if (value !== "") {
+            state.selectedOptions[removePath(options)] = {value, index};
+        }
 
-                if (key === removePath(options)) {
-                    break;
+        keys = Object.keys(state.selectedOptions).reverse();
+
+        for (const key of keys) {
+            if (key === removePath(options)) {
+                if (value === "") {
+                    delete state.selectedOptions[key];
                 }
+                break;
             }
-            // NOTE: This is sadly needed so that the object is reactive :(
-            state.selectedOptions = {
-                ...state.selectedOptions
-            };
+
+            delete state.selectedOptions[key];
         }
-        else {
-            state.selectedOptions = {
-                ...state.selectedOptions,
-                [removePath(options)]: {value, index}
-            };
-        }
+        // NOTE: This is sadly needed so that the object is reactive :(
+        state.selectedOptions = {
+            ...state.selectedOptions
+        };
     }
 };
 

@@ -87,6 +87,20 @@ describe("src/modules/wfsSearch/store/mutationsWfsSearch.js", () => {
 
             expect(state.selectedOptions).to.eql({zaehler: {index: 0, value: 1}});
         });
+        it("should add selected option for next field", () => {
+            mutations.setSelectedOptions(state, {index: 0, options: "flur", value: 1});
+            mutations.setSelectedOptions(state, {index: 0, options: "flur.zaehler", value: 3});
+
+            expect(state.selectedOptions).to.eql({flur: {index: 0, value: 1}, zaehler: {index: 0, value: 3}});
+        });
+        it("should reset selected options for next selects", () => {
+            mutations.setSelectedOptions(state, {index: 0, options: "flur", value: 1});
+            mutations.setSelectedOptions(state, {index: 0, options: "flur.zaehler", value: 3});
+
+            mutations.setSelectedOptions(state, {index: 1, options: "flur", value: 2});
+
+            expect(state.selectedOptions).to.eql({flur: {index: 1, value: 2}});
+        });
     });
 
 });
