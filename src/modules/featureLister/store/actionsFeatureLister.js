@@ -15,7 +15,7 @@ export default {
      * @returns {void}
      */
     clickOnFeature ({state, commit, dispatch, getters, rootGetters}, row) {
-        if (row) {
+        if (row && row.id) {
             const feature = getters.selectedFeature(row.id),
                 featureGeometry = feature.getGeometry(),
                 styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
