@@ -86,8 +86,8 @@ export default {
     </div>
 </template>
 
-<style lang="scss">
-    img[src^="data:image/png"] {
+<style lang="scss" scoped>
+    :deep(img[src^="data:image/png"]) {
         width: 26px;
         height: 26px;
         display: inline;
