@@ -1077,7 +1077,6 @@
           "structure": "ID;lon(Startpunkt);lat(Startpunkt)"
         },
         "calculate": "Berechnen",
-        
         "hoverMenu": {
           "population": "Bevölkerung:",
           "area": "Fläche:"
