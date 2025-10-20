@@ -70,6 +70,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Gazetteer: Restored correct click behavior in search results.
 - LayerInformation: Fixed display of layerInformation for groupLayers.
 - Feature-Highlighting: Fixed feature highlighting for polygons.
+- buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
 
 ---
 
