@@ -2,7 +2,7 @@ import {generateSimpleMutations} from "@shared/js/utils/generators";
 import stateFeatureLister from "./stateFeatureLister";
 import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature";
 import layerCollection from "@core/layers/js/layerCollection";
-import tabStatus from "../tabStatus";
+import tabStatus from "../constantsTabStatus";
 
 const mutations = {
     /**

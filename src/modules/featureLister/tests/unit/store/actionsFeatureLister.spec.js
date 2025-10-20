@@ -3,7 +3,7 @@ import sinon from "sinon";
 import actions from "@modules/featureLister/store/actionsFeatureLister.js";
 import layerCollection from "@core/layers/js/layerCollection";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
-import tabStatus from "../../../tabStatus";
+import tabStatus from "../../../constantsTabStatus";
 import spatialSelection from "../../../js/getSpatialSelection";
 
 describe("src/modules/featureLister/store/actionsFeatureLister", () => {

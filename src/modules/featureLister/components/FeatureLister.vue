@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import tabStatus from "../tabStatus.js";
+import tabStatus from "../constantsTabStatus.js";
 import FeatureDetailView from "./FeatureDetailView.vue";
 import FeatureListView from "./FeatureListView.vue";
 import LayerListView from "./LayerListView.vue";

@@ -1,4 +1,4 @@
-import tabStatus from "../tabStatus";
+import tabStatus from "../constantsTabStatus";
 
 /**
  * featureLister tool state definition.

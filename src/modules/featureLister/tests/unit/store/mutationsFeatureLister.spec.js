@@ -2,7 +2,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import mutations from "@modules/featureLister/store/mutationsFeatureLister.js";
 import layerCollection from "@core/layers/js/layerCollection";
-import tabStatus from "../../../tabStatus";
+import tabStatus from "../../../constantsTabStatus";
 
 describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
     let state, features, layer;
