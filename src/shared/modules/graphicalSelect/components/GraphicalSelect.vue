@@ -462,7 +462,7 @@ export default {
             this.toggleOverlay({type: drawtype, overlayCircle: this.circleOverlay, overlayTool: this.tooltipOverlay});
             this.updateDrawInteractionListener({interaction: this.draw, layer: this.layer, vm: this});
             this.drawInteraction = this.draw;
-            this.registerListener({type: "pointermove", listener: this.showTooltipOverlay});
+            this.registerListener({type: "pointermove", listener: this.showTooltipOverlay, keyForBoundFunctions: "graphicalSelect_pointermove"});
             if (!mapCollection.getMap("2D").getLayers().getArray().find(l => l.get("id") === this.layer.get("id"))) {
                 this.addLayer(this.layer);
             }
