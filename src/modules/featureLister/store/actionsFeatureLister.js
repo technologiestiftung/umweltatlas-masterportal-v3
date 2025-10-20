@@ -153,10 +153,13 @@ export default {
     switchToList: async ({state, commit, dispatch}) => {
         await dispatch("processGfiFeatures");
 
+        const selectedArea = state.selectedArea,
+            hasArea = selectedArea !== null;
+
         if (state.gfiFeaturesOfLayer.length === 0) {
             dispatch("Alerting/addSingleAlert", {
                 category: "info",
-                content: i18next.t("common:modules.featureLister.noFeaturesFound")
+                content: i18next.t(hasArea ? "common:modules.featureLister.noFeaturesFound" : "common:modules.featureLister.noFeaturesFoundInMap")
             }, {root: true});
             return;
 

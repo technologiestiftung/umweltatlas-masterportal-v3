@@ -402,6 +402,7 @@
       "more": "More...",
       "name": "List",
       "noFeatures": "No features found in the selected area.",
+      "noFeaturesFoundInMap": "No features found in the current map view.",
       "requestFailedAlert": "The feature request failed. Please try again later.",
       "spatialSelection": "Filter features spatially",
       "visibleVectorLayers": "Visible vector layers"
