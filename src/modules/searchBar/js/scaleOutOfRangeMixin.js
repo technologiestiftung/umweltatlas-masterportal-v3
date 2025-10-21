@@ -7,25 +7,51 @@ export default (containerName) => ({
         ...mapGetters("Maps", ["scale", "mode"]),
 
         /**
-         * @returns {(object|null)} raw layer of this tree item, or null
+         * @returns {object[]} raw layers of this tree item; empty if none
          */
-        rawLayer () {
-            return rawLayerList.getLayerWhere({id: this[containerName].id}) ?? null;
+        rawLayers () {
+            const ids = (this[containerName].id ?? "").split("-");
+
+            return ids
+                .map((id) => rawLayerList.getLayerWhere({id}) ?? null)
+                .filter((rawLayer) => Boolean(rawLayer));
+        },
+
+        /**
+         * @returns {[number, number]} [minScale, maxScale] across all layers
+         */
+        rawLayersScaleBoundaries () {
+            return this.rawLayers.reduce(
+                ([accumulatorMinScale, accumulatorMaxScale], current) => {
+                    const currentMinScale = parseInt(current.minScale, 10),
+                        currentMaxScale = parseInt(current.maxScale, 10);
+
+                    return [
+                        isNaN(currentMinScale)
+                            ? accumulatorMinScale
+                            : Math.min(currentMinScale, accumulatorMinScale ?? Number.POSITIVE_INFINITY),
+                        isNaN(currentMaxScale)
+                            ? accumulatorMaxScale
+                            : Math.max(currentMaxScale, accumulatorMaxScale ?? Number.NEGATIVE_INFINITY)
+                    ];
+                },
+                [undefined, undefined]
+            );
         },
 
         /**
          * @returns {string} if layer is scale-restricted, tooltip text; else, empty string
          */
         tooltipText () {
-            const {minScale, maxScale} = this.rawLayer ?? {};
+            const [minScale, maxScale] = this.rawLayersScaleBoundaries;
 
-            if (maxScale && minScale) {
+            if (typeof maxScale !== "undefined" && typeof minScale !== "undefined") {
                 return this.$t("common:modules.layerTree.invisibleLayer", {
-                    minScale: "1 : " + thousandsSeparator(parseInt(minScale, 10)),
-                    maxScale: "1 : " + thousandsSeparator(parseInt(maxScale, 10), ".")
+                    minScale: "1 : " + thousandsSeparator(minScale),
+                    maxScale: "1 : " + thousandsSeparator(maxScale, ".")
                 });
             }
-            else if (maxScale || minScale) {
+            else if (typeof maxScale !== "undefined" || typeof minScale !== "undefined") {
                 return this.$t("common:modules.layerTree.invisibleLayerNoScale");
             }
 
@@ -42,13 +68,11 @@ export default (containerName) => ({
                 return false;
             }
 
-            const {minScale, maxScale} = this.rawLayer ?? {},
-                parsedMinScale = parseInt(minScale, 10),
-                parsedMaxScale = parseInt(maxScale, 10);
+            const [minScale, maxScale] = this.rawLayersScaleBoundaries;
 
             return (
-                this.scale > (isNaN(parsedMaxScale) ? Number.POSITIVE_INFINITY : parsedMaxScale) ||
-                this.scale < (isNaN(parsedMinScale) ? Number.NEGATIVE_INFINITY : parsedMinScale)
+                this.scale < (isNaN(minScale) ? Number.NEGATIVE_INFINITY : minScale) ||
+                this.scale > (isNaN(maxScale) ? Number.POSITIVE_INFINITY : maxScale)
             );
         }
     }
