@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
 
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.

@@ -196,8 +196,11 @@ export default {
             >
                 <component :is="componentMap.mouseHover" />
                 <component :is="componentMap.wmsTime" />
-                <BaselayerSwitcher />
-                <component :is="componentMap.layerPills" />
+                <BaselayerSwitcher v-if="uiStyle !== 'SIMPLE'" />
+                <component
+                    :is="componentMap.layerPills"
+                    v-if="uiStyle !== 'SIMPLE'"
+                />
                 <component :is="componentMap.portalFooter" />
             </div>
             <div
