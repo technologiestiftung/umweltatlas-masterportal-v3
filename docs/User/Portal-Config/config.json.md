@@ -3428,8 +3428,8 @@ List of layouts and formats that filters the response from the print service in 
 Any number of parameters that can be passed to MapFish. `exampleParameter` is just an example.
 Any names can be chosen for the variables, and they can contain any values of type string.
 
-|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|-------------|---|-------|------------|------|
+|Name|Required|Type|Default|Description|Expert|
+|----|--------|----|-------|-----------|------|
 |exampleParameter1|nein|String||Beispiel für einen String.|false|
 |exampleParameter2|nein|String||Beispiel für einen String.|false|
 

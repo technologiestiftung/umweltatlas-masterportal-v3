@@ -1042,7 +1042,7 @@ Aktiviert die MouseHover-Funktion für Vektorlayer, z.B. WFS oder GeoJSON. Für 
 Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-Features sowie eine Zoomstufe an.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
 |stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
 
@@ -1050,7 +1050,7 @@ Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill {data-toc-label='Fill'}
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
@@ -1063,7 +1063,7 @@ Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke {data-toc-label='Stroke'}
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
 |color|nein|Float[]|[255, 0, 0, 0.9]|Mögliche Einstellung: color (RGBA)|false|
 
@@ -1082,7 +1082,7 @@ Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-
 Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe und Skalierungsfaktor zur Hervorhebung von Punkten an. Außerdem eine Zoomstufe.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
 |stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
 |image|nein|**[image](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
@@ -1090,7 +1090,7 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 ***
 ###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill {data-toc-label='Fill'}
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
 
 ```json
@@ -1118,7 +1118,7 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image {data-toc-label='Image'}
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
-|----|--------|----|-------|-----------|------|
+|----|-------------|---|-------|------------|------|
 |scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
 
 ```json
@@ -1132,8 +1132,8 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 #### portalConfig.map.zoomTo {data-toc-label='Zoom To'}
 Konfiguration für die URL-Abfrageparameter `zoomToFeatureId` und `zoomToGeometry`.
 
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
 |addFeatures|nein|Boolean|true|Gibt an, ob die gewünschten Merkmale in einer separaten Ebene zur Karte hinzugefügt werden sollen.|false|
 |allowedValues|nein|String[]||Nur relevant, wenn `id` gleich `zoomToGeometry` ist. Filtert zusätzlich die in den URL-Abfrageparametern zulässigen Werte.|false|
 |id|ja|enum["zoomToFeatureId", "zoomToGeometry"]||Id des URL-Abfrageparameters, auf den sich die Konfiguration bezieht.|false|
@@ -3119,8 +3119,8 @@ Konfigurationsoptionen für die Legende.
 
 [inherits]: # (portalConfig.menu.sections.modules)
 
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
 |name|ja|String||Der Name für das Module im Menü. Wird überschrieben, wenn der User eingeloggt ist.|false|
 |icon|ja|String||Das Icon neben dem Login Button im Menü. Wird geändert, wenn der User eingeloggt ist (siehe module store).|false|
 
@@ -3173,8 +3173,8 @@ Nur im 3D Modus nutzbar!
 Der 3D Modeller erlaubt es 3D Modelle in den Formaten .gltf, .dae und .obj zu importieren, sowie Linien und extrudierbare 3D Polygone zu zeichnen.
 Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte geladen werden.
 
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
 |gmlIdPath|nein|String|"gmlid"|Bestimmen Sie den Pfad der GML ID im GFI für Gebäude in 3D Layern.|false|
 |updateAllLayers|nein|Boolean|true|Bestimmen Sie, ob beim Ausblenden von Gebäuden, alle Layer aktualisiert werden sollen.|false|
 |highlightStyle|nein|**[highlightStyle](#portalconfigmenusectionsmodulesmodeler3dhighlightstyle)**||Bestimmen Sie die Füllfarbe, Transparenz, Umrissfarbe und Umrissdicke.|false|
@@ -3210,8 +3210,8 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 
 ###### portalConfig.menu.sections.modules.modeler3D.highlightStyle {data-toc-label='highlightStyle'}
 
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
 |silhouetteColor|nein|String|"#E20D0F"|Bestimmen Sie die Umrissfarbe zum Hervorheben der Entities.|false|
 |silhouetteSize|nein|Number|1|Bestimmen Sie die Umrissdicke zum Hervorheben der Entities.|false|
 
@@ -3230,8 +3230,8 @@ Diese Zeichnungen können exportiert und georeferenziert wieder in die Karte gel
 
 ###### portalConfig.menu.sections.modules.modeler3D.pvoColors {data-toc-label='pvoColors'}
 
-|Name|Required|Type|Default|Description|Expert|
-|----|--------|----|-------|-----------|------|
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
 |housing|nein|String|"#ff0000"|Bestimmen Sie die PVO Farbe der Wohngebäude.|false|
 |commercial|nein|String|"#666666"|Bestimmen Sie die PVO Farbe der Gewerbegebäude.|false|
 |public|nein|String|"#44ff44"|Bestimmen Sie die PVO Farbe der öffentlichen Gebäude.|false|
