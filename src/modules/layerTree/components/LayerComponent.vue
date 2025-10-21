@@ -81,7 +81,7 @@ export default {
          * @returns {Boolean}  true, if this layer is not visible in the maps current scale
          */
         scaleIsOutOfRange () {
-            if (!this.isLayerTree() || this.conf.maxScale === undefined) {
+            if (this.conf.maxScale === undefined) {
                 return false;
             }
 
