@@ -54,7 +54,7 @@
 - Issue #1476: Fix automated scale adjustment in Print module getting stuck on receiving scale as url parameter.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
 - Issue #1485: Fix keyboard interaction in compareMaps.
-- Issue #1486: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
+- Issue #1486: Searchbar: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
 - Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 - Documentation: 
