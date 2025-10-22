@@ -21,6 +21,7 @@
  * @property {String} serializedString -contains the serialized state (includes rules, filterHits, selectedAccordions)
  * @property {Array} selectedAccordions - contains the selected accordions
  * @property {Array} selectedGroups - contains the selected groups
+ * @property {Boolean} showCurrentlyActiveFilters - if true, the currently active filters will be displayed
  * @property {Number} totalResults - the total filtered results
  * @property {Boolean} triggerAllTagsDeleted - triggered if all snippet tags are deleted.
  * @property {Number} deletedRuleFilterId - the deleted rule filter id
