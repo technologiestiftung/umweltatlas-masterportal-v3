@@ -88,6 +88,13 @@ describe("src/modules/searchBar/components/SearchBarResultListTopicTreeItem.vue"
 
         store = createStore({
             modules: {
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        scale: () => 500,
+                        mode: () =>"2D"
+                    }
+                },
                 Modules: {
                     namespaced: true,
                     modules: {

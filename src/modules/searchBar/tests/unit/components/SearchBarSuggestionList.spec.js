@@ -86,6 +86,13 @@ describe("src/modules/searchBar/components/SearchBarSuggestionList.vue", () => {
         setNavigationHistoryBySideSpy = sinon.spy();
         store = createStore({
             modules: {
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        scale: () => 500,
+                        mode: () =>"2D"
+                    }
+                },
                 Modules: {
                     namespaced: true,
                     modules: {

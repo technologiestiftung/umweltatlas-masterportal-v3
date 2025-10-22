@@ -42,7 +42,17 @@ describe("src/modules/searchBar/components/SearchBarSuggestionListItem.vue", () 
     ];
 
     beforeEach(() => {
-        store = createStore({});
+        store = createStore({
+            modules: {
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        scale: () => 500,
+                        mode: () =>"2D"
+                    }
+                }
+            }
+        });
     });
 
     afterEach(() => {
