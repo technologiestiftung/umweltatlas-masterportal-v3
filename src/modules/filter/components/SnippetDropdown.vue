@@ -863,7 +863,17 @@ export default {
                 return;
             }
 
-            this.searchedResult = this.dropdownValueComputed.filter(value => value.toLowerCase().includes(text.toLowerCase()));
+            const hasSelectAll = this.dropdownValueComputed.some((value) => typeof value === "object"),
+                lowerCaseText = text.toLowerCase();
+
+            this.searchedResult = hasSelectAll
+                ? this.dropdownValueComputed.map(
+                    (entry) => ({
+                        ...entry,
+                        list: entry.list.filter(value => value.toLowerCase().includes(lowerCaseText))
+                    })
+                )
+                : this.dropdownValueComputed.filter(value => value.toLowerCase().includes(lowerCaseText));
         },
 
         /**

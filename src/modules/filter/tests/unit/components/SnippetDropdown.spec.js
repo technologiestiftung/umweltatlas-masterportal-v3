@@ -256,6 +256,92 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
     });
 
+    describe("display list", () => {
+        it("should render a list with radio", async () => {
+            wrapper = shallowMount(SnippetDropdown, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    "type": "dropdown",
+                    "attrName": "kapitelbezeichnung",
+                    "display": "list",
+                    "multiselect": false,
+                    "value": ["yek", "do"]
+                }
+            });
+
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            expect(wrapper.find(".snippetListContainer").exists()).to.be.true;
+            expect(wrapper.find(".snippetListContainer .radio").exists()).to.be.true;
+        });
+        it("should render a list with checkbox", async () => {
+            wrapper = shallowMount(SnippetDropdown, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    "type": "dropdown",
+                    "attrName": "kapitelbezeichnung",
+                    "display": "list",
+                    "multiselect": true,
+                    "value": ["yek", "do"]
+                }
+            });
+
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            expect(wrapper.find(".snippetListContainer").exists()).to.be.true;
+            expect(wrapper.find(".snippetListContainer .checkbox").exists()).to.be.true;
+        });
+        it("should set the current source to 'dropdown' if clicked on a entry", async () => {
+            wrapper = shallowMount(SnippetDropdown, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    "type": "dropdown",
+                    "attrName": "kapitelbezeichnung",
+                    "display": "list",
+                    "multiselect": true,
+                    "value": ["yek", "do"]
+                }
+            });
+            await wrapper.setData({source: "adjust"});
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+
+            await wrapper.findAll(".checkbox").at(0).trigger("click");
+            expect(wrapper.vm.source).to.be.equal("dropdown");
+        });
+        it("filters dropdown values correctly when typing while addSelectAll is true", async () => {
+            wrapper = shallowMount(SnippetDropdown, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    "multiselect": true,
+                    "addSelectAll": true,
+                    "value": ["Liquid", "Solid", "Solidus"]
+                }
+            });
+
+            await wrapper.setData({source: "adjust"});
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.getSearchedResult("Sol");
+
+            const result = wrapper.vm.searchedResult;
+
+            expect(result).to.be.an("array");
+            expect(result[0]).to.have.property("list")
+                .that.includes("Solid")
+                .and.that.includes("Solidus")
+                .and.that.not.includes("Liquid");
+        });
+    });
+
     describe("methods", () => {
         describe("initializeIcons", () => {
             let layer,
