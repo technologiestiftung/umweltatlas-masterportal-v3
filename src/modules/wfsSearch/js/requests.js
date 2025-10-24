@@ -109,13 +109,14 @@ function storedFilter (requestUrl, filter, storedQueryId) {
  * @param {XML[]} filter The filter written in XML.
  * @returns {String} The added parts for the request Url.
  */
-function xmlFilter (requestUrl, filter) {
-    const value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">${adjustFilter(filter)}</ogc:Filter>`;
+function xmlFilter (requestUrl, filter, featureNS, featurePrefix) {
+    const value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:${featurePrefix}="${featureNS}">${adjustFilter(filter)}</ogc:Filter>`;
 
     requestUrl.searchParams.set("version", "1.1.0");
     requestUrl.searchParams.set("filter", value);
     return requestUrl;
 }
+
 
 let currentRequest = null;
 
@@ -168,7 +169,7 @@ function searchFeatures (store, {literals, requestConfig: {gazetteer = null, lay
  * @param {?String} [featureType = null] FeatureType of the features which should be requested. Only given for queries for suggestions.
  * @returns {Object} the created Url
  */
-function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType) {
+function createUrl (urlString, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType) {
     let requestUrl = new URL(urlString);
 
     if (fromServicesJson) {
@@ -183,7 +184,7 @@ function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId
         requestUrl = storedFilter(requestUrl, filter, storedQueryId);
     }
     else {
-        requestUrl = xmlFilter(requestUrl, filter);
+        requestUrl = xmlFilter(requestUrl, filter, featureNS, featurePrefix);
     }
     return requestUrl;
 }
@@ -203,8 +204,8 @@ function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId
  * @returns {Promise} If the request was successful, the data of the response gets resolved.
  *                    If an error occurs (e.g. the service is not reachable or there was no such feature) the error is caught and the message is displayed as an alert.
  */
-function sendRequest (store, {url, typeName}, filter, fromServicesJson, storedQueryId, maxFeatures = 8, featureType = null) {
-    const requestUrl = createUrl(url, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType),
+function sendRequest (store, {url, typeName, featureNS, featurePrefix}, filter, fromServicesJson, storedQueryId, maxFeatures = 8, featureType = null) {
+    const requestUrl = createUrl(url, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType),
         currentInstance = store.getters["Modules/WfsSearch/currentInstance"],
         currentLayerId = currentInstance?.requestConfig?.layerId;
 

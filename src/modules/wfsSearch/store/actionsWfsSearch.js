@@ -32,7 +32,7 @@ const actions = {
 
         if (wfs) {
             const {selectSource} = currentInstance,
-                service = {url: wfs.url || (wfs.get ? wfs.get("url") : undefined)};
+                service = {url: wfs.url || (wfs.get ? wfs.get("url") : undefined), featureNS: wfs.featureNS || (wfs.get ? wfs.get("featureNS") : undefined), featurePrefix: wfs.featurePrefix || (wfs.get ? wfs.get("featurePrefix") : undefined)};
 
             // NOTE: The extra object is sadly needed so that the object is reactive :(
             commit("setRequiredValues", {...prepareLiterals(currentInstance.literals)});
