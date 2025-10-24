@@ -68,6 +68,7 @@
 - Issue #1485: Fix keyboard interaction in compareMaps.
 - Issue #1486: Searchbar: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
 - Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
+- Issue #1499: Print: Fix missing legends when multiple WFS layers are active.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 - Documentation: 
     - Corrected usage of 'treeType' (version 2).
