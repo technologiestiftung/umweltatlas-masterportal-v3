@@ -93,7 +93,6 @@ export default {
             :run-select-row-on-mount="false"
             :run-select-on-hover="true"
             :downloadable="true"
-            :stay-in-full-view-on-unmount="true"
             :download-format="['csv', 'geojson']"
             @rowSelected="row => clickOnFeature(row)"
             @rowOnHover="row => hoverOverFeature(row)"

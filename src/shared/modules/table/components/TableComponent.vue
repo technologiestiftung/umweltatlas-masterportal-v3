@@ -170,11 +170,6 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        },
-        stayInFullViewOnUnmount: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
     emits: ["columnSelected", "rowSelected", "setSortedRows", "removeItem", "rowOnHover"],
@@ -369,10 +364,6 @@ export default {
         }
     },
     mounted () {
-        if (this.stayInFullViewOnUnmount) {
-            this.fullViewActivated = this.currentMenuWidth("secondaryMenu") === "95%";
-        }
-
         this.setupTableData();
 
         if (this.totalProp !== false && Array.isArray(this.data?.headers)) {
@@ -389,7 +380,7 @@ export default {
         this.setFixedReferenceColumnPosition();
     },
     unmounted () {
-        if (this.fullViewActivated && !this.stayInFullViewOnUnmount) {
+        if (this.fullViewActivated) {
             this.fullView(true);
         }
     },
