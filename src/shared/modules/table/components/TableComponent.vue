@@ -1200,7 +1200,7 @@ export default {
                 />
             </div>
         </div>
-        <div class="btn-toolbar justify-content-between sticky-top bg-white">
+        <div class="btn-toolbar bg-white">
             <FlatButton
                 v-if="fullViewEnabled"
                 id="table-view-full"
