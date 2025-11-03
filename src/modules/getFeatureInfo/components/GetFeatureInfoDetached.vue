@@ -287,7 +287,7 @@ export default {
     <div>
         <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
             <slot name="pager-left" />
-            <span class="gfi-title mx-3 font-bold">
+            <span class="gfi-title mx-3 font-bold flex-grow-1">
                 {{ translate(title) }}
             </span>
             <slot name="pager-right" />
@@ -304,5 +304,8 @@ export default {
 
 .gfi-title {
     font-size: 1.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
  }
 </style>
