@@ -78,6 +78,7 @@
 - Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
 - Issue #1472: Fix usage of tokens to always use freshest token from cookies. Also allow all acceptable first `fetch` parameters for intercepted URLs now.
 - Issue #1476: Fix automated scale adjustment in Print module getting stuck on receiving scale as url parameter.
+- Issue #1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
 - Issue #1481: Fix error when configuring customMenuElement as currentComponent.
 - Issue #1485: Fix keyboard interaction in compareMaps.
 - Issue #1486: Searchbar: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
