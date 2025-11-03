@@ -348,4 +348,9 @@ export default {
         max-width: 400px;
     }
 }
+.table td:nth-child(2) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
 </style>
