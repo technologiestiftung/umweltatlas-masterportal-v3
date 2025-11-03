@@ -59,6 +59,7 @@
 - Adjusted test webpack config for Vue 3.5 (aliases/loaders).
 - Add missing .js/.vue extensions in import paths project-wide
 - Filter: Updated UI to match masterportal design
+- GFI: Ensures that the text within the GFI window wraps correctly.
 
 ### Removed
 - The following packages have been removed:
