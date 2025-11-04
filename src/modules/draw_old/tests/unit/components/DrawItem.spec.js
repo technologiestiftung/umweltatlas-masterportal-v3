@@ -1,6 +1,9 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
 import DrawItemComponent from "@modules/draw_old/components/DrawItem.vue";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import Draw_old from "@modules/draw_old/store/indexDraw";
 import {expect} from "chai";
 import sinon from "sinon";
@@ -51,6 +54,9 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
         };
 
         store = createStore({
+            actions: {
+                addLayerToLayerConfig: sinon.stub()
+            },
             modules: {
                 Maps: {
                     namespaced: true,
@@ -81,6 +87,17 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
 
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
+
+        sinon
+            .stub(layerCollection, "getLayerById")
+            .callsFake(() => ({
+                layer: new VectorLayer({
+                    source: new VectorSource(),
+                    id: "importDrawLayer",
+                    name: "importDrawLayer",
+                    alwaysOnTop: true
+                })
+            }));
     });
 
     afterEach(() => {
@@ -176,6 +193,7 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
 
     it("should hide layer and disable controls", async () => {
         wrapper = shallowMount(DrawItemComponent, {global: {plugins: [store]}, data: componentData});
+        await wrapper.vm.creationPromise;
         expect(wrapper.find("#tool-draw-drawLayerVisible").exists()).to.be.true;
 
         expect(wrapper.vm.drawLayerVisible).to.be.true;

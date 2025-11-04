@@ -7,8 +7,7 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
-import VectorSource from "ol/source/Vector";
-import {Vector as VectorLayer} from "ol/layer";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 /**
  * DrawItem
@@ -53,7 +52,8 @@ export default {
             mapElement: document.getElementById("map"),
             storePath: this.$store.state.Draw_old,
             constants: constants,
-            drawing: true
+            drawing: true,
+            creationPromise: null
         };
     },
     computed: {
@@ -455,27 +455,41 @@ export default {
         }
     },
     created () {
-        let importDrawLayer = mapCollection.getMap(this.mode).getLayers().getArray().find(layer => layer.get("id") === "importDrawLayer");
+        const drawLayerId = "importDrawLayer";
 
-        if (importDrawLayer === undefined) {
-            importDrawLayer = new VectorLayer({
-                source: new VectorSource(),
-                id: "importDrawLayer",
-                name: "importDrawLayer",
-                alwaysOnTop: true
-            });
-        }
-        this.checkLayer(importDrawLayer).then((layerExists) => {
-            if (!layerExists) {
+        this.creationPromise = (async () => {
+            let importDrawLayer = layerCollection.getLayerById(drawLayerId)?.layer;
+
+            if (!importDrawLayer) {
+                await this.$store.dispatch("addLayerToLayerConfig", {
+                    layerConfig: {
+                        id: drawLayerId,
+                        name: drawLayerId,
+                        showInLayerTree: true,
+                        typ: "VECTORBASE",
+                        type: "layer",
+                        visibility: true
+                    },
+                    parentKey: treeSubjectsKey
+                }, {root: true});
+
+                importDrawLayer = layerCollection.getLayerById(drawLayerId).layer;
+                importDrawLayer.set("alwaysOnTop", true);
+            }
+
+            this.$.appContext.app.config.globalProperties.$layer = importDrawLayer;
+
+            if (!await this.checkLayer(importDrawLayer)) {
                 this.addLayer(importDrawLayer);
             }
-        });
-        this.$.appContext.app.config.globalProperties.$layer = importDrawLayer;
+        })();
     },
     mounted () {
-        this.startInteractions();
-        this.setCanvasCursorByInteraction(this.currentInteraction);
-        this.setFocusToFirstControl();
+        this.creationPromise.then(() => {
+            this.startInteractions();
+            this.setCanvasCursorByInteraction(this.currentInteraction);
+            this.setFocusToFirstControl();
+        });
     },
     unmounted () {
         this.resetModule();

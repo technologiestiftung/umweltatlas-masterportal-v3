@@ -16,6 +16,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
 
 ---
 
