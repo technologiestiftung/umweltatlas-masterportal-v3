@@ -88,6 +88,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Feature-Highlighting: Fixed feature highlighting for polygons.
 - buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
 - SensorThings layer: removed duplicate startIntervalUpdate definition, unified periodic refresh, deduplicated Cluster/source access via getActualSource(), and fixed no-data handling & timer cancellation.
+- LayerSelection: Fixed 3D folders not showing layers after click.
 
 ---
 
