@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import legendDraw from "@modules/legend/js/legendDraw";
+import legendDraw from "@modules/legend/js/legendDraw.js";
 
 describe("src/modules/legend/js/legendDraw", function () {
 

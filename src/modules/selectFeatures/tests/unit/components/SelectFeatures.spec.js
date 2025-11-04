@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
 import {config, shallowMount} from "@vue/test-utils";
 import SelectFeaturesComponent from "@modules/selectFeatures/components/SelectFeatures.vue";
-import SelectFeaturesModule from "@modules/selectFeatures/store/indexSelectFeatures";
+import SelectFeaturesModule from "@modules/selectFeatures/store/indexSelectFeatures.js";
 import {expect} from "chai";
 import sinon from "sinon";
 

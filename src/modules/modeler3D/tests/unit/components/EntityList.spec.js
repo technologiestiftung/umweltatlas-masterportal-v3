@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {createStore} from "vuex";
-import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D.js";
 import {mount, config} from "@vue/test-utils";
 import EntityListComponent from "@modules/modeler3D/components/ui/EntityList.vue";
 

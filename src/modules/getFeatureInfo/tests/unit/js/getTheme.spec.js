@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 
-import getTheme from "@modules/getFeatureInfo/js/getTheme";
+import getTheme from "@modules/getFeatureInfo/js/getTheme.js";
 import DefaultTheme from "@modules/getFeatureInfo/themes/default/components/DefaultTheme.vue";
 import SensorTheme from "@modules/getFeatureInfo/themes/sensor/components/SensorTheme.vue";
 

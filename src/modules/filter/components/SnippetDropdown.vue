@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import Multiselect from "vue-multiselect";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";

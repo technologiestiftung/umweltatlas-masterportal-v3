@@ -11,8 +11,8 @@
 import {mapGetters} from "vuex";
 import {Chart} from "chart.js";
 import {toRaw} from "vue";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
+import Feature from "ol/Feature.js";
+import Point from "ol/geom/Point.js";
 
 export default {
     name: "RoutingElevationProfile",

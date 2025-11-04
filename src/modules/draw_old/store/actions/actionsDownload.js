@@ -6,7 +6,7 @@ import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv.js";
 import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes.js";
 import {setKmlAttributes} from "@modules/draw_old/js/setKmlAttributes.js";
 import transform from "@modules/draw_old/js/download/transform.js";
-import {transformGeometry} from "@modules/draw_old/js/download/transformGeometry";
+import {transformGeometry} from "@modules/draw_old/js/download/transformGeometry.js";
 
 /**
  * Converts the features from OpenLayers Features to features in the chosen format.

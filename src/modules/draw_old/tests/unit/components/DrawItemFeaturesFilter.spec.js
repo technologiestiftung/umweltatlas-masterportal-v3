@@ -1,7 +1,7 @@
 import {shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import DrawItemFeaturesFilter from "@modules/draw_old/components/DrawItemFeaturesFilter.vue";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 import sinon from "sinon";
 
 afterEach(() => {

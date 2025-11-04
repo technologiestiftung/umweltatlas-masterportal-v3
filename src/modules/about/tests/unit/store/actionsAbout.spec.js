@@ -1,7 +1,7 @@
 import testAction from "@devtools/tests/VueTestUtils";
 import getCswRecordById from "@shared/js/api/getCswRecordById.js";
 import sinon from "sinon";
-import actions from "@modules/about/store/actionsAbout";
+import actions from "@modules/about/store/actionsAbout.js";
 import packageJson from "../../../../../../package.json";
 
 const {initializeAboutInfo, currentMasterportalVersionNumber} = actions;

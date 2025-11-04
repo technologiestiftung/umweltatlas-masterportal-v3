@@ -1,11 +1,10 @@
 <script>
 import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
-import Draw, {createBox} from "ol/interaction/Draw.js";
-import {createRegularPolygon} from "ol/interaction/Draw";
-import {Fill, Stroke, Style} from "ol/style";
+import Draw, {createBox, createRegularPolygon} from "ol/interaction/Draw.js";
+import {Fill, Stroke, Style} from "ol/style.js";
 import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
-import {Vector as VectorSource} from "ol/source";
-import {Vector as VectorLayer} from "ol/layer";
+import {Vector as VectorSource} from "ol/source.js";
+import {Vector as VectorLayer} from "ol/layer.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import OL3Parser from "jsts/org/locationtech/jts/io/OL3Parser.js";
 import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
@@ -15,7 +14,7 @@ import {
     Point,
     Polygon,
     MultiPolygon
-} from "ol/geom";
+} from "ol/geom.js";
 import IconButton from "../../../../src/shared/modules/buttons/components/IconButton.vue";
 import isObject from "@shared/js/utils/isObject.js";
 import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";

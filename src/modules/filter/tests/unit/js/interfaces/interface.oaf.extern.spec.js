@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import getOAFFeature from "@shared/js/api/oaf/getOAFFeature";
-import InterfaceOafExtern from "@modules/filter/js/interfaces/interface.oaf.extern";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
+import InterfaceOafExtern from "@modules/filter/js/interfaces/interface.oaf.extern.js";
 import sinon from "sinon";
 
 

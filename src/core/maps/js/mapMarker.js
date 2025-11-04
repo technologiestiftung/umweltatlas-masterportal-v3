@@ -1,8 +1,8 @@
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import store from "@appstore";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import store from "@appstore/index.js";
 
 /**
  * Create the map markers and add them to the map.

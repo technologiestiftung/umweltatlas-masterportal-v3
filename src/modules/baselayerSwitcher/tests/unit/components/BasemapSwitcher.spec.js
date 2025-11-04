@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import BaselayerSwitcherComponent from "@modules/baselayerSwitcher/components/BaselayerSwitcher.vue";
-import BaselayerSwitcher from "@modules/baselayerSwitcher/store/indexBaselayerSwitcher";
+import BaselayerSwitcher from "@modules/baselayerSwitcher/store/indexBaselayerSwitcher.js";
 import {expect} from "chai";
 import sinon from "sinon";
 import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";

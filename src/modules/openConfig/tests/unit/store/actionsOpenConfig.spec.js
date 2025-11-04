@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "@modules/openConfig/store/actionsOpenConfig";
+import actions from "@modules/openConfig/store/actionsOpenConfig.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
 

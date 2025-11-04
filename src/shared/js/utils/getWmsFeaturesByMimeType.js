@@ -1,6 +1,6 @@
 import {requestGfi} from "@shared/js/api/wmsGetFeatureInfo.js";
 import {interpretLinebreaks} from "./interpretLinebreaks.js";
-import {GeoJSON} from "ol/format";
+import {GeoJSON} from "ol/format.js";
 
 /**
  * returns a list of wms features for the given url and mimeType

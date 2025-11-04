@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "@modules/compareMaps/store/actionsCompareMaps";
+import actions from "@modules/compareMaps/store/actionsCompareMaps.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("modules/compareMaps/store/actionsCompareMaps", () => {

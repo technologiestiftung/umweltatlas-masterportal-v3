@@ -1,5 +1,5 @@
-import searchBarUrlParams from "@modules/searchBar/js/searchBarUrlParams";
-import store from "@appstore";
+import searchBarUrlParams from "@modules/searchBar/js/searchBarUrlParams.js";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 
 describe("src/modules/searchBar/js/searchBarUrlParams.js", () => {

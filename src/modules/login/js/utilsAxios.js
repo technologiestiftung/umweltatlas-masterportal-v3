@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookie from "@modules/login/js/utilsCookies";
+import Cookie from "@modules/login/js/utilsCookies.js";
 
 /**
  * Adds interceptors to the different HTTP Get methods of javascript

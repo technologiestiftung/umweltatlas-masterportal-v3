@@ -1,7 +1,7 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 
 import DrawEdit from "@shared/modules/draw/components/DrawEdit.vue";
 import DrawLayout from "@shared/modules/draw/components/DrawLayout.vue";

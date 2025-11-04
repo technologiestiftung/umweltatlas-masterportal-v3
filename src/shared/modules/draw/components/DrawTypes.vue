@@ -1,5 +1,5 @@
 <script>
-import drawInteraction from "@masterportal/masterportalapi/src/maps/interactions/drawInteraction";
+import drawInteraction from "@masterportal/masterportalapi/src/maps/interactions/drawInteraction.js";
 import {mapActions, mapGetters} from "vuex";
 import IconButton from "../../buttons/components/IconButton.vue";
 import {nextTick} from "vue";

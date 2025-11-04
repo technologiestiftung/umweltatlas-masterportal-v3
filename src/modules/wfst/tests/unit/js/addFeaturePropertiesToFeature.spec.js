@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import addFeaturePropertiesToFeature from "@modules/wfst/js/addFeaturePropertiesToFeature";
+import addFeaturePropertiesToFeature from "@modules/wfst/js/addFeaturePropertiesToFeature.js";
 
 describe("src/modules/wfst/js/addFeaturePropertiesToFeature.js", () => {
     const geometryObject = {

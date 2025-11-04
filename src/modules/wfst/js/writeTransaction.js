@@ -1,4 +1,4 @@
-import {WFS} from "ol/format";
+import {WFS} from "ol/format.js";
 
 const transactionPosition = {
     insert: 0,

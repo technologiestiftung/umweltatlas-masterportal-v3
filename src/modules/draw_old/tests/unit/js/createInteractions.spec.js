@@ -4,8 +4,8 @@ import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {createDrawInteraction, createModifyInteraction, createModifyAttributesInteraction, createSelectInteraction} from "@modules/draw_old/js/createInteractions";
-import createStyleModule from "@modules/draw_old/js/style/createStyle";
+import {createDrawInteraction, createModifyInteraction, createModifyAttributesInteraction, createSelectInteraction} from "@modules/draw_old/js/createInteractions.js";
+import createStyleModule from "@modules/draw_old/js/style/createStyle.js";
 
 describe("src/modules/draw_old/js/createInteractions.js", () => {
     let layer,

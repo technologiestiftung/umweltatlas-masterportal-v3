@@ -1,6 +1,6 @@
 import store from "../../../app-store/index.js";
-import MultiPolygon from "ol/geom/MultiPolygon";
-import Feature from "ol/Feature";
+import MultiPolygon from "ol/geom/MultiPolygon.js";
+import Feature from "ol/Feature.js";
 /**
  * @typedef {Object} FeatureMap
  * @property {string} outerId - The ID of the outer (parent) feature.

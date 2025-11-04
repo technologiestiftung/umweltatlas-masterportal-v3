@@ -1,14 +1,14 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import placingAdditionalPolygonMarker from "@core/maps/js/multipleHighlighting.js";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
-import store from "@appstore";
-import Feature from "ol/Feature";
-import Polygon from "ol/geom/Polygon";
-import Collection from "ol/Collection";
-import stateAlerting from "@modules/alerting/store/stateAlerting";
+import store from "@appstore/index.js";
+import Feature from "ol/Feature.js";
+import Polygon from "ol/geom/Polygon.js";
+import Collection from "ol/Collection.js";
+import stateAlerting from "@modules/alerting/store/stateAlerting.js";
 
 describe("src/utils/multipleHighlighting.js", () => {
     let styleListStub, createStyleStub, mapOL, feature;

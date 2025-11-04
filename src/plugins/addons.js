@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import store from "@appstore";
+import store from "@appstore/index.js";
 import {defineComponent} from "vue";
 import {upperFirst} from "@shared/js/utils/changeCase.js";
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import isObject from "../../utils/isObject.js";
-import {GeoJSON} from "ol/format";
-import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAllOafProperties";
+import {GeoJSON} from "ol/format.js";
+import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAllOafProperties.js";
 
 /**
  * Gets all features of given collection.

@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import PrintComponent from "@modules/print/components/PrintMap.vue";
-import Print from "@modules/print/store/indexPrint";
+import Print from "@modules/print/store/indexPrint.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

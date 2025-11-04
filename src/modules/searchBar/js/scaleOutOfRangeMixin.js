@@ -1,6 +1,6 @@
 import {mapGetters} from "vuex";
-import thousandsSeparator from "@shared/js/utils/thousandsSeparator";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
 
 export default (containerName) => ({
     computed: {

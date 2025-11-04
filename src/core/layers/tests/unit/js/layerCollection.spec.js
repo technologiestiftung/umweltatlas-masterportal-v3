@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 
 import layerCollection from "@core/layers/js/layerCollection.js";
 

@@ -21,7 +21,7 @@ import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
 import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
-import VectorTileLayer from "ol/layer/VectorTile";
+import VectorTileLayer from "ol/layer/VectorTile.js";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**

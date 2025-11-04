@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
-import FilterStore from "@modules/filter/store/indexFilter";
+import FilterStore from "@modules/filter/store/indexFilter.js";
 import getIconListFromLegend from "@modules/filter/utils/getIconListFromLegend.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import layerFactory from "@core/layers/js/layerFactory.js";

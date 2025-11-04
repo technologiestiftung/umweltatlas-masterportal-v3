@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from "@appstore";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
-import {fetchRoutingLocationFinderGeosearch, getRoutingLocationFinderGeosearchUrl} from "@modules/routing/js/geosearch/routing-locationFinder-geosearch";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
+import {fetchRoutingLocationFinderGeosearch, getRoutingLocationFinderGeosearchUrl} from "@modules/routing/js/geosearch/routing-locationFinder-geosearch.js";
 
 describe("src/modules/routing/js/geosearch/routing-locationFinder-geosearch.js", () => {
     let service;

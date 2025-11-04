@@ -4,7 +4,7 @@ import CompareMaps from "@modules/compareMaps/components/CompareMaps.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import mapCollection from "@core/maps/js/mapCollection.js";
-import mutations from "@modules/compareMaps/store/mutationsCompareMaps";
+import mutations from "@modules/compareMaps/store/mutationsCompareMaps.js";
 
 config.global.mocks.$t = key => key;
 

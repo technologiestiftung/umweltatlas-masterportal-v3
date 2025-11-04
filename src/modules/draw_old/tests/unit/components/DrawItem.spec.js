@@ -4,11 +4,11 @@ import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import DrawItemComponent from "@modules/draw_old/components/DrawItem.vue";
 import layerCollection from "@core/layers/js/layerCollection.js";
-import Draw_old from "@modules/draw_old/store/indexDraw";
+import Draw_old from "@modules/draw_old/store/indexDraw.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import app from "@modules/draw_old/js/main";
-import * as constants from "@modules/draw_old/store/constantsDraw";
+import app from "@modules/draw_old/js/main.js";
+import * as constants from "@modules/draw_old/store/constantsDraw.js";
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$i18n = {

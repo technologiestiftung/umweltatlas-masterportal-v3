@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import ShareViewComponent from "@modules/shareView/components/ShareView.vue";
-import ShareView from "@modules/shareView/store/indexShareView";
+import ShareView from "@modules/shareView/store/indexShareView.js";
 import {expect} from "chai";
 import sinon from "sinon";
 

@@ -1,11 +1,11 @@
 import layerCollection from "@core/layers/js/layerCollection.js";
 import layerFactory from "@core/layers/js/layerFactory.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 import SearchInterface from "./searchInterface.js";
-import wfs from "@masterportal/masterportalapi/src/layer/wfs";
+import wfs from "@masterportal/masterportalapi/src/layer/wfs.js";
 
-import Cluster from "ol/source/Cluster";
-import * as olExtent from "ol/extent";
+import Cluster from "ol/source/Cluster.js";
+import * as olExtent from "ol/extent.js";
 import {Icon} from "ol/style.js";
 
 /**

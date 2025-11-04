@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import prepareFeaturePropertiesModule from "@modules/wfst/js/prepareFeatureProperties";
-import actionsWfst from "@modules/wfst/store/actionsWfst";
+import prepareFeaturePropertiesModule from "@modules/wfst/js/prepareFeatureProperties.js";
+import actionsWfst from "@modules/wfst/store/actionsWfst.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 
 

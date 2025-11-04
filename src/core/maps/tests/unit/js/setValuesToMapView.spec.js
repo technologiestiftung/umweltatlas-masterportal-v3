@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import Map from "ol/Map";
-import View from "ol/View";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
 
 import {setResolutions, setValues} from "@core/maps/js/setValuesToMapView.js";
 

@@ -1,8 +1,8 @@
 import {expect} from "chai";
-import Feature from "ol/Feature";
-import View from "ol/View";
+import Feature from "ol/Feature.js";
+import View from "ol/View.js";
 import sinon from "sinon";
-import getters from "@modules/getFeatureInfo/store/gettersGetFeatureInfo";
+import getters from "@modules/getFeatureInfo/store/gettersGetFeatureInfo.js";
 
 afterEach(() => {
     sinon.restore();

@@ -1,8 +1,8 @@
 import axios from "axios";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import Collection from "ol/Collection";
+import Collection from "ol/Collection.js";
 import webgl from "@core/layers/js/webglRenderer.js";
 
 import Layer2dVectorTile from "@core/layers/js/layer2dVectorTile.js";

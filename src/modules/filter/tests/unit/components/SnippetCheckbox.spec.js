@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import SnippetCheckbox from "@modules/filter/components/SnippetCheckbox.vue";
 import {expect} from "chai";
-import Filter from "@modules/filter/store/indexFilter";
+import Filter from "@modules/filter/store/indexFilter.js";
 import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;

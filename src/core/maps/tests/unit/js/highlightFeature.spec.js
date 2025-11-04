@@ -1,11 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {Style, Fill, Stroke, Circle} from "ol/style.js";
-import {Polygon, MultiPolygon, LineString} from "ol/geom";
+import {Polygon, MultiPolygon, LineString} from "ol/geom.js";
 import highlightFeature from "@core/maps/js/highlightFeature.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 
 
 describe("src/core/maps/js/highlightFeature", () => {

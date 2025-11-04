@@ -1,7 +1,7 @@
-import store from "@appstore";
+import store from "@appstore/index.js";
 import {nextTick} from "vue";
 import isObject from "@shared/js/utils/isObject.js";
-import LayerGroup from "ol/layer/Group";
+import LayerGroup from "ol/layer/Group.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 

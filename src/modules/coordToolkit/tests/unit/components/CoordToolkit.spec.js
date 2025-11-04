@@ -2,10 +2,10 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import CoordToolkitComponent from "@modules/coordToolkit/components/CoordToolkit.vue";
-import CoordToolkit from "@modules/coordToolkit/store/indexCoordToolkit";
-import actions from "@modules/coordToolkit/store/actionsCoordToolkit";
+import CoordToolkit from "@modules/coordToolkit/store/indexCoordToolkit.js";
+import actions from "@modules/coordToolkit/store/actionsCoordToolkit.js";
 
 const namedProjections = [
     ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],

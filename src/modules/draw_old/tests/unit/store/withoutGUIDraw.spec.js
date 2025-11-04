@@ -1,9 +1,9 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "@modules/draw_old/store/actionsDraw";
-import Feature from "ol/Feature";
-import Polygon from "ol/geom/Polygon";
-import MultiPolygon from "ol/geom/MultiPolygon";
+import actions from "@modules/draw_old/store/actionsDraw.js";
+import Feature from "ol/Feature.js";
+import Polygon from "ol/geom/Polygon.js";
+import MultiPolygon from "ol/geom/MultiPolygon.js";
 
 describe("src/modules/draw/store/actions/withoutGUIDraw.js", () => {
     let commit, dispatch, state, getters, mockApp;

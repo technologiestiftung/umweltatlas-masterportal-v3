@@ -1,8 +1,8 @@
 <script>
-import {DragBox, Select} from "ol/interaction";
-import {platformModifierKeyOnly, touchOnly} from "ol/events/condition";
+import {DragBox, Select} from "ol/interaction.js";
+import {platformModifierKeyOnly, touchOnly} from "ol/events/condition.js";
 import VectorSource from "ol/source/Vector.js";
-import {Style, Stroke, Fill, Circle as CircleStyle} from "ol/style";
+import {Style, Stroke, Fill, Circle as CircleStyle} from "ol/style.js";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersSelectFeatures.js";

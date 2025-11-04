@@ -6,7 +6,7 @@ import sinon from "sinon";
 import escapeId from "@shared/js/utils/escapeId.js";
 import layerTypes from "@core/layers/js/layerTypes.js";
 import LayerCheckBox from "@modules/layerTree/components/LayerCheckBox.vue";
-import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer";
+import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer.js";
 
 config.global.mocks.$t = key => key;
 

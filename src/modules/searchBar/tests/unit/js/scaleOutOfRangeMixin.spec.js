@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import scaleOutOfRangeMixin from "@modules/searchBar/js/scaleOutOfRangeMixin";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import scaleOutOfRangeMixin from "@modules/searchBar/js/scaleOutOfRangeMixin.js";
 
 describe("scaleOutOfRangeMixin", () => {
     const containerName = "MrObject";

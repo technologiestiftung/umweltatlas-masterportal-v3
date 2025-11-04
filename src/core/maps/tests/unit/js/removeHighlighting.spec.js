@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {removeHighlightFeature} from "@core/maps/js/removeHighlighting.js";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 
 describe("src/core/maps/js/removeHighlightFeature", () => {
     let commit, state, feature, anotherFeature;

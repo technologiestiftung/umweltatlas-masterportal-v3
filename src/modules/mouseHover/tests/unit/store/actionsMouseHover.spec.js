@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "@modules/mouseHover/store/actionsMouseHover";
-import stateMouseHover from "@modules/mouseHover/store/stateMouseHover";
-import Map from "ol/Map";
+import actions from "@modules/mouseHover/store/actionsMouseHover.js";
+import stateMouseHover from "@modules/mouseHover/store/stateMouseHover.js";
+import Map from "ol/Map.js";
 
 
 describe("src/modules/mouseHover/store/actionsMouseHover", () => {

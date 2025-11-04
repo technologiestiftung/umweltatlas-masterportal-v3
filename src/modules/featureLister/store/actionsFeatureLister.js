@@ -1,4 +1,4 @@
-import {getCenter} from "ol/extent";
+import {getCenter} from "ol/extent.js";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
 
 export default {

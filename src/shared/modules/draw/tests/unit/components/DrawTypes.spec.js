@@ -1,9 +1,9 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import drawInteraction from "@masterportal/masterportalapi/src/maps/interactions/drawInteraction";
+import drawInteraction from "@masterportal/masterportalapi/src/maps/interactions/drawInteraction.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 
 import DrawTypesComponent from "@shared/modules/draw/components/DrawTypes.vue";
 

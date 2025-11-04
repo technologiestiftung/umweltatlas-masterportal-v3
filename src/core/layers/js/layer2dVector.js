@@ -1,12 +1,12 @@
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import {getCenter} from "ol/extent";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService.js";
+import {getCenter} from "ol/extent.js";
 import webgl from "./webglRenderer.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 import Layer2d from "./layer2d.js";
-import Cluster from "ol/source/Cluster";
-import Style from "ol/style/Style";
+import Cluster from "ol/source/Cluster.js";
+import Style from "ol/style/Style.js";
 
 /**
  * Creates a 2d vector layer.

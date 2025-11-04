@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {SensorThingsHttp} from "../../sensorThingsHttp.js";
 
 describe("src/shared/js/api/sensorThingsHttp", () => {

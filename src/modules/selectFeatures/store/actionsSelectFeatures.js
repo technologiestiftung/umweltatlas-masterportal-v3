@@ -1,7 +1,7 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
-import {getCenter} from "ol/extent";
+import {getCenter} from "ol/extent.js";
 
 export default {
     /**

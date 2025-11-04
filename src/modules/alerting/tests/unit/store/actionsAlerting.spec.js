@@ -1,4 +1,4 @@
-import actions from "@modules/alerting/store/actionsAlerting";
+import actions from "@modules/alerting/store/actionsAlerting.js";
 import sinon from "sinon";
 import {expect} from "chai";
 

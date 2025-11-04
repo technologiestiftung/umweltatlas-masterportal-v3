@@ -2,8 +2,8 @@
 import {mapActions, mapGetters} from "vuex";
 import Overlay from "ol/Overlay.js";
 import Select from "ol/interaction/Select.js";
-import Circle from "ol/geom/Circle";
-import Feature from "ol/Feature";
+import Circle from "ol/geom/Circle.js";
+import Feature from "ol/Feature.js";
 import directionsWaypointsStyle from "../js/map/directions/waypoints/directionsWaypointsStyle.js";
 import tsrWaypointsStyle from "../js/map/tsr/waypoints/tsrWaypointsStyle.js";
 import directionsAvoidPointStyle from "../js/map/directions/avoid/directionsAvoidPointStyle.js";

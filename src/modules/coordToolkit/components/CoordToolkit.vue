@@ -1,6 +1,6 @@
 <script>
 import {Pointer} from "ol/interaction.js";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import mutations from "../store/mutationsCoordToolkit.js";
 import NavTab from "@shared/modules/tabs/components/NavTab.vue";

@@ -1,4 +1,4 @@
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
 import {Polygon, LineString} from "ol/geom.js";
 import sinon from "sinon";

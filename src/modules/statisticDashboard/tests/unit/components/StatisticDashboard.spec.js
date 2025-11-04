@@ -3,20 +3,20 @@ import {expect} from "chai";
 import {createStore} from "vuex";
 import StatisticDashboard from "@modules/statisticDashboard/components/StatisticDashboard.vue";
 import FeatureHandler from "@modules/statisticDashboard/js/handleFeatures.js";
-import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard";
+import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard.js";
 import LegendComponent from "@modules/statisticDashboard/components/StatisticDashboardLegend.vue";
 import sinon from "sinon";
-import fetchData from "@modules/statisticDashboard/js/fetchData";
-import ChartProcessor from "@modules/statisticDashboard/js/chartProcessor";
+import fetchData from "@modules/statisticDashboard/js/fetchData.js";
+import ChartProcessor from "@modules/statisticDashboard/js/chartProcessor.js";
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import Overlay from "ol/Overlay";
-import Select from "ol/interaction/Select";
+import Overlay from "ol/Overlay.js";
+import Select from "ol/interaction/Select.js";
 import mapCollection from "@core/maps/js/mapCollection.js";
 
 import {
     and as andFilter,
     equalTo as equalToFilter
-} from "ol/format/filter";
+} from "ol/format/filter.js";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 
 config.global.mocks.$t = key => key;

@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "@modules/wfsSearch/store/actionsWfsSearch";
+import actions from "@modules/wfsSearch/store/actionsWfsSearch.js";
 import isObject from "@shared/js/utils/isObject.js";
 
 describe("src/modules/wfsSearch/store/actionsWfsSearch.js", () => {

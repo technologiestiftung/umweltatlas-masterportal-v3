@@ -297,7 +297,49 @@ module.exports = [
             "mocha/max-top-level-suites": "off",
             "mocha/no-sibling-hooks": "off",
             "mocha/no-nested-tests": "off",
-            "mocha/handle-done-callback": "off"
+            "mocha/handle-done-callback": "off",
+            // Enforce explicit extensions
+            "no-restricted-syntax": [
+                "error",
+
+                // 1) Relative imports ("./" or "../") must end with .js or .vue
+                {
+                    selector: "ImportDeclaration[source.value=/^\\./]:not([source.value=/\\.(?:js|vue|json|css|scss|sass)$/])",
+                    message: "Relative imports must include a valid extension (.js, .vue, .json, .css, .scss, or .sass)."
+                },
+
+                // 2) Aliases must end with .js or .vue (@shared, @core, @modules, @appstore, @masterportal)
+                {
+                    selector: "ImportDeclaration[source.value=/^@(?:shared|core|modules|appstore|masterportal)/]:not([source.value=/\\.(?:js|vue)$/])",
+                    message: "Alias imports (@shared/@core/@modules/@appstore/@masterportal) must include .js or .vue."
+                },
+
+                // 3) OpenLayers subpaths must end with .js (exclude bare 'ol')
+                {
+                    selector: "ImportDeclaration[source.value=/^ol/]:not([source.value='ol']):not([source.value=/\\.js$/])",
+                    message: "OpenLayers subpath imports must end with .js (e.g. ol/interaction/Draw.js)."
+                },
+
+                // 4) (optional) Dynamic relative imports must include .js or .vue
+                {
+                    selector: "CallExpression[callee.type='Import'] > Literal[value=/^\\./]:not([value=/\\.(?:js|vue|json|css|scss|sass)$/])",
+                    message: "Dynamic relative imports must include .js, .vue, .json, .css, .scss, or .sass."
+                },
+
+                // 5) (optional) Dynamic alias imports must include .js or .vue
+                {
+                    selector: "CallExpression[callee.type='Import'] > Literal[value=/^@(?:shared|core|modules|appstore|masterportal)/]:not([value=/\\.(?:js|vue)$/])",
+                    message: "Dynamic alias imports must include .js or .vue."
+                }
+            ]
+
+
+        }
+    },
+    {
+        files: ["addons/**/*.{js,vue}"],
+        rules: {
+            "no-restricted-syntax": "off"
         }
     },
     {

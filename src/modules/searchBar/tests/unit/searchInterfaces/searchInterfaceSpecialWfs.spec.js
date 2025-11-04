@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import {Polygon, Point, MultiLineString, MultiPolygon} from "ol/geom";
+import {Polygon, Point, MultiLineString, MultiPolygon} from "ol/geom.js";
 import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
 import SearchInterfaceSpecialWfs from "@modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js";
 

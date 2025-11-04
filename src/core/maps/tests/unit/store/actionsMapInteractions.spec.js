@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
 import {config} from "@vue/test-utils";
 import actions from "@core/maps/store/actionsMapsInteractions.js";

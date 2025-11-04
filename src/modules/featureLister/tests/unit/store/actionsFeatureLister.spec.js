@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "@modules/featureLister/store/actionsFeatureLister";
+import actions from "@modules/featureLister/store/actionsFeatureLister.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
 

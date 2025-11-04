@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import collectDataByFolderModule from "@modules/layerSelection/js/collectDataByFolder";
-import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer";
+import collectDataByFolderModule from "@modules/layerSelection/js/collectDataByFolder.js";
+import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer.js";
 
-import actions from "@modules/layerSelection/store/actionsLayerSelection";
+import actions from "@modules/layerSelection/store/actionsLayerSelection.js";
 
 const {changeVisibility, navigateForward, navigateBack, setNavigationByFolder, showLayer, reset} = actions;
 

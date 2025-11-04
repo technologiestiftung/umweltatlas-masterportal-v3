@@ -1,12 +1,12 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
 import WKTUtil from "@shared/js/utils/getWKTGeom.js";
 import wmsGFIUtil from "@shared/js/utils/getWmsFeaturesByMimeType.js";
-import actions from "@modules/searchBar/store/actions/actionsSearchBarSearchResult";
+import actions from "@modules/searchBar/store/actions/actionsSearchBarSearchResult.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import mapMarker from "@core/maps/js/mapMarker.js";
-import markerHelper from "@modules/searchBar/js/marker";
+import markerHelper from "@modules/searchBar/js/marker.js";
 
 describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.js", () => {
     let dispatch,

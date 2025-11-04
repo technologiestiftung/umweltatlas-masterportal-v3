@@ -1,12 +1,12 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
 
 import highlightFeaturesByAttribute from "@core/maps/js/highlightFeaturesByAttribute.js";
 import mapUrlParams from "@core/maps/js/mapUrlParams.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 describe("src/core/maps/js/mapUrlParams.js", () => {
     let dispatchCalls = {},

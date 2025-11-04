@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "@modules/compareFeatures/store/actionsCompareFeatures";
+import actions from "@modules/compareFeatures/store/actionsCompareFeatures.js";
 
 const {
     isFeatureOnCompareList,

@@ -4,7 +4,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 
 import LayerSliderPlayerComponent from "@modules/layerSlider/components/LayerSliderPlayer.vue";
-import LayerSlider from "@modules/layerSlider/store/indexLayerSlider";
+import LayerSlider from "@modules/layerSlider/store/indexLayerSlider.js";
 
 config.global.mocks.$t = key => key;
 

@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
-import InterfaceVectorTilesIntern from "@modules/filter/js/interfaces/interface.vectortiles.intern";
+import InterfaceVectorTilesIntern from "@modules/filter/js/interfaces/interface.vectortiles.intern.js";
 import sinon from "sinon";
-import openlayerFunctions from "@modules/filter/utils/openlayerFunctions";
-import store from "@appstore";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
+import store from "@appstore/index.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("src/modules/filter/interfaces/utils/interface.vectortiles.intern.js", () => {

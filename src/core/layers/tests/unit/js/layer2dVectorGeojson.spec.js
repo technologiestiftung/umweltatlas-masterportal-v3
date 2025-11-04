@@ -1,13 +1,13 @@
 import Cluster from "ol/source/Cluster.js";
 import {expect} from "chai";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 import {GeoJSON} from "ol/format.js";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService.js";
 import Layer2dVectorGeojson from "@core/layers/js/layer2dVectorGeojson.js";
 import webgl from "@core/layers/js/webglRenderer.js";
 

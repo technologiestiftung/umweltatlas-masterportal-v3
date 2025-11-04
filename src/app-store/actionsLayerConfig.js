@@ -5,8 +5,8 @@ import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawL
 import {sortObjects} from "@shared/js/utils/sortObjects.js";
 import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import {trackMatomo} from "../plugins/matomo.js";
 
 /**

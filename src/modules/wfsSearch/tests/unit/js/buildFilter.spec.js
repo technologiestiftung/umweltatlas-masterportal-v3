@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {buildFilter, buildXmlFilter, buildStoredFilter} from "@modules/wfsSearch/js/buildFilter";
+import {buildFilter, buildXmlFilter, buildStoredFilter} from "@modules/wfsSearch/js/buildFilter.js";
 
 describe("src/modules/wfsSearch/js/buildFilter.js", () => {
     const values = [

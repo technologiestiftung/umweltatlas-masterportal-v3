@@ -1,13 +1,13 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import transform from "@modules/draw_old/js/download/transform";
-import store from "@appstore";
+import transform from "@modules/draw_old/js/download/transform.js";
+import store from "@appstore/index.js";
 
-import Circle from "ol/geom/Circle";
-import Line from "ol/geom/LineString";
-import Point from "ol/geom/Point";
-import Polygon from "ol/geom/Polygon";
+import Circle from "ol/geom/Circle.js";
+import Line from "ol/geom/LineString.js";
+import Point from "ol/geom/Point.js";
+import Polygon from "ol/geom/Polygon.js";
 import proj4 from "proj4";
 
 afterEach(() => {

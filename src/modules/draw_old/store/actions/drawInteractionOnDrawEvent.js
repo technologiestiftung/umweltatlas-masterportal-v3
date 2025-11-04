@@ -1,5 +1,5 @@
-import createStyleModule from "@modules/draw_old/js/style/createStyle";
-import circleCalculations from "@modules/draw_old/js/circleCalculations";
+import createStyleModule from "@modules/draw_old/js/style/createStyle.js";
+import circleCalculations from "@modules/draw_old/js/circleCalculations.js";
 import squareCalculations from "../../js/squareCalculations.js";
 
 const errorBorder = "#E10019";

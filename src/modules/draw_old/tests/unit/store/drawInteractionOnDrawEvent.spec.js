@@ -1,10 +1,10 @@
 import sinon from "sinon";
 import {expect} from "chai";
 import {Style} from "ol/style.js";
-import createStyleModule from "@modules/draw_old/js/style/createStyle";
-import circleCalculations from "@modules/draw_old/js/circleCalculations";
-import squareCalculations from "@modules/draw_old/js/squareCalculations";
-import {drawInteractionOnDrawEvent, featureStyle, handleDrawEvent} from "@modules/draw_old/store/actions/drawInteractionOnDrawEvent";
+import createStyleModule from "@modules/draw_old/js/style/createStyle.js";
+import circleCalculations from "@modules/draw_old/js/circleCalculations.js";
+import squareCalculations from "@modules/draw_old/js/squareCalculations.js";
+import {drawInteractionOnDrawEvent, featureStyle, handleDrawEvent} from "@modules/draw_old/store/actions/drawInteractionOnDrawEvent.js";
 
 
 describe("src/modules/draw_old/store/actions/drawInteractionOnDrawEvent.js", () => {

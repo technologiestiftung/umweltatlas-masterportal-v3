@@ -1,4 +1,4 @@
-import {getArea, getLength} from "ol/sphere";
+import {getArea, getLength} from "ol/sphere.js";
 
 /**
  * Calculates lengths and deviations of a line array.

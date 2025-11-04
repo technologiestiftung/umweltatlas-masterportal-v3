@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getters from "@modules/featureLister/store/gettersFeatureLister";
+import getters from "@modules/featureLister/store/gettersFeatureLister.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 const {featureProperties, featureDetails, getGeometryType, headers, selectedFeature} = getters;
 

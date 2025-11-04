@@ -1,11 +1,11 @@
 import {RoutingWaypoint} from "../../js/classes/routing-waypoint.js";
 import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions.js";
-import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
-import Circle from "ol/geom/Circle";
-import Point from "ol/geom/Point";
+import Feature from "ol/Feature.js";
+import LineString from "ol/geom/LineString.js";
+import Circle from "ol/geom/Circle.js";
+import Point from "ol/geom/Point.js";
 import {toRaw} from "vue";
-import {fromCircle} from "ol/geom/Polygon";
+import {fromCircle} from "ol/geom/Polygon.js";
 
 /**
  * The actions for the routing directions.

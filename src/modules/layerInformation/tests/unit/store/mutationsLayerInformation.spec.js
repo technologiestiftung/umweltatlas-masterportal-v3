@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "@modules/layerInformation/store/mutationsLayerInformation";
+import mutations from "@modules/layerInformation/store/mutationsLayerInformation.js";
 
 const {setLayerInfo} = mutations;
 

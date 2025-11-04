@@ -1,9 +1,9 @@
 import {expect} from "chai";
-import Map from "ol/Map";
-import store from "@appstore";
+import Map from "ol/Map.js";
+import store from "@appstore/index.js";
 import {nextTick} from "vue";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
 
 import {processLayerConfig, setResolutions, updateLayerAttributes} from "@core/layers/js/layerProcessor.js";
 

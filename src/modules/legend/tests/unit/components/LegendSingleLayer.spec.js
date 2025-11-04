@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import LegendSingleLayerComponent from "@modules/legend/components/LegendSingleLayer.vue";
-import Legend from "@modules/legend/store/indexLegend";
+import Legend from "@modules/legend/store/indexLegend.js";
 import {expect} from "chai";
 import sinon from "sinon";
 

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import findCurrentTimeSliderObject from "@modules/wmsTime/utils/findCurrentTimeSliderObject";
+import findCurrentTimeSliderObject from "@modules/wmsTime/utils/findCurrentTimeSliderObject.js";
 
 describe("src/modules/wmsTime/utils/findCurrentTimeSliderObject.js", () => {
     let objects,

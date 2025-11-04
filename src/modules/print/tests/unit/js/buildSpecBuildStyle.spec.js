@@ -1,6 +1,6 @@
-import BuildSpec from "@modules/print/js/buildSpec";
-import Polygon from "ol/geom/Polygon";
-import {Fill, Stroke} from "ol/style";
+import BuildSpec from "@modules/print/js/buildSpec.js";
+import Polygon from "ol/geom/Polygon.js";
+import {Fill, Stroke} from "ol/style.js";
 import Feature from "ol/Feature.js";
 import {expect} from "chai";
 import sinon from "sinon";

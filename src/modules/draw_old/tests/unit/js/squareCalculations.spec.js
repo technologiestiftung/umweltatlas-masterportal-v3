@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import * as calculateSquare from "@modules/draw_old/js/squareCalculations";
+import * as calculateSquare from "@modules/draw_old/js/squareCalculations.js";
 
 const mockGeometry = {
         getCoordinates: sinon.stub().returns([]),

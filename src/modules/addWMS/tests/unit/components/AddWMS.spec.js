@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import sinon from "sinon";
 import AddWMSComponent from "@modules/addWMS/components/AddWMS.vue";
 import InputText from "@shared/modules/inputs/components/InputText.vue";

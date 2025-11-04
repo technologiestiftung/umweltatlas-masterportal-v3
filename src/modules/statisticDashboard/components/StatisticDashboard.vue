@@ -1,6 +1,6 @@
 <script>
 import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
-import {and as andFilter, equalTo as equalToFilter, or as orFilter} from "ol/format/filter";
+import {and as andFilter, equalTo as equalToFilter, or as orFilter} from "ol/format/filter.js";
 import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import ChartProcessor from "../js/chartProcessor.js";
 import {colorbrewer} from "../js/colorbrewer.js";
@@ -20,16 +20,16 @@ import Multiselect from "vue-multiselect";
 import TableComponent from "@shared/modules/table/components/TableComponent.vue";
 import isNumber from "@shared/js/utils/isNumber.js";
 import isObject from "@shared/js/utils/isObject.js";
-import {rawLayerList} from "@masterportal/masterportalapi";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 import sortBy from "@shared/js/utils/sortBy.js";
 import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 import StatisticsHandler from "../js/handleStatistics.js";
 import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
-import WFS from "ol/format/WFS";
+import WFS from "ol/format/WFS.js";
 import {CanceledError} from "axios";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
-import Select from "ol/interaction/Select";
-import {pointerMove} from "ol/events/condition";
+import Select from "ol/interaction/Select.js";
+import {pointerMove} from "ol/events/condition.js";
 import Overlay from "ol/Overlay.js";
 import debounce from "@shared/js/utils/debounce.js";
 

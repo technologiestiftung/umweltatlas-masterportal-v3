@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
 import MouseHoverComponent from "@modules/mouseHover/components/MouseHover.vue";
-import MouseHover from "@modules/mouseHover/store/indexMouseHover";
+import MouseHover from "@modules/mouseHover/store/indexMouseHover.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

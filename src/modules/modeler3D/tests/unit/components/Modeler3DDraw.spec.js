@@ -4,8 +4,8 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import Modeler3DDrawComponent from "@modules/modeler3D/components/Modeler3DDraw.vue";
-import Modeler3D from "@modules/modeler3D/store/indexModeler3D";
-import actions from "@modules/modeler3D/store/actionsModeler3D";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D.js";
+import actions from "@modules/modeler3D/store/actionsModeler3D.js";
 
 config.global.mocks.$t = key => key;
 

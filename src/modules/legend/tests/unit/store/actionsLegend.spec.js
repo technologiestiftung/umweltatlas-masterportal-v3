@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import validator from "@modules/legend/js/validator";
+import validator from "@modules/legend/js/validator.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import layerFactory from "@core/layers/js/layerFactory.js";
-import legendDraw from "@modules/legend/js/legendDraw";
-import actions from "@modules/legend/store/actionsLegend";
+import legendDraw from "@modules/legend/js/legendDraw.js";
+import actions from "@modules/legend/store/actionsLegend.js";
 
 const {
     addLegend,

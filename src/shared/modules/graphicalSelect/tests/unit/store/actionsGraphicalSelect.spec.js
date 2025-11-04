@@ -3,8 +3,8 @@ import actions from "@shared/modules/graphicalSelect/store/actionsGraphicalSelec
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import Polygon from "ol/geom/Polygon";
-import Feature from "ol/Feature";
+import Polygon from "ol/geom/Polygon.js";
+import Feature from "ol/Feature.js";
 import Draw from "ol/interaction/Draw.js";
 import Overlay from "ol/Overlay.js";
 import definitionsGraphicalSelect from "@shared/modules/graphicalSelect/js/definitionsGraphicalSelect.js";

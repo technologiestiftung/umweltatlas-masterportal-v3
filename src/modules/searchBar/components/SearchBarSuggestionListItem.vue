@@ -1,6 +1,6 @@
 <script>
 import {mapActions} from "vuex";
-import scaleOutOfRangeMixin from "../js/scaleOutOfRangeMixin";
+import scaleOutOfRangeMixin from "../js/scaleOutOfRangeMixin.js";
 
 /**
  * Searchbar - single item of a search suggestion.

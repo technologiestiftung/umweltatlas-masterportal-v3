@@ -1,5 +1,5 @@
 import Layer2d from "./layer2d.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 /**
  * Creates a 2d raster layer.

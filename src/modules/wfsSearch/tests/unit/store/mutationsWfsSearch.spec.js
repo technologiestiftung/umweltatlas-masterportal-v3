@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import mutations from "@modules/wfsSearch/store/mutationsWfsSearch";
+import mutations from "@modules/wfsSearch/store/mutationsWfsSearch.js";
 
 describe("src/modules/wfsSearch/store/mutationsWfsSearch.js", () => {
 

@@ -1,4 +1,4 @@
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 export default {
     install (app, options) {

@@ -1,10 +1,10 @@
-import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
-import api from "@masterportal/masterportalapi/src/maps/api";
+import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript.js";
+import api from "@masterportal/masterportalapi/src/maps/api.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
 import {initializeMaps, load3DMap, create3DMap} from "@core/maps/js/maps.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 
 describe("src/core/js/maps/maps.js", () => {

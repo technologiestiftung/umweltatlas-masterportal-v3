@@ -1,10 +1,10 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import {buffer} from "ol/extent";
-import {wms, wmts} from "@masterportal/masterportalapi";
-import WMTS, {optionsFromCapabilities} from "ol/source/WMTS";
+import {buffer} from "ol/extent.js";
+import {wms, wmts} from "@masterportal/masterportalapi/src/index.js";
+import WMTS, {optionsFromCapabilities} from "ol/source/WMTS.js";
 import proj4 from "proj4";
-import {Point} from "ol/geom";
+import {Point} from "ol/geom.js";
 import {Tooltip} from "bootstrap";
 import axios from "axios";
 import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";

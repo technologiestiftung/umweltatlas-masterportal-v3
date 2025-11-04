@@ -6,7 +6,7 @@ import {
     LinearRing,
     Point,
     Polygon
-} from "ol/geom";
+} from "ol/geom.js";
 
 /**
  * Injects OpenLayers geom classes to JSTS Parser

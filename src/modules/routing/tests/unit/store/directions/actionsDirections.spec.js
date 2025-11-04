@@ -1,19 +1,19 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsDirections from "@modules/routing/store/directions/actionsDirections";
-import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
-import Polygon, {fromCircle} from "ol/geom/Polygon";
-import Point from "ol/geom/Point";
-import Circle from "ol/geom/Circle";
-import VectorSource from "ol/source/Vector";
-import Draw from "ol/interaction/Draw";
-import Select from "ol/interaction/Select";
-import Modify from "ol/interaction/Modify";
+import actionsDirections from "@modules/routing/store/directions/actionsDirections.js";
+import Feature from "ol/Feature.js";
+import LineString from "ol/geom/LineString.js";
+import Polygon, {fromCircle} from "ol/geom/Polygon.js";
+import Point from "ol/geom/Point.js";
+import Circle from "ol/geom/Circle.js";
+import VectorSource from "ol/source/Vector.js";
+import Draw from "ol/interaction/Draw.js";
+import Select from "ol/interaction/Select.js";
+import Modify from "ol/interaction/Modify.js";
 import {Translate} from "ol/interaction.js";
-import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint";
-import {RoutingDirections} from "@modules/routing/js/classes/routing-directions";
-import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint.js";
+import {RoutingDirections} from "@modules/routing/js/classes/routing-directions.js";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
 
 describe("src/modules/routing/store/directions/actionsDirections.js", () => {
     let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoints, wgs84Coordinates, routingDirectionsWaypointSource, routingDirectionsAvoidSource, routingDirectionsAvoidPointSource, routingDirectionsResult, routeFeature, highlightFeature, startWaypoint, endWaypoint, avoidPolygonCoordinates, avoidPointCenter, routingRestrictionIsValid, allHGVRestrictionsValid;

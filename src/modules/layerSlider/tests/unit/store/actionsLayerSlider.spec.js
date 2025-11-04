@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import testAction from "@devtools/tests/VueTestUtils";
-import actions from "@modules/layerSlider/store/actionsLayerSlider";
+import actions from "@modules/layerSlider/store/actionsLayerSlider.js";
 
 const {
     addIndexToLayerIds,

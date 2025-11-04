@@ -1,8 +1,8 @@
 import sinon from "sinon";
 import {expect} from "chai";
 import {createLayerConfigsArray} from "../utils/functions.js";
-import actions from "@modules/bufferAnalysis/store/actionsBufferAnalysis";
-import stateBufferAnalysis from "@modules/bufferAnalysis/store/stateBufferAnalysis";
+import actions from "@modules/bufferAnalysis/store/actionsBufferAnalysis.js";
+import stateBufferAnalysis from "@modules/bufferAnalysis/store/stateBufferAnalysis.js";
 import testAction from "@devtools/tests/VueTestUtils";
 import {
     LineString,
@@ -12,7 +12,7 @@ import {
     LinearRing,
     Point,
     Polygon
-} from "ol/geom";
+} from "ol/geom.js";
 
 describe("src/modules/bufferAnalysis/store/actionsBufferAnalysis.js", () => {
     let commit, dispatch, rootGetters, rootState, state;

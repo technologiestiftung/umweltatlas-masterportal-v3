@@ -1,16 +1,16 @@
 <script>
 import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
-import {rawLayerList} from "@masterportal/masterportalapi";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import {getUniqueValuesFromFetchedFeatures as getUniqueValuesFromOAF} from "../../filter/utils/fetchAllOafProperties.js";
 import FetchDataHandler from "../js/fetchData.js";
 import {
     equalTo as equalToFilter,
     or as orFilter
-} from "ol/format/filter";
+} from "ol/format/filter.js";
 import {getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
-import WFS from "ol/format/WFS";
+import WFS from "ol/format/WFS.js";
 import sortBy from "@shared/js/utils/sortBy.js";
 import isObject from "@shared/js/utils/isObject.js";
 

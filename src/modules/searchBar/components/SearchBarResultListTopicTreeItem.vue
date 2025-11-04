@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import ActionButton from "./ActionButton.vue";
-import scaleOutOfRangeMixin from "../js/scaleOutOfRangeMixin";
+import scaleOutOfRangeMixin from "../js/scaleOutOfRangeMixin.js";
 
 /**
  * Searchbar - single item of a search result topic tree.

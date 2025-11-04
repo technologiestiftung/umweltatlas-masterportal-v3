@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getGeometry from "@modules/wfsSearch/js/getGeometry";
+import getGeometry from "@modules/wfsSearch/js/getGeometry.js";
 
 describe("src/modules/wfsSearch/js/getGeometry.js", () => {
     let results,

@@ -1,5 +1,5 @@
 import {Draw} from "ol/interaction.js";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
 import * as actionsDownload from "./actions/actionsDownload.js";
 import {drawInteractionOnDrawEvent, handleDrawEvent} from "./actions/drawInteractionOnDrawEvent.js";

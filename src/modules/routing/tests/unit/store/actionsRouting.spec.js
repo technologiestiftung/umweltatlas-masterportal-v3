@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import actionsRouting from "@modules/routing/store/actionsRouting";
+import actionsRouting from "@modules/routing/store/actionsRouting.js";
 import {expect} from "chai";
 
 describe("src/modules/routing/store/actionsRouting.js", () => {

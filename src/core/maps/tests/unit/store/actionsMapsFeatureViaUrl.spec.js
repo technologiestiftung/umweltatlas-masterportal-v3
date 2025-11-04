@@ -1,8 +1,8 @@
 import actions, {createGeoJSON, getFeatureIds} from "@core/maps/store/actionsMapsFeatureViaUrl.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import crs from "@masterportal/masterportalapi/src/crs";
-import Map from "ol/Map";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import Map from "ol/Map.js";
 
 describe("src/core/maps/actionsMapsFeatureViaUrl", () => {
     const spy = sinon.spy();

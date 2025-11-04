@@ -1,5 +1,5 @@
-import crs from "@masterportal/masterportalapi/src/crs";
-import {toLonLat, transform} from "ol/proj";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import {toLonLat, transform} from "ol/proj.js";
 
 const earthRadius = 6378137;
 

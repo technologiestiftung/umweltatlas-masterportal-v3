@@ -2,7 +2,7 @@ import {isRule} from "../utils/isRule.js";
 import {GeoJSON} from "ol/format.js";
 import {
     Polygon
-} from "ol/geom";
+} from "ol/geom.js";
 import isObject from "@shared/js/utils/isObject.js";
 import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
 

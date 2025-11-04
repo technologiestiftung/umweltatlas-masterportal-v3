@@ -2,11 +2,11 @@ import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import LineString from "ol/geom/LineString";
-import Polygon from "ol/geom/Polygon";
-import MultiPolygon from "ol/geom/MultiPolygon";
+import Feature from "ol/Feature.js";
+import Point from "ol/geom/Point.js";
+import LineString from "ol/geom/LineString.js";
+import Polygon from "ol/geom/Polygon.js";
+import MultiPolygon from "ol/geom/MultiPolygon.js";
 
 import layerCollection from "@core/layers/js/layerCollection.js";
 import DetachedTemplate from "@modules/getFeatureInfo/components/GetFeatureInfoDetached.vue";

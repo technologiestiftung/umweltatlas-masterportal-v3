@@ -4,9 +4,9 @@ import GeometryFilter from "@modules/filter/components/GeometryFilter.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import Draw from "ol/interaction/Draw.js";
-import {Vector as VectorLayer} from "ol/layer";
-import Feature from "ol/Feature";
-import {Polygon, LineString} from "ol/geom";
+import {Vector as VectorLayer} from "ol/layer.js";
+import Feature from "ol/Feature.js";
+import {Polygon, LineString} from "ol/geom.js";
 import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;

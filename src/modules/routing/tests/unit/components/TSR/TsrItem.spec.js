@@ -7,7 +7,7 @@ import TsrUploadComponent from "@modules/routing/components/TSR/TsrUpload.vue";
 import RoutingCoordinateInputComponent from "@modules/routing/components/RoutingCoordinateInput.vue";
 import RoutingContextMenuComponent from "../../../../components/RoutingContextMenu.vue";
 import TsrOutputComponent from "@modules/routing/components/TSR/TsrOutput.vue";
-import {RoutingTSRDirections} from "@modules/routing/js/classes/routing-directions-tsr";
+import {RoutingTSRDirections} from "@modules/routing/js/classes/routing-directions-tsr.js";
 
 config.global.mocks.$t = key => key;
 

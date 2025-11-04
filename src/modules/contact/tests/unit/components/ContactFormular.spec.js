@@ -4,7 +4,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 
 import ContactComponent from "@modules/contact/components/ContactFormular.vue";
-import ContactModule from "@modules/contact/store/indexContact";
+import ContactModule from "@modules/contact/store/indexContact.js";
 
 config.global.mocks.$t = key => key;
 

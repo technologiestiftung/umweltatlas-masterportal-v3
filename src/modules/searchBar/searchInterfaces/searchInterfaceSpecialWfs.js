@@ -1,5 +1,5 @@
 import SearchInterface from "./searchInterface.js";
-import WFS from "ol/format/WFS";
+import WFS from "ol/format/WFS.js";
 import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
 /**

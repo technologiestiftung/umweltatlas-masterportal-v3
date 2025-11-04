@@ -2,10 +2,10 @@ import {expect} from "chai";
 import sinon from "sinon";
 import * as handleMultipolygonUtils from "../../../js/handleMultipolygon.js";
 import store from "../../../../../app-store/index.js";
-import Feature from "ol/Feature";
-import MultiPolygon from "ol/geom/MultiPolygon";
-import {Vector as VectorSource} from "ol/source";
-import {Vector as VectorLayer} from "ol/layer";
+import Feature from "ol/Feature.js";
+import MultiPolygon from "ol/geom/MultiPolygon.js";
+import {Vector as VectorSource} from "ol/source.js";
+import {Vector as VectorLayer} from "ol/layer.js";
 
 describe("src/modules/tools/wfst/utils/handleMultipolygon.js", async () => {
     beforeEach(() => {

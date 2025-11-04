@@ -2,7 +2,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import Layer2dRaster from "@core/layers/js/layer2dRaster.js";
 import Layer2d from "@core/layers/js/layer2d.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 import {nextTick} from "vue";
 
 describe("src/core/js/layers/layer2dRaster.js", () => {

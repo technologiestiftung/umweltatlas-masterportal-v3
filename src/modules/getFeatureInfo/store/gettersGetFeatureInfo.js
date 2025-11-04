@@ -1,5 +1,5 @@
-import Point from "ol/geom/Point";
-import {buffer} from "ol/extent";
+import Point from "ol/geom/Point.js";
+import {buffer} from "ol/extent.js";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
 import {generateSimpleGetters} from "@shared/js/utils/generators.js";
 import gfiFeatureProvider from "@shared/js/utils/getGfiFeaturesByTileFeature.js";

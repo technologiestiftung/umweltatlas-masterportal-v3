@@ -9,12 +9,12 @@ import RoutingSliderInputComponent from "@modules/routing/components/RoutingSlid
 import RoutingDownloadComponent from "@modules/routing/components/RoutingDownload.vue";
 import IsochronesHoverDataComponent from "@modules/routing/components/Isochrones/IsochronesHoverData.vue";
 import IsochronesLegendComponent from "@modules/routing/components/Isochrones/IsochronesLegend.vue";
-import mutations from "@modules/routing/store/mutationsRouting";
-import actions from "@modules/routing/store/actionsRouting";
-import mutationsIsochrones from "@modules/routing/store/isochrones/mutationsIsochrones";
-import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones";
-import gettersIsochrones from "@modules/routing/store/isochrones/gettersIsochrones";
-import stateIsochrones from "@modules/routing/store/isochrones/stateIsochrones";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import mutationsIsochrones from "@modules/routing/store/isochrones/mutationsIsochrones.js";
+import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones.js";
+import gettersIsochrones from "@modules/routing/store/isochrones/gettersIsochrones.js";
+import stateIsochrones from "@modules/routing/store/isochrones/stateIsochrones.js";
 
 config.silent = true;
 config.global.mocks.$t = key => key;

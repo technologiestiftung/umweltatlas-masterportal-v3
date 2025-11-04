@@ -1,6 +1,6 @@
 import {fetchRoutingOrsIsochrones} from "../../js/isochrones/routing-ors-isochrones.js";
-import Polygon from "ol/geom/Polygon";
-import Feature from "ol/Feature";
+import Polygon from "ol/geom/Polygon.js";
+import Feature from "ol/Feature.js";
 
 /**
  * The actions for the routing isochrones.

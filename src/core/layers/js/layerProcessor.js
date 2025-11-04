@@ -1,6 +1,6 @@
 import layerFactory from "./layerFactory.js";
 import layerCollection from "./layerCollection.js";
-import store from "@appstore";
+import store from "@appstore/index.js";
 import {toRaw} from "vue";
 
 /**

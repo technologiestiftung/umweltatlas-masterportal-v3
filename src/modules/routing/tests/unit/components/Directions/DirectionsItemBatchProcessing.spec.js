@@ -4,13 +4,13 @@ import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import DirectionsItemBatchProcessingComponent from "@modules/routing/components/Directions/DirectionsItemBatchProcessing.vue";
 import RoutingBatchProcessingComponent from "@modules/routing/components/RoutingBatchProcessing.vue";
-import mutations from "@modules/routing/store/mutationsRouting";
-import actions from "@modules/routing/store/actionsRouting";
-import getters from "@modules/routing/store/gettersRouting";
-import mutationsDirections from "@modules/routing/store/directions/mutationsDirections";
-import actionsDirections from "@modules/routing/store/directions/actionsDirections";
-import gettersDirections from "@modules/routing/store/directions/gettersDirections";
-import stateDirections from "@modules/routing/store/directions/stateDirections";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import getters from "@modules/routing/store/gettersRouting.js";
+import mutationsDirections from "@modules/routing/store/directions/mutationsDirections.js";
+import actionsDirections from "@modules/routing/store/directions/actionsDirections.js";
+import gettersDirections from "@modules/routing/store/directions/gettersDirections.js";
+import stateDirections from "@modules/routing/store/directions/stateDirections.js";
 
 config.global.mocks.$t = key => key;
 

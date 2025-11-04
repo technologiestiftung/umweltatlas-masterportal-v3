@@ -1,6 +1,6 @@
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import WMTSTileGrid from "ol/tilegrid/WMTS";
-import TileGrid from "ol/tilegrid/TileGrid";
+import WMTSTileGrid from "ol/tilegrid/WMTS.js";
+import TileGrid from "ol/tilegrid/TileGrid.js";
 import {Style as OlStyle} from "ol/style.js";
 import {TileWMS, ImageWMS, WMTS} from "ol/source.js";
 import {Tile, Vector} from "ol/layer.js";
@@ -11,16 +11,16 @@ import {Polygon} from "ol/geom.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
-import measureStyle from "@modules/measure/js/measureStyle";
+import measureStyle from "@modules/measure/js/measureStyle.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import sinon from "sinon";
-import BuildSpec from "@modules/print/js/buildSpec";
+import BuildSpec from "@modules/print/js/buildSpec.js";
 import Circle from "ol/geom/Circle.js";
-import CircleStyle from "ol/style/Circle";
-import IconStyle from "ol/style/Icon";
+import CircleStyle from "ol/style/Circle.js";
+import IconStyle from "ol/style/Icon.js";
 import {createStore} from "vuex";
 
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 describe("src/modules/print/js/buildSpec", function () {
     let buildSpec,

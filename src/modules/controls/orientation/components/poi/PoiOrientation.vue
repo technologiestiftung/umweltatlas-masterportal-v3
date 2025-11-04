@@ -1,7 +1,7 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import mutations from "../../store/mutationsOrientation.js";
 import {extractEventCoordinates} from "@shared/js/utils/extractEventCoordinates.js";
 import svgFactory from "@shared/js/utils/svgFactory.js";

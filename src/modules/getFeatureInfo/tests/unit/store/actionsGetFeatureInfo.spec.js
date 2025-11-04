@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 import transformer from "@shared/js/utils/coordToPixel3D.js";
 import actions from "@modules/getFeatureInfo/store/actionsGetFeatureInfo.js";
 import layerCollection from "@core/layers/js/layerCollection.js";

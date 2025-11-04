@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "@modules/modeler3D/store/actionsModeler3D";
-import store from "@appstore";
+import actions from "@modules/modeler3D/store/actionsModeler3D.js";
+import store from "@appstore/index.js";
 import proj4 from "proj4";
-import blobHandler from "@modules/modeler3D/js/blob";
+import blobHandler from "@modules/modeler3D/js/blob.js";
 import {nextTick} from "vue";
 import layerCollection from "@core/layers/js/layerCollection.js";
 

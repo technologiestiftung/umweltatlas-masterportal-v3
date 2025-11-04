@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import CopyrightConstraints from "@modules/copyrightConstraints/components/CopyrightConstraints.vue";
-import state from "@modules/copyrightConstraints/store/stateCopyrightConstraints";
+import state from "@modules/copyrightConstraints/store/stateCopyrightConstraints.js";
 
 config.global.mocks.$t = key => key;
 

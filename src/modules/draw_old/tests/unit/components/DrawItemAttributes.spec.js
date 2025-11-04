@@ -2,7 +2,7 @@ import DrawItemAttributes from "@modules/draw_old/components/DrawItemAttributes.
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

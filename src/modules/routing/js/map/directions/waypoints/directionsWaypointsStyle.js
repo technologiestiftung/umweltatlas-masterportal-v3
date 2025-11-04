@@ -1,5 +1,5 @@
 import {Circle, Fill, Stroke, Style, Text} from "ol/style.js";
-import stateRouting from "@modules/routing/store/stateRouting";
+import stateRouting from "@modules/routing/store/stateRouting.js";
 /**
  * Creates Direction Waypoint Style
  * @param {ol/Feature} feature for the current style

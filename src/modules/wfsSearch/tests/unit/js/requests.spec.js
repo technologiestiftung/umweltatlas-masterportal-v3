@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import requestsModule from "@modules/wfsSearch/js/requests";
+import requestsModule from "@modules/wfsSearch/js/requests.js";
 
 describe("src/modules/wfsSearch/js/requests.js", () => {
     describe("createUrl", () => {

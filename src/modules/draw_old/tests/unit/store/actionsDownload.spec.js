@@ -1,15 +1,15 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import * as actions from "@modules/draw_old/store/actions/actionsDownload";
+import * as actions from "@modules/draw_old/store/actions/actionsDownload.js";
 
-import {KML, GeoJSON, GPX} from "ol/format";
-import Feature from "ol/Feature";
-import Line from "ol/geom/LineString";
-import Point from "ol/geom/Point";
-import Polygon from "ol/geom/Polygon";
+import {KML, GeoJSON, GPX} from "ol/format.js";
+import Feature from "ol/Feature.js";
+import Line from "ol/geom/LineString.js";
+import Point from "ol/geom/Point.js";
+import Polygon from "ol/geom/Polygon.js";
 import proj4 from "proj4";
-import transform from "@modules/draw_old/js/download/transform";
+import transform from "@modules/draw_old/js/download/transform.js";
 
 describe("src/modules/draw/store/actions/actionsDownload.js", () => {
     let dispatch, state, commit;

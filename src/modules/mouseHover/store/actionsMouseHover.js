@@ -1,8 +1,8 @@
-import {buffer} from "ol/extent";
-import Point from "ol/geom/Point";
+import {buffer} from "ol/extent.js";
+import Point from "ol/geom/Point.js";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import store from "@appstore";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import store from "@appstore/index.js";
 
 export default {
     /**

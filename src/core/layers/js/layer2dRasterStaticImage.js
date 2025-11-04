@@ -1,5 +1,5 @@
-import ImageLayer from "ol/layer/Image";
-import StaticImageSource from "ol/source/ImageStatic";
+import ImageLayer from "ol/layer/Image.js";
+import StaticImageSource from "ol/source/ImageStatic.js";
 
 import Layer2dRaster from "./layer2dRaster.js";
 

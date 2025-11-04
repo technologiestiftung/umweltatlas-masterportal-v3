@@ -3,8 +3,8 @@ import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
 import RoutingComponent from "@modules/routing/components/RoutingTemplate.vue";
 import sinon from "sinon";
-import mutations from "@modules/routing/store/mutationsRouting";
-import actions from "@modules/routing/store/actionsRouting";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
 
 config.global.mocks.$t = key => key;
 

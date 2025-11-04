@@ -294,7 +294,7 @@ See this basic implementation of `SensorThingsHttp` to receive data within the b
 
 ```js
 import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp";
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 const http = new SensorThingsHttp(),
     extent = store.getters["Maps/extent"],
@@ -349,7 +349,7 @@ Example to transform a Location from your current projection into "EPSG:4326":
 
 ```js
 import crs from "@masterportal/masterportalapi/src/crs";
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 const extent = store.getters["Maps/extent"],
     projection = mapCollection.getMapView("2D").getProjection().getCode(),
@@ -362,7 +362,7 @@ const extent = store.getters["Maps/extent"],
 This way you will get the top left and bottom right corner of the view. To draw yourself a `POLYGON` to be used with *SensorThingsAPI* from that, the rectangle needs to be constructed as follows:
 
 ```js
-import store from "@appstore";
+import store from "@appstore/index.js";
 
 const extent = store.getters["Maps/extent"],
     polygon = [

@@ -1,10 +1,10 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsLogin from "@modules/login/store/actionsLogin";
-import stateLogin from "@modules/login/store/stateLogin";
+import actionsLogin from "@modules/login/store/actionsLogin.js";
+import stateLogin from "@modules/login/store/stateLogin.js";
 
-import OIDC from "@modules/login/js/utilsOIDC";
-import Cookie from "@modules/login/js/utilsCookies";
+import OIDC from "@modules/login/js/utilsOIDC.js";
+import Cookie from "@modules/login/js/utilsCookies.js";
 
 import "mock-local-storage";
 

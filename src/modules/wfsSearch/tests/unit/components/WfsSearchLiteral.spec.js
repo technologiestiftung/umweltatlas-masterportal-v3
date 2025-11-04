@@ -4,7 +4,7 @@ import {expect} from "chai";
 
 import WfsSearchField from "@modules/wfsSearch/components/WfsSearchField.vue";
 import WfsSearchLiteral from "@modules/wfsSearch/components/WfsSearchLiteral.vue";
-import WfsSearchModule from "@modules/wfsSearch/store/indexWfsSearch";
+import WfsSearchModule from "@modules/wfsSearch/store/indexWfsSearch.js";
 
 config.global.mocks.$t = key => key;
 

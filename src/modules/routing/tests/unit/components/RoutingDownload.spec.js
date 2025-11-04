@@ -3,15 +3,15 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
 import RoutingDownloadComponent from "@modules/routing/components/RoutingDownload.vue";
-import mutations from "@modules/routing/store/mutationsRouting";
-import actions from "@modules/routing/store/actionsRouting";
-import Directions from "@modules/routing/store/directions/indexDirections";
-import Isochrones from "@modules/routing/store/isochrones/indexIsochrones";
-import directionsRouteStyle from "@modules/routing/js/map/directions/route/directionsRouteStyle";
-import tsrRouteStyle from "@modules/routing/js/map/tsr/route/tsrRouteStyle";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import Directions from "@modules/routing/store/directions/indexDirections.js";
+import Isochrones from "@modules/routing/store/isochrones/indexIsochrones.js";
+import directionsRouteStyle from "@modules/routing/js/map/directions/route/directionsRouteStyle.js";
+import tsrRouteStyle from "@modules/routing/js/map/tsr/route/tsrRouteStyle.js";
 import {Stroke, Style} from "ol/style.js";
-import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
+import Feature from "ol/Feature.js";
+import LineString from "ol/geom/LineString.js";
 
 config.global.mocks.$t = key => key;
 

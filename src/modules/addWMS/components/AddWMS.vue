@@ -1,13 +1,13 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
 import {WMSCapabilities} from "ol/format.js";
-import {intersects} from "ol/extent";
-import crs from "@masterportal/masterportalapi/src/crs";
+import {intersects} from "ol/extent.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import axios from "axios";
 import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 import {deleteParams} from "@shared/js/utils/deleteUrlParams.js";
 import InputText from "@shared/modules/inputs/components/InputText.vue";
-import buildTreeStructure from "@appstore/js/buildTreeStructure";
+import buildTreeStructure from "@appstore/js/buildTreeStructure.js";
 
 /**
  * Adds WMS

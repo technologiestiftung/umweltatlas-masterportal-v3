@@ -1,4 +1,4 @@
-import {getRenderPixel} from "ol/render";
+import {getRenderPixel} from "ol/render.js";
 import getPosition from "@shared/modules/layerSwiper/utils/getPosition.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 
