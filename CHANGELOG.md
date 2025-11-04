@@ -18,6 +18,7 @@
 - TableComponent: 
   - Added GeoJSON Download.
   - Added alphanumerical sorting.
+  - Security: Added SECURITY.md file.
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.
