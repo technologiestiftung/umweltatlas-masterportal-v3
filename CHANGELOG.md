@@ -4,8 +4,8 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+
+## 2025-11-05 v3.16.0
 
 ### Added
 - SearchBar: Added search status (min characters, loading, no results).
@@ -45,7 +45,6 @@
 - Add missing .js/.vue extensions in import paths project-wide
 - Filter: Updated UI to match masterportal design
 
-### Deprecated
 
 ### Removed
 - The following packages have been removed:
