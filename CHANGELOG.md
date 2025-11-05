@@ -59,7 +59,6 @@
 - Add missing .js/.vue extensions in import paths project-wide
 - Filter: Updated UI to match masterportal design
 
-
 ### Removed
 - The following packages have been removed:
   - devDependencies:
