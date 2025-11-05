@@ -15,6 +15,10 @@ describe("src/App.vue", () => {
         initializeMapsSpy;
 
     beforeEach(() => {
+        window.matchMedia = () => ({
+            addEventListener: sinon.stub(),
+            removeEventListener: sinon.stub()
+        });
         initializeMapsSpy = sinon.spy(maps, "initializeMaps");
         actions = {
             extendLayers: sinon.spy(),

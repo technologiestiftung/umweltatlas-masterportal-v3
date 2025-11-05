@@ -7,7 +7,6 @@ import ControlBar from "./modules/controls/components/ControlBar.vue";
 import initializeLayers from "./core/layers/js/layerProcessor.js";
 import {initializeMaps} from "./core/maps/js/maps.js";
 import {startProcessUrlParams} from "./core/urlParams/js/urlParams.js";
-import isMobile from "./shared/js/utils/isMobile.js";
 import mapCollection from "./core/maps/js/mapCollection.js";
 import MenuContainer from "./modules/menu/components/MenuContainer.vue";
 import MenuToggleButton from "./modules/menu/components/MenuToggleButton.vue";
@@ -24,7 +23,8 @@ export default {
     },
     data () {
         return {
-            addonsLoaded: false
+            addonsLoaded: false,
+            cleanupResize: null
         };
     },
     computed: {
@@ -81,7 +81,10 @@ export default {
         });
     },
     unmounted () {
-        window.removeEventListener("resize", this.onResize());
+        if (this.cleanupResize) {
+            this.cleanupResize();
+        }
+
     },
     methods: {
         ...mapMutations([
@@ -150,45 +153,21 @@ export default {
          * @returns {void}
          */
         regulateDeviceMode () {
-            const desktop = "Desktop",
-                mobile = "Mobile";
+            const MOBILE = "Mobile",
+                DESKTOP = "Desktop",
+                breakpoint = "(max-width: 768px)",
+                mediaQuery = window.matchMedia(breakpoint);
 
-            this.setDeviceMode(isMobile() ? mobile : desktop);
-            window.addEventListener("resize", this.onResize(mobile, desktop));
-        },
+            this.setDeviceMode(mediaQuery.matches ? MOBILE : DESKTOP);
 
-        /**
-         * Sets the device mode after resize and 250 ms.
-         * @param {String} mobile string for mobile
-         * @param {String} desktop string for desktop
-         * @returns {void}
-         */
-        onResize (mobile, desktop) {
-            this.debounce(() => {
-                const nextIsMobile = isMobile();
+            this.mediaQueryHandler = (event) => {
+                this.setDeviceMode(event.matches ? MOBILE : DESKTOP);
+            };
 
-                if (nextIsMobile && this.deviceMode !== mobile) {
-                    this.setDeviceMode("Mobile");
-                }
-                else if (!nextIsMobile && this.deviceMode !== desktop) {
-                    this.setDeviceMode(desktop);
-                }
-            }, 250);
-        },
-        /**
-         * Debounce function
-         * @param {Function} callback The callback form debounce function.
-         * @param {Number} wait Wait before the callback function is called.
-         * @returns {Function} Calls the given callback after the given time.
-         */
-        debounce (callback, wait) {
-            let timeout;
+            mediaQuery.addEventListener("change", this.mediaQueryHandler);
 
-            return (...args) => {
-                const that = this;
-
-                clearTimeout(timeout);
-                timeout = setTimeout(() => callback.apply(that, args), wait);
+            this.cleanupResize = () => {
+                mediaQuery.removeEventListener("change", this.mediaQueryHandler);
             };
         }
     }
