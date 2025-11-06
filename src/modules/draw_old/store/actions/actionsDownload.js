@@ -160,6 +160,13 @@ function setDownloadFeatures ({state, commit, dispatch, rootGetters}) {
                 "geoCircleRadius": geometry.getRadius()
             }));
         }
+        else if (geometry.getType() === "Polygon" && feature.get("masterportal_attributes")?.drawState?.drawType?.geometry === "Square") {
+
+            feature.set("masterportal_attributes", Object.assign(feature.get("masterportal_attributes") ?? {}, {
+                "isSquare": true,
+                "squareCoords": geometry.getCoordinates()[0]
+            }));
+        }
 
         downloadFeatures.push(feature);
     });

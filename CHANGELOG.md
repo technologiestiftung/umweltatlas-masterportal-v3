@@ -9,6 +9,7 @@
 
 ### Added
 - App: Added automatic device mode switch between Desktop and Mobile when window size changes.
+- draw_old: Possible to save and then import square geometry.
 
 ### Changed
 

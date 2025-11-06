@@ -1,5 +1,6 @@
 import {GeoJSON, GPX, KML} from "ol/format.js";
 import Circle from "ol/geom/Circle.js";
+import Polygon from "ol/geom/Polygon.js";
 import Style from "ol/style/Style.js";
 import Fill from "ol/style/Fill.js";
 import Stroke from "ol/style/Stroke.js";
@@ -296,7 +297,7 @@ export default {
             });
 
             Object.keys(feature.getProperties()).forEach((key) => {
-                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius", "isSquare", "squareCoords"].indexOf(key) >= 0) {
 
                     if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle" && key !== "masterportal_attributes") {
                         // transform "true" or "false" from KML to Boolean
@@ -323,6 +324,11 @@ export default {
                     circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
+            }
+            if (feature.get("masterportal_attributes").isSquare) {
+                const coords = feature.get("masterportal_attributes").squareCoords;
+               
+                feature.setGeometry(new Polygon([coords]));
             }
             if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
@@ -523,6 +529,17 @@ export default {
                         colorContour: defaultColor
                     });
                 }
+                else if (geometryType === "Square") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: defaultFillColor
+                        })
+                    });
+                }
                 else {
                     console.warn("Geometry type not implemented: " + geometryType);
                     style = new Style();
@@ -592,6 +609,17 @@ export default {
                     outerColorContour: drawState.outerColorContour
                 });
             }
+            else if (drawState?.drawType.geometry === "Square") {
+                style = new Style({
+                    stroke: new Stroke({
+                        color: drawState.colorContour,
+                        width: drawState.strokeWidth
+                    }),
+                    fill: new Fill({
+                        color: drawState.color
+                    })
+                });
+            }
             else if (!drawState && customStyles) {
                 const geometryType = feature ? feature.getGeometry().getType() : "cesium",
                     featureAttribute = feature.get(customStyles[0].attribute),
@@ -638,6 +666,17 @@ export default {
                         colorContour: featureColor
                     });
                 }
+                else if (geometryType === "Square") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        })
+                    });
+                }
 
                 feature.set("styleId", featureAttribute);
             }
@@ -660,7 +699,7 @@ export default {
                 masterportal_attributes.invisibleStyle = feature.getProperties().invisibleStyle;
 
                 Object.keys(feature.getProperties()).forEach((key) => {
-                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius", "isSquare", "squareCoords"].indexOf(key) >= 0) {
 
                         if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle") {
                             masterportal_attributes[key] = feature.get(key);
@@ -705,7 +744,11 @@ export default {
                 // Transformation here is necessary because all other geometries have already been transformed within "format.readFeatures(..."
                 feature.getGeometry().transform(fileDataProjection, rootGetters["Maps/projectionCode"]);
             }
-
+            if (feature.get("masterportal_attributes").isSquare) {
+                const coords = feature.get("masterportal_attributes").squareCoords;
+               
+                feature.setGeometry(new Polygon([coords]));
+            }
             feature.set("source", fileName);
             // set a feature id just in case the feature has an id that is already set on a previously imported feature
             feature.setId(state.geojsonFeatureId);
