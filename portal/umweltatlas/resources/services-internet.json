@@ -40096,108 +40096,6 @@
     }
   },
   {
-    "id": "k01_01boges2010:0",
-    "name": "Bodengesellschaften",
-    "name_lang": "Bodengesellschaften (Bodengesellschaften 2010 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_01boges2010",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_01boges2010.png",
-    "datasets": [
-      {
-        "md_name": "Bodengesellschaften 2010 (Umweltatlas)",
-        "md_id": "c5f49c12-58de-3af3-9e7b-0a67fdd10fd5",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ca7601d2-77bc-3711-ba4e-41fa1ba7c838",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "1000000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2010/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2010.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k01_01boges2005:0",
-    "name": "Bodengesellschaften",
-    "name_lang": "Bodengesellschaften (Bodengesellschaften 2005 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_01boges2005",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_01boges2005.png",
-    "datasets": [
-      {
-        "md_name": "Bodengesellschaften 2005 (Umweltatlas)",
-        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "1000000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2005/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2005.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "boges2001:0",
-    "name": "Bodengesellschaften",
-    "name_lang": "Bodengesellschaften (Bodengesellschaften 2001 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/boges2001",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_boges2001.png",
-    "datasets": [
-      {
-        "md_name": "Bodengesellschaften 2001 (Umweltatlas)",
-        "md_id": "632fef78-5b78-32b1-a4e5-3fb6ef302c21",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f245cffd-8611-383c-9f57-7aee562c3982",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2001/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2001.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "kb01_06_01bodart:0",
     "name": "Bodenarten",
     "name_lang": "Bodenarten (Bodenarten 2001 (Umweltatlas))",
@@ -42476,38 +42374,6 @@
     }
   },
   {
-    "id": "boges:0",
-    "name": "Bodengesellschaften",
-    "name_lang": "Bodengesellschaften(Bodengesellschaften 1990 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/boges",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_boges.png",
-    "datasets": [
-      {
-        "md_id": "6b5bb796-2c6e-38ba-a0f4-1ce50a4bfb67",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e1457623-9674-3009-b99a-0ee03342d8af",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/1990/kartenbeschreibung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_1998.pdf?ts=1695988714",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k01_06_01bodart2010:4",
     "name": "Torfart",
     "name_lang": "Torfart (Bodenarten 2010 (Umweltatlas))",
@@ -44230,6 +44096,110 @@
         "md_name": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
         "md_id": "73a3de47-ab2a-4be2-ae5d-8d6f8fe5cc1c",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b95b0e00-7341-3724-bf32-5a0bec69aeee",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_bodengesellschaften_1990:bodengesellschaften1990",
+    "name": "Bodengesellschaften 1990",
+    "name_lang": "Bodengesellschaften 1990 (Bodengesellschaften 1990 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_1990",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bodengesellschaften1990",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Bodengesellschaften 1990 (Umweltatlas)",
+        "md_id": "6b5bb796-2c6e-38ba-a0f4-1ce50a4bfb67",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/e1457623-9674-3009-b99a-0ee03342d8af",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_bodengesellschaften_2001:bodengesellschaften2001",
+    "name": "Bodengesellschaften 2001",
+    "name_lang": "Bodengesellschaften 2001 (Bodengesellschaften 2001 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_2001",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bodengesellschaften2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Bodengesellschaften 2001 (Umweltatlas)",
+        "md_id": "632fef78-5b78-32b1-a4e5-3fb6ef302c21",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/f245cffd-8611-383c-9f57-7aee562c3982",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005",
+    "name": "Bodengesellschaften 2005",
+    "name_lang": "Bodengesellschaften 2005 (Bodengesellschaften 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bodengesellschaften2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Bodengesellschaften 2005 (Umweltatlas)",
+        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b5358d32-5377-3c55-881b-3b2bf2ce2d35",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_bodengesellschaften_2010:bodengesellschaften2010",
+    "name": "Bodengesellschaften 2010",
+    "name_lang": "Bodengesellschaften 2010 (Bodengesellschaften 2010 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_2010",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "bodengesellschaften2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Bodengesellschaften 2010 (Umweltatlas)",
+        "md_id": "c5f49c12-58de-3af3-9e7b-0a67fdd10fd5",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/ca7601d2-77bc-3711-ba4e-41fa1ba7c838",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
