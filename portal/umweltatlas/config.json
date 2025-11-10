@@ -252,27 +252,30 @@
                   "name": "01.01 Bodengesellschaften",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "ua_bodengesellschaften_2020:bodengesellschaften2020",
-                      "name": "2020 - Bodengesellschaften"
-                    },
-                    {
-                      "id": "ua_bodengesellschaften_2015:bodengesellschaften2015",
-                      "name": "2015 - Bodengesellschaften"
-                    },
-                    {
-                      "id": "k01_01boges2010:0",
-                      "name": "2010 - Bodengesellschaften"
-                    },
-                    {
-                      "id": "k01_01boges2005:0",
-                      "name": "2005 - Bodengesellschaften"
-                    },
-                    {
-                      "id": "boges2001:0",
-                      "name": "2001 - Bodengesellschaften"
-                    },
-                    { "id": "boges:0", "name": "1990 - Bodengesellschaften" }
+                   {
+    "name": "1990 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_1990:bodengesellschaften1990"
+  },
+  {
+    "name": "2001 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2001:bodengesellschaften2001"
+  },
+  {
+    "name": "2005 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005"
+  },
+  {
+    "name": "2010 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2010:bodengesellschaften2010"
+  },
+  {
+    "name": "2015 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2015:bodengesellschaften2015"
+  },
+  {
+    "name": "2020 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2020:bodengesellschaften2020"
+  }
                   ]
                 }
               ]
