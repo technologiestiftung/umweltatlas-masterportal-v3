@@ -252,29 +252,29 @@
                   "name": "01.01 Bodengesellschaften",
                   "type": "folder",
                   "elements": [
-                   {
-    "name": "1990 - Bodengesellschaften",
-    "id": "ua_bodengesellschaften_1990:bodengesellschaften1990"
-  },
-  {
-    "name": "2001 - Bodengesellschaften",
-    "id": "ua_bodengesellschaften_2001:bodengesellschaften2001"
-  },
-  {
-    "name": "2005 - Bodengesellschaften",
-    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005"
-  },
-  {
-    "name": "2010 - Bodengesellschaften",
-    "id": "ua_bodengesellschaften_2010:bodengesellschaften2010"
+ {
+    "name": "2020 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2020:bodengesellschaften2020"
   },
   {
     "name": "2015 - Bodengesellschaften",
     "id": "ua_bodengesellschaften_2015:bodengesellschaften2015"
   },
   {
-    "name": "2020 - Bodengesellschaften",
-    "id": "ua_bodengesellschaften_2020:bodengesellschaften2020"
+    "name": "2010 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2010:bodengesellschaften2010"
+  },
+  {
+    "name": "2005 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005"
+  },
+  {
+    "name": "2001 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_2001:bodengesellschaften2001"
+  },
+  {
+    "name": "1990 - Bodengesellschaften",
+    "id": "ua_bodengesellschaften_1990:bodengesellschaften1990"
   }
                   ]
                 }
@@ -288,29 +288,29 @@
                   "name": "01.06.1 Bodenarten",
                   "type": "folder",
                   "elements": [
-                     {
-    "name": "1990 - Bodenarten",
-    "id": "ua_bodenarten_1990:bodenarten1990"
-  },
-  {
-    "name": "2001 - Bodenarten",
-    "id": "ua_bodenarten_2001:bodenarten2001"
-  },
-  {
-    "name": "2005 - Bodenarten",
-    "id": "ua_bodenarten_2005:bodenarten2005"
-  },
-  {
-    "name": "2010 - Bodenarten",
-    "id": "ua_bodenarten_2010:bodenarten2010"
+ {
+    "name": "2020 - Bodenarten",
+    "id": "ua_bodenarten_2020:bodenarten2020"
   },
   {
     "name": "2015 - Bodenarten",
     "id": "ua_bodenarten_2015:bodenarten2015"
   },
   {
-    "name": "2020 - Bodenarten",
-    "id": "ua_bodenarten_2020:bodenarten2020"
+    "name": "2010 - Bodenarten",
+    "id": "ua_bodenarten_2010:bodenarten2010"
+  },
+  {
+    "name": "2005 - Bodenarten",
+    "id": "ua_bodenarten_2005:bodenarten2005"
+  },
+  {
+    "name": "2001 - Bodenarten",
+    "id": "ua_bodenarten_2001:bodenarten2001"
+  },
+  {
+    "name": "1990 - Bodenarten",
+    "id": "ua_bodenarten_1990:bodenarten1990"
   }
                   ]
                 },
@@ -319,25 +319,25 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "id": "ua_boden_nfk30_2020:nfk30_2020",
-                      "name": "2020 - Nutzbare Feldkapazität der Böden für Flachwurzler"
-                    },
-                    {
-                      "id": "ua_boden_nfk30_2015:flach2015",
-                      "name": "2015 - Nutzbare Feldkapazität für Flachwurzler"
-                    },
-                    {
-                      "id": "k01_06_02flach2010:0",
-                      "name": "2010 - Nutzbare Feldkapazität für Flachwurzler"
-                    },
-                    {
-                      "id": "k01_06_02flach2005:0",
-                      "name": "2005 - Nutzbare Feldkapazität für Flachwurzler"
-                    },
-                    {
-                      "id": "kb01_06_02flach:0",
-                      "name": "2001 - Nutzbare Feldkapazität für Flachwurzler"
-                    }
+    "name": "2020 - Nutzbare Feldkapazität der Böden für Flachwurzler",
+    "id": "ua_boden_nfk30_2020:nfk30_2020"
+  },
+  {
+    "name": "2015 - Nutzbare Feldkapazität der Böden für Flachwurzler",
+    "id": "ua_boden_nfk30_2015:flach2015"
+  },
+  {
+    "name": "2010 - Nutzbare Feldkapazität der Böden für Flachwurzler",
+    "id": "ua_boden_nfk30_2010:nfk30_2010"
+  },
+  {
+    "name": "2005 - Nutzbare Feldkapazität der Böden für Flachwurzler",
+    "id": "ua_boden_nfk30_2005:nfk30_2005"
+  },
+  {
+    "name": "2001 - Nutzbare Feldkapazität der Böden für Flachwurzler",
+    "id": "ua_boden_nfk30_2001:nfk30_2001"
+  }
                   ]
                 },
                 {
