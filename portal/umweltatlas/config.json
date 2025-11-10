@@ -3898,42 +3898,42 @@
                   "name": "03.12.1 Berliner Luftgütemessnetz - Standorte und Messdaten",
                   "type": "folder",
                   "elements": [
-                {
-                  "id": "ua_luftguetemessnetz:i_umweltzone",
-                  "name": "Umweltzone"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:h_mc_aktuell",
-                  "name": "Messcontainer (aktuell)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
-                  "name": "Messcontainer (außer Betrieb)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
-                  "name": "Automatisches Messnetz bis 1989 (außer Betrieb)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
-                  "name": "RUBIS und Passivsammler (aktuell)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:d_p_aktuell",
-                  "name": "Passivsammler (aktuell)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
-                  "name": "RUBIS und Passivsammler (außer Betrieb)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
-                  "name": "Passivsammler (außer Betrieb)"
-                },
-                {
-                  "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
-                  "name": "Meteorologiestationen (außer Betrieb)"
-                }
+                    {
+                      "id": "ua_luftguetemessnetz:i_umweltzone",
+                      "name": "seit-1989 - Umweltzone"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:h_mc_aktuell",
+                      "name": "seit-1989 - Messcontainer (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:g_mc_ausser_betrieb",
+                      "name": "seit-1989 - Messcontainer (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:f_bis1989_ausser_betrieb",
+                      "name": "seit-1989 - automatisches Messnetz bis 1989 (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:e_rubis_p_aktuell",
+                      "name": "seit-1989 - RUBIS und Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:d_p_aktuell",
+                      "name": "seit-1989 - Passivsammler (aktuell)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:c_rubis_p_ausser_betrieb",
+                      "name": "seit-1989 - RUBIS und Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:b_p_ausser_betrieb",
+                      "name": "seit-1989 - Passivsammler (außer Betrieb)"
+                    },
+                    {
+                      "id": "ua_luftguetemessnetz:a_meteo_ausser_betrieb",
+                      "name": "seit-1989 - Meteorologiestationen (außer Betrieb)"
+                    }
                   ]
                 },
                 {
@@ -4006,96 +4006,6 @@
                   "name": "03.12.02.1 NOx-Gesamtemissionen",
                   "type": "folder",
                   "elements": [
- {
-                  "name": "03.12.02.1 - 1989",
-                  "type": "folder",
-                  "elements": [ {
-                      "id": "emi_nox_all1989:2",
-                      "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                    },
-                    {
-                      "id": "emi_nox_all1989:3",
-                      "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                    },
-                    {
-                      "id": "emi_nox_all1989:0",
-                      "name": "Emissionen aller Verursacher"
-                    }]},
-                    
-                       {
-                      "name": "03.12.02.2 - 1994",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_all1994:3",
-                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_all1994:4",
-                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_nox_all1994:1",
-                          "name": "Emissionen aller Verursacher"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "03.12.02.3 - 2002",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "emi_nox_all2002:3",
-                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "emi_nox_all2002:2",
-                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "emi_nox_all2002:1",
-                          "name": "Emissionen aller Verursacher"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "03.12.02.4 - 2005",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:2",
-                          "name": "Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:3",
-                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "k03_12_02_4noxemigesamt2005:1",
-                          "name": "NOx Emissionen aller Verursacher"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "03.12.02.5 - 2009",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:3",
-                          "name": "Alle Verursacher - Anteile der einzelnen Verursachergruppen"
-                        },
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:2",
-                          "name": "Emissionsentwicklung als Diagramm mit Zahlenwerten"
-                        },
-                        {
-                          "id": "k03_12_02_5noxemigesamt2009:1",
-                          "name": "NOx Emissionen aller Verursacher"
-                        }
-                      ]
-                    },
-
-                    
                     {
                       "id": "emi_nox_all1989:3",
                       "name": "seit-1989 - Alle Verursacher - Emissionsentwicklung als Diagramm mit Zahlenwerten"
@@ -9431,254 +9341,90 @@
           "type": "folder",
           "visibility": false,
           "elements": [
- {
-      "Titel": "Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR)",
-      "Layer": [
-        {
-          "id": "dop_2005_cir:dop_2005",
-          "name": "Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR) (Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2004 (DOP25RGB)",
-      "Layer": [
-        {
-          "id": "dop_2004:dop_2004",
-          "name": "Digitale farbige Orthophotos 2004 (DOP25RGB) (Digitale farbige Orthophotos 2004 (DOP25RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2007 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2007:dop_2007",
-          "name": "Digitale farbige Orthophotos 2007 (DOP20RGB) (Digitale farbige Orthophotos 2007 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2009 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2009:dop_2009",
-          "name": "Digitale farbige Orthophotos 2009 (DOP20RGB) (Digitale farbige Orthophotos 2009 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2011 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2011:dop_2011",
-          "name": "Digitale farbige Orthophotos 2011 (DOP20RGB) (Digitale farbige Orthophotos 2011 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2014 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2014:dop_2014",
-          "name": "Digitale farbige Orthophotos 2014 (DOP20RGB) (Digitale farbige Orthophotos 2014 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2015 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "dop_2015:dop_2015_cir",
-          "name": "Digitale farbige Orthophotos 2015 (DOP20CIR) (Digitale farbige Orthophotos 2015 (DOP20RGBI))"
-        },
-        {
-          "id": "dop_2015:dop_2015_rgb",
-          "name": "Digitale farbige Orthophotos 2015 (DOP20RGB) (Digitale farbige Orthophotos 2015 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2016 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2016:dop_2016",
-          "name": "Digitale farbige Orthophotos 2016 (DOP20RGB) (Digitale farbige Orthophotos 2016 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2017 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "dop_2017:dop_2017",
-          "name": "Digitale farbige Orthophotos 2017 (DOP20RGB) (Digitale farbige Orthophotos 2017 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2018 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "dop_2018:dop_2018",
-          "name": "Digitale farbige Orthophotos 2018 (DOP20RGBI) (Digitale farbige Orthophotos 2018 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2019 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "dop_2019:dop_2019",
-          "name": "Digitale farbige Orthophotos 2019 (DOP20RGBI) (Digitale farbige Orthophotos 2019 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2021 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "dop_2021:blattschnitt",
-          "name": "Blattschnitte (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
-        },
-        {
-          "id": "dop_2021:dop_2021_cir",
-          "name": "Digitale Color-Infrarot-Orthophotos 2021 (DOP20CIR) (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
-        },
-        {
-          "id": "dop_2021:dop_2021_rgb",
-          "name": "Digitale farbige Orthophotos 2021 (DOP20RGB) (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "dop_2025_fruehjahr:dop_2025",
-          "name": "Digitale farbige Orthophotos 2025 (DOP20RGBI) (Digitale farbige Orthophotos 2025 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige TrueOrthophotos 2013 (DOP20RGB)",
-      "Layer": [
-        {
-          "id": "truedop_2013:truedop_2013",
-          "name": "Digitale farbige TrueOrthophotos 2013 (DOP20RGB) (Digitale farbige TrueOrthophotos 2013 (DOP20RGB))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI)",
-      "Layer": [
-        {
-          "id": "truedop_2020_sommer:truedop_2020_sommer_cir",
-          "name": "Digitale Color-Infrarot-TrueOrthophotos 2020 (TrueDOP20CIR) (Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI))"
-        },
-        {
-          "id": "truedop_2020_sommer:truedop_2020_sommer_rgb",
-          "name": "Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) (Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige TrueOrthophotos 2022 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "truedop_2022:blattschnitt",
-          "name": "Blattschnitte (Digitale farbige TrueOrthophotos 2022 (DOP20RGBI))"
-        },
-        {
-          "id": "truedop_2022:truedop_2022",
-          "name": "Digitale farbige TrueOrthophotos 2022 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2022 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige TrueOrthophotos 2023 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "truedop_2023:blattschnitt",
-          "name": "Blattschnitt (Digitale farbige TrueOrthophotos 2023 (DOP20RGBI))"
-        },
-        {
-          "id": "truedop_2023:truedop_2023",
-          "name": "Digitale farbige TrueOrthophotos 2023 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2023 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI)",
-      "Layer": [
-        {
-          "id": "truedop_2024:blattschnitt",
-          "name": "Blattschnitt (Digitale farbige TrueOrthophotos 2024 (DOP20RGBI))"
-        },
-        {
-          "id": "truedop_2024:truedop_2024",
-          "name": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2024 (DOP20RGBI))"
-        }
-      ]
-    },
-    {
-      "Titel": "Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN)",
-      "Layer": [
-        {
-          "id": "dop_2006:dop_2006",
-          "name": "Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN) (Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN))"
-        }
-      ]
-    },
-    {
-      "Titel": "Luftbilder 1928, Maßstab 1:4 000",
-      "Layer": [
-        {
-          "id": "luftbild_1928_04:a_lb_1928_04_pan_bildmitten",
-          "name": "Bildmittelpunkt (Luftbilder 1928, Maßstab 1:4 000)"
-        },
-        {
-          "id": "luftbild_1928_04:b_lb_1928_04_pan_gebietsabdeckung",
-          "name": "Abdeckung der Befliegung (Luftbilder 1928, Maßstab 1:4 000)"
-        },
-        {
-          "id": "luftbild_1928_04:c_luftbilder_1928_04_raster",
-          "name": "Bildmosaik (Luftbilder 1928, Maßstab 1:4 000)"
-        }
-      ]
-    },
-    {
-      "Titel": "Luftbilder 1938, 1:4 000",
-      "Layer": [
-        {
-          "id": "luftbild_1938_04:a_lb_1938_04_pan_bildmitten",
-          "name": "Bildmittelpunkt (Luftbilder 1938, 1:4 000)"
-        },
-        {
-          "id": "luftbild_1938_04:b_lb_1938_04_pan_gebietsabdeckung",
-          "name": "Abdeckung der Befliegung (Luftbilder 1938, 1:4 000)"
-        },
-        {
-          "id": "luftbild_1938_04:c_luftbilder_1938_04_raster",
-          "name": "Bildmosaik (Luftbilder 1938, 1:4 000)"
-        }
-      ]
-    },
-    {
-      "Titel": "Luftbilder 1953, Maßstab 1:22 000",
-      "Layer": [
-        {
-          "id": "luftbild_1953_22:a_lb_1953_22_pan_bildmitten",
-          "name": "Bildmittelpunkt (Luftbilder 1953, Maßstab 1:22 000)"
-        },
-        {
-          "id": "luftbild_1953_22:b_lb_1953_22_pan_gebietsabdeckung",
-          "name": "Abdeckung der Befliegung (Luftbilder 1953, Maßstab 1:22 000)"
-        },
-        {
-          "id": "luftbild_1953_22:c_luftbilder_1953_22_raster",
-          "name": "Bildmosaik (Luftbilder 1953, Maßstab 1:22 000)"
-        }
+            {
+              "name": "1928 - Luftbild",
+              "id": "k_luftbild1928:0"
+            },
+            {
+              "name": "1953 - Luftbild",
+              "id": "k_luftbild1953:0"
+            },
+            {
+              "name": "2002 - Luftbild",
+              "id": "k_luftbild2002:0"
+            },
+            {
+              "name": "2004 - Luftbild",
+              "id": "luftbild2004:0"
+            },
+            {
+              "name": "2006 - Luftbild",
+              "id": "luftbild2006:0"
+            },
+            {
+              "name": "2007 - Luftbild",
+              "id": "k_luftbild2007:0"
+            },
+            {
+              "name": "2009 - Luftbild",
+              "id": "k_luftbild2009_20:0"
+            },
+            {
+              "name": "2010 - Luftbild",
+              "id": "k_luftbild2010_rgb:0"
+            },
+            {
+              "name": "2011 - Luftbild",
+              "id": "k_luftbild2011_20:0"
+            },
+            {
+              "name": "2013 - Luftbild",
+              "id": "k_luftbild2013:0"
+            },
+            {
+              "name": "2014 - Luftbild",
+              "id": "k_luftbild2014:0"
+            },
+            {
+              "name": "2015 - Luftbild",
+              "id": "k_luftbild2015_rgb:0"
+            },
+            {
+              "name": "2016 - Luftbild",
+              "id": "k_luftbild2016_rgb:0"
+            },
+            {
+              "name": "2017 - Luftbild",
+              "id": "k_luftbild2017_rgb:0"
+            },
+            {
+              "name": "2018 - Luftbild",
+              "id": "k_luftbild2018_rgb:0"
+            },
+            {
+              "name": "2019 - Luftbild",
+              "id": "k_luftbild2019_rgb:0"
+            },
+            {
+              "name": "2020 - Luftbild",
+              "id": "k_luftbild2020_rgb:0"
+            },
+            {
+              "name": "2021 - Luftbild",
+              "id": "k_luftbild2021_rgb:0"
+            },
+            {
+              "name": "2022 - Luftbild",
+              "id": "k_luftbild2022_true_rgbi:0"
+            },
+            {
+              "name": "2023 - Luftbild",
+              "id": "truedop_2023:truedop_2023"
+            },
+            {
+              "name": "2024 - Luftbild",
+              "id": "truedop_2024:truedop_2024"
+            }
           ]
         }
       ]
