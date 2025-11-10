@@ -332,6 +332,14 @@ export default {
         class="row"
     >
         <div>
+            <p
+                class="mb-3"
+                v-html="$t('common:modules.addWMS.introText')"
+            />
+            <p
+                class="mb-3"
+                v-html="$t('common:modules.addWMS.wmsText')"
+            />
             <input
                 id="wmsUrl"
                 ref="wmsUrl"
