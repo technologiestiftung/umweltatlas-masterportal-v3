@@ -48,7 +48,7 @@ describe("src/modules/wfsSearch/store/actionsWfsSearch.js", () => {
             rootGetters = {
                 restServiceById: id => id === 456 ? {url, featureType: typeName} : {}
             };
-            service = {url};
+            service = {url, featureNS: undefined, featurePrefix: undefined};
         });
 
         it("should reset the module if the WFS is not given", () => {
