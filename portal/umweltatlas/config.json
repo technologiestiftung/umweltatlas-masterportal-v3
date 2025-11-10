@@ -9432,89 +9432,89 @@
           "visibility": false,
           "elements": [
             {
-              "name": "1928 - Luftbild",
-              "id": "k_luftbild1928:0"
-            },
-            {
-              "name": "1953 - Luftbild",
-              "id": "k_luftbild1953:0"
-            },
-            {
-              "name": "2002 - Luftbild",
-              "id": "k_luftbild2002:0"
-            },
-            {
-              "name": "2004 - Luftbild",
-              "id": "luftbild2004:0"
-            },
-            {
-              "name": "2006 - Luftbild",
-              "id": "luftbild2006:0"
-            },
-            {
-              "name": "2007 - Luftbild",
-              "id": "k_luftbild2007:0"
-            },
-            {
-              "name": "2009 - Luftbild",
-              "id": "k_luftbild2009_20:0"
-            },
-            {
-              "name": "2010 - Luftbild",
-              "id": "k_luftbild2010_rgb:0"
-            },
-            {
-              "name": "2011 - Luftbild",
-              "id": "k_luftbild2011_20:0"
-            },
-            {
-              "name": "2013 - Luftbild",
-              "id": "k_luftbild2013:0"
-            },
-            {
-              "name": "2014 - Luftbild",
-              "id": "k_luftbild2014:0"
-            },
-            {
-              "name": "2015 - Luftbild",
-              "id": "k_luftbild2015_rgb:0"
-            },
-            {
-              "name": "2016 - Luftbild",
-              "id": "k_luftbild2016_rgb:0"
-            },
-            {
-              "name": "2017 - Luftbild",
-              "id": "k_luftbild2017_rgb:0"
-            },
-            {
-              "name": "2018 - Luftbild",
-              "id": "k_luftbild2018_rgb:0"
-            },
-            {
-              "name": "2019 - Luftbild",
-              "id": "k_luftbild2019_rgb:0"
-            },
-            {
-              "name": "2020 - Luftbild",
-              "id": "k_luftbild2020_rgb:0"
-            },
-            {
-              "name": "2021 - Luftbild",
-              "id": "k_luftbild2021_rgb:0"
-            },
-            {
-              "name": "2022 - Luftbild",
-              "id": "k_luftbild2022_true_rgbi:0"
-            },
-            {
-              "name": "2023 - Luftbild",
-              "id": "truedop_2023:truedop_2023"
-            },
-            {
-              "name": "2024 - Luftbild",
-              "id": "truedop_2024:truedop_2024"
-            }
+                                "title": "Bildmosaik 1928",
+                                "layerId": "luftbild_1928_04:c_luftbilder_1928_04_raster"
+                            },
+                            {
+                                "title": "Bildmosaik 1953",
+                                "layerId": "luftbild_1953_22:c_luftbilder_1953_22_raster"
+                            },
+                            {
+                                "title": "Orthophotos s/w 2002",
+                                "layerId": "k_luftbild2002:0"
+                            },
+                            {
+                                "title": "Orthophotos 2004",
+                                "layerId": "luftbild2004:0"
+                            },
+                            {
+                                "title": "Orthophotos s/w 2006",
+                                "layerId": "luftbild2006:0"
+                            },
+                            {
+                                "title": "Orthophotos 2007",
+                                "layerId": "k_luftbild2007:0"
+                            },
+                            {
+                                "title": "Orthophotos 2009",
+                                "layerId": "k_luftbild2009_20:0"
+                            },
+                            {
+                                "title": "Orthophotos 2010",
+                                "layerId": "k_luftbild2010_rgb:0"
+                            },
+                            {
+                                "title": "Orthophotos 2011",
+                                "layerId": "k_luftbild2011_20:0"
+                            },
+                            {
+                               "title": "Trueorthophotos 2013",
+                                "layerId": "k_luftbild2013:0"
+                            },
+                            {
+                                "title": "Orthophotos 2014",
+                                "layerId": "k_luftbild2014:0"
+                            },
+                            {
+                                "title": "Orthophotos 2015",
+                                "layerId": "k_luftbild2015_rgb:0"
+                            },
+                            {
+                                "title": "Orthophotos 2016",
+                                "layerId": "k_luftbild2016_rgb:0"
+                            },
+                            {
+                                "title": "Orthophotos 2017",
+                                "layerId": "k_luftbild2017_rgb:0"
+                            },
+                            {
+                                "title": "Orthophotos 2018",
+                                "layerId": "k_luftbild2018_rgb:0"
+                            },
+                            {
+                                "title": "Orthophotos 2019",
+                                "layerId": "k_luftbild2019_rgb:0"
+                            },
+                            {
+                                "title": "Trueorthophotos 2020",
+                                "layerId": "truedop_2020_sommer:truedop_2020_sommer_rgb"
+                            },
+                            {
+                                "title": "Trueorthophotos 2021",
+                                "layerId": "dop_2021:dop_2021_rgb"
+                            },
+                            {
+                                "title": "Trueorthophotos 2022",
+                                "layerId": "k_luftbild2022_true_rgbi:0"
+                            },
+                            {
+                                "title": "Trueorthophotos 2023",
+                                "layerId": "truedop_2023:truedop_2023"
+                            },
+                            {
+                                "title": "Trueorthophotos 2024",
+                                "layerId": "truedop_2024:truedop_2024"
+                            }
           ]
         }
       ]
