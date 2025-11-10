@@ -39832,40 +39832,6 @@
     }
   },
   {
-    "id": "k01_06_04nfeld1990:0",
-    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
-    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990 (Umweltatlas))",
-    "crs": "EPSG:25833",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld1990",
-    "typ": "WMS",
-    "gfiAttributes": "ignore",
-    "layers": "0",
-    "legend": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_04nfeld2006.png",
-    "datasets": [
-      {
-        "md_name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990 (Umweltatlas)",
-        "md_id": "1ae78567-6ea3-4aa1-b422-92233cfe3ad4",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4213ab3f-1d9f-3099-bf7a-973ea32dd3cf",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "minScale": "600",
-    "maxScale": "250000",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "5",
-    "gfiTheme": "default",
-    "transparent": true,
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/1990/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_1990.pdf",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k01_06_05humus2005:0",
     "name": "Humusmenge",
     "name_lang": "Humusmenge (Humusmenge der Böden 2005 (Umweltatlas))",
@@ -42008,102 +41974,6 @@
     }
   },
   {
-    "id": "k01_06_04nfeld2010:0",
-    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
-    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2010 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld2010",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb_daten/legenden/umweltatlas/leg_01_06_04nfeld2006.png",
-    "datasets": [
-      {
-        "md_id": "55af4f0e-04fd-3d3c-b0d6-694e20fcb9b1",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2010.pdf?ts=1696240837",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "k01_06_04nfeld2005:0",
-    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
-    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2005 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/k01_06_04nfeld2005",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/k01_06_04nfeld2005?layerID=0",
-    "datasets": [
-      {
-        "md_id": "9f0cf4fa-30a0-3555-b5ef-07f2bd46eee3",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/69f57d76-97eb-34e5-a384-b0af9d1c2a0b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2005.pdf?ts=1696052194",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "kb01_06_04nfeld:0",
-    "name": "Nutzbare Feldkapazität des effektiven Wurzelraumes",
-    "name_lang": "Nutzbare Feldkapazität des effektiven Wurzelraumes(Nutzbare Feldkapazität des effektiven Wurzelraumes 2001 (Umweltatlas))",
-    "crs": "http://www.opengis.net/def/crs/EPSG/0/3068",
-    "url": "https://fbinter.stadt-berlin.de/fb/wms/senstadt/kb01_06_04nfeld",
-    "typ": "WMS",
-    "layers": "0",
-    "format": "image/png",
-    "version": "1.3.0",
-    "featureCount": "1",
-    "gfiAttributes": "ignore",
-    "gfiTheme": "default",
-    "transparent": true,
-    "tilesize": "512",
-    "maxScale": "210000",
-    "legendURL": "https://fbinter.stadt-berlin.de/fb/wms/legend/senstadt/kb01_06_04nfeld?layerID=0",
-    "datasets": [
-      {
-        "md_id": "b4bf8488-2dd0-3279-807f-5ec7ffc5f752",
-        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2001/methode/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2001.pdf?ts=1695989909",
-    "uaContact": {
-      "name": "Leilah Haag",
-      "tel": "+49 30 90139 5270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "k01_06_05humus2010:0",
     "name": "Humusmenge",
     "name_lang": "Humusmenge(Humusmenge der Böden 2010 (Umweltatlas))",
@@ -43886,6 +43756,110 @@
         "md_name": "Nutzbare Feldkapazität der Böden für Flachwurzler 2001 (Umweltatlas)",
         "md_id": "437986f2-6707-3154-a285-70caf4c11502",
         "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_nfkwe_2010:nfkwe_2010",
+    "name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2010",
+    "name_lang": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2010 (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2010 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfkwe_2010",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "nfkwe_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2010 (Umweltatlas)",
+        "md_id": "27921401-f61a-3e1f-9b55-1070d86dbe00",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/b3c985f1-ed43-3116-977f-954e7c815309",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_nfkwe_2005:nfkwe_2005",
+    "name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2005",
+    "name_lang": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2005 (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2005 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfkwe_2005",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "nfkwe_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2005 (Umweltatlas)",
+        "md_id": "3c60fc54-f40f-3b86-ba9a-c970088dc261",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/69f57d76-97eb-34e5-a384-b0af9d1c2a0b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_nfkwe_2001:nfkwe_2001",
+    "name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2001",
+    "name_lang": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2001 (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2001 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfkwe_2001",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "nfkwe_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2001 (Umweltatlas)",
+        "md_id": "437986f2-6707-3154-a285-70caf4c11502",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/0a66d24e-061f-3e3a-aeb0-fe3244e20857",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "transparent": true,
+    "singleTile": true,
+    "infoFormat": "application/json"
+  },
+  {
+    "id": "ua_boden_nfkwe_1990:nfkwe_1990",
+    "name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990",
+    "name_lang": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990 (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990 (Umweltatlas))",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfkwe_1990",
+    "typ": "WMS",
+    "gfiAttributes": "showAll",
+    "layers": "nfkwe_1990",
+    "legend": true,
+    "datasets": [
+      {
+        "md_name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 1990 (Umweltatlas)",
+        "md_id": "1ae78567-6ea3-4aa1-b422-92233cfe3ad4",
+        "rs_id": "https://registry.gdi-de.org/id/de.be.csw/4213ab3f-1d9f-3099-bf7a-973ea32dd3cf",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
