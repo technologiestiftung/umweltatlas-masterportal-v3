@@ -9341,25 +9341,6 @@
           "type": "folder",
           "visibility": false,
           "elements": [
-            {
-              "name": "1928 - Luftbild",
-              "id": "k_luftbild1928:0"
-            },
-            {
-              "name": "1953 - Luftbild",
-              "id": "k_luftbild1953:0"
-            },
-            {
-              "name": "2002 - Luftbild",
-              "id": "k_luftbild2002:0"
-            },
-            {
-              "name": "2004 - Luftbild",
-              "id": "luftbild2004:0"
-            },
-            {
-              "name": "2006 - Luftbild",
-              "id": "luftbild2006:0"
             },
             {
               "name": "2007 - Luftbild",
