@@ -107,10 +107,13 @@ function storedFilter (requestUrl, filter, storedQueryId) {
  * Returns the version and filter to the request url for a WFS@1.1.0
  * @param {Object} requestUrl The Url object.
  * @param {XML[]} filter The filter written in XML.
+ * @param {String} featureNS The featureNS as defined in the services.json. If not configured, http://www.opengis.net/gml is used.
+ * @param {String} featurePrefix The  featurePrefix as defined in the services.json. If not configured, gml is used.
  * @returns {String} The added parts for the request Url.
  */
-function xmlFilter (requestUrl, filter, featureNS, featurePrefix) {
-    const value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:${featurePrefix}="${featureNS}">${adjustFilter(filter)}</ogc:Filter>`;
+function xmlFilter (requestUrl, featureNS, featurePrefix, filter) {
+    const xmln = featureNS && featurePrefix ? `${featurePrefix}="${featureNS}"` : "gml=\"http://www.opengis.net/gml\"",
+        value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:${xmln}>${adjustFilter(filter)}</ogc:Filter>`;
 
     requestUrl.searchParams.set("version", "1.1.0");
     requestUrl.searchParams.set("filter", value);
@@ -162,6 +165,8 @@ function searchFeatures (store, {literals, requestConfig: {gazetteer = null, lay
  * Creates the url depending on params.
  * @param {String} urlString The base Url as defined in the services.json or rest-services.json.
  * @param {String} typeName If the Url was defined in the services.json, the typeName is set to be added to the Url.
+ * @param {String} featureNS The featureNS as defined in the services.json.
+ * @param {String} featurePrefix The  featurePrefix as defined in the services.json.
  * @param {(XML | XML[] | String)} filter The filter to constrain the returned features.
  * @param {Boolean} fromServicesJson Whether the service was defined in the services.json or the rest-service.json.
  * @param {String} storedQueryId The Id of the Stored Query. Present when using a WFS@2.0.0.
@@ -196,6 +201,8 @@ function createUrl (urlString, typeName, featureNS, featurePrefix, filter, fromS
  * @param {Object} service The service to send the request to.
  * @param {String} service.url The base Url as defined in the services.json or rest-services.json.
  * @param {String} service.typeName If the Url was defined in the services.json, the typeName is set to be added to the Url.
+ * @param {String} service.featureNS The featureNS as defined in the services.json.
+ * @param {String} service.featurePrefix The  featurePrefix as defined in the services.json.
  * @param {(XML | XML[] | String)} filter The filter to constrain the returned features.
  * @param {Boolean} fromServicesJson Whether the service was defined in the services.json or the rest-service.json.
  * @param {String} storedQueryId The Id of the Stored Query. Present when using a WFS@2.0.0.
