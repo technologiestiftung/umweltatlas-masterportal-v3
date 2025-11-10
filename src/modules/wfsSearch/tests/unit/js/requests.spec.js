@@ -79,5 +79,35 @@ describe("src/modules/wfsSearch/js/requests.js", () => {
             expect(createdUrl.searchParams.get("filter")).to.eql(expectedUrlParam);
             expect(createdUrl.searchParams.get("version")).to.eql("1.1.0");
         });
+        it("createUrl uses fallback for filter when featurePrefix and featureNS are not given", () => {
+            const url = "https://getwfs.de",
+                typeName = "typeName",
+                featureNS = null,
+                featurePrefix = null,
+                filter = "filter",
+                fromServicesJson = false,
+                storedQueryId = null,
+                maxFeatures = 10,
+                featureType = "featureType",
+                createdUrl = requestsModule.createUrl(url, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType),
+                expectedUrlParam = "<ogc:Filter xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:gml=\"http://www.opengis.net/gml\">filter</ogc:Filter>";
+
+            expect(createdUrl.searchParams.get("filter")).to.eql(expectedUrlParam);
+        });
+        it("createUrl uses featurePrefix and featureNS for filter when given", () => {
+            const url = "https://getwfs.de",
+                typeName = "typeName",
+                featureNS = "featureNS",
+                featurePrefix = "featurePrefix",
+                filter = "filter",
+                fromServicesJson = false,
+                storedQueryId = null,
+                maxFeatures = 10,
+                featureType = "featureType",
+                createdUrl = requestsModule.createUrl(url, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType),
+                expectedUrlParam = "<ogc:Filter xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:featurePrefix=\"featureNS\">filter</ogc:Filter>";
+
+            expect(createdUrl.searchParams.get("filter")).to.eql(expectedUrlParam);
+        });
     });
 });
