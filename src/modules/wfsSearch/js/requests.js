@@ -189,7 +189,7 @@ function createUrl (urlString, typeName, featureNS, featurePrefix, filter, fromS
         requestUrl = storedFilter(requestUrl, filter, storedQueryId);
     }
     else {
-        requestUrl = xmlFilter(requestUrl, filter, featureNS, featurePrefix);
+        requestUrl = xmlFilter(requestUrl, featureNS, featurePrefix, filter);
     }
     return requestUrl;
 }
