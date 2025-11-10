@@ -288,102 +288,30 @@
                   "name": "01.06.1 Bodenarten",
                   "type": "folder",
                   "elements": [
-                    {
-                      "name": "2020",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_bodenarten_2020:bodenarten2020",
-                          "name": "2020 - Bodenarten"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2015",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_bodenarten_2015:bodenarten2015",
-                          "name": "2015 - Bodenarten"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2010",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k01_06_01bodart2010:1",
-                          "name": "2010 - Bodenarten des Feinbodens"
-                        },
-                        {
-                          "id": "k01_06_01bodart2010:3",
-                          "name": "2010 - Grobbodenart und -anteil am Gesamtboden"
-                        },
-                        {
-                          "id": "k01_06_01bodart2010:4",
-                          "name": "2010 - Torfart"
-                        }
-                        
-                      ]
-                    },
-                    {
-                      "name": "2005",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "k01_06_01bodart2005:1",
-                          "name": "2005 - Bodenarten"
-                        },
-                        {
-                          "id": "k01_06_01bodart2005:2",
-                          "name": "2005 - Grobbodenart und -anteil am Gesamtboden"
-                        },
-                        {
-                          "id": "k01_06_01bodart2005:3",
-                          "name": "2005 - Torfart"
-                        }
-                        
-                      ]
-                    },
-                    {
-                      "name": "2001",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "kb01_06_01bodart:0",
-                          "name": "2001 - Bodenarten"
-                        },
-                        {
-                          "id": "kb01_06_01bodart:3",
-                          "name": "2001 - Grobbodenart und -anteil am Gesamtboden"
-                        },
-                        {
-                          "id": "kb01_06_01bodart:4",
-                          "name": "2001 - Torfart"
-                        }
-                        
-                      ]
-                    },
-                    {
-                      "name": "1990",
-                      "type": "folder",
-                      "elements": [
-                       {
-                          "id": "k01_06_01bodart1990:0",
-                          "name": "1990 - Bodenarten"
-                        },
-                        {
-                          "id": "k01_06_01bodart1990:3",
-                          "name": "1990 - Grobbodenart und -anteil am Gesamtboden"
-                        },
-                        {
-                          "id": "k01_06_01bodart1990:4",
-                          "name": "1990 - Torfart"
-                        }
-                    
-                      ]
-                    }
+                     {
+    "name": "1990 - Bodenarten",
+    "id": "ua_bodenarten_1990:bodenarten1990"
+  },
+  {
+    "name": "2001 - Bodenarten",
+    "id": "ua_bodenarten_2001:bodenarten2001"
+  },
+  {
+    "name": "2005 - Bodenarten",
+    "id": "ua_bodenarten_2005:bodenarten2005"
+  },
+  {
+    "name": "2010 - Bodenarten",
+    "id": "ua_bodenarten_2010:bodenarten2010"
+  },
+  {
+    "name": "2015 - Bodenarten",
+    "id": "ua_bodenarten_2015:bodenarten2015"
+  },
+  {
+    "name": "2020 - Bodenarten",
+    "id": "ua_bodenarten_2020:bodenarten2020"
+  }
                   ]
                 },
                 {
