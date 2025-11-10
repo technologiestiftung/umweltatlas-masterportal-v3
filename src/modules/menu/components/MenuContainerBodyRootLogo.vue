@@ -91,7 +91,6 @@ export default {
     h1 {
         color: $dark_blue;
         font-size: $font_size_huge;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         flex-grow: 1;
