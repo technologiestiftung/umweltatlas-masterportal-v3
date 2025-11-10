@@ -9431,90 +9431,254 @@
           "type": "folder",
           "visibility": false,
           "elements": [
-            {
-                                "title": "Bildmosaik 1928",
-                                "layerId": "luftbild_1928_04:c_luftbilder_1928_04_raster"
-                            },
-                            {
-                                "title": "Bildmosaik 1953",
-                                "layerId": "luftbild_1953_22:c_luftbilder_1953_22_raster"
-                            },
-                            {
-                                "title": "Orthophotos s/w 2002",
-                                "layerId": "k_luftbild2002:0"
-                            },
-                            {
-                                "title": "Orthophotos 2004",
-                                "layerId": "luftbild2004:0"
-                            },
-                            {
-                                "title": "Orthophotos s/w 2006",
-                                "layerId": "luftbild2006:0"
-                            },
-                            {
-                                "title": "Orthophotos 2007",
-                                "layerId": "k_luftbild2007:0"
-                            },
-                            {
-                                "title": "Orthophotos 2009",
-                                "layerId": "k_luftbild2009_20:0"
-                            },
-                            {
-                                "title": "Orthophotos 2010",
-                                "layerId": "k_luftbild2010_rgb:0"
-                            },
-                            {
-                                "title": "Orthophotos 2011",
-                                "layerId": "k_luftbild2011_20:0"
-                            },
-                            {
-                               "title": "Trueorthophotos 2013",
-                                "layerId": "k_luftbild2013:0"
-                            },
-                            {
-                                "title": "Orthophotos 2014",
-                                "layerId": "k_luftbild2014:0"
-                            },
-                            {
-                                "title": "Orthophotos 2015",
-                                "layerId": "k_luftbild2015_rgb:0"
-                            },
-                            {
-                                "title": "Orthophotos 2016",
-                                "layerId": "k_luftbild2016_rgb:0"
-                            },
-                            {
-                                "title": "Orthophotos 2017",
-                                "layerId": "k_luftbild2017_rgb:0"
-                            },
-                            {
-                                "title": "Orthophotos 2018",
-                                "layerId": "k_luftbild2018_rgb:0"
-                            },
-                            {
-                                "title": "Orthophotos 2019",
-                                "layerId": "k_luftbild2019_rgb:0"
-                            },
-                            {
-                                "title": "Trueorthophotos 2020",
-                                "layerId": "truedop_2020_sommer:truedop_2020_sommer_rgb"
-                            },
-                            {
-                                "title": "Trueorthophotos 2021",
-                                "layerId": "dop_2021:dop_2021_rgb"
-                            },
-                            {
-                                "title": "Trueorthophotos 2022",
-                                "layerId": "k_luftbild2022_true_rgbi:0"
-                            },
-                            {
-                                "title": "Trueorthophotos 2023",
-                                "layerId": "truedop_2023:truedop_2023"
-                            },
-                            {
-                                "title": "Trueorthophotos 2024",
-                                "layerId": "truedop_2024:truedop_2024"
-                            }
+                {
+      "Titel": "Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR)",
+      "Layer": [
+        {
+          "id": "dop_2005_cir:dop_2005",
+          "name": "Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR) (Digitale Color-Infrarot-Orthophotos 2005 (DOP20CIR))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2004 (DOP25RGB)",
+      "Layer": [
+        {
+          "id": "dop_2004:dop_2004",
+          "name": "Digitale farbige Orthophotos 2004 (DOP25RGB) (Digitale farbige Orthophotos 2004 (DOP25RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2007 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2007:dop_2007",
+          "name": "Digitale farbige Orthophotos 2007 (DOP20RGB) (Digitale farbige Orthophotos 2007 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2009 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2009:dop_2009",
+          "name": "Digitale farbige Orthophotos 2009 (DOP20RGB) (Digitale farbige Orthophotos 2009 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2011 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2011:dop_2011",
+          "name": "Digitale farbige Orthophotos 2011 (DOP20RGB) (Digitale farbige Orthophotos 2011 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2014 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2014:dop_2014",
+          "name": "Digitale farbige Orthophotos 2014 (DOP20RGB) (Digitale farbige Orthophotos 2014 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2015 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "dop_2015:dop_2015_cir",
+          "name": "Digitale farbige Orthophotos 2015 (DOP20CIR) (Digitale farbige Orthophotos 2015 (DOP20RGBI))"
+        },
+        {
+          "id": "dop_2015:dop_2015_rgb",
+          "name": "Digitale farbige Orthophotos 2015 (DOP20RGB) (Digitale farbige Orthophotos 2015 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2016 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2016:dop_2016",
+          "name": "Digitale farbige Orthophotos 2016 (DOP20RGB) (Digitale farbige Orthophotos 2016 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2017 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "dop_2017:dop_2017",
+          "name": "Digitale farbige Orthophotos 2017 (DOP20RGB) (Digitale farbige Orthophotos 2017 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2018 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "dop_2018:dop_2018",
+          "name": "Digitale farbige Orthophotos 2018 (DOP20RGBI) (Digitale farbige Orthophotos 2018 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2019 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "dop_2019:dop_2019",
+          "name": "Digitale farbige Orthophotos 2019 (DOP20RGBI) (Digitale farbige Orthophotos 2019 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2021 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "dop_2021:blattschnitt",
+          "name": "Blattschnitte (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
+        },
+        {
+          "id": "dop_2021:dop_2021_cir",
+          "name": "Digitale Color-Infrarot-Orthophotos 2021 (DOP20CIR) (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
+        },
+        {
+          "id": "dop_2021:dop_2021_rgb",
+          "name": "Digitale farbige Orthophotos 2021 (DOP20RGB) (Digitale farbige Orthophotos 2021 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "dop_2025_fruehjahr:dop_2025",
+          "name": "Digitale farbige Orthophotos 2025 (DOP20RGBI) (Digitale farbige Orthophotos 2025 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige TrueOrthophotos 2013 (DOP20RGB)",
+      "Layer": [
+        {
+          "id": "truedop_2013:truedop_2013",
+          "name": "Digitale farbige TrueOrthophotos 2013 (DOP20RGB) (Digitale farbige TrueOrthophotos 2013 (DOP20RGB))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI)",
+      "Layer": [
+        {
+          "id": "truedop_2020_sommer:truedop_2020_sommer_cir",
+          "name": "Digitale Color-Infrarot-TrueOrthophotos 2020 (TrueDOP20CIR) (Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI))"
+        },
+        {
+          "id": "truedop_2020_sommer:truedop_2020_sommer_rgb",
+          "name": "Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) (Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige TrueOrthophotos 2022 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "truedop_2022:blattschnitt",
+          "name": "Blattschnitte (Digitale farbige TrueOrthophotos 2022 (DOP20RGBI))"
+        },
+        {
+          "id": "truedop_2022:truedop_2022",
+          "name": "Digitale farbige TrueOrthophotos 2022 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2022 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige TrueOrthophotos 2023 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "truedop_2023:blattschnitt",
+          "name": "Blattschnitt (Digitale farbige TrueOrthophotos 2023 (DOP20RGBI))"
+        },
+        {
+          "id": "truedop_2023:truedop_2023",
+          "name": "Digitale farbige TrueOrthophotos 2023 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2023 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI)",
+      "Layer": [
+        {
+          "id": "truedop_2024:blattschnitt",
+          "name": "Blattschnitt (Digitale farbige TrueOrthophotos 2024 (DOP20RGBI))"
+        },
+        {
+          "id": "truedop_2024:truedop_2024",
+          "name": "Digitale farbige TrueOrthophotos 2024 (DOP20RGBI) (Digitale farbige TrueOrthophotos 2024 (DOP20RGBI))"
+        }
+      ]
+    },
+    {
+      "Titel": "Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN)",
+      "Layer": [
+        {
+          "id": "dop_2006:dop_2006",
+          "name": "Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN) (Digitale Schwarz-Weiß-Orthophotos 2006 (DOP15PAN))"
+        }
+      ]
+    },
+    {
+      "Titel": "Luftbilder 1928, Maßstab 1:4 000",
+      "Layer": [
+        {
+          "id": "luftbild_1928_04:a_lb_1928_04_pan_bildmitten",
+          "name": "Bildmittelpunkt (Luftbilder 1928, Maßstab 1:4 000)"
+        },
+        {
+          "id": "luftbild_1928_04:b_lb_1928_04_pan_gebietsabdeckung",
+          "name": "Abdeckung der Befliegung (Luftbilder 1928, Maßstab 1:4 000)"
+        },
+        {
+          "id": "luftbild_1928_04:c_luftbilder_1928_04_raster",
+          "name": "Bildmosaik (Luftbilder 1928, Maßstab 1:4 000)"
+        }
+      ]
+    },
+    {
+      "Titel": "Luftbilder 1938, 1:4 000",
+      "Layer": [
+        {
+          "id": "luftbild_1938_04:a_lb_1938_04_pan_bildmitten",
+          "name": "Bildmittelpunkt (Luftbilder 1938, 1:4 000)"
+        },
+        {
+          "id": "luftbild_1938_04:b_lb_1938_04_pan_gebietsabdeckung",
+          "name": "Abdeckung der Befliegung (Luftbilder 1938, 1:4 000)"
+        },
+        {
+          "id": "luftbild_1938_04:c_luftbilder_1938_04_raster",
+          "name": "Bildmosaik (Luftbilder 1938, 1:4 000)"
+        }
+      ]
+    },
+    {
+      "Titel": "Luftbilder 1953, Maßstab 1:22 000",
+      "Layer": [
+        {
+          "id": "luftbild_1953_22:a_lb_1953_22_pan_bildmitten",
+          "name": "Bildmittelpunkt (Luftbilder 1953, Maßstab 1:22 000)"
+        },
+        {
+          "id": "luftbild_1953_22:b_lb_1953_22_pan_gebietsabdeckung",
+          "name": "Abdeckung der Befliegung (Luftbilder 1953, Maßstab 1:22 000)"
+        },
+        {
+          "id": "luftbild_1953_22:c_luftbilder_1953_22_raster",
+          "name": "Bildmosaik (Luftbilder 1953, Maßstab 1:22 000)"
+        }
           ]
         }
       ]
