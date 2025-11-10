@@ -344,30 +344,30 @@
                   "name": "01.06.4 Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
                   "type": "folder",
                   "elements": [
-                    {
-                      "id": "ua_boden_nfkwe_2020:nfkwe_2020",
-                      "name": "2020 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes"
-                    },
-                    {
-                      "id": "ua_boden_nfeld_2015:nfeld_2015",
-                      "name": "2015 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes"
-                    },
-                    {
-                      "id": "k01_06_04nfeld2010:0",
-                      "name": "2010 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
-                    },
-                    {
-                      "id": "k01_06_04nfeld2005:0",
-                      "name": "2005 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
-                    },
-                    {
-                      "id": "kb01_06_04nfeld:0",
-                      "name": "2001 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
-                    },
-                    {
-                      "id": "k01_06_04nfeld1990:0",
-                      "name": "1990 - Nutzbare Feldkapazität des effektiven Wurzelraumes"
-                    }
+                     {
+    "name": "2020 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfkwe_2020:nfkwe_2020"
+  },
+  {
+    "name": "2015 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfeld_2015:nfeld_2015"
+  },
+  {
+    "name": "2010 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfkwe_2010:nfkwe_2010"
+  },
+  {
+    "name": "2005 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfkwe_2005:nfkwe_2005"
+  },
+  {
+    "name": "2001 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfkwe_2001:nfkwe_2001"
+  },
+  {
+    "name": "1990 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
+    "id": "ua_boden_nfkwe_1990:nfkwe_1990"
+  }
                   ]
                 },
                 {
