@@ -12,7 +12,8 @@
         "@core/*": ["src/core/*"],
         "@modules/*": ["src/modules/*"],
         "@plugins/*": ["src/plugins/*"],
-        "@devtools/*": ["devtools/*"]
+        "@devtools/*": ["devtools/*"],
+        "@masterportal/masterportalapi$": ["../node_modules/@masterportal/masterportalapi/src/index.js"]
       }
     },
     "exclude": ["node_modules", "dist"]

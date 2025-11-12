@@ -102,7 +102,8 @@ module.exports = function () {
                 "@core": path.resolve(__dirname, "../src/core"),
                 "@modules": path.resolve(__dirname, "../src/modules"),
                 "@plugins": path.resolve(__dirname, "../src/plugins"),
-                "@devtools": path.resolve(__dirname, "../devtools")
+                "@devtools": path.resolve(__dirname, "../devtools"),
+                "@masterportal/masterportalapi$": path.resolve(__dirname, "../node_modules/@masterportal/masterportalapi/src/index.js")
             },
             extensions: [".tsx", ".ts", ".js"]
         },
