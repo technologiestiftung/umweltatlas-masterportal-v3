@@ -17,7 +17,7 @@
 
 ### Fixed
 - Issue #1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
-- Issue #1491: Fix connection between import and draw_old tool that wouldn't work if draw_old was opened first.
+- Issue #1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
 
 ## 2025-11-12 v3.16.1
 
