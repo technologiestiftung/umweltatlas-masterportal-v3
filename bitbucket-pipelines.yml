@@ -131,7 +131,7 @@ pipelines:
                         - git fetch --all --tags
                         - git checkout tags/$BITBUCKET_TAG
                         - mike deploy $BITBUCKET_TAG
-                        - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/$Latest
+                        - mv $BITBUCKET_CLONE_DIR/site $BITBUCKET_CLONE_DIR/Latest
                         -   pipe: atlassian/ftp-deploy:0.7.1
                             variables:
                                 USER: $MKDOCS_FTP_NAME
