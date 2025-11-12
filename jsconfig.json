@@ -13,7 +13,7 @@
         "@modules/*": ["src/modules/*"],
         "@plugins/*": ["src/plugins/*"],
         "@devtools/*": ["devtools/*"],
-        "@masterportal/masterportalapi$": ["../node_modules/@masterportal/masterportalapi/src/index.js"]
+        "@masterportal/masterportalapi/*": ["node_modules/@masterportal/masterportalapi/*"]
       }
     },
     "exclude": ["node_modules", "dist"]
