@@ -1,6 +1,6 @@
-import WFS from "ol/format/WFS";
-import {intersects} from "ol/format/filter";
-import Polygon from "ol/geom/Polygon";
+import WFS from "ol/format/WFS.js";
+import {intersects} from "ol/format/filter.js";
+import Polygon from "ol/geom/Polygon.js";
 
 /**
  * Fetches features from a WFS service based on the drawn geometry.

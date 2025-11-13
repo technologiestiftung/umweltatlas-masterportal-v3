@@ -1,10 +1,10 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import actions from "@modules/featureLister/store/actionsFeatureLister.js";
-import layerCollection from "@core/layers/js/layerCollection";
-import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree";
-import tabStatus from "../../../constantsTabStatus";
-import spatialSelection from "../../../js/getSpatialSelection";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import tabStatus from "../../../constantsTabStatus.js";
+import spatialSelection from "../../../js/getSpatialSelection.js";
 
 describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     let commit, dispatch, rootGetters;

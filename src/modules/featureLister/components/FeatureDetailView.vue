@@ -1,9 +1,9 @@
 <script>
 import {mapGetters} from "vuex";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
-import {isWebLink} from "@shared/js/utils/urlHelper";
-import {isEmailAddress} from "@shared/js/utils/isEmailAddress";
-import toBold from "@shared/js/utils/toBold";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import toBold from "@shared/js/utils/toBold.js";
 
 
 export default {

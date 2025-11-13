@@ -12,7 +12,7 @@ import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNu
 import {isWebLink} from "@shared/js/utils/urlHelper.js";
 import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
-import GeoJSON from "ol/format/GeoJSON";
+import GeoJSON from "ol/format/GeoJSON.js";
 
 export default {
     name: "TableComponent",
