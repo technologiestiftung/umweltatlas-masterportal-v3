@@ -45,7 +45,7 @@ export default {
         dispatch("updateLayerConfigZIndex", {layerContainer, maxZIndex});
 
         if (matchingLayer === undefined) {
-            layerConfig.zIndex = maxZIndex + 1;
+            layerConfig.zIndex ??= maxZIndex + 1;
             if (state.layerConfig[parentKey]) {
                 state.layerConfig[parentKey].elements.push(layerConfig);
             }
@@ -134,7 +134,7 @@ export default {
                 config.visibility = visibility;
                 config.transparency = transparency;
                 config.showInLayerTree = showInLayerTree;
-                config.zIndex = getters.determineZIndex(layerId);
+                config.zIndex = newZIndex ?? getters.determineZIndex(layerId);
 
                 if (config.styleId && typeof styleList.returnStyleObject(config.styleId) === "undefined") {
                     styleList.initStyleAndAddToList(getters.configJs, config.styleId).then(() => {
@@ -156,8 +156,9 @@ export default {
             }
 
             if ((layer.zIndex === null || layer.zIndex === null) && !layer.showInLayerTree && visibility) {
-                newZIndex = getters.determineZIndex(layerId);
+                newZIndex = newZIndex ?? getters.determineZIndex(layerId);
             }
+
             dispatch("replaceByIdInLayerConfig", {layerConfigs: [{
                 id: layerId,
                 layer: {

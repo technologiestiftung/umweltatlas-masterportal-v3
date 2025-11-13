@@ -27,6 +27,7 @@
 - Issue #1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
 - Issue #1497: Fix styling of `featureviaurl` features that was previously missing, resulting in invisible features.
 - Issue #1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
+- Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
 - Issue #1519: Fix initialization of print module.
 
 ## 2025-11-12 v3.16.1
