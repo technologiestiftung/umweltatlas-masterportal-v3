@@ -11,6 +11,13 @@
 - App: Added automatic device mode switch between Desktop and Mobile when window size changes.
 - draw_old: Possible to save and then import square geometry.
 - Shared ButtonGroup: Allow to use a different button property as "setSelectedButton" event return value.
+- GraphicalSelect: Added line feature with buffer geometry for selection.
+- FeatureLister:
+  - Added spatial selection of features that are shown in the list.
+  - GeoJSON is now supported.
+- TableComponent: 
+  - Added GeoJSON Download.
+  - Added alphanumerical sorting.
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.
@@ -62,13 +69,6 @@
 ### Added
 - SearchBar: Added search status (min characters, loading, no results).
 - LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
-- GraphicalSelect: Added line feature with buffer geometry for selection.
-- FeatureLister:
-  - Added spatial selection of features that are shown in the list.
-  - GeoJSON is now supported.
-- TableComponent: 
-  - Added GeoJSON Download.
-  - Added alphanumerical sorting.
 - Issue #1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
 - map3DParameter: Added new `shadowTime` configuration option to define a fixed time for shadow calculation in 3D mode.
 - Build Script: Added support for providing the portal path via environment variable `PORTAL_PATH` in the build script.
