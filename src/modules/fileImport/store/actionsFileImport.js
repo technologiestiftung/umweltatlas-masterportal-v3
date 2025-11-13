@@ -13,6 +13,7 @@ import {createEmpty as createEmptyExtent, extend} from "ol/extent.js";
 import {uniqueId} from "@shared/js/utils/uniqueId.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {supportedFiletypes} from "../utils/supportedFiletypes.js";
 
 const defaultFont = "16px Arial",
     supportedFormats = {
@@ -50,14 +51,11 @@ const defaultFont = "16px Arial",
  * @param {String} selectedFiletype - The name of type of file. This represents a key of supportedFiletypes
  * and defines, how the format will be chosen. Either directly if it matches an available format and
  * supported file type. Or automatically, when set to "auto".
- * @param {Object} supportedFiletypes - Object of supported file types. This has to include a regex for each
- * file type, that will be used to determine the filetype when selectedFiletype is "auto". The defaults are
- * defined in state and may be overridden in config.
  * @param {Object} availableFormats - Object of available formats provided by Openlayers. These are hardcoded
  * in this file and this is only a param for the sake of avoiding global variables.
  * @returns {Object|Boolean} Returns the chosen openlayers format object or false on error.
  */
-function getFormat (filename, selectedFiletype, supportedFiletypes, availableFormats) {
+function getFormat (filename, selectedFiletype, availableFormats) {
     if (selectedFiletype !== "auto") {
         if (availableFormats[selectedFiletype] === undefined) {
             console.warn("File import tool: Selected filetype \"" + selectedFiletype + "\" has no OL Format defined for it.");
@@ -208,7 +206,7 @@ export default {
         const
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
-            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            format = getFormat(fileName, state.selectedFiletype, supportedFormats),
             crsPropName = getCrsPropertyName(datasrc.raw);
 
         let
@@ -434,7 +432,7 @@ export default {
     importGeoJSON ({state, dispatch, rootGetters, commit}, datasrc) {
         const vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
-            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            format = getFormat(fileName, state.selectedFiletype, supportedFormats),
             fileDataProjection = getCrsPropertyName(datasrc.raw);
 
         let
