@@ -203,7 +203,7 @@ export default {
         }
     },
     /**
-     * Switches to the themes list of all visibile layers and resets the featureList and the selectedFeature.
+     * Switches to the themes list of all visible layers and resets the featureList and the selectedFeature.
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @returns {void}
