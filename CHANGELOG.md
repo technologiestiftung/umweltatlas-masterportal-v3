@@ -29,7 +29,6 @@
 ### Fixed
 - LayerSelection: Fixed filtering of layers.
 - LayerTree and `tree.type` `auto`: Layers with empty category in datasets are classified in folder "No category".
-- 
 
 ---
 
