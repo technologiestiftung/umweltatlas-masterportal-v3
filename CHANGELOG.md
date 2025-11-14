@@ -334,10 +334,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
     - reset button was moved to the bottom of the menu
     - consistent button design in avoid area menu
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
 - Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
