@@ -82,12 +82,10 @@ function build (layerList, layerConfig, category, shownLayerConfs = [], category
         if (subjectDataLayers.find(conf => conf.id === rawLayer.id) !== undefined) {
             continue;
         }
-        if(rawLayer.id === "34177"){
-            debugger;
-        }
-        if (rawLayer.datasets[0] && ( rawLayer.datasets[0][categoryKey] === "" 
-            || Array.isArray(rawLayer.datasets[0][categoryKey]) && rawLayer.datasets[0][categoryKey].length === 0)) {
-            rawLayer.datasets[0][categoryKey] = "ohne Kategorie";
+        if (rawLayer.datasets[0] && (rawLayer.datasets[0][categoryKey] === ""
+            || Array.isArray(rawLayer.datasets[0][categoryKey]) && rawLayer.datasets[0][categoryKey].length === 0
+            || Array.isArray(rawLayer.datasets[0][categoryKey]) && rawLayer.datasets[0][categoryKey].length === 1 && rawLayer.datasets[0][categoryKey][0] === "")) {
+            rawLayer.datasets[0][categoryKey] = "common:modules.layerTree.noCategory";
         }
         if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey] !== undefined) {
             shownLayerConfs.forEach(layerConf => {

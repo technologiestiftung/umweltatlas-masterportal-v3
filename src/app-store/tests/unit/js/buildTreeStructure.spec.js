@@ -281,6 +281,85 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             expect(result.elements[1].elements[0].name).to.be.equals(result.elements[1].elements[0].datasets[0].md_name);
         });
 
+        it("should return tree structured with empty category array", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = [];
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
+        it("should return tree structured with empty category string in array", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = [""];
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
+        it("should return tree structured with empty category String", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = "";
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
+
         it("should return tree structured for second category", () => {
             let result = null,
                 filteredResult = null,
