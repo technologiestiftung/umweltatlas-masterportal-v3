@@ -11,54 +11,55 @@ import GeoJSONReader from "jsts/org/locationtech/jts/io/GeoJSONReader.js";
 import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
 import GeoJSONWriter from "jsts/org/locationtech/jts/io/GeoJSONWriter.js";
 
+/**
+ * GraphicalSelect component: selection of geometries on the map
+ *  @module shared/modules/graphicalSelect/GraphicalSelect
+ * @vue-prop {String} selectElement The used template element for graphical selection
+ * @vue-prop {String} selectedOption preselected draw modus: Box|Circle|Polygon|Line
+ * @vue-prop {Object} options The keys corresponds to the ol draw modus and the values to the elements text content.
+ * @vue-prop {Boolean} focusOnCreation - if focus should be set to this component when it is created
+ * @vue-prop {String} label The label of the select
+ * @vue-prop {String} description The description over the select
+ * @vue-prop {Object} startGeometry Use existing geometry
+ * @vue-prop {Number} bufferDistance Buffer distance for line geometries in meters
+ */
 export default {
     name: "GraphicalSelect",
     props: {
-        // The used template element for graphical selection
         selectElement: {
             type: String,
             required: false,
             default: "Dropdown"
-
         },
-        // preselected draw modus
         selectedOption: {
             type: String,
             required: false,
             default: "Box"
-
         },
-        // The keys corresponds to the ol draw modus
-        // and the values to the elements text content.
         options: {
             type: Object,
             required: false,
             default: undefined
         },
-        // if focus should be set to this component when it is created
         focusOnCreation: {
             type: Boolean,
             default: false,
             required: false
         },
-        // The label of the select
         label: {
             type: String,
             required: true
         },
-        // The description over the select
         description: {
             type: String,
             default: "",
             required: false
         },
-        // Use existing geometry
         startGeometry: {
             type: Object,
             required: false,
             default: undefined
         },
-        // Buffer distance for line geometries in meters
         bufferDistance: {
             type: Number,
             required: false,
