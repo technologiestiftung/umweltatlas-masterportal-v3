@@ -63,6 +63,16 @@ export default {
                 this.setSelectedArea(null);
                 this.switchToList();
             }
+        },
+        /**
+         * Watches for changes in the visible vector layers and resets the selected layer and area if the current layer is no longer visible.
+         * This results in resetting the feature lister to the theme chooser view.
+         */
+        visibleVectorLayers () {
+            if (this.layer && !this.visibleLayerConfigs.find(l => l.id === this.layer.id)) {
+                this.setLayer(null);
+                this.setSelectedArea(null);
+            }
         }
     },
     methods: {
