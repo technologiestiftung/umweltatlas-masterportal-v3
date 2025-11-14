@@ -12,6 +12,7 @@
 - draw_old: Possible to save and then import square geometry.
 
 ### Changed
+- GFI: Ensures that the text within the GFI window wraps correctly.
 
 ### Deprecated
 
@@ -144,7 +145,6 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - packages: To avoid security issues, all packages have been fixed in package.json. No versions of patch releases will be accepted.
 - WFSSearch: To provide configuration of version 2 it is possible to configure a zoom-button for resultlist with config parameter `zoomButtonInColumn` if column key `geometry` or `geom` is configured, default is true.
 - Documentation: Updated config.json.md and config.json.de.md for copyrightConstraints module.
-- GFI: Ensures that the text within the GFI window wraps correctly.
 
 ### Fixed
 - Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
