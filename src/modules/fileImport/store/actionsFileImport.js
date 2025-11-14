@@ -327,7 +327,7 @@ export default {
             }
             if (feature.get("masterportal_attributes").isSquare) {
                 const coords = feature.get("masterportal_attributes").squareCoords;
-               
+
                 feature.setGeometry(new Polygon([coords]));
             }
             if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
@@ -746,7 +746,7 @@ export default {
             }
             if (feature.get("masterportal_attributes").isSquare) {
                 const coords = feature.get("masterportal_attributes").squareCoords;
-               
+
                 feature.setGeometry(new Polygon([coords]));
             }
             feature.set("source", fileName);
