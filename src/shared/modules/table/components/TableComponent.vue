@@ -1091,7 +1091,7 @@ export default {
     </div>
     <div
         :id="id"
-        class="btn-toolbar justify-content-between sticky-top bg-white"
+        class="btn-toolbar sticky-top bg-white"
     >
         <div
             class="btn-group"
@@ -1217,37 +1217,34 @@ export default {
             v-if="downloadable"
             class="btn-group"
         >
-            <div
+            <FlatButton
                 v-if="exportDropdownRequired"
+                id="table-download"
+                :text="$t('common:shared.modules.table.download')"
+                :icon="'bi-download'"
+                :class="'me-3 rounded-pill dropdown-toggle'"
+                aria-haspopup="true"
+                :aria-expanded="showExportDropdown ? 'true' : 'false'"
+                @click="showExportDropdown = !showExportDropdown"
+            />
+            <div
+                v-if="exportDropdownRequired && showExportDropdown"
+                class="export-dropdown-menu"
             >
-                <FlatButton
-                    id="table-download"
-                    :text="$t('common:shared.modules.table.download')"
-                    :icon="'bi-download'"
-                    :class="'me-3 rounded-pill dropdown-toggle'"
-                    aria-haspopup="true"
-                    :aria-expanded="showExportDropdown ? 'true' : 'false'"
-                    @click="showExportDropdown = !showExportDropdown"
-                />
-                <div
-                    v-if="showExportDropdown"
-                    class="export-dropdown-menu"
+                <button
+                    v-if="downloadFormat.includes('csv')"
+                    class="dropdown-item"
+                    @click="downloadExport('csv'); showExportDropdown = false;"
                 >
-                    <button
-                        v-if="downloadFormat.includes('csv')"
-                        class="dropdown-item"
-                        @click="downloadExport('csv'); showExportDropdown = false;"
-                    >
-                        CSV
-                    </button>
-                    <button
-                        v-if="downloadFormat.includes('geojson')"
-                        class="dropdown-item"
-                        @click="downloadExport('geojson'); showExportDropdown = false;"
-                    >
-                        GeoJSON
-                    </button>
-                </div>
+                    CSV
+                </button>
+                <button
+                    v-if="downloadFormat.includes('geojson')"
+                    class="dropdown-item"
+                    @click="downloadExport('geojson'); showExportDropdown = false;"
+                >
+                    GeoJSON
+                </button>
             </div>
             <ExportButtonCSV
                 v-show="!exportDropdownRequired && downloadFormat.includes('csv')"
