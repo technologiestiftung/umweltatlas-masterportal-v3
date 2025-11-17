@@ -7,7 +7,6 @@
      * @property {Boolean} hasMouseMapInteractions If this attribute is true, then all other modules will be deactivated when this attribute is also true. Only one module with this attribute true may be open at the same time, since conflicts can arise in the card interactions.
      * @property {String} displayName="Geometrie auswählen" label of the dropdown
      * @property {String} snippetType="graphicalSelect" type of the dropdown values
-     * @property {Object} drawInteraction=undefined the interaction to draw a square, circle or polygon
      * @property {Object} selectionElements=["Dropdown"] available gui selection elements
      * @property {Object} geographicValues={"Rechteck aufziehen": "Box", "Kreis aufziehen": "Circle", "Fläche zeichnen": "Polygon", "Linie zeichnen": "Line"} possible values
      * @property {String} currentValue="" contains the current geographic value for "Box",  "Circle", "Polygon" or "Line"
