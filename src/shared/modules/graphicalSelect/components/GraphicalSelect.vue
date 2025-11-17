@@ -359,7 +359,7 @@ export default {
         updateBufferDistance: function (event) {
             const newValue = Number(event.target.value);
 
-            if (isNaN(newValue) || newValue < 1) {
+            if (isNaN(newValue) || newValue < 1 || newValue > 1000) {
                 return;
             }
             this.bufferDistanceData = newValue;
