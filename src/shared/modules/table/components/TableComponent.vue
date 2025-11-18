@@ -1255,8 +1255,7 @@ export default {
                 :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"
-                :button-class="'btn-secondary'"
-                :class="'me-3 rounded-pill export-button'"
+                :class="'me-3 rounded-pill export-button btn btn-secondary'"
             />
             <ExportButtonGeoJSON
                 v-show="!exportDropdownRequired && downloadFormat.includes('geojson')"
@@ -1265,8 +1264,7 @@ export default {
                 :data="exportTable('geojson')"
                 :filename="exportFileName"
                 :title="$t('common:shared.modules.table.download')"
-                :button-class="'btn-secondary'"
-                :class="'me-3 rounded-pill export-button'"
+                :class="'me-3 rounded-pill export-button btn btn-secondary'"
             />
         </div>
     </div>

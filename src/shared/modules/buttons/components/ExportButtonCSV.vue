@@ -82,14 +82,6 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        },
-        /**
-         * The button class to use (e.g. 'btn-primary', 'btn-secondary')
-         */
-        buttonClass: {
-            type: String,
-            required: false,
-            default: "btn-primary"
         }
     },
     data () {
@@ -279,7 +271,7 @@ export default {
     <button
         v-if="!downloadDisabled"
         type="button"
-        :class="['btn', buttonClass, 'exportButton']"
+        :class="['btn', 'exportButton']"
         @click="download()"
     >
         <span class="bootstrap-icon">
@@ -292,7 +284,7 @@ export default {
     <button
         v-else
         type="button"
-        :class="['btn', buttonClass, 'exportButton']"
+        :class="['btn', 'exportButton']"
         disabled
     >
         <span class="bootstrap-icon spin-animation">

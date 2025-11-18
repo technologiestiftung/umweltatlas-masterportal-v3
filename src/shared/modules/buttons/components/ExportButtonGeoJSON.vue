@@ -27,14 +27,6 @@ export default {
             type: String,
             required: false,
             default: "_YYYY-MM-DD_HH-mm-ss"
-        },
-        /**
-         * The button class to use (e.g. 'btn-primary', 'btn-secondary')
-         */
-        buttonClass: {
-            type: String,
-            required: false,
-            default: "btn-primary"
         }
     },
     data () {
@@ -135,7 +127,7 @@ export default {
     <button
         v-if="!downloadDisabled"
         type="button"
-        :class="['btn', buttonClass, 'exportButton']"
+        :class="['btn', 'exportButton']"
         @click="download()"
     >
         <span
@@ -149,7 +141,7 @@ export default {
     <button
         v-else
         type="button"
-        :class="['btn', buttonClass, 'exportButton']"
+        :class="['btn', 'exportButton']"
         disabled
     >
         <span
