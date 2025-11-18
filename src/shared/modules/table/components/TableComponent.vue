@@ -1744,6 +1744,7 @@ table {
     padding-right: 1.5rem;
     padding-left: 1rem;
     padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 .export-dropdown-menu {
     position: absolute !important;
