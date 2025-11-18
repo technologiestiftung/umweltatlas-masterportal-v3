@@ -37,6 +37,15 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        /**
+         * When a button is selected, the event "setSelectedButton" is emitted with the button.name property as value.
+         * returned-button-property="custom_id" allows to replace the default "name" property with a custom one, e.g. custom_id.
+         */
+        returnedButtonProperty: {
+            type: String,
+            required: false,
+            default: "name"
         }
     },
     data () {
@@ -79,6 +88,14 @@ export default {
             const index = buttons.findIndex((button) => button?.name === precheckedValue);
 
             return index !== -1 ? index : 0;
+        },
+        /**
+         * Emits an event if the button is selected.
+         * @param {Object} button - the buttons object
+         * @returns {void}
+         */
+        setSelectedButton (button) {
+            this.$emit("setSelectedButton", button[this.returnedButtonProperty]);
         }
     }
 };
@@ -110,8 +127,8 @@ export default {
                     :for="`btnradio${idx}${button.name}`"
                     role="button"
                     tabindex="0"
-                    @click="$emit('setSelectedButton', button.name)"
-                    @keydown="$emit('setSelectedButton', button.name)"
+                    @click="setSelectedButton(button)"
+                    @keydown="setSelectedButton(button)"
                 >
                     <span
                         v-if="subText"

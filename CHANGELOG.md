@@ -10,6 +10,7 @@
 ### Added
 - App: Added automatic device mode switch between Desktop and Mobile when window size changes.
 - draw_old: Possible to save and then import square geometry.
+- Shared ButtonGroup: Allow to use a different button property as "setSelectedButton" event return value.
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.
@@ -96,7 +97,7 @@
 - Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
 - Issue #1499: Print: Fix missing legends when multiple WFS layers are active.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
-- Documentation: 
+- Documentation:
     - Corrected usage of 'treeType' (version 2).
     - Corrected description of 'map3dParameter'.
     - EditorConfig no longer strips two trailing spaces, which are intentional line breaks in Markdown.

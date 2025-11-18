@@ -97,6 +97,26 @@ describe("src/shared/modules/buttons/components/ButtonGroup.vue", () => {
             await button1.trigger("click");
             expect(wrapper.emitted().setSelectedButton).to.deep.equal([["Button1"]]);
         });
+        it("should emit 'setSelectedButton' with custom button property custom_id if the user click on first button", async () => {
+            const wrapper = shallowMount(ButtonGroup, {
+                    propsData: {
+                        buttons: [
+                            {
+                                custom_id: 1234,
+                                name: "Button1",
+                                icon: "bi bi-table"
+                            }
+                        ],
+                        group: "buttongroup",
+                        precheckedValue,
+                        returnedButtonProperty: "custom_id"
+                    }
+                }),
+                button1 = wrapper.findAll(".btn").at(0);
+
+            await button1.trigger("click");
+            expect(wrapper.emitted().setSelectedButton).to.deep.equal([[1234]]);
+        });
     });
     describe("Methods", () => {
         describe("getPrecheckedIndex", () => {
