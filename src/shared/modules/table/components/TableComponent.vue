@@ -1255,6 +1255,7 @@ export default {
                 :filename="exportFileName"
                 :use-semicolon="true"
                 :title="$t('common:shared.modules.table.download')"
+                :button-class="'btn-secondary'"
                 :class="'me-3 rounded-pill export-button'"
             />
             <ExportButtonGeoJSON
@@ -1264,6 +1265,7 @@ export default {
                 :data="exportTable('geojson')"
                 :filename="exportFileName"
                 :title="$t('common:shared.modules.table.download')"
+                :button-class="'btn-secondary'"
                 :class="'me-3 rounded-pill export-button'"
             />
         </div>
@@ -1741,6 +1743,7 @@ table {
     max-width: fit-content;
     padding-right: 1.5rem;
     padding-left: 1rem;
+    padding-bottom: 0.5rem;
 }
 .export-dropdown-menu {
     position: absolute !important;
