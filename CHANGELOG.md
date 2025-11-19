@@ -14,6 +14,9 @@
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.
+ The following packages have been updated:
+    - devDependencies:
+        - @masterportal/masterportalapi: 2.52.0 to 2.53.0 (This also raised ol to version 10.7.0)
 
 ### Deprecated
 
