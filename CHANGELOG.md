@@ -33,6 +33,8 @@
 - Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
 - Issue #1519: Fix initialization of print module.
 
+---
+
 ## 2025-11-12 v3.16.1
 
 ### Fixed
@@ -123,6 +125,18 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
 - SensorThings layer: removed duplicate startIntervalUpdate definition, unified periodic refresh, deduplicated Cluster/source access via getActualSource(), and fixed no-data handling & timer cancellation.
 - LayerSelection: Fixed 3D folders not showing layers after click.
+
+---
+
+## 2025-11-20 v3.15.1 (LTS)
+
+### Fixed
+- wfsSearch: secured layers can now be searched.
+- Issue #1385: Add missing internationalization calls for layer names.
+- Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
+- Issue #1481: Fix error when configuring customMenuElement as currentComponent.
+- buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
+- Issue #1499: Print: Fix missing legends when multiple WFS layers are active.
 
 ---
 
