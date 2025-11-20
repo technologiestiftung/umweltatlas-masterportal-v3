@@ -113,7 +113,7 @@ export default {
     filterGfiFeaturesOfLayer: async ({state, commit, dispatch, rootGetters, rootState}) => {
         const layers = rootGetters.visibleLayerConfigs,
             layer = layers.find(l => l.id === state.layer.id),
-            selectedFeatures = await spatialSelection.getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), dispatch);
+            selectedFeatures = await spatialSelection.getSpatialSelection(state.selectedArea, layer, rootState.Maps.projection.getCode(), {dispatch, commit});
 
         if (!selectedFeatures) {
             dispatch("Alerting/addSingleAlert", {

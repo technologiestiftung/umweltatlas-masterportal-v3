@@ -7,10 +7,10 @@ import Polygon from "ol/geom/Polygon.js";
  * @param {Array} geom - The geometry for spatial selection (e.g. from graphicalSelect).
  * @param {Object} selectedLayer - The selected layer containing WFS service details.
  * @param {string} epsg - The EPSG code for the coordinate reference system.
- * @param {Function} dispatch - The Vuex dispatch function to handle alerts.
+ * @param {Object} context - The Vuex context object containing dispatch and commit.
  * @returns {Promise<Array>} - A promise that resolves to an array of features.
  */
-async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
+async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, {dispatch, commit}) {
     const service = selectedLayer.url,
         version = selectedLayer.version,
         prefix = selectedLayer.prefix || "app",
@@ -49,6 +49,7 @@ async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
         features = [];
 
     if (!response.ok) {
+        commit("setLoading", false);
         dispatch("Alerting/addSingleAlert", {
             category: "warning",
             content: i18next.t("common:modules.featureLister.requestFailedAlert")
@@ -71,16 +72,16 @@ async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
  * @param {Array} coordinates - The coordinates of the drawn geometry.
  * @param {Object} selectedLayer - The selected layer containing service details.
  * @param {string} epsg - The EPSG code for the coordinate reference system.
- * @param {Function} dispatch - The Vuex dispatch function to handle alerts.
+ * @param {Object} context - The Vuex context object containing dispatch and commit.
  * @returns {Promise<Array|boolean>} - A promise that resolves to an array of features or null if the layer type is not supported.
  */
-async function getSpatialSelection (selectedArea, selectedLayer, epsg, dispatch) {
+async function getSpatialSelection (selectedArea, selectedLayer, epsg, context) {
     const drawnGeometry = JSON.stringify(selectedArea),
         coordinatesArray = JSON.parse(drawnGeometry).coordinates[0],
         geom = new Polygon([coordinatesArray]);
 
     if (selectedLayer.typ === "WFS") {
-        return getSpatialSelectionForWFS(geom, selectedLayer, epsg, dispatch);
+        return getSpatialSelectionForWFS(geom, selectedLayer, epsg, context);
     }
     return null;
 }
