@@ -118,8 +118,7 @@ export default {
             "setDefaultSelection",
             "setActive",
             "setCurrentValue",
-            "setBufferDistance",
-            "setSelectedAreaGeoJson"
+            "setBufferDistance"
         ]),
         ...mapActions("Modules/GraphicalSelect", [
             "createDomOverlay",
