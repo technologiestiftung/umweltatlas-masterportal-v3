@@ -49,7 +49,7 @@ describe("src/shared/modules/graphicalSelect/store/actionsBuffer.js", () => {
 
             expect(commit.calledTwice).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setSelectedAreaGeoJson");
-            expect(commit.firstCall.args[1].getGeometry().getType()).to.equal("Polygon");
+            expect(commit.secondCall.args[1]).to.have.property("type", "Polygon");
         });
 
         it("should commit setDrawEndData when triggerEvent is true", () => {
@@ -63,8 +63,8 @@ describe("src/shared/modules/graphicalSelect/store/actionsBuffer.js", () => {
 
             expect(commit.calledTwice).to.be.true;
             expect(commit.secondCall.args[0]).to.equal("setDrawEndData");
-            expect(commit.secondCall.args[1].type).to.equal("Polygon");
-            expect(commit.secondCall.args[1].coordinates).to.be.an("array");
+            expect(commit.secondCall.args[1]).to.have.property("type", "Polygon");
+            expect(commit.secondCall.args[1]).to.have.property("coordinates").that.is.an("array");
         });
 
         it("should not commit setDrawEndData when triggerEvent is false", () => {
