@@ -315,16 +315,6 @@ export default {
         },
 
         /**
-         * Applies the current buffer distance to the line
-         * @returns {void}
-         */
-        applyLineBuffer: function () {
-            if (this.lineDrawn && this.currentLineGeometry) {
-                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
-            }
-        },
-
-        /**
          * Reset the state when switching to a different drawing type
          * @returns {void}
          */
