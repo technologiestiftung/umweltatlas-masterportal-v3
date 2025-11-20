@@ -5,10 +5,13 @@ import {resetRenderListeners} from "@shared/js/utils/resetRenderListeners.js";
 
 export default {
     windowWidthChanged ({commit, dispatch, state, getters, rootGetters}) {
-        commit("setWindowWidth");
+        // mobile browsers tend to send resize on quick scroll despite nothing resizing; double-check
+        if (getters.windowWidth !== window.innerWidth) {
+            commit("setWindowWidth");
 
-        if (!getters.minWidth && rootGetters["Modules/LayerSwiper/active"]) {
-            dispatch("toggleSwiper", state.timeSlider.currentLayerId + state.layerAppendix);
+            if (!getters.minWidth && rootGetters["Modules/LayerSwiper/active"]) {
+                dispatch("toggleSwiper", state.timeSlider.currentLayerId + state.layerAppendix);
+            }
         }
     },
     /**
@@ -156,7 +159,7 @@ export default {
                         id: secondId,
                         visibility: false,
                         showInLayerTree: false,
-                        zIndex: layer.attributes.zIndex
+                        zIndex: layer?.attributes?.zIndex
                     }
                 }]
             }, {root: true});
