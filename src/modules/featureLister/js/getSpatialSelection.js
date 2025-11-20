@@ -11,15 +11,18 @@ import Polygon from "ol/geom/Polygon.js";
  * @returns {Promise<Array>} - A promise that resolves to an array of features.
  */
 async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
-    let text = "",
-        features = [];
-
     const service = selectedLayer.url,
         version = selectedLayer.version,
         prefix = selectedLayer.prefix || "app",
         featureType = selectedLayer.featureType,
-        questionMarkOrAmpersand = service.includes("?MAP=") ? "&" : "?",
-        describeFeatureResponse = await fetch(`${service}${questionMarkOrAmpersand}service=WFS&version=${version}&request=DescribeFeatureType&typeName=${featureType}`),
+        url = new URL(service),
+        describeFeatureResponse = await (() => {
+            url.searchParams.set("service", "WFS");
+            url.searchParams.set("version", version);
+            url.searchParams.set("request", "DescribeFeatureType");
+            url.searchParams.set("typeName", featureType);
+            return fetch(url.toString());
+        })(),
         describeFeatureText = await describeFeatureResponse.text(),
         parser = new DOMParser(),
         describeFeatureXmlDoc = parser.parseFromString(describeFeatureText, "text/xml"),
@@ -42,6 +45,8 @@ async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, dispatch) {
             headers: {"Content-Type": "text/xml"},
             body
         });
+    let text = "",
+        features = [];
 
     if (!response.ok) {
         dispatch("Alerting/addSingleAlert", {
