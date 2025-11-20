@@ -4,12 +4,8 @@ import {mapGetters, mapActions, mapMutations} from "vuex";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import {Circle, Polygon} from "ol/geom.js";
+import {Circle} from "ol/geom.js";
 import Feature from "ol/Feature.js";
-import GeoJSON from "ol/format/GeoJSON.js";
-import GeoJSONReader from "jsts/org/locationtech/jts/io/GeoJSONReader.js";
-import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
-import GeoJSONWriter from "jsts/org/locationtech/jts/io/GeoJSONWriter.js";
 
 /**
  * GraphicalSelect component: selection of geometries on the map
@@ -93,6 +89,11 @@ export default {
             };
         }
     },
+    watch: {
+        drawEndData (newData) {
+            this.$emit("onDrawEnd", newData);
+        }
+    },
 
     /**
      * Mounted hook:
@@ -124,7 +125,8 @@ export default {
             "createDomOverlay",
             "showTooltipOverlay",
             "toggleOverlay",
-            "updateDrawInteractionListener"
+            "updateDrawInteractionListener",
+            "createBufferFromLine"
         ]),
         ...mapActions("Maps", [
             "addLayer",
@@ -281,74 +283,7 @@ export default {
 
             this.currentLineGeometry = geometry.clone();
             this.lineDrawn = true;
-            this.createBufferFromLine(geometry);
-        },
-
-        /**
-         * Creates a buffer around a line geometry
-         * @param {ol.geom.Geometry} geometry - The line geometry to buffer
-         * @param {Boolean} triggerEvent - Whether to trigger the onDrawEnd event
-         * @returns {void}
-         */
-        createBufferFromLine: function (geometry, triggerEvent = true) {
-            try {
-                const geojsonFormat = new GeoJSON(),
-                    geojson = geojsonFormat.writeGeometry(geometry),
-                    reader = new GeoJSONReader(),
-                    jstsGeom = reader.read(geojson),
-                    buffered = BufferOp.bufferOp(jstsGeom, this.bufferDistanceData),
-                    writer = new GeoJSONWriter(),
-                    bufferedGeojson = writer.write(buffered);
-
-                let coordinates;
-
-                if (bufferedGeojson.type === "MultiPolygon") {
-                    const outerRing = bufferedGeojson.coordinates[0][0],
-                        innerRings = [];
-
-                    bufferedGeojson.coordinates.forEach((poly, index) => {
-                        if (index === 0) {
-                            innerRings.push(...poly.slice(1));
-                        }
-                        else {
-                            innerRings.push(...poly);
-                        }
-                    });
-                    coordinates = [outerRing, ...innerRings];
-                }
-                else if (bufferedGeojson.type === "Polygon") {
-                    coordinates = bufferedGeojson.coordinates;
-                }
-                else {
-                    throw new Error(`Unexpected geometry type: ${bufferedGeojson.type}`);
-                }
-
-                if (coordinates) {
-                    const polygonFeature = new Feature({
-                            geometry: new Polygon(coordinates)
-                        }),
-                        polygonGeoJson = {
-                            type: "Polygon",
-                            coordinates: coordinates
-                        },
-                        source = this.layer.getSource(),
-                        lineFeature = new Feature({
-                            geometry: geometry.clone()
-                        });
-
-                    source.clear();
-                    source.addFeature(lineFeature);
-                    source.addFeature(polygonFeature);
-                    this.setSelectedAreaGeoJson(polygonGeoJson);
-
-                    if (triggerEvent) {
-                        this.$parent.$emit("onDrawEnd", polygonGeoJson);
-                    }
-                }
-            }
-            catch (error) {
-                console.error("Error creating buffer:", error);
-            }
+            this.createBufferFromLine({geometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
         },
 
         /**
@@ -366,7 +301,7 @@ export default {
             this.setBufferDistance(newValue);
 
             if (this.lineDrawn && this.currentLineGeometry) {
-                this.createBufferFromLine(this.currentLineGeometry, false);
+                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: false});
             }
         },
         /**
@@ -375,7 +310,7 @@ export default {
          */
         finalizeBufferDistance: function () {
             if (this.lineDrawn && this.currentLineGeometry) {
-                this.createBufferFromLine(this.currentLineGeometry, true);
+                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
             }
         },
 
@@ -385,7 +320,7 @@ export default {
          */
         applyLineBuffer: function () {
             if (this.lineDrawn && this.currentLineGeometry) {
-                this.createBufferFromLine(this.currentLineGeometry, true);
+                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
             }
         },
 

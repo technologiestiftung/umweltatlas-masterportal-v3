@@ -15,6 +15,7 @@
      * @property {ol.geojson} selectedAreaGeoJson={} the selected area as GeoJSON
      * @property {String} defaultSelection="" initiliazed value of the dropdown selection
      * @property {Number} bufferDistance=100 distance in meters for buffer around line
+     * @property {Object} drawEndData=null data emitted on drawend event
      */
 const state = {
     active: false,
@@ -29,7 +30,8 @@ const state = {
     tooltipMessagePolygon: "common:shared.modules.graphicalSelect.tooltipMessagePolygon",
     selectedAreaGeoJson: undefined,
     defaultSelection: "",
-    bufferDistance: 100
+    bufferDistance: 100,
+    drawEndData: null
 };
 
 export default state;
