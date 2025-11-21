@@ -13,7 +13,6 @@
 - Shared ButtonGroup: Allow to use a different button property as "setSelectedButton" event return value.
 
 ### Changed
-
 - GFI: Ensures that the text within the GFI window wraps correctly.
  The following packages have been updated:
     - devDependencies:
