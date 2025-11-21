@@ -715,6 +715,7 @@ Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/r
 |altitude|nein|Number|0|Initiale Höhe der Kamera in Metern. Wird nicht verwendet, wenn `cameraPosition` festgelegt ist.|false|
 |cameraPosition|nein|enum||Kameraposition mit Längen- und Breitengrad sowie Höhe in Metern über dem Ellipsoid. Wenn diese Option aktiviert ist, werden `pitch` und `roll` zur Erstellung der Richtung verwendet. `Altitude` und `tilt` werden dann nicht verwendet.|false|
 |heading|nein|Number|0|Die anfängliche Ausrichtung der Kamera in Radianten. Wird immer verwendet.|false|
+|offset|nein|Number|0|Offset für die initiale center Koordinate in der 3D-Karte, wenn die initiale `cameraPosition` geändert wurde, z.B. durch Bewegen der Karte oder durch Klick auf ein Suchergebnis. Wenn dies hier nicht gesetzt ist, dann wird die initiale Kamera Position der 3D-Karte nicht auf auf die aktuelle center Koordinate angewandt.|false|
 |pitch|nein|Number|0|Initialer Neigungswert der Kamera. Wird nur verwendet, wenn `cameraPosition` festgelegt ist.|false|
 |roll|nein|Number|0|Initialer Rollwert der Kamera. Wird nur verwendet, wenn `cameraPosition` festgelegt ist.|false|
 |tilt|nein|Number|0|Initiale Ausrichtung der Kamera in Radianten. Wird nicht verwendet, wenn `cameraPosition` festgelegt ist.|false|
@@ -738,7 +739,8 @@ Weitere Attribute finden Sie unter **[Scene](https://cesium.com/learn/cesiumjs/r
     "camera": {
         "heading": 0.5094404418943017,
         "pitch": -40.0515352133474,
-        "cameraPosition": [9.9914497197391, 53.545716220545344, 421.1102528528311]
+        "cameraPosition": [9.9914497197391, 53.545716220545344, 421.1102528528311],
+        "offset": "-0.0045"
     }
 }
 ```

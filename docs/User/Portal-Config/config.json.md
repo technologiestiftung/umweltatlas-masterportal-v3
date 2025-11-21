@@ -713,6 +713,7 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Came
 |altitude|no|Number|0|Camera's initial height in meters. Not used if `cameraPosition` is set.|false|
 |cameraPosition|no|enum||Camera position containing longitude, latitude and height in meters, above the ellipsoid. If this is set, `pitch` and `roll` are used to create the direction. `Altitude` and `tilt` are not used then.|false|
 |heading|no|Number|0|Camera's initial heading in radians. Is always used.|false|
+|offset|no|Number|0|Offset for the initial center coordinate in the 3D map if the initial `cameraPosition` has been changed, e.g., by moving the map or clicking on a search result. If this is not set here, the initial camera position of the 3D map will not be applied to the current center coordinate.|false|
 |pitch|no|Number|0|Camera's initial pitch value. Only used if `cameraPosition` is set.|false|
 |roll|no|Number|0|Camera's initial roll value. Only used if `cameraPosition` is set.|false|
 |tilt|no|Number|0|Camera's initial tile in radians. Not used if `cameraPosition` is set.|false|
@@ -736,7 +737,8 @@ For more attributes see **[Scene](https://cesium.com/learn/cesiumjs/ref-doc/Came
     "camera": {
         "heading": 0.5094404418943017,
         "pitch": -40.0515352133474,
-        "cameraPosition": [9.9914497197391, 53.545716220545344, 421.1102528528311]
+        "cameraPosition": [9.9914497197391, 53.545716220545344, 421.1102528528311],
+        "offset": "-0.0045"
     }
 }
 ```

@@ -43,6 +43,7 @@
 - Issue #1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
 - Issue #1519: Fix initialization of print module.
 - Searchbar and LayerSelection: Behavior restored to the way it was before layerSelection filtering was introduced.
+- 3D: When switching from 2D to 3D, the center coordinate of the current map section can be reproduced in 3D. This can be configured using `map3dParameter.camera.offset`. 
 
 ---
 

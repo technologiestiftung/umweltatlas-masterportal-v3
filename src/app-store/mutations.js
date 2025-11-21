@@ -30,6 +30,13 @@ export default {
         state.loadedConfigs[config] = true;
     },
 
+    /**
+     * Sets the given urlParams to state.urlParams.
+     * @param {Object} state store state
+     * @param {Object} payload the payload
+     * @param {Object} payload.params new url params
+     * @returns {void}
+     */
     setUrlParams (state, {params}) {
         params.forEach((value, key) => {
             state.urlParams[key.toUpperCase()] = value;
@@ -42,5 +49,16 @@ export default {
             console.warn("Failed to parse LAYERS param:", e);
             state.layerUrlParams = [];
         }
+    },
+    /**
+     * Sets the position to map3dParameter.camera.cameraPosition and sets
+     * map3dParameter.camera.positionInitiallyUsed to true.
+     * @param {Object} state store state
+     * @param {Array} cameraPosition The cameraPosition to set
+     * @returns {void}
+     */
+    useCameraPosition (state, cameraPosition) {
+        state.portalConfig.map.map3dParameter.camera.cameraPosition = cameraPosition;
+        state.portalConfig.map.map3dParameter.camera.positionInitiallyUsed = true;
     }
 };
