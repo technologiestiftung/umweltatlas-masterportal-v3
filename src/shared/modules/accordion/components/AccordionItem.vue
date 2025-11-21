@@ -93,7 +93,7 @@ export default {
 @import "~variables";
 
     .accordion {
-        --bs-border-color: $white;
+        --bs-accordion-border-width: 0;
         --bs-accordion-active-bg: $white;
         --bs-accordion-btn-focus-box-shadow: none;
         .font-size-big {
