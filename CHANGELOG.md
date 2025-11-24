@@ -67,6 +67,7 @@
 - Issue #1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
 - Issue #1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
 - Issue #1497: Fix styling of `featureviaurl` features that was previously missing, resulting in invisible features.
+- Issue #1501: Fix bad perfomance of filter module for clustering.
 - Issue #1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
 - Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
 - Issue #1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
