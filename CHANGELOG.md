@@ -38,21 +38,6 @@
 
 ---
 
-## Unreleased - in development
-### __Breaking Changes__
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
----
-
 ## 2025-11-25 v3.16.2
 
 ### Removed
