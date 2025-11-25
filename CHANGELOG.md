@@ -24,6 +24,8 @@
 ### Deprecated
 
 ### Removed
+- SearchBar: Removed search status (min characters, loading, no results).
+- LayerSelection: Removed search within current folder (requires `"filter": true"` in `config.json`).
 
 ### Fixed
 - Issue #1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
@@ -32,6 +34,7 @@
 - Issue #1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
 - Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
 - Issue #1519: Fix initialization of print module.
+- Searchbar and LayerSelection: Behavior restored to the way it was before layerSelection filtering was introduced.
 
 ---
 
