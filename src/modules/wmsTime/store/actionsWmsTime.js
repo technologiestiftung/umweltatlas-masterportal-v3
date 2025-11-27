@@ -5,7 +5,6 @@ import {resetRenderListeners} from "@shared/js/utils/resetRenderListeners.js";
 
 export default {
     windowWidthChanged ({commit, dispatch, state, getters, rootGetters}) {
-        // mobile browsers tend to send resize on quick scroll despite nothing resizing; double-check
         if (getters.windowWidth !== window.innerWidth) {
             commit("setWindowWidth");
 
