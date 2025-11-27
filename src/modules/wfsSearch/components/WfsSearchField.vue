@@ -179,6 +179,17 @@ export default {
                     this.$el.querySelector("select").value = undefined;
                 }
             }
+        },
+        selectedOptions () {
+            if (this.value) {
+                if (typeof this.options !== "string") {
+                    if (this.$el.querySelector("input")) {
+                        this.$el.querySelector("input").value = "";
+                        this.value = undefined;
+                        fieldValueChanged(this.selectableParameters.fieldId, this.value, this.currentInstance.literals, this.requiredValues, this.parameterIndex);
+                    }
+                }
+            }
         }
     },
     mounted () {
