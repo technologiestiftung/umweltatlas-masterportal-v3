@@ -10,6 +10,7 @@
 ### Added
 - Issue #1524: draw_old: Added documentation for drawSquareSettings.
 - WMS-Time: The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
+- CopyrightConstraints: Added Parameter `useLayerCswUrl` to use the CSW interface specified in the layers.
 
 ### Changed
 

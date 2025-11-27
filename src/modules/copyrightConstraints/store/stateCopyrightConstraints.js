@@ -7,13 +7,15 @@
  * @property {String} icon Icon displayed next to the title.
  * @property {String} type Type of the module.
  * @property {String} cswUrl URL of the CSW interface for usage information.
+ * @property {Boolean} useLayerCswUrl Flag to use the CSW interface of the layer if activated
  */
 const state = {
     id: "copyrightConstraints",
     name: "common:modules.copyrightConstraints.name",
     icon: "bi-c-circle",
     type: "copyrightConstraints",
-    cswUrl: "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
+    cswUrl: "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+    useLayerCswUrl: false
 };
 
 export default state;

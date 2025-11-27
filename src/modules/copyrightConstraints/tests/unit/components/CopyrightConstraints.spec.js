@@ -133,7 +133,8 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
                                 return state;
                             },
                             getters: {
-                                cswUrl: () => "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
+                                cswUrl: () => "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+                                useLayerCswUrl: () => false
                             }
                         }
                     }

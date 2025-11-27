@@ -2215,6 +2215,7 @@ Listet die Nutzungshinweise der aktiven Layer auf.
 |icon|nein|String|"bi-c-circle"|Icon, das neben dem Titel angezeigt wird.|false|
 |type|nein|String|"copyrightConstraints"|Definiert den Modultyp.|false|
 |cswUrl|nein|String|"https://gdk.gdi-de.org/gdi-de/srv/ger/csw"|URL der CSW-Schnittstelle, die Nutzungshinweise/Metadaten bereitstellt.|false|
+|useLayerCswUrl|nein|Boolean|false|Setzen Sie dieses Flag auf `true` um die URL der CSW-Schnittstelle aus der Layerkonfiguration zu nutzen.|false|
 
 
 ```json title="Beispiel"
@@ -2222,7 +2223,8 @@ Listet die Nutzungshinweise der aktiven Layer auf.
     "name": "common:modules.copyrightConstraints.name",
     "icon": "bi-c-circle",
     "type": "copyrightConstraints",
-    "cswUrl": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
+    "cswUrl": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+    "useLayerCswUrl": false
 }
 ```
 

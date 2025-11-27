@@ -2215,17 +2215,19 @@ Lists the copyright constraints of active layers.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|name|nein|String|"common:modules.copyrightConstraints.name"|Title shown in the menu.|false|
-|icon|nein|String|"bi-c-circle"|Icon displayed next to the title.|false|
-|type|nein|String|"copyrightConstraints"|Defines the module type.|false|
-|cswUrl|nein|String|"https://gdk.gdi-de.org/gdi-de/srv/ger/csw"|URL of the CSW interface providing usage information and metadata.|false|
+|name|no|String|"common:modules.copyrightConstraints.name"|Title shown in the menu.|false|
+|icon|no|String|"bi-c-circle"|Icon displayed next to the title.|false|
+|type|no|String|"copyrightConstraints"|Defines the module type.|false|
+|cswUrl|no|String|"https://gdk.gdi-de.org/gdi-de/srv/ger/csw"|URL of the CSW interface providing usage information and metadata.|false|
+|useLayerCswUrl|no|Boolean|false|Set this flag to `true` to use the URL of the CSW Interface specified in the layer specification.|false|
 
 ```json title="Example"
 {
     "name": "common:modules.copyrightConstraints.name",
     "icon": "bi-c-circle",
     "type": "copyrightConstraints",
-    "cswUrl": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
+    "cswUrl": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+    "useLayerCswUrl": false
 }
 ```
 
