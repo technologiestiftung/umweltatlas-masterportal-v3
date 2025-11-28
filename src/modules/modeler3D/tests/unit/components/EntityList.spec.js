@@ -22,6 +22,36 @@ describe("src/modules/modeler3D/components/EntityList.vue", () => {
                 }
             }
         });
+        mapCollection.clear();
+        const entities = {
+                getById: (val) => {
+                    return entities.values.find(x => x.id === val);
+                },
+                values: [],
+                add: (val) => {
+                    entities.values.push(val);
+                    return val;
+                },
+                remove: (val) => {
+                    entities.values.splice(entities.values.indexOf(val), 1);
+                },
+                removeById: (id) => {
+                    entities.remove(entities.getById(id));
+                }
+            },
+            map = {
+                id: "olcs",
+                mode: "3D",
+                getDataSourceDisplay: () => {
+                    return {
+                        defaultDataSource: {
+                            entities: entities
+                        }
+                    };
+                }
+            };
+
+        mapCollection.addMap(map, "3D");
     });
 
     afterEach(() => {

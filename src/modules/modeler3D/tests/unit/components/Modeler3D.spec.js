@@ -198,6 +198,7 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
             ScreenSpaceEventHandler: function () {
                 this.setInputAction = sinon.stub();
                 this.removeInputAction = sinon.stub();
+                this.destroy = sinon.stub();
             }
         };
 
@@ -219,7 +220,8 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
                                 updateUI: updateUISpy,
                                 movePolygon: movePolygonSpy,
                                 movePolyline: movePolylineSpy,
-                                updatePositionUI: updatePositionUISpy
+                                updatePositionUI: updatePositionUISpy,
+                                generateCylinders: sinon.stub()
                             }
                         },
                         GetFeatureInfo: {
@@ -657,9 +659,20 @@ describe("src/modules/modeler3D/components/Modeler3D.vue", () => {
             const entity = entities.getById("entityId"),
                 generateOutlinesStub = sinon.stub(wrapper.vm, "generateOutlines");
 
-            entity.polygon = {outline: true, outlineColor: "white", material: {
-                color: "RED"
-            }};
+            entity.polygon = {
+                outline: true,
+                outlineColor: "white",
+                material: {
+                    color: "RED"
+                },
+                hierarchy: {
+                    getValue: () => {
+                        return {
+                            positions: []
+                        };
+                    }
+                }
+            };
             entity.wasDrawn = true;
             store.commit("Modules/Modeler3D/setCurrentModelId", "entityId");
             await wrapper.vm.$nextTick();

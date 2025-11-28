@@ -60,8 +60,25 @@ describe("Actions", () => {
         };
 
     beforeEach(() => {
+        sinon.stub(global, "fetch").returns(
+            Promise.resolve({
+                ok: true,
+                text: () => Promise.resolve(`
+                        <xml>
+                            <dictionaryEntry>
+                                <gml:description>ALKIS</gml:description>
+                                <gml:name>31001_1000</gml:name>
+                                <gml:name>name1</gml:name>
+                            </dictionaryEntry>
+                        </xml>
+                    `)
+            })
+        );
+        store.state.Maps.mode = "3D";
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+        sinon.stub(console, "error").callsFake(sinon.spy());
+        sinon.stub(console, "warn").callsFake(sinon.spy());
 
         global.Cesium = {
             PolylineGraphics: function (options) {
@@ -203,12 +220,6 @@ describe("Actions", () => {
                 }
             }
         };
-
-        store.state.Maps.mode = "3D";
-        store.getters = {
-            "Maps/mode": store.state.Maps.mode
-        };
-
         scene = {
             globe: {
                 getHeight: () => 5.7896
@@ -230,7 +241,6 @@ describe("Actions", () => {
         entity = undefined;
         sinon.restore();
         entities.values = [];
-
     });
     describe("deleteEntity", () => {
         it("should delete the entity from list and entityCollection", () => {
@@ -1202,10 +1212,9 @@ describe("Actions", () => {
             const entityList = [
                     {
                         blob: new Blob()
-                    },
-                    {}
+                    }
                 ],
-                dispatch = sinon.stub();
+                dispatch = sinon.spy();
 
             await actions.createEntities({dispatch}, entityList);
             expect(dispatch.callCount).to.be.equal(1);
