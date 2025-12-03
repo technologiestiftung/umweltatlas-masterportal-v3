@@ -4,8 +4,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## 2025-12-03 v3.17.0
 
 ### Added
 - App: Added automatic device mode switch between Desktop and Mobile when window size changes.
@@ -27,9 +26,7 @@
         - @masterportal/masterportalapi: 2.52.0 to 2.53.0 (This also raised ol to version 10.7.0)
         - replace-in-file: 7.1.0 to 8.3.0
 - Title Bar: line break for long names in the title bar has been restored.
-- wfsSearch: use `featurePrefix` and `featureNS` from services.json (when configured) for creating the xml Filter. Add better geometry detection for search results. 
-
-### Deprecated
+- wfsSearch: use `featurePrefix` and `featureNS` from services.json (when configured) for creating the xml Filter. Add better geometry detection for search results.
 
 ### Removed
 - SearchBar: Removed search status (min characters, loading, no results).
