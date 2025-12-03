@@ -196,7 +196,14 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                     return allConfigs.filter(conf => conf.showInLayerTree === true);
                 },
                 showLayerAddButton: () => addLayerButton.active,
-                showFolderPath: () => true
+                showFolderPath: () => true,
+                layerConfig: () => {
+                    return {
+                        subjectlayer: {
+                            elements: subjectDataLayers
+                        }
+                    };
+                }
             }
         });
     });

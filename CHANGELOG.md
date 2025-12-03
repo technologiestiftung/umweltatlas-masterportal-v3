@@ -45,6 +45,7 @@
   - Added GeoJSON Download.
   - Added alphanumerical sorting.
   - Security: Added SECURITY.md file.
+- layerTree: Added clickable folder paths in submenu, if `showFolderPath: true`.
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.

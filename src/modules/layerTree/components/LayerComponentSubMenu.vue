@@ -3,6 +3,7 @@ import {mapActions, mapGetters} from "vuex";
 import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import layerTypes from "@core/layers/js/layerTypes.js";
 import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 import LayerInfoContactButton from "./LayerInfoContactButton.vue";
 
 /**
@@ -27,7 +28,9 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["folderById", "showFolderPath", "portalConfig"]),
+        ...mapGetters(["folderById", "showFolderPath", "portalConfig", "layerConfig"]),
+        ...mapGetters("Modules/LayerTree", ["menuSide"]),
+        ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
         /**
          * Returns the transparency of the layer config.
          * @returns {Number} Transparency of the layer config.
@@ -59,10 +62,20 @@ export default {
          */
         mdid () {
             return this.layerConf?.datasets?.length > 0 ? this.layerConf.datasets[0].md_id : null;
+        },
+        /**
+         * Checks if layer is rootLayer.
+         * @returns {boolean} True, if layer is rootLayer. False otherwise.
+         */
+        isRootLayer () {
+            return this.layerConfig[treeSubjectsKey].elements
+                .some(l => l.type !== "folder" && l.id === this.layerConf.id);
         }
     },
     methods: {
+        ...mapActions("Menu", ["changeCurrentComponent"]),
         ...mapActions("Modules/LayerTree", ["removeLayer", "updateTransparency"]),
+        ...mapActions("Modules/LayerSelection", ["showLayer"]),
         /**
          * Returns the names of all parent folders reversed and separated.
          * @returns {String} the names of all parent folders
@@ -70,10 +83,8 @@ export default {
         getPath () {
             let names = [];
 
-            if (this.showFolderPath === true) {
-                this.getNamesOfParentFolder(this.layerConf.parentId, names);
-                names = names.reverse();
-            }
+            this.getNamesOfParentFolder(this.layerConf.parentId, names);
+            names = names.reverse();
             const translatedNames = names.map(name => {
                 return this.$t(name) !== name ? this.$t(name) : name;
             });
@@ -96,6 +107,15 @@ export default {
                 }
             }
             return names;
+        },
+
+        goToLayer () {
+            this.changeCurrentComponent({
+                type: this.layerSelectionType,
+                side: this.menuSide,
+                props: {name: this.layerSelectionName}}
+            );
+            this.showLayer({layerId: this.layerConf.id});
         }
     }
 };
@@ -107,15 +127,14 @@ export default {
         class="d-flex flex-column layer-component-sub-menu"
     >
         <div
-            v-if="getPath()"
-            class="ms-3"
+            v-if="showFolderPath && (getPath() || isRootLayer)"
         >
-            <i class="bi-folder foldericon" />
-            <span
-                class="path"
-            >
-                {{ getPath() }}
-            </span>
+            <FlatButton
+                :interaction="goToLayer"
+                :text="isRootLayer ? 'common:modules.layerTree.rootLayerPath' : getPath()"
+                :customclass="'path btn-light'"
+                :icon="'bi-folder'"
+            />
         </div>
         <div
             v-if="supportedTransparency"
@@ -159,9 +178,9 @@ export default {
 
 <style lang="scss" scoped>
     @import "~variables";
-    .path{
-        font-size: $font-size-sm;
-        text-align: start;
+    .path {
+        text-align: left;
+        margin-bottom: 0!important;
     }
     .foldericon{
         font-size: 1.3rem;

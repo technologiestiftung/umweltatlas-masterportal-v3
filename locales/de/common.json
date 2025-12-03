@@ -691,7 +691,8 @@
       "infosAndLegend": "Informationen zum Datensatz anzeigen",
       "invisibleLayer": "Dieses Thema kann nur im Maßstab {{minScale}} - {{maxScale}} angezeigt werden",
       "invisibleLayerNoScale": "Dieses Thema kann in diesem Maßstab nicht angezeigt werden",
-      "noCategory": "Ohne Kategorie"
+      "noCategory": "Ohne Kategorie",
+      "rootLayerPath": "Im Ordner anzeigen"
     },
     "legend": {
       "description": "Erhalten Sie Informationen zu den Objekten in der Karte",

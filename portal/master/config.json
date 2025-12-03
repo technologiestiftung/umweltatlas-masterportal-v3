@@ -824,6 +824,7 @@
     },
     "tree": {
       "singleBaselayer": false,
+      "showFolderPath": true,
       "addLayerButton": {
         "active": true,
         "searchBar": {
@@ -1115,7 +1116,7 @@
               "elements": [
                 {
                   "id": "2431",
-                  "visibility": false
+                  "visibility": true
                 },
                 {
                   "id": "2430",

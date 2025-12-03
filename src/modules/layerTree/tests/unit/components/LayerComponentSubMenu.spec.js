@@ -8,9 +8,12 @@ import LayerComponentSubMenu from "@modules/layerTree/components/LayerComponentS
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
-    let layer,
+    let changeCurrentComponentStub,
+        layer,
+        layerConfigStub,
         propsData,
         removeLayerSpy,
+        showLayerStub,
         store,
         updateTransparencySpy,
         wrapper,
@@ -45,6 +48,15 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
 
         removeLayerSpy = sinon.spy();
         updateTransparencySpy = sinon.spy();
+        changeCurrentComponentStub = sinon.stub();
+        showLayerStub = sinon.stub();
+        layerConfigStub = sinon.stub().callsFake(() => {
+            return {
+                subjectlayer: {
+                    elements: []
+                }
+            };
+        });
 
         store = createStore({
             modules: {
@@ -56,6 +68,9 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
                             actions: {
                                 removeLayer: removeLayerSpy,
                                 updateTransparency: updateTransparencySpy
+                            },
+                            getters: {
+                                menuSide: () => "mainMenu"
                             }
                         },
                         LayerInformation: {
@@ -79,13 +94,23 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
                                 mainMenuWidth: () => 0,
                                 secondaryMenuWidth: () => 0
                             }
+                        },
+                        LayerSelection: {
+                            namespaced: true,
+                            getters: {
+                                type: () => "layerSelection",
+                                name: () => layer.name
+                            },
+                            actions: {
+                                showLayer: showLayerStub
+                            }
                         }
                     }
                 },
                 Menu: {
                     namespaced: true,
                     actions: {
-                        changeCurrentComponent: sinon.stub(),
+                        changeCurrentComponent: changeCurrentComponentStub,
                         setMenuBackAndActivateItem: sinon.stub()
                     }
                 }
@@ -108,7 +133,8 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
                             contactButton: true
                         }
                     };
-                }
+                },
+                layerConfig: layerConfigStub
             }
         });
     });
@@ -117,7 +143,8 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
         sinon.restore();
     });
 
-    it("renders the sub menu given as property to the component without path", () => {
+    it("renders the sub menu given as property to the component without path if showFolderPath is false", () => {
+        showFolderPath = false;
         wrapper = shallowMount(LayerComponentSubMenu, {
             global: {
                 plugins: [store]
@@ -128,10 +155,16 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
         expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
         expect(wrapper.find(".path").exists()).to.be.false;
     });
-    it("renders the sub menu given as property to the component with path and folder exists", () => {
+    it("renders the sub menu given as property to the component with path and rootLayer", () => {
         showFolderPath = true;
-        layer.parentId = "folder-1";
-        wrapper = shallowMount(LayerComponentSubMenu, {
+        layerConfigStub.callsFake(() => {
+            return {
+                subjectlayer: {
+                    elements: [layer]
+                }
+            };
+        });
+        wrapper = mount(LayerComponentSubMenu, {
             global: {
                 plugins: [store]
             },
@@ -140,6 +173,21 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
 
         expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
         expect(wrapper.find(".path").exists()).to.be.true;
+        expect(wrapper.find(".path").text()).to.equal("common:modules.layerTree.rootLayerPath");
+    });
+    it("renders the sub menu given as property to the component with path and folder exists", () => {
+        showFolderPath = true;
+        layer.parentId = "folder-1";
+        wrapper = mount(LayerComponentSubMenu, {
+            global: {
+                plugins: [store]
+            },
+            propsData: propsData
+        });
+
+        expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
+        expect(wrapper.find(".path").exists()).to.be.true;
+        expect(wrapper.find(".path").text()).to.equal("folder-2/folder-1");
     });
     it("renders the sub menu given as property to the component without path because folder does not exists", () => {
         showFolderPath = true;
@@ -153,7 +201,34 @@ describe("src/modules/layerTree/components/LayerComponentSubMenu.vue", () => {
         expect(wrapper.find("#layer-component-sub-menu-" + propsData.layerConf.id).exists()).to.be.true;
         expect(wrapper.find(".path").exists()).to.be.false;
     });
+    it("navigates to the layer selection tree when the path is clicked", async () => {
+        showFolderPath = true;
+        layer.parentId = "folder-1";
+        wrapper = mount(LayerComponentSubMenu, {
+            global: {
+                plugins: [store]
+            },
+            propsData: propsData
+        });
 
+        await wrapper.find(".path").trigger("click");
+        sinon.assert.calledWith(changeCurrentComponentStub,
+            sinon.match.any,
+            {
+                type: "layerSelection",
+                side: "mainMenu",
+                props: {
+                    "name": layer.name
+                }
+            }
+        );
+        sinon.assert.calledWith(showLayerStub,
+            sinon.match.any,
+            {
+                layerId: layer.id
+            }
+        );
+    });
     it("renders the remove-layer", () => {
         wrapper = shallowMount(LayerComponentSubMenu, {
             global: {
