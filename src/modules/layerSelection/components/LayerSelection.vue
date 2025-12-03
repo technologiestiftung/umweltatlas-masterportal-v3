@@ -520,8 +520,13 @@ export default {
 }
 
 .mp-menu-navigation{
-    color: $black;
+    color: $link-color;
     display: flex;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $link-hover-color;
+    }
 }
 .mp-menu-navigation-link{
     display: flex;
