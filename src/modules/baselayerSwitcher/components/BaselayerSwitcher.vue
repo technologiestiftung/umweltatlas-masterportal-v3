@@ -17,11 +17,13 @@ export default {
         ...mapGetters("Modules/BaselayerSwitcher", [
             "active",
             "activatedExpandable",
+            "visibleBaselayerIds",
             "baselayers",
             "configPaths",
             "singleBaseLayer",
             "topBaselayer",
-            "type"
+            "type",
+            "filteredBaseLayers"
         ])
     },
     watch: {
@@ -119,7 +121,7 @@ export default {
         switchActiveBaselayer (layer) {
             this.updateLayerVisibilityAndZIndex(layer.id);
 
-            const selectableBackroundLayers = this.baselayers,
+            const selectableBackroundLayers = this.filteredBaseLayers,
                 index = selectableBackroundLayers.map(backgroundLayer => {
                     return backgroundLayer.id;
                 }).indexOf(layer.id);
@@ -147,7 +149,7 @@ export default {
 
 <template>
     <div
-        v-if="baselayers.length > 0 && active"
+        v-if="filteredBaseLayers.length > 0 && active"
         id="baselayer-switcher"
         ref="baselayer-switcher"
         class="btn-group-vertical my-5 btn-group-background-switcher shadow"
@@ -155,7 +157,7 @@ export default {
     >
         <ul>
             <li
-                v-for="(layer) in baselayers"
+                v-for="(layer) in filteredBaseLayers"
                 :key="layer.id"
             >
                 <button

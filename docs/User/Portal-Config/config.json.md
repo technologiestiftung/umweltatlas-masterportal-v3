@@ -92,15 +92,21 @@ The baselayerSwitcher allows you to easily switch or select a baselayer.
 |----|--------|----|-------|-----------|------|
 |active|no|Boolean|false|Defines if the baselayerSwitcher is activated.|false|
 |activatedExpandable|no|Boolean|false|Specifies whether the baselayerSwitcher is expanded and all available baselayers are displayed or only the active one which is on the highest level.|false|
-|singleBaseLayer|no|Boolean|false|Switches the previous selected Layer to invisible|false
+|singleBaseLayer|no|Boolean|false|Switches the previous selected Layer to invisible|false|
+|visibleBaselayerIds|no|String[]||Defines a subset of base layers that is available in the layer switcher.|false|
 
 **Example**
 
 ```json
 "baselayerSwitcher": {
-      "active": true,
-      "activatedExpandable": false
-    }
+    "active": true,
+    "activatedExpandable": false,
+    "visibleBaselayerIds": [
+        "453",
+        "34127",
+        "VectorTile"
+    ]
+}
 ```
 
 ***

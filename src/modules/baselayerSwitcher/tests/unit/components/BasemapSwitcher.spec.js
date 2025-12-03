@@ -271,6 +271,21 @@ describe("src/modules/BaselayerSwitcher.vue", () => {
             expect(layer_453.visibility).to.equal(false);
         });
 
+        it("base layers are restricted if visibleBaselayerIds is configured", () => {
+            const visibleBaselayerIds = ["452", "453"];
+
+            store.commit("Modules/BaselayerSwitcher/setActivatedExpandable", true);
+            store.commit("Modules/BaselayerSwitcher/setVisibleBaselayerIds", visibleBaselayerIds);
+
+            wrapper = shallowMount(BaselayerSwitcherComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find("#bs-expanded").exists()).to.be.true;
+            expect(wrapper.findAll("#bs-expanded").length).to.equal(visibleBaselayerIds.length);
+        });
 
     });
 });

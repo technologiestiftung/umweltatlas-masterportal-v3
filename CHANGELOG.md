@@ -9,6 +9,7 @@
 
 ### Added
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
+- Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
 
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
