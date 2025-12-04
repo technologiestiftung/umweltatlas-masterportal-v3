@@ -19,10 +19,11 @@
 ### Removed
 
 ### Fixed
+- Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
 - Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
 - Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
+- Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
 - wfsSearch: reset dependent fields at changed selection.
-- Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
 
 ---
 
@@ -36,7 +37,7 @@
 - FeatureLister:
   - Added spatial selection of features that are shown in the list.
   - GeoJSON is now supported.
-- TableComponent: 
+- TableComponent:
   - Added GeoJSON Download.
   - Added alphanumerical sorting.
   - Security: Added SECURITY.md file.
@@ -63,7 +64,7 @@
 - Issue #1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
 - Issue #1519: Fix initialization of print module.
 - Searchbar and LayerSelection: Behavior restored to the way it was before layerSelection filtering was introduced.
-- 3D: When switching from 2D to 3D, the center coordinate of the current map section can be reproduced in 3D. This can be configured using `map3dParameter.camera.offset`. 
+- 3D: When switching from 2D to 3D, the center coordinate of the current map section can be reproduced in 3D. This can be configured using `map3dParameter.camera.offset`.
 - Print: Layout A0: WMS image layer are printed correctly.
 
 ---
