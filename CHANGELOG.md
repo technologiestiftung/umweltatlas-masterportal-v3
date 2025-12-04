@@ -25,6 +25,7 @@
 - Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
 - wfsSearch: reset dependent fields at changed selection.
 - Issue #1310: legend images scale correctly now.
+- Issue #1307: print: add check if dpiForPdf is in dpiList and fall back to first list item if needed.
 
 ---
 

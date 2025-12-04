@@ -74,6 +74,7 @@ export default {
         dispatch("getAttributeInLayoutByName", "legend");
         dispatch("getAttributeInLayoutByName", "scale");
         dispatch("setDpiList");
+        dispatch("ensureDpiForPdfInList");
         commit("setFormatList", state.formatList);
         commit("setCurrentScale", rootGetters["Maps/scale"]);
         dispatch("togglePostrenderListener");
@@ -168,6 +169,18 @@ export default {
                     .clientInfo?.dpiSuggestions || []);
             }
         });
+    },
+
+    /**
+     * Ensures dpiForPdf contains a value of the current dpiList
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @returns {void}
+     */
+    ensureDpiForPdfInList: function ({state, commit}) {
+        if (state.dpiList.length && !state.dpiList.includes(state.dpiForPdf)) {
+            commit("setDpiForPdf", state.dpiList[0]);
+        }
     },
 
     /**

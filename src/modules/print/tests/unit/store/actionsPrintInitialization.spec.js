@@ -24,7 +24,8 @@ const {
     getPrintMapSize,
     getPrintMapScales,
     setDpiList,
-    compute3dPrintMask
+    compute3dPrintMask,
+    ensureDpiForPdfInList
 } = actions;
 
 describe("src/modules/print/store/actionsPrintInitialization.js", () => {
@@ -656,6 +657,34 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                 {type: "getPrintMapSize", payload: undefined, dispatch: true},
                 {type: "getPrintMapScales", payload: undefined, dispatch: true}
             ], {}, done);
+        });
+    });
+    describe("ensureDpiForPdfInList", () => {
+        it("should not change dpiForPdf if in list", done => {
+            const state = {
+                dpiList: [100, 200, 300],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [], {}, done);
+        });
+        it("should set dpiForPdf to first item in list, if current dpiForPdf not in list", done => {
+            const state = {
+                dpiList: [100, 300],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [
+                {type: "setDpiForPdf", payload: 100, dispatch: true}
+            ], {}, done);
+        });
+        it("should not change dpiForPdf if list is empty", done => {
+            const state = {
+                dpiList: [],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [], {}, done);
         });
     });
 });

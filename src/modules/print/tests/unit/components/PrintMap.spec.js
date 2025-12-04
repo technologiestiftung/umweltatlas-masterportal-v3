@@ -119,6 +119,7 @@ describe("src/modules/Print/components/PrintMap.vue", () => {
             wrapper.vm.layoutChanged(value);
             expect(store.state.Modules.Print.currentLayoutName).to.be.equals(value);
             expect(store.state.Modules.Print.currentLayout).to.be.deep.equals(printLayout);
+            expect(store.state.Modules.Print.dpiForPdf).to.be.equals(200);
             expect(store.state.Modules.Print.isGfiAvailable).to.be.equals(false);
             expect(store.state.Modules.Print.isLegendAvailable).to.be.equals(false);
         });

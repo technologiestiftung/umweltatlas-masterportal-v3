@@ -232,6 +232,10 @@ export default {
             "getAttributeInLayoutByName",
             "update3DResolutionScale"
         ]),
+        ...mapActions("Modules/Print", {
+            initSetDpiList: "setDpiList",
+            ensureDpiForPdfInList: "ensureDpiForPdfInList"
+        }),
         ...mapActions("Alerting", ["addSingleAlert"]),
 
         /**
@@ -323,6 +327,8 @@ export default {
             }
             this.updateCanvasLayer();
             await mapCollection.getMap("2D").render();
+            this.initSetDpiList();
+            this.ensureDpiForPdfInList();
         },
 
         /**
