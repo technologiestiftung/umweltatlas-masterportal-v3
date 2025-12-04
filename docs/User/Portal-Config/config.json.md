@@ -5376,7 +5376,7 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 |checkable|no|Boolean|false|If `true`, then the preview image is usable as checkbox.|false|
 |customClass|no|String||Custom css class to override the style, NOTE: may need to use '!important'.|false|
 |radius|no|Number|1000|Radius of the extent in meters.|false|
-|src|no|String||Only for type 'VectorTile'. Path to the image to be previewed.|false|
+|src|no|String||Link to a static preview image that is used instead of a dynamic preview. Can be a relative path or an external URL. Recommended size: 150x150 px.|false|
 |zoomLevel|no|Number||Zoom level from which the resolution for the loading parameters of the preview image are determined. Default is the initial zoomLevel of the map.|false|
 
 **Example VectorTile**
@@ -5384,17 +5384,25 @@ With the VectorTile layer a dropped preview image is displayed, with WMS and WMT
 ```json
 "preview":{
     "src": "./resources/vectorTile.png"
-    }
+}
 ```
 
 **Example WMS**
 
 ```json
- "preview": {
+"preview": {
     "zoomLevel": 6,
     "center": "566245.97,5938894.79",
     "radius": 500
-    }
+}
+```
+
+**Beispiel WMS (static preview image)**
+
+```json
+"preview": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/250px-The_Earth_seen_from_Apollo_17.jpg"
+}
 ```
 
 ***

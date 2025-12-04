@@ -5362,7 +5362,7 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 |checkable|nein|Boolean|false|Wenn `true`, dann ist das Vorschaubild als Checkbox benutzbar.|false|
 |customClass|nein|String||Benutzerdefinierte css-Klasse zum Überschreiben des Stils, HINWEIS: eventuell muss '!important' verwendet werden.|false|
 |radius|nein|Number|1000|Radius des extents in Metern.|false|
-|src|nein|String||Nur bei typ `VectorTile`. Pfad zum Bild, das als Vorschau angezeigt werden soll.|false|
+|src|nein|String||Link zu einem statischen Vorschaubild, das anstelle einer dynamischen Vorschau verwendet wird. Kann ein relativer Pfad oder eine externe URL sein. Empfohlene Größe: 150x150 Pixel.|false|
 |zoomLevel|nein|Number||Zoomlevel aus dem die resolution für die Ladeparameter des Vorschaubildes bestimmt werden. Default ist der initiale zoomLevel der Karte.|false|
 
 **Beispiel VectorTile**
@@ -5370,17 +5370,25 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 ```json
 "preview":{
     "src": "./resources/vectorTile.png"
-    }
+}
 ```
 
 **Beispiel WMS**
 
 ```json
- "preview": {
+"preview": {
     "zoomLevel": 6,
     "center": "566245.97,5938894.79",
     "radius": 500
-    }
+}
+```
+
+**Beispiel WMS (mit statischem Vorschaubild)**
+
+```json
+"preview": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/250px-The_Earth_seen_from_Apollo_17.jpg"
+}
 ```
 
 ***

@@ -217,10 +217,10 @@ export default {
 
         /**
          * Sets the previewUrl from layerConfigs preview.src.
-         * @param {Object} layerConfig config of the VectorTile layer
+         * @param {Object} layerConfig config of the layer
          * @returns {void}
          */
-        buildVectorTileUrl (layerConfig, url) {
+        buildPreviewUrl (layerConfig, url) {
             this.addPreviewUrl({id: layerConfig.id, previewUrl: url ? url : ""});
         },
 
@@ -242,11 +242,13 @@ export default {
             let url;
 
             if (layerConfig && this.supportedLayerTyps.includes(layerConfig.typ)) {
+                this.layerName = removeHtmlTags(layerConfig.name);
                 if (layerConfig.preview?.src && layerConfig.preview?.src !== "") {
-                    url = layerConfig.preview.src;
+                    this.layerName = removeHtmlTags(layerConfig.name);
+                    this.buildPreviewUrl(layerConfig, layerConfig.preview.src);
+                    return;
                 }
                 this.initialize({id: this.layerId, center: this.center, zoomLevel: this.zoomLevel});
-                this.layerName = removeHtmlTags(layerConfig.name);
                 if (!this.previewUrlByLayerIds[this.layerId]) {
                     if (layerConfig.typ === "WMS" || layerConfig.typ === "GROUP") {
                         this.buildWMSUrl(layerConfig, url);
@@ -255,7 +257,7 @@ export default {
                         this.buildWMTSUrl(layerConfig, url);
                     }
                     else if (layerConfig.typ === "VectorTile") {
-                        this.buildVectorTileUrl(layerConfig, url);
+                        this.buildPreviewUrl(layerConfig, url);
                     }
                 }
             }

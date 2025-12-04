@@ -10,6 +10,7 @@
 ### Added
 
 ### Changed
+- Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
 
 ### Deprecated
 

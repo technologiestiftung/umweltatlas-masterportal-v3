@@ -18,6 +18,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         layerWMTS2,
         WMTSCapabilities,
         layerWMS,
+        layerWMS2,
         layerVectorTile,
         layerGroup,
         getWMTSCapabilitiesStub,
@@ -62,6 +63,20 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
             singleTile: false,
             tilesize: 20,
             url: "https://wms_url.de"
+        };
+        layerWMS2 = {
+            id: "WMS2",
+            name: "layerWMS2",
+            typ: "WMS",
+            layers: "layers",
+            version: "1.0.0",
+            transparent: false,
+            singleTile: false,
+            tilesize: 20,
+            url: "https://wms_url.de",
+            preview: {
+                src: "https://wms_preview_url.de"
+            }
         };
         layerVectorTile = {
             id: "VectorTile",
@@ -127,6 +142,9 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
                     }
                     if (id === "WMS") {
                         return layerWMS;
+                    }
+                    if (id === "WMS2") {
+                        return layerWMS2;
                     }
                     if (id === "VectorTile") {
                         return layerVectorTile;
@@ -234,6 +252,24 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         expect(wrapper.find("img").attributes().src.indexOf(layerWMS.url)).to.be.equals(0);
         expect(loadSpy.calledOnce).to.be.true;
         expect(loadSpy.firstCall.args[0].indexOf(layerWMS.url)).to.be.equals(0);
+        expect(warnSpy.notCalled).to.be.true;
+    });
+
+    it("render the LayerPreview as a static image preview for layer type WMS", async () => {
+        const props = {
+            layerId: "WMS2"
+        };
+
+        wrapper = shallowMount(LayerPreviewComponent, {
+            global: {
+                plugins: [store]
+            },
+            props: props
+        });
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(".layerPreview").exists()).to.be.true;
+        expect(wrapper.find("img").attributes().src).to.be.equals(layerWMS2.preview.src);
         expect(warnSpy.notCalled).to.be.true;
     });
 
