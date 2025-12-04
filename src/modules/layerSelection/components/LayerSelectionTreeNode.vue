@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
 import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import FolderCheckBox from "../../layerTree/components/FolderCheckBox.vue";
 import Layer from "../../layerTree/components/LayerComponent.vue";
 import SelectAllCheckBox from "./SelectAllCheckBox.vue";
 import LightButton from "@shared/modules/buttons/components/LightButton.vue";
@@ -18,6 +19,7 @@ import {sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
 export default {
     name: "LayerSelectionTreeNode",
     components: {
+        FolderCheckBox,
         Layer,
         LightButton,
         SelectAllCheckBox
@@ -88,7 +90,14 @@ export default {
         :confs="selectAllConfigs"
     />
     <div :id="'layer-selection-treenode-' + (conf.id ? conf.id : conf.name?.replace(/\s/g, ''))">
-        <div v-if="showFolder()">
+        <div
+            v-if="showFolder()"
+            class="layer-selection-treenode-folder-container d-flex "
+        >
+            <FolderCheckBox
+                v-if="conf.isFolderSelectable === true"
+                :conf="conf"
+            />
             <LightButton
                 :interaction="folderClicked"
                 :text="$t(conf.name)"
@@ -121,5 +130,9 @@ export default {
     flex: none;
     width: unset;
     padding-right: 8px;
+}
+.layer-selection-treenode-folder-container {
+    margin-left: 0.7rem;
+    font-size: 0.9rem;
 }
 </style>

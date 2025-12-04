@@ -5203,6 +5203,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
 |shortname|no|String|""|shortened layer or folder name. If configured it will be displayed in layer tree instead of `name`. |false|
 |type|no|String|"layer"|Type of the element: "layer" or "folder"|false|
 |deactivateShowAllCheckbox|no|Boolean|false|Deactivates the "Show All" Checkbox, when the type is a folder|false|
+|isFolderSelectable|no|Boolean|false|Specifies whether all layers in a folder can be activated or deactivated at once using a checkbox. The checkbox can have the following states: `selected (activated)`, `unselected (deactivated)`, and `partially selected (indeterminate)`. Only relevant for the type `folder`.|false|
 
 **Example baselayer**
 
@@ -5245,6 +5246,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
         {
         "name": "Folder level 1",
         "type": "folder",
+        "isFolderSelectable": true,
         "elements": [
                 {
                 "name": "Folder level 2",
@@ -5263,6 +5265,7 @@ Layers or folders are defined here. Folders can in turn contain **[elements](#la
                         {
                             "name": "Folder level 3",
                             "type": "folder",
+                            "isFolderSelectable": true,
                             "elements": [
                                 {
                                     "id": "1103"

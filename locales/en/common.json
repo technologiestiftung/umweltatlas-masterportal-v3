@@ -655,6 +655,11 @@
     },
     "layerSelection": {
       "addSubject": "Add subject",
+      "folderCheckbox": {
+        "indeterminate": "Deactivate all layers in the {{folderName}} folder",
+        "selected": "Deactivate all layers in the {{folderName}} folder",
+        "unselected": "Activate all layers in the {{folderName}} folder"
+      },
       "name": "Topic selection",
       "baselayers": "Baselayers",
       "datalayer": "Subject data",

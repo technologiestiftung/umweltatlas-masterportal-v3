@@ -1109,6 +1109,7 @@
         {
           "name": "Emissionen",
           "type": "folder",
+          "isFolderSelectable": true,
           "elements": [
             {
               "name": "Lärmschutzbereiche Flughafen Hamburg (FluLärmHmbV)",
@@ -1128,6 +1129,7 @@
                 {
                   "name": "Überschwemmungsgebiete",
                   "type": "folder",
+                  "isFolderSelectable": true,
                   "elements": [
                     {
                       "id": "1103",
