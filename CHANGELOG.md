@@ -16,6 +16,7 @@
 ### Removed
 
 ### Fixed
+- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
 - wfsSearch: reset dependent fields at changed selection.
 
 ---
@@ -55,7 +56,6 @@
 - Issue #1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
 - Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
 - Issue #1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
-- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
 - Issue #1519: Fix initialization of print module.
 - Searchbar and LayerSelection: Behavior restored to the way it was before layerSelection filtering was introduced.
 - 3D: When switching from 2D to 3D, the center coordinate of the current map section can be reproduced in 3D. This can be configured using `map3dParameter.camera.offset`. 
