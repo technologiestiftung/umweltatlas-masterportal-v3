@@ -73,7 +73,7 @@ const simpleGetters = {
             });
         }
 
-        return shareUrl.origin + shareUrl.pathname + "?" + Array.from(shareUrl.searchParams).map(searchParam => searchParam[0] + "=" + searchParam[1]).join("&");
+        return encodeURI(shareUrl.origin + shareUrl.pathname + "?" + Array.from(shareUrl.searchParams).map(searchParam => searchParam[0] + "=" + searchParam[1]).join("&"));
     }
 };
 

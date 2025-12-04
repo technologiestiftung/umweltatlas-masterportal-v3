@@ -203,7 +203,7 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 search: mockAddonUrlParams
             };
 
-            expect(ShareView.getters.url(state, getters, {}, rootGetters)).to.equal(expectedURL);
+            expect(decodeURI(ShareView.getters.url(state, getters, {}, rootGetters))).to.equal(expectedURL);
             global.location = originalLocation;
         });
         it("ignore existing basic URL parameters in the share URL", () => {
@@ -238,7 +238,7 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 search: mockExistingParams
             };
 
-            expect(ShareView.getters.url(state, getters, {}, rootGetters)).to.equal(expectedURL);
+            expect(decodeURI(ShareView.getters.url(state, getters, {}, rootGetters))).to.equal(expectedURL);
             global.location = originalLocation;
         });
     });

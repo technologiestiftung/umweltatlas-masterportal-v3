@@ -108,4 +108,11 @@ describe("src/modules/shareView/store/gettersShareView.js", () => {
         expect(errorSpy.calledOnce).to.be.true;
         expect(errorSpy.firstCall.args[0]).to.include("Parsing the attributes of the module");
     });
+
+    it("should encode the url", () => {
+        const url = getters.url({}, {}, {}, rootGetters),
+            decodedUrl = decodeURI(url);
+
+        expect(url).not.to.equal(decodedUrl);
+    });
 });
