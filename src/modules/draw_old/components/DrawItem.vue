@@ -673,7 +673,7 @@ export default {
                     return "common:modules.draw_old.iconList." + option.id;
                 }
                 // need to fake the return here for now, as long as exists doesn't work
-                return "common:modules.draw_old.iconList." + option.id;
+                return option.id;
             }
             return "noName";
         },

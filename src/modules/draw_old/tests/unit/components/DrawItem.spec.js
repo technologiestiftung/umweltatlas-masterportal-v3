@@ -400,4 +400,47 @@ describe("src/modules/draw/components/DrawItem.vue", () => {
             expect(Draw_old.state.iconList.length).to.equal(iconListLength);
         });
     });
+
+    describe("getIconLabelKey", () => {
+        it("returns the id, if a global translation was found", () => {
+            sinon.stub(i18next, "exists").callsFake(id => id === "foo");
+            wrapper = shallowMount(DrawItemComponent, {global: {plugins: [store]}, data: componentData});
+
+            const icon = {
+                    id: "foo"
+                },
+                result = wrapper.vm.getIconLabelKey(icon);
+
+            expect(result).to.equal("foo");
+        });
+        it("returns the draw_old.iconList translation, if id was found in draw_old.iconList", () => {
+            sinon.stub(i18next, "exists").callsFake(id => id === "common:modules.draw_old.iconList.foo");
+
+            const icon = {
+                    id: "foo"
+                },
+                result = wrapper.vm.getIconLabelKey(icon);
+
+            expect(result).to.equal("common:modules.draw_old.iconList.foo");
+        });
+        it("returns the id, if no translation was found", () => {
+            sinon.stub(i18next, "exists").returns(false);
+            wrapper = shallowMount(DrawItemComponent, {global: {plugins: [store]}, data: componentData});
+
+            const icon = {
+                    id: "foo"
+                },
+                result = wrapper.vm.getIconLabelKey(icon);
+
+            expect(result).to.equal("foo");
+        });
+        it("returns 'noName', if no id was provided", () => {
+            wrapper = shallowMount(DrawItemComponent, {global: {plugins: [store]}, data: componentData});
+
+            const icon = {},
+                result = wrapper.vm.getIconLabelKey(icon);
+
+            expect(result).to.equal("noName");
+        });
+    });
 });
