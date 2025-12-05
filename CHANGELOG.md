@@ -52,6 +52,9 @@
   - Added alphanumerical sorting.
   - Security: Added SECURITY.md file.
 - layerTree: Added clickable folder paths in submenu, if `showFolderPath: true`.
+- Routing:
+  - Added new, configurable interval slider option
+  - Added functionality to calculcate isodistances < 1km with new interval slider option
 
 ### Changed
 - GFI: Ensures that the text within the GFI window wraps correctly.

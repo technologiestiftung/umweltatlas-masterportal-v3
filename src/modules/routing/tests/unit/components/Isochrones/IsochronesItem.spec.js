@@ -258,7 +258,7 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
         expect(wrapper.vm.currentValue).equal(10);
     });
 
-    it("computes maxInterval depending on currentValue", () => {
+    it("computes maxInterval depending on currentValue (default interval slider)", () => {
         wrapper = createWrapper();
         wrapper.vm.settings.distanceValue = 10;
         wrapper.vm.settings.isochronesMethodOption = "DISTANCE";
@@ -266,6 +266,28 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
         expect(wrapper.vm.maxIntervalValue).equal(10);
         wrapper.vm.settings.distanceValue = 30;
         expect(wrapper.vm.settings.maxInterval).equal(15);
+    });
+
+    it("computes maxInterval depending on currentValue (count interval slider)", () => {
+        wrapper = createWrapper();
+        wrapper.vm.settings.intervalOption = "count";
+        wrapper.vm.settings.distanceValue = 10;
+        wrapper.vm.settings.isochronesMethodOption = "DISTANCE";
+        wrapper.vm.settings.maxInterval = 10;
+
+        expect(wrapper.vm.maxIntervalValue).equal(10);
+
+        wrapper.vm.settings.distanceValue = 7;
+        expect(wrapper.vm.maxIntervalValue).equal(7);
+
+        wrapper.vm.settings.distanceValue = 20;
+        expect(wrapper.vm.maxIntervalValue).equal(10);
+
+        wrapper.vm.settings.distanceValue = 20;
+        expect(wrapper.vm.maxIntervalValue).equal(10);
+
+        wrapper.vm.settings.distanceValue = 0.5;
+        expect(wrapper.vm.maxIntervalValue).equal(5);
     });
 
     it("should setIntervalValue on changeMethodOption if value smaller than intervalValue", () => {

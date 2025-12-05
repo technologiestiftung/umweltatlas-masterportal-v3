@@ -177,17 +177,10 @@ describe("src/modules/routing/components/Isochrones/IsochronesLegend.vue", () =>
     });
 
     it("shows correct result", () => {
-        const toLocaleStringSpy = sinon.spy(Number.prototype, "toLocaleString"),
-            getDisplayValueSpy = sinon.spy(RoutingIsochronesArea.prototype, "getDisplayValue");
+        const toLocaleStringSpy = sinon.spy(Number.prototype, "toLocaleString");
 
         wrapper = createWrapper();
 
-        expect(getDisplayValueSpy.firstCall.returnValue).equals(30);
-        expect(toLocaleStringSpy.firstCall.thisValue).equals(250);
-        expect(toLocaleStringSpy.secondCall.thisValue).equals(100000);
-
-        expect(getDisplayValueSpy.secondCall.returnValue).equals(15);
-        expect(toLocaleStringSpy.thirdCall.thisValue).equals(100);
-        expect(toLocaleStringSpy.lastCall.thisValue).equals(35000);
+        expect(toLocaleStringSpy.returnValues).deep.to.equals(["30", "250", "100,000", "15", "100", "35,000"]);
     });
 });

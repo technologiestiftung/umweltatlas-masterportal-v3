@@ -1093,7 +1093,10 @@
           "population": "Bevölkerung:",
           "area": "Fläche:"
         },
-        "interval": "Intervall",
+        "interval": {
+          "default" : "Intervall",
+          "count": "Anzahl Intervalle"
+        },
         "legend": {
           "area": "Fläche",
           "color": "Farbe",

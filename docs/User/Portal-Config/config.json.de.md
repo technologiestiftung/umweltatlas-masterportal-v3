@@ -3822,6 +3822,7 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
 |timeValue|nein|Number|30|Welcher Zeitwert in min für den Slider verwendet werden soll.|false|
 |minTime|nein|Number|1|Welche minimale Zeit in min für den Slider verwendet werden soll.|false|
 |maxTime|nein|Number|180|Welche maximale Zeit in min für den Slider verwendet werden soll.|false|
+|intervalOption|no|enum["default","count"]|"default"|Welche Intervall-Option benutzt werden soll.|false|
 |intervalValue|nein|Number|15|Welcher Intervallwert in km/min für den Slider verwendet werden soll.|false|
 |minInterval|nein|Number|1|Welches minimale Intervall in km/min für den Slider verwendet werden soll.|false|
 |maxInterval|nein|Number|30|Welches maximale Intervall in km/min für den Slider verwendet werden soll.|false|
@@ -3846,6 +3847,7 @@ Routing-Werkzeug Erreichbarkeitsanalysen Optionen.
         "timeValue": 30,
         "minTime": 1,
         "maxTime": 180,
+        "intervalOption": "default",
         "intervalValue": 15,
         "minInterval": 3,
         "maxInterval": 30,

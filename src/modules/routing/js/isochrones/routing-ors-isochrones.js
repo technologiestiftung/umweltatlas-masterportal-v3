@@ -55,10 +55,11 @@ async function fetchRoutingOrsIsochrones ({
     avoidBorders
 }) {
     const url = getRoutingIsochronesSettingsUrl(speedProfile),
-        rangeValue = optimization === "TIME" ? state.Isochrones.settings.timeValue : state.Isochrones.settings.distanceValue,
+        rangeValue = optimization === "TIME" ? state.isochronesSettings.timeValue : state.isochronesSettings.distanceValue,
         optimizationMultiplicator = routingOrsOptimizationMultiplicator(optimization),
         range = rangeValue * optimizationMultiplicator,
-        interval = state.Isochrones.settings.intervalValue * optimizationMultiplicator,
+        intervalDefault = state.isochronesSettings.intervalValue * optimizationMultiplicator,
+        intervalCount = state.isochronesSettings.intervalValue,
         attributes = state.isochronesSettings.attributes;
     let result = null,
         first = null,
@@ -69,7 +70,7 @@ async function fetchRoutingOrsIsochrones ({
     try {
         const postParams = {
             // 15 Min * 60 Sek || 15km * 1000m // interval steps
-            interval,
+            interval: state.isochronesSettings.intervalOption === "count" ? range / intervalCount : intervalDefault,
             locations: [coordinates],
             // start || destination
             location_type: "start",
@@ -143,7 +144,7 @@ async function fetchRoutingOrsIsochrones ({
                 groupIndex: feature.properties.group_index,
                 value: feature.properties.value,
                 maximum: range,
-                interval: interval,
+                interval: state.isochronesSettings.intervalOption === "count" ? intervalCount : intervalDefault,
                 speedProfile: speedProfile,
                 optimization: optimization,
                 avoidSpeedProfileOptions: avoidSpeedProfileOptions.map(option => option.id),

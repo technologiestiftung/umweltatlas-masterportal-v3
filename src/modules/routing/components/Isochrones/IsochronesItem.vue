@@ -59,6 +59,13 @@ export default {
          * @returns {Number} maximum value for the interval slider
          */
         maxIntervalValue () {
+            if (this.settings.intervalOption === "count") {
+                if (this.currentValue <= 1) {
+                    return this.settings.isochronesMethodOption === "TIME" ? this.currentValue : this.currentValue * 10;
+                }
+                return this.currentValue < this.settings.maxInterval ? Math.ceil(this.currentValue) : this.settings.maxInterval;
+            }
+
             return this.currentValue < this.settings.maxInterval ? this.currentValue : this.settings.maxInterval;
         },
 
@@ -76,6 +83,9 @@ export default {
          * @returns {Number} Number of isochrones.
          */
         numberOfIsochrones () {
+            if (this.settings.intervalOption === "count") {
+                return this.settings.intervalValue;
+            }
             if (this.settings.intervalValue === 0) {
                 return Infinity;
             }
@@ -114,7 +124,7 @@ export default {
         changeMethodOption (methodOptionId) {
             this.settings.isochronesMethodOption = methodOptionId;
             if (this.currentValue < this.settings.intervalValue) {
-                this.setIntervalValue(this.currentValue);
+                this.setIntervalValue(Math.round(this.currentValue));
             }
         },
         /**
@@ -123,9 +133,31 @@ export default {
          * @returns {void}
          */
         setDistanceValue (distanceValue) {
-            this.settings.distanceValue = distanceValue;
-            if (distanceValue < this.settings.intervalValue) {
-                this.setIntervalValue(distanceValue);
+            if (this.settings.intervalOption === "count") {
+                if (distanceValue > 1) {
+                    if (distanceValue > this.settings.distanceValue) {
+                        this.settings.distanceValue = Math.ceil(distanceValue);
+                    }
+                    else {
+                        this.settings.distanceValue = Math.floor(distanceValue);
+                    }
+
+                    if (distanceValue < this.settings.intervalValue) {
+                        this.setIntervalValue(this.settings.distanceValue);
+                    }
+                }
+                else {
+                    this.settings.distanceValue = distanceValue;
+                    if (distanceValue * 10 < this.settings.intervalValue) {
+                        this.setIntervalValue(this.settings.distanceValue * 10);
+                    }
+                }
+            }
+            else {
+                this.settings.distanceValue = distanceValue;
+                if (distanceValue < this.settings.intervalValue) {
+                    this.setIntervalValue(distanceValue);
+                }
             }
         },
         /**
@@ -274,6 +306,7 @@ export default {
                 :min="settings.minDistance"
                 :max="settings.maxDistance"
                 :disabled="isInputDisabled"
+                :step="settings.intervalOption === 'count' ? 0.1 : 1"
                 unit="km"
                 @input="setDistanceValue($event)"
             />
@@ -292,7 +325,7 @@ export default {
         </template>
 
         <RoutingSliderInput
-            :label="$t('common:modules.routing.isochrones.interval')"
+            :label="settings.intervalOption === 'count' ? $t('common:modules.routing.isochrones.interval.count') : $t('common:modules.routing.isochrones.interval.default')"
             :value="settings.intervalValue"
             :min="minIntervalValue"
             :max="maxIntervalValue"

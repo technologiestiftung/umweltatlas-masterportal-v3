@@ -3828,6 +3828,7 @@ Routing-tool isochrones options.
 |timeValue|no|Number|30|Which time value in min should be selected by default.|false|
 |minTime|no|Number|1|Which minimal time value in min should be used.|false|
 |maxTime|no|Number|180|Which maximum time in min should be used.|false|
+|intervalOption|no|enum["default","count"]|"default"|Which interval mode should be used.|false|
 |intervalValue|no|Number|15|Which interval value in km/min should be used by default.|false|
 |minInterval|no|Number|1|Which minimal interval value in km/min should be used.|false|
 |maxInterval|no|Number|30|Which maximum interval value in km/min should be used.|false|
@@ -3852,6 +3853,7 @@ Routing-tool isochrones options.
         "timeValue": 30,
         "minTime": 1,
         "maxTime": 180,
+        "intervalOption": "default",
         "intervalValue": 15,
         "minInterval": 3,
         "maxInterval": 30,

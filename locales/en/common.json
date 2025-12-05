@@ -1090,7 +1090,10 @@
           "population": "Population:",
           "area": "Area:"
         },
-        "interval": "Interval",
+        "interval": {
+          "default" : "Interval",
+          "count": "Amount of intervals"
+        },
         "legend": {
           "area": "Area",
           "color": "Color",

@@ -57,12 +57,25 @@ export default {
         <label :for="'routing-slider-input-' + label">
             <h6>{{ label }}</h6>
         </label>
-        <div class="d-flex justify-content-between">
+        <div
+            v-if="label !== $t('common:modules.routing.isochrones.interval.count')"
+            class="d-flex justify-content-between"
+        >
             <span>{{ min }} {{ unit }}</span>
             <span>
                 <b>{{ value }}</b> <span>{{ unit }}</span>
             </span>
             <span>{{ max }} {{ unit }}</span>
+        </div>
+        <div
+            v-else
+            class="d-flex justify-content-between"
+        >
+            <span>{{ min }}</span>
+            <span>
+                <b>{{ value }}</b>
+            </span>
+            <span>{{ max }}</span>
         </div>
 
         <SliderItem

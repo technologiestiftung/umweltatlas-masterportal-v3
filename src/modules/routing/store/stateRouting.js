@@ -121,6 +121,7 @@ const state = {
         timeValue: 30,
         minTime: 1,
         maxTime: 180,
+        intervalOption: "default",
         intervalValue: 15,
         minInterval: 3,
         maxInterval: 30,

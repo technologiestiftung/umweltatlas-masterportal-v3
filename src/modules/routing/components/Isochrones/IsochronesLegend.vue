@@ -64,7 +64,7 @@ export default {
                         />
                     </td>
                     <td>
-                        <span>{{ area.getDisplayValue() }}</span>
+                        <span>{{ parseFloat(area.getDisplayValue().toFixed(2)).toLocaleString() }}</span>
                     </td>
                     <td v-if="isochronesSettings.attributes.includes('area')">
                         <span>{{ Math.round(area.getArea()).toLocaleString() }}</span>
