@@ -21923,5 +21923,1017 @@
     "minScale": "500",
     "maxScale": "10000",
     "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ba_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:bb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "bb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:bc_kernindikator_laerm",
+    "name": "Kernindikator Lärmbelastung 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "bc_kernindikator_laerm",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ca_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ca_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:cb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "cb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:cc_kernindikator_luft",
+    "name": "Kernindikator Luftbelastung 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "cc_kernindikator_luft",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:da_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "da_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:db_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "db_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:dc_kernindikator_gruen",
+    "name": "Kernindikator Grünversorung 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "dc_kernindikator_gruen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ea_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ea_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:eb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "eb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ec_kernindikator_bioklima",
+    "name": "Kernindikator Bioklima 2011",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ec_kernindikator_bioklima",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fa_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fa_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fc_kernindikator_sozial",
+    "name": "Kernindikator Soziale Problematik 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fc_kernindikator_sozial",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ga_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
+    "name": "Integrierte Mehrfachbelastung Umwelt 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gc_vierfach_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ha_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ha_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:hb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "hb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:hc_umwelt_sozial_belastung",
+    "name": "Integrierte Mehrfachbelastung Umwelt und Soziale Problematik 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "hc_umwelt_sozial_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ia_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ia_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ib_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ib_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ic_thematisch_belastung",
+    "name": "Integrierte Mehrfachbelastungskarte - thematisch 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ic_thematisch_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ja_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ja_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:jb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "jb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:jc_gesamt_belastung",
+    "name": "Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte - 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "jc_gesamt_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:b_09_01_1UGlaerm2021",
+    "name": "Kernindikator Lärmbelastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "b_09_01_1UGlaerm2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:c_09_01_2UGluft2021",
+    "name": "Kernindikator Luftbelastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "c_09_01_2UGluft2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:d_09_01_3UGgruen2021",
+    "name": "Kernindikator Grünversorung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "d_09_01_3UGgruen2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:e_09_01_4UGbioklima2021",
+    "name": "Kernindikator Thermische Belastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "e_09_01_4UGbioklima2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:f_09_01_5UGsozial2021",
+    "name": "Kernindikator Soziale Benachteiligung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "f_09_01_5UGsozial2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:g_09_01_6UGmehrfach4_2021",
+    "name": "Integrierte Mehrfachbelastungskarte Umwelt",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "g_09_01_6UGmehrfach4_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:h_09_01_7UGmehrfach5_2021",
+    "name": "Integrierte Mehrfachbelastungskarte Umwelt und Soziale Benachteiligung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "h_09_01_7UGmehrfach5_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:i_09_01_9gesamt2021",
+    "name": "Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "i_09_01_9gesamt2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:a_laerm2023",
+    "name": "Kernindikator Lärmbelastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "a_laerm2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:b_luft2023",
+    "name": "Kernindikator Luftbelastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "b_luft2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:c_gruen2023",
+    "name": "Kernindikator Grünversorgung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "c_gruen2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:d_bioklima2023",
+    "name": "Kernindikator Thermische Belastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "d_bioklima2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:e_sozial2023",
+    "name": "Kernindikator Soziale Benachteiligung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "e_sozial2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:f_mehrfach4_2023",
+    "name": "Integrierte Mehrfachbelastung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "f_mehrfach4_2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:g_mehrfach5_2023",
+    "name": "Integrierte Mehrfachbelastung Umwelt und Soziale Benachteiligung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "g_mehrfach5_2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit2023:z_gesamt_umwelt2023",
+    "name": "Integrierte Mehrfachbelastung – Berliner Umweltgerechtigkeitskarte",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit2023",
+    "typ": "WMS",
+    "layers": "z_gesamt_umwelt2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e00bf228-f1db-458d-b678-6dd731db5c83",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   }
 ]
