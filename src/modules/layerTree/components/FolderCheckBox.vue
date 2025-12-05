@@ -3,9 +3,10 @@ import {mapActions} from "vuex";
 import escapeId from "@shared/js/utils/escapeId.js";
 
 /**
- * Displays a checkbox to select a folder in layertree.
+ * Displays a checkbox that can be used to select or deselect all layers in a folder in the layer tree.
  * @module modules/layerTree/components/FolderCheckBox
  * @vue-prop {Object} conf - The current layer configuration.
+ * @vue-data {Object} icons - The checkbox icons.
  */
 export default {
     name: "FolderCheckBox",

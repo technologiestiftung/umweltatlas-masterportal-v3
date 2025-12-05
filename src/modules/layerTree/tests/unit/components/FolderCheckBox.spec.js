@@ -95,6 +95,7 @@ describe("src/modules/layerTree/components/FolderCheckBox.vue", () => {
         expect(wrapper.find("#folder-checkbox-container-" + escapeId(propsData.conf.id)).exists()).to.be.true;
         expect(wrapper.find("#folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
         expect(wrapper.find("#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).classes()).to.includes("bi-dash-square");
     });
 
     describe("checkLayerStatus", () => {
@@ -127,8 +128,34 @@ describe("src/modules/layerTree/components/FolderCheckBox.vue", () => {
         });
     });
 
+    describe("currentStatus", () => {
+        it("should return the current status", () => {
+            wrapper = shallowMount(FolderCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.currentStatus).to.equals("indeterminate");
+        });
+    });
+
+    describe("folderCheckBoxIcon", () => {
+        it("should return the current checkbox icon for folder", () => {
+            wrapper = shallowMount(FolderCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.folderCheckBoxIcon).to.equals("bi-dash-square");
+        });
+    });
+
     describe("changeCheckboxStatus", () => {
-        it("should set all layer status in the given folder to visibility=false, if current status is selected", async () => {
+        it("should set all layer status in the given folder to visibility=false, if current status is selected", () => {
             wrapper = shallowMount(FolderCheckBox, {
                 global: {
                     plugins: [store]
