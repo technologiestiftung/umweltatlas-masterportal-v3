@@ -19304,6 +19304,774 @@
 
             {
 
+              "name": "Umweltgerechtigkeit",
+
+              "type": "folder",
+
+              "elements": [
+
+                {
+
+                  "name": "2013",
+
+                  "type": "folder",
+
+                  "elements": [
+
+                    {
+
+                      "name": "09.01.1 Lärmbelastung 2012",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:bb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:bc_kernindikator_laerm",
+
+                          "name": "2012 - Kernindikator Lärmbelastung (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.2 Luftbelastung 2009",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ca_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:cb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:cc_kernindikator_luft",
+
+                          "name": "2009 - Kernindikator Luftbelastung (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.3 Grünflächenversorgung 2012",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:da_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:db_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:dc_kernindikator_gruen",
+
+                          "name": "2012 - Kernindikator Grünversorung (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.4 Bioklima/thermische Belastung 2011",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ea_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:eb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ec_kernindikator_bioklima",
+
+                          "name": "2011 - Kernindikator Bioklima (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.5 Soziale Problematik/Status-Index 2013",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:fa_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:fb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:fc_kernindikator_sozial",
+
+                          "name": "2013 - Kernindikator Soziale Problematik (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.6 Integrierte Mehrfachbelastung Umwelt 2013",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
+
+                          "name": "2013 - Integrierte Mehrfachbelastung Umwelt (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.7 Integrierte Mehrfachbelastung Umwelt und Soziale Problematik 2013",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ha_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:hb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:hc_umwelt_sozial_belastung",
+
+                          "name": "2013 - Integrierte Mehrfachbelastung Umwelt und Soziale Problematik (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.8 Integrierte Mehrfachbelastungskarte - thematisch 2013",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ia_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ib_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ic_thematisch_belastung",
+
+                          "name": "2013 - Integrierte Mehrfachbelastungskarte - thematisch (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte 2013",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:ja_plr2009",
+
+                          "name": "2009 - Planungsraum (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:jb_unbewofl",
+
+                          "name": "2009 - weitgehend unbewohnte Fläche (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2013:jc_gesamt_belastung",
+
+                          "name": "2013 - Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte - (Umweltgerechtigkeit 2013 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    }
+
+                  ]
+
+                },
+
+                {
+
+                  "name": "2022",
+
+                  "type": "folder",
+
+                  "elements": [
+
+                    {
+
+                      "name": "09.01.1 Lärmbelastung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:b_09_01_1UGlaerm2021",
+
+                          "name": "Kernindikator Lärmbelastung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.2 Luftbelastung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:c_09_01_2UGluft2021",
+
+                          "name": "Kernindikator Luftbelastung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.3 Grünversorgung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:d_09_01_3UGgruen2021",
+
+                          "name": "Kernindikator Grünversorung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.4 Thermische Belastung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:e_09_01_4UGbioklima2021",
+
+                          "name": "Kernindikator Thermische Belastung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.5 Soziale Benachteiligung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:f_09_01_5UGsozial2021",
+
+                          "name": "Kernindikator Soziale Benachteiligung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.6 Mehrfachbelastung Umwelt 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:g_09_01_6UGmehrfach4_2021",
+
+                          "name": "Integrierte Mehrfachbelastungskarte Umwelt (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:h_09_01_7UGmehrfach5_2021",
+
+                          "name": "Integrierte Mehrfachbelastungskarte Umwelt und Soziale Benachteiligung (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte 2021/2022",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+
+                          "name": "S-Bahnring (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        },
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit_2021:i_09_01_9gesamt2021",
+
+                          "name": "Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte (Umweltgerechtigkeit 2021/2022 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    }
+
+                  ]
+
+                },
+
+                {
+
+                  "name": "2024",
+
+                  "type": "folder",
+
+                  "elements": [
+
+                    {
+
+                      "name": "09.01.1 Lärmbelastung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:a_laerm2023",
+
+                          "name": "Kernindikator Lärmbelastung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.2 Luftbelastung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:b_luft2023",
+
+                          "name": "Kernindikator Luftbelastung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.3 Grünversorgung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:c_gruen2023",
+
+                          "name": "Kernindikator Grünversorgung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.4 Thermische Belastung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:d_bioklima2023",
+
+                          "name": "Kernindikator Thermische Belastung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.5 Soziale Benachteiligung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:e_sozial2023",
+
+                          "name": "Kernindikator Soziale Benachteiligung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.6 Mehrfachbelastung Umwelt 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:f_mehrfach4_2023",
+
+                          "name": "Integrierte Mehrfachbelastung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:g_mehrfach5_2023",
+
+                          "name": "Integrierte Mehrfachbelastung Umwelt und Soziale Benachteiligung (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    },
+
+                    {
+
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte 2023/2024",
+
+                      "type": "folder",
+
+                      "elements": [
+
+                        {
+
+                          "id": "ua_umweltgerechtigkeit2023:z_gesamt_umwelt2023",
+
+                          "name": "Integrierte Mehrfachbelastung – Berliner Umweltgerechtigkeitskarte (Umweltgerechtigkeit 2023/2024 (Umweltatlas))"
+
+                        }
+
+                      ]
+
+                    }
+
+                  ]
+
+                }
+
+              ]
+
+            }
+
+          ]
+
+        },
+
+        {
+
+          "name": "Mensch",
+
+          "type": "folder",
+
+          "elements": [
+
+            {
+
               "name": "Umweltgerechtigkeit Berlin",
 
               "type": "folder",
