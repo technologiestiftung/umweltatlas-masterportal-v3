@@ -273,6 +273,9 @@ export default {
             imageName = style.imageName;
         let newLegendObj = legendObj;
 
+        if (style.imageScale !== null && style.imageScale !== undefined) {
+            newLegendObj.imageScale = style.imageScale;
+        }
         if (type === "icon") {
             if (imageName.startsWith("https:")) {
                 newLegendObj.graphic = imageName;

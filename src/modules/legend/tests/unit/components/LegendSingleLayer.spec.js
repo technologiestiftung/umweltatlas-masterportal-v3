@@ -207,6 +207,28 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
             expect(wrapper.find("#legend_myLayer img").exists()).to.be.true;
             expect(wrapper.find("#legend_myLayer img").attributes().src).to.include("&sld_version=1.1.0");
         });
+
+        it("scales images", () => {
+            const propsData = {
+                legendObj: {
+                    name: "myLayer",
+                    legend: [{name: "foobar", graphic: "some_string_interpreted_as_image"}],
+                    position: 1
+                }
+            };
+
+            wrapper = shallowMount(LegendSingleLayerComponent, {
+                global: {plugins: [store]},
+                propsData
+            });
+
+            // eslint-disable-next-line one-var
+            const scaleImgStub = sinon.stub(wrapper.vm, "scaleImg");
+
+            wrapper.find("img").trigger("load");
+
+            expect(scaleImgStub.calledOnce).to.have.be.true;
+        });
     });
 
     describe("renders legend with svg", () => {
@@ -286,6 +308,33 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
             expect(wrapper.find(".layer-legend-container span").text()).to.equal("foobar");
             expect(wrapper.find("img.second-image").exists()).to.be.true;
             expect(wrapper.find("img.second-image").attributes().src).to.equal("some_string_interpreted_as_image1");
+        });
+        it("scales svgs", () => {
+            const propsData = {
+                legendObj: {
+                    name: "myLayer",
+                    legend: [{
+                        name: "foobar",
+                        graphic: "data:image/svg+xml;charset=utf-8," +
+                            "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'>" +
+                            "<polygon points='5,5 30,5 30,30 5,30' style='fill:rgba(255,0,0);fill-opacity:0;stroke:rgba(0,0,255);stroke-opacity:0;stroke-width:1;'/>" +
+                            "</svg>"
+                    }],
+                    position: 1
+                }
+            };
+
+            wrapper = shallowMount(LegendSingleLayerComponent, {
+                global: {plugins: [store]},
+                propsData
+            });
+
+            // eslint-disable-next-line one-var
+            const scaleImgStub = sinon.stub(wrapper.vm, "scaleImg");
+
+            wrapper.find("img").trigger("load");
+
+            expect(scaleImgStub.calledOnce).to.have.be.true;
         });
     });
 
@@ -425,6 +474,52 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
             });
 
             expect(wrapper.vm.filteredLegend).to.deep.equal([]);
+        });
+    });
+    describe("scaleImg", () => {
+        it("updates the image width based on the given imageScale and natural", () => {
+            const propsData = {
+                    legendObj: {}
+                },
+                evt = {
+                    target: {
+                        naturalWidth: 50,
+                        width: 50
+                    }
+                },
+                legendPart = {
+                    imageScale: 2
+                };
+
+            wrapper = shallowMount(LegendSingleLayerComponent, {
+                global: {plugins: [store]},
+                propsData
+            });
+
+            wrapper.vm.scaleImg(evt, legendPart);
+
+            expect(evt.target.width).to.equal(100);
+        });
+        it("does not update the image width if no imageScale is given", () => {
+            const propsData = {
+                    legendObj: {}
+                },
+                evt = {
+                    target: {
+                        naturalWidth: 50,
+                        width: 50
+                    }
+                },
+                legendPart = {};
+
+            wrapper = shallowMount(LegendSingleLayerComponent, {
+                global: {plugins: [store]},
+                propsData
+            });
+
+            wrapper.vm.scaleImg(evt, legendPart);
+
+            expect(evt.target.width).to.equal(50);
         });
     });
 });

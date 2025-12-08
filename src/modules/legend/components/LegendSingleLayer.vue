@@ -61,6 +61,13 @@ export default {
 
             return [];
         }
+    },
+    methods: {
+        scaleImg (evt, legendPart) {
+            if (legendPart.imageScale !== null && legendPart.imageScale !== undefined) {
+                evt.target.width = legendPart.imageScale * evt.target.naturalWidth;
+            }
+        }
     }
 };
 </script>
@@ -122,11 +129,13 @@ export default {
                                 margin: legendPart.iconSizeDifferenz + 'px'
                             }"
                             class="first-image"
+                            @load="(evt) => scaleImg(evt, legendPart)"
                         >
                         <img
                             :alt="legendPart.name ? legendPart.name : legendObj.name"
                             :src="Array.isArray(legendPart.graphic) ? legendPart.graphic[0] : legendPart.graphic"
                             class="second-image"
+                            @load="(evt) => scaleImg(evt, legendPart)"
                         >
                         <span
                             class="ms-4 image-name"
@@ -141,6 +150,7 @@ export default {
                             :alt="legendPart.name ? legendPart.name : legendObj.name"
                             :src="legendPart.graphic"
                             class="left"
+                            @load="(evt) => scaleImg(evt, legendPart)"
                         >
                         <!--Legend PDF as Link-->
                         <a

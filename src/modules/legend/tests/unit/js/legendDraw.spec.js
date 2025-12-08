@@ -244,6 +244,17 @@ describe("src/modules/legend/js/legendDraw", function () {
             result = legendDraw.prepareLegendForPoint({}, style);
             expect(result).to.be.equals("graphic");
         });
+
+        it("prepareLegendForPoint contains imageScale for any given type", function () {
+            const style = {
+                    type: "foo",
+                    imageScale: 0.5
+                },
+                result = legendDraw.prepareLegendForPoint({}, style);
+
+            expect(result.imageScale).to.equal(style.imageScale);
+        });
+
     });
 
     describe("prepare", function () {

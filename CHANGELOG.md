@@ -24,6 +24,7 @@
 - Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
 - Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
 - wfsSearch: reset dependent fields at changed selection.
+- Issue #1310: legend images scale correctly now.
 
 ---
 
