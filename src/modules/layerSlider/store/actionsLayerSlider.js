@@ -1,3 +1,5 @@
+import layerCollection from "@core/layers/js/layerCollection.js";
+
 export default {
     /**
      * Adds an index to the layer ids.
@@ -5,9 +7,17 @@ export default {
      * @param {Object[]} layerIds The configuration of the layers from config.json.
      * @returns {void}
      */
-    addIndexToLayerIds: ({commit}, layerIds) => {
+    addInformationToLayerIds: ({commit, rootGetters}, layerIds) => {
         const layerIdsWithIndex = layerIds.map((layerId, index) => {
+            const layerContainer = layerCollection.getLayerById(layerId.layerId);
+
             layerId.index = index;
+            layerId.visibility = layerContainer
+                ? layerContainer.layer.getVisible()
+                : rootGetters.allLayerConfigs.find(({id}) => id === layerId.layerId)?.visibility ?? false;
+            layerId.transparency = layerContainer
+                ? Math.floor(100 - (layerContainer.layer.getOpacity() * 100))
+                : rootGetters.allLayerConfigs.find(({id}) => id === layerId.layerId)?.transparency ?? 0;
 
             return layerId;
         });
