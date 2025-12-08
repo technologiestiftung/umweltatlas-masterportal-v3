@@ -9,6 +9,7 @@
 
 ### Added
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
+- App: All locales can now be overridden with the config.js, and new locales can be added.
 - Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
 
 ### Changed
