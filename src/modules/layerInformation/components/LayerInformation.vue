@@ -108,45 +108,72 @@ export default {
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-           metadataContacts () {
-            const list = [];
+        metadataContacts () {
+    const list = [];
 
-            if (Array.isArray(this.pointOfContact)) {
-                list.push(...this.pointOfContact);
-            }
-            else if (this.pointOfContact) {
-                list.push(this.pointOfContact);
-            }
+    if (Array.isArray(this.pointOfContact)) {
+        list.push(...this.pointOfContact);
+    }
+    else if (this.pointOfContact) {
+        list.push(this.pointOfContact);
+    }
 
-            if (Array.isArray(this.publisher)) {
-                list.push(...this.publisher);
-            }
-            else if (this.publisher) {
-                list.push(this.publisher);
-            }
+    if (Array.isArray(this.publisher)) {
+        list.push(...this.publisher);
+    }
+    else if (this.publisher) {
+        list.push(this.publisher);
+    }
 
-            return list;
-        },
+    return list;
+},
 
-        contacts () {
-            const list = this.metadataContacts;
-            if (!list.length) return [];
+contacts () {
+    const list = this.metadataContacts;
+    if (!list.length) return [];
 
-            const isUnwanted = (c) => {
-                if (!c) return false;
-                const text = [
-                    c.individualName,
-                    c.name,
-                    ...(Array.isArray(c.positionName) ? c.positionName : [])
-                ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
-                return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
-            };
+    const isUnwanted = (c) => {
+        if (!c) return false;
+        const text = [
+            c.individualName,
+            c.name,
+            c.organisationName,
+            ...(Array.isArray(c.positionName) ? c.positionName : [])
+        ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+        return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
+    };
 
-            const filtered = list.filter(c => !isUnwanted(c));
-            return filtered.length ? filtered : list;
+    const filteredByName = list.filter(c => !isUnwanted(c));
+    const base = filteredByName.length ? filteredByName : list;
+
+    return base
+        .map(c => {
+            const org =
+                c.name ??
+                c.organisationName ??
+                c.orgName ??
+                "";
+            const person =
+                c.individualName ??
+                c.person ??
+                c.contactName ??
+                "";
+            const phone =
+                c.phone ??
+                c.tel ??
+                c.voice ??
+                "";
+            const email =
+                c.email ??
+                c.mail ??
+                c.electronicMailAddress ??
+                "";
+            return {org, person, phone, email};
+        })
+        .filter(c => c.org || c.person || c.phone || c.email);
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -347,20 +374,20 @@ export default {
             </div>
 
             <div class="ua-break-two">
-                <p v-if="contact?.name">
-                    {{ contact.name }}
+                <p v-if="contact.org">
+                    {{ contact.org }}
                 </p>
 
-                <p v-if="contact?.individualName">
-                    {{ contact.individualName }}
+                <p v-if="contact.person">
+                    {{ contact.person }}
                 </p>
 
-                <p v-if="contact?.phone">
+                <p v-if="contact.phone">
                     Tel.: {{ contact.phone }}
                 </p>
 
                 <a
-                    v-if="contact?.email"
+                    v-if="contact.email"
                     :href="'mailto:' + contact.email"
                 >
                     {{ contact.email }}
