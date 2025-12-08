@@ -36,11 +36,20 @@ export default {
             "topBaselayerId"
         ]),
         /**
-         * Returns contact details from pointOfContact if given otherwise from publisher from meta data information.
-         * @returns {String} Contanct details.
+         * Returns a single contact object to use in the contact module.
+         * If pointOfContact / publisher are arrays, the first entry is used.
+         * @returns {Object|null} Contact details.
          */
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            const primary = Array.isArray(this.pointOfContact)
+                ? this.pointOfContact[0]
+                : this.pointOfContact;
+
+            const fallback = Array.isArray(this.publisher)
+                ? this.publisher[0]
+                : this.publisher;
+
+            return primary || fallback || null;
         },
         /**
          * Returns true if the contact module is configured in either of the menus.
@@ -70,7 +79,12 @@ export default {
         mailOriginHint () {
             const layerInfo = `{"layerInfo":{"id":"${this.layerInfo.id}"}}`;
 
-            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayerId}","visibility":true}]`);
+            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" +
+                encodeURI(
+                    window.location.href.toString().split("#")[0] +
+                    `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}` +
+                    `&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayerId}","visibility":true}]`
+                );
         }
     },
     methods: {
@@ -80,12 +94,16 @@ export default {
          * @returns {void}
          */
         openContactModule () {
+            if (!this.contact) {
+                return;
+            }
+
             const props = {
                 name: this.$t(this.contactName),
                 to: [
                     {
                         email: this.contact.email,
-                        name: this.contact.name
+                        name: this.contact.name || this.contact.individualName || ""
                     }
                 ],
                 infoMessage: this.infoMessage,
@@ -102,12 +120,11 @@ export default {
         }
     }
 };
-
 </script>
 
 <template lang="html">
     <div
-        id="'layer-component-sub-menu-contact-button' + layerConf.id"
+        id="'layer-component-sub-menu-contact-button' + layerName"
     >
         <FlatButton
             v-if="contactConfigured && contact"
