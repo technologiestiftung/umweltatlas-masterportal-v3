@@ -22,6 +22,7 @@
 - Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
 - Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
 - wfsSearch: reset dependent fields at changed selection.
+- Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
 
 ---
 

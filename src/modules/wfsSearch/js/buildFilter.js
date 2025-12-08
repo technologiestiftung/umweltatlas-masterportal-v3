@@ -71,9 +71,9 @@ function buildStoredFilter (values) {
  * @returns {String} XML Filter.
  */
 function buildXmlFilter (field) {
-    const {fieldName, parameterIndex, type, value} = field,
+    const {fieldName, parameterIndex, queryType, value} = field,
         multipleValuesInField = typeof parameterIndex === "number",
-        fieldType = multipleValuesInField ? type[parameterIndex] : type,
+        fieldType = multipleValuesInField ? queryType[parameterIndex] : queryType,
         currentFieldName = multipleValuesInField ? fieldName[parameterIndex] : fieldName,
         likeFilter = fieldType === "like",
         property = `<ogc:PropertyName>${currentFieldName}</ogc:PropertyName><ogc:Literal>${value}${likeFilter ? likeFilterProperties.wildCard : ""}</ogc:Literal>`;
