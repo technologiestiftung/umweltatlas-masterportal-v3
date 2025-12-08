@@ -8,13 +8,23 @@ import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactB
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
 
-const SKIP_CONTACT_NAMES = [
-    "haag",
-    "hartbecke",
-    "döllefeld",
-    "doellefeld"
-];
-
+/**
+ * The Layer Information that gives the user information, links and the legend for a layer
+ * @module modules/layerInformation/components/LayerInformation
+ * @vue-data {String} activeTab - The active tab.
+ * @vue-computed {Boolean} showAdditionalMetaData - Shows if additional meta data should be displayed.
+ * @vue-computed {Boolean} showCustomMetaData - Shows if custom meta data should be displayed.
+ * @vue-computed {Boolean} showPublication - Shows if publication should be displayed.
+ * @vue-computed {Boolean} showPeriodicity - Shows if periodicity should be displayed.
+ * @vue-computed {Boolean} showDownloadLinks - Shows if download lonks should be displayed.
+ * @vue-computed {Boolean} showUrl - Shows if url should be displayed.
+ * @vue-computed {Boolean} showAttachFile - Shows if file type needs to be attached for download.
+ * @vue-computed {String} layerUrl - The layer URL.
+ * @vue-computed {String} legendURL - The legend URL.
+ * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
+ * @vue-computed {Boolean} menuIndicator - Returns the menu the LayerInfo module is in.
+ * @vue-computed {String} layerName - Name of the layer.
+ */
 export default {
     name: "LayerInformation",
     components: {
@@ -56,11 +66,10 @@ export default {
             "secondaryMenu"
         ]),
         ...mapGetters(["allLayerConfigsStructured"]),
-
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
-        showAbstractText () {
+        showAbstractText () {            
             return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
@@ -79,103 +88,46 @@ export default {
             return this.downloadLinks !== null;
         },
         showUrl () {
-            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) ||
-                (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
+            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) || (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
         },
         showAttachFile () {
             return this.downloadLinks && this.downloadLinks.length > 1;
         },
         layerUrl () {
-            return Array.isArray(this.layerInfo.url)
-                ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl)
-                : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
+            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
         },
-        legendURL () {
+        legendURL  () {
             return this.layerInfo.legendURL;
         },
-        layerTyp () {
-            return this.layerInfo.typ !== "GROUP"
-                ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`
-                : this.$t("common:modules.layerInformation.addressSuffixes");
+        layerTyp  () {
+            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-
-        metadataContacts () {
-            const list = [];
-
-            if (Array.isArray(this.pointOfContact)) {
-                list.push(...this.pointOfContact);
-            }
-            else if (this.pointOfContact) {
-                list.push(this.pointOfContact);
-            }
-
-            if (Array.isArray(this.publisher)) {
-                list.push(...this.publisher);
-            }
-            else if (this.publisher) {
-                list.push(this.publisher);
-            }
-
-            return list;
+        contact () {
+            return this.pointOfContact || this.publisher || null;
         },
-
-        contacts () {
-            const list = this.metadataContacts;
-            if (!list.length) {
-                return [];
-            }
-
-            const isUnwanted = (c) => {
-                if (!c) return false;
-                const text = [
-                    c.individualName,
-                    c.name,
-                    c.organisationName,
-                    ...(Array.isArray(c.positionName) ? c.positionName : [])
-                ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
-                return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
-            };
-
-            const filteredByName = list.filter(c => !isUnwanted(c));
-            const base = filteredByName.length ? filteredByName : list;
-
-            return base
-                .map(c => ({
-                    org: c.name || c.organisationName || "",
-                    person: c.individualName || "",
-                    phone: c.phone || c.tel || "",
-                    email: c.email || ""
-                }))
-                .filter(c => c.org || c.person || c.phone || c.email);
-        },
-
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
                 : "secondaryMenu";
         },
         layerName () {
+            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData () {
+        uaData(){      
             return {
-                uaGdiURL: this.layerInfo?.metaID
-                    ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID
-                    : "",
-                uaInfoURL: this.layerInfo?.uaInfoURL ?? null,
-                uaDownload: this.layerInfo?.uaDownload ?? null,
+                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
+                uaDownload: this.layerInfo?.uaDownload ?? null, 
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
-            };
+            }
         },
-        fullPath () {
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey);
-            const fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+        fullPath(){
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+            let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
             fullPath.pop();
             return fullPath;
         }
@@ -205,19 +157,44 @@ export default {
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
-        ...mapActions("Modules/SearchBar", ["showInTree"]),
+        ...mapActions("Modules/SearchBar", [
+            "showInTree"
+        ]),
         isWebLink,
+
+        /**
+         * checks if the given tab name is currently active
+         * @param {String} tab the tab name
+         * @returns {Boolean}  true if the given tab name is active
+         */
         isActiveTab (tab) {
             return this.activeTab === tab ? true : null;
         },
+        /**
+         * set the current tab id after clicking.
+         * @param {Object[]} evt the target of current click event
+         * @returns {void}
+         */
         setActiveTab (evt) {
             if (evt && evt.target && evt.target.hash) {
                 this.activeTab = evt.target.hash.substring(1);
             }
         },
+        /**
+         * returns the classnames for the tab
+         * @param {String} tab name of the tab depending on property activeTab
+         * @returns {String} classNames of the tab
+         */
         getTabPaneClasses (tab) {
             return {active: this.isActiveTab(tab), show: this.isActiveTab(tab), "tab-pane": true, fade: true};
         },
+        /**
+         * generates a GetCapabilities URL from a given service base address and type
+         * @param {Object} param payload
+         * @param {String} param.url service base URL
+         * @param {String} param.typ service type (e.g., WMS)
+         * @returns {String} GetCapabilities URL
+         */
         getGetCapabilitiesUrl ({url, typ}) {
             const urlObject = new URL(url, location.href);
 
@@ -233,7 +210,6 @@ export default {
     }
 };
 </script>
-
 
 <template lang="html">
     <div
@@ -306,8 +282,8 @@ export default {
             </span>
         </AccordionItem>
 
-<AccordionItem
-            v-if="contacts.length || uaData.uaContact"
+        <AccordionItem
+            v-if="contact || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -316,32 +292,41 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contacts.length" class="contact-wrapper">
+            <span v-if="contact" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-
-                <div
-                    v-for="(c, idx) in contacts"
-                    :key="'meta-contact-' + idx"
-                    class="ua-break-parent"
-                >
+                <div class="ua-break-parent">
+                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
                     <div>
-                        <img :src="imgLink" alt="" class="ua-person-img">
+                        <img :src=imgLink alt="" class="ua-person-img">
                     </div>
-                    <div class="ua-break-two">
-                        <p v-if="c.org">
-                            {{ c.org }}
+                    <div class="ua-break-two" style="flex: 1 1 0%;">
+                        <p v-if="contact?.name">
+                            {{ contact.name }}
                         </p>
-                        <p v-if="c.person">
-                            {{ c.person }}
+                        <p
+                            v-if="contact?.positionName"
+                            v-for="(positionName) in contact.positionName"
+                            :key="positionName"
+                        >
+                            {{ positionName }}
                         </p>
-                        <p v-if="c.phone">
-                            Tel.: {{ c.phone }}
+                        <p v-if="contact?.individualName">
+                            {{ contact.individualName }}
+                        </p>
+                        <p v-if="contact?.phone">
+                            {{ contact.phone }}
+                        </p>
+                        <p v-if="contact?.street && contact?.postalCode">
+                            {{ contact.street + "  " + contact.postalCode }}
+                        </p>
+                        <p v-if="contact?.name">
+                            {{ contact.city }}
                         </p>
                         <a
-                            v-if="c.email"
-                            :href="'mailto:' + c.email"
+                            v-if="contact?.email"
+                            :href="'mailto:' + contact.email"
                         >
-                            {{ c.email }}
+                            {{ contact.email }}
                         </a>
                         <p class="pb-4"></p>
                     </div>
@@ -352,7 +337,7 @@ export default {
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
-                        <img :src="imgLink" alt="" class="ua-person-img">
+                        <img :src=imgLink alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
                         <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
@@ -360,7 +345,7 @@ export default {
                             {{ uaData.uaContact.name }}
                         </p>
                         <p v-if="uaData.uaContact.tel">
-                            Tel.: {{ uaData.uaContact.tel }}
+                            {{ uaData.uaContact.tel }}
                         </p>
                         <a
                             v-if="uaData.uaContact.email"
@@ -370,8 +355,10 @@ export default {
                         </a>
                     </div>
                 </div>
+       
                 <p class="pb-2"></p>
             </span>
+
         </AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
