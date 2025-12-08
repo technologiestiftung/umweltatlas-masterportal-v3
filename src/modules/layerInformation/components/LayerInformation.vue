@@ -108,46 +108,47 @@ export default {
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-        metadataContacts () {
-            const list = [];
-        
-            if (Array.isArray(this.pointOfContact)) {
-                list.push(...this.pointOfContact);
-            }
-            else if (this.pointOfContact) {
-                list.push(this.pointOfContact);
-            }
-        
-            if (Array.isArray(this.publisher)) {
-                list.push(...this.publisher);
-            }
-            else if (this.publisher) {
-                list.push(this.publisher);
-            }
-        
-            return list;
-        },
-        
-        contacts () {
-            const list = this.metadataContacts;
-            if (!list.length) return [];
-        
-            const isUnwanted = (c) => {
-                if (!c) return false;
-                const text = [
-                    c.individualName,
-                    c.name,
-                    ...(Array.isArray(c.positionName) ? c.positionName : [])
-                ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
-                return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
-            };
-        
-            const filtered = list.filter(c => !isUnwanted(c));
-            return filtered.length ? filtered : list;
-        },
+    metadataContacts () {
+        const list = [];
+
+        if (Array.isArray(this.pointOfContact)) {
+            list.push(...this.pointOfContact);
+        }
+        else if (this.pointOfContact) {
+            list.push(this.pointOfContact);
+        }
+
+        if (Array.isArray(this.publisher)) {
+            list.push(...this.publisher);
+        }
+        else if (this.publisher) {
+            list.push(this.publisher);
+        }
+
+        return list;
+    },
+
+    contacts () {
+        const list = this.metadataContacts;
+        if (!list.length) return [];
+
+        const isUnwanted = (c) => {
+            if (!c) return false;
+            const text = [
+                c.individualName,
+                c.name,
+                ...(Array.isArray(c.positionName) ? c.positionName : [])
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+            return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
+        };
+
+        const filtered = list.filter(c => !isUnwanted(c));
+        return filtered.length ? filtered : list;
+    }
+},
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
@@ -325,7 +326,7 @@ export default {
             </span>
         </AccordionItem>
 
-       <AccordionItem
+    <AccordionItem
     v-if="contacts.length || uaData.uaContact"
     id="layer-info-contact"
     :title="$t('Kontakt')"
@@ -340,7 +341,7 @@ export default {
 
         <div
             v-for="(contact, idx) in contacts"
-            :key="idx"
+            :key="'meta-contact-' + idx"
             class="ua-break-parent"
         >
             <div>
@@ -362,12 +363,15 @@ export default {
                 <p v-if="contact?.phone">{{ contact.phone }}</p>
 
                 <p v-if="contact?.street && contact?.postalCode">
-                    {{ contact.street + " " + contact.postalCode }}
+                    {{ contact.street + ' ' + contact.postalCode }}
                 </p>
 
                 <p v-if="contact?.city">{{ contact.city }}</p>
 
-                <a v-if="contact?.email" :href="'mailto:' + contact.email">
+                <a
+                    v-if="contact?.email"
+                    :href="'mailto:' + contact.email"
+                >
                     {{ contact.email }}
                 </a>
 
@@ -386,8 +390,14 @@ export default {
 
             <div class="ua-break-two">
                 <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
-                <p v-if="uaData.uaContact.name">{{ uaData.uaContact.name }}</p>
-                <p v-if="uaData.uaContact.tel">{{ uaData.uaContact.tel }}</p>
+
+                <p v-if="uaData.uaContact.name">
+                    {{ uaData.uaContact.name }}
+                </p>
+
+                <p v-if="uaData.uaContact.tel">
+                    {{ uaData.uaContact.tel }}
+                </p>
 
                 <a
                     v-if="uaData.uaContact.email"
