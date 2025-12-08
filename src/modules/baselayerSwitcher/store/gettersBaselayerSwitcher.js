@@ -13,9 +13,17 @@ const getters = {
         if (!state.visibleBaselayerIds.length) {
             return state.baselayers;
         }
-        return state.baselayers.filter(
+        const filteredLayers = state.baselayers.filter(
             l => state.visibleBaselayerIds.includes(l.id)
         );
+
+        if (filteredLayers.length === 0) {
+            console.warn(
+                `visibleBaselayerIds is set to "${state.visibleBaselayerIds}" but no baselayers match the filter. Please check if the provided IDs are correct.`
+            );
+        }
+
+        return filteredLayers;
     }
 };
 
