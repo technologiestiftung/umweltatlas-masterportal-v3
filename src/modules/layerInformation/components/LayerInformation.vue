@@ -108,47 +108,46 @@ export default {
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-    metadataContacts () {
-        const list = [];
+           metadataContacts () {
+            const list = [];
 
-        if (Array.isArray(this.pointOfContact)) {
-            list.push(...this.pointOfContact);
-        }
-        else if (this.pointOfContact) {
-            list.push(this.pointOfContact);
-        }
+            if (Array.isArray(this.pointOfContact)) {
+                list.push(...this.pointOfContact);
+            }
+            else if (this.pointOfContact) {
+                list.push(this.pointOfContact);
+            }
 
-        if (Array.isArray(this.publisher)) {
-            list.push(...this.publisher);
-        }
-        else if (this.publisher) {
-            list.push(this.publisher);
-        }
+            if (Array.isArray(this.publisher)) {
+                list.push(...this.publisher);
+            }
+            else if (this.publisher) {
+                list.push(this.publisher);
+            }
 
-        return list;
-    },
+            return list;
+        },
 
-    contacts () {
-        const list = this.metadataContacts;
-        if (!list.length) return [];
+        contacts () {
+            const list = this.metadataContacts;
+            if (!list.length) return [];
 
-        const isUnwanted = (c) => {
-            if (!c) return false;
-            const text = [
-                c.individualName,
-                c.name,
-                ...(Array.isArray(c.positionName) ? c.positionName : [])
-            ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-            return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
-        };
+            const isUnwanted = (c) => {
+                if (!c) return false;
+                const text = [
+                    c.individualName,
+                    c.name,
+                    ...(Array.isArray(c.positionName) ? c.positionName : [])
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+                return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
+            };
 
-        const filtered = list.filter(c => !isUnwanted(c));
-        return filtered.length ? filtered : list;
-    }
-},
+            const filtered = list.filter(c => !isUnwanted(c));
+            return filtered.length ? filtered : list;
+        },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
@@ -325,8 +324,7 @@ export default {
                 </p>
             </span>
         </AccordionItem>
-
-    <AccordionItem
+        <AccordionItem
     v-if="contacts.length || uaData.uaContact"
     id="layer-info-contact"
     :title="$t('Kontakt')"
@@ -348,25 +346,18 @@ export default {
                 <img :src="imgLink" alt="" class="ua-person-img">
             </div>
 
-            <div class="ua-break-two" style="flex: 1 1 0%;">
-                <p v-if="contact?.name">{{ contact.name }}</p>
-
-                <p
-                    v-if="contact?.positionName"
-                    v-for="(positionName) in contact.positionName"
-                    :key="positionName"
-                >
-                    {{ positionName }}
+            <div class="ua-break-two">
+                <p v-if="contact?.name">
+                    {{ contact.name }}
                 </p>
 
-                <p v-if="contact?.individualName">{{ contact.individualName }}</p>
-                <p v-if="contact?.phone">{{ contact.phone }}</p>
-
-                <p v-if="contact?.street && contact?.postalCode">
-                    {{ contact.street + ' ' + contact.postalCode }}
+                <p v-if="contact?.individualName">
+                    {{ contact.individualName }}
                 </p>
 
-                <p v-if="contact?.city">{{ contact.city }}</p>
+                <p v-if="contact?.phone">
+                    Tel.: {{ contact.phone }}
+                </p>
 
                 <a
                     v-if="contact?.email"
@@ -387,7 +378,6 @@ export default {
             <div>
                 <img :src="imgLink" alt="" class="ua-person-img">
             </div>
-
             <div class="ua-break-two">
                 <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
 
@@ -396,7 +386,7 @@ export default {
                 </p>
 
                 <p v-if="uaData.uaContact.tel">
-                    {{ uaData.uaContact.tel }}
+                    Tel.: {{ uaData.uaContact.tel }}
                 </p>
 
                 <a
@@ -411,6 +401,7 @@ export default {
         <p class="pb-2"></p>
     </span>
 </AccordionItem>
+    
 
         <p class="mb-4" v-if="uaData.uaDownload">
             <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
