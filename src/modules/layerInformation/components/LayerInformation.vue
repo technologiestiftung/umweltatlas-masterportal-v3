@@ -21,7 +21,7 @@ import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
  * @vue-computed {Boolean} showAttachFile - Shows if file type needs to be attached for download.
  * @vue-computed {String} layerUrl - The layer URL.
  * @vue-computed {String} legendURL - The legend URL.
- * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
+ * @vue-computed {MetadataContact[]} contactList - All contacts (pointOfContact & publisher) as array.
  * @vue-computed {Boolean} menuIndicator - Returns the menu the LayerInfo module is in.
  * @vue-computed {String} layerName - Name of the layer.
  */
@@ -69,7 +69,7 @@ export default {
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
-        showAbstractText () {            
+        showAbstractText () {
             return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
@@ -88,22 +88,49 @@ export default {
             return this.downloadLinks !== null;
         },
         showUrl () {
-            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) || (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
+            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) ||
+                (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
         },
         showAttachFile () {
             return this.downloadLinks && this.downloadLinks.length > 1;
         },
         layerUrl () {
-            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
+            return Array.isArray(this.layerInfo.url)
+                ? this.layerInfo.url
+                    .map((url, i) => ({url, typ: this.layerInfo.typ?.[i]}))
+                    .map(this.getGetCapabilitiesUrl)
+                : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
         },
-        legendURL  () {
+        legendURL () {
             return this.layerInfo.legendURL;
         },
-        layerTyp  () {
-            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
+        layerTyp () {
+            return this.layerInfo.typ !== "GROUP"
+                ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`
+                : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-        contact () {
-            return this.pointOfContact || this.publisher || null;
+        /**
+         * All contacts from metadata as a flat array.
+         * pointOfContact and publisher may now both be arrays.
+         */
+        contactList () {
+            const contacts = [];
+
+            if (Array.isArray(this.pointOfContact)) {
+                contacts.push(...this.pointOfContact);
+            }
+            else if (this.pointOfContact) {
+                contacts.push(this.pointOfContact);
+            }
+
+            if (Array.isArray(this.publisher)) {
+                contacts.push(...this.publisher);
+            }
+            else if (this.publisher) {
+                contacts.push(this.publisher);
+            }
+
+            return contacts;
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -111,23 +138,25 @@ export default {
                 : "secondaryMenu";
         },
         layerName () {
-            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){      
+        uaData () {
             return {
-                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
-                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
-                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaGdiURL: this.layerInfo?.metaID
+                    ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID
+                    : "",
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null,
+                uaDownload: this.layerInfo?.uaDownload ?? null,
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
-            }
+            };
         },
-        fullPath(){
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
-            let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+        fullPath () {
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey);
+            const fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+
             fullPath.pop();
             return fullPath;
         }
@@ -221,9 +250,9 @@ export default {
                 :key="key"
                 class="mb-0"
             >
-                <a 
+                <a
                     @click="openInLayerTree(fullPath[value].id)"
-                    href="#" 
+                    href="#"
                     class="ua-breadcrumbs"
                 >
                     {{ fullPath[value].name }}
@@ -260,30 +289,30 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a :href=uaData.uaInfoURL target="_blank">
-                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href="uaData.uaInfoURL" target="_blank">
+                        <img style="width: 60px; height: 40px;" :src="uaImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                    <a :href="uaData.uaInfoURL" target="_blank">Umweltaltas</a>
                 </p>
             </span>
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
-                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">
+                        <img style="width: 60px;" :src="berlinImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two" v-if="uaData.uaGdiURL">
-                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">Geodatensuche</a>
                 </p>
             </span>
         </AccordionItem>
 
         <AccordionItem
-            v-if="contact || uaData.uaContact"
+            v-if="contactList.length || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -292,12 +321,17 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
+            <!-- All metadata contacts -->
+            <span v-if="contactList.length" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-                <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
+
+                <div
+                    v-for="(contact, index) in contactList"
+                    :key="contact.email || contact.name || contact.individualName || index"
+                    class="ua-break-parent"
+                >
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
                         <p v-if="contact?.name">
@@ -319,7 +353,7 @@ export default {
                         <p v-if="contact?.street && contact?.postalCode">
                             {{ contact.street + "  " + contact.postalCode }}
                         </p>
-                        <p v-if="contact?.name">
+                        <p v-if="contact?.city">
                             {{ contact.city }}
                         </p>
                         <a
@@ -333,11 +367,12 @@ export default {
                 </div>
             </span>
 
+            <!-- Umweltatlas contact -->
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
                         <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
@@ -355,14 +390,14 @@ export default {
                         </a>
                     </div>
                 </div>
-       
+
                 <p class="pb-2"></p>
             </span>
 
         </AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
-            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+            <a v-if="uaData.uaDownload" :href="uaData.uaDownload" class="">
                 <button
                     class="btn btn-light w-100 ua-button"
                     type="button"
@@ -374,9 +409,7 @@ export default {
             </a>
         </p>
 
-        <template
-            v-if="showCustomMetaData"
-        >
+        <template v-if="showCustomMetaData">
             <div
                 v-for="(key, value) in customText"
                 :key="key"
@@ -385,7 +418,7 @@ export default {
                     v-if="isWebLink(key)"
                     class="mb-0"
                 >
-                    {{ value + ": " }}
+                    {{ value + ': ' }}
                     <a
                         :href="value"
                         target="_blank"
@@ -395,7 +428,7 @@ export default {
                     v-else
                     class="mb-0"
                 >
-                    {{ value + ": " + key }}
+                    {{ value + ': ' + key }}
                 </p>
             </div>
         </template>
@@ -472,7 +505,7 @@ export default {
                         style="padding-bottom: 0px;"
                     >
                         <li
-                             v-for="downloadLink in downloadLinks"
+                            v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
                             class="mb-4"
                         >
@@ -500,7 +533,7 @@ export default {
                         {{ layerInfo.layerNames[i] }}
                         <li>
                             <a
-                                :href="layerUrl"
+                                :href="Array.isArray(layerUrl) ? layerUrl[i] : layerUrl"
                                 target="_blank"
                             >
                                 {{ layerInfoUrl }}
@@ -523,11 +556,11 @@ export default {
     @import "~variables";
 
     .ua-breadcrumbs{
-        color: #000; 
+        color: #000;
         opacity: 0.7;
 
         &:hover{
-            opacity: 1; 
+            opacity: 1;
         }
     }
 
@@ -537,7 +570,6 @@ export default {
         border-radius: 5px;
         width: fit-content !important;
         margin-top: 16px;
-        // float: right;
     }
 
     .ua-contact-wrapper p {
@@ -554,7 +586,7 @@ export default {
 
     .ua-break-parent {
       display: flex;
-      flex-wrap: wrap; /* Allows wrapping of children if space is not enough */
+      flex-wrap: wrap;
     }
 
     .ua-break-one {
@@ -563,7 +595,6 @@ export default {
         margin-right: 10px;
     }
 
-    /* Second child, which takes up the remaining space */
     .ua-break-two {
         flex: 1;
         box-sizing: border-box;
