@@ -7,13 +7,13 @@ import UrlInput from "../../../shared/modules/urlInput/components/UrlInput.vue";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
-
+    
 const SKIP_CONTACT_NAMES = [
     "haag",
     "hartbecke",
     "döllefeld",
     "doellefeld"
-];    
+];
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
  * @module modules/layerInformation/components/LayerInformation
@@ -351,6 +351,7 @@ contacts () {
                 </p>
             </span>
         </AccordionItem>
+
         <AccordionItem
     v-if="contacts.length || uaData.uaContact"
     id="layer-info-contact"
@@ -428,7 +429,6 @@ contacts () {
         <p class="pb-2"></p>
     </span>
 </AccordionItem>
-    
 
         <p class="mb-4" v-if="uaData.uaDownload">
             <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
