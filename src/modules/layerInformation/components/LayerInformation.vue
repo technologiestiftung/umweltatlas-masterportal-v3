@@ -105,29 +105,6 @@ export default {
         contact () {
             return this.pointOfContact || this.publisher || null;
         },
-        contacts () {
-        const contacts = [];
-
-        
-        if (Array.isArray(this.pointOfContact)) {
-            contacts.push(...this.pointOfContact);
-        }
-        else if (this.pointOfContact) {
-            contacts.push(this.pointOfContact);
-        }
-
-        
-        if (Array.isArray(this.publisher)) {
-            contacts.push(...this.publisher);
-        }
-        else if (this.publisher) {
-            contacts.push(this.publisher);
-        }
-
-        return contacts;
-        }
-    }
-        
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
@@ -315,51 +292,46 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-           <span v-if="contacts.length" class="contact-wrapper">
-    <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-
-    <div
-        v-for="(c, index) in contacts"
-        :key="index"
-        class="ua-break-parent"
-    >
-        <div>
-            <img :src="imgLink" alt="" class="ua-person-img">
-        </div>
-        <div class="ua-break-two" style="flex: 1 1 0%;">
-            <p v-if="c?.name">
-                {{ c.name }}
-            </p>
-            <p
-                v-if="c?.positionName"
-                v-for="(positionName, i) in c.positionName"
-                :key="i"
-            >
-                {{ positionName }}
-            </p>
-            <p v-if="c?.individualName">
-                {{ c.individualName }}
-            </p>
-            <p v-if="c?.phone">
-                {{ c.phone }}
-            </p>
-            <p v-if="c?.street && c?.postalCode">
-                {{ c.street + "  " + c.postalCode }}
-            </p>
-            <!-- tiny bugfix: check city, not name -->
-            <p v-if="c?.city">
-                {{ c.city }}
-            </p>
-            <a
-                v-if="c?.email"
-                :href="'mailto:' + c.email"
-            >
-                {{ c.email }}
-            </a>
-            <p class="pb-4"></p>
-        </div>
-    </div>
-</span>
+            <span v-if="contact" class="contact-wrapper">
+                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
+                <div class="ua-break-parent">
+                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
+                    <div>
+                        <img :src=imgLink alt="" class="ua-person-img">
+                    </div>
+                    <div class="ua-break-two" style="flex: 1 1 0%;">
+                        <p v-if="contact?.name">
+                            {{ contact.name }}
+                        </p>
+                        <p
+                            v-if="contact?.positionName"
+                            v-for="(positionName) in contact.positionName"
+                            :key="positionName"
+                        >
+                            {{ positionName }}
+                        </p>
+                        <p v-if="contact?.individualName">
+                            {{ contact.individualName }}
+                        </p>
+                        <p v-if="contact?.phone">
+                            {{ contact.phone }}
+                        </p>
+                        <p v-if="contact?.street && contact?.postalCode">
+                            {{ contact.street + "  " + contact.postalCode }}
+                        </p>
+                        <p v-if="contact?.name">
+                            {{ contact.city }}
+                        </p>
+                        <a
+                            v-if="contact?.email"
+                            :href="'mailto:' + contact.email"
+                        >
+                            {{ contact.email }}
+                        </a>
+                        <p class="pb-4"></p>
+                    </div>
+                </div>
+            </span>
 
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
