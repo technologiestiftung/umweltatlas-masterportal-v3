@@ -13,7 +13,8 @@ export default {
     data () {
         return {
             showAllLayers: false,
-            showToggleButton: false
+            showToggleButton: false,
+            resizeObserver: null
         };
     },
     computed: {
@@ -75,24 +76,29 @@ export default {
         * @returns {void}
         */
         mode (value) {
-            this.setVisibleLayers(this.sortedVisibleLayerPills, value);
-        },
-        /**
-         * Detects changes to the menu state and width to update the layerPills accordingly.
-         * Animation of menus opening or closing make the timeout necessary.
-         * @returns {void}
-         */
-        combinedMenuWidthState: {
-            handler () {
-                if (this.active) {
-                    this.setToggleButtonVisibility();
-                }
-            }
+            const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            this.setVisibleLayers(sortedByTree, value);
         }
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setVisibleLayers(this.sortedVisibleLayerPills, this.mode);
+        this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, this.mode);
+    },
+    mounted () {
+        if (this.$refs.layerPillsContainer) {
+            this.resizeObserver = new ResizeObserver(() => {
+                this.setToggleButtonVisibility();
+            });
+            this.resizeObserver.observe(this.$refs.layerPillsContainer);
+        }
+    },
+    beforeDestroy () {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     },
     methods: {
         ...mapMutations("Modules/LayerPills", ["setVisibleSubjectDataLayers", "setActive"]),
@@ -161,10 +167,17 @@ export default {
                     pills = container?.querySelectorAll(".nav-item");
 
                 if (container && pills && pills[0]) {
-                    const pillWidth = (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length,
-                        containerWidth = container?.querySelectorAll(".nav-pills")[0].getBoundingClientRect().width;
+                    const toggleButton = container?.querySelector(".layer-pills-toggle-button"),
+                        toggleButtonWidth = toggleButton ? toggleButton.offsetWidth : 0,
+                        containerWidth = container.clientWidth,
+                        pillWidth = (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length;
+                    let availableContainerWidth = containerWidth;
 
-                    this.showToggleButton = pillWidth > containerWidth;
+                    if (!this.showAllLayers && this.visibleSubjectDataLayers.length > 0) {
+                        availableContainerWidth -= toggleButtonWidth;
+                    }
+
+                    this.showToggleButton = pillWidth > availableContainerWidth;
                 }
             });
         }
