@@ -8,6 +8,12 @@ import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactB
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
 
+const SKIP_CONTACT_NAMES = [
+    "haag",
+    "hartbecke",
+    "döllefeld",
+    "doellefeld"
+];    
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
  * @module modules/layerInformation/components/LayerInformation
@@ -102,8 +108,45 @@ export default {
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-        contact () {
-            return this.pointOfContact || this.publisher || null;
+        metadataContacts () {
+            const list = [];
+        
+            if (Array.isArray(this.pointOfContact)) {
+                list.push(...this.pointOfContact);
+            }
+            else if (this.pointOfContact) {
+                list.push(this.pointOfContact);
+            }
+        
+            if (Array.isArray(this.publisher)) {
+                list.push(...this.publisher);
+            }
+            else if (this.publisher) {
+                list.push(this.publisher);
+            }
+        
+            return list;
+        },
+        
+        contacts () {
+            const list = this.metadataContacts;
+            if (!list.length) return [];
+        
+            const isUnwanted = (c) => {
+                if (!c) return false;
+                const text = [
+                    c.individualName,
+                    c.name,
+                    ...(Array.isArray(c.positionName) ? c.positionName : [])
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+                return SKIP_CONTACT_NAMES.some(skip => text.includes(skip));
+            };
+        
+            const filtered = list.filter(c => !isUnwanted(c));
+            return filtered.length ? filtered : list;
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -282,84 +325,82 @@ export default {
             </span>
         </AccordionItem>
 
-        <AccordionItem
-            v-if="contact || uaData.uaContact"
-            id="layer-info-contact"
-            :title="$t('Kontakt')"
-            :is-open="false"
-            :font-size="'font-size-base'"
-            :coloured-header="true"
-            :coloured-body="true"
-            :header-bold="true"
+       <AccordionItem
+    v-if="contacts.length || uaData.uaContact"
+    id="layer-info-contact"
+    :title="$t('Kontakt')"
+    :is-open="false"
+    :font-size="'font-size-base'"
+    :coloured-header="true"
+    :coloured-body="true"
+    :header-bold="true"
+>
+    <span v-if="contacts.length" class="contact-wrapper">
+        <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
+
+        <div
+            v-for="(contact, idx) in contacts"
+            :key="idx"
+            class="ua-break-parent"
         >
-            <span v-if="contact" class="contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-                <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
-                    <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
-                    </div>
-                    <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="contact?.name">
-                            {{ contact.name }}
-                        </p>
-                        <p
-                            v-if="contact?.positionName"
-                            v-for="(positionName) in contact.positionName"
-                            :key="positionName"
-                        >
-                            {{ positionName }}
-                        </p>
-                        <p v-if="contact?.individualName">
-                            {{ contact.individualName }}
-                        </p>
-                        <p v-if="contact?.phone">
-                            {{ contact.phone }}
-                        </p>
-                        <p v-if="contact?.street && contact?.postalCode">
-                            {{ contact.street + "  " + contact.postalCode }}
-                        </p>
-                        <p v-if="contact?.name">
-                            {{ contact.city }}
-                        </p>
-                        <a
-                            v-if="contact?.email"
-                            :href="'mailto:' + contact.email"
-                        >
-                            {{ contact.email }}
-                        </a>
-                        <p class="pb-4"></p>
-                    </div>
-                </div>
-            </span>
+            <div>
+                <img :src="imgLink" alt="" class="ua-person-img">
+            </div>
 
-            <span v-if="uaData.uaContact" class="ua-contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
-                <div class="ua-break-parent">
-                    <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
-                    </div>
-                    <div class="ua-break-two">
-                        <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
-                        <p v-if="uaData.uaContact.name">
-                            {{ uaData.uaContact.name }}
-                        </p>
-                        <p v-if="uaData.uaContact.tel">
-                            {{ uaData.uaContact.tel }}
-                        </p>
-                        <a
-                            v-if="uaData.uaContact.email"
-                            :href="'mailto:' + uaData.uaContact.email"
-                        >
-                            {{ uaData.uaContact.email }}
-                        </a>
-                    </div>
-                </div>
-       
-                <p class="pb-2"></p>
-            </span>
+            <div class="ua-break-two" style="flex: 1 1 0%;">
+                <p v-if="contact?.name">{{ contact.name }}</p>
 
-        </AccordionItem>
+                <p
+                    v-if="contact?.positionName"
+                    v-for="(positionName) in contact.positionName"
+                    :key="positionName"
+                >
+                    {{ positionName }}
+                </p>
+
+                <p v-if="contact?.individualName">{{ contact.individualName }}</p>
+                <p v-if="contact?.phone">{{ contact.phone }}</p>
+
+                <p v-if="contact?.street && contact?.postalCode">
+                    {{ contact.street + " " + contact.postalCode }}
+                </p>
+
+                <p v-if="contact?.city">{{ contact.city }}</p>
+
+                <a v-if="contact?.email" :href="'mailto:' + contact.email">
+                    {{ contact.email }}
+                </a>
+
+                <p class="pb-4"></p>
+            </div>
+        </div>
+    </span>
+
+    <span v-if="uaData.uaContact" class="ua-contact-wrapper">
+        <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
+
+        <div class="ua-break-parent">
+            <div>
+                <img :src="imgLink" alt="" class="ua-person-img">
+            </div>
+
+            <div class="ua-break-two">
+                <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
+                <p v-if="uaData.uaContact.name">{{ uaData.uaContact.name }}</p>
+                <p v-if="uaData.uaContact.tel">{{ uaData.uaContact.tel }}</p>
+
+                <a
+                    v-if="uaData.uaContact.email"
+                    :href="'mailto:' + uaData.uaContact.email"
+                >
+                    {{ uaData.uaContact.email }}
+                </a>
+            </div>
+        </div>
+
+        <p class="pb-2"></p>
+    </span>
+</AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
             <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
