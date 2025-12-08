@@ -69,7 +69,7 @@ export default {
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
-        showAbstractText () {            
+        showAbstractText () {
             return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
@@ -102,32 +102,47 @@ export default {
         layerTyp  () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
+
+        // ✅ contact is now always an array (possibly empty)
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            const toArray = (value) => {
+                if (!value) {
+                    return [];
+                }
+                return Array.isArray(value) ? value : [value];
+            };
+
+            const poc = toArray(this.pointOfContact);
+            if (poc.length > 0) {
+                return poc;
+            }
+            return toArray(this.publisher);
         },
+
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
                 : "secondaryMenu";
         },
         layerName () {
-            
+
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){      
+        uaData () {
             return {
-                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
-                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
-                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaGdiURL: this.layerInfo?.metaID ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID : "",
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null,
+                uaDownload: this.layerInfo?.uaDownload ?? null,
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
-            }
+            };
         },
-        fullPath(){
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+        fullPath () {
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey);
             let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+
             fullPath.pop();
             return fullPath;
         }
@@ -221,9 +236,9 @@ export default {
                 :key="key"
                 class="mb-0"
             >
-                <a 
+                <a
                     @click="openInLayerTree(fullPath[value].id)"
-                    href="#" 
+                    href="#"
                     class="ua-breadcrumbs"
                 >
                     {{ fullPath[value].name }}
@@ -260,30 +275,30 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a :href=uaData.uaInfoURL target="_blank">
-                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href="uaData.uaInfoURL" target="_blank">
+                        <img style="width: 60px; height: 40px;" :src="uaImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                    <a :href="uaData.uaInfoURL" target="_blank">Umweltaltas</a>
                 </p>
             </span>
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
-                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">
+                        <img style="width: 60px;" :src="berlinImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two" v-if="uaData.uaGdiURL">
-                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">Geodatensuche</a>
                 </p>
             </span>
         </AccordionItem>
 
         <AccordionItem
-            v-if="contact || uaData.uaContact"
+            v-if="contact.length || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -292,52 +307,58 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
+            <!-- ✅ datenhaltende Stelle: ALL contacts -->
+            <span v-if="contact.length" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-                <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
+
+                <div
+                    v-for="(c, index) in contact"
+                    :key="index"
+                    class="ua-break-parent"
+                >
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="contact?.name">
-                            {{ contact.name }}
+                        <p v-if="c?.name">
+                            {{ c.name }}
                         </p>
                         <p
-                            v-if="contact?.positionName"
-                            v-for="(positionName) in contact.positionName"
+                            v-if="c?.positionName"
+                            v-for="(positionName) in c.positionName"
                             :key="positionName"
                         >
                             {{ positionName }}
                         </p>
-                        <p v-if="contact?.individualName">
-                            {{ contact.individualName }}
+                        <p v-if="c?.individualName">
+                            {{ c.individualName }}
                         </p>
-                        <p v-if="contact?.phone">
-                            {{ contact.phone }}
+                        <p v-if="c?.phone">
+                            {{ c.phone }}
                         </p>
-                        <p v-if="contact?.street && contact?.postalCode">
-                            {{ contact.street + "  " + contact.postalCode }}
+                        <p v-if="c?.street && c?.postalCode">
+                            {{ c.street + "  " + c.postalCode }}
                         </p>
-                        <p v-if="contact?.name">
-                            {{ contact.city }}
+                        <p v-if="c?.city">
+                            {{ c.city }}
                         </p>
                         <a
-                            v-if="contact?.email"
-                            :href="'mailto:' + contact.email"
+                            v-if="c?.email"
+                            :href="'mailto:' + c.email"
                         >
-                            {{ contact.email }}
+                            {{ c.email }}
                         </a>
                         <p class="pb-4"></p>
                     </div>
                 </div>
             </span>
 
+            <!-- UA contact stays as before -->
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
                         <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
@@ -355,14 +376,14 @@ export default {
                         </a>
                     </div>
                 </div>
-       
+
                 <p class="pb-2"></p>
             </span>
 
         </AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
-            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+            <a v-if="uaData.uaDownload" :href="uaData.uaDownload" class="">
                 <button
                     class="btn btn-light w-100 ua-button"
                     type="button"
@@ -472,7 +493,7 @@ export default {
                         style="padding-bottom: 0px;"
                     >
                         <li
-                             v-for="downloadLink in downloadLinks"
+                            v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
                             class="mb-4"
                         >
@@ -523,11 +544,11 @@ export default {
     @import "~variables";
 
     .ua-breadcrumbs{
-        color: #000; 
+        color: #000;
         opacity: 0.7;
 
         &:hover{
-            opacity: 1; 
+            opacity: 1;
         }
     }
 
