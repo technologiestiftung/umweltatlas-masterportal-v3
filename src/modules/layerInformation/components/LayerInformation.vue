@@ -38,7 +38,9 @@ export default {
             activeTab: "layerinfo-legend",
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
             berlinImgLink: "./resources/img/berlin.png",
-            imgLink: "./resources/img/person-circle.svg"
+            imgLink: "./resources/img/person-circle.svg",
+            // NEW: contacts loaded directly from CSW
+            cswContacts: []
         };
     },
     computed: {
@@ -69,7 +71,7 @@ export default {
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
         },
-        showAbstractText () {            
+        showAbstractText () {
             return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
@@ -94,39 +96,53 @@ export default {
             return this.downloadLinks && this.downloadLinks.length > 1;
         },
         layerUrl () {
-            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
+            return Array.isArray(this.layerInfo.url)
+                ? this.layerInfo.url
+                    .map((url, i) => ({url, typ: this.layerInfo.typ?.[i]}))
+                    .map(this.getGetCapabilitiesUrl)
+                : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
         },
-        legendURL  () {
+        legendURL () {
             return this.layerInfo.legendURL;
         },
-        layerTyp  () {
+        layerTyp () {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
-        contact () {
-            return this.pointOfContact || this.publisher || null;
+
+        // NEW: use contacts from CSW if available, otherwise fallback to old store contact
+        contacts () {
+            if (this.cswContacts && this.cswContacts.length > 0) {
+                return this.cswContacts;
+            }
+
+            const fallback = this.pointOfContact || this.publisher || null;
+            return fallback ? [fallback] : [];
         },
+        hasAnyContact () {
+            return this.contacts && this.contacts.length > 0;
+        },
+
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
                 : "secondaryMenu";
         },
         layerName () {
-            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){      
+        uaData () {
             return {
-                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
-                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
-                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaGdiURL: this.layerInfo?.metaID ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID : "",
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null,
+                uaDownload: this.layerInfo?.uaDownload ?? null,
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
-            }
+            };
         },
-        fullPath(){
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+        fullPath () {
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey);
             let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
             fullPath.pop();
             return fullPath;
@@ -145,6 +161,9 @@ export default {
         if (!this.legendAvailable) {
             this.activeTab = "LayerInfoDataDownload";
         }
+
+        // NEW: load contacts directly from CSW (GeoNetwork)
+        this.fetchContactsFromCsw();
     },
 
     unmounted () {
@@ -161,6 +180,144 @@ export default {
             "showInTree"
         ]),
         isWebLink,
+
+        /**
+         * Fetch contacts directly from CSW / GeoNetwork using the layer's metaID.
+         * This is independent of the standard metadata handling.
+         */
+        async fetchContactsFromCsw () {
+            try {
+                const metaId = this.layerInfo?.metaID;
+
+                if (!metaId) {
+                    // no catalogue ID available, nothing to do
+                    return;
+                }
+
+                // Hard-coded CSW endpoint – only changed here (no config / other files)
+                const cswBaseUrl = "https://gdi.berlin.de/geonetwork/srv/ger/csw";
+
+                const params = new URLSearchParams({
+                    SERVICE: "CSW",
+                    VERSION: "2.0.2",
+                    REQUEST: "GetRecordById",
+                    ELEMENTSETNAME: "full",
+                    ID: metaId
+                });
+
+                const response = await fetch(`${cswBaseUrl}?${params.toString()}`, {
+                    method: "GET"
+                });
+
+                if (!response.ok) {
+                    console.warn("CSW request failed", response.status, response.statusText);
+                    return;
+                }
+
+                const xmlText = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+                // All CI_ResponsibleParty elements (ISO 19115/19119)
+                const parties = Array.from(xmlDoc.getElementsByTagNameNS("*", "CI_ResponsibleParty"));
+
+                const contacts = parties
+                    .map(partyNode => this.parseCswResponsibleParty(partyNode))
+                    .filter(contact => contact && (contact.name || contact.individualName || contact.email || contact.phone));
+
+                if (contacts.length > 0) {
+                    this.cswContacts = contacts;
+                }
+            }
+            catch (err) {
+                console.warn("Could not load contacts from CSW", err);
+                // silently fall back to old pointOfContact/publisher info
+            }
+        },
+
+        /**
+         * Parse a CSW / GeoNetwork CI_ResponsibleParty node into
+         * the same shape the template already expects:
+         * { name, individualName, positionName[], phone, email, street, postalCode, city }
+         *
+         * @param {Element} partyNode
+         * @returns {Object|null}
+         */
+        parseCswResponsibleParty (partyNode) {
+            if (!partyNode) {
+                return null;
+            }
+
+            // Optional: filter by role = pointOfContact (if present)
+            const roleNodes = partyNode.getElementsByTagNameNS("*", "CI_RoleCode");
+            if (roleNodes.length) {
+                const isRelevantRole = Array.from(roleNodes).some(node => {
+                    const val = (node.getAttribute("codeListValue") || node.textContent || "").toLowerCase();
+                    return val.includes("pointofcontact") || val.includes("point_of_contact");
+                });
+                if (!isRelevantRole) {
+                    return null;
+                }
+            }
+
+            const getText = (localName) => {
+                const el = partyNode.getElementsByTagNameNS("*", localName)[0];
+                if (!el) {
+                    return null;
+                }
+                const charString = el.getElementsByTagNameNS("*", "CharacterString")[0];
+                const text = (charString || el).textContent;
+                return text ? text.trim() : null;
+            };
+
+            const addressNode = partyNode.getElementsByTagNameNS("*", "CI_Address")[0];
+            const getAddressText = (localName) => {
+                if (!addressNode) {
+                    return null;
+                }
+                const el = addressNode.getElementsByTagNameNS("*", localName)[0];
+                if (!el) {
+                    return null;
+                }
+                const charString = el.getElementsByTagNameNS("*", "CharacterString")[0];
+                const text = (charString || el).textContent;
+                return text ? text.trim() : null;
+            };
+
+            // phone
+            const phoneNode = partyNode.getElementsByTagNameNS("*", "CI_Telephone")[0];
+            let phone = null;
+            if (phoneNode) {
+                const voiceNode = phoneNode.getElementsByTagNameNS("*", "voice")[0];
+                if (voiceNode) {
+                    const charString = voiceNode.getElementsByTagNameNS("*", "CharacterString")[0];
+                    phone = (charString || voiceNode).textContent?.trim() || null;
+                }
+            }
+
+            // email
+            let email = null;
+            if (addressNode) {
+                const emailNode = addressNode.getElementsByTagNameNS("*", "electronicMailAddress")[0];
+                if (emailNode) {
+                    const charString = emailNode.getElementsByTagNameNS("*", "CharacterString")[0];
+                    email = (charString || emailNode).textContent?.trim() || null;
+                }
+            }
+
+            const contact = {
+                name: getText("organisationName"),
+                individualName: getText("individualName"),
+                positionName: getText("positionName") ? [getText("positionName")] : [],
+                phone,
+                email,
+                street: getAddressText("deliveryPoint"),
+                postalCode: getAddressText("postalCode"),
+                city: getAddressText("city")
+            };
+
+            return contact;
+        },
 
         /**
          * checks if the given tab name is currently active
@@ -221,9 +378,9 @@ export default {
                 :key="key"
                 class="mb-0"
             >
-                <a 
+                <a
                     @click="openInLayerTree(fullPath[value].id)"
-                    href="#" 
+                    href="#"
                     class="ua-breadcrumbs"
                 >
                     {{ fullPath[value].name }}
@@ -260,30 +417,30 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a :href=uaData.uaInfoURL target="_blank">
-                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href="uaData.uaInfoURL" target="_blank">
+                        <img style="width: 60px; height: 40px;" :src="uaImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                    <a :href="uaData.uaInfoURL" target="_blank">Umweltaltas</a>
                 </p>
             </span>
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
-                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">
+                        <img style="width: 60px;" :src="berlinImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two" v-if="uaData.uaGdiURL">
-                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">Geodatensuche</a>
                 </p>
             </span>
         </AccordionItem>
 
         <AccordionItem
-            v-if="contact || uaData.uaContact"
+            v-if="hasAnyContact || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -292,52 +449,62 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-                <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
-                    <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
-                    </div>
-                    <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="contact?.name">
-                            {{ contact.name }}
-                        </p>
-                        <p
-                            v-if="contact?.positionName"
-                            v-for="(positionName) in contact.positionName"
-                            :key="positionName"
-                        >
-                            {{ positionName }}
-                        </p>
-                        <p v-if="contact?.individualName">
-                            {{ contact.individualName }}
-                        </p>
-                        <p v-if="contact?.phone">
-                            {{ contact.phone }}
-                        </p>
-                        <p v-if="contact?.street && contact?.postalCode">
-                            {{ contact.street + "  " + contact.postalCode }}
-                        </p>
-                        <p v-if="contact?.name">
-                            {{ contact.city }}
-                        </p>
-                        <a
-                            v-if="contact?.email"
-                            :href="'mailto:' + contact.email"
-                        >
-                            {{ contact.email }}
-                        </a>
-                        <p class="pb-4"></p>
+            <!-- 0..n contacts from CSW (or fallback to original pointOfContact/publisher) -->
+            <span v-if="hasAnyContact" class="contact-wrapper">
+                <div
+                    v-for="(contact, index) in contacts"
+                    :key="contact.email || contact.name || contact.individualName || index"
+                    class="mb-4"
+                >
+                    <p class="font-bold ua-dark-green pb-2">
+                        Ansprechperson datenhaltende Stelle
+                        <span v-if="contacts.length > 1"> {{ index + 1 }}</span>
+                    </p>
+                    <div class="ua-break-parent">
+                        <div>
+                            <img :src="imgLink" alt="" class="ua-person-img">
+                        </div>
+                        <div class="ua-break-two" style="flex: 1 1 0%;">
+                            <p v-if="contact?.name">
+                                {{ contact.name }}
+                            </p>
+                            <p
+                                v-if="contact?.positionName"
+                                v-for="(positionName) in contact.positionName"
+                                :key="positionName"
+                            >
+                                {{ positionName }}
+                            </p>
+                            <p v-if="contact?.individualName">
+                                {{ contact.individualName }}
+                            </p>
+                            <p v-if="contact?.phone">
+                                {{ contact.phone }}
+                            </p>
+                            <p v-if="contact?.street && contact?.postalCode">
+                                {{ contact.street + '  ' + contact.postalCode }}
+                            </p>
+                            <p v-if="contact?.city">
+                                {{ contact.city }}
+                            </p>
+                            <a
+                                v-if="contact?.email"
+                                :href="'mailto:' + contact.email"
+                            >
+                                {{ contact.email }}
+                            </a>
+                            <p class="pb-4"></p>
+                        </div>
                     </div>
                 </div>
             </span>
 
+            <!-- keep UA contacts as they are -->
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
                         <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
@@ -355,14 +522,14 @@ export default {
                         </a>
                     </div>
                 </div>
-       
+
                 <p class="pb-2"></p>
             </span>
 
         </AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
-            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+            <a v-if="uaData.uaDownload" :href="uaData.uaDownload" class="">
                 <button
                     class="btn btn-light w-100 ua-button"
                     type="button"
@@ -385,7 +552,7 @@ export default {
                     v-if="isWebLink(key)"
                     class="mb-0"
                 >
-                    {{ value + ": " }}
+                    {{ value + ': ' }}
                     <a
                         :href="value"
                         target="_blank"
@@ -395,7 +562,7 @@ export default {
                     v-else
                     class="mb-0"
                 >
-                    {{ value + ": " + key }}
+                    {{ value + ': ' + key }}
                 </p>
             </div>
         </template>
@@ -472,7 +639,7 @@ export default {
                         style="padding-bottom: 0px;"
                     >
                         <li
-                             v-for="downloadLink in downloadLinks"
+                            v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
                             class="mb-4"
                         >
@@ -523,11 +690,11 @@ export default {
     @import "~variables";
 
     .ua-breadcrumbs{
-        color: #000; 
+        color: #000;
         opacity: 0.7;
 
         &:hover{
-            opacity: 1; 
+            opacity: 1;
         }
     }
 
