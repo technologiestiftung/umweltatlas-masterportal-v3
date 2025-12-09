@@ -34,6 +34,7 @@
 - MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
 - Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
 - WFS-cluster: Fix a recursive style loop that triggered a ‘Maximum call stack size exceeded’ error.
+- Issue #1168: Fix autoRefresh for LayerGroups.
 
 ---
 
