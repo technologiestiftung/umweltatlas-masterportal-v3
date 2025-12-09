@@ -37,6 +37,7 @@ export default {
         return {
             activeTab: "layerinfo-legend",
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
+            berlinImgLink: "./resources/img/berlin.png",
             imgLink: "./resources/img/person-circle.svg"
         };
     },
@@ -237,20 +238,15 @@ export default {
             v-html="abstractText"
         />
 
-        <p v-if="showPublication">
-            {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+        <p v-if="showPublication || showRevision">
+            <span v-if="showPublication">
+                {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+            </span>
             <span v-if="showRevision">
-                {{ " / " + $t(dateRevision) }}
+                <br>
+                {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
             </span>
         </p>
-
-        <p v-if="showPeriodicity">
-            {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}
-        </p>
-
-
-
-
 
         <AccordionItem
             v-if="uaData.uaInfoURL"
@@ -264,11 +260,24 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href=uaData.uaInfoURL target="_blank">
+                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    </a>
                 </span>
                 <p class="ua-break-two">
-                    Ausführliche Informationen zum ausgewählten Datensatz, wie Informations- und Datengrundlagen, Methoden sowie relevante Begleitliteratur und einem Kartenimpressum finden Sie im
+                    Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
                     <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                </p>
+            </span>
+            <span class="ua-break-parent">
+                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
+                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    </a>
+                </span>
+                <p class="ua-break-two" v-if="uaData.uaGdiURL">
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
                 </p>
             </span>
         </AccordionItem>
@@ -283,7 +292,7 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact.name || contact.positionName || contact.email" class="contact-wrapper">
+            <span v-if="contact" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
                 <div class="ua-break-parent">
                     <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
@@ -291,24 +300,30 @@ export default {
                         <img :src=imgLink alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="contact.name">
+                        <p v-if="contact?.name">
                             {{ contact.name }}
                         </p>
                         <p
-                            v-if="contact.positionName"
+                            v-if="contact?.positionName"
                             v-for="(positionName) in contact.positionName"
                             :key="positionName"
                         >
                             {{ positionName }}
                         </p>
-                        <p v-if="contact.street && contact.postalCode">
+                        <p v-if="contact?.individualName">
+                            {{ contact.individualName }}
+                        </p>
+                        <p v-if="contact?.phone">
+                            {{ contact.phone }}
+                        </p>
+                        <p v-if="contact?.street && contact?.postalCode">
                             {{ contact.street + "  " + contact.postalCode }}
                         </p>
-                        <p v-if="contact.name">
+                        <p v-if="contact?.name">
                             {{ contact.city }}
                         </p>
                         <a
-                            v-if="contact.email"
+                            v-if="contact?.email"
                             :href="'mailto:' + contact.email"
                         >
                             {{ contact.email }}
@@ -345,11 +360,6 @@ export default {
             </span>
 
         </AccordionItem>
-
-        <p class="mt-4 p-0" v-if="uaData.uaGdiURL">
-            Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedigungen, finden Sie im 
-            <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Metadatenportal</a>
-        </p>
 
         <p class="mb-4" v-if="uaData.uaDownload">
             <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
