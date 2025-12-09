@@ -7,11 +7,13 @@ import UrlInput from "../../../shared/modules/urlInput/components/UrlInput.vue";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
+import axios from "axios";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
  * @module modules/layerInformation/components/LayerInformation
  * @vue-data {String} activeTab - The active tab.
+ * @vue-data {Array} fullContacts - All contacts parsed directly from CSW metadata (pointOfContact + publisher).
  * @vue-computed {Boolean} showAdditionalMetaData - Shows if additional meta data should be displayed.
  * @vue-computed {Boolean} showCustomMetaData - Shows if custom meta data should be displayed.
  * @vue-computed {Boolean} showPublication - Shows if publication should be displayed.
@@ -38,7 +40,8 @@ export default {
             activeTab: "layerinfo-legend",
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
             berlinImgLink: "./resources/img/berlin.png",
-            imgLink: "./resources/img/person-circle.svg"
+            imgLink: "./resources/img/person-circle.svg",
+            fullContacts: [] // all contacts from CSW (pointOfContact + publisher)
         };
     },
     computed: {
@@ -103,6 +106,7 @@ export default {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
+            // original behaviour: one contact from Vuex as fallback
             return this.pointOfContact || this.publisher || null;
         },
         menuIndicator () {
@@ -116,18 +120,19 @@ export default {
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){      
+        uaData () {      
             return {
-                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
+                uaGdiURL: this.layerInfo?.metaID ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID : "",
                 uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
                 uaDownload: this.layerInfo?.uaDownload ?? null, 
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
-            }
+            };
         },
-        fullPath(){
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+        fullPath () {
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey); 
             let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+
             fullPath.pop();
             return fullPath;
         }
@@ -142,6 +147,10 @@ export default {
             this.setMetaDataCatalogueId(this.configJs.metaDataCatalogueId);
         }
         this.createLegendForLayerInfo(this.layerInfo.id);
+
+        // fetch all contacts directly from CSW (bypassing parseContactByRole limitation)
+        this.fetchAllContacts();
+
         if (!this.legendAvailable) {
             this.activeTab = "LayerInfoDataDownload";
         }
@@ -161,6 +170,99 @@ export default {
             "showInTree"
         ]),
         isWebLink,
+
+        /**
+         * Fetch all contacts (pointOfContact + publisher) directly from CSW metadata.
+         * This bypasses the getCswRecordById.parseContactByRole limitation
+         * that only returns a single contact.
+         * @returns {void}
+         */
+        async fetchAllContacts () {
+            try {
+                const cswUrl = this.layerInfo?.cswUrl;
+                let metaId = this.layerInfo?.metaID;
+
+                if (!cswUrl || !metaId) {
+                    return;
+                }
+
+                if (Array.isArray(metaId)) {
+                    metaId = metaId[0];
+                }
+
+                const response = await axios.get(cswUrl, {
+                    params: {
+                        service: "CSW",
+                        request: "GetRecordById",
+                        version: "2.0.2",
+                        outputschema: "http://www.isotc211.org/2005/gmd",
+                        elementsetname: "full",
+                        id: metaId
+                    },
+                    responseType: "text"
+                });
+
+                const xmlText = typeof response.data === "string"
+                    ? response.data
+                    : new XMLSerializer().serializeToString(response.data);
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xmlText, "text/xml");
+
+                // Select all CI_ResponsibleParty under pointOfContact
+                const partyNodes = doc.querySelectorAll(
+                    "gmd\\:pointOfContact gmd\\:CI_ResponsibleParty, pointOfContact CI_ResponsibleParty"
+                );
+
+                const contacts = [];
+
+                partyNodes.forEach(node => {
+                    const roleNode = node.querySelector("gmd\\:role gmd\\:CI_RoleCode, role CI_RoleCode");
+                    const role = roleNode?.getAttribute("codeListValue") || null;
+
+                    // include pointOfContact and publisher (you can extend this if needed)
+                    if (role !== "pointOfContact" && role !== "publisher") {
+                        return;
+                    }
+
+                    const getText = selector => {
+                        const el = node.querySelector(selector);
+                        return el && el.textContent ? el.textContent.trim() : null;
+                    };
+
+                    const contact = {
+                        role,
+                        name: getText("gmd\\:organisationName gco\\:CharacterString, organisationName gco\\:CharacterString"),
+                        individualName: getText("gmd\\:individualName gco\\:CharacterString, individualName gco\\:CharacterString"),
+                        positionName: (getText("gmd\\:positionName gco\\:CharacterString, positionName gco\\:CharacterString") || "")
+                            .split(",")
+                            .reverse()
+                            .filter(v => v),
+                        phone: getText("gmd\\:voice gco\\:CharacterString, voice gco\\:CharacterString"),
+                        email: getText("gmd\\:electronicMailAddress gco\\:CharacterString, electronicMailAddress gco\\:CharacterString"),
+                        street: getText("gmd\\:deliveryPoint gco\\:CharacterString, deliveryPoint gco\\:CharacterString"),
+                        postalCode: getText("gmd\\:postalCode gco\\:CharacterString, postalCode gco\\:CharacterString"),
+                        city: getText("gmd\\:city gco\\:CharacterString, city gco\\:CharacterString")
+                    };
+
+                    // avoid pushing completely empty contact
+                    if (
+                        contact.name ||
+                        contact.individualName ||
+                        contact.email ||
+                        contact.phone
+                    ) {
+                        contacts.push(contact);
+                    }
+                });
+
+                this.fullContacts = contacts;
+            }
+            catch (error) {
+                // if something goes wrong, just log and keep fallback Vuex contact
+                console.error("Error while fetching full contacts from CSW in LayerInformation.vue:", error);
+            }
+        },
 
         /**
          * checks if the given tab name is currently active
@@ -260,30 +362,30 @@ export default {
         >
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a :href=uaData.uaInfoURL target="_blank">
-                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    <a :href="uaData.uaInfoURL" target="_blank">
+                        <img style="width: 60px; height: 40px;" :src="uaImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two">
                     Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                    <a :href="uaData.uaInfoURL" target="_blank">Umweltaltas</a> 
                 </p>
             </span>
             <span class="ua-break-parent">
                 <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
-                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">
+                        <img style="width: 60px;" :src="berlinImgLink" alt=""/>
                     </a>
                 </span>
                 <p class="ua-break-two" v-if="uaData.uaGdiURL">
                     Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                    <a v-if="uaData.uaGdiURL" :href="uaData.uaGdiURL" target="_blank">Geodatensuche</a>
                 </p>
             </span>
         </AccordionItem>
 
         <AccordionItem
-            v-if="contact || uaData.uaContact"
+            v-if="fullContacts.length || contact || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -292,12 +394,61 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
+            <!-- NEW: all contacts from CSW -->
+            <span v-if="fullContacts.length" class="contact-wrapper">
+                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
+
+                <div
+                    v-for="(c, index) in fullContacts"
+                    :key="c.email || c.name || c.individualName || index"
+                    class="ua-break-parent"
+                >
+                    <div>
+                        <img :src="imgLink" alt="" class="ua-person-img">
+                    </div>
+                    <div class="ua-break-two" style="flex: 1 1 0%;">
+                        <p v-if="c.role">
+                            <span class="font-italic">{{ c.role }}</span>
+                        </p>
+                        <p v-if="c.name">
+                            {{ c.name }}
+                        </p>
+                        <p v-if="c.individualName">
+                            {{ c.individualName }}
+                        </p>
+                        <p
+                            v-if="c.positionName && c.positionName.length"
+                            v-for="(positionName) in c.positionName"
+                            :key="positionName"
+                        >
+                            {{ positionName }}
+                        </p>
+                        <p v-if="c.phone">
+                            {{ c.phone }}
+                        </p>
+                        <p v-if="c.street && c.postalCode">
+                            {{ c.street + "  " + c.postalCode }}
+                        </p>
+                        <p v-if="c.city">
+                            {{ c.city }}
+                        </p>
+                        <a
+                            v-if="c.email"
+                            :href="'mailto:' + c.email"
+                        >
+                            {{ c.email }}
+                        </a>
+                        <p class="pb-4"></p>
+                    </div>
+                </div>
+            </span>
+
+            <!-- Fallback: original single contact from Vuex if CSW fetch fails or returns nothing -->
+            <span v-else-if="contact" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
                 <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
                         <p v-if="contact?.name">
@@ -319,7 +470,7 @@ export default {
                         <p v-if="contact?.street && contact?.postalCode">
                             {{ contact.street + "  " + contact.postalCode }}
                         </p>
-                        <p v-if="contact?.name">
+                        <p v-if="contact?.city">
                             {{ contact.city }}
                         </p>
                         <a
@@ -337,7 +488,7 @@ export default {
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two">
                         <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
@@ -362,7 +513,7 @@ export default {
         </AccordionItem>
 
         <p class="mb-4" v-if="uaData.uaDownload">
-            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+            <a v-if="uaData.uaDownload" :href="uaData.uaDownload" class="">
                 <button
                     class="btn btn-light w-100 ua-button"
                     type="button"
@@ -500,7 +651,7 @@ export default {
                         {{ layerInfo.layerNames[i] }}
                         <li>
                             <a
-                                :href="layerUrl"
+                                :href="Array.isArray(layerUrl) ? layerUrl[i] : layerUrl"
                                 target="_blank"
                             >
                                 {{ layerInfoUrl }}
