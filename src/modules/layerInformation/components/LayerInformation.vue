@@ -13,17 +13,18 @@ import axios from "axios";
  * The Layer Information that gives the user information, links and the legend for a layer
  * @module modules/layerInformation/components/LayerInformation
  * @vue-data {String} activeTab - The active tab.
- * @vue-data {Array} fullContacts - All contacts parsed directly from CSW metadata (pointOfContact + publisher).
+ * @vue-data {Array} fullContacts - All contacts parsed directly from CSW metadata.
  * @vue-computed {Boolean} showAdditionalMetaData - Shows if additional meta data should be displayed.
  * @vue-computed {Boolean} showCustomMetaData - Shows if custom meta data should be displayed.
  * @vue-computed {Boolean} showPublication - Shows if publication should be displayed.
+ * @vue-computed {Boolean} showRevision - Shows if revision date should be displayed.
  * @vue-computed {Boolean} showPeriodicity - Shows if periodicity should be displayed.
- * @vue-computed {Boolean} showDownloadLinks - Shows if download lonks should be displayed.
+ * @vue-computed {Boolean} showDownloadLinks - Shows if download links should be displayed.
  * @vue-computed {Boolean} showUrl - Shows if url should be displayed.
  * @vue-computed {Boolean} showAttachFile - Shows if file type needs to be attached for download.
- * @vue-computed {String} layerUrl - The layer URL.
+ * @vue-computed {String|String[]} layerUrl - The layer URL(s).
  * @vue-computed {String} legendURL - The legend URL.
- * @vue-computed {String} contact - Contact information from pointOfContact if given otherwise from publisher from meta data information.
+ * @vue-computed {Object|null} contact - Single contact from Vuex (fallback).
  * @vue-computed {Boolean} menuIndicator - Returns the menu the LayerInfo module is in.
  * @vue-computed {String} layerName - Name of the layer.
  */
@@ -41,11 +42,13 @@ export default {
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
             berlinImgLink: "./resources/img/berlin.png",
             imgLink: "./resources/img/person-circle.svg",
-            fullContacts: [] // all contacts from CSW (pointOfContact + publisher)
+            // all contacts fetched directly from CSW
+            fullContacts: []
         };
     },
     computed: {
-        ...mapGetters(["configJs"]),
+        // add restServiceById so we can fall back to global CSW URL
+        ...mapGetters(["configJs", "restServiceById"]),
         ...mapGetters("Modules/LayerInformation", [
             "abstractText",
             "customText",
@@ -70,43 +73,61 @@ export default {
         ]),
         ...mapGetters(["allLayerConfigsStructured"]),
         showAdditionalMetaData () {
-            return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
+            return this.layerInfo.metaURL !== null &&
+                typeof this.abstractText !== "undefined" &&
+                this.abstractText !== this.noMetadataLoaded;
         },
-        showAbstractText () {            
-            return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
+        showAbstractText () {
+            return typeof this.abstractText !== "undefined" &&
+                this.abstractText !== null &&
+                this.abstractText !== "" &&
+                this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
             return this.customText;
         },
         showPublication () {
-            return typeof this.datePublication !== "undefined" && this.datePublication !== null && this.datePublication !== "";
+            return typeof this.datePublication !== "undefined" &&
+                this.datePublication !== null &&
+                this.datePublication !== "";
         },
         showRevision () {
-            return typeof this.dateRevision !== "undefined" && this.dateRevision !== null && this.dateRevision !== "";
+            return typeof this.dateRevision !== "undefined" &&
+                this.dateRevision !== null &&
+                this.dateRevision !== "";
         },
         showPeriodicity () {
-            return this.periodicityKey !== "" && this.periodicityKey !== null && this.periodicityKey !== undefined;
+            return this.periodicityKey !== "" &&
+                this.periodicityKey !== null &&
+                this.periodicityKey !== undefined;
         },
         showDownloadLinks () {
             return this.downloadLinks !== null;
         },
         showUrl () {
-            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) || (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
+            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) ||
+                (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
         },
         showAttachFile () {
             return this.downloadLinks && this.downloadLinks.length > 1;
         },
         layerUrl () {
-            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
+            return Array.isArray(this.layerInfo.url)
+                ? this.layerInfo.url
+                    .map((url, i) => ({url, typ: this.layerInfo.typ?.[i]}))
+                    .map(this.getGetCapabilitiesUrl)
+                : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
         },
-        legendURL  () {
+        legendURL () {
             return this.layerInfo.legendURL;
         },
-        layerTyp  () {
-            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
+        layerTyp () {
+            return this.layerInfo.typ !== "GROUP"
+                ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`
+                : this.$t("common:modules.layerInformation.addressSuffixes");
         },
+        // original single-contact behaviour from Vuex (fallback if CSW fetch fails)
         contact () {
-            // original behaviour: one contact from Vuex as fallback
             return this.pointOfContact || this.publisher || null;
         },
         menuIndicator () {
@@ -115,23 +136,24 @@ export default {
                 : "secondaryMenu";
         },
         layerName () {
-            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData () {      
+        uaData () {
             return {
-                uaGdiURL: this.layerInfo?.metaID ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID : "",
-                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
-                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaGdiURL: this.layerInfo?.metaID
+                    ? "https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/" + this.layerInfo.metaID
+                    : "",
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null,
+                uaDownload: this.layerInfo?.uaDownload ?? null,
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
             };
         },
         fullPath () {
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey); 
-            let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey);
+            const fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
 
             fullPath.pop();
             return fullPath;
@@ -172,22 +194,34 @@ export default {
         isWebLink,
 
         /**
-         * Fetch all contacts (pointOfContact + publisher) directly from CSW metadata.
-         * This bypasses the getCswRecordById.parseContactByRole limitation
-         * that only returns a single contact.
+         * Fetch all contacts directly from CSW metadata.
+         * - Uses layerInfo.cswUrl if present
+         * - Otherwise falls back to global CSW from metaDataCatalogueId via restServiceById
+         * - Parses all CI_ResponsibleParty under gmd:pointOfContact
          * @returns {void}
          */
         async fetchAllContacts () {
             try {
-                const cswUrl = this.layerInfo?.cswUrl;
-                let metaId = this.layerInfo?.metaID;
-
-                if (!cswUrl || !metaId) {
-                    return;
-                }
+                let cswUrl = this.layerInfo?.cswUrl || null;
+                let metaId = this.layerInfo?.metaID || null;
 
                 if (Array.isArray(metaId)) {
                     metaId = metaId[0];
+                }
+
+                // fallback: global CSW from configJs.metaDataCatalogueId
+                if (!cswUrl) {
+                    const serviceId = this.configJs?.metaDataCatalogueId;
+
+                    if (serviceId && typeof this.restServiceById === "function") {
+                        const service = this.restServiceById(serviceId);
+
+                        cswUrl = service?.url || null;
+                    }
+                }
+
+                if (!cswUrl || !metaId) {
+                    return;
                 }
 
                 const response = await axios.get(cswUrl, {
@@ -209,7 +243,7 @@ export default {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(xmlText, "text/xml");
 
-                // Select all CI_ResponsibleParty under pointOfContact
+                // select all CI_ResponsibleParty under pointOfContact
                 const partyNodes = doc.querySelectorAll(
                     "gmd\\:pointOfContact gmd\\:CI_ResponsibleParty, pointOfContact CI_ResponsibleParty"
                 );
@@ -217,24 +251,24 @@ export default {
                 const contacts = [];
 
                 partyNodes.forEach(node => {
-                    const roleNode = node.querySelector("gmd\\:role gmd\\:CI_RoleCode, role CI_RoleCode");
+                    // role is optional; we don't hard-filter by specific values
+                    const roleNode = node.querySelector(
+                        "gmd\\:role gmd\\:CI_RoleCode, role CI_RoleCode, gmd\\:CI_RoleCode"
+                    );
                     const role = roleNode?.getAttribute("codeListValue") || null;
-
-                    // include pointOfContact and publisher (you can extend this if needed)
-                    if (role !== "pointOfContact" && role !== "publisher") {
-                        return;
-                    }
 
                     const getText = selector => {
                         const el = node.querySelector(selector);
                         return el && el.textContent ? el.textContent.trim() : null;
                     };
 
+                    const rawPosition = getText("gmd\\:positionName gco\\:CharacterString, positionName gco\\:CharacterString") || "";
+
                     const contact = {
                         role,
                         name: getText("gmd\\:organisationName gco\\:CharacterString, organisationName gco\\:CharacterString"),
                         individualName: getText("gmd\\:individualName gco\\:CharacterString, individualName gco\\:CharacterString"),
-                        positionName: (getText("gmd\\:positionName gco\\:CharacterString, positionName gco\\:CharacterString") || "")
+                        positionName: rawPosition
                             .split(",")
                             .reverse()
                             .filter(v => v),
@@ -245,21 +279,24 @@ export default {
                         city: getText("gmd\\:city gco\\:CharacterString, city gco\\:CharacterString")
                     };
 
-                    // avoid pushing completely empty contact
                     if (
-                        contact.name ||
-                        contact.individualName ||
-                        contact.email ||
-                        contact.phone
+                        !contact.name &&
+                        !contact.individualName &&
+                        !contact.email &&
+                        !contact.phone
                     ) {
-                        contacts.push(contact);
+                        return;
                     }
+
+                    contacts.push(contact);
                 });
+
+                // optional: sort by role so similar roles group together
+                contacts.sort((a, b) => (a.role || "").localeCompare(b.role || ""));
 
                 this.fullContacts = contacts;
             }
             catch (error) {
-                // if something goes wrong, just log and keep fallback Vuex contact
                 console.error("Error while fetching full contacts from CSW in LayerInformation.vue:", error);
             }
         },
@@ -443,7 +480,7 @@ export default {
                 </div>
             </span>
 
-            <!-- Fallback: original single contact from Vuex if CSW fetch fails or returns nothing -->
+            <!-- Fallback: single contact from Vuex if CSW fetch does not provide any -->
             <span v-else-if="contact" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
                 <div class="ua-break-parent">
@@ -605,7 +642,7 @@ export default {
                 :show="isActiveTab('layerinfo-legend')"
             >
                 <LegendSingleLayer
-                    v-if="legendURL !== 'ignore'"
+                    v-if="legendURL !== "ignore""
                     :legend-obj="layerInfoLegend"
                 />
             </div>
@@ -623,7 +660,7 @@ export default {
                         style="padding-bottom: 0px;"
                     >
                         <li
-                             v-for="downloadLink in downloadLinks"
+                            v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
                             class="mb-4"
                         >
@@ -688,7 +725,6 @@ export default {
         border-radius: 5px;
         width: fit-content !important;
         margin-top: 16px;
-        // float: right;
     }
 
     .ua-contact-wrapper p {
@@ -705,7 +741,7 @@ export default {
 
     .ua-break-parent {
       display: flex;
-      flex-wrap: wrap; /* Allows wrapping of children if space is not enough */
+      flex-wrap: wrap;
     }
 
     .ua-break-one {
@@ -714,7 +750,6 @@ export default {
         margin-right: 10px;
     }
 
-    /* Second child, which takes up the remaining space */
     .ua-break-two {
         flex: 1;
         box-sizing: border-box;
