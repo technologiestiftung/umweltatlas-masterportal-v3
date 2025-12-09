@@ -24,7 +24,11 @@ ci_scripts
 css/bootstrap.css
 css/modules.css
 
-dist
+
+dist/auto
+dist/basic
+dist/layer
+dist/master
 
 devtools/certificate*
 
@@ -51,6 +55,7 @@ npm-debug.log
 !/portal/basic
 !/portal/master
 !/portal/auto
+!/portal/umweltatlas
 !/portal/layer
 
 
