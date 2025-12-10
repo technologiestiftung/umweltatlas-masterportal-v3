@@ -25,7 +25,8 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
         propsData = {
             conf: layer,
             showSelectAllCheckBox: false,
-            selectAllConfigs: []
+            selectAllConfigs: [],
+            areFoldersSelectable: false
         };
         store = createStore({
             modules: {
@@ -83,7 +84,8 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
                 type: "folder",
                 isFolderSelectable: true,
                 elements: [layer]
-            }
+            },
+            areFoldersSelectable: true
         };
         wrapper = shallowMount(LayerSelectionTreeNode, {
             global: {
@@ -106,7 +108,8 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
                 type: "folder",
                 isFolderSelectable: false,
                 elements: [layer]
-            }
+            },
+            areFoldersSelectable: false
         };
         wrapper = shallowMount(LayerSelectionTreeNode, {
             global: {

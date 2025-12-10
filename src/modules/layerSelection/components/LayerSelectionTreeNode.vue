@@ -13,6 +13,7 @@ import {sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
  * @vue-prop {Object} conf - The current configuration.
  * @vue-prop {Boolean} showSelectAllCheckBox - Shows if SelectAllCheckBox is rendered.
  * @vue-prop {Array} selectAllConfigs - The layer-configurations controlled by SelectAllCheckBox.
+ * @vue-prop {Boolean} areFoldersSelectable - Indicates whether at least one folder has the attribute "isFolderSelectable": true.
  * @vue-computed {Boolean} isFolder - Shows if configurated type is folder.
  * @vue-computed {Boolean} isLayer - Shows if configurated type is layer.
  */
@@ -41,6 +42,11 @@ export default {
             default () {
                 return [];
             }
+        },
+        /** indicates whether at least one folder has the attribute "isFolderSelectable": true */
+        areFoldersSelectable: {
+            type: Boolean,
+            default: false
         }
     },
     emits: ["showNode"],
@@ -95,7 +101,7 @@ export default {
             class="layer-selection-treenode-folder-container d-flex "
         >
             <FolderCheckBox
-                v-if="conf.isFolderSelectable === true"
+                v-if="areFoldersSelectable"
                 :conf="conf"
             />
             <LightButton

@@ -4,6 +4,7 @@ import escapeId from "@shared/js/utils/escapeId.js";
 
 /**
  * Displays a checkbox that can be used to select or deselect all layers in a folder in the layer tree.
+ * All folders with "isSelectable": true will have a checkbox added at the beginning. All other folders will be indented.
  * @module modules/layerTree/components/FolderCheckBox
  * @vue-prop {Object} conf - The current layer configuration.
  * @vue-data {Object} icons - The checkbox icons.
@@ -140,7 +141,10 @@ export default {
         <button
             :id="'folder-checkbox-' + escapeId(conf.id)"
             :title="$t(folderCheckboxTitleKey, {folderName: conf.name})"
-            class="btn d-flex align-items-center layer-tree-folder-title p-1 btn-light"
+            :class="[
+                'btn d-flex align-items-center layer-tree-folder-title p-1 btn-light',
+                !Boolean(conf.isFolderSelectable) ? 'button-hidden' : ''
+            ]"
             @click="changeCheckboxStatus(currentStatus)"
             @keydown.enter="changeCheckboxStatus(currentStatus)"
         >
@@ -162,5 +166,9 @@ export default {
     .layer-tree-folder-title {
         overflow: hidden;
         line-height: normal;
+    }
+
+    .button-hidden {
+        visibility: hidden;
     }
 </style>

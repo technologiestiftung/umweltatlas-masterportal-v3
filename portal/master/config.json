@@ -1136,6 +1136,29 @@
                       "visibility": false
                     }
                   ]
+                },
+                {
+                  "name": "Wohnunterkünfte",
+                  "type": "folder",
+                  "isFolderSelectable": false,
+                  "elements": [
+                    {
+                      "id": "30555",
+                      "visibility": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Starkregen",
+              "type": "folder",
+              "elements": [
+                {
+                  "id": "28988"
+                },
+                {
+                  "id": "28989"
                 }
               ]
             }

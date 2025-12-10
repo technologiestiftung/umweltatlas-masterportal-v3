@@ -92,10 +92,28 @@ describe("src/modules/layerTree/components/FolderCheckBox.vue", () => {
             propsData
         });
 
-        expect(wrapper.find("#folder-checkbox-container-" + escapeId(propsData.conf.id)).exists()).to.be.true;
-        expect(wrapper.find("#folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
-        expect(wrapper.find("#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
-        expect(wrapper.find("#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).classes()).to.includes("bi-dash-square");
+        expect(wrapper.find("div#folder-checkbox-container-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("button#folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("button#folder-checkbox-" + escapeId(propsData.conf.id)).classes()).to.not.include("button-hidden");
+        expect(wrapper.find("span#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("span#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).classes()).to.includes("bi-dash-square");
+    });
+
+    it("hide the folder checkbox, if the attribute 'isFolderSelectable' is false", () => {
+        propsData = {
+            conf: folder.elements[2]
+        };
+        wrapper = shallowMount(FolderCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.find("div#folder-checkbox-container-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("button#folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
+        expect(wrapper.find("button#folder-checkbox-" + escapeId(propsData.conf.id)).classes()).to.include("button-hidden");
+        expect(wrapper.find("span#layer-tree-folder-checkbox-" + escapeId(propsData.conf.id)).exists()).to.be.true;
     });
 
     describe("checkLayerStatus", () => {

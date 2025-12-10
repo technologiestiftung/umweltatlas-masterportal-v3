@@ -108,6 +108,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
                     {
                         name: "Titel Ebene 2",
                         type: "folder",
+                        isFolderSelectable: true,
                         elements: [layer2D_1, layer2D_2,
                             {
                                 name: "Titel Ebene 3",
@@ -414,10 +415,11 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
 
         expect(wrapper.find("#layer-selection").exists()).to.be.true;
 
-        wrapper.vm.folderClicked(subjectDataLayers[0].elements);
+        wrapper.vm.folderClicked("Titel Ebene 1", subjectDataLayers[0].elements);
         await wrapper.vm.$nextTick();
 
         expect(LayerSelection.actions.navigateForward.calledOnce).to.be.true;
+        expect(wrapper.vm.areFoldersSelectable).to.be.true;
     });
 
     it("navigateStepsBack shall call action navigateBack and provideSelectAllProps", async () => {

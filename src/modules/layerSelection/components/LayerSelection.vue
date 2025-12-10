@@ -11,6 +11,7 @@ import {treeSubjectsKey} from "../../../shared/js/utils/constants.js";
 /**
  * Layer Selection
  * @module modules/LayerSelection
+ * @vue-data {Boolean} areFoldersSelectable - Indicates whether at least one folder has the attribute "isFolderSelectable": true.
  * @vue-data {Number} currentComponentSide - The layer id for the select all checkbox.
  * @vue-data {Number} selectAllConfId - The layer id for the select all checkbox.
  * @vue-data {Array} selectAllConfigs - The layer configurations for select all checkbox.
@@ -25,6 +26,7 @@ export default {
     },
     data () {
         return {
+            areFoldersSelectable: false,
             selectAllConfId: -1,
             selectAllConfigs: [],
             activeCategory: null,
@@ -131,7 +133,10 @@ export default {
 
     mounted () {
         if (this.layerConfig?.[treeSubjectsKey]?.elements) {
-            this.rootFolderCount = this.layerConfig[treeSubjectsKey].elements.filter(conf => conf.type === "folder").length;
+            const rootFolders = this.layerConfig[treeSubjectsKey].elements.filter(conf => conf.type === "folder");
+
+            this.rootFolderCount = rootFolders.length;
+            this.areFoldersSelectable = Boolean(rootFolders.find(rootFolder => rootFolder.isFolderSelectable));
         }
     },
 
@@ -186,6 +191,7 @@ export default {
          */
         folderClicked (lastFolderName, subjectDataLayerConfs) {
             this.navigateForward({lastFolderName, subjectDataLayerConfs: this.sort(subjectDataLayerConfs)});
+            this.areFoldersSelectable = Boolean(subjectDataLayerConfs?.find(subjectDataLayerConf => subjectDataLayerConf.isFolderSelectable));
             this.$nextTick(() => {
                 this.selectAllConfId = -1;
                 this.selectAllConfigs = [];
@@ -405,6 +411,7 @@ export default {
                     >
                         <LayerSelectionTreeNode
                             :conf="conf"
+                            :are-folders-selectable="areFoldersSelectable"
                             :show-select-all-check-box="selectAllConfId === conf.id && !deactivateShowAllCheckbox"
                             :select-all-configs="selectAllConfigs"
                             @show-node="folderClicked"
@@ -428,6 +435,7 @@ export default {
                         >
                             <LayerSelectionTreeNode
                                 :conf="conf"
+                                :are-folders-selectable="areFoldersSelectable"
                                 :show-select-all-check-box="selectAllConfId === conf.id && !deactivateShowAllCheckbox"
                                 :select-all-configs="selectAllConfigs"
                                 @show-node="folderClicked"
