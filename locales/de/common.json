@@ -1447,7 +1447,7 @@
         "point": "Punkt erfassen",
         "polygon": "Fläche erfassen",
         "update": "Bearbeiten",
-        "multiUpdate": "Bearbeiten",
+        "multiUpdate": "Mehrfach bearbeiten",
         "multiPolygon": "Multipolygon erfassen"
       },
       "multiUpdate": {
