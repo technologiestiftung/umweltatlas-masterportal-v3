@@ -30,6 +30,7 @@
 - Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
 - Issue #1317: encode the share link.
 - MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
+- Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
 
 ---
 

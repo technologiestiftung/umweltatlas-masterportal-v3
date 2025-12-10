@@ -60,7 +60,16 @@ const state = {
     minNumberOfClasses: 3,
     maxNumberOfClasses: 9,
     numberOfClasses: 5,
-    selectableColorPalettes: [],
+    selectableColorPalettes: [
+        {key: "YlGn", label: "Gelb-Grün"},
+        {key: "YlOrRd", label: "Gelb-Rot"},
+        {key: "Blues", label: "Blau"},
+        {key: "Greys", label: "Grau"},
+        {key: "Greens", label: "Grün"},
+        {key: "Reds", label: "Rot"},
+        {key: "Oranges", label: "Orange"},
+        {key: "Purples", label: "Violett"}
+    ],
     selectedColorPaletteIndex: 0,
     stepValues: [],
     colorPalette: [],

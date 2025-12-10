@@ -32,6 +32,7 @@ import Select from "ol/interaction/Select.js";
 import {pointerMove} from "ol/events/condition.js";
 import Overlay from "ol/Overlay.js";
 import debounce from "@shared/js/utils/debounce.js";
+import {GeoJSON} from "ol/format.js";
 
 export default {
     name: "StatisticDashboard",
@@ -867,6 +868,8 @@ export default {
                     console.error(error);
                 });
                 this.loadedFeatures = new WFS().readFeatures(response);
+                this.layer.getSource().addFeatures(this.loadedFeatures);
+                statFeatures = new GeoJSON().writeFeaturesObject(this.loadedFeatures).features;
             }
             else if (selectedLayer.typ === "OAF") {
                 payload.propertyNames.splice(payload.propertyNames.indexOf(this.selectedLevel.geometryAttribute), 1);
@@ -1773,6 +1776,10 @@ export default {
          * @returns {void}
          */
         async prepareLayer () {
+            if (this.getRawLayerByLayerId(this.selectedLevel.layerId).typ === "WFS") {
+                return;
+            }
+
             this.layer.getSource().clear();
             this.layer.setStyle(null);
 
