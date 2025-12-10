@@ -656,9 +656,8 @@
     "layerSelection": {
       "addSubject": "Thema hinzufügen",
       "folderCheckbox": {
-        "indeterminate": "Alle Layer im Ordner {{folderName}} deaktivieren",
-        "selected": "Alle Layer im Ordner {{folderName}} deaktivieren",
-        "unselected": "Alle Layer im Ordner {{folderName}} aktivieren"
+        "selectedAllLayer": "Alle Layer im Ordner {{folderName}} aktivieren",
+        "unselectedAllLayer": "Alle Layer im Ordner {{folderName}} deaktivieren"
       },
       "name": "Themenauswahl",
       "backgrounds": "Hintergründe",

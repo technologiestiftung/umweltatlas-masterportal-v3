@@ -11,7 +11,7 @@
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
 - App: All locales can now be overridden with the config.js, and new locales can be added.
 - Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
-- LayerSelection: All layers can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject`.
+- LayerSelection: All layers in a folder can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject` configurable in config.json.
 
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.

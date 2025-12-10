@@ -54,6 +54,22 @@ export default {
          */
         folderCheckBoxIcon () {
             return this.icons[this.currentStatus];
+        },
+
+        /**
+         * Returns the folder checkbox title key for the current status.
+         * @returns {String} The folder checkbox title key.
+         */
+        folderCheckboxTitleKey () {
+            let title = "";
+
+            if (this.currentStatus === "selected" || this.currentStatus === "indeterminate") {
+                title = "common:modules.layerSelection.folderCheckbox.unselectedAllLayer";
+            }
+            else if (this.currentStatus === "unselected") {
+                title = "common:modules.layerSelection.folderCheckbox.selectedAllLayer";
+            }
+            return title;
         }
     },
     methods: {
@@ -123,7 +139,7 @@ export default {
     >
         <button
             :id="'folder-checkbox-' + escapeId(conf.id)"
-            :title="$t('common:modules.layerSelection.folderCheckbox.' + currentStatus, {folderName: conf.name})"
+            :title="$t(folderCheckboxTitleKey, {folderName: conf.name})"
             class="btn d-flex align-items-center layer-tree-folder-title p-1 btn-light"
             @click="changeCheckboxStatus(currentStatus)"
             @keydown.enter="changeCheckboxStatus(currentStatus)"

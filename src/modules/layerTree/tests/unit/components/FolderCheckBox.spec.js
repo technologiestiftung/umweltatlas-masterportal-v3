@@ -154,6 +154,19 @@ describe("src/modules/layerTree/components/FolderCheckBox.vue", () => {
         });
     });
 
+    describe("folderCheckboxTitleKey", () => {
+        it("should return the checkbox title key for folder", () => {
+            wrapper = shallowMount(FolderCheckBox, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            expect(wrapper.vm.folderCheckboxTitleKey).to.equals("common:modules.layerSelection.folderCheckbox.unselectedAllLayer");
+        });
+    });
+
     describe("changeCheckboxStatus", () => {
         it("should set all layer status in the given folder to visibility=false, if current status is selected", () => {
             wrapper = shallowMount(FolderCheckBox, {

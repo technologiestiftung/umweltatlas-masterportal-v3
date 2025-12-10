@@ -5185,12 +5185,12 @@ Hier werden Layer oder Ordner definiert. Ordner können **[elements](#layerconfi
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|deactivateShowAllCheckbox|nein|Boolean|false|Deaktiviert die "Alle hinzufügen" Checkbox, wenn der Type ein `folder` ist|false|
 |elements|nein|**[elements](#layerconfigelements)**[]||Nächste Ebene mit Layern oder Ordnern unter dem type `folder`.|false|
+|isFolderSelectable|nein|Boolean|false|Legt fest, ob alle Layer eines Ordners auf einmal über eine Checkbox aktiviert bzw. deaktiviert werden dürfen. Die Checkbox kann folgende Zustände annehmen: `ausgewählt (aktiviert)`, `nicht ausgewählt(deaktiviert)` und `teilweise ausgewählt (unbestimmt)`. Nur relevant für den Type `folder`.|false|
 |name|nein|String|""|Name des Layers oder Ordners. Kann HTLM enthalten, welches nur im Layerbaum dargestellt wird. |false|
 |shortname|nein|String|""|Verkürzter Name des Layers oder Ordners. Falls konfiguriert wird er im Layerbaum anstelle von `name` angezeigt. |false|
 |type|nein|String|"layer"|Typ des Elements: "layer" für Layer oder "folder" für Ordner|false|
-|deactivateShowAllCheckbox|nein|Boolean|false|Deaktiviert die "Alle hinzufügen" Checkbox, wenn der Type ein `folder` ist|false|
-|isFolderSelectable|nein|Boolean|false|Legt fest, ob alle Layer eines Ordners auf einmal über eine Checkbox aktiviert bzw. deaktiviert werden dürfen. Die Checkbox kann folgende Zustände annehmen: `ausgewählt (aktiviert)`, `nicht ausgewählt(deaktiviert)` und `teilweise ausgewählt (unbestimmt)`. Nur relevant für den Type `folder`.|false|
 
 **Beispiel baselayer**
 
