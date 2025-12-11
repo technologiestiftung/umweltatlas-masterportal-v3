@@ -124,7 +124,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
         });
     });
     describe("determineDefault", () => {
-        it("configuredDefault is contained in timeRange", function () {
+        it("configuredDefault is contained in timeRange", () => {
             const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
                 timeRange = [
                     "2021-12-25",
@@ -142,7 +142,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
             expect(result).to.be.equals(configuredDefault);
         });
-        it("configuredDefault is 'current' return greatest date in timeRange", function () {
+
+        it("configuredDefault is 'current' return greatest date in timeRange", () => {
             const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
                 timeRange = [
                     "2021-12-25",
@@ -159,6 +160,25 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 result = wmsTimeLayer.determineDefault(timeRange, extentDefault, configuredDefault);
 
             expect(result).to.be.equals("2023-09-16");
+        });
+
+        it("configuredDefault is -5 return the element at this position", () => {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                timeRange = [
+                    "2021-12-25",
+                    "2022-03-25",
+                    "2022-06-23",
+                    "2022-08-20",
+                    "2022-10-26",
+                    "2023-02-08",
+                    "2023-06-13",
+                    "2023-09-16"
+                ],
+                extentDefault = "2023-09-16",
+                configuredDefault = -5,
+                result = wmsTimeLayer.determineDefault(timeRange, extentDefault, configuredDefault);
+
+            expect(result).to.be.equals("2022-08-20");
         });
     });
     it("extractExtentValues if they are in dimension", function () {

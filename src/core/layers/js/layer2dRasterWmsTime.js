@@ -4,6 +4,7 @@ import layerCollection from "./layerCollection.js";
 import store from "@appstore/index.js";
 import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
 import detectIso8601Precision from "@shared/js/utils/detectIso8601Precision.js";
+import isNumber from "@shared/js/utils/isNumber.js";
 
 import axios from "axios";
 import dayjs from "dayjs";
@@ -60,15 +61,18 @@ Layer2dRasterWmsTimeLayer.prototype.createTimeRange = function (min, max, increm
 };
 
 /**
- * @param {String[]} timeRange valid points in time for WMS-T
- * @param {String?} extentDefault default specified by service
- * @param {String?} configuredDefault default specified by config (preferred usage)
- * @returns {String} default to use
+ * @param {String[]} timeRange Valid points in time for WMS-T.
+ * @param {String|Number} extentDefault Default specified by service. Either a specific value from the time range is specified as a string, or a position in the time range is specified as a number.
+ * @param {String?} configuredDefault Default specified by config (preferred usage).
+ * @returns {String} Default to use.
  */
 Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, extentDefault, configuredDefault) {
     if (configuredDefault && configuredDefault !== "current") {
         if (timeRange.includes(configuredDefault)) {
             return configuredDefault;
+        }
+        else if (isNumber(configuredDefault)) {
+            return timeRange.at(configuredDefault);
         }
 
         console.error(

@@ -114,12 +114,27 @@ If a parameter is also present in the service, the definition in this config is 
 
 | Name | Verpflichtend | Typ | default | Beschreibung | Beispiel |
 |---|---|---|---|---|---|
-| default | no | String |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. | `"1970"` |
+| default | no | String/Number |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. | `"1970"` |
 | keyboardMovement | no | Number | `5` | Value in pixels that the swiper should be moved when using the arrow keys. | `5` |
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
 | dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
 | extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 
+
+```json title="Example 1 Configuration of WMS-T time attribute"
+   "time": {
+      "default": "2025-12-14T18:00:00.000Z",
+      "dimensionName": "time"
+   }
+
+```
+
+```json title="Example 2 Configuration of WMS-T time attribute"
+   "time": {
+      "default": -5,
+      "dimensionName": "time"
+   }
+```
 
 ## WMTS Layer
 
