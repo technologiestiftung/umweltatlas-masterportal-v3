@@ -181,6 +181,6 @@ describe("src/modules/routing/components/Isochrones/IsochronesLegend.vue", () =>
 
         wrapper = createWrapper();
 
-        expect(toLocaleStringSpy.returnValues).deep.to.equals(["30", "250", "100,000", "15", "100", "35,000"]);
+        expect(toLocaleStringSpy.thisValues).deep.to.equals([30, 250, 100000, 15, 100, 35000]);
     });
 });

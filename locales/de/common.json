@@ -1095,7 +1095,7 @@
         },
         "interval": {
           "default" : "Intervall",
-          "count": "Anzahl Intervalle"
+          "count": "Anzahl der Intervalle"
         },
         "legend": {
           "area": "Fläche",

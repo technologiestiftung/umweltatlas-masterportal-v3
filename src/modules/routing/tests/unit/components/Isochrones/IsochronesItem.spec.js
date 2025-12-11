@@ -114,6 +114,10 @@ describe("src/modules/routing/components/Isochrones/IsochronesItem.vue", () => {
         sinon.restore();
     });
 
+    after(() => {
+        mapCollection.clear();
+    });
+
     it("renders Isochrones", () => {
         wrapper = createWrapper();
         expect(wrapper.find("#routing-isochrones").exists()).to.be.true;
