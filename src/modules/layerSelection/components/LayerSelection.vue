@@ -177,6 +177,7 @@ export default {
             for (let index = 0; index < end; index++) {
                 this.navigateBack();
             }
+            this.areFoldersSelectable = Boolean(this.subjectDataLayerConfs?.find(subjectDataLayerConf => subjectDataLayerConf.isFolderSelectable));
             this.$nextTick(() => {
                 this.selectAllConfId = -1;
                 this.selectAllConfigs = [];

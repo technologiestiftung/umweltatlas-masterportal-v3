@@ -104,6 +104,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
             {
                 name: "Titel Ebene 1",
                 type: "folder",
+                isFolderSelectable: true,
                 elements: [
                     {
                         name: "Titel Ebene 2",
@@ -443,6 +444,7 @@ describe("src/modules/layerSelection/components/LayerSelection.vue", () => {
         await wrapper.vm.$nextTick();
         expect(LayerSelection.actions.navigateBack.calledOnce).to.be.true;
         expect(provideSelectAllPropsSpy.calledOnce).to.be.true;
+        expect(wrapper.vm.areFoldersSelectable).to.be.true;
     });
 
 
