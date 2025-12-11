@@ -3,11 +3,12 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import CopyrightConstraints from "@modules/copyrightConstraints/components/CopyrightConstraints.vue";
 import state from "@modules/copyrightConstraints/store/stateCopyrightConstraints.js";
+import sinon from "sinon";
+import axios from "axios";
 
 config.global.mocks.$t = key => key;
 
-// skipped: see https://lgv-hamburg.atlassian.net/browse/BG-5562
-describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
+describe("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
     let store;
     const visibleLayers =
         [
@@ -144,6 +145,13 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
                 visibleLayerConfigs: () => visibleLayers
             }
         });
+
+        useLayerCswUrl = false;
+        axiosMock = sinon.stub(axios, "get").resolves({status: 200, statusText: "OK", request: {responseXML: new DOMParser().parseFromString("", "text/xml")}});
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the CopyrightConstraints component", () => {
@@ -166,7 +174,7 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
 
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("access");
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("use").that.is.an("array");
-        }).timeout(4000);
+        });
         it("getCswConstraints and rendered data", async () => {
             const wrapper = mount(CopyrightConstraints, {
                 global: {
@@ -194,7 +202,7 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
             expect(ullayerList.exists()).to.be.true;
             expect(ulConstraintsList.exists()).to.be.false;
             expect(ulPointOfContactList.exists()).to.be.true;
-        }).timeout(4000);
+        });
         it("getVisibleLayer returns an array", () => {
             const wrapper = mount(CopyrightConstraints, {
                     global: {
