@@ -129,7 +129,7 @@
       },
       "mouseHover": {
         "numFeaturesToShow": 2,
-        "infoText": "Exampletext"
+        "infoText": "common:modules.mouseHover.infoText"
       },
       "startingMapMode": "2D",
       "zoomTo": [
@@ -1318,7 +1318,7 @@
           "loadingStrategy": "all",
           "mouseHoverField": [
             "belegenheit",
-            "nutzung"
+            "gruen_art"
           ]
         },
         {

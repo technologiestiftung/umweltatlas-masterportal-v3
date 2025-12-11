@@ -41,26 +41,32 @@ export default {
 
             // works for WebGL layers that are point layers
             map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
-                if (layer?.getVisible()) {
-                    if (highlightOnHover) {
-                        dispatch("highlightFeature", {feature, layer});
-                    }
-                    if (feature.getProperties().features) {
-                        feature.get("features").forEach(clusteredFeature => {
-                            featuresAtPixel.push(createGfiFeature(
-                                layer,
-                                "",
-                                clusteredFeature
-                            ));
-                        });
-                    }
-                    else {
+                if (
+                    !layer?.getVisible() ||
+                    (layer.get("renderer") === "webgl" && !layer.get("isPointLayer"))
+                ) {
+                    return;
+                }
+
+                if (highlightOnHover) {
+                    dispatch("highlightFeature", {feature, layer});
+                }
+
+                if (feature.getProperties().features) {
+                    feature.get("features").forEach(clusteredFeature => {
                         featuresAtPixel.push(createGfiFeature(
                             layer,
                             "",
-                            feature
+                            clusteredFeature
                         ));
-                    }
+                    });
+                }
+                else {
+                    featuresAtPixel.push(createGfiFeature(
+                        layer,
+                        "",
+                        feature
+                    ));
                 }
             });
             /** check WebGL Layers

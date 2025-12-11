@@ -29,6 +29,7 @@
 - Issue #1307: print: add check if dpiForPdf is in dpiList and fall back to first list item if needed.
 - Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
 - Issue #1317: encode the share link.
+- MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
 
 ---
 
