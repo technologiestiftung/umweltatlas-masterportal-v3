@@ -1052,12 +1052,13 @@ Specify the fill color and outline color and stroke width for highlighting the p
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
+|fill|no|**[fill](#portalconfigmapmousehoverhighlightvectorrulespolygonfill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#portalconfigmapmousehoverhighlightvectorrulespolygonstroke)**||Possible setting: width|false|
 
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill {data-toc-label='Fill'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
@@ -1071,6 +1072,7 @@ Specify the fill color and outline color and stroke width for highlighting the p
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke {data-toc-label='Stroke'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |width|no|Integer|1|Possible setting: width|false|
@@ -1092,12 +1094,14 @@ Specify outline color and stroke width for highlighting lines and fill color and
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
-|fill|no|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
-|stroke|no|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
-|image|no|**[image](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
+|fill|no|**[fill](#portalconfigmapmousehoverhighlightvectorrulespointlinefill)**||Possible setting: color|false|
+|stroke|no|**[stroke](#portalconfigmapmousehoverhighlightvectorrulespointlinestroke)**||Possible setting: width|false|
+|image|no|**[image](#portalconfigmapmousehoverhighlightvectorrulespointlineimage)**||Possible setting: scale|false|
 
 ***
+
 ###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill {data-toc-label='Fill'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |color|no|Float[]|[255, 255, 255, 0.5]|Possible setting: color (RGBA)|false|
@@ -1111,6 +1115,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke {data-toc-label='Stroke'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |width|no|Integer|1|Possible setting: width|false|
@@ -1126,6 +1131,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image {data-toc-label='Image'}
+
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |scale|no|Integer|1.5|Possible setting: scale|false|
@@ -1139,6 +1145,7 @@ Specify outline color and stroke width for highlighting lines and fill color and
 ***
 
 #### portalConfig.map.zoomTo {data-toc-label='Zoom To'}
+
 Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry`.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -1182,6 +1189,7 @@ Configuration for the URL query parameters `zoomToFeatureId` and `zoomToGeometry
 ***
 
 ### portalConfig.menu {data-toc-label='Menu'}
+
 Here you can configure the menu items for the `mainMenu` (in the desktop view on the left) and `secondaryMenu` (in the desktop view on the right) and their arrangement. The order of the modules results from the order in the *Config.json*.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -1198,6 +1206,7 @@ Here you can configure the menu items for the `mainMenu` (in the desktop view on
 ***
 
 #### portalConfig.menu.searchBar {data-toc-label='Search Bar'}
+
 Configuration of the search bar. Different search services can be configured.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -1237,6 +1246,7 @@ Configuration of the search bar. Different search services can be configured.
 ***
 
 ##### portalConfig.menu.searchBar.coloredHighlighting3D {data-toc-label='Colored Highlighting 3D'}
+
 Enables and configures the 3D highlighting feature for tiles in a Cesium 3D scene. This allows selected features to be visually emphasized by changing their color.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -1273,6 +1283,7 @@ The Vuex action `highlight3DTileByCoordinates` will:
 ***
 
 ##### portalConfig.menu.searchBar.searchInterfaces {data-toc-label='Search Interfaces'}
+
 Definitions of the search interfaces.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3384,6 +3395,7 @@ Print module, configurable for 2 print services: *High Resolution PlotService* a
 ***
 
 ###### portalConfig.menu.sections.modules.print.transferParameter {data-toc-label='Print Transfer-Parameter'}
+
 Object with parameters.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3401,6 +3413,7 @@ Object with parameters.
 ***
 
 ###### portalConfig.menu.sections.modules.print.additionalLayers {data-toc-label='Print additionalLayers'}
+
 List of Layers that can be added to the print document.
 
 |Name|Required|Type|Default|Description|Expert|
@@ -3420,6 +3433,7 @@ List of Layers that can be added to the print document.
 ***
 
 ###### portalConfig.menu.sections.modules.print.capabilitiesFilter {data-toc-label='Capabilities Filter'}
+
 List of layouts and formats that filters the response from the print service in the respective category.
 
 |Name|Required|Type|Default|Description|Expert|

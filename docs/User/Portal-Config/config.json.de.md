@@ -1051,12 +1051,13 @@ Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
-|stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
+|fill|nein|**[fill](#portalconfigmapmousehoverhighlightvectorrulespolygonfill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#portalconfigmapmousehoverhighlightvectorrulespolygonstroke)**||Mögliche Einstellung: width|false|
 
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.fill {data-toc-label='Fill'}
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
@@ -1070,6 +1071,7 @@ Gibt die Füllfarbe, Konturfarbe und Strichstärke zur Hervorhebung der Polygon-
 ***
 
 ###### portalConfig.map.mouseHover.highlightVectorRulesPolygon.stroke {data-toc-label='Stroke'}
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
@@ -1091,12 +1093,14 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|fill|nein|**[fill](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
-|stroke|nein|**[stroke](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
-|image|nein|**[image](#portalconfigmapmousehovermousehoverhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
+|fill|nein|**[fill](#portalconfigmapmousehoverhighlightvectorrulespointlinefill)**||Mögliche Einstellung: color|false|
+|stroke|nein|**[stroke](#portalconfigmapmousehoverhighlightvectorrulespointlinestroke)**||Mögliche Einstellung: width|false|
+|image|nein|**[image](#portalconfigmapmousehoverhighlightvectorrulespointlineimage)**||Mögliche Einstellung: scale|false|
 
 ***
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill {data-toc-label='Fill'}
+
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.fill
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |color|nein|Float[]|[255, 255, 255, 0.5]|Mögliche Einstellung: color (RGBA)|false|
@@ -1109,7 +1113,8 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke {data-toc-label='Stroke'}
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.stroke
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |width|nein|Integer|1|Mögliche Einstellung: width|false|
@@ -1124,7 +1129,8 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 
 ***
 
-###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image {data-toc-label='Image'}
+###### portalConfig.map.mouseHover.highlightVectorRulesPointLine.image
+
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |scale|nein|Integer|1.5|Mögliche Einstellung: scale|false|
@@ -1138,6 +1144,7 @@ Gibt Konturfarbe und Strichstärke zur Hervorhebung von Linien sowie Füllfarbe 
 ***
 
 #### portalConfig.map.zoomTo {data-toc-label='Zoom To'}
+
 Konfiguration für die URL-Abfrageparameter `zoomToFeatureId` und `zoomToGeometry`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -3379,9 +3386,11 @@ Druckmodul. Konfigurierbar für 2 Druckdienste: den High Resolution PlotService 
     "title": "Mein Titel"
 }
 ```
+
 ***
 
 ###### portalConfig.menu.sections.modules.print.transferParameter {data-toc-label='Print Transfer-Parameter'}
+
 Object with parameters.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -3390,7 +3399,7 @@ Object with parameters.
 
 **Beispiel Transfer Parameter**
 
-```json"
+```json
 "transferParameter": {
         "exampleParameter1": "example placeholder",
         "exampleParameter2": "example placeholder 2"
@@ -3398,7 +3407,9 @@ Object with parameters.
 ```
 
 ***
+
 ###### portalConfig.menu.sections.modules.print.additionalLayers {data-toc-label='Print additionalLayers'}
+
 Liste von Layern, die im Druckdialog zusätzlich hinzugefügt werden können.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
@@ -5005,9 +5016,12 @@ Es wird eine Themensuche innerhalb des konfigurierten SearchInterfaces und Searc
         ]
     }
 }
+```
 
 ***
+
 #### portalConfig.tree.addLayerButton.searchBar.searchInterfaceInstances {data-toc-label='Searchinterface Instances'}
+
 Liste der search interfaces aus der searchbar, die hier genutzt werden sollen.
 Die Suche funktioniert nur mit interfaces, die eine Themensuche ausführen.
 

@@ -5,6 +5,11 @@ if [ -f ".venv/bin/activate" ]; then
 
     . .venv/bin/activate
     python -m mkdocs build --strict
+        if [ $? -ne 0 ]; then
+        echo "MkDocs validation failed due to warnings or errors."
+        deactivate
+        exit 1
+    fi
     deactivate
 
 else
