@@ -267,16 +267,6 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
         time.extentName = "time";
     }
 
-    // @deprecated
-    if (typeof time.default === "number") {
-        console.warn(
-            `WMS-T has '"default": ${time.default}' configured as number.
-            Using number is deprecated, this field is now a string.
-            Please use '"default": "${time.default}"' instead.`
-        );
-        time.default = String(time.default);
-    }
-
     return this.requestCapabilities(attrs.url, attrs.version, attrs.layers)
         .then(xmlCapabilities => {
             const {dimension, extent} = this.retrieveTimeData(xmlCapabilities, attrs.layers, time),
