@@ -2678,6 +2678,8 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
     "name": "Liste",
     "icon": "bi-list",
     "maxFeatures": 10,
+    "showGraphicalSelect": true,
+    "bufferDistance": 500,
     "highlightVectorRulesPolygon": {
         "fill": {
             "color": [255, 0, 255, 0.9]
@@ -2699,9 +2701,7 @@ Sobald man den Mauszeiger über einem Feature in der Liste positioniert wird die
         "image": {
             "scale": 2
         },
-        "zoomLevel": 5,
-        "showGraphicalSelect": true,
-        "bufferDistance": 500
+        "zoomLevel": 5
     }
 }
 ```

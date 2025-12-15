@@ -2685,6 +2685,8 @@ As soon as you position the mouse pointer over a feature in the list, it will be
     "name": "List",
     "icon": "bi-list",
     "maxFeatures": 10,
+    "showGraphicalSelect": true,
+    "bufferDistance": 500,
     "highlightVectorRulesPolygon": {
         "fill": {
             "color": [255, 0, 255, 0.9]
