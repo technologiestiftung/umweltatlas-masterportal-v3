@@ -67,6 +67,17 @@ pipelines:
                         - git clone --single-branch --branch dev https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
                         - cd masterportal
                         - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git -f
+        'lts': 
+            -   step:
+                        name: deploy lts on openCode
+                        script:
+                            - echo 'deploy lts to opencode'
+                            - git fetch --all --tags
+                            - git checkout tags/lts
+                            - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git lts
+                            - git clone --single-branch --branch lts https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                            - cd masterportal
+                            - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git HEAD:refs/heads/lts -f
     custom: # Pipelines that are triggered manually
         npm audit:
             -   step:
@@ -190,5 +201,14 @@ pipelines:
                         - for zipFilePath in $(find dist -name \*.zip); do
                             curl -X POST --user "$bbapi_name:$bbapi_key" "https://api.bitbucket.org/2.0/repositories/geowerkstatt-hamburg/masterportal/downloads" --form files=@"$zipFilePath" --verbose;
                             done
-
-
+        tag to lts in OpenCode:
+            -   step:
+                    name: deploy lts tag to openCode
+                    script:
+                        - echo 'deploy lts to opencode'
+                        - git fetch --all --tags
+                        - git checkout tags/lts
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git lts
+                        - git clone --single-branch --branch lts https://geowerkstatt@bitbucket.org/geowerkstatt-hamburg/masterportal.git
+                        - cd masterportal
+                        - git push https://$OpenCode_User:$OpenCode_Password@gitlab.opencode.de/geowerkstatt-hamburg/masterportal.git HEAD:refs/heads/lts -f
