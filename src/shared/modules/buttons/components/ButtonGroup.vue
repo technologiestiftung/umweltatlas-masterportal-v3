@@ -1,15 +1,24 @@
 <script>
 import SpinnerItem from "../../../modules/spinner/components/SpinnerItem.vue";
 
+
+/**
+ * Shared component to display an array of buttons.
+ * @module shared/modules/buttons/ButtonGroup
+ * @vue-prop {[Object]} buttons The buttons to display, in the format [{name: "button1", icon: "bi-icon"}].
+ * @vue-prop {String} group The name of the button group, ensuring only one of the buttons may be active at a time.
+ * @vue-prop {Boolean} isLoadSpinnerEnable Determines whether a loading spinner will be displayed.
+ * @vue-prop {String} selectedValue The initially active button.
+ * @vue-prop {[String]} subText An Array of optional Subtexts to be shown below each button.
+ * @vue-prop {Boolean} isGroup is a display-Prop. When false, the buttons will be shown like a toggle between them, when false the buttons are separated more clearly.
+ * @vue-prop {String} returnedButtonProperty overrides the button.name that is emitted on button selection, allowing for custom values.
+ */
 export default {
     name: "ButtonGroup",
     components: {
         SpinnerItem
     },
     props: {
-        /** The format is like:
-         * [{name: "button1", icon: "bi-icon"}]
-        */
         buttons: {
             type: Array,
             required: true
@@ -38,10 +47,6 @@ export default {
             required: false,
             default: true
         },
-        /**
-         * When a button is selected, the event "setSelectedButton" is emitted with the button.name property as value.
-         * returned-button-property="custom_id" allows to replace the default "name" property with a custom one, e.g. custom_id.
-         */
         returnedButtonProperty: {
             type: String,
             required: false,
