@@ -191,4 +191,17 @@ describe("src/modules/selectFeatures/components/SelectFeatures.vue", () => {
         expect(result[1][0]).to.equal("Another Key");
         expect(result[1][1]).to.equal("another value");
     });
+
+    it("translateGFI returns an empty array when gfiAttributes=ignore", () => {
+        const wrapper = shallowMount(SelectFeaturesComponent, {
+                global: {
+                    plugins: [store]
+                }
+            }),
+            properties = {"very_important_field": "some value", "another_key": "another value"},
+            result = wrapper.vm.translateGFI(properties, "ignore");
+
+        expect(Array.isArray(result)).to.be.true;
+        expect(result.length).to.equal(0);
+    });
 });

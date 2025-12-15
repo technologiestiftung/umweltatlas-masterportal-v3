@@ -3,11 +3,13 @@ import {DragBox, Select} from "ol/interaction.js";
 import {platformModifierKeyOnly, touchOnly} from "ol/events/condition.js";
 import VectorSource from "ol/source/Vector.js";
 import {Style, Stroke, Fill, Circle as CircleStyle} from "ol/style.js";
+import {mapAttributes} from "@masterportal/masterportalapi/src/lib/attributeMapper.js";
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import getters from "../store/gettersSelectFeatures.js";
 import mutations from "../store/mutationsSelectFeatures.js";
 
+import omit from "@shared/js/utils/omit.js";
 import {isUrl} from "@shared/js/utils/urlHelper.js";
 import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
@@ -306,33 +308,17 @@ export default {
          * @returns {Array.<String[]>} Array of [key,value]-pairs - may be empty
          */
         translateGFI: function (properties, gfiAttributes) {
-            const resultProperties = this.processLinksAndBreaks(properties);
+            if (gfiAttributes === "ignore") {
+                return [];
+            }
 
-            if (gfiAttributes === "showAll") {
+            if (gfiAttributes === "showAll" || typeof gfiAttributes === "undefined") {
                 return Object
-                    .entries(resultProperties)
-                    .map(([key, value]) => {
-                        if (this.isValidKey(key) && this.isValidValue(value)) {
-                            return [this.beautifyKey(key), this.beautifyValue(value)];
-                        }
-                        return false;
-                    });
+                    .entries(this.processLinksAndBreaks(omit(properties, this.ignoredKeys ?? [], true)))
+                    .map(([key, value]) => [this.beautifyKey(key), this.beautifyValue(value)]);
             }
 
-            if (typeof gfiAttributes === "object") {
-                return Object
-                    .keys(gfiAttributes)
-                    .map(key => [
-                        gfiAttributes[key],
-                        this.beautifyValue(resultProperties[key] || "")
-                    ]);
-            }
-
-            if (gfiAttributes !== "ignore") {
-                console.warn(`Layer has invalid gfiAttributes "${gfiAttributes}". Acting as if "ignore" was given.`);
-            }
-
-            return [];
+            return Object.entries(this.processLinksAndBreaks(mapAttributes(properties, gfiAttributes)));
         },
 
         /**
