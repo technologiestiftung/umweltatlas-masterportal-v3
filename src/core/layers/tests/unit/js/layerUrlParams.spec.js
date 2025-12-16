@@ -118,7 +118,10 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
                     return [];
 
 
-                }
+                },
+                layerConfigById: () => ({
+                    baselayer: false
+                })
             };
 
             layerUrlParams.setLayerIds(params);
@@ -433,6 +436,55 @@ describe("src/core/layers/js/layerUrlParams.js", () => {
                 transparency: 0,
                 showInLayerTree: true,
                 zIndex: 0,
+                time: undefined
+            });
+        });
+
+        it("should correctly calculate zIndex for multiple baselayers", () => {
+            const layers = [
+                {id: "layer1", baselayer: true},
+                {id: "layer2", baselayer: false},
+                {id: "layer3", baselayer: false},
+                {id: "layer4", baselayer: true}
+            ];
+
+            store.getters = {
+                layerConfigById: (id) => layers.find(layer => layer.id === id)
+            };
+
+            layerUrlParams.addLayerToLayerTree(layers);
+
+            expect(dispatchCalls.length).to.equals(4);
+            expect(dispatchCalls[0].addOrReplaceLayer).to.deep.equals({
+                layerId: "layer1",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 0,
+                time: undefined
+            });
+            expect(dispatchCalls[1].addOrReplaceLayer).to.deep.equals({
+                layerId: "layer2",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 2,
+                time: undefined
+            });
+            expect(dispatchCalls[2].addOrReplaceLayer).to.deep.equals({
+                layerId: "layer3",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 3,
+                time: undefined
+            });
+            expect(dispatchCalls[3].addOrReplaceLayer).to.deep.equals({
+                layerId: "layer4",
+                visibility: true,
+                transparency: 0,
+                showInLayerTree: true,
+                zIndex: 1,
                 time: undefined
             });
         });
