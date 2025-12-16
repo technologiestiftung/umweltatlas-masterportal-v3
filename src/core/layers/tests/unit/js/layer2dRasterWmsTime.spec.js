@@ -180,6 +180,25 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
             expect(result).to.be.equals("2022-08-20");
         });
+
+        it("configuredDefault is 0 return the first element", () => {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                timeRange = [
+                    "2021-12-25",
+                    "2022-03-25",
+                    "2022-06-23",
+                    "2022-08-20",
+                    "2022-10-26",
+                    "2023-02-08",
+                    "2023-06-13",
+                    "2023-09-16"
+                ],
+                extentDefault = "2023-09-16",
+                configuredDefault = 0,
+                result = wmsTimeLayer.determineDefault(timeRange, extentDefault, configuredDefault);
+
+            expect(result).to.be.equals("2021-12-25");
+        });
     });
     it("extractExtentValues if they are in dimension", function () {
         const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),

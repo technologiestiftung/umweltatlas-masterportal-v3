@@ -67,7 +67,7 @@ Layer2dRasterWmsTimeLayer.prototype.createTimeRange = function (min, max, increm
  * @returns {String} Default to use.
  */
 Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, extentDefault, configuredDefault) {
-    if (configuredDefault && configuredDefault !== "current") {
+    if (typeof configuredDefault !== "undefined" && configuredDefault !== "current") {
         if (timeRange.includes(configuredDefault)) {
             return configuredDefault;
         }
