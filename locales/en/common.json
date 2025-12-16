@@ -214,26 +214,25 @@
       "topicsSelection": "Topics selection",
       "removeFromList": "Remove from list",
       "noFeatures": {
-          "nothingSelected": "There are no {{objects}} selected for the comparison list.",
-          "objectName": "objects",
-          "info": "Click on an object on the map. A window opens with the respective factual information. In the upper right corner there is a star symbol {{iconEmptyStar}}. Click on this icon to add the object to the comparison list. The star icon will be colored yellow {{iconYellowStar}}. Click the star icon again to remove the object from the comparison list. ",
-          "info2": "Once an object is added to the comparison list, it will appear in the table, allowing you to easily compare it with other objects. To remove an object, you can also simply click the 'X' next to it on the left side of the table."
-
+        "nothingSelected": "There are no {{objects}} selected for the comparison list.",
+        "objectName": "objects",
+        "info": "Click on an object on the map. A window opens with the respective factual information. In the upper right corner there is a star symbol {{iconEmptyStar}}. Click on this icon to add the object to the comparison list. The star icon will be colored yellow {{iconYellowStar}}. Click the star icon again to remove the object from the comparison list. ",
+        "info2": "Once an object is added to the comparison list, it will appear in the table, allowing you to easily compare it with other objects. To remove an object, you can also simply click the 'X' next to it on the left side of the table."
       },
       "feedback": {
-          "added": "The feature was added to the comparison list",
-          "addedWithName": "{{currentFeatureName}} was added to the comparison list",
-          "notAdded": "The feature could not be added to the comparison list",
-          "notAddedWithName": "{{currentFeatureName}} could not be added to the comparison list",
-          "limitReached": "The maximum number of objects in the comparison list has been reached.",
-          "removeObjects": "Please remove at least one object before proceeding.",
-          "goToComparisonlist": "To the comparison list"
+        "added": "The feature was added to the comparison list",
+        "addedWithName": "{{currentFeatureName}} was added to the comparison list",
+        "notAdded": "The feature could not be added to the comparison list",
+        "notAddedWithName": "{{currentFeatureName}} could not be added to the comparison list",
+        "limitReached": "The maximum number of objects in the comparison list has been reached.",
+        "removeObjects": "Please remove at least one object before proceeding.",
+        "goToComparisonlist": "To the comparison list"
       },
       "trueFalse": {
-          "true": "Yes",
-          "false": "No"
+        "true": "Yes",
+        "false": "No"
       }
-  },
+    },
     "coordToolkit": {
       "cartesian": {
         "eastingLabel": "Easting",
@@ -550,8 +549,8 @@
       "errorMessage": "An error has occurred during the information request (GetFeatureInfo).<br>Please try again later. If the problem persists, please contact the operator of the service.",
       "favoriteIcons": {
         "compareFeatureIcon": {
-            "toCompareList": "Add to compare list",
-            "fromCompareList": "Remove from compare list"
+          "toCompareList": "Add to compare list",
+          "fromCompareList": "Remove from compare list"
         }
       },
       "name": "Retrieve information",
@@ -837,28 +836,28 @@
       },
       "filter": {
         "captions": {
-            "abortStyle": "Cancel",
-            "addFilter": "Add Filter",
-            "applyStyle": "Apply",
-            "editFilter": "Edit Filter",
-            "fillColor": "Fill Color",
-            "filterList": "Filter List",
-            "filterName": "Filter Name",
-            "info": "Information",
-            "introInfo": "You can color buildings by attributes to visualize their usage with the Filter & Style function.",
-            "introInfo2": "To do this, select the desired layer and the attribute you want to visualize. Then you can adjust the color of the buildings.",
-            "noFilter": "No filters available.",
-            "optionsTitle": "Filter Options",
-            "pvoCheck": "Color all values according to the PlanzeichenVO",
-            "resetStyle": "Reset",
-            "selectLayer": "Select Layer",
-            "selectAttribute": "Select Attribute",
-            "title": "Filter & Style Function",
-            "styleSettingsTitle": "Color Settings",
-            "value": "Value"
+          "abortStyle": "Cancel",
+          "addFilter": "Add Filter",
+          "applyStyle": "Apply",
+          "editFilter": "Edit Filter",
+          "fillColor": "Fill Color",
+          "filterList": "Filter List",
+          "filterName": "Filter Name",
+          "info": "Information",
+          "introInfo": "You can color buildings by attributes to visualize their usage with the Filter & Style function.",
+          "introInfo2": "To do this, select the desired layer and the attribute you want to visualize. Then you can adjust the color of the buildings.",
+          "noFilter": "No filters available.",
+          "optionsTitle": "Filter Options",
+          "pvoCheck": "Color all values according to the PlanzeichenVO",
+          "resetStyle": "Reset",
+          "selectLayer": "Select Layer",
+          "selectAttribute": "Select Attribute",
+          "title": "Filter & Style Function",
+          "styleSettingsTitle": "Color Settings",
+          "value": "Value"
         },
         "errorLoadingData": "Error loading the values for the attribute 'BuildingFunctionType'"
-    },
+      },
       "options": {
         "captions": {
           "enableFunction": "Enable/Disable Function",
@@ -1093,7 +1092,7 @@
           "area": "Area:"
         },
         "interval": {
-          "default" : "Interval",
+          "default": "Interval",
           "count": "Amount of intervals"
         },
         "legend": {
@@ -1169,10 +1168,10 @@
           "descriptionRoundTrip": "startpoint: {{start}} to: round trip",
           "descriptionNoRoundTrip": "startpoint: {{start}} to: {{end}}",
           "optimalOrder": "optimal {{profile}} order:",
-          "waypoint" : "{{pos}}) {{displayName}};{{lon}};{{lat}}"
+          "waypoint": "{{pos}}) {{displayName}};{{lon}};{{lat}}"
         },
         "selectedPoints": "Selected waypoint",
-        "structure":"ID;lon;lat",
+        "structure": "ID;lon;lat",
         "tsrEndpoint": "If not specified: round trip",
         "tsrDuration": "Duration: ",
         "tsrDistance": "Distance: ",
@@ -1352,7 +1351,7 @@
       "totalHint": "Attention: The sum function does not distinguish between absolute numbers, percentages, mean values or relative values (e.g. inhabitants per square meter). The totals are therefore not always interpretable. Please note in the context of the selected statistics. Missing values are not included in the calculation.",
       "backToOverview": "Overview of Diagrams",
       "filterHint": "All fields must be completed in order to display the filter results.",
-      "backToStatisticDashboard":"Back to Overview"
+      "backToStatisticDashboard": "Back to Overview"
     },
     "shadow": {
       "name": "Shadows",
@@ -1429,11 +1428,11 @@
         "fetchFeaturePropError": "Loading of parameters takes longer than expected. Please try again."
       },
       "mandatoryInputError": {
-                    "text": "Regular text characters and special characters like , . / \\ [ ] space and German characters ö ä ü Ö Ä Ü ß and not only numbers are required",
-                    "number": "Number, partial number or negative number is required",
-                    "date": "Full date is required",
-                    "datetime-local": "Full date and hour is required"
-                },
+        "text": "Regular text characters and special characters like , . / \\ [ ] space and German characters ö ä ü Ö Ä Ü ß and not only numbers are required",
+        "number": "Number, partial number or negative number is required",
+        "date": "Full date is required",
+        "datetime-local": "Full date and hour is required"
+      },
       "form": {
         "discard": "Discard",
         "save": "Save"
@@ -1453,14 +1452,14 @@
         "noItemsSelected": "No objects were selected",
         "warningText": "Attention! Any existing entries are not displayed here! However, when new entries are saved, they are overwritten without warning.",
         "buttonIcon": {
-          "active":{
+          "active": {
             "pen": "deactivate lasso selection",
             "box": "deactivate rectangle selection"
-            },
-            "notActive": {
-              "pen": "activate lasso selection",
-              "box": "activate rectangle selection"
-            }
+          },
+          "notActive": {
+            "pen": "activate lasso selection",
+            "box": "activate rectangle selection"
+          }
         }
       },
       "confirmVoidFeatureCreation": {
@@ -1486,7 +1485,6 @@
           "insert": "Insertion of",
           "selectedUpdate": "Updating",
           "batchInfo": "The following entries of the {{layer}} layer were saved:</br>"
-
         }
       }
     },
@@ -1687,8 +1685,24 @@
             "Friday",
             "Saturday"
           ],
-          "weekdaysShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-          "weekdaysMin": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+          "weekdaysShort": [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+          ],
+          "weekdaysMin": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+          ],
           "firstDayOfWeek": 0,
           "firstWeekContainsDate": 1
         }
