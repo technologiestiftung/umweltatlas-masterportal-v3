@@ -23,7 +23,7 @@ describe("src/shared/components/FlatButton.vue", () => {
 
         expect(wrapper.exists()).to.be.true;
         expect(wrapper.text()).to.be.equal("The cool flat button");
-        expect(wrapper.classes()).to.eql(["flat-button", "btn", "btn-secondary", "d-flex", "align-items-center", "mb-3"]);
+        expect(wrapper.classes()).to.eql(["flat-button", "btn", "btn-secondary", "d-flex", "align-items-center", "custom-mb-3"]);
         expect(wrapper.attributes("type")).to.equal("button");
         expect(wrapper.findComponent({name: "spinner-item-stub"}).exists()).to.be.false;
         expect(wrapper.find("i").exists()).to.be.false;

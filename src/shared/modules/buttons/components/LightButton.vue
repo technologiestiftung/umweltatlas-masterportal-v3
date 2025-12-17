@@ -65,7 +65,6 @@ export default {
         ]"
         :aria-label=" decodeHtmlEntites($t(text))"
         @click="interaction"
-        @keydown.enter="interaction"
     >
         <i
             v-if="icon !== null"
