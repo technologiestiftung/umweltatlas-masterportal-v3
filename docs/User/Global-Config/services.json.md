@@ -115,24 +115,63 @@ If a parameter is also present in the service, the definition in this config is 
 | Name | Verpflichtend | Typ | default | Beschreibung | Beispiel |
 |---|---|---|---|---|---|
 | default | no | String/Number |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. A negative value starts at the end of the array.| `"1970"` |
+| dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
+| dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| text |
+| extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 | keyboardMovement | no | Number | `5` | Value in pixels that the swiper should be moved when using the arrow keys. | `5` |
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
-| dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
-| extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 
 
-```json title="Example 1 Configuration of WMS-T time attribute"
+```json title="Example 1 Configuration of WMS-T time attribute with dimensionRange as URL"
    "time": {
       "default": "2025-12-14T18:00:00.000Z",
-      "dimensionName": "time"
+      "dimensionName": "time",
+      "dimensionRange": "./resources/dimensionRange.json"
    }
 
 ```
 
-```json title="Example 2 Configuration of WMS-T time attribute"
+```json title="Example 2 Configuration of WMS-T time attribute with dimensionRange as array"
    "time": {
       "default": -5,
-      "dimensionName": "time"
+      "dimensionName": "time",
+      "dimensionRange": [
+         "2025-02-01T00:00:00.000Z",
+         "2025-05-01T00:00:00.000Z",
+         "2025-08-01T00:00:00.000Z",
+         "2025-10-01T00:00:00.000Z"
+      ]
+   }
+```
+
+```json title="Example 3 Configuration of WMS-T with dimensionRange as URL with dimensionRange as Object"
+   "time": {
+      "default": -5,
+      "dimensionName": "time",
+      "dimensionRange": {
+         "min": "2025-01-01T00:00:00.000Z",
+         "max": "2025-12-01T00:00:00.000Z",
+         "resolution": "P2M"
+      }
+   }
+```
+
+#### DimensionRange
+
+The dimension range is used to filter the values ​​of the configured dimension supplied by the service and only offer these in the timeslider. An interval with `min`, `max`, and `resolution` can be specified. The times within the interval can be displayed in the time slider.
+
+| Name | Verpflichtend | Typ | default | Beschreibung | Beispiel |
+|---|---|---|---|---|---|
+| max | yes | String |  | Maximum value to be offered in the timeslider. | `2025-12-31` |
+| min | yes | String |  | Minimum value to be offered in the time slider. | `2025-01-01` |
+| resolution | yes | String |  | Distance between the individual values ​​between the `min` and `max` value. The values ​​can have the format according to ISO 8601 [ISO 8601 duration format](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm) | `P1D` |
+
+
+```json title="Example Configuration of WMS-T dimensionRange"
+   "dimensionRange": {
+      "min": "2025-01-01T00:00:00.000Z",
+      "max": "2025-12-01T00:00:00.000Z",
+      "resolution": "P1M"
    }
 ```
 

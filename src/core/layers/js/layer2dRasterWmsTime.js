@@ -35,6 +35,44 @@ export default function Layer2dRasterWmsTimeLayer (attrs) {
 Layer2dRasterWmsTimeLayer.prototype = Object.create(WMSLayer.prototype);
 
 /**
+ * Creates the capabilities url.
+ * @param {String} wmsTimeUrl The url of wms time.
+ * @param {String} version The version of wms time.
+ * @param {String} layers The layers of wms time.
+ * @returns {String} the created url
+ */
+Layer2dRasterWmsTimeLayer.prototype.createCapabilitiesUrl = function (wmsTimeUrl, version, layers) {
+    const url = new URL(wmsTimeUrl);
+
+    url.searchParams.set("service", "WMS");
+    url.searchParams.set("version", version);
+    url.searchParams.set("layers", layers);
+    url.searchParams.set("request", "GetCapabilities");
+    return url;
+};
+
+/**
+ * Create a dimension range list.
+ * @param {Object} dimensionRange The dimension range.
+ * @param {String} dimensionRange.min The minimum value of dimension range.
+ * @param {String} dimensionRange.max The maximum value of dimension range.
+ * @param {String} dimensionRange.resolution The resolution of dimension range.
+ * @returns {String[]} The dimension range list.
+ */
+Layer2dRasterWmsTimeLayer.prototype.createDimensionRangeList = function (dimensionRange) {
+    const {min, max, resolution} = dimensionRange;
+
+    if (min && max && resolution) {
+        const increment = this.getIncrementsFromResolution(resolution);
+
+        return this.createTimeRange(min, max, increment);
+    }
+
+    console.warn(`The attribute "dimensionRange": ${dimensionRange} is not correctly configured as an object. Ensure that all three attributes, "start", "end", and "range", are configured correctly.`);
+    return [];
+};
+
+/**
  * Creates an array with ascending values from min to max separated by resolution.
  * @param {String} min Minimum value.
  * @param {String} max Maximum value.
@@ -140,6 +178,57 @@ Layer2dRasterWmsTimeLayer.prototype.extractExtentValues = function (extent) {
 };
 
 /**
+ * Filter th dimension range list by time range.
+ * @param {String[]} dimensionRangeList The dimension range list.
+ * @param {String[]} timeRange The time range.
+ * @returns {String[]} The filtered dimension range
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterDimensionRangeList = function (dimensionRangeList, timeRange) {
+    return dimensionRangeList.filter(entry => {
+        if (timeRange.includes(entry)) {
+            return true;
+        }
+
+        console.warn(`The entry: ${entry} is not present in the dimension and has been removed from the dimensionRange.!`);
+        return false;
+    });
+};
+
+/**
+ * The configured attributes of the dimension range are filtered out of the time range.
+ * @param {String[]} timeRange The time range.
+ * @param {String[]} dimensionRange The configured dimesnion range.
+ * @returns {String[]} The filtered time range.
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterDimensions = async function (timeRange, dimensionRange) {
+    let filteredDimensionRangeList = [],
+        dimensionRangeList = dimensionRange;
+
+    if (typeof dimensionRange === "undefined") {
+        return timeRange;
+    }
+
+    if (typeof dimensionRange === "string") {
+        dimensionRangeList = await this.loadDimensionRangeJson(dimensionRange);
+    }
+
+    if (typeof dimensionRangeList === "object" && !Array.isArray(dimensionRangeList) && Object.keys(dimensionRangeList).length > 0) {
+        dimensionRangeList = this.createDimensionRangeList(dimensionRangeList);
+    }
+
+    if (Array.isArray(dimensionRangeList) && dimensionRangeList.length > 0) {
+        filteredDimensionRangeList = this.filterDimensionRangeList(dimensionRangeList, timeRange);
+    }
+
+    if (filteredDimensionRangeList?.length === 0) {
+        filteredDimensionRangeList = timeRange;
+        console.error("No valid dimensions could be filtered using the attribute: 'dimensionRange'! The entire dimension of the service is being used.");
+    }
+
+    return filteredDimensionRangeList;
+};
+
+/**
  * Finds the Element with the given name inside the given HTMLCollection.
  * @param {HTMLCollection} element HTMLCollection to be found.
  * @param {String} nodeName Name of the Element to be searched for.
@@ -210,20 +299,18 @@ Layer2dRasterWmsTimeLayer.prototype.incrementIsSmaller = function (step, increme
 };
 
 /**
- * Creates the capabilities url.
- * @param {String} wmsTimeUrl The url of wms time.
- * @param {String} version The version of wms time.
- * @param {String} layers The layers of wms time.
- * @returns {String} the created url
+ * Load dimension range from a JSON-File.
+ * @param {String[]} dimensionRange The dimension range.
+ * @returns {Promise<String[]>} A Promise that returns the dimension range attribute from the loaded JSON file.
  */
-Layer2dRasterWmsTimeLayer.prototype.createCapabilitiesUrl = function (wmsTimeUrl, version, layers) {
-    const url = new URL(wmsTimeUrl);
-
-    url.searchParams.set("service", "WMS");
-    url.searchParams.set("version", version);
-    url.searchParams.set("layers", layers);
-    url.searchParams.set("request", "GetCapabilities");
-    return url;
+Layer2dRasterWmsTimeLayer.prototype.loadDimensionRangeJson = async function (dimensionRange) {
+    return axios.get(dimensionRange)
+        .then(response => handleAxiosResponse(response))
+        .then(data => data.dimensionRange)
+        .catch(error => {
+            console.error(`The file: "${dimensionRange}" could not be loaded. Please ensure that the file is in the correct location and format!`);
+            console.error(error);
+        });
 };
 
 /**
@@ -279,15 +366,23 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
                 throw Error(`WMS-T layer ${this.id} specifies time dimension in unit ${dimension.units}. Only ISO8601 is supported.`);
             }
             else {
-                const {step, timeRange} = this.extractExtentValues(timeSource),
-                    defaultValue = this.determineDefault(timeRange, timeSource.default, time.default),
-                    timeData = {defaultValue, step, timeRange};
+                const {step, timeRange} = this.extractExtentValues(timeSource);
 
-                attrs.time = {...time, ...timeData};
-                timeData.layerId = attrs.id;
-                store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
+                this.filterDimensions(timeRange, time.dimensionRange)
+                    .then(filteredTimeRange => {
+                        const defaultValue = this.determineDefault(filteredTimeRange, timeSource.default, time.default),
+                            timeData = {
+                                defaultValue: defaultValue,
+                                step: step,
+                                timeRange: filteredTimeRange
+                            };
 
-                return defaultValue;
+                        attrs.time = {...time, ...timeData};
+                        timeData.layerId = attrs.id;
+                        store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
+
+                        return defaultValue;
+                    });
             }
         })
         .catch(error => {

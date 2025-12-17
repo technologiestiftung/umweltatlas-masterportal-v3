@@ -2,13 +2,16 @@ import {expect} from "chai";
 import sinon from "sinon";
 import store from "@appstore/index.js";
 import Layer2dRasterWmsTime from "@core/layers/js/layer2dRasterWmsTime.js";
+import axios from "axios";
 
 describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
     let attributes,
         origGetters,
         origDispatch,
         origCommit,
-        error;
+        error,
+        warnSpy;
+
 
     before(() => {
         mapCollection.clear();
@@ -43,7 +46,9 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
     beforeEach(() => {
         error = sinon.spy();
+        warnSpy = sinon.spy();
         sinon.stub(console, "error").callsFake(error);
+        sinon.stub(console, "warn").callsFake(warnSpy);
         sinon.stub(Layer2dRasterWmsTime.prototype, "requestCapabilities").returns(new Promise(resolve => resolve({status: 200, statusText: "OK", data: {}})));
         attributes = {
             name: "wmsTimeTestLayer",
@@ -272,6 +277,259 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             expect(createdUrl.searchParams.get("version")).to.eql(version);
             expect(createdUrl.searchParams.get("layers")).to.eql(layers);
             expect(createdUrl.searchParams.get("request")).to.eql("GetCapabilities");
+        });
+    });
+
+    describe("createDimensionRangeList", () => {
+        it("should return an array with time values", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    max: "2025-12-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array");
+            expect(dimensionRangeList).to.deep.equals([
+                "2025-01-01T00:00:00.000Z",
+                "2025-03-01T00:00:00.000Z",
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z",
+                "2025-11-01T00:00:00.000Z"
+            ]);
+        });
+
+        it("should return an empty array, if the maxmaximum value has not been specified", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+
+        it("should return an empty array, if the min value has not been specified", () => {
+            const dimensionRange = {
+                    max: "2025-12-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+        it("should return an empty array, if the resolution value has not been specified", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    max: "2025-12-01T00:00:00.000Z"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+    });
+
+    describe("filterDimensionRangeList", () => {
+        it("should return the filtered dimension range list", () => {
+            const dimensionRangeList = [
+                    "2025-01-01T00:00:00.000Z",
+                    "2025-03-01T00:00:00.000Z",
+                    "2025-05-01T00:00:00.000Z",
+                    "2025-07-01T00:00:00.000Z",
+                    "2025-09-01T00:00:00.000Z",
+                    "2025-11-01T00:00:00.000Z"
+                ],
+                timeRange = [
+                    "2025-01-01T00:00:00.000Z",
+                    "2025-02-01T00:00:00.000Z",
+                    "2025-03-01T00:00:00.000Z",
+                    "2025-04-01T00:00:00.000Z",
+                    "2025-05-01T00:00:00.000Z",
+                    "2025-06-01T00:00:00.000Z",
+                    "2025-07-01T00:00:00.000Z",
+                    "2025-08-01T00:00:00.000Z",
+                    "2025-09-01T00:00:00.000Z",
+                    "2025-10-01T00:00:00.000Z",
+                    "2025-11-01T00:00:00.000Z",
+                    "2025-12-01T00:00:00.000Z"
+                ],
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = wmsTimeLayer.filterDimensionRangeList(dimensionRangeList, timeRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-01-01T00:00:00.000Z",
+                "2025-03-01T00:00:00.000Z",
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z",
+                "2025-11-01T00:00:00.000Z"
+            ]);
+            expect(warnSpy.called).to.be.false;
+        });
+
+        it("should return the filtered dimension range list, excluding values that are not in the time range.", () => {
+            const dimensionRangeList = [
+                    "2024-01-01T00:00:00.000Z",
+                    "2024-03-01T00:00:00.000Z",
+                    "2025-05-01T00:00:00.000Z",
+                    "2025-07-01T00:00:00.000Z",
+                    "2025-09-01T00:00:00.000Z",
+                    "2026-11-01T00:00:00.000Z"
+                ],
+                timeRange = [
+                    "2025-01-01T00:00:00.000Z",
+                    "2025-02-01T00:00:00.000Z",
+                    "2025-03-01T00:00:00.000Z",
+                    "2025-04-01T00:00:00.000Z",
+                    "2025-05-01T00:00:00.000Z",
+                    "2025-06-01T00:00:00.000Z",
+                    "2025-07-01T00:00:00.000Z",
+                    "2025-08-01T00:00:00.000Z",
+                    "2025-09-01T00:00:00.000Z",
+                    "2025-10-01T00:00:00.000Z",
+                    "2025-11-01T00:00:00.000Z",
+                    "2025-12-01T00:00:00.000Z"
+                ],
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = wmsTimeLayer.filterDimensionRangeList(dimensionRangeList, timeRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z"
+            ]);
+            expect(warnSpy.calledThrice).to.be.true;
+        });
+    });
+
+    describe("filterDimensions", () => {
+        let timeRange = [];
+
+        beforeEach(() => {
+            timeRange = [
+                "2025-01-01T00:00:00.000Z",
+                "2025-02-01T00:00:00.000Z",
+                "2025-03-01T00:00:00.000Z",
+                "2025-04-01T00:00:00.000Z",
+                "2025-05-01T00:00:00.000Z",
+                "2025-06-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-08-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z",
+                "2025-10-01T00:00:00.000Z",
+                "2025-11-01T00:00:00.000Z",
+                "2025-12-01T00:00:00.000Z"
+            ];
+        });
+
+        it("should returns the timeRange, if the input dimensionRange is undefined. ", async () => {
+            const dimensionRange = undefined,
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals(timeRange);
+            expect(error.calledOnce).to.be.false;
+        });
+
+        it("should return the filtered dimension range list, if the input dimensionRange is a URL as string.", async () => {
+            const dimensionRange = "./resources/example.json",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
+            let filteredDimensionRangeList = [];
+
+            sinon.stub(wmsTimeLayer, "loadDimensionRangeJson").returns([
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z"
+            ]);
+
+            filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z"
+            ]);
+            expect(error.called).to.be.false;
+        });
+
+        it("should return the filtered dimension range list, if the input dimensionRange is an object. ", async () => {
+            const dimensionRange = {
+                    "min": "2025-01-01T00:00:00.000Z",
+                    "max": "2025-12-01T00:00:00.000Z",
+                    "resolution": "P3M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-01-01T00:00:00.000Z",
+                "2025-04-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-10-01T00:00:00.000Z"
+            ]);
+            expect(error.called).to.be.false;
+        });
+
+        it("should return the filtered dimension range list, if the input dimensionRange is an array. ", async () => {
+            const dimensionRange = [
+                    "2025-05-01T00:00:00.000Z",
+                    "2025-07-01T00:00:00.000Z",
+                    "2025-09-01T00:00:00.000Z"
+                ],
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z"
+            ]);
+            expect(error.called).to.be.false;
+        });
+
+        it("should returns the timeRange and throw an error, if the input dimensionRange is an empty array. ", async () => {
+            const dimensionRange = [],
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals(timeRange);
+            expect(error.calledOnce).to.be.true;
+        });
+    });
+
+    describe("loadDimensionRangeJson", () => {
+        it("should start an axios get request", async () => {
+            const dimensionRange = "./resources/example.json",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                axiosGetStub = sinon.stub(axios, "get").returns(Promise.resolve({
+                    data: {
+                        dimensionrange: [
+                            "2025-05-01T00:00:00.000Z",
+                            "2025-07-01T00:00:00.000Z",
+                            "2025-09-01T00:00:00.000Z"
+                        ]
+                    }
+                }));
+
+            await wmsTimeLayer.loadDimensionRangeJson(dimensionRange);
+
+            expect(axiosGetStub.calledOnce).to.be.true;
+            expect(axiosGetStub.firstCall.args[0]).to.equals(dimensionRange);
         });
     });
 });
