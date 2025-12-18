@@ -512,6 +512,54 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
         });
     });
 
+    describe("filterWithDimensionRegex", () => {
+        let timeRange = [];
+
+        beforeEach(() => {
+            timeRange = [
+                "2025-01-01T00:00:00.000Z",
+                "2025-02-01T00:00:00.000Z",
+                "2025-03-01T00:00:00.000Z",
+                "2025-04-01T00:00:00.000Z",
+                "2025-05-01T00:00:00.000Z",
+                "2025-06-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-08-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z",
+                "2025-10-01T00:00:00.000Z",
+                "2025-11-01T00:00:00.000Z",
+                "2025-12-01T00:00:00.000Z"
+            ];
+        });
+
+        it("should filter timeRange by regex", () => {
+            const dimensionRegex = "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = wmsTimeLayer.filterWithDimensionRegex(dimensionRegex, timeRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals([
+                "2025-02-01T00:00:00.000Z",
+                "2025-04-01T00:00:00.000Z",
+                "2025-06-01T00:00:00.000Z",
+                "2025-08-01T00:00:00.000Z",
+                "2025-10-01T00:00:00.000Z",
+                "2025-12-01T00:00:00.000Z"
+            ]);
+            expect(warnSpy.called).to.be.false;
+        });
+
+        it("should print a warning if no value was found with the regex and return the time Range.", () => {
+            const dimensionRegex = "\\d{8}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                filteredDimensionRangeList = wmsTimeLayer.filterWithDimensionRegex(dimensionRegex, timeRange);
+
+            expect(filteredDimensionRangeList).to.be.an("array");
+            expect(filteredDimensionRangeList).to.deep.equals(timeRange);
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+    });
+
     describe("loadDimensionRangeJson", () => {
         it("should start an axios get request", async () => {
             const dimensionRange = "./resources/example.json",

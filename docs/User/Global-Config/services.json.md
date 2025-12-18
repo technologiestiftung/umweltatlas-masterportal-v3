@@ -116,7 +116,8 @@ If a parameter is also present in the service, the definition in this config is 
 |---|---|---|---|---|---|
 | default | no | String/Number |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. A negative value starts at the end of the array.| `"1970"` |
 | dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
-| dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| text |
+| dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| "./resources/dimensionRange.json" |
+| dimensionRegex | no | String | A regular expression used to filter the values ​​of the configured dimension (e.g., time). Only these filtered values ​​are then offered for selection in the time slider. Can be combined with the `dimensionRange` attribute.| "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z" |
 | extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 | keyboardMovement | no | Number | `5` | Value in pixels that the swiper should be moved when using the arrow keys. | `5` |
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
@@ -153,6 +154,12 @@ If a parameter is also present in the service, the definition in this config is 
          "max": "2025-12-01T00:00:00.000Z",
          "resolution": "P2M"
       }
+   }
+```
+
+```json title="Example 4 WMS-T configuration using dimensionRegex. Filters only even months."
+   "time" {
+      "dimensionRegex": "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z"
    }
 ```
 

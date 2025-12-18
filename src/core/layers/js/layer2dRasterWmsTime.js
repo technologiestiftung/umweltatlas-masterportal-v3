@@ -197,7 +197,7 @@ Layer2dRasterWmsTimeLayer.prototype.filterDimensionRangeList = function (dimensi
 /**
  * The configured attributes of the dimension range are filtered out of the time range.
  * @param {String[]} timeRange The time range.
- * @param {String[]} dimensionRange The configured dimesnion range.
+ * @param {String|String[]|Object} dimensionRange The configured dimension range.
  * @returns {String[]} The filtered time range.
  */
 Layer2dRasterWmsTimeLayer.prototype.filterDimensions = async function (timeRange, dimensionRange) {
@@ -226,6 +226,23 @@ Layer2dRasterWmsTimeLayer.prototype.filterDimensions = async function (timeRange
     }
 
     return filteredDimensionRangeList;
+};
+
+/**
+ * Filters the time range by a regex.
+ * @param {String} dimension.dimensionRegex The configured dimension regex.
+ * @param {String[]} timeRange The time range.
+ * @returns {String[]} The filtered time range
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterWithDimensionRegex = function (dimensionRegex, timeRange) {
+    let dimensionRangeList = timeRange.filter(time => new RegExp(dimensionRegex).test(time));
+
+    if (dimensionRangeList.length === 0) {
+        dimensionRangeList = timeRange;
+        console.warn("The regular expression returns no matches, therefore the service's dimension range is used!");
+    }
+
+    return dimensionRangeList;
 };
 
 /**
@@ -370,11 +387,12 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
 
                 this.filterDimensions(timeRange, time.dimensionRange)
                     .then(filteredTimeRange => {
-                        const defaultValue = this.determineDefault(filteredTimeRange, timeSource.default, time.default),
+                        const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
+                            defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default),
                             timeData = {
                                 defaultValue: defaultValue,
                                 step: step,
-                                timeRange: filteredTimeRange
+                                timeRange: filtereTimeRangeByRegex
                             };
 
                         attrs.time = {...time, ...timeData};

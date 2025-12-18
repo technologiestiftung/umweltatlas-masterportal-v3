@@ -33,7 +33,7 @@
 - LayerSelection: All layers in a folder can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject` configurable in config.json.
 - WMS-Time:
     - The default value can now be specified as a number within the dimension.
-    - The `dimensionRange` attribute can now be used to filter the values ​​that should be displayed in the timeslider.
+    - The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
 
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
