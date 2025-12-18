@@ -1789,7 +1789,7 @@ export default {
                 rawLayer = this.getRawLayerByLayerId(this.selectedLevel.layerId),
                 featureStream = getOAFFeature.getOAFFeatureStream(`${rawLayer.url}/collections/${rawLayer.collection}/items`, {
                     crs: this.selectedLevel.oafRequestCRS,
-                    properties: regionKey,
+                    properties: `${regionKey},${this.selectedLevel.geometryAttribute}`,
                     ...this.selectedLevel.geomRequestParams
                 });
 

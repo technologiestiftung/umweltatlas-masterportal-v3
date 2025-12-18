@@ -17,6 +17,7 @@
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
 - Changed Node.js support: Versions from Node.js **22.19.0** up to Node.js **22.21.0** (LTS) are now supported
+- Adjusted module "statisticDashboard" and shared utility function "getOAFFeature" to changes in OAF standard.
 
 ### Deprecated
 

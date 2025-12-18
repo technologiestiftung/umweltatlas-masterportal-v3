@@ -5,6 +5,7 @@ import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAll
 
 /**
  * Gets all features of given collection.
+ * Some options are deprecated or in the maturity state of "preliminary" (as of Dec 2025).
  * @param {String} baseUrl The base url.
  * @param {String} collection The collection.
  * @param {Object} [options={}] Additional options.
@@ -12,13 +13,16 @@ import {getUniqueValuesFromFetchedFeatures} from "@modules/filter/utils/fetchAll
  * @param {String} [options.bboxCrs] The coordinate reference system of the bounding box.
  * @param {String} [options.crs] The coordinate reference system of the response geometries.
  * @param {String} [options.datetime] An optional datetime string to filter the features temporally.
+ * @param {String[]} [options.excludeProperties] PRELIMINARY. Feature properties to be excluded in the response.
+ * @param {String[]} [options["exclude-properties"]] PRELIMINARY. Alias for excludeProperties.
  * @param {String} [options.filter] The filter. See https://ogcapi.ogc.org/features/ for more information.
  * @param {String} [options.filterCrs] The filter crs. Needs to be set if a filter is used.
  * @param {Number} [options.limit=400] The limit of features per request.
- * @param {String[]} [options.propertyNames] The property names to narrow the request.
+ * @param {String[]} [options.properties] PRELIMINARY. Feature properties to be included in the response. If set, the response will only contain explicitly set properties (applies also to geometry!).
+ * @param {String[]} [options.propertyNames] DEPRECATED. Alias for properties.
  * @param {AbortSignal} [options.signal] An optional AbortSignal to cancel the request.
- * @param {boolean} [options.skipGeometry=false] If true, the geometries will not be returned.
- * @returns {Promise} An promise which resolves an array of oaf features.
+ * @param {boolean} [options.skipGeometry=false] DEPRECATED. Use excludeProperties or properties instead.
+ * @returns {Promise<Object[]>} An promise which resolves an array of oaf features.
  */
 async function getOAFFeatureGet (baseUrl, collection, {
     bbox,
@@ -28,7 +32,10 @@ async function getOAFFeatureGet (baseUrl, collection, {
     filter,
     filterCrs,
     limit = 400,
+    properties,
     propertyNames,
+    excludeProperties,
+    "exclude-properties": exclude_properties,
     signal,
     skipGeometry = false
 } = {}) {
@@ -63,8 +70,16 @@ async function getOAFFeatureGet (baseUrl, collection, {
         extendedUrl += `&crs=${crs}`;
     }
 
-    if (Array.isArray(propertyNames)) {
-        extendedUrl += `&properties=${propertyNames.join(",")}`;
+    if (Array.isArray(properties ?? propertyNames)) {
+        const _properties = properties ?? propertyNames;
+
+        extendedUrl += `&properties=${_properties.join(",")}`;
+    }
+
+    if (Array.isArray(excludeProperties ?? exclude_properties)) {
+        const _excludeProperties = excludeProperties ?? exclude_properties;
+
+        extendedUrl += `&exclude-properties=${_excludeProperties.join(",")}`;
     }
 
     if (skipGeometry) {
