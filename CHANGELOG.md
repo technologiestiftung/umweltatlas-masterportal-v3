@@ -48,7 +48,7 @@
 ## 2025-12-18 v3.17.1
 
 ### Fixed
-- Flurstücksbericht: Fix for Flurstücksbericht print - PDF download.
+- print: Bugfix using print from other modules.
 
 ---
 
