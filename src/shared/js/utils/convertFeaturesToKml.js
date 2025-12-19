@@ -2,6 +2,7 @@ import {KML} from "ol/format.js";
 import getProjections from "./getProjections.js";
 import proj4 from "proj4";
 import isObject from "./isObject.js";
+import store from "@appstore/index.js";
 
 const projections = getProjections("EPSG:25832", "EPSG:4326", "32"),
     colorOptions = [
@@ -119,7 +120,16 @@ function transformPoint (coords) {
  */
 function transformCoordinates (geometry) {
     const coords = geometry.getCoordinates(),
-        type = geometry.getType();
+        type = geometry.getType(),
+        alert = {
+            category: "error",
+            content: i18next.t(
+                "common:modules.draw_old.download.unknownGeometry",
+                {geometry: type}
+            ),
+            displayClass: "error",
+            multipleAlert: true
+        };
 
     switch (type) {
         case "LineString":
@@ -132,7 +142,7 @@ function transformCoordinates (geometry) {
             return coords;
 
         default:
-            // dispatch("Alerting/addSingleAlert", i18next.t("common:modules.download.unknownGeometry", {geometry: type}), {root: true});
+            store.dispatch("Alerting/addSingleAlert", alert, {root: true});
             return [];
     }
 }

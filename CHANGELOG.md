@@ -11,6 +11,7 @@
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
 - App: All locales can now be overridden with the config.js, and new locales can be added.
 - Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
+- Issue: #1525: convertFeaturesToKml: Added alert for unsupported geometry types.
 - LayerSelection: All layers in a folder can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject` configurable in config.json.
 - WMS-Time: The default value can now be specified as a number within the dimension.
 
@@ -24,22 +25,22 @@
 ### Removed
 
 ### Fixed
+- Issue #1168: Fix autoRefresh for LayerGroups.
 - Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
-- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
-- Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
-- Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
-- wfsSearch: reset dependent fields at changed selection.
-- Issue #1310: legend images scale correctly now.
 - Issue #1307: print: add check if dpiForPdf is in dpiList and fall back to first list item if needed.
-- Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
+- Issue #1310: legend images scale correctly now.
 - Issue #1317: encode the share link.
-- MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
+- Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
 - Issue #1489: Print - fix rotated print masks and add missing rotation for MapFish. Add information regarding missing support of *High Resolution PlotService* to docs.
+- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
 - Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
+- Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
 - Issue #1530: LayerComponent: Fix translation of tooltip when switching languages.
 - Issue #1531: selectFeatures - fix link display in selectFeatures tool.
+- Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
+- wfsSearch: reset dependent fields at changed selection.
+- MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
 - WFS-cluster: Fix a recursive style loop that triggered a ‘Maximum call stack size exceeded’ error.
-- Issue #1168: Fix autoRefresh for LayerGroups.
 - MapMarker: Fix marker visibility after ShareView.
 - MkDocs: Fixed MkDocs formatting and heading anchor issues and ensured the CI pipeline fails immediately on MkDocs warnings and errors.
 - Documentation: correct example configuration for FeatureLister.
