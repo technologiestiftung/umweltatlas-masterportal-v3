@@ -32,6 +32,15 @@ export default {
     },
 
     /**
+     * Returns the add layer button attributes
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The add layer button attributes.
+     */
+    addLayerButton: state => {
+        return state.portalConfig?.tree?.addLayerButton || {};
+    },
+
+    /**
      * Returns all categories defined in config.json.
      * @param {Object} state state of the app-store.
      * @returns {Array} all categories defined in config.json
@@ -48,7 +57,6 @@ export default {
     singleBaselayer: state => {
         return state.portalConfig?.tree?.singleBaselayer;
     },
-
 
     /**
      * Returns whether all configs were loaded.

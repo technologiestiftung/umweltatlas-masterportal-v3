@@ -16,7 +16,7 @@ export default {
         LayerTreeNode
     },
     computed: {
-        ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
+        ...mapGetters(["addLayerButton", "allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
 
@@ -25,11 +25,14 @@ export default {
          * @returns {String} the button title.
          */
         title () {
-            if (typeof this.portalConfig?.tree?.addLayerButton?.buttonTitle === "string" && this.portalConfig?.tree?.addLayerButton?.buttonTitle !== "") {
-                return this.portalConfig?.tree?.addLayerButton?.buttonTitle;
+            if (typeof this.addLayerButton?.buttonTitle === "string" && this.addLayerButton?.buttonTitle !== "") {
+                return this.addLayerButton?.buttonTitle;
             }
 
             return "common:modules.layerTree.addLayer";
+        },
+        reverseLayer () {
+            return Boolean(this.addLayerButton?.reverseLayer);
         }
     },
     methods: {
@@ -49,7 +52,8 @@ export default {
          * @returns {void}
          */
         showLayerSelection () {
-            const subjectDataLayerConfs = this.sort(this.allLayerConfigsStructured(treeSubjectsKey)),
+            const allLayerConfigsStructured = this.allLayerConfigsStructured(treeSubjectsKey),
+                subjectDataLayerConfs = this.sort(this.reverseLayer ? allLayerConfigsStructured.reverse() : allLayerConfigsStructured),
                 baselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey);
 
             this.changeCurrentComponent({type: this.layerSelectionType, side: this.menuSide, props: {name: this.layerSelectionName}});
