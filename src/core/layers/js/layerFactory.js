@@ -1,4 +1,5 @@
 import Layer2dRasterStaticImage from "./layer2dRasterStaticImage.js";
+import Layer2dRasterGeoTiff from "./layer2dRasterGeoTiff.js";
 import Layer2dRasterWms from "./layer2dRasterWms.js";
 import Layer2dRasterWmts from "./layer2dRasterWmts.js";
 import Layer2dRasterWmsTime from "./layer2dRasterWmsTime.js";
@@ -21,6 +22,7 @@ const layerTypes2d = {
         OAF: Layer2dVectorOaf,
         SENSORTHINGS: Layer2dVectorSensorThings,
         STATICIMAGE: Layer2dRasterStaticImage,
+        GEOTIFF: Layer2dRasterGeoTiff,
         VECTORBASE: Layer2dVectorVectorbase,
         VECTORTILE: Layer2dVectorTile,
         WFS: Layer2dVectorWfs,

@@ -8,6 +8,7 @@ function getLayerTypes2d () {
         "OAF",
         "SENSORTHINGS",
         "STATICIMAGE",
+        "GEOTIFF",
         "VECTORBASE",
         "VECTORTILE",
         "WFS",

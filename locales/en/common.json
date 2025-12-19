@@ -926,7 +926,8 @@
       "withInfoLabel": "With information",
       "withLegendLabel": "With legend",
       "predefinedLegendInfo": "The layer \"{{layerName}}\" contains a predefined legend.",
-      "predefinedLegendDownload": "This legend cannot be added to the print. You can download the predefined legend separately from the download menu."
+      "predefinedLegendDownload": "This legend cannot be added to the print. You can download the predefined legend separately from the download menu.",
+      "geoTiffWarning": "The GeoTiff source contains multiple sources, but Mapfish Print only supports one source per layer. Only the first source is used in the printout."
     },
     "routing": {
       "addWaypoint": "Add Waypoint",

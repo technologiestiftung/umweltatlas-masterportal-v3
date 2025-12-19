@@ -11,6 +11,8 @@ import {Polygon} from "ol/geom.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
+import WebGlTileLayer from "ol/layer/WebGLTile.js";
+import GeoTiffSource from "ol/source/GeoTIFF.js";
 import measureStyle from "@modules/measure/js/measureStyle.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 import sinon from "sinon";
@@ -1793,6 +1795,30 @@ describe("src/modules/print/js/buildSpec", function () {
                 baseURL: "url",
                 opacity: 1,
                 type: "image"
+            });
+        });
+    });
+    describe("buildGeoTiff", function () {
+        it("should buildGeoTiff", function () {
+            const geotiffLayer = new WebGlTileLayer({
+                source: new GeoTiffSource({
+                    sources: [
+                        {
+                            url: "https://example.com/spot.tif"
+                        }
+                    ],
+                    convertToRGB: "auto",
+                    normalize: true,
+                    projection: "EPSG:25832"
+                }),
+                name: "GeoTiffLayer",
+                typ: "GeoTiff"
+            });
+
+            expect(buildSpec.buildGeoTiff(geotiffLayer)).to.deep.own.include({
+                url: "https://example.com/spot.tif",
+                opacity: 1,
+                type: "geotiff"
             });
         });
     });

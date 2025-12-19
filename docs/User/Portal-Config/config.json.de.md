@@ -5610,7 +5610,7 @@ Es wird ein Gruppenlayer erzeugt, der alle Layer der angegeben ids enthält. Sie
 
 [inherits]: # (layerConfig.elements.layers)
 
-Hier werden Raster-Layer typische Attribute aufgelistet. Raster Layer sind vom Typ **[StaticImage](#layerconfigelementslayersrasterstaticimage)**, **[WMS](#layerconfigelementslayersrasterwms)**, WMSTime und WMTS.
+Hier werden Raster-Layer typische Attribute aufgelistet. Raster Layer sind vom Typ **[StaticImage](#layerconfigelementslayersrasterstaticimage)**, **[GeoTiff](#layerconfigelementslayersrastergeotiff)**, **[WMS](#layerconfigelementslayersrasterwms)**, WMSTime und WMTS.
 
 ***
 
@@ -5637,6 +5637,57 @@ Mit StaticImage lassen sich Bilder als Layer laden und georeferenziert auf der K
     "name": "Testing PNG File",
     "visibility": true,
     "extent": [560296.72, 5932154.22, 562496.72, 5933454.22]
+}
+```
+
+***
+
+##### layerConfig.elements.layers.Raster.GeoTiff {data-toc-label='GeoTiff'}
+
+[inherits]: # (layerConfig.elements.layers.Raster)
+
+Über den GeoTiff Layertyp lassen sich GeoTiff-Bilder als Layer laden und georeferenziert auf der Karte darstellen. Als Quelle wird eine oder mehrere URL(s) zu einer GeoTiff-Ressource erwartet. Es sowohl absolute URLs als auch relative Links zu statischen Ressourcen angegeben werden. GeoTiff-Layer sind aktuell vom Print ausgenommen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|id|ja|String||Es muss eine eindeutige ID unter allen Layern vergeben werden.|false|
+|typ|ja|String||Setzt den Layertypen.|false|
+|urls|ja|[String]||URLs zu den anzuzeigenden GeoTiff-Ressourcen.|false|
+|sources|nein|[OpenLayers SourceInfo]||Erweiterte Konfiguration für die anzuzeigenden GeoTiff-Ressourcen. Ersetzt die Option "urls". Siehe [OpenLayers SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)|false|
+|crs|nein|String||Erlaubt die Angabe eines CRS, z.B. "EPSG:25832". Wenn nicht gesetzt, wird das CRS aus den GeoTiff-Metadaten ausgelesen.|false|
+|styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](../Global-Config/style.json.md)** aufgelöst. Das GeoTiff Styleformat wird **[hier](../Global-Config/style.json.md#geotiff)** beschrieben.|false|
+|olSourceOptions|ja|OpenLayers GeoTiff Source||Erweiterte Optionen für die Openlayers GeoTiff-Source. Siehe [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)|false|
+
+
+**Beispiel (minimal)**
+```json
+{
+    "id": "1138",
+    "typ": "GeoTiff",
+    "urls": ["https://openlayers.org/en/latest/examples/data/example.tif"],
+    "name": "GeoTiff test layer",
+    "visibility": true,
+}
+```
+
+**Beispiel (erweitert)**
+```json
+{
+    "id": "1138",
+    "typ": "GeoTiff",
+    "name": "GeoTiff test layer",
+    "visibility": true,
+    "styleId": "GeoTiffStyle",
+    "crs": "EPSG:4326",
+    "sources": [
+        { "url": "https://example.com/band1.tif", "min": -10, "max": 60 },
+        { "url": "https://example.com/band2.tif", "min": -10, "max": 60 },
+        { "url": "https://example.com/band3.tif", "min": -10, "max": 60 }
+    ],
+    "olSourceOptions": {
+        "convertToRGB": false,
+        "normalize": true
+    }
 }
 ```
 

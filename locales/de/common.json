@@ -930,7 +930,8 @@
       "withInfoLabel": "Mit Informationen",
       "withLegendLabel": "Mit Legende",
       "predefinedLegendInfo": "Der Layer \"{{layerName}}\" enthält eine vordefinierte Legende.",
-      "predefinedLegendDownload": "Die Legende kann nicht zum Ausdruck hinzugefügt werden. Sie können die vordefinierte Legende separat über das Download-Menü herunterladen."
+      "predefinedLegendDownload": "Die Legende kann nicht zum Ausdruck hinzugefügt werden. Sie können die vordefinierte Legende separat über das Download-Menü herunterladen.",
+      "geoTiffWarning": "Die GeoTiff-Source enthält mehrere Quellen, Mapfish-Print unterstützt allerdings nur eine Quelle pro Layer. Es wird im Druck nur die erste Quelle verwendet."
     },
     "routing": {
       "addWaypoint": "Wegpunkt hinzufügen",

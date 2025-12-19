@@ -8,7 +8,9 @@ import Icon from "ol/style/Icon.js";
 import {fromCircle} from "ol/geom/Polygon.js";
 import CircleStyle from "ol/style/Circle.js";
 import VectorTileLayer from "ol/layer/VectorTile.js";
+import WebGlTileLayer from "ol/layer/WebGLTile.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
+import GeoTiffSource from "ol/source/GeoTIFF.js";
 import {convertColor} from "@shared/js/utils/convertColor.js";
 import isObject from "@shared/js/utils/isObject.js";
 import differenceJS from "@shared/js/utils/differenceJS.js";
@@ -265,6 +267,9 @@ const BuildSpecModel = {
                     returnLayer = this.buildWmts(layer, source);
                 }
             }
+            else if (layer instanceof WebGlTileLayer && source instanceof GeoTiffSource) {
+                console.warn(`Das Drucken von GeoTiff-Layern wird aktuell noch nicht unterstützt. Der Layer "${layer.get("name")}" wird ignoriert.`);
+            }
             else if (typeof layer?.get === "function" && layer.get("name") === "importDrawLayer") {
                 returnLayer = this.getDrawLayerInfo(layer, extent);
             }
@@ -447,6 +452,27 @@ const BuildSpecModel = {
 
         if (source.getParams().VERSION) {
             mapObject.version = source.getParams().VERSION;
+        }
+
+        return mapObject;
+    },
+    /**
+     * Returns GeoTiff (WebGL tile) layer information
+     * @param {ol.layer.Tile} layer WebGL tile layer
+     * @returns {Object} - layer spec for type "geotiff"
+    */
+    buildGeoTiff: function (layer) {
+        const source = layer.getSource(),
+            sourceUrl = source.getKey()?.split(",")[0],
+            fullUrl = sourceUrl.startsWith("http") ? sourceUrl : new URL(sourceUrl, window.location.href),
+            mapObject = {
+                opacity: layer.getOpacity(),
+                url: fullUrl.toString(),
+                type: "geotiff"
+            };
+
+        if (source.getKey()?.split(",").length > 1) {
+            console.warn(i18next.t("common:modules.print.geoTiffWarning"));
         }
 
         return mapObject;

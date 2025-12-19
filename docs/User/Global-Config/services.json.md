@@ -558,6 +558,50 @@ Please note the [VTL specification](https://docs.mapbox.com/vector-tiles/specifi
 }
 ```
 
+## GeoTiff
+
+The `GeoTiff` layer type allows GeoTiff images to be loaded as layers and displayed georeferenced on the map. One or more URL(s) to a resource are expected as the source.
+
+|Name|Required|Type|Default|Description|Example|
+|----|--------|----|-------|-----------|-------|
+|id|yes|String||A unique ID must be assigned among all layers.|`GeoTiffLayer`|
+|typ|yes|String||Sets the layer type.|`GeoTiff`|
+|urls|yes|[String]||URLs of the GeoTiff resources to be displayed.|`["https://example.com/test.tif"]`|
+|sources|no|[OpenLayers SourceInfo]||Advanced configuration for the GeoTiff resources to be displayed. Replaces the `urls` option. See [https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)||
+|crs|no|String||Allows specifying a CRS, e.g. `"EPSG:25832"`. If not set, the CRS is read from the GeoTiff metadata.|`EPSG:25832`|
+|styleId|no|String||ID that references a style. The ID is resolved in **[style.json](../Global-Config/style.json.md)**. The GeoTiff style format is explained **[here](../Global-Config/style.json.md#geotiff)**.||
+|olSourceOptions|no|[OpenLayers GeoTiff Source]||Advanced options for the OpenLayers GeoTiff source. See [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)||
+
+
+```json title="Example Configuration of a GeoTiff Layer (minimal)"
+{
+    "id": "1138",
+    "typ": "GeoTiff",
+    "urls": ["https://openlayers.org/en/latest/examples/data/example.tif"],
+    "name": "GeoTiff test layer",
+    "visibility": true,
+}
+```
+
+```json title="Example Configuration of a GeoTiff Layer (erweitert)"
+{
+    "id": "1138",
+    "typ": "GeoTiff",
+    "name": "GeoTiff test layer",
+    "visibility": true,
+    "styleId": "GeoTiffStyle",
+    "crs": "EPSG:4326",
+    "sources": [
+        { "url": "https://example.com/band1.tif", "min": -10, "max": 60 },
+        { "url": "https://example.com/band2.tif", "min": -10, "max": 60 },
+        { "url": "https://example.com/band3.tif", "min": -10, "max": 60 }
+    ],
+    "olSourceOptions": {
+        "convertToRGB": false,
+        "normalize": true
+    }
+}
+```
 
 ## SensorLayer
 
