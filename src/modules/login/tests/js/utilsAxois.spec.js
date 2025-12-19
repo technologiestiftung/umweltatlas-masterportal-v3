@@ -36,11 +36,14 @@ describe("src/modules/login/js/utilsAxois.js", () => {
 
     describe("Different requestors", () => {
         let originalXMLHttpRequestOpen,
+            originalXMLHttpRequestSetRequestHeader,
             originalFetch;
 
         beforeEach(() => {
             sinon.stub(axios.interceptors.request, "use");
             originalXMLHttpRequestOpen = XMLHttpRequest.prototype.open;
+            originalXMLHttpRequestSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+            XMLHttpRequest.prototype.setRequestHeader = sinon.stub();
             XMLHttpRequest.prototype.open = sinon.stub();
             originalFetch = window.fetch;
             window.fetch = sinon.stub().returns(Promise.resolve({ok: true}));
@@ -49,6 +52,8 @@ describe("src/modules/login/js/utilsAxois.js", () => {
         afterEach(() => {
             axios.interceptors.request.use.restore();
             XMLHttpRequest.prototype.open = originalXMLHttpRequestOpen;
+            XMLHttpRequest.prototype.setRequestHeader = originalXMLHttpRequestSetRequestHeader;
+            delete XMLHttpRequest.prototype._hasAuth;
             window.fetch = originalFetch;
         });
 
@@ -66,10 +71,30 @@ describe("src/modules/login/js/utilsAxois.js", () => {
 
             utils.addInterceptor(interceptorUrlRegex);
 
+            expect(XMLHttpRequest.prototype.setRequestHeader).to.be.a("function");
             expect(XMLHttpRequest.prototype.open).to.be.a("function");
 
             xhr.open("GET", "http://example.com/api");
             expect(() => xhr.open("GET", "http://example.com/api")).to.not.throw();
+        });
+
+        it("should add authorization header only once to XMLHttpRequest", () => {
+            const interceptorUrlRegex = /example\.com/,
+                xhr = new XMLHttpRequest(),
+                setRequestHeaderStub = xhr.setRequestHeader;
+
+            utils.addInterceptor(interceptorUrlRegex);
+
+            expect(xhr._hasAuth).to.be.false;
+            expect(setRequestHeaderStub.notCalled).to.be.true;
+
+            xhr.open("GET", "http://example.com/api");
+            expect(xhr._hasAuth).to.be.true;
+            expect(setRequestHeaderStub.calledOnce).to.be.true;
+
+            xhr.open("GET", "http://example.com/api");
+            expect(xhr._hasAuth).to.be.true;
+            expect(setRequestHeaderStub.calledOnce).to.be.true;
         });
 
         it("should add fetch interceptor for URLs matching the regex", async () => {

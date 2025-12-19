@@ -33,6 +33,7 @@
 - Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
 - Issue #1489: Print - fix rotated print masks and add missing rotation for MapFish. Add information regarding missing support of *High Resolution PlotService* to docs.
 - Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
+- Issue #1521: Login: Requesting GeoJSON layers now also works when the GeoJSON requires a login.
 - Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
 - Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
 - Issue #1530: LayerComponent: Fix translation of tooltip when switching languages.

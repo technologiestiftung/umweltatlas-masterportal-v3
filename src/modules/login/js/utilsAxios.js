@@ -23,17 +23,29 @@ function addInterceptor (interceptorUrlRegex) {
         }
     );
 
-    (function (open) {
+    (function (open, setRequestHeader) {
+        XMLHttpRequest.prototype._hasAuth = false;
+
+        XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
+            if (header.toLowerCase() === "authorization" && this._hasAuth) {
+                return;
+            }
+
+            this._hasAuth = true;
+            setRequestHeader.call(this, header, value);
+        };
+
         XMLHttpRequest.prototype.open = function (method, url, ...rest) {
             const opened = open.call(this, method, url, ...rest);
 
-            if (interceptorUrlRegex && this.responseURL?.match(interceptorUrlRegex)) {
+            if (interceptorUrlRegex && url?.match(interceptorUrlRegex)) {
                 this.setRequestHeader("Authorization", `Bearer ${Cookie.get("token")}`);
                 this.withCredentials = true;
             }
+
             return opened;
         };
-    })(XMLHttpRequest.prototype.open);
+    })(XMLHttpRequest.prototype.open, XMLHttpRequest.prototype.setRequestHeader);
 
     const {fetch: originalFetch} = window;
 
