@@ -37,7 +37,8 @@
 - Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
 - Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
 - Issue #1530: LayerComponent: Fix translation of tooltip when switching languages.
-- Issue #1531: selectFeatures - fix link display in selectFeatures tool.
+- Issue #1531: SelectFeatures: Fix link display in selectFeatures tool.
+- Issue #1534: LayerInformation: Fix retrieval URL when using `customMetadata`.
 - Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
 - wfsSearch: reset dependent fields at changed selection.
 - MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
