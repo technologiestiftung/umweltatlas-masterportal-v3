@@ -1,6 +1,18 @@
 <script>
 import decodeHtmlEntites from "@shared/js/utils/htmlEntities.js";
 
+
+/**
+ * LightButton component: A lightweight button component.
+ * @module shared/modules/button/LightButton
+ * @vue-prop {String} text defines the Buttons text label and tooltip text.
+ * @vue-prop {Function} interaction sets the function to be called on click.
+ * @vue-prop {String} icon sets the (bootstrap-)icon to be displayed in the button.
+ * @vue-prop {String} iconEnd can be used to display a second icon on the right-hand-side of the button.
+ * @vue-prop {String} customClass sets custom html-classes to be used on the button.
+ * @vue-prop {String} customClasstitle sets custom html-classes to be used by the span-element holding the title.
+ * @vue-prop {String} description can be used to create a subtitle to the title-label of the button.
+ */
 export default {
     name: "LightButton",
     props: {

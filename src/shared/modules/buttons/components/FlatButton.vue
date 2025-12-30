@@ -1,6 +1,20 @@
 <script>
 import SpinnerItem from "../../spinner/components/SpinnerItem.vue";
 
+
+/**
+ * FlatButton component: A simple Button component.
+ * @module shared/modules/buttons/FlatButton
+ * @vue-prop {String} customclass can be used to give custom html-classes to the Button.
+ * @vue-prop {Boolean} disabled can be used to disable the buttons functionality.
+ * @vue-prop {String} icon can be used to attach a (bootstrap-)icon to the button that shows left of the buttons title.
+ * @vue-prop {Function} interaction provides the function to be called on click of the button.
+ * @vue-prop {Boolean} secondary - if true, the button will be styled in masterportals secondary colors.
+ * @vue-prop {Boolean} spinnerTrigger - if set to true, a loading spinner is shown during execution of the attached function.
+ * @vue-prop {String} text is used to set the label of the button.
+ * @vue-prop {String} type sets the type of button.
+ * @vue-prop {String} title defines the text shown in the tooltip of the button on hover.
+ */
 export default {
     name: "FlatButton",
     components: {SpinnerItem},
