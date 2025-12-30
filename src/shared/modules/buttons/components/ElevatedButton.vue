@@ -29,7 +29,7 @@ export default {
 
 <template>
     <button
-        class="elevated btn btn-primary d-flex align-items-center shadow"
+        class="btn btn-primary d-flex align-items-center shadow"
         type="button"
         :aria-label="text"
         @click="interaction"
