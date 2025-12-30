@@ -46,6 +46,8 @@
 - MkDocs: Fixed MkDocs formatting and heading anchor issues and ensured the CI pipeline fails immediately on MkDocs warnings and errors.
 - Documentation: correct example configuration for FeatureLister.
 - Translations: Added missing translations across all locales.
+- Documentation: Added jsDoc to shared Button Components.
+
 ---
 
 ## 2025-12-18 v3.17.1
