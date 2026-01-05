@@ -1,4 +1,24 @@
 <script>
+
+/**
+ * InputText component: A very variable component realising an input text field.
+ * @module shared/modules/inputs/InputText
+ * @vue-prop {String} id provides the id of the html-input-tag
+ * @vue-prop {String} label is used to provide the label of the input field.
+ * @vue-prop {String} placeholder provides the placeholder of the input-field as long as no user input is made.
+ * @vue-prop {T} modelValue holds the value of the input-field and is not explicitly typed to allow for diverse inputs.
+ * @vue-prop {String} type specifies the type of the inputField, defaulting to "text".
+ * @vue-prop {String} maxLength specifies the maximum length of input.
+ * @vue-prop {Function} onInput can define a function to be executed every time the input and modelValue get changed.
+ * @vue-prop {Function} onChange can define a function to be executed on any change of the inputs modelValue.
+ * @vue-prop {Boolean} disabled can be set to disable the input field.
+ * @vue-prop {Boolean} readonly can be set to make the input-field read-only.
+ * @vue-prop {Object} classObj can be used to define custom classes for the input field.
+ * @vue-prop {Number} min can be used to define a lower bound of values for the input field in case of a number-only input.
+ * @vue-prop {Number} max can be used to define a upper bound of values for the input field in case of a number-only input.
+ * @vue-prop {Number} step can provide a value for limiting the possible values in case of a number-only input with upper and lower bound.
+ * @vue-prop {String} errorMessage can be used to provide an error message below the input field in case of bad validation.
+ */
 export default {
     name: "InputText",
     props: {
