@@ -1,11 +1,15 @@
 <script>
+
+/**
+ * FileUpload Component: A component to upload files using either a dropzone or a file-choosing dialogue.
+ * @module shared/modules/inputs/FileUpload
+ * @vue-prop {function} keydown provides the function to be used on any keyboard input with the 'Choose File' button on focus. Usually used to fire triggerFileInputClick on enter and space (event.which === 32 || event.which === 13).
+ * @vue-prop {function} change binds a function to be executed on the change of the uploaded file.
+ * @vue-prop {function} drop binds a function to be executed on dropping a file into the dropzone for upload.
+ */
 export default {
     name: "FileUpload",
     props: {
-        id: {
-            type: String,
-            required: true
-        },
         keydown: {
             type: Function,
             required: true
@@ -45,6 +49,9 @@ export default {
         onDrop (e) {
             this.dzIsDropHovering = false;
             this.drop(e);
+        },
+        triggerFileInputClick () {
+            this.$refs["upload-input-file"].click();
         }
     }
 };
@@ -68,11 +75,13 @@ export default {
             </div>
             <div>
                 {{ $t("common:shared.modules.inputs.fileUpload.or") }}
-                <label
+                <button
                     ref="upload-label"
                     class="fake-link"
                     tabindex="0"
-                    :keydown="keydown"
+                    type="button"
+                    @keydown="keydown"
+                    @click="triggerFileInputClick"
                 >
                     {{ $t("common:shared.modules.inputs.fileUpload.browse") }}
                     <input
@@ -82,7 +91,7 @@ export default {
                         multiple="multiple"
                         @change="change"
                     >
-                </label>
+                </button>
             </div>
             <!-- Space for preview images or other files -->
             <slot />
@@ -179,6 +188,10 @@ input[type="file"] {
         position: relative;
         color: $secondary;
         cursor: pointer;
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
         &:hover {
             text-decoration: underline;
         }

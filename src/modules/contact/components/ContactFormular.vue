@@ -94,7 +94,7 @@ export default {
         ]),
         triggerClickOnFileInput (event) {
             if (event.which === 32 || event.which === 13) {
-                this.$refs["upload-input-file"].click();
+                this.$refs.fileUpload.triggerFileInputClick();
             }
         },
         onInputChange (e) {
@@ -340,7 +340,10 @@ export default {
                             <div class="accordion-body">
                                 <FileUpload
                                     :id="'attachmentUpload'"
-                                    :keydown="(e) => triggerClickOnFileInput(e)"
+                                    ref="fileUpload"
+                                    :keydown="(e) =>
+                                        triggerClickOnFileInput(e)
+                                    "
                                     :change="(e) => onInputChange(e)"
                                     :drop="(e) => onDrop(e)"
                                 >
