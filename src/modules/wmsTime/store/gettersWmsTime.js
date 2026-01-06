@@ -25,6 +25,9 @@ const getters = {
     },
     timeRange (_, {currentTimeSliderObject}) {
         return currentTimeSliderObject?.timeRange || [];
+    },
+    staticDimensions (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject?.staticDimensions || {};
     }
 };
 

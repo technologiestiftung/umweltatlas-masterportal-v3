@@ -99,6 +99,7 @@ Layer2dRasterWmsTimeLayer.prototype.createTimeRange = function (min, max, increm
 };
 
 /**
+ * Determines the default value from time range.
  * @param {String[]} timeRange Valid points in time for WMS-T.
  * @param {String|Number} extentDefault Default specified by service. Either a specific value from the time range is specified as a string, or a position in the time range is specified as a number.
  * @param {String?} configuredDefault Default specified by config (preferred usage).
@@ -109,11 +110,11 @@ Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, exte
         if (timeRange.includes(configuredDefault)) {
             return configuredDefault;
         }
-        else if (isNumber(configuredDefault)) {
+        else if (isNumber(configuredDefault) && timeRange.at(configuredDefault)) {
             return timeRange.at(configuredDefault);
         }
 
-        console.error(
+        console.warn(
             `Configured WMS-T default ${configuredDefault} is not within timeRange:`,
             timeRange,
             "Falling back to WMS-T default value."
@@ -130,6 +131,26 @@ Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, exte
     }
 
     return extentDefault || timeRange[0];
+};
+
+/**
+ * Determines the default value of the static dimensions.
+ * @param {Object[]} staticDimensions The static dimensions from getCapabilities.
+ * @param {Object} timeStaticDimensions The static dimensions from config.
+ * @returns {Object} The static dimensions with default values.
+ */
+Layer2dRasterWmsTimeLayer.prototype.determineStaticDimensions = function (staticDimensions, timeStaticDimensions = {}) {
+    const staticDimensionsWithDefaultValue = {};
+
+    staticDimensions.forEach(staticDimension => {
+        const timeRange = this.extractExtentValues(staticDimension)?.timeRange,
+            configuredDefaultValue = timeStaticDimensions[staticDimension.name],
+            defaultValue = this.determineDefault(timeRange, undefined, configuredDefaultValue === true ? undefined : configuredDefaultValue);
+
+        staticDimensionsWithDefaultValue[staticDimension.name.toUpperCase()] = defaultValue;
+    });
+
+    return staticDimensionsWithDefaultValue;
 };
 
 /**
@@ -373,7 +394,7 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
 
     return this.requestCapabilities(attrs.url, attrs.version, attrs.layers)
         .then(xmlCapabilities => {
-            const {dimension, extent} = this.retrieveTimeData(xmlCapabilities, attrs.layers, time),
+            const {dimension, extent, staticDimensions} = this.retrieveTimeData(xmlCapabilities, attrs.layers, time),
                 timeSource = extent ? extent : dimension;
 
             if (!timeSource) {
@@ -389,10 +410,12 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
                     .then(filteredTimeRange => {
                         const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
                             defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default),
+                            staticDimensionsWithDefaultValue = this.determineStaticDimensions(staticDimensions, time.staticDimensions),
                             timeData = {
                                 defaultValue: defaultValue,
                                 step: step,
-                                timeRange: filtereTimeRangeByRegex
+                                timeRange: filtereTimeRangeByRegex,
+                                staticDimensions: staticDimensionsWithDefaultValue
                             };
 
                         attrs.time = {...time, ...timeData};
@@ -437,14 +460,38 @@ Layer2dRasterWmsTimeLayer.prototype.removeLayer = function (layerId) {
 };
 
 /**
+ * Retrieves the configured static dimensions from wms-time layer.
+ * @param {String[]} staticDimensionsNames The static dimensions names.
+ * @param {HTMLCollection} layerNode The layernode from getCapabilities.
+ * @returns {Object[]} The static dimensions.
+ */
+Layer2dRasterWmsTimeLayer.prototype.retrieveStaticDimensions = function (staticDimensionsNames, layerNode) {
+    const staticDimensions = [];
+
+    staticDimensionsNames.forEach(staticDimensionName => {
+        const xmlstaticDimension = layerNode.querySelector(`Dimension[name="${staticDimensionName}"]`);
+
+        if (xmlstaticDimension) {
+            staticDimensions.push(this.retrieveAttributeValues(xmlstaticDimension));
+        }
+        else {
+            console.warn(`No dimension "${staticDimensionName}" could be found! Please check your configuration.`);
+        }
+    });
+
+    return staticDimensions;
+};
+
+/**
  * Retrieves wmsTime-related entries from GetCapabilities layer specification.
  * @param {String} xmlCapabilities GetCapabilities XML response
  * @param {String} layerName name of layer to use
  * @param {Object} timeSpecification may contain "dimensionName" and "extentName"
- * @returns {Object} dimension and extent of layer
+ * @returns {Object} dimension, extent and staticDimensions of layer
  */
 Layer2dRasterWmsTimeLayer.prototype.retrieveTimeData = function (xmlCapabilities, layerName, timeSpecification) {
     const {dimensionName, extentName} = timeSpecification,
+        staticDimensionsNames = typeof timeSpecification.staticDimensions === "object" ? Object.keys(timeSpecification.staticDimensions) : {},
         xmlDocument = new DOMParser().parseFromString(xmlCapabilities, "text/xml"),
         layerNode = [
             ...xmlDocument.querySelectorAll("Layer > Name")
@@ -452,9 +499,10 @@ Layer2dRasterWmsTimeLayer.prototype.retrieveTimeData = function (xmlCapabilities
         xmlDimension = layerNode.querySelector(`Dimension[name="${dimensionName}"]`),
         xmlExtent = layerNode.querySelector(`Extent[name="${extentName}"]`),
         dimension = xmlDimension ? this.retrieveAttributeValues(xmlDimension) : null,
-        extent = xmlExtent ? this.retrieveAttributeValues(xmlExtent) : null;
+        extent = xmlExtent ? this.retrieveAttributeValues(xmlExtent) : null,
+        staticDimensions = this.retrieveStaticDimensions(staticDimensionsNames, layerNode);
 
-    return {dimension, extent};
+    return {dimension, extent, staticDimensions};
 };
 
 /**
@@ -471,11 +519,18 @@ Layer2dRasterWmsTimeLayer.prototype.setIsVisibleInMap = function (newValue) {
  * Updates the time parameter of the WMS-T if the id of the layer is correct.
  * @param {String} id Unique Id of the layer to update.
  * @param {String} newValue New TIME value of the WMS-T.
+ * @param {Object} [staticDimensions={}] The static dimensions.
  * @returns {void}
  */
-Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue) {
+Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue, staticDimensions = {}) {
     if (id === this.get("id")) {
-        this.getLayerSource().updateParams({"TIME": newValue});
+        const dimensionParams = {
+            "TIME": newValue,
+            ...staticDimensions
+        };
+
+        this.getLayerSource().updateParams(dimensionParams);
+
         if (store.getters["Modules/GetFeatureInfo/visible"] === true) {
             store.dispatch("Modules/GetFeatureInfo/collectGfiFeatures");
         }

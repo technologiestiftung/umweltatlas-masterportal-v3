@@ -21,7 +21,7 @@ export default {
     },
     data: () => ({playing: false, playbackHandle: null, sliderValue: 0}),
     computed: {
-        ...mapGetters("Modules/WmsTime", ["timeRange", "defaultValue", "minWidth", "timeSlider"]),
+        ...mapGetters("Modules/WmsTime", ["defaultValue", "minWidth", "timeRange", "timeSlider", "staticDimensions"]),
         ...mapGetters("Modules/LayerSwiper", {
             layerSwiperActive: "active"
         }),
@@ -65,7 +65,7 @@ export default {
                 targetTime = this.timeRange[this.sliderValue];
 
             if (layer) {
-                layer.updateTime(this.layerId, targetTime);
+                layer.updateTime(this.layerId, targetTime, this.staticDimensions);
                 if (this.layerSwiperActive) {
                     this.updateMap();
                 }
