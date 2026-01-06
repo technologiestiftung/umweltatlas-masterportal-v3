@@ -25,6 +25,7 @@ export default {
             "type",
             "visibleSubjectDataLayers"
         ]),
+        ...mapGetters("Modules/LayerTree", ["layerTreeSortedLayerConfigs"]),
         ...mapGetters("Maps", ["mode"]),
         ...mapGetters("Menu", ["currentSecondaryMenuWidth", "currentMainMenuWidth"]),
         /**
@@ -44,23 +45,12 @@ export default {
          * @returns {void}
          */
         visibleSubjectDataLayerConfigs: {
-            handler (newVal, oldVal) {
-                let newValue = {},
-                    oldValue = {};
+            handler (newVal) {
+                const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+                    l => newVal.some(n => n.id === l.id)
+                );
 
-                if (oldVal.length !== newVal.length) {
-                    newValue = newVal.filter(x => !oldVal.includes(x));
-                    if (newValue.length === 0) {
-                        oldValue = oldVal.filter(x => !newVal.includes(x));
-                    }
-                }
-
-                if (Object.keys(newValue).length > 0) {
-                    this.setVisibleLayers(newVal, this.mode, newValue);
-                }
-                if (Object.keys(oldValue).length > 0) {
-                    this.setVisibleLayers(newVal, this.mode, newValue);
-                }
+                this.setVisibleLayers(sortedByTree, this.mode);
             },
             deep: true
         },
@@ -70,7 +60,11 @@ export default {
         * @returns {void}
         */
         mode (value) {
-            this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, value);
+            const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            this.setVisibleLayers(sortedByTree, value);
         },
         /**
          * Detects changes to the menu state and width to update the layerPills accordingly.
@@ -85,7 +79,12 @@ export default {
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, this.mode);
+
+        const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+            l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+        );
+
+        this.setVisibleLayers(sortedByTree, this.mode);
     },
     methods: {
         ...mapMutations("Modules/LayerPills", ["setVisibleSubjectDataLayers", "setActive"]),
@@ -97,33 +96,21 @@ export default {
          * Sets the Layers to be shown as Buttons
          * @param {Array} visibleLayers list of visibleLayers.
          * @param {String} mapMode 2D or 3D Map mode.
-         * @param {Object} newValues added Layers.
          * @returns {void}
          */
-        setVisibleLayers (visibleLayers, mapMode, newValues = []) {
-            if (visibleLayers) {
-                if (mapMode === "2D") {
-                    const layerTypes3d = layerTypes.getLayerTypes3d(),
-                        visible2DLayers = visibleLayers.filter(layer => {
-                            return !layerTypes3d.includes(layer.typ?.toUpperCase());
-                        });
+        setVisibleLayers (visibleLayers, mapMode) {
+            if (!visibleLayers) {
+                return;
+            }
 
-                    if (Object.keys(newValues).length !== 0) {
-                        const layers = this.visibleSubjectDataLayers;
+            if (mapMode === "2D") {
+                const layerTypes3d = layerTypes.getLayerTypes3d(),
+                    visible2DLayers = visibleLayers.filter(layer => !layerTypes3d.includes(layer.typ?.toUpperCase()));
 
-                        newValues.forEach((val) => {
-                            layers.unshift(val);
-                        });
-
-                        this.setVisibleSubjectDataLayers(layers);
-                    }
-                    else {
-                        this.setVisibleSubjectDataLayers(visible2DLayers);
-                    }
-                }
-                else {
-                    this.setVisibleSubjectDataLayers(visibleLayers);
-                }
+                this.setVisibleSubjectDataLayers(visible2DLayers);
+            }
+            else {
+                this.setVisibleSubjectDataLayers(visibleLayers);
             }
             this.setToggleButtonVisibility();
         },
@@ -132,7 +119,7 @@ export default {
         },
         /**
          * Removes Layer from List of Buttons
-         * @param {String} layer Layer to be removed.
+         * @param {Object} layer Layer to be removed.
          * @returns {void}
          */
         removeLayerFromVisibleLayers (layer) {

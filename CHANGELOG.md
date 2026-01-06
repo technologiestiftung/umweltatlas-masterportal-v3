@@ -17,6 +17,7 @@
 ### Removed
 
 ### Fixed
+- LayerPills: Fix layer sequence so that it matches the LayerTree when opening via a link.
 
 ---
 

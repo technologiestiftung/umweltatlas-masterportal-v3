@@ -1,9 +1,7 @@
 <script>
 import draggable from "vuedraggable";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-
 import Layer from "./LayerComponent.vue";
-import {sortObjects, sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
 
 /**
  * Representation of a node in layertree containing folders or layers.
@@ -25,7 +23,7 @@ export default {
     },
     computed: {
         ...mapGetters(["portalConfig", "allLayerConfigs", "layerConfigsByAttributes", "showLayerAddButton"]),
-        ...mapGetters("Modules/LayerTree", ["delay", "delayOnTouchOnly", "removeOnSpill", "touchStartThreshold"]),
+        ...mapGetters("Modules/LayerTree", ["delay", "delayOnTouchOnly", "removeOnSpill", "touchStartThreshold", "layerTreeSortedLayerConfigs"]),
 
         /**
          * v-model for sorted layerConfig.
@@ -36,21 +34,7 @@ export default {
              * @returns {void}
              */
             get () {
-                let sortedLayerConfig;
-
-                if (this.showLayerAddButton) {
-                    sortedLayerConfig = this.layerConfigsByAttributes({showInLayerTree: true});
-                }
-                else {
-                    sortedLayerConfig = this.allLayerConfigs;
-                }
-                sortObjects(sortedLayerConfig, "zIndex", "desc");
-
-                if (!this.sortedByLayerSequence && sortedLayerConfig.some(conf => "layerSequence" in conf)) {
-                    sortByLayerSequence(sortedLayerConfig);
-                }
-
-                return sortedLayerConfig;
+                return this.layerTreeSortedLayerConfigs;
             },
             /**
              * Sets the changed layer Configs order.

@@ -80,6 +80,12 @@ describe("src/modules/LayerPills.vue", () => {
                                 setVisibleSubjectDataLayers: setVisibleSubjectDataLayersSpy
                             }
                         },
+                        LayerTree: {
+                            namespaced: true,
+                            getters: {
+                                layerTreeSortedLayerConfigs: () => visibleLayers
+                            }
+                        },
                         LayerInformation: {
                             namespaced: true,
                             actions: {
@@ -269,47 +275,57 @@ describe("src/modules/LayerPills.vue", () => {
     });
 
     describe("watcher", () => {
-        it("visibleSubjectDataLayerConfigs with no oldValue", () => {
-            const newValue = [{
-                    id: "id"
-                }],
-                setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers");
+        it("calls setVisibleLayers when visibleSubjectDataLayerConfigs changes", () => {
+            let initialSorted = null,
+                expectedLayers = null;
 
-            store.commit("setVisibleSubjectDataLayerConfigs", []);
+            const setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers"),
+                newValue = [{id: 0}];
+
             wrapper = createWrapper();
+
             wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue, []);
-            // called once on mounted and once on watcher call
+
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
-            expect(setVisibleLayersSpy.firstCall.args[0]).to.be.deep.equals([]);
-            expect(setVisibleLayersSpy.firstCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.firstCall.args[2]).to.be.equals(undefined);
-            expect(setVisibleLayersSpy.secondCall.args[0]).to.be.deep.equals(newValue);
-            expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.secondCall.args[2]).to.be.deep.equals(newValue);
+
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+                l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
+            expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
+
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+                l => newValue.some(n => n.id === l.id)
+            );
+
+            expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
+            expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
         });
 
-        it("visibleSubjectDataLayerConfigs with oldValue", () => {
-            const old1 = {
-                    id: "old1"
-                },
-                newValue = [{
-                    id: "id"
-                },
-                old1],
-                oldValue = [old1],
-                setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers");
+        it("visibleSubjectDataLayerConfigs triggers setVisibleLayers correctly", () => {
+            let initialSorted = null,
+                expectedLayers = null;
 
-            store.commit("setVisibleSubjectDataLayerConfigs", []);
+            const setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers"),
+                newValue = [{id: 0}];
+
             wrapper = createWrapper();
-            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue, oldValue);
-            // called once on mounted and once on watcher call
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue);
+
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+                l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+                l => newValue.some(n => n.id === l.id)
+            );
+
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
-            expect(setVisibleLayersSpy.firstCall.args[0]).to.be.deep.equals([]);
-            expect(setVisibleLayersSpy.firstCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.firstCall.args[2]).to.be.equals(undefined);
-            expect(setVisibleLayersSpy.secondCall.args[0]).to.be.deep.equals(newValue);
-            expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.secondCall.args[2]).to.be.deep.equals([newValue[0]]);
+            expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
+            expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
+            expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
+            expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
         });
 
         it("mode change shall call setVisibleLayers", () => {

@@ -4,6 +4,7 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
 import LayerTreeNode from "@modules/layerTree/components/LayerTreeNode.vue";
+import gettersLayerTree from "@modules/layerTree/store/gettersLayerTree.js";
 
 config.global.mocks.$t = key => key;
 
@@ -136,7 +137,8 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                                 delay: () => 500,
                                 delayOnTouchOnly: () => true,
                                 removeOnSpill: () => true,
-                                touchStartThreshold: () => 3
+                                touchStartThreshold: () => 3,
+                                layerTreeSortedLayerConfigs: gettersLayerTree.layerTreeSortedLayerConfigs
                             },
                             actions: {
                                 removeLayer: removeLayerSpy
@@ -410,7 +412,8 @@ describe("src/modules/layerTree/components/LayerTreeNode.vue", () => {
                                     delay: () => 500,
                                     delayOnTouchOnly: () => true,
                                     removeOnSpill: () => true,
-                                    touchStartThreshold: () => 3
+                                    touchStartThreshold: () => 3,
+                                    layerTreeSortedLayerConfigs: gettersLayerTree.layerTreeSortedLayerConfigs
                                 },
                                 actions: {
                                     removeLayer: removeLayerSpy
