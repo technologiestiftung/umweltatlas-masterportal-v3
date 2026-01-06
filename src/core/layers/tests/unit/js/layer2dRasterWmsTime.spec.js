@@ -432,7 +432,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             ];
         });
 
-        it("should returns the timeRange, if the input dimensionRange is undefined. ", async () => {
+        it("should returns the timeRange, if the input dimensionRange is undefined.", async () => {
             const dimensionRange = undefined,
                 wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
                 filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);

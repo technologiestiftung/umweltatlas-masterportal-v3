@@ -178,7 +178,7 @@ Layer2dRasterWmsTimeLayer.prototype.extractExtentValues = function (extent) {
 };
 
 /**
- * Filter th dimension range list by time range.
+ * Filter the dimension range list by time range.
  * @param {String[]} dimensionRangeList The dimension range list.
  * @param {String[]} timeRange The time range.
  * @returns {String[]} The filtered dimension range
@@ -189,7 +189,7 @@ Layer2dRasterWmsTimeLayer.prototype.filterDimensionRangeList = function (dimensi
             return true;
         }
 
-        console.warn(`The entry: ${entry} is not present in the dimension and has been removed from the dimensionRange.!`);
+        console.warn(`The entry: ${entry} is not present in the dimension and has been removed from the dimensionRange!`);
         return false;
     });
 };
