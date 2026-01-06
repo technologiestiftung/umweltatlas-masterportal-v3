@@ -1,7 +1,6 @@
 import {generateSimpleGetters} from "@shared/js/utils/generators.js";
 import shareViewState from "./stateShareView.js";
 import stateSearchBar from "../../searchBar/store/stateSearchBar.js";
-import layerSelectionState from "../../layerSelection/store/stateLayerSelection.js";
 import layerCollection from "@core/layers/js/layerCollection.js";
 
 /**
@@ -40,7 +39,7 @@ const simpleGetters = {
         const layerParams = rootGetters.layerUrlParams.filter(layer => !isDynamicLayer(layer.id)),
             mapParams = rootGetters["Maps/urlParams"],
             menuParams = rootGetters["Menu/urlParams"],
-            componentTypes = [shareViewState.type, layerSelectionState.type, stateSearchBar.type, "borisComponent"],
+            componentTypes = [shareViewState.type, stateSearchBar.type, "borisComponent"],
             shareUrl = new URL(location.origin + location.pathname + "?" + mapParams),
             currentMarker = rootState?.Maps?.currentMarker;
 

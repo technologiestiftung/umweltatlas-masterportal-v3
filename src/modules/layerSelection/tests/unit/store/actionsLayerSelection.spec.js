@@ -379,4 +379,64 @@ describe("src/modules/layerSelection/store/actionsLayerSelection", () => {
             expect(commit.thirdCall.args[1]).to.be.deep.equals([]);
         });
     });
+
+
+    describe("restoreFromUrlParams", () => {
+        it("restores the module if config is loaded", () => {
+            const attributes = {lastFolderNames: ["root", "myfolder"]};
+
+            rootGetters = {
+                styleListLoaded: true
+            };
+            actions.restoreFromUrlParams({getters, dispatch, rootGetters, commit}, attributes);
+
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Modules/LayerSelection/restoreLayerSelection");
+            expect(dispatch.firstCall.args[1]).to.be.deep.equals(["root", "myfolder"]);
+        });
+    });
+
+    describe("restoreLayerSelection", () => {
+        it("restore with empty path", () => {
+            const attributes = {lastFolderNames: []};
+
+            rootGetters = {
+                allLayerConfigsStructured: () => []
+            };
+            actions.restoreLayerSelection({getters, dispatch, rootGetters, commit}, attributes);
+
+            expect(dispatch.calledTwice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Modules/LayerSelection/navigateForward");
+            expect(dispatch.firstCall.args[1].lastFolderName).to.be.equals("root");
+            expect(dispatch.secondCall.args[0]).to.equal("Menu/changeCurrentComponent");
+        });
+        it("restore with path starting with root", () => {
+            const lastFolderNames = ["root", "myfolder"];
+
+            rootGetters = {
+                allLayerConfigsStructured: () => [{name: "myfolder", type: "folder"}]
+            };
+            actions.restoreLayerSelection({getters, dispatch, rootGetters, commit}, lastFolderNames);
+
+            expect(dispatch.called).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Modules/LayerSelection/navigateForward");
+            expect(dispatch.firstCall.args[1].lastFolderName).to.be.equals("root");
+            expect(dispatch.secondCall.args[0]).to.equal("Modules/LayerSelection/navigateForward");
+            expect(dispatch.secondCall.args[1].lastFolderName).to.be.equals("myfolder");
+        });
+        it("restore with path without root", () => {
+            const lastFolderNames = ["myfolder"];
+
+            rootGetters = {
+                allLayerConfigsStructured: () => [{name: "myfolder", type: "folder"}]
+            };
+            actions.restoreLayerSelection({getters, dispatch, rootGetters, commit}, lastFolderNames);
+
+            expect(dispatch.called).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Modules/LayerSelection/navigateForward");
+            expect(dispatch.firstCall.args[1].lastFolderName).to.be.equals("root");
+            expect(dispatch.secondCall.args[0]).to.equal("Modules/LayerSelection/navigateForward");
+            expect(dispatch.secondCall.args[1].lastFolderName).to.be.equals("myfolder");
+        });
+    });
 });

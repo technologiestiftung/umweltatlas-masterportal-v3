@@ -22,6 +22,7 @@
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.54.0 to 2.56.0
+- ShareView: The state of the LayerSelection Module is transported and restored with the shareView-Url.
 
 ### Deprecated
 
