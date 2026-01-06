@@ -89,11 +89,6 @@ export default {
 
             reader.readAsText(file);
         },
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs.fileUpload.triggerFileInputClick();
-            }
-        },
         /**
          * Handles the processing of GLTF or GLB content.
          * @param {Blob} blob - The GLTF or GLB content.
@@ -236,8 +231,6 @@ export default {
             />
             <FileUpload
                 id="fileUpload"
-                ref="fileUpload"
-                :keydown="(e) => triggerClickOnFileInput(e)"
                 :change="(e) => onInputChange(e)"
                 :drop="(e) => onDrop(e)"
                 :intro-formats="$t('modules.modeler3D.import.captions.introFormats')"

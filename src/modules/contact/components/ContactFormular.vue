@@ -92,11 +92,6 @@ export default {
         ...mapMutations("Menu", [
             "setNavigationHistoryBySide"
         ]),
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs.fileUpload.triggerFileInputClick();
-            }
-        },
         onInputChange (e) {
             if (e.target.files !== undefined) {
                 this.addFile(e.target.files);
@@ -340,10 +335,6 @@ export default {
                             <div class="accordion-body">
                                 <FileUpload
                                     :id="'attachmentUpload'"
-                                    ref="fileUpload"
-                                    :keydown="(e) =>
-                                        triggerClickOnFileInput(e)
-                                    "
                                     :change="(e) => onInputChange(e)"
                                     :drop="(e) => onDrop(e)"
                                 >
