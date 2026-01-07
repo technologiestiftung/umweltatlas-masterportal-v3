@@ -35,6 +35,9 @@
 - Changed Node.js support: Versions from Node.js **22.19.0** up to Node.js **22.21.0** (LTS) are now supported
 - Adjusted module "statisticDashboard" and shared utility function "getOAFFeature" to changes in OAF standard.
 - LayerTree: Highlight clickable elements in breadcrumbs.
+- The following packages have been updated:
+    - devDependencies:
+        - @masterportal/masterportalapi: 2.53.0 to 2.54.0
 
 ### Fixed
 - Issue #1168: Fix autoRefresh for LayerGroups.
