@@ -4,8 +4,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## 2026-01-07 v3.18.0
 
 ### Added
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
@@ -20,10 +19,6 @@
 - Changed Node.js support: Versions from Node.js **22.19.0** up to Node.js **22.21.0** (LTS) are now supported
 - Adjusted module "statisticDashboard" and shared utility function "getOAFFeature" to changes in OAF standard.
 - LayerTree: Highlight clickable elements in breadcrumbs.
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Issue #1168: Fix autoRefresh for LayerGroups.
