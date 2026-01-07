@@ -119,6 +119,7 @@ If a parameter is also present in the service, the definition in this config is 
 | extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 | keyboardMovement | no | Number | `5` | Value in pixels that the swiper should be moved when using the arrow keys. | `5` |
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
+| staticDimensions | no | Object |  | Here, additional dimensions with a static value can be configured, which are sent to the service in the URL. If the specified value is `true`, the service's default value will be used.| {"elevation": "250.0"} |
 
 
 ```json title="Example 1 Configuration of WMS-T time attribute with dimensionRange as URL"
@@ -155,9 +156,29 @@ If a parameter is also present in the service, the definition in this config is 
    }
 ```
 
-```json title="Example 4 WMS-T configuration using dimensionRegex. Filters only even months."
+```json title="Example 4 WMS-T configuration using dimensionRegex. Filters only even months"
    "time" {
       "dimensionRegex": "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z"
+   }
+```
+
+```json title="Example 5 WMS-T configuration using staticDimensions, with user-defined values"
+   "time": {
+      "dimensionName": "time",
+      "staticDimensions": {
+         "elevation": "250.0",
+         "REFERENCE_TIME": "2026-01-05T12:00:00.000Z"
+      }
+   }
+```
+
+```json title="Example 6 WMS-T configuration using staticDimensions, with default values"
+   "time": {
+      "dimensionName": "time",
+      "staticDimensions": {
+         "elevation": true,
+         "REFERENCE_TIME": true
+      }
    }
 ```
 
