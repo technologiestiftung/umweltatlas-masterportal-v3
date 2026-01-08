@@ -1491,6 +1491,9 @@
       }
     },
     "wmsTime": {
+      "layer": {
+        "errorTimeLayer": "Es ist ein Fehler bei der Vorbereitung des Layer mit der id {{id}} aufgetreten: {{error}}"
+      },
       "layerSwiper": {
         "description": "De Swiper kann mit de Muus oder mit de Pieltasten vun de Tastatur bewegt warrn. Wenn de Pieltasten bruukt warrt, verschuuvt sik de Swiper {{amount}}px in de jeweelige Richt.",
         "title": "Layer verglieken"

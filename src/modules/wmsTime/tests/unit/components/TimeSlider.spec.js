@@ -2,6 +2,7 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 import TimeSlider from "@modules/wmsTime/components/TimeSlider.vue";
 
@@ -36,6 +37,12 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
                                         objects: [],
                                         playbackDelay: 1,
                                         playing: false
+                                    };
+                                },
+                                staticDimensions: () => {
+                                    return {
+                                        "elevation": true,
+                                        "REFERENCE_TIME": true
                                     };
                                 }
                             },
@@ -165,5 +172,42 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
         expect(wrapper.find("#timeSlider-activate-layerSwiper-layerId").exists()).to.be.true;
         expect(wrapper.find("#timeSlider-activate-layerSwiper-layerId").element.tagName).to.equal("FLAT-BUTTON-STUB");
         expect(wrapper.find("#timeSlider-activate-layerSwiper-layerId").attributes("text")).to.equal("common:modules.wmsTime.timeSlider.buttons.deactivateLayerSwiper");
+    });
+
+    describe("watcher sliderValue", () => {
+        let updateTimeSpy,
+            wrapper;
+
+        beforeEach(() => {
+            updateTimeSpy = sinon.spy();
+
+            wrapper = shallowMount(TimeSlider, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {layerId: "1"}
+            });
+
+            sinon.stub(layerCollection, "getLayerById").returns(
+                {
+                    id: "1",
+                    updateTime: updateTimeSpy
+                }
+            );
+        });
+
+        it("should update time layer, if slider value is changend", async () => {
+            wrapper.vm.sliderValue = 1;
+
+            await wrapper.vm.$nextTick();
+
+            expect(updateTimeSpy.called).to.be.true;
+            expect(updateTimeSpy.firstCall.args[0]).to.equals("1");
+            expect(updateTimeSpy.firstCall.args[1]).to.equals("2020-01-01");
+            expect(updateTimeSpy.firstCall.args[2]).to.deep.equals({
+                elevation: true,
+                REFERENCE_TIME: true
+            });
+        });
     });
 });

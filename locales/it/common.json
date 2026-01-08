@@ -1491,6 +1491,9 @@
       }
     },
     "wmsTime": {
+      "layer": {
+        "errorTimeLayer": "Si è verificato un errore durante la preparazione del livello con l'id {{id}}: {{error}}"
+      },
       "layerSwiper": {
         "description": "Lo swiper può essere spostato utilizzando il mouse o i tasti freccia della tastiera. Utilizzando i tasti freccia, lo swiper viene spostato di {{amount}} px nella direzione corrispondente.",
         "title": "Confronta layer"

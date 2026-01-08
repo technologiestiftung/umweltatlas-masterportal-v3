@@ -431,7 +431,7 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
             // remove layer from project completely
             layerCollection.removeLayerById(attrs.id);
 
-            console.error(i18next.t("common:modules.core.modelList.layer.wms.errorTimeLayer", {error, id: attrs.id}));
+            console.error(i18next.t("common:modules.wmsTime.layer.errorTimeLayer", {error, id: attrs.id}));
         });
 };
 
@@ -491,7 +491,7 @@ Layer2dRasterWmsTimeLayer.prototype.retrieveStaticDimensions = function (staticD
  */
 Layer2dRasterWmsTimeLayer.prototype.retrieveTimeData = function (xmlCapabilities, layerName, timeSpecification) {
     const {dimensionName, extentName} = timeSpecification,
-        staticDimensionsNames = typeof timeSpecification.staticDimensions === "object" ? Object.keys(timeSpecification.staticDimensions) : {},
+        staticDimensionsNames = typeof timeSpecification.staticDimensions === "object" ? Object.keys(timeSpecification.staticDimensions) : [],
         xmlDocument = new DOMParser().parseFromString(xmlCapabilities, "text/xml"),
         layerNode = [
             ...xmlDocument.querySelectorAll("Layer > Name")

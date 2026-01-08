@@ -1491,6 +1491,9 @@
       }
     },
     "wmsTime": {
+      "layer": {
+        "errorTimeLayer": "{{id}} kimliğine sahip katman hazırlanırken bir hata oluştu: {{error}}"
+      },
       "layerSwiper": {
         "description": "Swiper fareyle veya klavyenin ok tuşlarıyla hareket ettirilebilir. Ok tuşları kullanıldığında Swiper ilgili yönde {{amount}}px hareket eder.",
         "title": "Katmanları karşılaştır"

@@ -1493,6 +1493,9 @@
       }
     },
     "wmsTime": {
+      "layer": {
+         "errorTimeLayer": "Error while retrieving information for the layer with the id {{id}}: {{error}}"
+      },
       "layerSwiper": {
         "description": "To move the swiper one can use the mouse or the arrow keys. When using the left and right arrow keys the layer is moved {{amount}}px to the respective side.",
         "title": "Compare layers"
