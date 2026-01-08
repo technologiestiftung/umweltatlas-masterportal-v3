@@ -3,7 +3,10 @@ import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isWebLink} from "../../../shared/js/utils/urlHelper";
 import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import UrlInput from "../../../shared/modules/urlInput/components/UrlInput.vue";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
+import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -27,11 +30,15 @@ export default {
     components: {
         LegendSingleLayer,
         AccordionItem,
-        LayerInfoContactButton
+        LayerInfoContactButton,
+        UrlInput
     },
     data () {
         return {
-            activeTab: "layerinfo-legend"
+            activeTab: "layerinfo-legend",
+            uaImgLink: "./resources/img/logo-umweltatlas.svg",
+            berlinImgLink: "./resources/img/berlin.png",
+            imgLink: "./resources/img/person-circle.svg"
         };
     },
     computed: {
@@ -58,8 +65,12 @@ export default {
             "mainMenu",
             "secondaryMenu"
         ]),
+        ...mapGetters(["allLayerConfigsStructured"]),
         showAdditionalMetaData () {
             return this.layerInfo.metaURL !== null && typeof this.abstractText !== "undefined" && this.abstractText !== this.noMetadataLoaded;
+        },
+        showAbstractText () {            
+            return typeof this.abstractText !== "undefined" && this.abstractText !== null && this.abstractText !== "" && this.abstractText !== "<p>undefined</p>";
         },
         showCustomMetaData () {
             return this.customText;
@@ -92,7 +103,9 @@ export default {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            const poc = Array.isArray(this.pointOfContact) ? this.pointOfContact : (this.pointOfContact ? [this.pointOfContact] : []);
+            const pub = Array.isArray(this.publisher) ? this.publisher : (this.publisher ? [this.publisher] : []);
+            return poc.length ? poc : pub; // fallback to publisher if no pointOfContact
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -100,9 +113,25 @@ export default {
                 : "secondaryMenu";
         },
         layerName () {
+            
             return this.menuIndicator === "mainMenu"
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
+        },
+        uaData(){      
+            return {
+                uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
+                uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
+                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaContact: this.layerInfo?.uaContact ?? null,
+                uaNameLang: this.layerInfo?.uaNameLang ?? null
+            }
+        },
+        fullPath(){
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+            let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
+            fullPath.pop();
+            return fullPath;
         }
     },
 
@@ -130,6 +159,9 @@ export default {
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
+        ...mapActions("Modules/SearchBar", [
+            "showInTree"
+        ]),
         isWebLink,
 
         /**
@@ -173,6 +205,9 @@ export default {
                 urlObject.searchParams.set("REQUEST", "GetCapabilities");
             }
             return urlObject.href;
+        },
+        openInLayerTree (id) {
+            this.showInTree({layerId: id});
         }
     }
 };
@@ -182,69 +217,156 @@ export default {
     <div
         id="modules-layer-information"
     >
+        <div v-if="fullPath" class="mb-4">
+            <span
+                v-for="(key, value) in fullPath"
+                :key="key"
+                class="mb-0"
+            >
+                <a 
+                    @click="openInLayerTree(fullPath[value].id)"
+                    href="#" 
+                    class="ua-breadcrumbs"
+                >
+                    {{ fullPath[value].name }}
+                </a>
+                <span> / </span>
+            </span>
+        </div>
+
         <div
+            v-if="showAbstractText"
             class="mb-2 abstract"
             v-html="abstractText"
         />
-        <br>
+
+        <p v-if="showPublication || showRevision">
+            <span v-if="showPublication">
+                {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+            </span>
+            <span v-if="showRevision">
+                <br>
+                {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
+            </span>
+        </p>
+
         <AccordionItem
-            v-if="contact"
-            id="layer-info-contact"
-            :title="$t('common:modules.layerInformation.pointOfContact')"
+            v-if="uaData.uaInfoURL"
+            id="layer-info-ua"
+            :title="'Über diesen Datensatz'"
             :is-open="false"
             :font-size="'font-size-base'"
-            :coloured-header="false"
+            :coloured-header="true"
+            :coloured-body="true"
+            :header-bold="true"
         >
-            <p>
-                {{ contact.name }}
-            </p>
-            <p
-                v-for="(positionName) in contact.positionName"
-                :key="positionName"
-            >
-                {{ positionName }}
-            </p>
-            <p>
-                {{ contact.street + "  " + contact.postalCode }}
-            </p>
-            <p>
-                {{ contact.city }}
-            </p>
-            <a
-                :href="'mailto:' + contact.email"
-            >
-                {{ contact.email }}
-            </a>
+            <span class="ua-break-parent">
+                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                    <a :href=uaData.uaInfoURL target="_blank">
+                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                    </a>
+                </span>
+                <p class="ua-break-two">
+                    Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
+                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                </p>
+            </span>
+            <span class="ua-break-parent">
+                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
+                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                    </a>
+                </span>
+                <p class="ua-break-two" v-if="uaData.uaGdiURL">
+                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
+                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                </p>
+            </span>
         </AccordionItem>
-        <LayerInfoContactButton
-            :layer-name="layerName"
-            previous-component="layerInformation"
-        />
-        <div v-if="showAdditionalMetaData">
-            <p
-                v-for="url in metaURLs"
-                :key="url"
-                class="float-end"
-            >
-                <a
-                    :href="url"
-                    target="_blank"
+
+        <AccordionItem
+            v-if="contact.length || uaData.uaContact"
+            id="layer-info-contact"
+            :title="$t('Kontakt')"
+            :is-open="false"
+            :font-size="'font-size-base'"
+            :coloured-header="true"
+            :coloured-body="true"
+            :header-bold="true"
+        >
+            <span v-if="contact.length" class="contact-wrapper">
+                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
+                <div
+                v-for="(c, idx) in contact"
+                :key="c.email || c.name || idx"
+                class="ua-break-parent"
+                style="padding-bottom: 10px;"
                 >
-                    {{ $t("common:modules.layerInformation.additionalMetadata") }}
-                </a>
-            </p>
-        </div>
-        <br>
-        <br>
-        <p v-if="showPublication">
-            {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+                    <div>
+                        <img :src="imgLink" alt="" class="ua-person-img">
+                    </div>
+                    <div class="ua-break-two" style="flex: 1 1 0%;">
+                        <p v-if="c?.name">{{ c.name }}</p>
+                        <p
+                        v-for="pos in (c?.positionName || [])"
+                        :key="pos"
+                        v-if="(c?.positionName || []).length"
+                        >
+                            {{ pos }}
+                        </p>
+                        <p v-if="c?.individualName">{{ c.individualName }}</p>
+                        <p v-if="c?.phone">{{ c.phone }}</p>
+                        <!-- street + postalCode + city (your current output is a bit odd; this is a cleaner version) -->
+                        <p v-if="c?.street || c?.postalCode">
+                        {{ [c.street, c.postalCode].filter(Boolean).join(" ") }}
+                        </p>
+                        <p v-if="c?.city">{{ c.city }}</p>
+                        <a v-if="c?.email" :href="'mailto:' + c.email">{{ c.email }}</a>
+                    </div>
+                </div>
+            </span>
+
+            <span v-if="uaData.uaContact" class="ua-contact-wrapper">
+                <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
+                <div class="ua-break-parent">
+                    <div>
+                        <img :src=imgLink alt="" class="ua-person-img">
+                    </div>
+                    <div class="ua-break-two">
+                        <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen</p>
+                        <p v-if="uaData.uaContact.name">
+                            {{ uaData.uaContact.name }}
+                        </p>
+                        <p v-if="uaData.uaContact.tel">
+                            {{ uaData.uaContact.tel }}
+                        </p>
+                        <a
+                            v-if="uaData.uaContact.email"
+                            :href="'mailto:' + uaData.uaContact.email"
+                        >
+                            {{ uaData.uaContact.email }}
+                        </a>
+                    </div>
+                </div>
+       
+                <p class="pb-2"></p>
+            </span>
+
+        </AccordionItem>
+
+        <p class="mb-4" v-if="uaData.uaDownload">
+            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+                <button
+                    class="btn btn-light w-100 ua-button"
+                    type="button"
+                    :aria-label="'text'"
+                >
+                    <i class="bi-download" style="padding-right: 2px;"/>
+                    Karte als PDF herunterladen
+                </button>
+            </a>
         </p>
-        <p v-if="showRevision">
-            {{ $t("common:modules.layerInformation.lastModified") }}: {{ dateRevision }}
-        </p>
-        <p v-if="showPeriodicity">
-            {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ $t(periodicityKey) }}
-        </p>
+
         <template
             v-if="showCustomMetaData"
         >
@@ -270,7 +392,9 @@ export default {
                 </p>
             </div>
         </template>
+
         <hr>
+
         <nav role="navigation">
             <ul class="nav nav-tabs">
                 <li
@@ -334,29 +458,21 @@ export default {
                 :show="isActiveTab('LayerInfoDataDownload')"
                 :type="String('LayerInfoDataDownload')"
             >
-                <div class="col-lg-7">
+                <div class="">
                     <ul
                         v-if="showDownloadLinks"
-                        class="pt-5"
+                        class="pt-5 pl-2"
+                        style="padding-bottom: 0px;"
                     >
                         <li
-                            v-for="downloadLink in downloadLinks"
+                             v-for="downloadLink in downloadLinks"
                             :key="downloadLink.linkName"
+                            class="mb-4"
                         >
-                            <a
-                                :href="downloadLink.link"
-                                target="_blank"
-                            >
-                                {{ $t(downloadLink.linkName) }}
-                            </a>
+                            <p class="pb-0 pt-0 mt-0 mb-2">{{ downloadLink.linkName }}</p>
+                            <UrlInput :layerUrl="downloadLink.link"/>
                         </li>
                     </ul>
-                </div>
-                <div
-                    v-if="(showAttachFile)"
-                    class="col-lg-5 pt-5"
-                >
-                    <span class="bold">{{ $t(("common:modules.layerInformation.attachFileMessage")) }}</span>
                 </div>
             </div>
             <div
@@ -389,16 +505,7 @@ export default {
                     v-else
                     class="pt-5"
                 >
-                    <ul>
-                        <li>
-                            <a
-                                :href="layerUrl"
-                                target="_blank"
-                            >
-                                {{ layerInfo.url }}
-                            </a>
-                        </li>
-                    </ul>
+                    <UrlInput :layerUrl="layerUrl"/>
                 </div>
             </div>
         </div>
@@ -407,6 +514,65 @@ export default {
 
 <style lang="scss">
     @import "~variables";
+
+    .ua-breadcrumbs{
+        color: #000; 
+        opacity: 0.7;
+
+        &:hover{
+            opacity: 1; 
+        }
+    }
+
+    .ua-button{
+        border: 1px solid #ddd;
+        margin: 10px 0px;
+        border-radius: 5px;
+        width: fit-content !important;
+        margin-top: 16px;
+        // float: right;
+    }
+
+    .ua-contact-wrapper p {
+        margin-bottom: 0px;
+    }
+
+    .ua-dark-green{
+       color: $dark_green
+    }
+
+    .contact-wrapper p {
+        margin-bottom: 0px;
+    }
+
+    .ua-break-parent {
+      display: flex;
+      flex-wrap: wrap; /* Allows wrapping of children if space is not enough */
+    }
+
+    .ua-break-one {
+        width: 60px;
+        box-sizing: border-box;
+        margin-right: 10px;
+    }
+
+    /* Second child, which takes up the remaining space */
+    .ua-break-two {
+        flex: 1;
+        box-sizing: border-box;
+        min-width: 200px;
+    }
+
+    .bi-person-circle{
+        font-size: 60px;
+        color: $dark_green
+    }
+
+    .ua-person-img{
+        padding-right: 12px;
+        padding-bottom: 4px;
+        width: 60px;
+    }
 
     hr {
         margin: 15px 0 10px 0;
