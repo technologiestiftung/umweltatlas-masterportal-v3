@@ -103,7 +103,9 @@ export default {
             return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            const poc = Array.isArray(this.pointOfContact) ? this.pointOfContact : (this.pointOfContact ? [this.pointOfContact] : []);
+            const pub = Array.isArray(this.publisher) ? this.publisher : (this.publisher ? [this.publisher] : []);
+            return poc.length ? poc : pub; // fallback to publisher if no pointOfContact
         },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
@@ -283,7 +285,7 @@ export default {
         </AccordionItem>
 
         <AccordionItem
-            v-if="contact || uaData.uaContact"
+            v-if="contact.length || uaData.uaContact"
             id="layer-info-contact"
             :title="$t('Kontakt')"
             :is-open="false"
@@ -292,43 +294,34 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact" class="contact-wrapper">
+            <span v-if="contact.length" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
-                <div class="ua-break-parent">
-                    <!-- <i class="bi-person-circle ua-break-one" style="padding-right: 12px;"></i> -->
+                <div
+                v-for="(c, idx) in contact"
+                :key="c.email || c.name || idx"
+                class="ua-break-parent"
+                style="padding-bottom: 10px;"
+                >
                     <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
+                        <img :src="imgLink" alt="" class="ua-person-img">
                     </div>
                     <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="contact?.name">
-                            {{ contact.name }}
-                        </p>
+                        <p v-if="c?.name">{{ c.name }}</p>
                         <p
-                            v-if="contact?.positionName"
-                            v-for="(positionName) in contact.positionName"
-                            :key="positionName"
+                        v-for="pos in (c?.positionName || [])"
+                        :key="pos"
+                        v-if="(c?.positionName || []).length"
                         >
-                            {{ positionName }}
+                            {{ pos }}
                         </p>
-                        <p v-if="contact?.individualName">
-                            {{ contact.individualName }}
+                        <p v-if="c?.individualName">{{ c.individualName }}</p>
+                        <p v-if="c?.phone">{{ c.phone }}</p>
+                        <!-- street + postalCode + city (your current output is a bit odd; this is a cleaner version) -->
+                        <p v-if="c?.street || c?.postalCode">
+                        {{ [c.street, c.postalCode].filter(Boolean).join(" ") }}
                         </p>
-                        <p v-if="contact?.phone">
-                            {{ contact.phone }}
-                        </p>
-                        <p v-if="contact?.street && contact?.postalCode">
-                            {{ contact.street + "  " + contact.postalCode }}
-                        </p>
-                        <p v-if="contact?.name">
-                            {{ contact.city }}
-                        </p>
-                        <a
-                            v-if="contact?.email"
-                            :href="'mailto:' + contact.email"
-                        >
-                            {{ contact.email }}
-                        </a>
-                        <p class="pb-4"></p>
+                        <p v-if="c?.city">{{ c.city }}</p>
+                        <a v-if="c?.email" :href="'mailto:' + c.email">{{ c.email }}</a>
                     </div>
                 </div>
             </span>
