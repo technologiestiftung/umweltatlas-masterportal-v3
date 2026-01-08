@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Issue #1524: draw_old: Added documentation for drawSquareSettings.
 
 ### Changed
 
