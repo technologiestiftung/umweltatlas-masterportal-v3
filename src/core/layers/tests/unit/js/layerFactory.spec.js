@@ -2,20 +2,26 @@ import {expect} from "chai";
 import Map from "ol/Map.js";
 import sinon from "sinon";
 import View from "ol/View.js";
+import store from "@appstore/index.js";
 
 import layerFactory from "@core/layers/js/layerFactory.js";
 
 describe("src/core/js/layers/layerFactory.js", () => {
     let layerConfig,
         map,
-        warn;
+        warn,
+        origGetters;
 
     before(() => {
+        origGetters = store.getters;
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
     });
 
     beforeEach(() => {
+        store.getters = {
+            isModuleAvailable: sinon.stub().returns(false)
+        };
         layerConfig = [
             {
                 id: "453",
@@ -52,6 +58,7 @@ describe("src/core/js/layers/layerFactory.js", () => {
     });
 
     after(() => {
+        store.getters = origGetters;
         sinon.restore();
     });
 

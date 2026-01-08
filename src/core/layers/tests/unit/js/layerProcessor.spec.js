@@ -10,9 +10,11 @@ import {processLayerConfig, setResolutions, updateLayerAttributes} from "@core/l
 describe("src/core/js/layers/layerProcessor.js", () => {
     let layerConfig,
         map,
-        warn;
+        warn,
+        origGetters;
 
     before(() => {
+        origGetters = store.getters;
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
     });
@@ -39,6 +41,7 @@ describe("src/core/js/layers/layerProcessor.js", () => {
         store.getters = {
             layerConfigById: () => true,
             determineZIndex: sinon.stub().returns(2),
+            isModuleAvailable: sinon.stub().returns(false),
             "Maps/getResolutionByScale": sinon.stub().callsFake(function (scale, attribute) {
                 if (attribute === "max") {
                     return scale / 100;
@@ -60,6 +63,7 @@ describe("src/core/js/layers/layerProcessor.js", () => {
     });
 
     afterEach(() => {
+        store.getters = origGetters;
         sinon.restore();
     });
 
