@@ -9,6 +9,7 @@
 
 ### Added
 - Issue #1524: draw_old: Added documentation for drawSquareSettings.
+- WMS-Time: The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
 
 ### Changed
 
@@ -31,9 +32,7 @@
 - Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
 - Issue: #1525: convertFeaturesToKml: Added alert for unsupported geometry types.
 - LayerSelection: All layers in a folder can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject` configurable in config.json.
-- WMS-Time:
-    - The default value can now be specified as a number within the dimension.
-    - The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
+- WMS-Time: The default value can now be specified as a number within the dimension.
 
 ### Changed
 - Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
