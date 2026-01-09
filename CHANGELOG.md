@@ -14,7 +14,7 @@
 - LayerTree: Added LayerComponentIconCustom to provide a custom action button for layers that can execute Masterportal actions.
 
 ### Changed
-- Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries. 
+- Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.54.0 to 2.55.0
@@ -23,6 +23,7 @@
 
 ### Removed
 - Issue #1541: Removed one-var and vars-on-top linting rules for improved dev experience.
+- Remove the `authenticationUrl` attribute from the documentation, as it is no longer used.
 
 ### Fixed
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
