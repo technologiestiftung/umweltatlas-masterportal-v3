@@ -205,6 +205,26 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
             expect(result).to.be.equals("2021-12-25");
         });
+
+        it("should return timRange[0] and print a console.warn, if configuredDefault isn't include in timeRange", () => {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                timeRange = [
+                    "2021-12-25",
+                    "2022-03-25",
+                    "2022-06-23",
+                    "2022-08-20",
+                    "2022-10-26",
+                    "2023-02-08",
+                    "2023-06-13",
+                    "2023-09-16"
+                ],
+                extentDefault = undefined,
+                configuredDefault = "2020-12-25",
+                result = wmsTimeLayer.determineDefault(timeRange, extentDefault, configuredDefault);
+
+            expect(result).to.be.equals("2021-12-25");
+            expect(warnSpy.calledOnce).to.be.true;
+        });
     });
     it("extractExtentValues if they are in dimension", function () {
         const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
@@ -578,6 +598,59 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
             expect(axiosGetStub.calledOnce).to.be.true;
             expect(axiosGetStub.firstCall.args[0]).to.equals(dimensionRange);
+        });
+    });
+
+    describe("retrieveStaticDimensions", () => {
+        it("should return the static dimensions attributes from layer node", () => {
+            const staticDimensionsNames = ["elevation", "REFERENCE_TIME"],
+                layerNode = new DOMParser().parseFromString("<Layer queryable='1' opaque='0'>"
+                    + "<Dimension name='time' default='current' units='ISO8601'>2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H</Dimension>"
+                    + "<Dimension name='elevation' default='2.0' units='EPSG:5030' unitSymbol='m'>2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0</Dimension>"
+                    + "<Dimension name='REFERENCE_TIME' default='2026-01-09T06:00:00.000Z' units='ISO8601'>2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z</Dimension>"
+                    + "</Layer>", "text/xml").documentElement,
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
+
+            expect(wmsTimeLayer.retrieveStaticDimensions(staticDimensionsNames, layerNode)).to.deep.equals(
+                [
+                    {
+                        value: "2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0",
+                        name: "elevation",
+                        default: "2.0",
+                        units: "EPSG:5030",
+                        unitSymbol: "m"
+                    },
+                    {
+                        name: "REFERENCE_TIME",
+                        default: "2026-01-09T06:00:00.000Z",
+                        units: "ISO8601",
+                        value: "2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z"
+                    }
+                ]
+            );
+        });
+
+        it("should return the an empty array, if input param staticDimensions is empty", () => {
+            const staticDimensionsNames = [],
+                layerNode = new DOMParser().parseFromString("<Layer queryable='1' opaque='0'>"
+                    + "<Dimension name='time' default='current' units='ISO8601'>2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H</Dimension>"
+                    + "<Dimension name='elevation' default='2.0' units='EPSG:5030' unitSymbol='m'>2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0</Dimension>"
+                    + "<Dimension name='REFERENCE_TIME' default='2026-01-09T06:00:00.000Z' units='ISO8601'>2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z</Dimension>"
+                    + "</Layer>", "text/xml").documentElement,
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
+
+            expect(wmsTimeLayer.retrieveStaticDimensions(staticDimensionsNames, layerNode)).to.be.an("array").that.is.empty;
+        });
+
+        it("should return the an empty array and print a console.warn, if the static dimension doesn't exist in the layernode", () => {
+            const staticDimensionsNames = ["elevation"],
+                layerNode = new DOMParser().parseFromString("<Layer queryable='1' opaque='0'>"
+                    + "<Dimension name='time' default='current' units='ISO8601'>2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H</Dimension>"
+                    + "</Layer>", "text/xml").documentElement,
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
+
+            expect(wmsTimeLayer.retrieveStaticDimensions(staticDimensionsNames, layerNode)).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
         });
     });
 });
