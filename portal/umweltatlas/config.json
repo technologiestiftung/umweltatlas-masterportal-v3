@@ -7812,17 +7812,32 @@
                     {
                       "name": "06.01.1 Reale Nutzung",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020",
+                          "name": "2020 - Reale Nutzung (Flächennutzung 2020 (Umweltatlas))"
+                        }
+                      ]
                     },
                     {
                       "name": "06.02 Grün- und Freiflächenbestand",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
+                          "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung 2020 (Umweltatlas))"
+                        }
+                      ]
                     },
                     {
                       "name": "06.02.1 Reale Nutzung und Vegetationsbedeckung",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
+                          "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2020 (Umweltatlas))"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -8099,7 +8114,12 @@
                     {
                       "name": "06.08 Stadtstruktur - Flächentypen differenziert",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_stadtstruktur_2020:ua_stadtstruktur_diff_2020",
+                          "name": "2020 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur 2020 (Umweltatlas))"
+                        }
+                      ]
                     }
                   ]
                 },
