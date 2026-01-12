@@ -14017,6 +14017,190 @@
     }
   },
   {
+    "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
+    "name": "Reale Nutzung der bebauten Flächen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "a_reale_nutzung_bebaute_flaechen_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
+    "name": "Grün- und Freiflächenbestand 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "b_gruen_und_freiflaechenbestand_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:c_reale_nutzung_2022",
+    "name": "Reale Nutzung 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "c_reale_nutzung_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "d_reale_nutzung_vegetationsbedeckung_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
+    "name": "Reale Nutzung der bebauten Flächen 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "a_reale_nutzung_bebaute_flaechen_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
+    "name": "Grün- und Freiflächenbestand 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "b_gruen_und_freiflaechenbestand_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:c_reale_nutzung_2021",
+    "name": "Reale Nutzung 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "c_reale_nutzung_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung",
+    "typ": "WMS",
+    "layers": "d_reale_nutzung_vegetationsbedeckung_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8e2a997c-1256-4721-b036-fc41104e58a9",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "ua_oberflaechentemperatur_2000:day2000",
     "name": "Oberflächentemperaturen am Morgen 2000 (Umweltatlas)",
     "crs": "EPSG:25833",
@@ -24483,6 +24667,98 @@
       "tel": "Tel.: +49 30 90139 5360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "ua_stadtstruktur:a_stadtstruktur_2022",
+    "name": "Stadtstruktur 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur",
+    "typ": "WMS",
+    "layers": "a_stadtstruktur_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e851750b-164c-4cf3-af4d-ba1e7c168484",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
+    "name": "Stadtstruktur - Flächentypen differenziert 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur",
+    "typ": "WMS",
+    "layers": "b_stadtstruktur_differenziert_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e851750b-164c-4cf3-af4d-ba1e7c168484",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stadtstruktur:a_stadtstruktur_2021",
+    "name": "Stadtstruktur 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur",
+    "typ": "WMS",
+    "layers": "a_stadtstruktur_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e851750b-164c-4cf3-af4d-ba1e7c168484",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
+    "name": "Stadtstruktur - Flächentypen differenziert 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur",
+    "typ": "WMS",
+    "layers": "b_stadtstruktur_differenziert_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e851750b-164c-4cf3-af4d-ba1e7c168484",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   },
   {
     "id": "ua_flaechennutzung_2005:gruen_und_freiflaechenbestand_2005",
