@@ -17,7 +17,9 @@
 ### Removed
 
 ### Fixed
+- FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
 - LayerPills: Fix layer sequence so that it matches the LayerTree when opening via a link.
+- Documentation: Added jsDoc to shared Input Components.
 
 ---
 
@@ -61,10 +63,9 @@
 - WFS-cluster: Fix a recursive style loop that triggered a ‘Maximum call stack size exceeded’ error.
 - MapMarker: Fix marker visibility after ShareView.
 - MkDocs: Fixed MkDocs formatting and heading anchor issues and ensured the CI pipeline fails immediately on MkDocs warnings and errors.
-- FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
 - Documentation: correct example configuration for FeatureLister.
 - Translations: Added missing translations across all locales.
-- Documentation: Added jsDoc to shared Button and shared Input Components.
+- Documentation: Added jsDoc to shared Button Components.
 
 ---
 
