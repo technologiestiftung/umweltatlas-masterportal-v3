@@ -653,4 +653,128 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             expect(warnSpy.calledOnce).to.be.true;
         });
     });
+
+    describe("retrieveTimeData ", () => {
+        it("should return dimension, extent and staticDimensions time data", () => {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                xmlCapabilities = "<WMS_Capabilities xmlns:inspire_vs='http://inspire.ec.europa.eu/schemas/inspire_vs/1.0' xmlns:inspire_common='http://inspire.ec.europa.eu/schemas/common/1.0' xmlns='http://www.opengis.net/wms' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' version='1.3.0' updateSequence='23709' xsi:schemaLocation='http://www.opengis.net/wms https://maps.dwd.de/geoserver/schemas/wms/1.3.0/capabilities_1_3_0.xsd http://inspire.ec.europa.eu/schemas/inspire_vs/1.0 https://inspire.ec.europa.eu/schemas/inspire_vs/1.0/inspire_vs.xsd'>"
+                    + "<Capability>"
+                    + "<Layer queryable='1' opaque='0'>"
+                    + "<Name>Icon-eu_reg00625_fd_gl_T</Name>"
+                    + "<Dimension name='time' default='current' units='ISO8601'>2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H</Dimension>"
+                    + "<Dimension name='elevation' default='2.0' units='EPSG:5030' unitSymbol='m'>2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0</Dimension>"
+                    + "<Dimension name='REFERENCE_TIME' default='2026-01-09T06:00:00.000Z' units='ISO8601'>2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z</Dimension>"
+                    + "</Layer>"
+                    + "</Capability>"
+                    + "</WMS_Capabilities>",
+                layerName = "Icon-eu_reg00625_fd_gl_T",
+                timeSpecification = {
+                    dimensionName: "time",
+                    extentName: "time",
+                    staticDimensions: {
+                        elevation: true,
+                        REFERENCE_TIME: true
+                    }
+                };
+
+            expect(wmsTimeLayer.retrieveTimeData(xmlCapabilities, layerName, timeSpecification)).to.deep.equals(
+                {
+                    dimension: {
+                        default: "current",
+                        name: "time",
+                        units: "ISO8601",
+                        value: "2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H"
+                    },
+                    extent: null,
+                    staticDimensions: [
+                        {
+                            default: "2.0",
+                            name: "elevation",
+                            unitSymbol: "m",
+                            units: "EPSG:5030",
+                            value: "2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0"
+                        },
+                        {
+                            default: "2026-01-09T06:00:00.000Z",
+                            name: "REFERENCE_TIME",
+                            units: "ISO8601",
+                            value: "2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z"
+                        }
+                    ]
+                }
+            );
+        });
+
+        it("should return dimension, extent and staticDimension as empty array, if no staticDimensions are configured", () => {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                xmlCapabilities = "<WMS_Capabilities xmlns:inspire_vs='http://inspire.ec.europa.eu/schemas/inspire_vs/1.0' xmlns:inspire_common='http://inspire.ec.europa.eu/schemas/common/1.0' xmlns='http://www.opengis.net/wms' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' version='1.3.0' updateSequence='23709' xsi:schemaLocation='http://www.opengis.net/wms https://maps.dwd.de/geoserver/schemas/wms/1.3.0/capabilities_1_3_0.xsd http://inspire.ec.europa.eu/schemas/inspire_vs/1.0 https://inspire.ec.europa.eu/schemas/inspire_vs/1.0/inspire_vs.xsd'>"
+                    + "<Capability>"
+                    + "<Layer queryable='1' opaque='0'>"
+                    + "<Name>Icon-eu_reg00625_fd_gl_T</Name>"
+                    + "<Dimension name='time' default='current' units='ISO8601'>2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H</Dimension>"
+                    + "<Dimension name='elevation' default='2.0' units='EPSG:5030' unitSymbol='m'>2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0</Dimension>"
+                    + "<Dimension name='REFERENCE_TIME' default='2026-01-09T06:00:00.000Z' units='ISO8601'>2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z</Dimension>"
+                    + "</Layer>"
+                    + "</Capability>"
+                    + "</WMS_Capabilities>",
+                layerName = "Icon-eu_reg00625_fd_gl_T",
+                timeSpecification = {
+                    dimensionName: "time",
+                    extentName: "time"
+                };
+
+            expect(wmsTimeLayer.retrieveTimeData(xmlCapabilities, layerName, timeSpecification)).to.deep.equals(
+                {
+                    dimension: {
+                        default: "current",
+                        name: "time",
+                        units: "ISO8601",
+                        value: "2026-01-08T00:00:00.000Z/2026-01-14T06:00:00.000Z/PT1H"
+                    },
+                    extent: null,
+                    staticDimensions: []
+                }
+            );
+        });
+    });
+
+    describe("updateTime", () => {
+        it("should update the params TIME and staticDimension in layerSource", () => {
+            const id = "Icon-eu_reg00625_fd_gl_T_3",
+                newValue = "2026-01-12T11:00:00.000Z",
+                staticDimensions = {
+                    elevation: "2.0",
+                    REFERENCE_TIME: "2026-01-11T00:00:00.000Z"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, id}),
+                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams");
+
+            wmsTimeLayer.updateTime(id, newValue, staticDimensions);
+
+            expect(updateParamsSpy.calledOnce).to.be.true;
+            expect(updateParamsSpy.firstCall.args[0]).to.deep.equals(
+                {
+                    TIME: "2026-01-12T11:00:00.000Z",
+                    elevation: "2.0",
+                    REFERENCE_TIME: "2026-01-11T00:00:00.000Z"
+                }
+            );
+        });
+
+        it("should update the params TIME without staticDimension in layerSource, if staticDimensions were not passed", () => {
+            const id = "Icon-eu_reg00625_fd_gl_T_3",
+                newValue = "2026-01-12T11:00:00.000Z",
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, id}),
+                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams");
+
+            wmsTimeLayer.updateTime(id, newValue);
+
+            expect(updateParamsSpy.calledOnce).to.be.true;
+            expect(updateParamsSpy.firstCall.args[0]).to.deep.equals(
+                {
+                    TIME: "2026-01-12T11:00:00.000Z"
+                }
+            );
+        });
+    });
 });
