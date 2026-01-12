@@ -7706,34 +7706,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2023",
-                                  "name": "Reale Nutzung der bebauten Flächen 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2023",
+                              "name": "Reale Nutzung der bebauten Flächen 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
-                                  "name": "Reale Nutzung der bebauten Flächen 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
+                              "name": "Reale Nutzung der bebauten Flächen 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
-                                  "name": "Reale Nutzung der bebauten Flächen 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
+                              "name": "Reale Nutzung der bebauten Flächen 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
@@ -7748,34 +7730,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:c_reale_nutzung_2023",
-                                  "name": "Reale Nutzung 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:c_reale_nutzung_2023",
+                              "name": "Reale Nutzung 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:c_reale_nutzung_2022",
-                                  "name": "Reale Nutzung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:c_reale_nutzung_2022",
+                              "name": "Reale Nutzung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:c_reale_nutzung_2021",
-                                  "name": "Reale Nutzung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:c_reale_nutzung_2021",
+                              "name": "Reale Nutzung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
@@ -7790,34 +7754,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2023",
-                                  "name": "Grün- und Freiflächenbestand 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2023",
+                              "name": "Grün- und Freiflächenbestand 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
-                                  "name": "Grün- und Freiflächenbestand 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
+                              "name": "Grün- und Freiflächenbestand 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
-                                  "name": "Grün- und Freiflächenbestand 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
+                              "name": "Grün- und Freiflächenbestand 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
@@ -7832,34 +7778,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2023",
-                                  "name": "Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2023",
+                              "name": "Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
-                                  "name": "Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
+                              "name": "Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
-                                  "name": "Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
+                              "name": "Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
@@ -8113,34 +8041,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:a_stadtstruktur_2023",
-                                  "name": "Stadtstruktur 2023 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:a_stadtstruktur_2023",
+                              "name": "Stadtstruktur 2023 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:a_stadtstruktur_2022",
-                                  "name": "Stadtstruktur 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:a_stadtstruktur_2022",
+                              "name": "Stadtstruktur 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:a_stadtstruktur_2021",
-                                  "name": "Stadtstruktur 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:a_stadtstruktur_2021",
+                              "name": "Stadtstruktur 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
@@ -8155,34 +8065,16 @@
                           "type": "folder",
                           "elements": [
                             {
-                              "name": "2023",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2023",
-                                  "name": "Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2023",
+                              "name": "Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2022",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
-                                  "name": "Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
+                              "name": "Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             },
                             {
-                              "name": "2021",
-                              "type": "folder",
-                              "elements": [
-                                {
-                                  "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
-                                  "name": "Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
-                                }
-                              ]
+                              "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
+                              "name": "Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
                             }
                           ]
                         }
