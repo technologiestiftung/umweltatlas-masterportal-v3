@@ -7694,7 +7694,7 @@
               "type": "folder",
               "elements": [
                 {
-                  "name": "ab 2021",
+                  "name": "2023",
                   "type": "folder",
                   "elements": [
                     {
@@ -7734,6 +7734,98 @@
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2023",
                           "name": "Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2022",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.01 Reale Nutzung der bebauten Flächen",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
+                          "name": "Reale Nutzung der bebauten Flächen 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.01.1 Reale Nutzung",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:c_reale_nutzung_2022",
+                          "name": "Reale Nutzung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.02 Grün- und Freiflächenbestand",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
+                          "name": "Grün- und Freiflächenbestand 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.02.1 Reale Nutzung und Vegetationsbedeckung",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
+                          "name": "Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2021",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.01 Reale Nutzung der bebauten Flächen",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
+                          "name": "Reale Nutzung der bebauten Flächen 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.01.1 Reale Nutzung",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:c_reale_nutzung_2021",
+                          "name": "Reale Nutzung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.02 Grün- und Freiflächenbestand",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
+                          "name": "Grün- und Freiflächenbestand 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.02.1 Reale Nutzung und Vegetationsbedeckung",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
+                          "name": "Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung (Umweltatlas) - ab 2021)"
                         }
                       ]
                     }
@@ -7973,7 +8065,7 @@
               "type": "folder",
               "elements": [
                 {
-                  "name": "ab 2021",
+                  "name": "2023",
                   "type": "folder",
                   "elements": [
                     {
@@ -7993,6 +8085,58 @@
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2023",
                           "name": "Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2022",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.07 Stadtstruktur",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stadtstruktur:a_stadtstruktur_2022",
+                          "name": "Stadtstruktur 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.08 Stadtstruktur - Flächentypen differenziert",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
+                          "name": "Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2021",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.07 Stadtstruktur",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stadtstruktur:a_stadtstruktur_2021",
+                          "name": "Stadtstruktur 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "06.08 Stadtstruktur - Flächentypen differenziert",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
+                          "name": "Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur (Umweltatlas) - ab 2021)"
                         }
                       ]
                     }
@@ -8662,22 +8806,6 @@
               "type": "folder",
               "elements": [
                 {
-                  "name": "fortlaufend aktualisiert",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "06.10.1 Gebäudehöhen",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_gebaeudehoehen:gebaeudehoehen",
-                          "name": "2022 - Gebäudehöhen (Gebäudehöhen (Umweltatlas))"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
                   "name": "2012",
                   "type": "folder",
                   "elements": [
@@ -8700,6 +8828,22 @@
                         {
                           "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10veg_phase2_2009",
                           "name": "2009 (Umweltatlas) - Vegetationshöhen (Phase 2) (Gebäude- und Vegetationshöhen 2009/2010 (Umweltatlas))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "fortlaufend aktualisiert",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.10.1 Gebäudehöhen",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_gebaeudehoehen:gebaeudehoehen",
+                          "name": "2022 - Gebäudehöhen (Gebäudehöhen (Umweltatlas))"
                         }
                       ]
                     }
