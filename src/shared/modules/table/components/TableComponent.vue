@@ -14,6 +14,39 @@ import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
 import GeoJSON from "ol/format/GeoJSON.js";
 
+/**
+ * TableComponent: A variable component to show data in a table.
+ * @module shared/modules/table/TableComponent
+ * @vue-prop {Array} additionalColumnsForDownload - can be used to provide additional columns for downloading the table data.
+ * @vue-prop {Object|Boolean} exportData - can be used to define the csv-data to be exported manually.
+ * @vue-prop {Object} data - is the data to be presented in the table.
+ * @vue-prop {Boolean} dynamicColumnTable - can be set to true to make the columns of the tableComponent dynamically alterable by the user.
+ * @vue-prop {String|Boolean} hits - can be set to display the amount of data entries of the table. The information is put above the table. If filled with a string, said string will be the prefix of the display of entries of the table.
+ * @vue-prop {Boolean} showHeader - defaults to true and can be set false to not display the header, thus hiding any information about the columns of the table and only showing raw data.
+ * @vue-prop {Boolean} sortable - can be set to true to make the singular columns of the tableComponent sortable.
+ * @vue-prop {Boolean} fullViewEnabled - if set to true, a toggle-button will be displayed above the table that can enlarge the menu to 95% viewwidth for better readability of big tables.
+ * @vue-prop {Boolean} enableSettings - if set to true, a button is displayed above the table that will open a dropdown menu where the columns of the table can be set to be displayed or hidden, stickied or moved.
+ * @vue-prop {Boolean} filterable - if set to true, each column-header will be clickable, revealing a dropdown menu in which you can filter the table to only display the rows with a specific value in said column.
+ * @vue-prop {String} fontSize - can be set to small or medium, changing the fontSize of the entire table. Default is medium.
+ * @vue-prop {String} title - sets the title of the table, to be displayed above the table.
+ * @vue-prop {Boolean} downloadable - if set to true, a button will be displayed that enables a download of the tables data.
+ * @vue-prop {Array} downloadFormat - can be used to set the download format, default is csv.
+ * @vue-prop {String} exportFileName - sets the name of the downloaded file.
+ * @vue-prop {String} id - can be used to set the id of the encapsulating div, default is tableId.
+ * @vue-prop {String} tableClass - can be set to use custom classes to the div encapsulating the table.
+  * @vue-prop {Object} fixedColumnWithOrder - can set the column with a fixed order in table.
+ * @vue-prop {Object} fixedRow - can set the row in a fixed order in table.
+ * @vue-prop {Object} fixedBottomData - can be used for the data only shown in bottom of table.
+ * @vue-prop {String|Boolean} selectMode - can be set with "row" or "column" to allow to click a whole row or column in table.
+ * @vue-prop {Object|Boolean} totalProp - can be used to set the total count information of data.
+ * @vue-prop {Boolean} sortByNumericValue  - optional, defaults to false. If set to true, data elements are compared by their parsed numeric value when user triggers sorting. By default, they are sorted by their string value.
+ * @vue-prop {Boolean} sortAlphanumerical - if set to true, the sorting will be alphanumerical.
+ * @vue-prop {String|Number|Boolean} maxDecimalPlaces - if set, this will restrict the entries of the table to a fixed number of decimal digits.
+ * @vue-prop {Boolean} removable - if set to true, rows of the tableComponent can be removed from view through a small x left of the row.
+ * @vue-prop {String|Number} maxAttributesToShow - limits the amount of attributes shown in the tableComponent, it defaults to 30.
+ * @vue-prop {Boolean} runSelectRowOnMount - if set to true, the first row of the table will be selected on mounting of tableComponent. Defaults to true.
+ * @vue-prop {Boolean} runSelectOnHover - if set to true, tableComponent emits rowOnHover event on hover over row, only if selectMode is "row".
+ */
 export default {
     name: "TableComponent",
     components: {
@@ -165,7 +198,6 @@ export default {
             required: false,
             default: true
         },
-        // emits rowOnHover event on hover over row, only if selectMode is "row"
         runSelectOnHover: {
             type: Boolean,
             required: false,
@@ -204,6 +236,10 @@ export default {
         ...mapGetters("Menu", ["currentSecondaryMenuWidth", "mainExpanded", "currentMenuWidth"]),
         ...mapGetters("Modules/Language", ["currentLocale"]),
 
+        /**
+         * Prepares the table, sorting data for later functionalities like exports and interactions with table data. Also makes sure metadata does not appear in the final table.
+         * @returns {Object} The table data.
+         */
         editedTable () {
             const table = {
                     headers: [],
