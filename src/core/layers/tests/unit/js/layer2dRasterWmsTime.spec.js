@@ -6,6 +6,7 @@ import axios from "axios";
 
 describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
     let attributes,
+        commitStub,
         origGetters,
         origDispatch,
         origCommit,
@@ -49,6 +50,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
         warnSpy = sinon.spy();
         sinon.stub(console, "error").callsFake(error);
         sinon.stub(console, "warn").callsFake(warnSpy);
+        commitStub = sinon.stub(store, "commit");
         sinon.stub(Layer2dRasterWmsTime.prototype, "requestCapabilities").returns(new Promise(resolve => resolve({status: 200, statusText: "OK", data: {}})));
         attributes = {
             name: "wmsTimeTestLayer",
@@ -69,7 +71,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             isModuleAvailable: sinon.stub().returns(false),
             "Modules/WmsTime/layerSwiper": () => {
                 true;
-            }};
+            }
+        };
     });
 
     afterEach(() => {
@@ -129,6 +132,123 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             }
         });
     });
+
+    describe("createCapabilitiesUrl", () => {
+        it("test params", () => {
+            const wmsTimeUrl = "https://geodienste.hamburg.de/HH_WMS-T_Satellitenbilder_Sentinel-2",
+                version = "1.1.1",
+                layers = "layer1",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                createdUrl = wmsTimeLayer.createCapabilitiesUrl(wmsTimeUrl, version, layers);
+
+            expect(createdUrl.origin).to.eql("https://geodienste.hamburg.de");
+            expect(createdUrl.pathname).to.eql("/HH_WMS-T_Satellitenbilder_Sentinel-2");
+            expect(createdUrl.searchParams.get("service")).to.eql("WMS");
+            expect(createdUrl.searchParams.get("version")).to.eql(version);
+            expect(createdUrl.searchParams.get("layers")).to.eql(layers);
+            expect(createdUrl.searchParams.get("request")).to.eql("GetCapabilities");
+        });
+
+        it("createUrl should respect questionmark in url", () => {
+            const wmsTimeUrl = "https://mapservice.regensburg.de/cgi-bin/mapserv?map=wfs.map",
+                version = "1.1.1",
+                layers = "layer1,layer2",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                createdUrl = wmsTimeLayer.createCapabilitiesUrl(wmsTimeUrl, version, layers);
+
+            expect(createdUrl.origin).to.eql("https://mapservice.regensburg.de");
+            expect(createdUrl.pathname).to.eql("/cgi-bin/mapserv");
+            expect(createdUrl.searchParams.get("map")).to.eql("wfs.map");
+            expect(createdUrl.searchParams.get("service")).to.eql("WMS");
+            expect(createdUrl.searchParams.get("version")).to.eql(version);
+            expect(createdUrl.searchParams.get("layers")).to.eql(layers);
+            expect(createdUrl.searchParams.get("request")).to.eql("GetCapabilities");
+        });
+    });
+
+    describe("createDimensionRangeList", () => {
+        it("should return an array with time values", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    max: "2025-12-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array");
+            expect(dimensionRangeList).to.deep.equals([
+                "2025-01-01T00:00:00.000Z",
+                "2025-03-01T00:00:00.000Z",
+                "2025-05-01T00:00:00.000Z",
+                "2025-07-01T00:00:00.000Z",
+                "2025-09-01T00:00:00.000Z",
+                "2025-11-01T00:00:00.000Z"
+            ]);
+        });
+
+        it("should return an empty array, if the maxmaximum value has not been specified", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+
+        it("should return an empty array, if the min value has not been specified", () => {
+            const dimensionRange = {
+                    max: "2025-12-01T00:00:00.000Z",
+                    resolution: "P2M"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+        it("should return an empty array, if the resolution value has not been specified", () => {
+            const dimensionRange = {
+                    min: "2025-01-01T00:00:00.000Z",
+                    max: "2025-12-01T00:00:00.000Z"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
+                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
+
+            expect(dimensionRangeList).to.be.an("array").that.is.empty;
+            expect(warnSpy.calledOnce).to.be.true;
+        });
+    });
+
+    describe("createTimeRange", () => {
+        it("create an array with the time range", function () {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                min = "2006",
+                max = "2018",
+                step = {
+                    years: "2"
+                };
+
+            expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");
+            expect(wmsTimeLayer.createTimeRange(min, max, step)).includes("2006", "2008", "2010", "2012", "2014", "2016", "2018");
+        });
+
+        it("create an array with the time range", function () {
+            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                min = "2006",
+                max = "2018",
+                step = {
+                    years: "2"
+                };
+
+            expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");
+            expect(wmsTimeLayer.createTimeRange(min, max, step)).includes("2006", "2008", "2010", "2012", "2014", "2016", "2018");
+        });
+    });
+
     describe("determineDefault", () => {
         it("configuredDefault is contained in timeRange", () => {
             const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
@@ -226,6 +346,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             expect(warnSpy.calledOnce).to.be.true;
         });
     });
+
     it("extractExtentValues if they are in dimension", function () {
         const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
             dimension = {
@@ -239,121 +360,6 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
             step: {
                 year: "2"
             }
-        });
-    });
-    describe("createTimeRange", () => {
-        it("create an array with the time range", function () {
-            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
-                min = "2006",
-                max = "2018",
-                step = {
-                    years: "2"
-                };
-
-            expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");
-            expect(wmsTimeLayer.createTimeRange(min, max, step)).includes("2006", "2008", "2010", "2012", "2014", "2016", "2018");
-        });
-
-        it("create an array with the time range", function () {
-            const wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
-                min = "2006",
-                max = "2018",
-                step = {
-                    years: "2"
-                };
-
-            expect(wmsTimeLayer.createTimeRange(min, max, step)).to.be.an("array");
-            expect(wmsTimeLayer.createTimeRange(min, max, step)).includes("2006", "2008", "2010", "2012", "2014", "2016", "2018");
-        });
-    });
-
-    describe("createCapabilitiesUrl", () => {
-        it("test params", () => {
-            const wmsTimeUrl = "https://geodienste.hamburg.de/HH_WMS-T_Satellitenbilder_Sentinel-2",
-                version = "1.1.1",
-                layers = "layer1",
-                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
-                createdUrl = wmsTimeLayer.createCapabilitiesUrl(wmsTimeUrl, version, layers);
-
-            expect(createdUrl.origin).to.eql("https://geodienste.hamburg.de");
-            expect(createdUrl.pathname).to.eql("/HH_WMS-T_Satellitenbilder_Sentinel-2");
-            expect(createdUrl.searchParams.get("service")).to.eql("WMS");
-            expect(createdUrl.searchParams.get("version")).to.eql(version);
-            expect(createdUrl.searchParams.get("layers")).to.eql(layers);
-            expect(createdUrl.searchParams.get("request")).to.eql("GetCapabilities");
-        });
-
-        it("createUrl should respect questionmark in url", () => {
-            const wmsTimeUrl = "https://mapservice.regensburg.de/cgi-bin/mapserv?map=wfs.map",
-                version = "1.1.1",
-                layers = "layer1,layer2",
-                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
-                createdUrl = wmsTimeLayer.createCapabilitiesUrl(wmsTimeUrl, version, layers);
-
-            expect(createdUrl.origin).to.eql("https://mapservice.regensburg.de");
-            expect(createdUrl.pathname).to.eql("/cgi-bin/mapserv");
-            expect(createdUrl.searchParams.get("map")).to.eql("wfs.map");
-            expect(createdUrl.searchParams.get("service")).to.eql("WMS");
-            expect(createdUrl.searchParams.get("version")).to.eql(version);
-            expect(createdUrl.searchParams.get("layers")).to.eql(layers);
-            expect(createdUrl.searchParams.get("request")).to.eql("GetCapabilities");
-        });
-    });
-
-    describe("createDimensionRangeList", () => {
-        it("should return an array with time values", () => {
-            const dimensionRange = {
-                    min: "2025-01-01T00:00:00.000Z",
-                    max: "2025-12-01T00:00:00.000Z",
-                    resolution: "P2M"
-                },
-                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
-                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
-
-            expect(dimensionRangeList).to.be.an("array");
-            expect(dimensionRangeList).to.deep.equals([
-                "2025-01-01T00:00:00.000Z",
-                "2025-03-01T00:00:00.000Z",
-                "2025-05-01T00:00:00.000Z",
-                "2025-07-01T00:00:00.000Z",
-                "2025-09-01T00:00:00.000Z",
-                "2025-11-01T00:00:00.000Z"
-            ]);
-        });
-
-        it("should return an empty array, if the maxmaximum value has not been specified", () => {
-            const dimensionRange = {
-                    min: "2025-01-01T00:00:00.000Z",
-                    resolution: "P2M"
-                },
-                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
-                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
-
-            expect(dimensionRangeList).to.be.an("array").that.is.empty;
-            expect(warnSpy.calledOnce).to.be.true;
-        });
-
-        it("should return an empty array, if the min value has not been specified", () => {
-            const dimensionRange = {
-                    max: "2025-12-01T00:00:00.000Z",
-                    resolution: "P2M"
-                },
-                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
-                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
-
-            expect(dimensionRangeList).to.be.an("array").that.is.empty;
-            expect(warnSpy.calledOnce).to.be.true;
-        });
-        it("should return an empty array, if the resolution value has not been specified", () => {
-            const dimensionRange = {
-                    min: "2025-01-01T00:00:00.000Z",
-                    max: "2025-12-01T00:00:00.000Z"
-                },
-                wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, dimensionRange}),
-                dimensionRangeList = wmsTimeLayer.createDimensionRangeList(dimensionRange);
-
-            expect(dimensionRangeList).to.be.an("array").that.is.empty;
-            expect(warnSpy.calledOnce).to.be.true;
         });
     });
 
@@ -598,6 +604,137 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
 
             expect(axiosGetStub.calledOnce).to.be.true;
             expect(axiosGetStub.firstCall.args[0]).to.equals(dimensionRange);
+        });
+    });
+
+    describe("prepareTimeSliderObject", () => {
+        it("should return the configured default value for input time and trigger addTimeSliderObject action without static dimensions", () => {
+            const time = {
+                    default: "2003",
+                    dimensionName: "time",
+                    extentName: "time"
+                },
+                filteredTimeRange = ["2001", "2002", "2003", "2004", "2005"],
+                timeSource = {
+                    default: "2005",
+                    name: "time",
+                    nearestValue: "0",
+                    units: "ISO8601",
+                    value: "2001/2025/P1Y"
+                },
+                staticDimensions = [],
+                step = {
+                    year: "1"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                defaultValue = wmsTimeLayer.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attributes);
+
+            expect(defaultValue).to.equals("2003");
+            expect(commitStub.calledOnce).to.be.true;
+            expect(commitStub.firstCall.args[0]).to.equals("Modules/WmsTime/addTimeSliderObject");
+            expect(commitStub.firstCall.args[1]).to.deep.equals(
+                {
+                    keyboardMovement: undefined,
+                    defaultValue: "2003",
+                    step: {
+                        year: "1"
+                    },
+                    timeRange: ["2001", "2002", "2003", "2004", "2005"],
+                    staticDimensions: {},
+                    layerId: "id"
+                }
+            );
+        });
+
+        it("should return the default value from service for input time and trigger addTimeSliderObject action without static dimensions", () => {
+            const time = {
+                    dimensionName: "time",
+                    extentName: "time"
+                },
+                filteredTimeRange = ["2001", "2002", "2003", "2004", "2005"],
+                timeSource = {
+                    default: "2005",
+                    name: "time",
+                    nearestValue: "0",
+                    units: "ISO8601",
+                    value: "2001/2025/P1Y"
+                },
+                staticDimensions = [],
+                step = {
+                    year: "1"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                defaultValue = wmsTimeLayer.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attributes);
+
+            expect(defaultValue).to.equals("2005");
+            expect(commitStub.calledOnce).to.be.true;
+            expect(commitStub.firstCall.args[0]).to.equals("Modules/WmsTime/addTimeSliderObject");
+            expect(commitStub.firstCall.args[1]).to.deep.equals(
+                {
+                    keyboardMovement: undefined,
+                    defaultValue: "2005",
+                    step: {
+                        year: "1"
+                    },
+                    timeRange: ["2001", "2002", "2003", "2004", "2005"],
+                    staticDimensions: {},
+                    layerId: "id"
+                }
+            );
+        });
+
+        it("should return the default value from service for input time and trigger addTimeSliderObject action with static dimensions", () => {
+            const time = {
+                    dimensionName: "time",
+                    extentName: "time"
+                },
+                filteredTimeRange = ["2001", "2002", "2003", "2004", "2005"],
+                timeSource = {
+                    default: "2005",
+                    name: "time",
+                    nearestValue: "0",
+                    units: "ISO8601",
+                    value: "2001/2025/P1Y"
+                },
+                staticDimensions = [
+                    {
+                        default: "2.0",
+                        name: "elevation",
+                        unitSymbol: "m",
+                        units: "EPSG:5030",
+                        value: "2.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0"
+                    },
+                    {
+                        default: "2026-01-09T06:00:00.000Z",
+                        name: "REFERENCE_TIME",
+                        units: "ISO8601",
+                        value: "2026-01-08T00:00:00.000Z,2026-01-08T06:00:00.000Z,2026-01-08T12:00:00.000Z,2026-01-08T18:00:00.000Z,2026-01-09T00:00:00.000Z,2026-01-09T06:00:00.000Z"
+                    }
+                ],
+                step = {
+                    year: "1"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                defaultValue = wmsTimeLayer.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attributes);
+
+            expect(defaultValue).to.equals("2005");
+            expect(commitStub.calledOnce).to.be.true;
+            expect(commitStub.firstCall.args[0]).to.equals("Modules/WmsTime/addTimeSliderObject");
+            expect(commitStub.firstCall.args[1]).to.deep.equals(
+                {
+                    keyboardMovement: undefined,
+                    defaultValue: "2005",
+                    step: {
+                        year: "1"
+                    },
+                    timeRange: ["2001", "2002", "2003", "2004", "2005"],
+                    staticDimensions: {
+                        "ELEVATION": "2.0",
+                        "REFERENCE_TIME": "2026-01-08T00:00:00.000Z"
+                    },
+                    layerId: "id"
+                }
+            );
         });
     });
 

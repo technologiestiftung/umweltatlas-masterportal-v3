@@ -406,24 +406,8 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
             else {
                 const {step, timeRange} = this.extractExtentValues(timeSource);
 
-                this.filterDimensions(timeRange, time.dimensionRange)
-                    .then(filteredTimeRange => {
-                        const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
-                            defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default),
-                            staticDimensionsWithDefaultValue = this.determineStaticDimensions(staticDimensions, time.staticDimensions),
-                            timeData = {
-                                defaultValue: defaultValue,
-                                step: step,
-                                timeRange: filtereTimeRangeByRegex,
-                                staticDimensions: staticDimensionsWithDefaultValue
-                            };
-
-                        attrs.time = {...time, ...timeData};
-                        timeData.layerId = attrs.id;
-                        store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
-
-                        return defaultValue;
-                    });
+                return this.filterDimensions(timeRange, time.dimensionRange)
+                    .then(filteredTimeRange => this.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attrs));
             }
         })
         .catch(error => {
@@ -433,6 +417,34 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
 
             console.error(i18next.t("common:modules.wmsTime.layer.errorTimeLayer", {error, id: attrs.id}));
         });
+};
+
+/**
+ * Prepare the time attributes for time slider and receive the default value.
+ * @param {Object} time The time dimension.
+ * @param {String[]} filteredTimeRange The filtered time range.
+ * @param {Object} timeSource The time source.
+ * @param {Object[]} staticDimensions The static dimensions.
+ * @param {Object} step The time step.
+ * @param {Object} attrs Attributes of the layer.
+ * @returns {String} The default value.
+ */
+Layer2dRasterWmsTimeLayer.prototype.prepareTimeSliderObject = function (time, filteredTimeRange, timeSource, staticDimensions, step, attrs) {
+    const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
+        defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default),
+        staticDimensionsWithDefaultValue = this.determineStaticDimensions(staticDimensions, time.staticDimensions),
+        timeData = {
+            defaultValue: defaultValue,
+            step: step,
+            timeRange: filtereTimeRangeByRegex,
+            staticDimensions: staticDimensionsWithDefaultValue
+        };
+
+    attrs.time = {...time, ...timeData};
+    timeData.layerId = attrs.id;
+    store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
+
+    return defaultValue;
 };
 
 /**
