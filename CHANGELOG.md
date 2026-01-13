@@ -21,6 +21,7 @@
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
 - LayerPills: Fix layer sequence so that it matches the LayerTree when opening via a link.
 - Documentation: Added jsDoc to shared Input Components.
+- RoutingBatchProcessing: Fixed failing test that occured after changes at shared IconButton.
 
 ---
 
