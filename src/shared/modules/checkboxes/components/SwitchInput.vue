@@ -1,4 +1,15 @@
 <script>
+
+/**
+ * SwitchInput component: A small toggle/switch input interface used for toggles and on/off-switches.
+ * @module shared/modules/checkboxes/SwitchInput
+ * @vue-prop {String} id - is used to set the id of the input-tag.
+ * @vue-prop {String} label - sets the label of the toggle.
+ * @vue-prop {String} aria - sets a description of the toggle for assistive technology like screenreaders.
+ * @vue-prop {Boolean} disabled - if true, the input is disabled.
+ * @vue-prop {Boolean} checked - the current state of the toggle.
+ * @vue-prop {Function} interaction - can bind a function to be executed on using the toggle.
+ */
 export default {
     name: "SwitchInput",
     props: {

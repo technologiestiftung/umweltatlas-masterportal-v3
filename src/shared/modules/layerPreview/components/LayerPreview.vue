@@ -9,45 +9,49 @@ import {Tooltip} from "bootstrap";
 import axios from "axios";
 import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
+/**
+ * LayerPreview component: A component that displays a small preview of a layer, used for selecting base layers.
+ * @module shared/modules/layerPreview/LayerPreview
+ * @vue-prop {String} layerId - id of the layer to create a preview for.
+ * @vue-prop {Array|String} center - center coordinates for the preview.
+ * @vue-prop {Number} zoomLevel - zoomLevel for the preview.
+ * @vue-prop {Number} radius - radius of the extent, default is 1000 metres.
+ * @vue-prop {Boolean} checkable - if true, preview is checkable, default is false.
+ * @vue-prop {Boolean} checked - if true, preview is checked.
+ * @vue-prop {String} customClass - custom css-class to overwrite style.
+ * @vue-prop {Boolean} currentlyVisible - if true, preview is highlighted by a thick border if layer is currently visible.
+ */
 export default {
     name: "LayerPreview",
     props: {
-        /** id of the layer to create a preview for */
         layerId: {
             type: String,
             required: true
         },
-        /** center coordinates for the preview */
         center: {
             type: [Array, String],
             default: null
         },
-        /** zoomLevel for the preview */
         zoomLevel: {
             type: Number,
             default: null
         },
-        /** radius of the extent, default is 1000 metres */
         radius: {
             type: Number,
             default: 1000
         },
-        /** if true, preview is checkable */
         checkable: {
             type: Boolean,
             default: false
         },
-        /** if true, preview is checked */
         checked: {
             type: Boolean,
             default: false
         },
-        /** custom css-class to overwrite style, NOTICE: maybe '!important' must be used */
         customClass: {
             type: String,
             default: ""
         },
-        /** If true, preview is highlighted by a thick border if layer is currently visible. */
         currentlyVisible: {
             type: Boolean,
             default: false

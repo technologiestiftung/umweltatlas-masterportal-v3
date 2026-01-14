@@ -1,4 +1,14 @@
 <script>
+
+/**
+ * NavTab component: A small implementation of navigation tabs, as used for layer information.
+ * @module shared/modules/tabs/NavTab
+ * @vue-prop {String} id - the id of the navTab-button.
+ * @vue-prop {String} label - the label used on the navTab-button.
+ * @vue-prop {Boolean} active - whether the tab is currently active.
+ * @vue-prop {String} target - used to specify the id of the element shown by the navTab button (i.e. '#section-1').
+ * @vue-prop {Function} interaction - can be used to bind a function to an interaction with the navTab-button, to be executed on click.
+ */
 export default {
     name: "NavTab",
     props: {

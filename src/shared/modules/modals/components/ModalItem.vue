@@ -1,6 +1,14 @@
 <script>
 import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
+/**
+ * ModalItem component: A customizable modal component with three slots to fill #header, #footer and the unnamed content.
+ * @module shared/modules/modals/ModalItem
+ * @vue-prop {Boolean} showModal - if true, the modal is visible.
+ * @vue-prop {Boolean} forceClickToClose - if true, the modal can only be closed by clicking the X, not by clicking anywhere outside the modal.
+ * @vue-prop {String} modalInnerWrapperStyle - can be used to provide inline-styles for the inner wrapper of the modal.
+ * @vue-prop {String} modalContentContainerStyle - can be used to provide inline-styles for the container around the content slot.
+ */
 export default {
     name: "ModalItem",
     components: {IconButton},

@@ -1,4 +1,15 @@
 <script>
+
+/**
+ * AccordionItem: An accordion component with a foldable slot to show or hide information dynamically through user-interaction.
+ * @module shared/modules/accordion/AccordionItem
+ * @vue-prop {String} id - sets the id to be used for the accordion container, the resulting id will be accordion-container-id.
+ * @vue-prop {String} title - sets the title to be shown even when the accordion is closed.
+ * @vue-prop {Boolean|String} icon - sets an optional (bootstrap-)icon to be displayed next to the title.
+ * @vue-prop {Boolean} isOpen - manages the state of the accordion.
+ * @vue-prop {String} fontSize - defaults to font-size-big (1.167rem) and can be changed to use a different size.
+ * @vue-prop {Boolean} colouredHeader - if true, the title of the accordion will have a light blue background.
+ */
 export default {
     name: "AccordionItem",
     props: {

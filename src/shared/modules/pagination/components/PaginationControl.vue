@@ -1,17 +1,18 @@
 <script>
+
+/**
+ * PaginationControl component: A component to realize a pagination for content, i.e. for lots of content in gfi.
+ * @module shared/modules/pagination/PaginationControl
+ * @vue-prop {Number} currentPage - the current active page.
+ * @vue-prop {Number} totalPages - the total number of pages.
+ */
 export default {
     name: "PaginationControl",
     props: {
-        /**
-         * The current active page
-         */
         currentPage: {
             type: Number,
             required: true
         },
-        /**
-         * The total number of pages
-         */
         totalPages: {
             type: Number,
             required: true
