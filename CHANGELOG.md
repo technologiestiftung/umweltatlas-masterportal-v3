@@ -13,6 +13,9 @@
 - CopyrightConstraints: Added Parameter `useLayerCswUrl` to use the CSW interface specified in the layers.
 
 ### Changed
+- The following packages have been updated:
+    - devDependencies:
+        - @masterportal/masterportalapi: 2.54.0 to 2.55.0
 
 ### Deprecated
 

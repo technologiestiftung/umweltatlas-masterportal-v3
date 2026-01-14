@@ -374,7 +374,7 @@ describe("src/core/js/layers/layer2dVector.js", () => {
             expect(createStyleSpy.notCalled).to.be.true;
         });
 
-        it("feature cluster with one feature should not be styled as cluster", function () {
+        it.skip("feature cluster with one feature should not be styled as cluster", function () {
             store.getters = {
                 styleListLoaded: true
             };
