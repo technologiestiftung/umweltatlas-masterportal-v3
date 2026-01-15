@@ -102,7 +102,6 @@ describe("src/modules/tools/wfst/utils/handleMultipolygon.js", async () => {
 
             featureMap.set("228", {outerId: "0", feature: feature1});
             featureMap.set("305", {outerId: "228", feature: feature2});
-            // eslint-disable-next-line one-var
             const result = handleMultipolygonUtils.sortFeatureMap(featureMap);
 
             expect(result).to.deep.equal(expectedArray);
@@ -226,7 +225,6 @@ describe("src/modules/tools/wfst/utils/handleMultipolygon.js", async () => {
                 drawLayer = new VectorLayer({source: new VectorSource()});
 
             drawLayer.getSource().addFeatures(multiPolygon);
-            // eslint-disable-next-line one-var
             const result = await handleMultipolygonUtils.splitOuterFeatures([multiPolygon], drawLayer);
 
             expect(result.length).to.equal(2);

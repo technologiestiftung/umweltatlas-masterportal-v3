@@ -14,7 +14,6 @@ function generateColorRange (startColor, rangeSize = 5) {
         return false;
     }
 
-    /* eslint-disable one-var*/
     const hsl = convertHexToHSL(startColor),
         colors = [];
 

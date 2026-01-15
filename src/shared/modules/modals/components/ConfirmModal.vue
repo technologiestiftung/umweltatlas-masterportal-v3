@@ -159,7 +159,6 @@ export default {
                 return;
             }
 
-            // eslint-disable-next-line
             const focusableSelectors = [
                     "a[href]",
                     "area[href]",
@@ -180,7 +179,6 @@ export default {
                 return;
             }
 
-            // eslint-disable-next-line
             const first = focusable[0],
                 last = focusable[focusable.length - 1],
                 active = document.activeElement;

@@ -233,7 +233,6 @@ describe("src/shared/modules/graphicalSelect/components/GraphicalSelect.vue", ()
                 });
 
             // Assert that the layer contains the geometry from startGeometry
-            // eslint-disable-next-line
             const features = wrapper.vm.layer.getSource().getFeatures();
 
             expect(features).to.have.lengthOf(1);

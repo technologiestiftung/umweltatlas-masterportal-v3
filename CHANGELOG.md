@@ -20,6 +20,7 @@
 ### Deprecated
 
 ### Removed
+- Issue #1541: Removed one-var and vars-on-top linting rules for improved dev experience.
 
 ### Fixed
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.

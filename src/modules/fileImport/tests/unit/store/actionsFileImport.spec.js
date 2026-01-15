@@ -412,7 +412,6 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
 
             importGeoJSON({state, dispatch, rootGetters, commit}, payload);
 
-            /* eslint-disable one-var */
             const feature1 = layer.getSource().getFeatures()[0],
                 feature2 = layer.getSource().getFeatures()[1];
 
@@ -439,7 +438,6 @@ describe("src/modules/fileImport/store/actionsFileImport.js", () => {
 
             importGeoJSON({state, dispatch, rootGetters, commit}, payload);
 
-            /* eslint-disable one-var */
             const feature1 = layer.getSource().getFeatures()[0],
                 feature2 = layer.getSource().getFeatures()[1];
 

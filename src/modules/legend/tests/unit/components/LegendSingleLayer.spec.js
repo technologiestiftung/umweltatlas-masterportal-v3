@@ -222,7 +222,6 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
                 propsData
             });
 
-            // eslint-disable-next-line one-var
             const scaleImgStub = sinon.stub(wrapper.vm, "scaleImg");
 
             wrapper.find("img").trigger("load");
@@ -329,7 +328,6 @@ describe("src/modules/legend/components/LegendSingleLayer.vue", () => {
                 propsData
             });
 
-            // eslint-disable-next-line one-var
             const scaleImgStub = sinon.stub(wrapper.vm, "scaleImg");
 
             wrapper.find("img").trigger("load");

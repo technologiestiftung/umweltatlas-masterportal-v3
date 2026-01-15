@@ -131,7 +131,6 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
 
             checkLoggedInStub.resolves(true);
 
-            // eslint-disable-next-line one-var
             const customStore = createStore({
                 modules: {
                     namespaced: true,
@@ -189,7 +188,6 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
             });
 
             // Create a custom store with the stubbed action
-            // eslint-disable-next-line one-var
             const customStore = createStore({
                 modules: {
                     namespaced: true,
