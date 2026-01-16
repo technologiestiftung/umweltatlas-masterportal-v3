@@ -5,6 +5,7 @@ import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import LayerCheckBox from "./LayerCheckBox.vue";
 import LayerComponentIconFilter from "./LayerComponentIconFilter.vue";
 import LayerComponentIconInfo from "./LayerComponentIconInfo.vue";
+import LayerComponentIconCustom from "./LayerComponentIconCustom.vue";
 import LayerComponentIconSubMenu from "./LayerComponentIconSubMenu.vue";
 import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
 import layerCollection from "@core/layers/js/layerCollection.js";
@@ -21,6 +22,7 @@ export default {
         LayerCheckBox,
         LayerComponentIconFilter,
         LayerComponentIconInfo,
+        LayerComponentIconCustom,
         LayerComponentIconSubMenu,
         LayerComponentSubMenu
     },
@@ -169,6 +171,10 @@ export default {
                 />
                 <LayerComponentIconInfo
                     :is-layer-tree="isLayerTree()"
+                    :layer-conf="conf"
+                />
+                <LayerComponentIconCustom
+                    v-if="isLayerTree()"
                     :layer-conf="conf"
                 />
             </div>

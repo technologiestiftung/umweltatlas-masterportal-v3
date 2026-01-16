@@ -5464,6 +5464,92 @@ Beim VectorTile-Layer wird ein abgelegtes Vorschaubild angezeigt, bei WMS- und W
 ```
 
 ***
+
+#### layerConfig.elements.layers.customLayerIcon {data-toc-label='Custom Layer Icon'}
+
+[inherits]: # (layerConfig.elements.layers)
+
+Fügt einen benutzerdefinierten Aktionsbutton zu einem Layer im Layerbaum hinzu. Der Button kann Masterportal-Aktionen ausführen.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|type|ja|String|"customLayerIcon"|Typidentifikator für dieses Feature.|false|
+|description|ja|String||Beschreibungstext, der als Tooltip angezeigt wird.|false|
+|icon|ja|String||Bootstrap-Icon-Klasse für den Button. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|execute|ja|**[execute](#layerconfigelementslayerscustomlayericonexecute)**||Konfiguration der auszuführenden Aktion beim Klick.|false|
+
+**Beispiel**
+
+```json
+{
+    "id": "orange_baenke",
+    "name": "Orangene Bänke",
+    "visibility": false,
+    "customLayerIcon": {
+        "type": "customLayerIcon",
+        "description": "Datensätze zum Thema anzeigen",
+        "icon": "bi-box-arrow-in-right",
+        "execute": {
+            "action": "Modules/UdpThemaAppV2/loadLayer",
+            "payload": {
+                "layerId": "orange_baenke"
+            }
+        }
+    }
+}
+```
+
+***
+
+##### layerConfig.elements.layers.customLayerIcon.execute {data-toc-label='Execute'}
+
+Konfiguration der Aktion für das benutzerdefinierte Layer-Icon.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|action|ja|String||Aktionspfad zum Ausführen (z.B. "Modules/ModuleName/actionName").|false|
+|payload|nein|**[Payload](#layerconfigelementslayerscustomlayericonexecutepayload)**||Payload, der an die Aktion übergeben wird. Kann je nach Anforderung der Action entweder ein **Objekt** oder ein **String** sein. **String**: Wenn die Action nur eine ID oder einen Namen erwartet (z.B. `"layerId"`). **Objekt**: Wenn mehrere Parameter übergeben werden müssen (z.B. `{ "layerId": "orange_baenke" }`).|false|
+
+**Beispiel**
+
+*Object:*
+```json
+{
+    "action": "Modules/UdpThemaAppV2/loadLayer",
+    "payload": {
+        "layerId": "orange_baenke"
+    }
+}
+```
+*String:*
+```json
+{
+    "action": "Modules/Menu/toggleMenu",
+    "payload": "mainMenu"
+}
+```
+
+***
+
+##### layerConfig.elements.layers.customLayerIcon.execute.Payload {data-toc-label='Payload'}
+
+Das `execute`-Modul des **CustomLayerIcon** verwendet einen `payload`, der an die konfigurierte Action übergeben wird.  
+Der Payload kann je nach Action entweder ein **Objekt** mit Schlüssel-Wert-Paaren oder ein **einfacher Wert** (z. B. `String`, `Boolean` oder `Number`) sein.  
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|payload|nein|String||Ein Objekt mit Schlüssel-Wert-Paaren oder ein einzelner Wert, der an die konfigurierte Action übergeben wird. Je nach Action kann dies ein `String`, `Boolean` oder `Number` sein (z. B. Layer-ID, Menüname, Statusflag etc.).|true|
+
+**Beispiel**
+
+```json
+{
+  "layerId": "orange_baenke"
+}
+```
+
+***
+
 #### layerConfig.elements.layers.Group {data-toc-label='Group'}
 
 [inherits]: # (layerConfig.elements.layers)
