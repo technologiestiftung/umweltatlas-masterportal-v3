@@ -131,9 +131,16 @@ SearchInterfaceLocationFinder.prototype.normalizeResults = function (searchResul
  * @returns {Object[]} The normalized search result.
  */
 SearchInterfaceLocationFinder.prototype.normalizeResult = function (searchResult, extendedData) {
+    const displayName = extendedData?.classDefinition?.displayName;
+    let category = searchResult.type;
+
+    if (displayName) {
+        category = i18next.exists(displayName) ? i18next.t(displayName) : displayName;
+    }
+
     return {
         events: this.normalizeResultEvents(this.resultEvents, searchResult, extendedData),
-        category: searchResult.type,
+        category: category,
         id: "locationFinder_" + searchResult.id,
         icon: extendedData?.classDefinition?.icon || "bi-signpost-2",
         name: searchResult.name

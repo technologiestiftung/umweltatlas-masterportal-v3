@@ -17,6 +17,7 @@
     - The attibute `staticDimensions` can now be configured and sent to the service when the WMS time layer is loaded.
 - Issue #1473: Layer2dRasterGeoTiff: Neuen Layertyp `GeoTiff` hinzugefügt.
 - Print: GFI can now always be opened in Print mode, it no longer depends on the Print Module side.
+- SearchBar/LocationFinder: Added `displayName` parameter to LocationFinder configuration to display custom category names in search results.
 
 ### Changed
 - Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.

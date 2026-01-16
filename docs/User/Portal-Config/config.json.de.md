@@ -1553,6 +1553,7 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|displayName|nein|String||Anzeigename für die Kategorie des Suchergebnisses. Wenn gesetzt, wird dieser anstelle des `name` in der Suchergebnisliste angezeigt.|false|
 |icon|nein|String|"bi-signpost-2"|Visualisierung der Klasse durch ein Icon|false|
 |name|ja|String||Name der Klasse|false|
 |zoom|nein|String|"center"|Legt fest wie auf einen ausgewählten Treffer gezoomt werden soll. Wenn `center` ausgewählt ist, so wird auf die Zentrumskoordinate (`cx` und `cy`) gezoomt und ein Marker angezeigt. Im Falle von `bbox` wird auf die durch den LocationFinder angegebene BoundingBox (`xmin`, `ymin`, `xmax` und `ymax`) gezoomt. Ein Marker wird in dem Fall nicht angezeigt.|false|
@@ -1566,14 +1567,17 @@ Definition von Klassen, welche als Ergebnis berücksichtigt werden sollen.
     "classes": [
         {
 			"name": "Haltestelle",
+			"displayName": "ÖPNV-Haltestelle",
 			"icon": "bi-record-circle"
 		},
 		{
 			"name": "Adresse",
+			"displayName": "common:modules.searchBar.type.address",
 			"icon": "bi-house-door-fill"
 		},
 		{
 			"name": "Straßenname",
+			"displayName": "Straße",
 			"zoom": "bbox"
 		}
     ]

@@ -1558,6 +1558,7 @@ Definition of classes that should be considered with the results.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|displayName|no|String||Display name for the search result category. If set, this will be displayed instead of the `name` in the search result list. Can also be an i18next translation key (e.g., `"common:modules.searchBar.type.address"`).|false|
 |icon|no|String|"bi-signpost-2"|Class visualization by a icon|false|
 |name|yes|String||Class name|false|
 |zoom|no|String|"center"|Defines how to zoom to a hit on selection. If `center` is chosen, the center coordinate (`cx`, `cy`) is zoomed to and a marker is placed. If `bbox` is chosen, the LocationFinder's given BoundingBox (`xmin`, `ymin`, `xmax`, `ymax`) is zoomed to, and no marker is shown.|false|
@@ -1571,14 +1572,17 @@ Definition of classes that should be considered with the results.
     "classes": [
         {
 			"name": "Haltestelle",
+			"displayName": "Public Transport Stop",
 			"icon": "bi-record-circle"
 		},
 		{
 			"name": "Adresse",
+			"displayName": "common:modules.searchBar.type.address",
 			"icon": "bi-house-door-fill"
 		},
 		{
 			"name": "Straßenname",
+			"displayName": "Street",
 			"zoom": "bbox"
 		}
     ]
