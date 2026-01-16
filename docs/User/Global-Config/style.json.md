@@ -599,7 +599,7 @@ With the example style above, the following patterns are rendered, where `patter
 |`{"patternCode": "diagonal", "lineWidth": 10}`|![Polygon Fill Diagonal Hatch Pattern Example](media/style.diagonal.png)|
 |`{"patternCode": "zig-line", "lineWidth": 10}`|![Polygon Fill Zig-Line Hatch Pattern Example](media/style.zigline.png)|
 
-The alternatives `"zig-lines-horizontal"` and `"diagonal-right"` match the above patterns rotated by 90°.
+The alternatives `"zig-line-horizontal"` and `"diagonal-right"` match the above patterns rotated by 90°.
 
 >🛠️ Expert feature: Defining your own pattern.
 
