@@ -37,6 +37,24 @@ export default {
                 currentMainMenuWidth: this.currentMainMenuWidth,
                 currentSecondaryMenuWidth: this.currentSecondaryMenuWidth
             };
+        },
+        /**
+         * Returns all visible subject data layers in the correct display order
+         * for the LayerPills component.
+         * The order is primarily defined by the LayerTree configuration
+         * (`layerTreeSortedLayerConfigs`). Layers that are visible but not part
+         * of the LayerTree (e.g. `showInLayerTree: false`) are appended afterwards
+         * to maintain backward compatibility.
+         * @returns {Array<Object>} Sorted list of visible layer configuration objects
+         */
+        sortedVisibleLayerPills () {
+            const treeLayers = this.layerTreeSortedLayerConfigs,
+                visible = this.visibleSubjectDataLayerConfigs;
+
+            return [
+                ...treeLayers.filter(l => visible.some(v => v.id === l.id)),
+                ...visible.filter(v => !treeLayers.some(l => l.id === v.id))
+            ];
         }
     },
     watch: {
@@ -45,12 +63,8 @@ export default {
          * @returns {void}
          */
         visibleSubjectDataLayerConfigs: {
-            handler (newVal) {
-                const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
-                    l => newVal.some(n => n.id === l.id)
-                );
-
-                this.setVisibleLayers(sortedByTree, this.mode);
+            handler () {
+                this.setVisibleLayers(this.sortedVisibleLayerPills, this.mode);
             },
             deep: true
         },
@@ -60,11 +74,7 @@ export default {
         * @returns {void}
         */
         mode (value) {
-            const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
-                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
-            );
-
-            this.setVisibleLayers(sortedByTree, value);
+            this.setVisibleLayers(this.sortedVisibleLayerPills, value);
         },
         /**
          * Detects changes to the menu state and width to update the layerPills accordingly.
@@ -79,12 +89,7 @@ export default {
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-
-        const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
-            l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
-        );
-
-        this.setVisibleLayers(sortedByTree, this.mode);
+        this.setVisibleLayers(this.sortedVisibleLayerPills, this.mode);
     },
     methods: {
         ...mapMutations("Modules/LayerPills", ["setVisibleSubjectDataLayers", "setActive"]),

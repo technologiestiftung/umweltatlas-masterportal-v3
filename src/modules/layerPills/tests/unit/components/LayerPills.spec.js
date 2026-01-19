@@ -295,9 +295,7 @@ describe("src/modules/LayerPills.vue", () => {
             expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
             expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
 
-            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs.filter(
-                l => newValue.some(n => n.id === l.id)
-            );
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs;
 
             expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
             expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
@@ -317,9 +315,7 @@ describe("src/modules/LayerPills.vue", () => {
             initialSorted = wrapper.vm.layerTreeSortedLayerConfigs.filter(
                 l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
             );
-            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs.filter(
-                l => newValue.some(n => n.id === l.id)
-            );
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs;
 
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
             expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
