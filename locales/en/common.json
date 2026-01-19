@@ -1391,6 +1391,7 @@
       "district": "District",
       "description": "search for objects in a topic",
       "description_parcel": "Search for a parcel",
+      "deselectRow": "Deselect row",
       "fieldSelectionLabel": "Field Selection",
       "instancesSelectLabel": "Instance selection",
       "name": "WFS search",
@@ -1401,6 +1402,8 @@
       "resetButton": "Reset",
       "searchButton": "Search",
       "searchError": "Error while searching for the features: {{error}}.",
+      "selectRow": "Select row",
+      "selectedCount": "{{count}} object(s) selected",
       "showResultHeading": "Searchresults:",
       "userHelp": {
         "and": "and",
@@ -1408,7 +1411,8 @@
         "or": "or",
         "text": "The results of the search will fulfill the conditions / clauses {{userHelp}}. <br /> *Mandatory field"
       },
-      "wrongConfig": "The layer with the id \"{{id}}\" for the search instance \"{{title}}\" is not defined."
+      "wrongConfig": "The layer with the id \"{{id}}\" for the search instance \"{{title}}\" is not defined.",
+      "zoomToAllSelected": "Zoom to all selected objects"
     },
     "wfst": {
       "deleteInteraction": {

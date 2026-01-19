@@ -14,6 +14,7 @@
 - LayerTree: Added LayerComponentIconCustom to provide a custom action button for layers that can execute Masterportal actions.
 
 ### Changed
+- Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries. 
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.54.0 to 2.55.0

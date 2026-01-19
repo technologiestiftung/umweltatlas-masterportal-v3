@@ -1394,6 +1394,7 @@
     "wfsSearch": {
       "description": "Suchen Sie in einem Thema nach Objekten",
       "description_parcel": "Suchen Sie nach einem Flurstück",
+      "deselectRow": "Zeile abwählen",
       "district": "Gemarkung",
       "fieldSelectionLabel": "Feld Auswahl",
       "instancesSelectLabel": "Instanzenauswahl",
@@ -1405,6 +1406,7 @@
       "resetButton": "Zurücksetzen",
       "searchButton": "Suchen",
       "searchError": "Fehler bei der Suche von Feature: {{error}}.",
+      "selectedCount": "{{count}} Objekt(e) ausgewählt",
       "showResultHeading": "Suchergebnisse:",
       "userHelp": {
         "and": "und",
@@ -1412,7 +1414,8 @@
         "or": "oder",
         "text": "Die Ergebnisse der Suche werden die Bedingungen / Klauseln {{userHelp}} erfüllen. <br /> *Pflichtfeld"
       },
-      "wrongConfig": "Der Layer mit der Id \"{{id}}\" der Suchinstanz \"{{title}}\" ist nicht definiert."
+      "wrongConfig": "Der Layer mit der Id \"{{id}}\" der Suchinstanz \"{{title}}\" ist nicht definiert.",
+      "zoomToAllSelected": "Auf alle ausgewählten Objekte zoomen"
     },
     "wfst": {
       "deleteInteraction": {

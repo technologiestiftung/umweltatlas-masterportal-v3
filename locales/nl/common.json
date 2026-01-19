@@ -1194,6 +1194,7 @@
     "wfsSearch": {
       "description": "Zoeken naar objecten in een onderwerp",
       "description_parcel": "Zoek een perceel",
+      "deselectRow": "Rij deselecteren",
       "district": "wijk",
       "fieldSelectionLabel": "Veldselectie",
       "instancesSelectLabel": "Instantieselectie",
@@ -1205,6 +1206,8 @@
       "resetButton": "Opnieuw instellen",
       "searchButton": "Zoeken",
       "searchError": "Functie voor het vinden van fouten: {{error}}.",
+      "selectRow": "Rij selecteren",
+      "selectedCount": "{{count}} object(en) geselecteerd",
       "showResultHeading": "Zoekresultaten:",
       "userHelp": {
         "and": "En",
@@ -1212,7 +1215,8 @@
         "or": "of",
         "text": "De resultaten van de zoekopdracht welke aan de voorwaarden/clausules {{userHelp}} voldoen. <br /> *Verplicht veld"
       },
-      "wrongConfig": "De laag met de ID \"{{id}}\"de zoekinstantie\"{{title}}\"is niet gedefinieerd."
+      "wrongConfig": "De laag met de ID \"{{id}}\"de zoekinstantie\"{{title}}\"is niet gedefinieerd.",
+      "zoomToAllSelected": "Zoom naar alle geselecteerde objecten"
     },
     "wfst": {
       "deleteInteraction": {
