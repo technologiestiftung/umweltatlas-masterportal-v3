@@ -659,7 +659,7 @@
         "unselectedAllLayer": "Deactivate all layers in the {{folderName}} folder"
       },
       "name": "Topic selection",
-      "baselayers": "Baselayers",
+      "backgrounds": "Baselayers",
       "datalayer": "Subject data",
       "externalSubjectLayer": "External subject data",
       "selectAll": "Add all",
