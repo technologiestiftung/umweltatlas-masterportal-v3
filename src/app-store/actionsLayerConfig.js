@@ -121,7 +121,7 @@ export default {
      * @param {Number} zIndex new zIndex of the layer in the tree
      * @returns {Boolean} true, if layer exists an was added or replaced
      */
-    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false, zIndex}) {
+    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false, zIndex, time}) {
         const layer = getters.layerConfigById(layerId);
         let newZIndex = zIndex;
 
@@ -135,6 +135,9 @@ export default {
                 config.transparency = transparency;
                 config.showInLayerTree = showInLayerTree;
                 config.zIndex = newZIndex ?? getters.determineZIndex(layerId);
+                if (time) {
+                    config.time = time;
+                }
 
                 if (config.styleId && typeof styleList.returnStyleObject(config.styleId) === "undefined") {
                     styleList.initStyleAndAddToList(getters.configJs, config.styleId).then(() => {
@@ -165,7 +168,8 @@ export default {
                     visibility: visibility,
                     transparency: transparency,
                     showInLayerTree: showInLayerTree,
-                    zIndex: newZIndex
+                    zIndex: newZIndex,
+                    time: time
                 }
             }]});
         }
