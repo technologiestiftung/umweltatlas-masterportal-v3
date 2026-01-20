@@ -32,6 +32,8 @@
 - LayerPills: Fix layer sequence so that it matches the LayerTree when opening via a link.
 - RoutingBatchProcessing: Fixed failing test that occured after changes at shared IconButton.
 - Documentation: Added jsDoc to various shared Components.
+- WMS-Time: Added the current time parameter (TIME) to ensure time-dynamic layers are correctly represented when printing.
+- WMS-Time: The current timestamp of a WMS-T layer is now captured in the share link and restored upon activation.
 
 ---
 
