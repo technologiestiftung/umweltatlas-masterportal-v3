@@ -31,6 +31,10 @@ export default {
 
             return "common:modules.layerTree.addLayer";
         },
+        /**
+         * Returns whether the layers should be reversed.
+         * @retruns {Boolean} Layer reverse.
+         */
         reverseLayer () {
             return Boolean(this.addLayerButton?.reverseLayer);
         }
@@ -47,13 +51,29 @@ export default {
         sort (configs) {
             return sortBy(configs, (conf) => conf.type !== "folder");
         },
+
+        /**
+         * Reverse all layer configs, also in sub folders.
+         * @param {Object} sublayersConfigs The layer configs.
+         * @returns {Object} The reversed layer configs.
+         */
+        reverseAllLayerConfigs (layerConfigs) {
+            layerConfigs.reverse().forEach(sublayersConfigs => {
+                if (sublayersConfigs.type === "folder") {
+                    this.reverseAllLayerConfigs(sublayersConfigs.elements);
+                }
+            });
+
+            return layerConfigs;
+        },
+
         /**
          * Shows the component LayerSelection and sets it visible.
          * @returns {void}
          */
         showLayerSelection () {
             const allLayerConfigsStructured = this.allLayerConfigsStructured(treeSubjectsKey),
-                subjectDataLayerConfs = this.sort(this.reverseLayer ? allLayerConfigsStructured.reverse() : allLayerConfigsStructured),
+                subjectDataLayerConfs = this.sort(this.reverseLayer ? this.reverseAllLayerConfigs(allLayerConfigsStructured) : allLayerConfigsStructured),
                 baselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey);
 
             this.changeCurrentComponent({type: this.layerSelectionType, side: this.menuSide, props: {name: this.layerSelectionName}});
