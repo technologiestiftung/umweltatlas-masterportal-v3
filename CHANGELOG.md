@@ -23,7 +23,7 @@
 
 ### Removed
 - Issue #1541: Removed one-var and vars-on-top linting rules for improved dev experience.
-- Remove the `authenticationUrl` attribute from the documentation, as it is no longer used.
+- The `authenticationUrl` attribute has been removed from the documentation, as it is no longer used.
 
 ### Fixed
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
