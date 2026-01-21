@@ -2616,22 +2616,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "name": "1990",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "02.13.2 Versickerung aus Niederschlägen",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "02.13.4 Versickerung aus Niederschlägen ohne Berücksichtigung der Versiegelung",
-                      "type": "folder",
-                      "elements": []
-                    }
-                  ]
                 }
               ]
             },
@@ -5808,22 +5792,6 @@
                   ]
                 },
                 {
-                  "name": "2015",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "03.11.2 Verkehrsbedingte Luftbelastung im Straßenraum 2015",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_luftbelastung_verkehr_2015:luftbelastung_verkehr_2015",
-                          "name": "2015 (Umweltatlas) - Verkehrsbedingte Luftbelastung im Straßenraum (Verkehrsbedingte Luftbelastung im Straßenraum 2015 (Umweltatlas))"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
                   "name": "2014",
                   "type": "folder",
                   "elements": [
@@ -6406,72 +6374,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "name": "2001",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "04.10.01 Lufttemperatur Gesamtstadt 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.02 Lufttemperatur Gesamtstadt 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.03 Bodennahes Windfeld und Luftaustausch Gesamtstadt 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.04 Bodennahes Windfeld und Luftaustausch Gesamtstadt 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.05 Bodennahes Windfeld und Luftmassenstrom Gesamtstadt 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.06 Bodennahes Windfeld und Luftmassenstrom Gesamtstadt 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.07 Lufttemperatur Vertiefungsgebiet 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.08 Lufttemperatur Vertiefungsgebiet 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.09 Bodennahes Windfeld und Luftaustausch Vertiefungsgebiet 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.10 Bodennahes Windfeld und Luftaustausch Vertiefungsgebiet 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.11 Bodennahes Windfeld und Luftmassenstrom Vertiefungsgebiet 22.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.10.12 Bodennahes Windfeld und Luftmassenstrom Vertiefungsgebiet 06.00 Uhr",
-                      "type": "folder",
-                      "elements": []
-                    }
-                  ]
                 }
               ]
             },
@@ -6734,36 +6636,36 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimamodell_2005:ge_hangneigung2005",
+                          "name": "2005 - Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:gc_einflussbereich_umland2005",
+                          "name": "2005 - Einflussbereich der Kaltluftentstehungsgebiete des Umlands (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:gb_stroemungngsrichtung2005",
+                          "name": "2005 - Kaltluftvolumenstrom und Strömungngsrichtung der Kaltluftentstehungsgebiete des Umlands (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
                           "id": "ua_klimamodell_2005:gg_klimafunktionen2005",
                           "name": "2005 - Klimafunktionen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:ga_luftaustausch2005",
+                          "name": "2005 - Luftaustausch (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         },
                         {
                           "id": "ua_klimamodell_2005:gh_verkehrsfl2005",
                           "name": "2005 - nicht bewertete Flächen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         },
                         {
-                          "id": "ua_klimamodell_2005:ge_hangneigung2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_klimamodell_2005:gc_einflussbereich_umland2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Einflussbereich der Kaltluftentstehungsgebiete des Umlands (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_klimamodell_2005:gb_stroemungngsrichtung2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Kaltluftvolumenstrom und Strömungngsrichtung der Kaltluftentstehungsgebiete des Umlands (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_klimamodell_2005:ga_luftaustausch2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Luftaustausch (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
                           "id": "ua_klimamodell_2005:gf_konzentration2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - NO2 - Konzentration > 80 µg/m³ kann während austauscharmer Wetterlagen überschritten werden (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                          "name": "2005 - NO2 - Konzentration > 80 µg/m³ kann während austauscharmer Wetterlagen überschritten werden (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         },
                         {
                           "id": "ua_klimamodell_2005:gd_pot_luftbelast2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                          "name": "2005 - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         }
                       ]
                     },
@@ -6772,46 +6674,30 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimamodell_2005:hc_hangneigung2005",
+                          "name": "2005 - Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:ha_luftaustausch2005",
+                          "name": "2005 - Luftaustausch und großräumige Luftleit- und Vetilationsbahnen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
                           "id": "ua_klimamodell_2005:hf_verkehrsfl2005",
                           "name": "2005 - nicht bewertete Flächen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:hd_konzentration2005",
+                          "name": "2005 - NO2 - Konzentration > 80 µg/m³ kann während austauscharmer Wetterlagen überschritten werden (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         },
                         {
                           "id": "ua_klimamodell_2005:he_planungshinweise2005",
                           "name": "2005 - Planungshinweise Stadtklima (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         },
                         {
-                          "id": "ua_klimamodell_2005:hc_hangneigung2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_klimamodell_2005:ha_luftaustausch2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Luftaustausch und großräumige Luftleit- und Vetilationsbahnen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_klimamodell_2005:hd_konzentration2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - NO2 - Konzentration > 80 µg/m³ kann während austauscharmer Wetterlagen überschritten werden (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
-                        },
-                        {
                           "id": "ua_klimamodell_2005:hb_pot_luftbelast2005",
-                          "name": "2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
+                          "name": "2005 - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin 2005: Analysekarten, Klimafunktionen und Planungshinweise Stadtklima (Umweltatlas))"
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "name": "2001",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "04.11.1 Klimafunktionen",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "04.11.2 Planungshinweise Stadtklima",
-                      "type": "folder",
-                      "elements": []
                     }
                   ]
                 }
@@ -6828,132 +6714,27 @@
                     {
                       "name": "04.02.1 Jahresmittel Lufttemperatur 1981-2010",
                       "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_d_b_gesamt",
-                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_b_if_gesamt",
-                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_a_il_gesamt",
-                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_e_r_gesamt",
-                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_c_s_gesamt",
-                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        }
-                      ]
+                      "elements": []
                     },
                     {
                       "name": "04.02.2 Mittel Lufttemperatur Frühling 1981-2010",
                       "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_d_b_fruehling",
-                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_b_if_fruehling",
-                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_a_il_fruehling",
-                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_e_r_fruehling",
-                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_c_s_fruehling",
-                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        }
-                      ]
+                      "elements": []
                     },
                     {
                       "name": "04.02.3 Mittel Lufttemperatur Sommer 1981-2010",
                       "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_c_s_sommer",
-                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_b_if_sommer",
-                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_a_il_sommer",
-                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_e_r_sommer",
-                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_d_b_sommer",
-                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        }
-                      ]
+                      "elements": []
                     },
                     {
                       "name": "04.02.4 Mittel Lufttemperatur Herbst 1981-2010",
                       "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_d_b_herbst",
-                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_b_if_herbst",
-                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_a_il_herbst",
-                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_e_r_herbst",
-                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_c_s_herbst",
-                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        }
-                      ]
+                      "elements": []
                     },
                     {
                       "name": "04.02.5 Mittel Lufttemperatur Winter 1981-2010",
                       "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_d_b_winter",
-                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_b_if_winter",
-                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_a_il_winter",
-                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_e_r_winter",
-                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        },
-                        {
-                          "id": "ua_lufttemp_1981-2010:temperaturmittel_c_s_winter",
-                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur 1981-2010 (Umweltatlas))"
-                        }
-                      ]
+                      "elements": []
                     }
                   ]
                 },
@@ -10402,22 +10183,6 @@
                           "name": "2004 - Brennstoffeinsatz bedeutender Heiz- und Kraftwerke (Versorgungsbereiche Gebäudewärme und überwiegende Heizungsarten 2005 (Umweltatlas))"
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "name": "2000",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "08.02.1 Versorgungsanteile der einzelnen Energieträger",
-                      "type": "folder",
-                      "elements": []
-                    },
-                    {
-                      "name": "08.02.2 Brennstoffeinsatz bedeutender Heiz- und Heizkraftwerke",
-                      "type": "folder",
-                      "elements": []
                     }
                   ]
                 }
