@@ -239,8 +239,8 @@
           "visibility": true
         },
         {
-          "id": "truedop_2024:truedop_2024:copyForBasemap",
-          "shortname": "Luftbild 2024",
+          "id": "dop_2025_fruehjahr:dop_2025",
+          "shortname": "Luftbild 2025",
           "visibility": false,
           "preview": {
             "zoomLevel": 13,
