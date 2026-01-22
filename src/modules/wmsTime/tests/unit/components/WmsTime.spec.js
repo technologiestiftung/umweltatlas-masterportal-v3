@@ -75,6 +75,12 @@ describe("src/modules/wmsTime/components/WmsTime.vue", () => {
                             }
                         }
                     }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        currentMouseMapInteractionsComponent: sinon.stub()
+                    }
                 }
             }
         });

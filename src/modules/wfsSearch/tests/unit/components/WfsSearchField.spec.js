@@ -8,7 +8,8 @@ import WfsSearchModule from "@modules/wfsSearch/store/indexWfsSearch.js";
 config.global.mocks.$t = key => key;
 
 describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
-    let store;
+    let store,
+        wrapper;
 
     beforeEach(() => {
         store = createStore({
@@ -24,8 +25,12 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
         });
     });
 
+    afterEach(() => {
+        wrapper.unmount();
+    });
+
     it("renders an input element with fitting label", () => {
-        const wrapper = mount(WfsSearchField, {
+        wrapper = mount(WfsSearchField, {
             global: {
                 plugins: [store]
             },
@@ -42,18 +47,18 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
     });
 
     it("renders a select element for the value when given options", () => {
-        const wrapper = mount(WfsSearchField, {
-                global: {
-                    plugins: [store]
-                },
-                props: {
-                    fieldId: "fieldId",
-                    fieldName: "fieldName",
-                    inputLabel: "inputLabel",
-                    options: ["Option A", "Option B"]
-                }
-            }),
-            options = wrapper.findAll("option");
+        wrapper = mount(WfsSearchField, {
+            global: {
+                plugins: [store]
+            },
+            props: {
+                fieldId: "fieldId",
+                fieldName: "fieldName",
+                inputLabel: "inputLabel",
+                options: ["Option A", "Option B"]
+            }
+        });
+        const options = wrapper.findAll("option");
 
         expect(wrapper.find("select").exists()).to.be.true;
         expect(wrapper.find("label").text()).to.equal("inputLabel");
@@ -64,7 +69,7 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
     });
 
     it("renders a label with string that contains '*'", () => {
-        const wrapper = mount(WfsSearchField, {
+        wrapper = mount(WfsSearchField, {
             global: {
                 plugins: [store]
             },
@@ -130,7 +135,7 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
             }
         });
 
-        const wrapper = mount(WfsSearchField, {
+        wrapper = mount(WfsSearchField, {
             global: {
                 plugins: [store]
             },

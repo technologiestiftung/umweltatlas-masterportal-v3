@@ -1,5 +1,63 @@
 [
   {
+    "styleId": "diagonal",
+    "rules":
+    [
+      {
+        "conditions":
+        {
+          "geometry":
+          {
+            "type": "Polygon"
+          }
+        },
+        "style":
+        {
+          "polygonStrokeColor": [0, 77, 168, 1],
+          "polygonStrokeWidth": 1,
+          "polygonStrokeCap": "round",
+          "polygonFillHatch":
+            {
+              "pattern": "diagonal",
+              "lineWidth": 1,
+              "size": 15,
+              "backgroundColor": 	[0, 0, 0, 0],
+              "patternColor": [0, 197, 255, 1]
+            }
+        }
+      }
+    ]
+  },
+   {
+    "styleId": "diagonal-right",
+    "rules":
+    [
+      {
+        "conditions":
+        {
+          "geometry":
+          {
+            "type": "Polygon"
+          }
+        },
+        "style":
+        {
+          "polygonStrokeColor": [0, 77, 168, 1],
+          "polygonStrokeWidth": 1,
+          "polygonStrokeCap": "round",
+          "polygonFillHatch":
+            {
+              "pattern": "diagonal-right",
+              "lineWidth": 1,
+              "size": 15,
+              "backgroundColor": 	[0, 0, 0, 0],
+              "patternColor": [0, 197, 255, 1]
+            }
+        }
+      }
+    ]
+  },
+  {
     "styleId": "1711",
     "rules": [
       {

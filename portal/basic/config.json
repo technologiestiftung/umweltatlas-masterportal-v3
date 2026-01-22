@@ -301,7 +301,7 @@
         {
           "id": "2003",
           "name": "WFS Schutzgebiete",
-          "styleId": "2003",
+          "styleId":"diagonal-right",
           "mouseHoverField": "gebietsname"
         },
         {
