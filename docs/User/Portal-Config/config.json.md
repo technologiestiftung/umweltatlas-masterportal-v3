@@ -5054,10 +5054,11 @@ Configuration of the addLayerButton to select layers.
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
 |active|yes|Boolean||Controls if addLayerButton is shown or not.|false|
-|searchBar|no|**[searchBar](#portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |buttonTitle|no|String||Sets the button title with customized text.|false|
-|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
+|reverseLayer|no|Boolean|false|Specifies whether the layers behind the addLayerButton should be displayed in reverse order.|false|
+|searchBar|no|**[searchBar](#portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|If active:true then a search within the configured searchInterfaces and searchCategory is possible.|false|
 |searchCategory|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. The category of the search.|true|
+|searchInterfaceInstanceId|no|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id of the search interface. Configured on the search interface at the parameter 'searchInterfaceId'.|true|
 
 **Example**
 
@@ -5067,6 +5068,7 @@ Configuration of the addLayerButton to select layers.
         "addLayerButton": {
             "active": true,
             "buttonTitle": "Add Layers",
+            "reverseLayer": true,
             "searchBar": {
                 "active": true,
                 "searchInterfaceInstances": [
@@ -5597,8 +5599,8 @@ Action configuration for the custom layer icon.
 
 ##### layerConfig.elements.layers.customLayerIcon.execute.Payload {data-toc-label='Payload'}
 
-The `execute` module of **CustomLayerIcon** uses a `payload` that is passed to the configured action.  
-The payload can either be an **object** with key-value pairs or a **single value** (e.g., `String`, `Boolean`, or `Number`), depending on the action's requirements.  
+The `execute` module of **CustomLayerIcon** uses a `payload` that is passed to the configured action.
+The payload can either be an **object** with key-value pairs or a **single value** (e.g., `String`, `Boolean`, or `Number`), depending on the action's requirements.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|

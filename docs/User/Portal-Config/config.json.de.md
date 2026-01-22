@@ -5039,10 +5039,11 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |active|ja|Boolean||Gibt an, ob addLayerButton initial aktiv ist.|false|
-|searchBar|nein|**[searchBar](#portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |buttonTitle|nein|String||Legt den Titel der Schaltfläche mit benutzerdefiniertem Text fest.|false|
-|searchInterfaceInstanceId|nein|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|true|
+|reverseLayer|nein|Boolean|false|Gibt an ob die Layer hinter dem addLayerButton in umgekehrter Rehenfolge angezeigt werden sollen.|false|
+|searchBar|nein|**[searchBar](#portalconfigtreeaddlayerbuttonsearchbar)**/Boolean|false|Konfiguration der Suche in der Themen Auswahl.|false|
 |searchCategory|nein|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Die Kategorie der Suche.|true|
+|searchInterfaceInstanceId|nein|String||Deprecated in next major release - use **[searchInterfaceInstances](#portalconfigtreeaddlayerbuttonsearchbarsearchinterfaceinstances) []** instead. Id des search interfaces. Konfiguriert an dem search interface am Parameter 'searchInterfaceId'.|true|
 
 **Beispiel**
 
@@ -5052,6 +5053,7 @@ Konfiguration des addLayerButton zur Auswahl von Layern.
         "addLayerButton": {
             "active": true,
             "buttonTitle": "Layer hinzufügen",
+            "reverseLayer": true,
             "searchBar": {
                 "active": true,
                 "searchInterfaceInstances": [
@@ -5581,8 +5583,8 @@ Konfiguration der Aktion für das benutzerdefinierte Layer-Icon.
 
 ##### layerConfig.elements.layers.customLayerIcon.execute.Payload {data-toc-label='Payload'}
 
-Das `execute`-Modul des **CustomLayerIcon** verwendet einen `payload`, der an die konfigurierte Action übergeben wird.  
-Der Payload kann je nach Action entweder ein **Objekt** mit Schlüssel-Wert-Paaren oder ein **einfacher Wert** (z. B. `String`, `Boolean` oder `Number`) sein.  
+Das `execute`-Modul des **CustomLayerIcon** verwendet einen `payload`, der an die konfigurierte Action übergeben wird.
+Der Payload kann je nach Action entweder ein **Objekt** mit Schlüssel-Wert-Paaren oder ein **einfacher Wert** (z. B. `String`, `Boolean` oder `Number`) sein.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
