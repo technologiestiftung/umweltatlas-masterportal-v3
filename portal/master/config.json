@@ -395,6 +395,15 @@
       "sections": [
         [
           {
+            "type": "print",
+            "printServiceId": "mapfish",
+            "printAppId": "master",
+            "filename": "Ausdruck",
+            "title": "Mein Titel",
+            "currentLayoutName": "A4 Hochformat",
+            "printMapMarker": true
+          },
+          {
             "type": "about",
             "cswUrl": "https://metaver.de/csw",
             "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
@@ -555,9 +564,6 @@
         [
           {
             "type": "populationRequest"
-          },
-          {
-            "type": "compareFeatures"
           },
           {
             "type": "print",

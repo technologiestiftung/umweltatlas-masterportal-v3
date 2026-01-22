@@ -50,6 +50,12 @@ export default {
         if (type !== "getFeatureInfo" && type !== "searchBar" && type !== "layerSelection") {
             trackMatomo("Menu", "Menuitem clicked", i18next.t(props.name));
         }
+        // if (type === "print") {
+        //     const otherSide =
+        //     side === "mainMenu" ? "secondaryMenu" : "mainMenu";
+    
+        //     commit("setMenuSide", otherSide);
+        // }
     },
 
     /**
