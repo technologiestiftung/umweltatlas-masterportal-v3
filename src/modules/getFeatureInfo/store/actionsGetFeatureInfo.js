@@ -15,17 +15,6 @@ import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight.
  * @module modules/getFeatureInfo/store/actionsGetFeatureInfo
  */
 export default {
-    changeCurrentComponent({ commit }, { side, component }) {
-        console.log("################");
-        // commit("setCurrentComponent", { side, component });
-    
-        // if (component.type === "print") {
-        //   const otherSide =
-        //     side === "mainMenu" ? "secondaryMenu" : "mainMenu";
-    
-        //   commit("setMenuSide", otherSide);
-        // }
-    },
     /**
      * Highlights a 3D Tile when left-clicked.
      *
@@ -102,15 +91,6 @@ export default {
      * @returns {void}
      */
     collectGfiFeatures ({getters, commit, dispatch, rootGetters}) {
-        const menuSides = ["mainMenu", "secondaryMenu"],
-        menuCurrentComponent = "Menu/currentComponent",
-        otherSide = menuSides.find((element) => element !== this.initialMenuSide);
-
-        if ((rootGetters[menuCurrentComponent]("secondaryMenu").type === "print" && getters.menuSide =="secondaryMenu") || (rootGetters[menuCurrentComponent]("mainMenu").type === "print" && getters.menuSide =="mainMenu")) {
-            // commit("setMenuSide", otherSide);
-        }
-        const fixedSide = getters.menuSide;
-
         const clickCoordinate = rootGetters["Maps/clickCoordinate"],
             resolution = rootGetters["Maps/resolution"],
             projection = rootGetters["Maps/projection"],
@@ -120,7 +100,7 @@ export default {
             });
 
         if (getters.menuExpandedBeforeGfi === null) {
-            commit("setMenuExpandedBeforeGfi", rootGetters["Menu/expanded"](fixedSide));
+            commit("setMenuExpandedBeforeGfi", rootGetters["Menu/expanded"](getters.menuSide));
         }
 
         return Promise.allSettled(gfiWmsLayerList.map(layer => {
@@ -193,17 +173,17 @@ export default {
                 else {
                     commit("setGfiFeatures", null);
 
-                    const currentComponent = rootGetters["Menu/currentComponent"](fixedSide),
+                    const currentComponent = rootGetters["Menu/currentComponent"](getters.menuSide),
                         isGfiActive = currentComponent?.type === "getFeatureInfo";
 
                     if (!isGfiActive) {
                         return;
                     }
 
-                    commit("Menu/switchToPreviousComponent", fixedSide, {root: true});
+                    commit("Menu/switchToPreviousComponent", getters.menuSide, {root: true});
 
                     if (!getters.menuExpandedBeforeGfi) {
-                        commit("Menu/setExpandedBySide", {expanded: false, side: fixedSide}, {root: true});
+                        commit("Menu/setExpandedBySide", {expanded: false, side: getters.menuSide}, {root: true});
                     }
 
                     commit("setMenuExpandedBeforeGfi", null);

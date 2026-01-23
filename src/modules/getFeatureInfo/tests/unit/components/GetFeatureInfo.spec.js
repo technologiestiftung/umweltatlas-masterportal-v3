@@ -163,8 +163,7 @@ beforeEach(() => {
         showMarker: sinon.stub(),
         visible: () => true,
         type: () => "getFeatureInfo",
-        configPaths: sinon.stub(),
-        initialMenuSide: () => "secondaryMenu"
+        configPaths: sinon.stub()
     };
     menuExpanded = true;
     toggleMenuSpy = sinon.spy();

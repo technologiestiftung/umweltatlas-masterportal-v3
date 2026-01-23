@@ -44,7 +44,6 @@ export default {
         ...mapGetters("Modules/GetFeatureInfo", [
             "configPaths",
             "currentFeature",
-            "initialMenuSide",
             "menuSide",
             "name",
             "showMarker",
@@ -66,33 +65,12 @@ export default {
         ...mapGetters("Maps", {
             mapMode: "mode"
         }),
-        currentComponentInfo() {
-            return {
-            type: this.currentComponent(this.menuSide)?.type
-            };
-        },
 
         /**
          * Returns the current component type of the menu navigation by side.
          * @returns {String} The current component type.
          */
         currentComponentType () {
-            // const menuSides = ["mainMenu", "secondaryMenu"],
-            //     otherSide = menuSides.find((element) => element !== this.initialMenuSide);
-            // console.log(this.currentComponent(this.menuSide)?.type);
-            // if (this.currentComponent(this.initialMenuSide).type === "print") {
-
-            //     if (this.menuSide !== otherSide){
-            //         console.log("menuSide before change", this.menuSide);
-            //         console.log("#currentcomponent side", this.initialMenuSide, this.currentComponent(this.initialMenuSide));
-            //         // this.setMenuSide(otherSide);
-            //         //this.changeCurrentComponent({type: this.type, side: this.menuSide, props: {name: "none"}})
-            //         // this.changeCurrentComponent(this.menuSide, this.currentComponent(this.menuSide))
-            //     }
-            //     console.log("%%%%new side", this.menuSide);
-            // //     // this.setMenuSide(otherSide);
-            // }
-            // console.log("RETURN TYPE", this.currentComponent(this.menuSide)?.type);
             return this.currentComponent(this.menuSide)?.type;
         },
 
@@ -133,33 +111,6 @@ export default {
         }
     },
     watch: {
-        currentComponentInfo({ type }) {
-            console.log("!!!!watcher change type", type, this.mainMenu);
-            if (type === "print"){
-                const otherSide =
-                this.mainMenu === "mainMenu" ? "secondaryMenu" : "mainMenu";
-
-                console.log("SET THE MENU TO", otherSide);
-                // this.setMenuSide(otherSide);
-            }
-        },
-        // currentComponentType({type}){
-        //     console.log("test", type);
-        // },
-        // currentComponentInfo: {
-        //     immediate: true,
-        //     handler({ type }) {
-        //     console.log("!!!!watcher change type immediate true", type, this.mainMenu);
-
-        //     if (type === "print") {
-        //         const otherSide =
-        //         this.mainMenu === "mainMenu" ? "secondaryMenu" : "mainMenu";
-
-        //         console.log("SET THE MENU TO", otherSide);
-        //         this.setMenuSide(otherSide);
-        //     }
-        //     }
-        // },
         /**
          * Resets component, if visible is false.
          * @param {Boolean} value visible
@@ -167,7 +118,7 @@ export default {
          */
         visible (value) {
             const menuSides = ["mainMenu", "secondaryMenu"],
-                otherSide = menuSides.find((element) => element !== this.initialMenuSide);
+                otherSide = menuSides.find((element) => element !== this.menuSide);
 
             if (!value) {
                 this.reset();
@@ -176,8 +127,6 @@ export default {
                 if (this.currentComponent(this.menuSide).type === "print") {
                     this.createMappedProperties(this.feature);
                     this.setMenuSide(otherSide);
-                    console.log("watcher visible after setMenuSide", this.menuSide);
-                    
                 }
 
                 this.changeCurrentComponent({type: this.type, side: this.menuSide, props: {name: "none"}});
@@ -300,7 +249,6 @@ export default {
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        // this.setMenuSide(this.initialMenuSide);
         this.setMenuSide(this.menuSide);
     },
     beforeUpdate () {
@@ -319,8 +267,7 @@ export default {
         ...mapActions(["initializeModule"]),
         ...mapActions("Modules/GetFeatureInfo", [
             "collectGfiFeatures",
-            "removeHighlightColor",
-            "changeMenu"
+            "removeHighlightColor"
         ]),
         ...mapActions("Menu", [
             "changeCurrentComponent",

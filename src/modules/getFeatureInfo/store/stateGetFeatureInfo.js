@@ -12,7 +12,6 @@
  * @property {Object} [highlightVectorRules=null] The highlight vector rules.
  * @property {Boolean} [showPolygonMarkerForWMS=false] If true, a polygon marker is shown for WMS features.
  * @property {String} [icon="bi-info-circle-fill"] Icon next to title (config-param).
- * @property {String} [initialMenuSide="secondaryMenu"] Specifies in which menu the GFI should be rendered initially
  * @property {String} [menuSide="secondaryMenu"] Specifies in which the GFI should be rendered dependending on opened print module.
  * @property {String} [name="common:modules.getFeatureInfo.name"] Displayed as title (config-param).
  * @property {Object[]} [path=[]] Path for menu navigation
@@ -36,7 +35,6 @@ export default {
     highlightVectorRules: null,
     showPolygonMarkerForWMS: false,
     icon: "bi-info-circle-fill",
-    initialMenuSide: "secondaryMenu",
     menuSide: "secondaryMenu",
     name: "common:modules.getFeatureInfo.name",
     path: [],
