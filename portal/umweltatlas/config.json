@@ -2237,7 +2237,7 @@
                       "elements": [
                         {
                           "id": "ua_gk25:gk25",
-                          "name": "Geologische Karte 1 : 25.000 (Geologische Karte 1 : 25.000 (Historische GK25, Umweltatlas))"
+                          "name": "Geologische Karte 1 : 25.000 (Geologische Karte 1 : 25.000 (Historische GK25))"
                         }
                       ]
                     }
@@ -2629,7 +2629,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022",
-                          "name": "2022 - Art der Kanalisation 2022 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2022 - Art der Kanalisation 2022 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     },
@@ -2639,7 +2639,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022_1",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation 2022 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation 2022 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     },
@@ -2649,7 +2649,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2022:sp02_09kanalisation2022_2",
-                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation differenziert 2022 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2022 - Einzugsgebiete der Regenwasserkanalisation differenziert 2022 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     }
@@ -2665,7 +2665,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2017:artkan2017",
-                          "name": "2017 - Art der Kanalisation 2017 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2017 - Art der Kanalisation 2017 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     },
@@ -2675,7 +2675,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2017:rkan2017",
-                          "name": "2017 - Einzugsgebiete der Regenwasserkanalisation 2017 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2017 - Einzugsgebiete der Regenwasserkanalisation 2017 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     },
@@ -2685,7 +2685,7 @@
                       "elements": [
                         {
                           "id": "ua_kanalisation_2017:rkd2017",
-                          "name": "2017 - Einzugsgebiete der Regenwasserkanalisation differenziert 2017 (Entsorgung von Regen- und Abwasser )"
+                          "name": "2017 - Einzugsgebiete der Regenwasserkanalisation differenziert 2017 (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     }
@@ -4085,7 +4085,7 @@
                       "elements": [
                         {
                           "id": "ua_wasserhaushalt_2017:gwneu_2017",
-                          "name": "2017 - Grundwasserneubildung (Umweltatlas) (Wasserhaushalt)"
+                          "name": "2017 - Grundwasserneubildung (Wasserhaushalt)"
                         }
                       ]
                     }
@@ -4133,7 +4133,7 @@
                       "elements": [
                         {
                           "id": "ua_grundwasserneubildung_1990:gwneu_1990",
-                          "name": "1990 - Grundwasserneubildung (Umweltatlas) (Grundwasserneubildung)"
+                          "name": "1990 - Grundwasserneubildung (Grundwasserneubildung)"
                         }
                       ]
                     }
@@ -4687,19 +4687,19 @@
                       "elements": [
                         {
                           "id": "wsg_2006:wsg2006",
-                          "name": "2006 - Wasserschutzgebiete 2006 (Wasserschutzgebiete )"
+                          "name": "2006 - Wasserschutzgebiete 2006 (Wasserschutzgebiete)"
                         },
                         {
                           "id": "wsg_2006:wasserwerke",
-                          "name": "2006 - Wasserwerke (Wasserschutzgebiete )"
+                          "name": "2006 - Wasserwerke (Wasserschutzgebiete)"
                         },
                         {
                           "id": "wsg_2006:brunnen",
-                          "name": "2006 - Brunnengalerien (Wasserschutzgebiete )"
+                          "name": "2006 - Brunnengalerien (Wasserschutzgebiete)"
                         },
                         {
                           "id": "wsg_2006:blattschnitt",
-                          "name": "2006 - Amtlicher Kartenausschnitt (Wasserschutzgebiete )"
+                          "name": "2006 - Amtlicher Kartenausschnitt (Wasserschutzgebiete)"
                         }
                       ]
                     }
@@ -5453,7 +5453,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_haupt_nox_2009:kfz_haupt_nox_2009",
-                          "name": "2009 - NOx Emissionen Kfz-Verkehr Hauptnetz (Umweltatlas) (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr HN)"
+                          "name": "2009 - NOx Emissionen Kfz-Verkehr Hauptnetz (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr HN)"
                         }
                       ]
                     },
@@ -5463,7 +5463,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_neben_nox_2009:kfz_neben_nox_2009",
-                          "name": "2009 - NOx Emissionen Kfz-Verkehr Nebennetz (Umweltatlas) (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr NN)"
+                          "name": "2009 - NOx Emissionen Kfz-Verkehr Nebennetz (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr NN)"
                         }
                       ]
                     },
@@ -5765,7 +5765,7 @@
                       "elements": [
                         {
                           "id": "ua_luftbelastung_verkehr_2020_2025:ua_luftbelastung_verkehr_2020_2025",
-                          "name": "2025 - Verkehrsbedingte Luftbelastung im Straßenraum 2020 und (Umweltatlas) (Verkehrsbedingte Luftbelastung im Straßenraum und 2025)"
+                          "name": "2025 - Verkehrsbedingte Luftbelastung im Straßenraum 2020 und (Verkehrsbedingte Luftbelastung im Straßenraum und 2025)"
                         }
                       ]
                     }
@@ -5829,7 +5829,7 @@
                       "elements": [
                         {
                           "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb1_no",
-                          "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum )"
+                          "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
                         }
                       ]
                     },
@@ -5839,7 +5839,7 @@
                       "elements": [
                         {
                           "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb1_pm",
-                          "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum )"
+                          "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
                         }
                       ]
                     }
@@ -6067,7 +6067,7 @@
                         },
                         {
                           "id": "ua_klimaanalyse_2022:tc_kak_luftbelastverkehr2020",
-                          "name": "2020 - Index der Luftbelastung durch Kfz-Verkehr für PM10 und NO2 (Prognose für ) (Klimaanalysekarten)"
+                          "name": "2020 - Index der Luftbelastung durch Kfz-Verkehr für PM10 und NO2 (Prognose für) (Klimaanalysekarten)"
                         },
                         {
                           "id": "ua_klimaanalyse_2022:tb_kak_laermschutz_2022",
@@ -6964,7 +6964,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_2000:night2000",
-                          "name": "2000 - Oberflächentemperaturen am Abend (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "2000 - Oberflächentemperaturen am Abend (Oberflächentemperaturen)"
                         }
                       ]
                     },
@@ -6974,7 +6974,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_2000:day2000",
-                          "name": "2000 - Oberflächentemperaturen am Morgen (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "2000 - Oberflächentemperaturen am Morgen (Oberflächentemperaturen)"
                         }
                       ]
                     },
@@ -6984,7 +6984,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_2000:diff-dn2000",
-                          "name": "2000 - Oberflächentemperaturdifferenzen Abend-Morgen (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "2000 - Oberflächentemperaturdifferenzen Abend-Morgen (Oberflächentemperaturen)"
                         }
                       ]
                     }
@@ -7000,7 +7000,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_1991:therm_n2",
-                          "name": "1991 - Oberflächentemperaturen am Abend (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "1991 - Oberflächentemperaturen am Abend (Oberflächentemperaturen)"
                         }
                       ]
                     },
@@ -7010,7 +7010,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_1991:therm_d2",
-                          "name": "1991 - Oberflächentemperaturen am Morgen (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "1991 - Oberflächentemperaturen am Morgen (Oberflächentemperaturen)"
                         }
                       ]
                     },
@@ -7020,7 +7020,7 @@
                       "elements": [
                         {
                           "id": "ua_oberflaechentemperatur_1991:therm_x2",
-                          "name": "1991 - Oberflächentemperaturdifferenzen Abend-Morgen (Umweltatlas) (Oberflächentemperaturen)"
+                          "name": "1991 - Oberflächentemperaturdifferenzen Abend-Morgen (Oberflächentemperaturen)"
                         }
                       ]
                     }
@@ -7480,15 +7480,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2023",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2023 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung der bebauten Flächen 2023 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2022 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung der bebauten Flächen 2022 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung - ab)"
                         }
                       ]
                     },
@@ -7498,15 +7498,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2023",
-                          "name": "2021 - Reale Nutzung 2023 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung 2023 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2022",
-                          "name": "2021 - Reale Nutzung 2022 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung 2022 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2021",
-                          "name": "2021 - Reale Nutzung 2021 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung 2021 (Flächennutzung - ab)"
                         }
                       ]
                     },
@@ -7516,15 +7516,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2023",
-                          "name": "2021 - Grün- und Freiflächenbestand 2023 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Grün- und Freiflächenbestand 2023 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
-                          "name": "2021 - Grün- und Freiflächenbestand 2022 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Grün- und Freiflächenbestand 2022 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
-                          "name": "2021 - Grün- und Freiflächenbestand 2021 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Grün- und Freiflächenbestand 2021 (Flächennutzung - ab)"
                         }
                       ]
                     },
@@ -7534,15 +7534,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2023",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung - ab)"
                         },
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung (Umweltatlas) - ab )"
+                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung - ab)"
                         }
                       ]
                     }
@@ -7806,15 +7806,15 @@
                       "elements": [
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2023",
-                          "name": "2021 - Stadtstruktur 2023 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur 2023 (Stadtstruktur - ab)"
                         },
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2022",
-                          "name": "2021 - Stadtstruktur 2022 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur 2022 (Stadtstruktur - ab)"
                         },
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2021",
-                          "name": "2021 - Stadtstruktur 2021 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur 2021 (Stadtstruktur - ab)"
                         }
                       ]
                     },
@@ -7824,15 +7824,15 @@
                       "elements": [
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2023",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur - ab)"
                         },
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur - ab)"
                         },
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur (Umweltatlas) - ab )"
+                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur - ab)"
                         }
                       ]
                     }
@@ -8516,19 +8516,19 @@
                       "elements": [
                         {
                           "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10veg_phase2_2009",
-                          "name": "2009 - Vegetationshöhen (Phase 2) (Umweltatlas) (Gebäude- und Vegetationshöhen)"
+                          "name": "2009 - Vegetationshöhen (Phase 2) (Gebäude- und Vegetationshöhen)"
                         },
                         {
                           "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10veg_phase1_2010",
-                          "name": "2010 - Vegetationshöhen (Phase 1) (Umweltatlas) (Gebäude- und Vegetationshöhen)"
+                          "name": "2010 - Vegetationshöhen (Phase 1) (Gebäude- und Vegetationshöhen)"
                         },
                         {
                           "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10geb_phase2_2009",
-                          "name": "2012 - Gebäudehöhen (Phase 2) (Umweltatlas) (Gebäude- und Vegetationshöhen)"
+                          "name": "2012 - Gebäudehöhen (Phase 2) (Gebäude- und Vegetationshöhen)"
                         },
                         {
                           "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10geb_phase1_2010",
-                          "name": "2012 - Gebäudehöhen (Phase 1) (Umweltatlas) (Gebäude- und Vegetationshöhen)"
+                          "name": "2012 - Gebäudehöhen (Phase 1) (Gebäude- und Vegetationshöhen)"
                         }
                       ]
                     }
@@ -8624,7 +8624,7 @@
                       "elements": [
                         {
                           "id": "ua_staedtebauliche_dichte2011:b_grz2011",
-                          "name": "2011 - Grundflächenzahl  (GRZ) (Städtebauliche Dichte - GFZ/GRZ)"
+                          "name": "2011 - Grundflächenzahl (GRZ) (Städtebauliche Dichte - GFZ/GRZ)"
                         }
                       ]
                     }
@@ -9130,7 +9130,7 @@
                       "elements": [
                         {
                           "id": "schallschutzfensterprogramm:schallschutzfensterprogramm",
-                          "name": "2024/2025 - Schallschutzfensterprogramm 2024/2025 (Schallschutzfensterprogramm )"
+                          "name": "2024/2025 - Schallschutzfensterprogramm 2024/2025 (Schallschutzfensterprogramm)"
                         }
                       ]
                     }
@@ -9598,7 +9598,7 @@
                         },
                         {
                           "id": "ua_stratlaerm_2012:aa_fp_gesamt2012",
-                          "name": "2012 - Strat. Lärmkarte Fassadenpegel an lärmbeeinflußten Wohngebäuden (Umweltatlas) (Strategische Lärmkarten)"
+                          "name": "2012 - Strat. Lärmkarte Fassadenpegel an lärmbeeinflußten Wohngebäuden (Strategische Lärmkarten)"
                         }
                       ]
                     },
