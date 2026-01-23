@@ -39,6 +39,7 @@
 - WMS-Time: 
     - Added the current time parameter (TIME) to ensure time-dynamic layers are correctly represented when printing.
     - The current timestamp of a WMS-T layer is now captured in the share link and restored upon activation.
+- Issue #1536: About: The documentation has been supplemented and corrected. Property `title` is now displayed.
 - Issue #1549: WfsSearch with multiple select fields functions as expected. Fixed reset dependent fields at selection change.
 
 ---

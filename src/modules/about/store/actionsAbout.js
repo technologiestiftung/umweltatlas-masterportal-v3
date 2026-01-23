@@ -18,7 +18,7 @@ export default {
     async initializeAboutInfo ({commit, dispatch, state, rootGetters}) {
         let metadata;
 
-        if (state.cswUrl !== null && typeof state.metaId !== "undefined") {
+        if (state.cswUrl !== null && state.cswUrl !== "" && typeof state.metaId !== "undefined") {
             metadata = await getCswRecordById.getRecordById(state.cswUrl, state.metaId);
         }
         // use default csw_url from rest-services.json if csw_url not stated in the specific service
@@ -39,11 +39,7 @@ export default {
             }
         }
 
-        if (typeof metadata === "undefined") {
-            commit("setTitle", "");
-            commit("setAbstractText", i18next.t("common:modules.about.noMetadataLoaded"));
-        }
-        else {
+        if (typeof metadata !== "undefined") {
             commit("setTitle", metadata?.getTitle());
             commit("setAbstractText", metadata?.getAbstract());
             if (metadata?.getContact()) {

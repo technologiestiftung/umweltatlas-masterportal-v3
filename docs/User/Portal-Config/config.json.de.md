@@ -1920,34 +1920,35 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 [inherits]: # (portalConfig.menu.sections.modules)
 
 Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. Beschreibungstext, Masterportalversion, Metadaten.
+Wenn die `cswUrl` konfiguriert ist, dann werden folgende Properties nicht angezeigt: `abstractText`, `contact`, `title`.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
 |icon|nein|String|"bi-info-circle"|Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String|"common:modules.about.name"|Name des Moduls im Menü.|false|
 |type|ja|String|"about"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
-|abstractText|nein|String|""|Beschreibungstext des Portals|false|
-|contact|no|String|null|Metadaten Kontaktinformationen|false|
-|cswUrl|nein|String|""|Metadaten URL|false|
+|abstractText|nein|String|""|Beschreibungstext des Portals, wird nur angezeigt, wenn `cswUrl` nicht gesetzt ist. Kann HTML Elemente enthalten.|false|
+|contact|no|**[contact](#portalconfigmenusectionsmodulesaboutcontact)**|null|Metadaten Kontaktinformationen, werden nur angezeigt, wenn `cswUrl` nicht gesetzt ist.|false|
+|cswUrl|nein|String|""|Metadaten URL, um die anzuzeigenden Informationen zu laden. Dann werden `abstractText`, `contact`, `title` nicht angezeigt.|false|
 |logo|nein|Boolean/String|"../../src/assets/img/Logo_Masterportal.svg"|Pfad zum Logo. Mit `false` wird das Logo ausgeblendet.|false|
 |logoLink|nein|String|"https://masterportal.org"|Link der bei Klick auf das Logo in einem neuen Tab aufgerufen wird.|false|
 |logoText|nein|String|"Masterportallogo"|Alternativtext der eingeblendet wird, wenn das Logo nicht angezeigt werden kann.|false|
-|metaDataCatalogueId|nein|String|"2"|Id des Metadatenkatalogdienstes|false|
-|metaId|nein|String|""|Id des Metadateneintrages|false|
-|metaUrl|nein|String|""|URL des Metadateneintrages|false|
-|noMetadataLoaded|nein|String|""|Text bei nicht anzeigbaren Metadaten|false|
-|showAdditionalMetaData|nein|Boolean|true|Metadatenlink zu erweiterten Metadaten anzeigen|false|
-|title|nein|String|""|Titel der Metadaten|false|
+|metaDataCatalogueId|nein|String|"2"|Id des Metadatenkatalogdienstes.|false|
+|metaId|nein|String|""|Id des Metadateneintrages.|false|
+|metaUrl|nein|String|""|URL des Metadateneintrages.|false|
+|noMetadataLoaded|nein|String|""|Text bei nicht anzeigbaren Metadaten.|false|
+|showAdditionalMetaData|nein|Boolean|true|Metadatenlink zu erweiterten Metadaten anzeigen.|false|
+|title|nein|String|""|Titel der Metadaten. Wird nur angezeigt, wenn `cswUrl` nicht gesetzt ist.  Kann HTML Elemente enthalten.|false|
 |version|nein|Boolean/String|true|Versionsangabe des Masterportals. Mit `true` wird die Masterportalversion automatisch ermittelt. Mit `false` wird die Version ausgeblendet.|false|
 |versionLink|nein|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link der bei Klick auf die version in einem neuen Tab aufgerufen wird.|false|
 |ustId|nein|String|""|Umsatzsteueridentifikationsnummer gem. § 27 Umsatzsteuergesetz|false|
-|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt|false|
-|privacyStatementUrl|no|String|""|URL zu der Datenschutzerklärungsseite|false|
-|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt|false|
-|accessibilityUrl|no|String|""|URL zu der Barrierefreiheitserklärungsseite|false|
-|hideImprintInFooter|nein|Boolean|false|Wenn true, wird im Footer kein Impressum-Link zum About-Modul angezeigt, sofern das About-Modul existiert.|false|
+|privacyStatementText|nein|String|"common:modules.about.privacyStatementText"|Text für den Datenschutzabschnitt.|false|
+|privacyStatementUrl|nein|String|""|URL zu der Datenschutzerklärungsseite.|false|
+|accessibilityText|nein|String|"common:modules.about.accessibilityText"|Text für den Barrierefreiheitsabschnitt.|false|
+|accessibilityUrl|nein|String|""|URL zu der Barrierefreiheitserklärungsseite.|false|
+|hideImprintInFooter|nein|Boolean|false|Wenn true, wird im Footer kein Impressum-Link zum About-Modul angezeigt.|false|
 
-```json title="Beispiel"
+```json title="Beispiel mit cswUrl"
 {
     "icon": "bi-cloud-circle",
     "name": "common:modules.about.name",
@@ -1955,8 +1956,51 @@ Mit diesem Modul lassen sich spezifische Portalinformationen anzeigen wie z.B. B
     "cswUrl": "https://metaver.de/csw",
     "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
     "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "privacyStatementText": "Text zum Datenschutz.",
+    "privacyStatementUrl": "https://geodienste.hamburg.de/lgv-config/about-files/datenschutzerklaerung.pdf",
+    "accessibilityText": "Text zur Barrierefreiheit.",
+    "accessibilityUrl": "https://geodienste.hamburg.de/lgv-config/about-files/barrierefreiheitserklaerung.pdf",
     "hideImprintInFooter": true
 }
+```
+```json title="Beispiel ohne cswUrl und meta Daten"
+{
+    "type": "about",
+    "title": "Portal Name",
+    "abstractText": "Beschreibung des Portals<br><br>1.Zeile<br>2.Zeile",
+    "contact": {
+                    "name": "testname",
+                    "street": "Straße",
+                    "postalCode": "PLZ",
+                    "city": "Stadt",
+                    "email": "geoservice@example.de"
+                }
+}
+```
+
+***
+###### portalConfig.menu.sections.modules.about.contact {data-toc-label='Contact'}
+Metadaten Kontaktinformationen, werden nur angezeigt, wenn `cswUrl` nicht gesetzt ist.
+
+|Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
+|----|-------------|---|-------|------------|------|
+|city|nein|String||Der Ort.|false|
+|email|nein|String||Die Email-Adresse.|false|
+|name|nein|String||Der Name.|false|
+|positionName|nein|String[]||Liste der Positionen. Die Einträge können HTML Elemente enthalten.|false|
+|postalCode|nein|String||Die Postleitzahl.|false|
+|street|nein|String||Die Straße.|false|
+
+**Beispiel**
+
+```json
+{
+    "name": "testname",
+    "positionName": ["<small>Abteilung A</small>", "<small>Teamlead</small>"],
+    "street": "Straße",
+    "postalCode": "PLZ",
+    "city": "Stadt",
+    "email": "geoservice@example.de"
 ```
 
 ***

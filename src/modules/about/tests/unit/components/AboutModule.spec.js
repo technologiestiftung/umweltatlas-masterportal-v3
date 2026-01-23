@@ -40,7 +40,7 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                                 metaUrl: () => "",
                                 noMetadataLoaded: () => "",
                                 showAdditionalMetaData: () => true,
-                                title: () => "",
+                                title: () => "Titel",
                                 version: () => version,
                                 versionLink: () => "",
                                 ustId: () => "DE12345",
@@ -147,6 +147,16 @@ describe("src/modules/about/components/AboutModule.vue", () => {
         expect(wrapper.find("div.ustIdWrapper").exists()).to.be.true;
         expect(wrapper.find(".ustId").exists()).to.be.true;
         expect(wrapper.find(".ustId").text()).to.equals("DE12345");
+    });
+    it("should have a title", async () => {
+        const wrapper = mount(AboutComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("h5").exists()).to.be.true;
+        expect(wrapper.find("h5").text()).to.equals("Titel");
     });
     it("should have a privacy statement section", async () => {
         const wrapper = mount(AboutComponent, {

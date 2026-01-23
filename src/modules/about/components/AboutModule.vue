@@ -22,6 +22,7 @@ export default {
             "logoText",
             "metaUrl",
             "showAdditionalMetaData",
+            "title",
             "version",
             "versionLink",
             "ustId",
@@ -104,6 +105,12 @@ export default {
         class="d-flex flex-column justify-content-between"
     >
         <div class="content d-flex flex-column">
+            <div v-if="title">
+                <h5
+                    class="title"
+                    v-html="title"
+                />
+            </div>
             <div>
                 <div
                     class="pb-2 abstract"

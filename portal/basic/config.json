@@ -126,6 +126,21 @@
           },
           {
             "type": "language"
+          },
+           {
+            "type": "about",
+            "title": "Portal basic",
+            "abstractText": "Dies ist ein simples Portal.<br><br>Die erforderlichen Ressource-Dateien liegen lokal.<br>Der Themenbaum ist einfach.",
+            "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "contact":{
+              "name":"Erika Mustermann",
+              "positionName": ["<small>Abteilung A</small>", "<small>Teamlead</small>"],
+              "street":"Neuenfelder Straße 19",
+              "postalCode":"21109",
+              "city":"Hamburg",
+              "email":"email@email.de"
+            }
           }
         ]
       ]

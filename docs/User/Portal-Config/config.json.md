@@ -1925,34 +1925,35 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 [inherits]: # (portalConfig.menu.sections.modules)
 
 This module displays specific portal information like description, Masterportal version, Metadata.
+If `cswUrl` is configured, the following properties are not displayed: `abstractText`, `contact`, `title`.
 
 |Name|Required|Type|Default|Description|Expert|
 |----|-------------|---|-------|------------|------|
 |icon|no|String|"bi-info-circle"|Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|no|String|"common:modules.about.name"|Name of the module in the menu.|false|
 |type|yes|String|"about"|The type of the module. Defines which module is configured.|false|
-|abstractText|no|String|""|Description of the portal|false|
-|contact|no|String|null|Metadata contact information|false|
-|cswUrl|no|String|""|Metadata URL|false|
+|abstractText|no|String|""|Description text of the portal, only displayed if `cswUrl` is not set. May contain HTML elements.|false|
+|contact|no|**[contact](#portalconfigmenusectionsmodulesaboutcontact)**|null|Metadata contact information is only displayed if `cswUrl` is not set.|false|
+|cswUrl|no|String|""|Metadata URL to load the information to be displayed. Then `abstractText`, `contact`, `title` will not be displayed.|false|
 |logo|no|Boolean/String|"../../src/assets/img/Logo_Masterportal.svg"|Path to the logo. With `false` the logo is hidden.|false|
 |logoLink|no|String|"https://masterportal.org"|Link that opens in a new tab when you click on the logo.|false|
 |logoText|no|String|"Masterportallogo"|Alternative text that is displayed if the logo cannot be displayed.|false|
-|metaDataCatalogueId|no|String|"2"|Id of the metadata service|false|
-|metaId|no|String|""|Id of the metadata object|false|
-|metaUrl|no|String|""|URL of the metadata object|false|
-|noMetadataLoaded|no|String|""|Text if no metadata is shown|false|
-|showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata|false|
-|title|no|String|""|Metadata title |false|
+|metaDataCatalogueId|no|String|"2"|Id of the metadata service.|false|
+|metaId|no|String|""|Id of the metadata object.|false|
+|metaUrl|no|String|""|URL of the metadata object.|false|
+|noMetadataLoaded|no|String|""|Text if no metadata is shown.|false|
+|showAdditionalMetaData|no|Boolean|true|Metadata link to show extended metadata.|false|
+|title|no|String|""|Title of the metadata. Only displayed if `cswUrl` is not set. May contain HTML elements. |false|
 |version|no|Boolean/String|true|Version specification of the master portal. With `true` the master portal version is determined automatically. With `false` the version is hidden.|false|
 |versionLink|no|String|"https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/"|Link that opens in a new tab when you click on the version.|false|
-|ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act|false|
-|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|Text for data privacy section|false|
-|privacyStatementUrl|no|String|""|URL to data privacy policy site|false|
-|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section|false|
-|accessibilityUrl|no|String|""|URL to the accessibility statement site|false|
-|hideImprintInFooter|no|Boolean|false|If true, the imprint link to the about module is hidden in the footer, provided the about module exists.|false|
+|ustId|no|String|""|Sales tax identification number in accordance with Section 27 of the Sales Tax Act.|false|
+|privacyStatementText|no|String|"common:modules.about.privacyStatementText"|.|false|
+|privacyStatementUrl|no|String|""|URL to data privacy policy site.|false|
+|accessibilityText|no|String|"common:modules.about.accessibilityText"|Text for accessibility section.|false|
+|accessibilityUrl|no|String|""|URL to the accessibility statement site.|false|
+|hideImprintInFooter|no|Boolean|false|If true, the imprint link to the about module is hidden in the footer.|false|
 
-```json title="Example"
+```json title="Example with cswUrl"
 {
     "icon": "bi-cloud-circle",
     "name": "common:modules.about.name",
@@ -1960,8 +1961,51 @@ This module displays specific portal information like description, Masterportal 
     "cswUrl": "https://metaver.de/csw",
     "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
     "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+    "privacyStatementText": "Text for privacy statement.",
+    "privacyStatementUrl": "https://geodienste.hamburg.de/lgv-config/about-files/privacyStatement.pdf",
+    "accessibilityText": "Text for accessibility.",
+    "accessibilityUrl": "https://geodienste.hamburg.de/lgv-config/about-files/accessibility.pdf",
     "hideImprintInFooter": true
 }
+```
+```json title="Example without cswUrl and meta data"
+{
+    "type": "about",
+    "title": "Portal name",
+    "abstractText": "Description of the portal<br><br>1st line<br>2nd line",
+    "contact": {
+                    "name": "testname",
+                    "street": "street",
+                    "postalCode": "postalCode",
+                    "city": "city",
+                    "email": "geoservice@example.de"
+                }
+}
+```
+
+***
+###### portalConfig.menu.sections.modules.about.contact {data-toc-label='Contact'}
+Metadata contact information is only displayed if `cswUrl` is not set.
+
+|Name|Required|Type|Default|Description|Expert|
+|----|-------------|---|-------|------------|------|
+|city|no|String||The city.|false|
+|email|no|String||The email-address.|false|
+|name|no|String||The name.|false|
+|positionName|no|String[]||List of positions. Entries may contain HTML elements.|false|
+|postalCode|no|String||The postcode.|false|
+|street|no|String||The street.|false|
+
+**Beispiel**
+
+```json
+{
+    "name": "testname",
+    "positionName": ["<small>Abteilung A</small>", "<small>Teamlead</small>"],
+    "street": "Straße",
+    "postalCode": "PLZ",
+    "city": "Stadt",
+    "email": "geoservice@example.de"
 ```
 
 ***
