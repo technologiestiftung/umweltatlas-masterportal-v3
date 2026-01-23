@@ -1,815 +1,5 @@
 [
   {
-    "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ba_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:bb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "bb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:bc_kernindikator_laerm",
-    "name": "Kernindikator Lärmbelastung 2012",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "bc_kernindikator_laerm",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ca_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ca_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:cb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "cb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:cc_kernindikator_luft",
-    "name": "Kernindikator Luftbelastung 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "cc_kernindikator_luft",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:da_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "da_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:db_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "db_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:dc_kernindikator_gruen",
-    "name": "Kernindikator Grünversorung 2012",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "dc_kernindikator_gruen",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ea_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ea_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:eb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "eb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ec_kernindikator_bioklima",
-    "name": "Kernindikator Bioklima 2011",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ec_kernindikator_bioklima",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:fa_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "fa_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:fb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "fb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:fc_kernindikator_sozial",
-    "name": "Kernindikator Soziale Problematik 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "fc_kernindikator_sozial",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ga_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "gb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
-    "name": "Integrierte Mehrfachbelastung Umwelt 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "gc_vierfach_belastung",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ha_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ha_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:hb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "hb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:hc_umwelt_sozial_belastung",
-    "name": "Integrierte Mehrfachbelastung Umwelt und Soziale Problematik 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "hc_umwelt_sozial_belastung",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ia_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ia_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ib_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ib_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ic_thematisch_belastung",
-    "name": "Integrierte Mehrfachbelastungskarte - thematisch 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ic_thematisch_belastung",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ja_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ja_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:jb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "jb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:jc_gesamt_belastung",
-    "name": "Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte - 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "jc_gesamt_belastung",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_flurabstand_1995:a_flurabstand_1995",
     "name": "Bereiche mit gespanntem Grundwasser 1995",
     "crs": "EPSG:25833",
@@ -4301,36 +3491,6 @@
     }
   },
   {
-    "id": "ua_boden_bodplan_2010:bodplan2010",
-    "name": "Planungshinweise zum Bodenschutz 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_bodplan_2010",
-    "typ": "WMS",
-    "layers": "bodplan2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "9fcbe84e-aeb5-317a-93d7-651116369100",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/planungshinweise-bodenschutz/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/planungshinweise-bodenschutz/de-karten/01_13_2010.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_leist_2010:leist2010",
     "name": "Leistungsfähigkeit der Böden 2010",
     "crs": "EPSG:25833",
@@ -4354,6 +3514,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2010/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_06_2010.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_bodplan_2010:bodplan2010",
+    "name": "Planungshinweise zum Bodenschutz 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_bodplan_2010",
+    "typ": "WMS",
+    "layers": "bodplan2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9fcbe84e-aeb5-317a-93d7-651116369100",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/planungshinweise-bodenschutz/2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/planungshinweise-bodenschutz/de-karten/01_13_2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -5201,6 +4391,96 @@
     }
   },
   {
+    "id": "ua_niederschlag_1991_2020:ac_lniederschl_9120_blockfl",
+    "name": "Block- und Blockteilflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "ac_lniederschl_9120_blockfl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
+    "name": "Straßenflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "ad_lniederschl_9120_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "ae_niederschlag_9120_raster",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_1_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_niederschlag_1991_2020:ba_lniederschl_9120_isoli_sommer",
     "name": "Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020",
     "crs": "EPSG:25833",
@@ -5261,6 +4541,96 @@
     }
   },
   {
+    "id": "ua_niederschlag_1991_2020:bc_lniederschl_9120_block_sommer",
+    "name": "Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "bc_lniederschl_9120_block_sommer",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_2_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:bd_lniederschl_9120_str_sommer",
+    "name": "Straßenflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "bd_lniederschl_9120_str_sommer",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_2_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:be_niederschlag_9120_raster_sommer",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "be_niederschlag_9120_raster_sommer",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_2_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_niederschlag_1991_2020:ca_lniederschl_9120_isoli_winter",
     "name": "Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020",
     "crs": "EPSG:25833",
@@ -5297,6 +4667,96 @@
     "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
     "typ": "WMS",
     "layers": "cb_lniederschl_9120_isofl_winter",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:cc_lniederschl_9120_block_winter",
+    "name": "Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "cc_lniederschl_9120_block_winter",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:cd_lniederschl_9120_str_winter",
+    "name": "Straßenflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "cd_lniederschl_9120_str_winter",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e58f26cd-a478-4198-9d56-ddac3aa8e96a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1991-2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1991-2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_niederschlag_1991_2020:ce_niederschlag_9120_raster_winter",
+    "name": "Rasterflächen -  Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1991_2020",
+    "typ": "WMS",
+    "layers": "ce_niederschlag_9120_raster_winter",
     "legend": true,
     "datasets": [
       {
@@ -14324,36 +13784,6 @@
     }
   },
   {
-    "id": "ua_boden_austauschh_2020:austauschh2020",
-    "name": "Austauschhäufigkeit des Bodenwassers 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_austauschh_2020",
-    "typ": "WMS",
-    "layers": "austauschh2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "2106ff3a-3394-4011-9b31-5cee4d4a9364",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_04_2020.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_kohlenstoffpuffer_2020:kohlenstoffpuffer2020",
     "name": "Puffervermögen im organischen Kohlenstoffhaushalt der Böden 2020",
     "crs": "EPSG:25833",
@@ -14377,6 +13807,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_11_2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_austauschh_2020:austauschh2020",
+    "name": "Austauschhäufigkeit des Bodenwassers 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_austauschh_2020",
+    "typ": "WMS",
+    "layers": "austauschh2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "2106ff3a-3394-4011-9b31-5cee4d4a9364",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_04_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -15445,6 +14905,354 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2016/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2016/de-karten/06_06_2016.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:aa_biotoptypen_p",
+    "name": "Biotoptypen 2024 (Symbole)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "aa_biotoptypen_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:ab_biotoptypen_l",
+    "name": "Biotoptypen 2024 (Linien)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "ab_biotoptypen_l",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:ac_biotoptypen_f",
+    "name": "Biotoptypen 2024 (Flächen)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "ac_biotoptypen_f",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:ba_gesetzschutz_p",
+    "name": "Gesetzlich geschützte Biotope 2024 (Symbole)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "ba_gesetzschutz_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:bb_gesetzschutz_l",
+    "name": "Gesetzlich geschützte Biotope 2024 (Linien)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "bb_gesetzschutz_l",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:bc_gesetzschutz_f",
+    "name": "Gesetzlich geschützte Biotope 2024 (Flächen)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "bc_gesetzschutz_f",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:ca_ffh_p",
+    "name": "Lebensraumtypen (FFH-Richtlinie) 2024 (Symbole)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "ca_ffh_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:cb_ffh_l",
+    "name": "Lebensraumtypen (FFH-Richtlinie) 2024 (Linien)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "cb_ffh_l",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:cc_ffh_f",
+    "name": "Lebensraumtypen (FFH-Richtlinie) 2024 (Flächen)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "cc_ffh_f",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:da_kart_methode_p",
+    "name": "Kartiermethode 2024 (Symbole)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "da_kart_methode_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:db_kart_methode_l",
+    "name": "Kartiermethode 2024 (Linien)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "db_kart_methode_l",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_biotoptypen_2024:dc_kart_methode_f",
+    "name": "Kartiermethode 2024 (Flächen)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_biotoptypen_2024",
+    "typ": "WMS",
+    "layers": "dc_kart_methode_f",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "cb99527a-eb4f-452f-a8b9-20dc1e2e4b5a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -21632,36 +21440,6 @@
     }
   },
   {
-    "id": "ua_verkehrsmengen_2009:verkehrsmengen2009",
-    "name": "Verkehrsmengen DTV 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_verkehrsmengen_2009",
-    "typ": "WMS",
-    "layers": "verkehrsmengen2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "3b670c75-f1d4-33ce-b334-cb3df4c7c2d1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/verkehrsmengen/2009/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/verkehrsmengen/de-karten/07_01_2009.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_ingenieurgeologkarte_2017:a_sp_igk_bohrpunkte",
     "name": "Bohrpunkte",
     "crs": "EPSG:25833",
@@ -22666,6 +22444,623 @@
     }
   },
   {
+    "id": "ua_klimamodell_2001:a_lufttemperatur_22h",
+    "name": "Lufttemperatur am Abend 22.00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "a_lufttemperatur_22h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_1_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:b_lufttemperatur_06h",
+    "name": "Lufttemperatur am Morgen 06.00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "b_lufttemperatur_06h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_2_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:ca_windfeld_22h",
+    "name": "Windfeld 22:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "ca_windfeld_22h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "5001",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_3_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:cb_luftaustausch_22h",
+    "name": "Häufigkeit des Luftaustausches pro Stunde um 22:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "cb_luftaustausch_22h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_3_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:da_windfeld_06h",
+    "name": "Windfeld 06:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "da_windfeld_06h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "5001",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_6_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:db_luftaustausch_06h",
+    "name": "Häufigkeit des Luftaustausches pro Stunde um 06:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "db_luftaustausch_06h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_4_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:e_kaltluftvolumenstrom_22h",
+    "name": "Kaltluftvolumenstrom am Abend 22.00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "e_kaltluftvolumenstrom_22h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:f_kaltluftvolumenstrom_06h",
+    "name": "Kaltluftvolumenstrom am Morgen 06.00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "f_kaltluftvolumenstrom_06h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_6_2002.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:ga_klimafunktionen2001_kaltluft_umland_pkt",
+    "name": "Massenstrom und Strömungsrichtung der Kaltluftentstehungsgebiete des Umlandes 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "ga_klimafunktionen2001_kaltluft_umland_pkt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:gb_klimafunktionen2001_luftaustausch",
+    "name": "Luftaustausch 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "gb_klimafunktionen2001_luftaustausch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:gc_1klimafunktionen2001_no2",
+    "name": "Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "gc_1klimafunktionen2001_no2",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:gd_klimafunktionen2001_einfluss_umland",
+    "name": "Einflussbereich der Kaltluftentstehungsgebiete des Umlandes 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "gd_klimafunktionen2001_einfluss_umland",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:ge_klimafunktionen2001_durchlueftung",
+    "name": "Gute Durchlüftung, überwiegend geringe bis keine bioklimatische Belastung 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "ge_klimafunktionen2001_durchlueftung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:gf_klimafunktionen2001_hangneigung",
+    "name": "Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "gf_klimafunktionen2001_hangneigung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:gg_klimafunktionen2001_fl",
+    "name": "Klimafunktionen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "gg_klimafunktionen2001_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_1_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:ha_klimaphk2001_luftaustausch",
+    "name": "Luftaustausch 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "ha_klimaphk2001_luftaustausch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:hb_klimaphk2001_venti",
+    "name": "Großräumige Luftleit- und Ventilationsbahnen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "hb_klimaphk2001_venti",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:hc_klimaphk2001_no2",
+    "name": "Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "hc_klimaphk2001_no2",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:hd_klimaphk2001_hangneigung",
+    "name": "Areale mit einer Hangneigung >1° im Bereich flächenhaften Abflusses 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "hd_klimaphk2001_hangneigung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:he_klimaphk2001_einwirkbereiche",
+    "name": "Einwirkbereiche der Kaltluftentstehungsgebiete 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "he_klimaphk2001_einwirkbereiche",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimamodell_2001:hf_klimaphk2001_fl",
+    "name": "Planungshinweise Stadtklima 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "hf_klimaphk2001_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimabewertung/de-karten/04_11_2_2004.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_fischfauna_1993:a_fischfauna1993_symbol",
     "name": "Fischsymbol",
     "crs": "EPSG:25833",
@@ -23445,26 +23840,6 @@
       "tel": "+4930901395270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
-  },
-  {
-    "id": "dop_2025_fruehjahr:dop_2025",
-    "name": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/dop_2025_fruehjahr",
-    "typ": "WMS",
-    "layers": "dop_2025",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "73a3de47-ab2a-4be2-ae5d-8d6f8fe5cc1c",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "ignore",
-    "singleTile": true
   },
   {
     "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_1989",
@@ -25126,6 +25501,816 @@
     "transparent": true,
     "gfiAttributes": "ignore",
     "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ba_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:bb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "bb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:bc_kernindikator_laerm",
+    "name": "Kernindikator Lärmbelastung 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "bc_kernindikator_laerm",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_1_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ca_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ca_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:cb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "cb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:cc_kernindikator_luft",
+    "name": "Kernindikator Luftbelastung 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "cc_kernindikator_luft",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_2_2009_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:da_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "da_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:db_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "db_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:dc_kernindikator_gruen",
+    "name": "Kernindikator Grünversorung 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "dc_kernindikator_gruen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_3_2012_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ea_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ea_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:eb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "eb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ec_kernindikator_bioklima",
+    "name": "Kernindikator Bioklima 2011",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ec_kernindikator_bioklima",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_4_2011_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fa_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fa_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:fc_kernindikator_sozial",
+    "name": "Kernindikator Soziale Problematik 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "fc_kernindikator_sozial",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ga_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
+    "name": "Integrierte Mehrfachbelastung Umwelt 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gc_vierfach_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ha_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ha_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:hb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "hb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:hc_umwelt_sozial_belastung",
+    "name": "Integrierte Mehrfachbelastung Umwelt und Soziale Problematik 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "hc_umwelt_sozial_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_7_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ia_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ia_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ib_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ib_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ic_thematisch_belastung",
+    "name": "Integrierte Mehrfachbelastungskarte - thematisch 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ic_thematisch_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ja_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ja_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:jb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "jb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:jc_gesamt_belastung",
+    "name": "Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte - 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "jc_gesamt_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_9_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
   },
   {
     "id": "ua_brutvogel_1994:brutvoegel_1994",
@@ -27614,36 +28799,6 @@
     }
   },
   {
-    "id": "ua_luftqualitaet_ind_pm2_5_2008:ind_pm2_5_2008",
-    "name": "PM2,5 Emissionen Industrie 2008",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_pm2_5_2008",
-    "typ": "WMS",
-    "layers": "ind_pm2_5_2008",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fd9d5b61-c9c8-37b2-8f4e-5ab45e94fce4",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_16_1_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_luftqualitaet_ges_pm10_2009:pm10_ges_2009",
     "name": "PM10 Emissionen aller Verursacher 2009",
     "crs": "EPSG:25833",
@@ -27667,6 +28822,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_10_1_2009.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ind_pm2_5_2008:ind_pm2_5_2008",
+    "name": "PM2,5 Emissionen Industrie 2008",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_pm2_5_2008",
+    "typ": "WMS",
+    "layers": "ind_pm2_5_2008",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fd9d5b61-c9c8-37b2-8f4e-5ab45e94fce4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_16_1_2008.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -29118,29 +30303,6 @@
     }
   },
   {
-    "id": "ua_luftbelastung_verkehr_2015:luftbelastung_verkehr_2015",
-    "name": "Verkehrsbedingte Luftbelastung im Straßenraum 2015 (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftbelastung_verkehr_2015",
-    "typ": "WMS",
-    "layers": "luftbelastung_verkehr_2015",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8b8d9ac0-c50c-49fd-b0c3-2527c7edd596",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true
-  },
-  {
     "id": "ua_boden_regelfkt_2005:regel2005",
     "name": "Regelungsfunktion für den Wasserhaushalt der Böden 2005",
     "crs": "EPSG:25833",
@@ -29802,29 +30964,6 @@
     "version": "1.3.0",
     "transparent": true,
     "gfiAttributes": "ignore",
-    "singleTile": true
-  },
-  {
-    "id": "luftbild_1953_22:c_luftbilder_1953_22_raster",
-    "name": "Bildmosaik",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/luftbild_1953_22",
-    "typ": "WMS",
-    "layers": "c_luftbilder_1953_22_raster",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "91d4b7c9-d3b0-3a2f-bab4-33bc47ca52b8",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
     "singleTile": true
   },
   {
@@ -32890,7 +34029,7 @@
     "gfiAttributes": "ignore",
     "singleTile": true
   },
- {
+  {
     "id": "basemap_raster_grau",
     "name": "Hintergrundkarte (grau)",
     "name_lang": "Hintergrundkarte (Web Raster Grau)",
