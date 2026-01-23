@@ -170,7 +170,7 @@
     "baselayer": {
       "elements": [
         {
-          "id": "hintergrund_default_grau",
+          "id": "basemap_raster_grau",
           "shortname": "Hintergrundkarte (grau)",
           "visibility": true
         },
