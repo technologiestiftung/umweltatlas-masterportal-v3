@@ -115,7 +115,7 @@ If a parameter is also present in the service, the definition in this config is 
 |---|---|---|---|---|---|
 | default | no | String/Number/String[]/Number[] |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. A negative value starts at the end of the array. If `dualRangeSlider` is configured, the default can be configured as an array with two values ​​(start and end).| `"1970"` |
 | dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
-| dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| "./resources/dimensionRange.json" |
+| dimensionRange | no | String/String[]/**[dimensionRange](#dimension-range)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| "./resources/dimensionRange.json" |
 | dimensionRegex | no | String | A regular expression used to filter the values ​​of the configured dimension (e.g., time). Only these filtered values ​​are then offered for selection in the time slider. Can be combined with the `dimensionRange` attribute.| "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z" |
 | dualRangeSlider | no | Boolean | `false` | This attribute allows the Timeslider to be configured as a dual range slider. | `true` |                                                                                       | `"REFERENCE_TIME"` |
 | extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
@@ -123,6 +123,10 @@ If a parameter is also present in the service, the definition in this config is 
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
 | staticDimensions | no | Object |  | Here, additional dimensions with a static value can be configured, which are sent to the service in the URL. If the specified value is `true`, the service's default value will be used.| {"elevation": "250.0"} |
 
+## Dimension Range
+
+The `dimensionRange` attribute is used to restrict the values of a configured dimension (for example, time).
+Only the filtered values are then offered for selection in the time slider.
 
 ```json title="Example 1 Configuration of WMS-T time attribute with dimensionRange as URL"
    "time": {
