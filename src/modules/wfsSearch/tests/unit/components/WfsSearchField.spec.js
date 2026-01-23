@@ -84,87 +84,157 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
         expect(wrapper.find("label").text()).to.equals("common:modules.wfsSearch.parcelNumber*");
     });
 
-    it("reset value if options changed", async () => {
-        store.commit("Modules/WfsSearch/setInstances", [{currentInstance: {addedOptions: ["", "fln"]},
-            literals: [
-                {
-                    clause: {
-                        type: "and",
-                        literals: [
-                            {
-                                field: {
-                                    "fieldName": "gmk",
-                                    "inputLabel": "Gemarkung",
-                                    "required": true,
-                                    "options": "",
-                                    "usesId": true,
-                                    "queryType": "equal"
-                                }
-                            },
-                            {
-                                "field": {
-                                    "fieldName": "fln",
-                                    "inputLabel": "Flurnummer",
-                                    "required": true,
-                                    "options": "fln",
-                                    "queryType": "equal"
-                                }
-                            }
-                        ]
-                    }
+    describe("reset fields", () => {
+
+        beforeEach(() => {
+            store.commit("Modules/WfsSearch/setParsedSource", {
+                Gemarkung1: {
+                    id: "1",
+                    fln: [
+                        {
+                            id: "11"
+                        }]
+                },
+                Gemarkung2: {
+                    id: "2",
+                    fln: [
+                        {
+                            id: "22"
+                        },
+                        {
+                            id: "11"
+                        }
+                    ]
                 }
-            ]}]);
-        store.commit("Modules/WfsSearch/setParsedSource", {
-            Gemarkung1: {
-                id: "1",
-                fln: [
+            });
+        });
+
+        it("reset value if options changed - options and fieldName are equals in 2. literal", async () => {
+            store.commit("Modules/WfsSearch/setInstances", [{currentInstance: {addedOptions: ["", "fln"]},
+                literals: [
                     {
-                        id: "11"
-                    }]
-            },
-            Gemarkung2: {
-                id: "2",
-                fln: [
-                    {
-                        id: "22"
-                    },
-                    {
-                        id: "11"
+                        clause: {
+                            type: "and",
+                            literals: [
+                                {
+                                    field: {
+                                        "fieldName": "gmk",
+                                        "inputLabel": "Gemarkung",
+                                        "required": true,
+                                        "options": "",
+                                        "usesId": true,
+                                        "queryType": "equal"
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "fieldName": "fln",
+                                        "inputLabel": "Flurnummer",
+                                        "required": true,
+                                        "options": "fln",
+                                        "queryType": "equal"
+                                    }
+                                }
+                            ]
+                        }
                     }
-                ]
-            }
+                ]}]);
+
+            wrapper = mount(WfsSearchField, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    fieldId: "fieldId",
+                    fieldName: "fln",
+                    inputLabel: "common:modules.wfsSearch.parcelNumber*",
+                    options: "fln",
+                    parameterIndex: 0
+                }
+            });
+
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 0,
+                value: "1"
+            });
+
+            await wrapper.vm.valueChanged("{\"value\":\"11\",\"index\":0}");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.value).to.equals("11");
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 1,
+                value: "2"
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.value).to.equals(undefined);
         });
 
-        wrapper = mount(WfsSearchField, {
-            global: {
-                plugins: [store]
-            },
-            props: {
-                fieldId: "fieldId",
-                fieldName: "fln",
-                inputLabel: "common:modules.wfsSearch.parcelNumber*",
-                options: "fln",
-                parameterIndex: 0
-            }
+        it("reset value if options are not same than fieldName in 2. literal", async () => {
+            store.commit("Modules/WfsSearch/setInstances", [{currentInstance: {addedOptions: ["", "fln"]},
+                literals: [
+                    {
+                        clause: {
+                            type: "and",
+                            literals: [
+                                {
+                                    field: {
+                                        "fieldName": "gmk",
+                                        "inputLabel": "Gemarkung",
+                                        "required": true,
+                                        "options": "",
+                                        "usesId": true,
+                                        "queryType": "equal"
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "fieldName": "FLN",
+                                        "inputLabel": "Flurnummer",
+                                        "required": true,
+                                        "options": "fln",
+                                        "queryType": "equal"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]}]);
+
+            wrapper = mount(WfsSearchField, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    fieldId: "fieldId",
+                    fieldName: "fln",
+                    inputLabel: "common:modules.wfsSearch.parcelNumber*",
+                    options: "fln",
+                    parameterIndex: 0
+                }
+            });
+
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 0,
+                value: "1"
+            });
+
+            await wrapper.vm.valueChanged("{\"value\":\"11\",\"index\":0}");
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.value).to.equals("11");
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 1,
+                value: "2"
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.value).to.equals(undefined);
         });
-
-        store.commit("Modules/WfsSearch/setSelectedOptions", {
-            options: "",
-            index: 0,
-            value: "1"
-        });
-
-        await wrapper.vm.valueChanged("{\"value\":\"11\",\"index\":0}");
-        await wrapper.vm.$nextTick();
-
-        expect(wrapper.vm.value).to.equals("11");
-        store.commit("Modules/WfsSearch/setSelectedOptions", {
-            options: "",
-            index: 1,
-            value: "2"
-        });
-        await wrapper.vm.$nextTick();
-
-        expect(wrapper.vm.value).to.equals(undefined);
     });
 });
