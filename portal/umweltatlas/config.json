@@ -140,86 +140,26 @@
             "title": "Hier können sie historische Luftbilder von Berlin ab 1928 laden. Klicken Sie ein bestimmtes Jahr an oder lassen Sie die Luftbilder als Zeitreihe automatisch nacheinander abspielen.",
             "icon": "bi-clock-history",
             "layerIds": [
-            {
-              "name": "1928 - Luftbild",
-              "id": "luftbild_1928_04:c_luftbilder_1928_04_raster"
-            },
-            {
-              "name": "1938 - Luftbild",
-              "id": "luftbild_1938_04:c_luftbilder_1938_04_raster"
-            },
-            {
-              "name": "2004 - Luftbild",
-              "id": "dop_2004:dop_2004"
-            },
-            {
-              "name": "2006 - Luftbild",
-              "id": "dop_2006:dop_2006"
-            },
-            {
-              "name": "2007 - Luftbild",
-              "id": "dop_2007:dop_2007"
-            },
-            {
-              "name": "2009 - Luftbild",
-              "id": "dop_2009:dop_2009"
-            },
-            {
-              "name": "2011 - Luftbild",
-              "id": "dop_2011:dop_2011"
-            },
-            {
-              "name": "2013 - Luftbild",
-              "id": "truedop_2013:truedop_2013"
-            },
-            {
-              "name": "2014 - Luftbild",
-              "id": "dop_2014:dop_2014"
-            },
-            {
-              "name": "2015 - Luftbild",
-              "id": "dop_2015:dop_2015_rgb"
-            },
-            {
-              "name": "2016 - Luftbild",
-              "id": "dop_2016:dop_2016"
-            },
-            {
-              "name": "2017 - Luftbild",
-              "id": "dop_2017:dop_2017"
-            },
-            {
-              "name": "2018 - Luftbild",
-              "id": "dop_2018:dop_2018"
-            },
-            {
-              "name": "2019 - Luftbild",
-              "id": "dop_2019:dop_2019"
-            },
-            {
-              "name": "2020 - Luftbild",
-              "id": "truedop_2020_sommer:truedop_2020_sommer_rgb"
-            },
-            {
-              "name": "2021 - Luftbild",
-              "id": "dop_2021:dop_2021_rgb"
-            },
-            {
-              "name": "2022 - Luftbild",
-              "id": "truedop_2022:truedop_2022"
-            },
-            {
-              "name": "2023 - Luftbild",
-              "id": "truedop_2023:truedop_2023"
-            },
-            {
-              "name": "2024 - Luftbild",
-              "id": "truedop_2024:truedop_2024"
-            },
-            {
-              "name": "2025 - Luftbild",
-              "id": "dop_2025_fruehjahr:dop_2025"
-            }
+             { "title": "1928 - Luftbild", "layerId": "luftbild_1928_04:c_luftbilder_1928_04_raster" },
+  { "title": "1938 - Luftbild", "layerId": "luftbild_1938_04:c_luftbilder_1938_04_raster" },
+  { "title": "2004 - Luftbild", "layerId": "dop_2004:dop_2004" },
+  { "title": "2006 - Luftbild", "layerId": "dop_2006:dop_2006" },
+  { "title": "2007 - Luftbild", "layerId": "dop_2007:dop_2007" },
+  { "title": "2009 - Luftbild", "layerId": "dop_2009:dop_2009" },
+  { "title": "2011 - Luftbild", "layerId": "dop_2011:dop_2011" },
+  { "title": "2013 - Luftbild", "layerId": "truedop_2013:truedop_2013" },
+  { "title": "2014 - Luftbild", "layerId": "dop_2014:dop_2014" },
+  { "title": "2015 - Luftbild", "layerId": "dop_2015:dop_2015_rgb" },
+  { "title": "2016 - Luftbild", "layerId": "dop_2016:dop_2016" },
+  { "title": "2017 - Luftbild", "layerId": "dop_2017:dop_2017" },
+  { "title": "2018 - Luftbild", "layerId": "dop_2018:dop_2018" },
+  { "title": "2019 - Luftbild", "layerId": "dop_2019:dop_2019" },
+  { "title": "2020 - Luftbild", "layerId": "truedop_2020_sommer:truedop_2020_sommer_rgb" },
+  { "title": "2021 - Luftbild", "layerId": "dop_2021:dop_2021_rgb" },
+  { "title": "2022 - Luftbild", "layerId": "truedop_2022:truedop_2022" },
+  { "title": "2023 - Luftbild", "layerId": "truedop_2023:truedop_2023" },
+  { "title": "2024 - Luftbild", "layerId": "truedop_2024:truedop_2024" },
+  { "title": "2025 - Luftbild", "layerId": "dop_2025_fruehjahr:dop_2025" }
             ]
           }
         ]
