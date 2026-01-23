@@ -5781,7 +5781,7 @@
                       "elements": [
                         {
                           "id": "ua_luftreinhalteplan_2018_2025:trend_szenario",
-                          "name": "2020 - Trend-Szenario (Gesamtindex der Luftbelastung aus NO2 und PM10) (Luftreinhalteplan -2025 - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                          "name": "2020 - Trend-Szenario (Gesamtindex der Luftbelastung aus NO2 und PM10) (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
                         }
                       ]
                     }
@@ -6744,11 +6744,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
-                          "name": "1990 - Jahresniederschlag 1961- (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Jahresniederschlag (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
-                          "name": "1961 - Isolinien (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     }
@@ -6820,7 +6820,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2022:aa_st_md1971_2000",
-                          "name": "2000 - Anzahl der Sommertage 1971- (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                          "name": "1971-2000 - Anzahl der Sommertage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
                         }
                       ]
                     },
@@ -6830,7 +6830,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2022:ca_ht_md1971_2000",
-                          "name": "2000 - Anzahl der Hitzetage 1971- (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                          "name": "1971-2000 - Anzahl der Hitzetage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
                         }
                       ]
                     },
@@ -6840,7 +6840,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2022:ea_tn_md1971_2000",
-                          "name": "2000 - Anzahl der Tropennächte 1971- (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                          "name": "1971-2000 - Anzahl der Tropennächte (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
                         }
                       ]
                     }
@@ -6856,7 +6856,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2015:c_som_anz_2011_2040",
-                          "name": "2040 - Mittlere jährliche Anzahl der Sommertage für den Zeitraum 2011- (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                          "name": "2011-2040 - Mittlere jährliche Anzahl der Sommertage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     },
@@ -6866,7 +6866,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2015:c_hitz_anz_2011_2040",
-                          "name": "2040 - Mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2011- (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                          "name": "2011-2040 - Mittlere jährliche Anzahl der Hitzetage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     },
@@ -6876,7 +6876,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2015:c_trop_anz_2011_2040",
-                          "name": "2040 - Mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2011- (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                          "name": "2011-2040 - Mittlere jährliche Anzahl der Tropennächte für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     }
@@ -6892,7 +6892,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2008:a_wb1971_2000",
-                          "name": "2000 - Jahresmittel der Tage mit Wärmebelastung 1971 - (Klimawandel und Wärmebelastung der Zukunft)"
+                          "name": "1971-2000 - Jahresmittel der Tage mit Wärmebelastung (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     },
@@ -6902,7 +6902,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2008:b_diff2021_1971",
-                          "name": "2000 - Zunahme der Wärmebelastung 2021-2050 zu 1971- (Klimawandel und Wärmebelastung der Zukunft)"
+                          "name": "1971-2000 - Zunahme der Wärmebelastung 2021-2050 zu (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     },
@@ -6912,7 +6912,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2008:c_diff2071_1971",
-                          "name": "2000 - Zunahme der Wärmebelastung 2071-2100 zu 1971- (Klimawandel und Wärmebelastung der Zukunft)"
+                          "name": "1971-2000 - Zunahme der Wärmebelastung 2071-2100 zu (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     },
@@ -6922,7 +6922,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2008:d_wb1971_2000",
-                          "name": "2000 - Jahresmittel Tage mit Wärmebelastung 1971- (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
+                          "name": "1971-2000 - Jahresmittel Tage mit Wärmebelastung (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     },
@@ -6932,7 +6932,7 @@
                       "elements": [
                         {
                           "id": "ua_klimawandel_2008:e_wb2021_2050",
-                          "name": "2050 - Jahresmittel Tage mit Wärmebelastung 2021- (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
+                          "name": "2021-2050 - Jahresmittel Tage mit Wärmebelastung (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     },
@@ -7042,11 +7042,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
-                          "name": "2020 - Isoflächen - Langjährige Niederschlagsverteilung 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
-                          "name": "2020 - Isolinien - Langjährige Niederschlagsverteilung 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7056,11 +7056,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:bb_lniederschl_9120_isofl_sommer",
-                          "name": "2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ba_lniederschl_9120_isoli_sommer",
-                          "name": "2020 - Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7070,11 +7070,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:cb_lniederschl_9120_isofl_winter",
-                          "name": "2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ca_lniederschl_9120_isoli_winter",
-                          "name": "2020 - Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr 1991- (Langjährige Niederschlagsverteilung -2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     }
@@ -7090,11 +7090,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl",
-                          "name": "2010 - Isoflächen der Niederschlagsverteilung 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien",
-                          "name": "2010 - Isolinien der Niederschlagsverteilung 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7104,11 +7104,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl",
-                          "name": "2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli",
-                          "name": "2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7118,11 +7118,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl",
-                          "name": "2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli",
-                          "name": "2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981- (Langjährige Niederschlagsverteilung -2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     }
@@ -7138,11 +7138,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:winterns1990_b_fl",
-                          "name": "1990 - Niederschläge Winterhalbjahr 1961- (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Niederschläge Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:winterns1990_a_li",
-                          "name": "1961 - Isolinien (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7152,11 +7152,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:sommerns1990_b_fl",
-                          "name": "1990 - Niederschläge Sommerhalbjahr 1961- (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Niederschläge Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:sommerns1990_a_li",
-                          "name": "1961 - Isolinien (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7166,11 +7166,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
-                          "name": "1990 - Jahresniederschlag 1961- (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Jahresniederschlag (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
-                          "name": "1961 - Isolinien (Langjährige Niederschlagsverteilung -1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     }
