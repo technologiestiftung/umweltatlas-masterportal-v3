@@ -6370,6 +6370,88 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "name": "2001",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "04.10.01 Lufttemperatur Gesamtstadt 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:a_lufttemperatur_22h",
+                          "name": "2001 - Lufttemperatur am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.02 Lufttemperatur Gesamtstadt 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:b_lufttemperatur_06h",
+                          "name": "2001 - Lufttemperatur am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.03 Bodennahes Windfeld und Luftaustausch Gesamtstadt 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:cb_luftaustausch_22h",
+                          "name": "2001 - Häufigkeit des Luftaustausches pro Stunde um 22:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:ca_windfeld_22h",
+                          "name": "2001 - Windfeld 22:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.04 Bodennahes Windfeld und Luftaustausch Gesamtstadt 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:db_luftaustausch_06h",
+                          "name": "2001 - Häufigkeit des Luftaustausches pro Stunde um 06:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:da_windfeld_06h",
+                          "name": "2001 - Windfeld 06:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.05 Bodennahes Windfeld und Luftmassenstrom Gesamtstadt 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:e_kaltluftvolumenstrom_22h",
+                          "name": "2001 - Kaltluftvolumenstrom am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:ca_windfeld_22h.2",
+                          "name": "2001 - Windfeld 22:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.06 Bodennahes Windfeld und Luftmassenstrom Gesamtstadt 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:f_kaltluftvolumenstrom_06h",
+                          "name": "2001 - Kaltluftvolumenstrom am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:da_windfeld_06h.2",
+                          "name": "2001 - Windfeld 06:00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -6692,6 +6774,76 @@
                         {
                           "id": "ua_klimamodell_2005:ha_luftaustausch2005",
                           "name": "2005 - Luftaustausch und großräumige Luftleit- und Vetilationsbahnen (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2001",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "04.11.1 Klimafunktionen",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:gg_klimafunktionen2001_fl",
+                          "name": "2001 - Klimafunktionen (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:gf_klimafunktionen2001_hangneigung",
+                          "name": "2001 - Areale mit Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:ge_klimafunktionen2001_durchlueftung",
+                          "name": "2001 - Gute Durchlüftung, überwiegend geringe bis keine bioklimatische Belastung (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:gd_klimafunktionen2001_einfluss_umland",
+                          "name": "2001 - Einflussbereich der Kaltluftentstehungsgebiete des Umlandes (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:gc_1klimafunktionen2001_no2",
+                          "name": "2001 - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:gb_klimafunktionen2001_luftaustausch",
+                          "name": "2001 - Luftaustausch (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:ga_klimafunktionen2001_kaltluft_umland_pkt",
+                          "name": "2001 - Massenstrom und Strömungsrichtung der Kaltluftentstehungsgebiete des Umlandes (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.11.2 Planungshinweise Stadtklima",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2001:hf_klimaphk2001_fl",
+                          "name": "2001 - Planungshinweise Stadtklima (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:he_klimaphk2001_einwirkbereiche",
+                          "name": "2001 - Einwirkbereiche der Kaltluftentstehungsgebiete (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:hd_klimaphk2001_hangneigung",
+                          "name": "2001 - Areale mit einer Hangneigung >1° im Bereich flächenhaften Abflusses (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:hc_klimaphk2001_no2",
+                          "name": "2001 - Potenzielle verkehrsbedingte Luftbelastung der Siedlungsräume entlang von Hauptverkehrsstraßen (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:hb_klimaphk2001_venti",
+                          "name": "2001 - Großräumige Luftleit- und Ventilationsbahnen (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2001:ha_klimaphk2001_luftaustausch",
+                          "name": "2001 - Luftaustausch (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
                         }
                       ]
                     }
@@ -7041,6 +7193,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:ac_lniederschl_9120_blockfl",
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
                           "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
                           "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         },
@@ -7055,6 +7219,18 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_niederschlag_1991_2020:be_niederschlag_9120_raster_sommer",
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:bd_lniederschl_9120_str_sommer",
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:bc_lniederschl_9120_block_sommer",
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
                           "id": "ua_niederschlag_1991_2020:bb_lniederschl_9120_isofl_sommer",
                           "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
@@ -7068,6 +7244,18 @@
                       "name": "04.08.3 Winterhalbjahr 1991-2020",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_niederschlag_1991_2020:ce_niederschlag_9120_raster_winter",
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:cd_lniederschl_9120_str_winter",
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1991_2020:cc_lniederschl_9120_block_winter",
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
                         {
                           "id": "ua_niederschlag_1991_2020:cb_lniederschl_9120_isofl_winter",
                           "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
@@ -7222,6 +7410,84 @@
               "name": "Biotoptypen",
               "type": "folder",
               "elements": [
+                {
+                  "name": "2024",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "05.08.1 Biotoptypen 2024",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_biotoptypen_2024:ac_biotoptypen_f",
+                          "name": "2024 - Biotoptypen (Flächen) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:ab_biotoptypen_l",
+                          "name": "2024 - Biotoptypen (Linien) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:aa_biotoptypen_p",
+                          "name": "2024 - Biotoptypen (Symbole) (Biotoptypen)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "05.08.2 Gesetzlich geschützte Biotope 2024",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_biotoptypen_2024:bc_gesetzschutz_f",
+                          "name": "2024 - Gesetzlich geschützte Biotope (Flächen) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:bb_gesetzschutz_l",
+                          "name": "2024 - Gesetzlich geschützte Biotope (Linien) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:ba_gesetzschutz_p",
+                          "name": "2024 - Gesetzlich geschützte Biotope (Symbole) (Biotoptypen)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "05.08.3 Lebensraumtypen (FFH-Richtlinie) 2024",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_biotoptypen_2024:cc_ffh_f",
+                          "name": "2024 - Lebensraumtypen (FFH-Richtlinie) (Flächen) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:cb_ffh_l",
+                          "name": "2024 - Lebensraumtypen (FFH-Richtlinie) (Linien) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:ca_ffh_p",
+                          "name": "2024 - Lebensraumtypen (FFH-Richtlinie) (Symbole) (Biotoptypen)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "05.08.4 Kartiermethode 2024",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_biotoptypen_2024:dc_kart_methode_f",
+                          "name": "2024 - Kartiermethode (Flächen) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:db_kart_methode_l",
+                          "name": "2024 - Kartiermethode (Linien) (Biotoptypen)"
+                        },
+                        {
+                          "id": "ua_biotoptypen_2024:da_kart_methode_p",
+                          "name": "2024 - Kartiermethode (Symbole) (Biotoptypen)"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "name": "fortlaufend aktualisiert",
                   "type": "folder",
@@ -8699,22 +8965,6 @@
                         {
                           "id": "ua_verkehrsmengen_2014:verkehrsmengen_2014",
                           "name": "2014 - Verkehrsmengen DTV (Verkehrsmengen DTV)"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "2009",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "07.01 Verkehrsmengen DTV",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_verkehrsmengen_2009:verkehrsmengen2009",
-                          "name": "2009 - Verkehrsmengen DTV (Verkehrsmengen DTV)"
                         }
                       ]
                     }
