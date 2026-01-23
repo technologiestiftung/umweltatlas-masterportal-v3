@@ -592,7 +592,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_humus_2015:humus2015",
+                          "id": "ua_boden_humus_2015:humus2015.2",
                           "name": "2015 - Humusmenge der Böden (Humusmenge der Böden)"
                         }
                       ]
@@ -1386,7 +1386,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_filter_2001:filter2001",
+                          "id": "ua_boden_filter_2001:filter2001.2",
                           "name": "2001 - Filtervermögen der Böden (Filtervermögen der Böden)"
                         }
                       ]
@@ -1640,7 +1640,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_archivfkt_2015:archiv2015",
+                          "id": "ua_boden_archivfkt_2015:archiv2015.2",
                           "name": "2015 - Archivfunktion der Böden für die Naturgeschichte (Archivfunktion der Böden für die Naturgeschichte)"
                         }
                       ]
@@ -2180,11 +2180,11 @@
                           "name": "Kohlenstoffvorräte (Moore)"
                         },
                         {
-                          "id": "ua_moore:b_sp01_19_1moorbodtyp2015_geb",
+                          "id": "ua_moore:b_sp01_19_1moorbodtyp2015_geb.2",
                           "name": "Moorgebiete (Moore)"
                         },
                         {
-                          "id": "ua_moore:a_sp01_19_1moorbodtyp2015_pkt",
+                          "id": "ua_moore:a_sp01_19_1moorbodtyp2015_pkt.2",
                           "name": "Aufnahmepunkte (Moore)"
                         }
                       ]
@@ -4210,19 +4210,19 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_zemhgw:d_zemhgw_geoskizzegew",
+                          "id": "ua_zemhgw:d_zemhgw_geoskizzegew.2",
                           "name": "Geologische Skizze (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
                         },
                         {
-                          "id": "ua_zemhgw:cb_zemhgw_fl",
+                          "id": "ua_zemhgw:cb_zemhgw_fl.2",
                           "name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
                         },
                         {
-                          "id": "ua_zemhgw:b_zemhgw_wsg_sd",
+                          "id": "ua_zemhgw:b_zemhgw_wsg_sd.2",
                           "name": "Wasserschutzgebiete (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
                         },
                         {
-                          "id": "ua_zemhgw:a_zemhgw_wasserwerk",
+                          "id": "ua_zemhgw:a_zemhgw_wasserwerk.2",
                           "name": "Wasserwerke (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
                         }
                       ]
@@ -4262,7 +4262,7 @@
                           "name": "Wasserdurchlässigkeit des Untergrundes zwischen einer Tiefe von 1,0 m bis 5,0 m unter GOK (Wasserdurchlässigkeit des Untergrundes)"
                         },
                         {
-                          "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp",
+                          "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp.2",
                           "name": "verwendete Bohrungen (Wasserdurchlässigkeit des Untergrundes)"
                         }
                       ]
@@ -4524,11 +4524,11 @@
                           "name": "Grundwassergüte Chlor (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.2",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.2",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4542,11 +4542,11 @@
                           "name": "Grundwassergüte Sulfat (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.3",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.3",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4560,11 +4560,11 @@
                           "name": "Grundwassergüte Ammonium (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.4",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.4",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4578,11 +4578,11 @@
                           "name": "Grundwassergüte chemischer Sauerstoffverbrauch (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.5",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.5",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4596,11 +4596,11 @@
                           "name": "Grundwassergüte Kalium (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.6",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.6",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4614,11 +4614,11 @@
                           "name": "Grundwassergüte Ortho-Phosphat (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.7",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.7",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4632,11 +4632,11 @@
                           "name": "Grundwassergüte Bor (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:b_gewasser",
+                          "id": "ua_grundwasserguete_2000:b_gewasser.8",
                           "name": "Gewässer (Qualität des oberflächennahen Grundwassers)"
                         },
                         {
-                          "id": "ua_grundwasserguete_2000:a_messstellen",
+                          "id": "ua_grundwasserguete_2000:a_messstellen.8",
                           "name": "Messstellen (Qualität des oberflächennahen Grundwassers)"
                         }
                       ]
@@ -4752,7 +4752,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser",
+                          "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser.2",
                           "name": "Gewässer (Hochwassergefahrenkarten)"
                         },
                         {
@@ -4766,7 +4766,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser",
+                          "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser.3",
                           "name": "Gewässer (Hochwassergefahrenkarten)"
                         },
                         {
@@ -7165,11 +7165,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
+                          "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl.2",
                           "name": "1961-1990 - Jahresniederschlag (Langjährige Niederschlagsverteilung)"
                         },
                         {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
+                          "id": "ua_niederschlag_1961_1990:jahrns1990_a_li.2",
                           "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
@@ -7299,7 +7299,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_biotoptypen_2013:g_btk_quellen_2013_fl",
+                          "id": "ua_biotoptypen_2013:g_btk_quellen_2013_fl.2",
                           "name": "2013 - Datenquellen (Biotoptypen)"
                         },
                         {
@@ -8813,19 +8813,19 @@
                           "name": "2022 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.2",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.2",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.2",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.2",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -8843,7 +8843,7 @@
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.3",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -8857,11 +8857,11 @@
                           "name": "2022 - Straßen- und oberirdische U-Bahn L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.2",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.4",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -8911,11 +8911,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.5",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.3",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
@@ -8923,15 +8923,15 @@
                           "name": "2022 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.3",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.3",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.3",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         },
                         {
@@ -8961,43 +8961,43 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.6",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.4",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.2",
                           "name": "2022 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.4",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.4",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.4",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ae_kita2022",
+                          "id": "ua_stratlaerm_2022:ae_kita2022.2",
                           "name": "2022 - Kindertagesstätten (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
+                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022.2",
                           "name": "2022 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
+                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022.2",
                           "name": "2022 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
+                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022.2",
                           "name": "2022 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
@@ -9011,43 +9011,43 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.7",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.5",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.3",
                           "name": "2022 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.5",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.5",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.5",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ae_kita2022",
+                          "id": "ua_stratlaerm_2022:ae_kita2022.3",
                           "name": "2022 - Kindertagesstätten (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022",
+                          "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022.3",
                           "name": "2022 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022",
+                          "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022.3",
                           "name": "2022 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022",
+                          "id": "ua_stratlaerm_2022:ab_wohngebaeude2022.3",
                           "name": "2022 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
@@ -9065,27 +9065,27 @@
                           "name": "2022 - Gesamtverkehr (Straße, Schiene, Luft) L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.8",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.6",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.4",
                           "name": "2022 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.6",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.6",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.6",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9099,27 +9099,27 @@
                           "name": "2022 - Gesamtverkehr (Straße, Schiene, Luft) L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022",
+                          "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.9",
                           "name": "2022 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022",
+                          "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.7",
                           "name": "2022 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022",
+                          "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.5",
                           "name": "2022 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022",
+                          "id": "ua_stratlaerm_2022:dc_sonstigestr2022.7",
                           "name": "2022 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022",
+                          "id": "ua_stratlaerm_2022:db_bundesstrasse2022.7",
                           "name": "2022 - Bundesstraßen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2022:da_autobahn2022",
+                          "id": "ua_stratlaerm_2022:da_autobahn2022.7",
                           "name": "2022 - Autobahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9167,11 +9167,11 @@
                           "name": "2017 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.2",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.2",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         }
                       ]
@@ -9199,7 +9199,7 @@
                           "name": "2017 - Straßen-/U-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.2",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9249,11 +9249,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.3",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.3",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
@@ -9261,7 +9261,7 @@
                           "name": "2017 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.3",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
@@ -9295,35 +9295,35 @@
                           "name": "2017 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:ab_wohngebaeude2017",
+                          "id": "ua_stratlaerm_2017:ab_wohngebaeude2017.2",
                           "name": "2017 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017",
+                          "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017.2",
                           "name": "2017 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017",
+                          "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017.2",
                           "name": "2017 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.4",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.4",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017",
+                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.2",
                           "name": "2017 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.4",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017",
+                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.2",
                           "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -9333,35 +9333,35 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2017:ab_wohngebaeude2017",
+                          "id": "ua_stratlaerm_2017:ab_wohngebaeude2017.3",
                           "name": "2017 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017",
+                          "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017.3",
                           "name": "2017 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017",
+                          "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017.3",
                           "name": "2017 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.5",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.5",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017",
+                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.3",
                           "name": "2017 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.5",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017",
+                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.3",
                           "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
@@ -9379,23 +9379,23 @@
                           "name": "2017 - Gesamtlärmindex L_DEN (Tag-Abend-Nacht) Raster (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.6",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.6",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017",
+                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.4",
                           "name": "2017 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.6",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017",
+                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.4",
                           "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -9409,23 +9409,23 @@
                           "name": "2017 - Gesamtlärmindex L N (Nacht) Raster (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.7",
                           "name": "2017 - Autobahn und Bundesstrasse (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017",
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.7",
                           "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017",
+                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.5",
                           "name": "2017 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017",
+                          "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.7",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017",
+                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.5",
                           "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -9463,11 +9463,11 @@
                           "name": "2012 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.2",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.2",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         }
                       ]
@@ -9495,7 +9495,7 @@
                           "name": "2012 - Straßen-/U-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.2",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9565,11 +9565,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.3",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.3",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
@@ -9577,7 +9577,7 @@
                           "name": "2012 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.3",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
@@ -9607,35 +9607,35 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.4",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.4",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012",
+                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.2",
                           "name": "2012 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.4",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012",
+                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.2",
                           "name": "2012 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012",
+                          "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012.2",
                           "name": "2012 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012",
+                          "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012.2",
                           "name": "2012 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ab_wohngebaeude2012",
+                          "id": "ua_stratlaerm_2012:ab_wohngebaeude2012.2",
                           "name": "2012 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
@@ -9649,35 +9649,35 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.5",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.5",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012",
+                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.3",
                           "name": "2012 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.5",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012",
+                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.3",
                           "name": "2012 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012",
+                          "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012.3",
                           "name": "2012 - Bildungseinrichtungen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012",
+                          "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012.3",
                           "name": "2012 - Krankenhäuser (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:ab_wohngebaeude2012",
+                          "id": "ua_stratlaerm_2012:ab_wohngebaeude2012.3",
                           "name": "2012 - Wohngebäude (Strategische Lärmkarten)"
                         },
                         {
@@ -9695,23 +9695,23 @@
                           "name": "2012 - Gesamtlärmindex L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.6",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.6",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012",
+                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.4",
                           "name": "2012 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.6",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012",
+                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.4",
                           "name": "2012 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -9725,23 +9725,23 @@
                           "name": "2012 - Gesamtlärmindex L N (Nacht) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012",
+                          "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.7",
                           "name": "2012 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:db_sonstigestr2012",
+                          "id": "ua_stratlaerm_2012:db_sonstigestr2012.7",
                           "name": "2012 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012",
+                          "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.5",
                           "name": "2012 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012",
+                          "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.7",
                           "name": "2012 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012",
+                          "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.5",
                           "name": "2012 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
                         }
                       ]
@@ -9771,7 +9771,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007",
+                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007.2",
                           "name": "2007 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
@@ -9803,7 +9803,7 @@
                           "name": "2007 - Straßen-/U-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.2",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9831,7 +9831,7 @@
                           "name": "2007 - Eisenbahn/S-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.2",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9885,15 +9885,15 @@
                           "name": "2007 - Fassadenpegel aller bewerteten Lärmquellen (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.2",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.3",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.3",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9907,15 +9907,15 @@
                           "name": "2007 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.3",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.4",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.4",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9925,15 +9925,15 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.4",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.5",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.5",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         },
                         {
@@ -9951,15 +9951,15 @@
                           "name": "2007 - Gesamtlärmindex L DEN (Tag-Abend-Nacht) Raster (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.5",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.6",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.6",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -9973,15 +9973,15 @@
                           "name": "2007 - Gesamtlärmindex L N (Nacht) Raster (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.6",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.7",
                           "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.7",
                           "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
@@ -10289,7 +10289,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.1",
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
                           "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         },
                         {
