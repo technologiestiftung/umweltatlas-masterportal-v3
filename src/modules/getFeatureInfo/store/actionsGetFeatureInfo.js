@@ -107,7 +107,7 @@ export default {
         otherSide = menuSides.find((element) => element !== this.initialMenuSide);
 
         if ((rootGetters[menuCurrentComponent]("secondaryMenu").type === "print" && getters.menuSide =="secondaryMenu") || (rootGetters[menuCurrentComponent]("mainMenu").type === "print" && getters.menuSide =="mainMenu")) {
-            commit("setMenuSide", otherSide);
+            // commit("setMenuSide", otherSide);
         }
         const fixedSide = getters.menuSide;
 

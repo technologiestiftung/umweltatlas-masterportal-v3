@@ -140,7 +140,7 @@ export default {
                 this.mainMenu === "mainMenu" ? "secondaryMenu" : "mainMenu";
 
                 console.log("SET THE MENU TO", otherSide);
-                this.setMenuSide(otherSide);
+                // this.setMenuSide(otherSide);
             }
         },
         // currentComponentType({type}){
@@ -174,7 +174,10 @@ export default {
             }
             else {
                 if (this.currentComponent(this.menuSide).type === "print") {
+                    this.createMappedProperties(this.feature);
                     this.setMenuSide(otherSide);
+                    console.log("watcher visible after setMenuSide", this.menuSide);
+                    
                 }
 
                 this.changeCurrentComponent({type: this.type, side: this.menuSide, props: {name: "none"}});
@@ -297,7 +300,8 @@ export default {
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setMenuSide(this.initialMenuSide);
+        // this.setMenuSide(this.initialMenuSide);
+        this.setMenuSide(this.menuSide);
     },
     beforeUpdate () {
         if (this.feature) {

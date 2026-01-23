@@ -94,6 +94,13 @@ export default {
             return this.currentComponent;
         }
     },
+    watch:{
+
+        gfiMenuSide (value) {
+            console.log("gfiMenuSide changed",this.gfiMenuSide);
+            
+        }
+    },
     mounted () {
         this.menu?.sections?.forEach((elements, indexElements) => {
             const configPath = `${this.menu.configPaths}.${indexElements}`;
@@ -135,6 +142,7 @@ export default {
         "
     >
         <MenuNavigation :side="side" />
+        <span>{{ 'side'+side+' gfiMenuSide'+gfiMenuSide }}</span>
         <GetFeatureInfo
             v-if="side === gfiMenuSide"
             v-show="currentComponent === 'getFeatureInfo'"

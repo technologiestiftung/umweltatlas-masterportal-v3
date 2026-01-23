@@ -16,7 +16,7 @@ export default {
                 layerId: this.feature.getLayerId(),
                 layerName: this.feature.getTitle(),
                 attributesToShow: this.feature.getAttributesToShow(),
-                properties: this.feature.getMappedProperties?.()
+                properties: this.feature.getMappedProperties()
             }
         };
     },
