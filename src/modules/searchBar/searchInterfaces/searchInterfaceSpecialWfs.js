@@ -243,19 +243,7 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
                     coordinates = undefined;
                     geometryType = geometry ? geometry.getType() : "undefined";
 
-                    if (geometry) {
-                        const rawCoords = geometry.getCoordinates();
-
-                        // Check if coordinates look like lat/lon (EPSG:4326) - need transformation
-                        // Lat/lon values are between -180 and 180, UTM values are much larger
-                        if (geometryType === "Point" && rawCoords[0] < 180 && rawCoords[0] > -180) {
-                            // Transform from lon/lat (note: rawCoords is [lat, lon] so we swap)
-                            const transformedCoords = crs.transformToMapProjection(map, "EPSG:4326", [rawCoords[1], rawCoords[0]]);
-
-                            // Update geometry with transformed coordinates
-                            geometry.setCoordinates(transformedCoords);
-                        }
-                    }
+                    this.transformPointGeometryIfNeeded(geometry, geometryType, map);
                 }
 
                 resultData.hits.push(
@@ -320,6 +308,27 @@ SearchInterfaceSpecialWfs.prototype.getInteriorAndExteriorPolygonMembers = funct
         }
     }
     return coordinateArray;
+};
+
+/**
+ * Transforms Point geometry coordinates from lat/lon (EPSG:4326) to map projection if needed.
+ * Lat/lon values are between -180 and 180, UTM values are much larger.
+ * Note: rawCoords is [lat, lon] so coordinates are swapped during transformation.
+ * @param {Object} geometry The geometry object.
+ * @param {String} geometryType The geometry type.
+ * @param {Object} map The map object.
+ * @returns {void}
+ */
+SearchInterfaceSpecialWfs.prototype.transformPointGeometryIfNeeded = function (geometry, geometryType, map) {
+    if (geometry) {
+        const rawCoords = geometry.getCoordinates();
+
+        if (geometryType === "Point" && rawCoords[0] < 180 && rawCoords[0] > -180) {
+            const transformedCoords = crs.transformToMapProjection(map, "EPSG:4326", [rawCoords[1], rawCoords[0]]);
+
+            geometry.setCoordinates(transformedCoords);
+        }
+    }
 };
 
 /**
