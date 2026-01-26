@@ -135,7 +135,9 @@ SearchInterfaceLocationFinder.prototype.normalizeResult = function (searchResult
     let category = searchResult.type;
 
     if (displayName) {
-        category = i18next.exists(displayName) ? i18next.t(displayName) : displayName;
+        const translated = i18next.exists(displayName) ? i18next.t(displayName) : displayName;
+
+        category = translated.includes(":") ? translated.split(":")[1] : translated;
     }
 
     return {
