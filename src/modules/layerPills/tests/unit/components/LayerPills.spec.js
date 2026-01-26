@@ -342,43 +342,4 @@ describe("src/modules/LayerPills.vue", () => {
         });
 
     });
-    describe("menus", () => {
-        it.skip("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
-            const stubSetToggleButtonVisibility = sinon.stub(LayerPillsComponent.methods, "setToggleButtonVisibility");
-
-            wrapper = createWrapper();
-            expect(stubSetToggleButtonVisibility.calledOnce).to.be.true;
-            store.hotUpdate({
-                modules: {
-                    Menu: {
-                        namespaced: true,
-                        getters: {
-                            currentMainMenuWidth: () => 20,
-                            currentSecondaryMenuWidth: () => 30
-                        }
-                    }
-                }
-            });
-            await wrapper.vm.$nextTick();
-
-            expect(stubSetToggleButtonVisibility.calledTwice).to.be.true;
-
-            store.hotUpdate({
-                modules: {
-                    Menu: {
-                        namespaced: true,
-                        getters: {
-                            currentMainMenuWidth: () => 15,
-                            currentSecondaryMenuWidth: () => 0
-                        }
-                    }
-                }
-            });
-
-            await wrapper.vm.$nextTick();
-
-            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
-            stubSetToggleButtonVisibility.restore();
-        });
-    });
 });
