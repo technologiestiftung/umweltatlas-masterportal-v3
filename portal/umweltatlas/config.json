@@ -362,102 +362,6 @@
               "type": "folder",
               "elements": [
                 {
-                  "name": "2020",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "01.06.1 Bodenarten",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_bodenarten_2020:bodenarten2020",
-                          "name": "2020 - Bodenarten (Bodenarten)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.2 Nutzbare Feldkapazität der Böden für Flachwurzler",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_nfk30_2020:nfk30_2020",
-                          "name": "2020 - Nutzbare Feldkapazität der Böden für Flachwurzler (Nutzbare Feldkapazität der Böden für Flachwurzler)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.4 Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_nfkwe_2020:nfkwe_2020",
-                          "name": "2020 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes (Nutzbare Feldkapazität des effektiven Wurzelraumes)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.5 Humusmenge der Böden",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_humus_2020:humus2020",
-                          "name": "2020 - Humusmenge der Böden (Humusmenge der Böden)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.6 Organischer Kohlenstoffvorrat der Böden",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_corg_2020:kohlenstoffvor2020",
-                          "name": "2020 - Organischer Kohlenstoffvorrat der Böden (Organischer Kohlenstoffvorrat)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.7 pH-Werte des Oberbodens",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_ph_2020:ph2020",
-                          "name": "2020 - pH-Werte des Oberbodens (pH-Werte des Oberbodens)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.8 Summe austauschbarer basischer Kationen des Oberbodens (S-Wert)",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_sumkat_2020:sumkat2020",
-                          "name": "2020 - Summe austauschbarer basischer Kationen des Oberbodens (S-Wert, 0 - 3 dm) (Summe austauschbarer basischer Kationen des Oberbodens (S-Wert))"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.9 Mittlere effektive Kationenaustauschkapazität (KAKeff) der Böden",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_kakeff_2020:kataus2020",
-                          "name": "2020 - Mittlere effektive Kationenaustauschkapazität (KAKeff) der Böden (Mittlere effektive Kationenaustauschkapazität (KAKeff))"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "01.06.10 Gesättigte Wasserdurchlässigkeit (kf) der Böden",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_boden_kf_2020:wasdur2020",
-                          "name": "2020 - Gesättigte Wasserleitfähigkeit (kf-Wert) der Böden (Gesättigte Wasserleitfähigkeit (kf-Wert))"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
                   "name": "2015",
                   "type": "folder",
                   "elements": [
@@ -7007,8 +6911,28 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimawandel_2015:f_Sommertage_2041_2070",
+                          "name": "2041-2070 - Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:e_Sommertage_2011_2040",
+                          "name": "2011-2040 - Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:d_som_anz_2041_2070",
+                          "name": "2041-2070 - Mittlere jährliche Anzahl der Sommertage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
                           "id": "ua_klimawandel_2015:c_som_anz_2011_2040",
                           "name": "2011-2040 - Mittlere jährliche Anzahl der Sommertage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:b_som_zun_2041_2070",
+                          "name": "2041-2070 - Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:a_som_zun_2011_2040",
+                          "name": "2011-2040 - Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     },
@@ -7017,8 +6941,28 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimawandel_2015:f_Hitzetage_2041_2070",
+                          "name": "2041-2070 - Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:e_Hitzetage_2011_2040",
+                          "name": "2011-2040 - Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:d_hitz_anz_2041_2070",
+                          "name": "2041-2070 - Mittlere jährliche Anzahl der Hitzetage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
                           "id": "ua_klimawandel_2015:c_hitz_anz_2011_2040",
                           "name": "2011-2040 - Mittlere jährliche Anzahl der Hitzetage für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:b_hitz_zun_2041_2070",
+                          "name": "2041-2070 - Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:a_hitz_zun_2011_2040",
+                          "name": "2011-2040 - Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     },
@@ -7027,8 +6971,28 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimawandel_2015:f_Tropennaechte_2041_2070",
+                          "name": "2041-2070 - Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:e_Tropennaechte_2011_2040",
+                          "name": "2011-2040 - Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:d_trop_anz_2041_2070",
+                          "name": "2041-2070 - Mittlere jährliche Anzahl der Tropennächte für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
                           "id": "ua_klimawandel_2015:c_trop_anz_2011_2040",
                           "name": "2011-2040 - Mittlere jährliche Anzahl der Tropennächte für den Zeitraum (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:b_trop_zun_2041_2070",
+                          "name": "2041-2070 - Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2015:a_trop_zun_2011_2040",
+                          "name": "2011-2040 - Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
                         }
                       ]
                     }
@@ -8965,6 +8929,22 @@
                         {
                           "id": "ua_verkehrsmengen_2014:verkehrsmengen_2014",
                           "name": "2014 - Verkehrsmengen DTV (Verkehrsmengen DTV)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2009",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "07.01 Verkehrsmengen DTV",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_verkehrsmengen_2009:verkehrsmengen2009",
+                          "name": "2009 - Verkehrsmengen DTV (Verkehrsmengen DTV)"
                         }
                       ]
                     }
