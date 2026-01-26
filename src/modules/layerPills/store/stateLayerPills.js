@@ -4,7 +4,8 @@
  * @property {String[]} supportedDevices devices on which the module is displayed.
  * @property {String[]} supportedMapModes map mode in which this module can be used.
  * @property {Object} visibleSubjectDataLayer contains all visible subjectdata layers.
- * @property {Boolean} active status of layerpills, as configured in config.json.
+ * @property {Boolean} active status of layerpills, reflects config.json.
+ * @property {Boolean} hidden can temporarily hide layerpills.
  * @property {Number} amount number of visible layerpills, as configured in config.json.
  * @property {String} type The type of the layerPills component.
  */
@@ -15,6 +16,7 @@ const state = {
     supportedMapModes: ["2D", "3D"],
     visibleSubjectDataLayers: [],
     active: false,
+    hidden: false,
     mobileOnly: false,
     type: "layerPills"
 };

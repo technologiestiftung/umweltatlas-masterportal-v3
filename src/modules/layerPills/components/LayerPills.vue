@@ -23,7 +23,8 @@ export default {
             "configPaths",
             "mobileOnly",
             "type",
-            "visibleSubjectDataLayers"
+            "visibleSubjectDataLayers",
+            "hidden"
         ]),
         ...mapGetters("Modules/LayerTree", ["layerTreeSortedLayerConfigs"]),
         ...mapGetters("Maps", ["mode"]),
@@ -83,7 +84,9 @@ export default {
          */
         combinedMenuWidthState: {
             handler () {
-                this.setToggleButtonVisibility();
+                if (this.active) {
+                    this.setToggleButtonVisibility();
+                }
             }
         }
     },
@@ -172,7 +175,7 @@ export default {
 
 <template>
     <div
-        v-if="visibleSubjectDataLayers.length > 0 && active"
+        v-if="visibleSubjectDataLayers.length > 0 && active && !hidden"
         id="layer-pills"
         ref="layerPillsContainer"
         class="layer-pills-container"

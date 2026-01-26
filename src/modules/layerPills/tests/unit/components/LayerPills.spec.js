@@ -72,7 +72,8 @@ describe("src/modules/LayerPills.vue", () => {
                                 mobileOnly: () => mobileOnly,
                                 configPaths: () => ["portalConfig.map.layerPills"],
                                 type: () => "layerPills",
-                                visibleSubjectDataLayers: () => visibleSubjectDataLayers
+                                visibleSubjectDataLayers: () => visibleSubjectDataLayers,
+                                hidden: () => false
                             },
                             mutations: {
                                 setActive: sinon.stub(),
