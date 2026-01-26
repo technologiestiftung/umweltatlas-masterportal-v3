@@ -229,7 +229,7 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
                 }
                 else {
                     const map = mapCollection.getMap("2D"),
-                        mapProjection = map ? map.getView().getProjection().getCode() : "EPSG:25832",
+                        mapProjection = mapCollection.getMapView("2D").getProjection().getCode(),
                         features = new WFS().readFeatures(xml, {
                             featureProjection: mapProjection
                         }),
