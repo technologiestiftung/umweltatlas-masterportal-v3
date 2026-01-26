@@ -16,6 +16,7 @@
 ### Removed
 
 ### Fixed
+- WFS-T: Multi-update works correctly when multiple layers are configured in the WFS-T tool.
 
 ---
 

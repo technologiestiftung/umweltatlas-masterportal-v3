@@ -35,8 +35,14 @@ export default {
             "multiUpdate",
             "selectedUpdate",
             "buttonsDisabled",
-            "anyInputValue"
+            "anyInputValue",
+            "currentLayerId"
         ]),
+        multiupdateCurrentLayerIndex () {
+            return this.multiUpdate.find(
+                item => item.layerId === this.currentLayerId
+            );
+        },
         ...mapGetters(["allLayerConfigs", "visibleSubjectDataLayerConfigs"])
     },
     watch: {
@@ -139,30 +145,6 @@ export default {
                 return value + ".0";
             }
             return value;
-        },
-        /**
-         * Retrieves the control attributes for a specific layer.
-         *
-         * @param {string} layerId - The ID of the layer to retrieve control attributes for
-         * @returns {Array} An array of control attributes for the specified layer
-         * If the layer is not found, returns an empty array.
-         */
-        getControlAttributes (layerId) {
-            const layerData = this.multiUpdate.find(item => item.layerId === layerId);
-
-            return layerData ? layerData.controlAttributes : [];
-        },
-        /**
-         * Retrieves the configuration attributes for a specific layer.
-         *
-         * @param {string} layerId - The ID of the layer to retrieve configuration attributes for.
-         * @returns {Array} An array of configuration attributes for the specified layer
-         * If the layer is not found, returns an empty array.
-         */
-        getConfigAttributes (layerId) {
-            const layerData = this.multiUpdate.find(item => item.layerId === layerId);
-
-            return layerData ? layerData.configAttributes : [];
         }
     }
 };
@@ -247,16 +229,16 @@ export default {
                         class="d-flex"
                     >
                         <SelectTypeButtons
-                            :select-types="multiUpdate[currentLayerIndex].selectTypes"
-                            :select-icons="multiUpdate[currentLayerIndex].selectIcons"
+                            :select-types="multiupdateCurrentLayerIndex?.selectTypes"
+                            :select-icons="multiupdateCurrentLayerIndex?.selectIcons"
                         />
                     </div>
                     <div v-if="featurePropertiesBatch.length !== 0">
                         <p
-                            v-if="$t(multiUpdate[currentLayerIndex]?.warningText) !== 'multiUpdate[currentLayerIndex].warningText'"
+                            v-if="$t(multiupdateCurrentLayerIndex?.warningText) !== 'multiupdateCurrentLayerIndex.warningText'"
                             class="mb-3 mt-3"
                         >
-                            {{ $t(multiUpdate[currentLayerIndex]?.warningText) }}
+                            {{ $t(multiupdateCurrentLayerIndex?.warningText) }}
                         </p>
                         <p>
                             {{ featurePropertiesBatch.length }}
@@ -285,8 +267,9 @@ export default {
                                 <strong>
                                     {{
                                         batchItem
-                                            .filter(property => getConfigAttributes(layerInformation[currentLayerIndex].id).includes(property.key))
+                                            .filter(property => multiupdateCurrentLayerIndex.configAttributes)
                                             .map(property => property.value)
+                                            .filter(value => typeof value === "string")
                                             .join(" ")
                                     }}
                                 </strong>
@@ -299,7 +282,7 @@ export default {
                         id="tool-wfs-transaction-form"
                     >
                         <template
-                            v-for="property in featurePropertiesBatch[0].filter(p => getControlAttributes(layerInformation[currentLayerIndex].id).includes(p.key))"
+                            v-for="property in featurePropertiesBatch[0].filter(p => multiupdateCurrentLayerIndex.controlAttributes.includes(p.key))"
                             :key="`common-${property.key}`"
                         >
                             <template v-if="property.type !== 'geometry'">

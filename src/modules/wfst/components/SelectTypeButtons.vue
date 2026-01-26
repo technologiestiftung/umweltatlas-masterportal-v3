@@ -19,8 +19,8 @@ export default {
         selectIcons: {
             type: Object,
             default: () => ({
-                select: "fa-mouse-pointer",
-                box: "fa-vector-square",
+                select: "bi-cursor-fill",
+                box: "bi-bounding-box",
                 pen: "bi-pencil-fill"
             })
         }
