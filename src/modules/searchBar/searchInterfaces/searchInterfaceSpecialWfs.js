@@ -79,7 +79,9 @@ SearchInterfaceSpecialWfs.prototype.search = async function (searchInput) {
             this.pushHitsToSearchResults(result.hits);
         }
         catch (error) {
-            console.warn(`Special WFS search failed for ${definition.name} (${definition.url}):`, error.message);
+            if (error.name !== "CanceledError") {
+                console.warn(`Special WFS search failed for ${definition.name} (${definition.url}):`, error.message);
+            }
         }
     }
 
