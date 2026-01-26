@@ -175,6 +175,7 @@ SearchInterfaceSpecialWfs.prototype.sendRequest = async function (url, requestCo
 
 /**
  * Fills the hitlist.
+ * Handles property names with or without namespace prefix.
  * @param {String} xml The WFS result xml to parse.
  * @param {Object} result The result object.
  * @param {Object} requestConfig The request configuration.
@@ -197,7 +198,6 @@ SearchInterfaceSpecialWfs.prototype.fillHitList = function (xml, result, request
         const element = elements[i];
 
         propertyNames.forEach(propertyName => {
-            // Handle property names with or without namespace prefix
             const propertyLocalName = propertyName.includes(":") ? propertyName.split(":")[1] : propertyName,
                 geometryLocalName = geometryName.includes(":") ? geometryName.split(":")[1] : geometryName,
                 propertyElements = element.getElementsByTagNameNS("*", propertyLocalName),
