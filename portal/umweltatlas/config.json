@@ -218,7 +218,7 @@
               },
               {
                 "title": "2025 - Luftbild",
-                "layerId": "dop_2025_fruehjahr:dop_2025.10"
+                "layerId": "dop_2025_fruehjahr:dop_2025"
               }
             ]
           }
@@ -235,7 +235,7 @@
           "visibility": true
         },
         {
-          "id": "dop_2025_fruehjahr:dop_2025.11",
+          "id": "dop_2025_fruehjahr:dop_2025",
           "shortname": "Luftbild 2025",
           "visibility": false,
           "preview": {
