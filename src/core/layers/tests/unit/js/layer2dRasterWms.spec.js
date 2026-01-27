@@ -43,7 +43,8 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
         };
     });
 
-    after(() => {
+    afterEach(() => {
+        delete Config.overwriteWmsLoadfunction;
         sinon.restore();
         store.getters = origGetters;
     });
@@ -152,10 +153,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
 
         });
 
-        it.skip("should return the layer params, login module available", () => {
-            store.getters = {
-                isModuleAvailable: () => true
-            };
+        it("should return the layer params, , overwriteWmsLoadfunction not set", () => {
             const wmsLayer = new Layer2dRasterWms(localAttributes);
 
             expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
@@ -171,14 +169,11 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 zIndex: 1,
                 featureCount: 5,
                 gfiThemeSettings: undefined,
-                useFetchForWMS: true
+                useFetchForWMS: false
             });
         });
 
         it("should return the layer params, overwriteWmsLoadfunction is true", () => {
-            store.getters = {
-                isModuleAvailable: () => false
-            };
             Config.overwriteWmsLoadfunction = true;
 
             const wmsLayer = new Layer2dRasterWms(localAttributes);
