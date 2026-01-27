@@ -11,6 +11,9 @@ const getters = {
     defaultValue (_, {currentTimeSliderObject}) {
         return currentTimeSliderObject.defaultValue;
     },
+    dualRangeSlider (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject?.dualRangeSlider || false;
+    },
     /**
      * Test whether the current width surpasses the mobileWidth
      * (Width with which the mobile view is triggered).
@@ -23,11 +26,11 @@ const getters = {
 
         return windowWidth > mobileWidth;
     },
-    timeRange (_, {currentTimeSliderObject}) {
-        return currentTimeSliderObject?.timeRange || [];
-    },
     staticDimensions (_, {currentTimeSliderObject}) {
         return currentTimeSliderObject?.staticDimensions || {};
+    },
+    timeRange (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject?.timeRange || [];
     }
 };
 

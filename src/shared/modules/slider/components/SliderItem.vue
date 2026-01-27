@@ -178,6 +178,7 @@ export default {
             <div class="input">
                 <input
                     :id="id"
+                    ref="sliderValue"
                     type="range"
                     class="slider"
                     :class="{'form-range': shouldShowMarkers}"
@@ -300,10 +301,6 @@ export default {
                 }
             }
         }
-    }
-
-    label {
-        align-self: baseline;
     }
 
     .markers {

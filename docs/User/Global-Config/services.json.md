@@ -116,6 +116,7 @@ If a parameter is also present in the service, the definition in this config is 
 | dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
 | dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| "./resources/dimensionRange.json" |
 | dimensionRegex | no | String | A regular expression used to filter the values ​​of the configured dimension (e.g., time). Only these filtered values ​​are then offered for selection in the time slider. Can be combined with the `dimensionRange` attribute.| "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z" |
+| dualRangeSlider | no | Boolean | `false` | This attribute allows the Timeslider to be configured as a dual range slider. | `true` |                                                                                       | `"REFERENCE_TIME"` |
 | extentName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; contains valid points in time | `"REFERENCE_TIME"` |                                                                                       | `"REFERENCE_TIME"` |
 | keyboardMovement | no | Number | `5` | Value in pixels that the swiper should be moved when using the arrow keys. | `5` |
 | playbackDelay | no | Number | `1` | When using the playback function, this is the time in seconds which a moment should be shown before the rendering of the next moment is initiated. | `42` |
@@ -179,6 +180,13 @@ If a parameter is also present in the service, the definition in this config is 
          "elevation": true,
          "REFERENCE_TIME": true
       }
+   }
+```
+
+```json title="Example 7 WMS-T configuration using dualRangeSlider"
+   "time": {
+      "dimensionName": "time",
+      "dualRangeSlider": true
    }
 ```
 

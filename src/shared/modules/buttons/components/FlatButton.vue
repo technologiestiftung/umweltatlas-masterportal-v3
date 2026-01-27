@@ -71,7 +71,7 @@ export default {
 
 <template>
     <button
-        class="flat-button btn btn-secondary d-flex align-items-center custom-mb-3"
+        class="flat-button btn btn-secondary d-flex align-items-center"
         :class="[
             customclass,
             secondary ? 'btn-scnd' : ''
@@ -119,10 +119,6 @@ export default {
     .btn-texts {
         white-space: normal;
         margin-left: .5rem;
-    }
-
-    &.custom-mb-3 {
-        margin-bottom: 1rem;
     }
 }
 

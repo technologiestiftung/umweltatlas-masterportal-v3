@@ -437,7 +437,8 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTimeSliderObject = function (time, fi
             defaultValue: defaultValue,
             step: step,
             timeRange: filtereTimeRangeByRegex,
-            staticDimensions: staticDimensionsWithDefaultValue
+            staticDimensions: staticDimensionsWithDefaultValue,
+            dualRangeSlider: time.dualRangeSlider || false
         };
 
     attrs.time = {...time, ...timeData};
@@ -534,12 +535,13 @@ Layer2dRasterWmsTimeLayer.prototype.setIsVisibleInMap = function (newValue) {
  * @param {Object} [staticDimensions={}] The static dimensions.
  * @returns {void}
  */
-Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue, staticDimensions = {}) {
+Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue, newValueEnd = null, staticDimensions = {}) {
     if (id === this.get("id")) {
-        const dimensionParams = {
-            "TIME": newValue,
-            ...staticDimensions
-        };
+        const value = newValueEnd !== null ? newValue + "/" + newValueEnd : newValue,
+            dimensionParams = {
+                "TIME": value,
+                ...staticDimensions
+            };
 
         this.getLayerSource().updateParams(dimensionParams);
 

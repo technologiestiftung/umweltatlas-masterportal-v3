@@ -111,6 +111,7 @@ describe("src/shared/components/SliderItem.vue", () => {
         expect(input.exists()).to.be.true;
         expect(input.attributes("aria-label")).to.equal("Aria-Label hier einfügen");
         expect(input.attributes("id")).to.equal("shared-slider");
+        expect(wrapper.find({ref: "sliderValue"}).exists()).to.be.true;
         expect(label.exists()).to.be.true;
         expect(label.text()).to.equal("Slider-Label");
         expect(input.attributes("list")).to.equal("datalist-id");
