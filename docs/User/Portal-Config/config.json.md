@@ -555,6 +555,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |icon|no|String|"bi-info-circle-fill"|CSS icon class. Icon is shown before the tool name.|false|
 |menuSide|no|String|"secondaryMenu"|Specifies in which menu the information should be displayed.|false|
 |name|yes|String|"common:modules.getFeatureInfo.name"|Name displayed in the menu.|false|
+|showPageNumber|no|Boolean|true|If set to true, displays the current position and total count of GFI responses next to the layer title (e.g., "(2/5)"). The counter is only shown when more than one response is available.|false|
 |showPolygonMarkerForWMS|no|Boolean|false|If set to true, Polygonmarker will be shown for WMS features with geometry.|false|
 
 **Example of a GetFeatureInfo configuration**.
