@@ -130,7 +130,7 @@ export default {
         fullPath(){
             const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
             let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
-            fullPath.pop();
+            fullPath === null ? "" : fullPath.pop();
             return fullPath;
         }
     },
