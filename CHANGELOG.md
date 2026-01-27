@@ -43,6 +43,7 @@
 - Issue #1536: About: The documentation has been supplemented and corrected. Property `title` is now displayed.
 - Issue #1549: WfsSearch with multiple select fields functions as expected. Fixed reset dependent fields at selection change.
 - LayerPills: Fix missing three dot menue when changing browser width. 
+- Issue #1548: draw_old/FileImport: Fixed KML export and import for square geometries. Square coordinates are now properly serialized as JSON string during KML export and correctly parsed back to array format during import.
 
 ---
 

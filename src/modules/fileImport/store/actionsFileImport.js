@@ -324,9 +324,21 @@ export default {
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
             }
             if (feature.get("masterportal_attributes").isSquare) {
-                const coords = feature.get("masterportal_attributes").squareCoords;
+                let coords = feature.get("masterportal_attributes").squareCoords;
 
-                feature.setGeometry(new Polygon([coords]));
+                if (typeof coords === "string") {
+                    try {
+                        coords = JSON.parse(coords);
+                    }
+                    catch (e) {
+                        console.error("Failed to parse squareCoords:", e);
+                        coords = null;
+                    }
+                }
+
+                if (Array.isArray(coords)) {
+                    feature.setGeometry(new Polygon([coords]));
+                }
             }
             if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
