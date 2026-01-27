@@ -2194,6 +2194,36 @@
               ]
             },
             {
+              "name": "Geologische Skizze",
+              "type": "folder",
+              "elements": [
+                {
+                  "name": "2007",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "01.17 Geologische Skizze",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_geoskizze:c_geoskizze",
+                          "name": "Geologische Skizze (Geologische Skizze)"
+                        },
+                        {
+                          "id": "ua_geoskizze:b_gewaesserlaeufe",
+                          "name": "Geologische Skizze - Liniengewässer (Geologische Skizze)"
+                        },
+                        {
+                          "id": "ua_geoskizze:a_text",
+                          "name": "Texte geomorphologischer Einheiten (Geologische Skizze)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "Geologische Karte",
               "type": "folder",
               "elements": [
@@ -6146,6 +6176,18 @@
                         {
                           "id": "ua_klimaanalyse_2014:fa_ua_lufttemp_siedlg_t2m_04h_2014",
                           "name": "2014 - Siedlungsraum: Lufttemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014",
+                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014",
+                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014",
+                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6190,6 +6232,18 @@
                         {
                           "id": "ua_klimaanalyse_2014:na_ua_abkuehl_siedlg_2014",
                           "name": "2014 - Siedlungsraum: Nächtliche Abkühlung zwischen 22:00 und 04:00 Uhr [K] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
+                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
+                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
+                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6264,6 +6318,88 @@
                         {
                           "id": "ua_klimaanalyse_2014:ua_ua_luftaustausch_2014",
                           "name": "2014 - Luftaustausch (Klimaanalysekarten)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2005",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "04.10.01 Lufttemperatur 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:a_lufttemp_22h_2005",
+                          "name": "2005 - Lufttemperatur am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.02 Lufttemperatur 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:b_lufttemp_06h_2005",
+                          "name": "2005 - Lufttemperatur am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.03 Bodennahes Windfeld und Luftaustausch 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:cb_luftaustausch_22h_2005",
+                          "name": "2005 - Luftaustausch am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:ca_windfeld_22h_2005",
+                          "name": "2005 - Bodennahes Windfeld am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.04 Bodennahes Windfeld und Luftaustausch 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:db_luftaustausch_06h_2005",
+                          "name": "2005 - Luftaustausch am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:da_windfeld_06h_2005",
+                          "name": "2005 - Bodennahes Windfeld am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.05 Bodennahes Windfeld und Kaltluftvolumenstrom 22.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:eb_volstrom_22h_2005",
+                          "name": "2005 - Kaltluftvolumenstrom am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:ea_windfeld_22h_2005",
+                          "name": "2005 - Bodennahes Windfeld am Abend 22.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.10.06 Bodennahes Windfeld und Kaltluftvolumenstrom 06.00 Uhr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimamodell_2005:fb_volstrom_06h_2005",
+                          "name": "2005 - Kaltluftvolumenstrom am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
+                        },
+                        {
+                          "id": "ua_klimamodell_2005:fa_windfeld_06h_2005",
+                          "name": "2005 - Bodennahes Windfeld am Morgen 06.00 Uhr (Klimamodell Berlin : Analysekarten, Klimafunktionen und Planungshinweise Stadtklima)"
                         }
                       ]
                     }
@@ -6648,6 +6784,46 @@
                         {
                           "id": "ua_klimabewertung_2015:dk_massnahmen_m11",
                           "name": "2015 - M11 - Erhöhung der Oberflächen-Albedo (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:dj_massnahmen_m10",
+                          "name": "2015 - M10 - Verschattung von Gebäuden (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:di_massnahmen_m09",
+                          "name": "2015 - M09 - Innen-/Hinterhofbegrünung (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:dh_massnahmen_m08",
+                          "name": "2015 - M08 - Verbesserung der Erreichbarkeit von Grünflächen (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:dg_massnahmen_m07",
+                          "name": "2015 - M07 - Schaffung von Pocket-Parks (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:df_massnahmen_m06",
+                          "name": "2015 - M06 - Entsiegelung (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:de_massnahmen_m05",
+                          "name": "2015 - M05 - Rückbau/Entdichtung (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:dd_massnahmen_m04",
+                          "name": "2015 - M04 - Begrünung von Gleistrassen (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:dc_massnahmen_m03",
+                          "name": "2015 - M03 - Reduktion anthropogener Wärmeemissionen aus dem Verkehr (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:db_massnahmen_m02",
+                          "name": "2015 - M02 - Begrünung und Verschattung von Parkplätzen (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2015:da_massnahmen_m01",
+                          "name": "2015 - M01 - Verschattung im Öffentlichen Raum (Klimabewertungskarten)"
                         }
                       ]
                     }
@@ -6843,12 +7019,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
-                          "name": "1961-1990 - Jahresniederschlag (Langjährige Niederschlagsverteilung)"
-                        },
-                        {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
-                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
+                          "id": "ua_lufttemp_1961_1990:lufttemp_1961_1990",
+                          "name": "1961-1990 - Lufttemperatur (langj. Mittel) (Langjähriges Mittel der Lufttemperatur)"
                         }
                       ]
                     }
@@ -7037,6 +7209,72 @@
                         {
                           "id": "ua_klimawandel_2015:a_trop_zun_2011_2040",
                           "name": "2011-2040 - Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu (Klimamodell Berlin: Entwicklung der Anzahl klimatologischer Kenntage in der Zukunft)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2008",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "04.12.1 Jahresmittel der Anzahl der Tage mit Wärmebelastung für den Bezugszeitraum 1971 - 2000 für Berlin und Umland",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:a_wb1971_2000",
+                          "name": "1971-2000 - Jahresmittel der Tage mit Wärmebelastung (Klimawandel und Wärmebelastung der Zukunft)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.12.2 Zunahme der Anzahl der Tage mit Wärmebelastung 2021 - 2050 im Vergleich zum Kontrolllauf 1971 - 2000",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:b_diff2021_1971",
+                          "name": "1971-2000 - Zunahme der Wärmebelastung 2021-2050 zu (Klimawandel und Wärmebelastung der Zukunft)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.12.3 Zunahme der Anzahl der Tage mit Wärmebelastung 2071 - 2100 im Vergleich zum Kontrolllauf 1971 - 2000",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:c_diff2071_1971",
+                          "name": "1971-2000 - Zunahme der Wärmebelastung 2071-2100 zu (Klimawandel und Wärmebelastung der Zukunft)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.12.4 Jahresmittel der Anzahl der Tage mit Wärmebelastung 1971-2000 (einheitliche Farbreihe in den Karten 04.12.4 bis 04.12.6)",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:d_wb1971_2000",
+                          "name": "1971-2000 - Jahresmittel Tage mit Wärmebelastung (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.12.5 Jahresmittel der Anzahl der Tage mit Wärmebelastung 2021 - 2050",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:e_wb2021_2050",
+                          "name": "2021-2050 - Jahresmittel Tage mit Wärmebelastung (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "04.12.6 Jahresmittel der Anzahl der Tage mit Wärmebelastung 2071 - 2100",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_klimawandel_2008:f_wb2071_2100",
+                          "name": "2071 - Jahresmittel Tage mit Wärmebelastung -2100 (Farbreihe 2) (Klimawandel und Wärmebelastung der Zukunft)"
                         }
                       ]
                     }
@@ -7295,11 +7533,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl.2",
+                          "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
                           "name": "1961-1990 - Jahresniederschlag (Langjährige Niederschlagsverteilung)"
                         },
                         {
-                          "id": "ua_niederschlag_1961_1990:jahrns1990_a_li.2",
+                          "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
                           "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung)"
                         }
                       ]
@@ -8439,6 +8677,22 @@
                         {
                           "id": "ua_einwohnerdichte_2010:ua_einwohnerdichte_2010",
                           "name": "2010 - Einwohnerdichte (Einwohnerdichte)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2009",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "06.06 Einwohnerdichte",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_einwohnerdichte_2009:ua_einwohnerdichte_2009",
+                          "name": "2009 - Einwohnerdichte (Einwohnerdichte)"
                         }
                       ]
                     }
@@ -9935,6 +10189,246 @@
                         {
                           "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.5",
                           "name": "2012 - Lärmschutzeinrichtungen (Strategische Lärmkarten)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2007",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "07.05.1 Strategische Lärmkarte LDEN (Tag-Abend-Nacht-Lärmindex) Straßenverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:bb_strassegesamt_lden2007",
+                          "name": "2007 - Straßenverkehr L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007",
+                          "name": "2007 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.2 Strategische Lärmkarte LN (Nacht-Lärmindex 22 - 6 Uhr) Straßenverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007.2",
+                          "name": "2007 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.3 Strategische Lärmkarte LDEN (Tag-Abend-Nacht-Lärmindex) Straßenbahn- / U-Bahnverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:bc_tram_ubahn_lden2007",
+                          "name": "2007 - Straßen-/U-Bahnverkehr L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.4 Strategische Lärmkarte LN (Nacht-Lärmindex 22 - 6 Uhr) Straßenbahn- / U-Bahnverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:cc_tram_ubahn_ln2007",
+                          "name": "2007 - Straßen-/U-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.2",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.5 Strategische Lärmkarte LDEN (Tag-Abend-Nacht-Lärmindex) Eisenbahn- / S-Bahnverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:bf_schiene_aeg_lden2007",
+                          "name": "2007 - Eisenbahn/S-Bahnverkehr L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.6 Strategische Lärmkarte LN (Nacht-Lärmindex 22 - 6 Uhr) Eisenbahn- / S-Bahnverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:cf_schiene_aeg_ln2007",
+                          "name": "2007 - Eisenbahn/S-Bahnverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.2",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.7 Strategische Lärmkarte LDEN (Tag-Abend-Nacht-Lärmindex) Flugverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:bd_flug_gesamt_lden2007",
+                          "name": "2007 - Flugverkehr L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.8 Strategische Lärmkarte LN (Nacht-Lärmindex 22 - 6 Uhr) Flugverkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:cd_flug_gesamt_ln2007",
+                          "name": "2007 - Flugverkehr L N (Nacht-Index) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.9 Strategische Lärmkarte LDEN (Tag-Abend-Nacht-Lärmindex) Industrie und Gewerbe",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:be_industrie_lden2007",
+                          "name": "2007 - Industrie und Gewerbe L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.10 Strategische Lärmkarte LN (Nacht-Lärmindex 22 - 6 Uhr) Industrie und Gewerbe",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:ce_industrie_n",
+                          "name": "2007 - Industrie und Gewerbe L N (Nacht-Index) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.11 Fassadenpegel an Wohngebäuden im Einwirkbereich der Hauptlärmquellen",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:a_fp_gesamt2007",
+                          "name": "2007 - Fassadenpegel aller bewerteten Lärmquellen (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.2",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.3",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.3",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.12 Fassadenpegel Gesamtlärm LDEN (Tag-Abend-Nacht-Lärmindex) Summe Verkehr an den Fassaden der Wohngebäude",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:ba_fp_gesamt2007_lden",
+                          "name": "2007 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.3",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.4",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.4",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.13 Fassadenpegel Gesamtlärm LN (Nacht-Lärmindex) Summe Verkehr an den Fassaden der Wohngebäude",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.4",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.5",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.5",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:ca_fp_gesamt2007_ln",
+                          "name": "2007 - Fassadenpegel Gesamtlärm L N (Nacht) (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.14 Rasterkarte LDEN (Tag-Abend-Nacht-Lärmindex) Gesamtlärm Summe Verkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:bg_gesamtlaerm_lden2007",
+                          "name": "2007 - Gesamtlärmindex L DEN (Tag-Abend-Nacht) Raster (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.5",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.6",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.6",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "07.05.15 Rasterkarte LN (Nacht-Lärmindex) Gesamtlärm Summe Verkehr",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_stratlaerm_2007:cg_gesamtlaerm_ln2007",
+                          "name": "2007 - Gesamtlärmindex L N (Nacht) Raster (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.6",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.7",
+                          "name": "2007 - S- und Fernbahn (Strategische Lärmkarten)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.7",
+                          "name": "2007 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten)"
                         }
                       ]
                     }
