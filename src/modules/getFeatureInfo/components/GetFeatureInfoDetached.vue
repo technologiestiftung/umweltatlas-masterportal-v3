@@ -30,6 +30,21 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        pagerIndex: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        totalFeatures: {
+            type: Number,
+            required: false,
+            default: 1
+        },
+        showPageNumber: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     emits: ["updateFeatureDone"],
@@ -67,6 +82,22 @@ export default {
          */
         theme: function () {
             return getTheme(this.feature.getTheme(), this.$options.components, this.$gfiThemeAddons);
+        },
+
+        /**
+         * Returns true if the page counter should be displayed.
+         * @returns {Boolean} true if counter should be shown
+         */
+        showCounter: function () {
+            return this.showPageNumber && this.totalFeatures > 1;
+        },
+
+        /**
+         * Returns the formatted page counter text.
+         * @returns {String} the page counter text (e.g., "(2/5)")
+         */
+        pageCounterText: function () {
+            return `(${this.pagerIndex + 1}/${this.totalFeatures})`;
         }
     },
     created () {
@@ -287,9 +318,17 @@ export default {
     <div>
         <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
             <slot name="pager-left" />
-            <span class="gfi-title mx-3 font-bold flex-grow-1">
-                {{ translate(title) }}
-            </span>
+            <div class="gfi-title-container mx-3 flex-grow-1">
+                <div class="gfi-title font-bold">
+                    {{ translate(title) }}
+                </div>
+                <div
+                    v-if="showCounter"
+                    class="gfi-page-counter"
+                >
+                    {{ pageCounterText }}
+                </div>
+            </div>
             <slot name="pager-right" />
         </div>
         <component
@@ -302,10 +341,22 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
+.gfi-title-container {
+    min-width: 0;
+    text-align: center;
+}
+
 .gfi-title {
     font-size: 1.5rem;
     word-break: break-word;
     overflow-wrap: break-word;
-    min-width: 0;
- }
+}
+
+.gfi-page-counter {
+    font-size: 0.875rem;
+    color: $dark_grey;
+    font-weight: normal;
+    white-space: nowrap;
+    margin-top: 0.25rem;
+}
 </style>

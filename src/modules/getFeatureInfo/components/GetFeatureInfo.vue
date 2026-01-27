@@ -47,6 +47,7 @@ export default {
             "menuSide",
             "name",
             "showMarker",
+            "showPageNumber",
             "type",
             "visible"
         ]),
@@ -360,6 +361,9 @@ export default {
             :key="componentKey"
             :feature="feature"
             :is-updated="updatedFeature"
+            :pager-index="pagerIndex"
+            :total-features="gfiFeatures.length"
+            :show-page-number="showPageNumber"
             @update-feature-done="setUpdatedFeature(true)"
             @close="reset"
         >
