@@ -66,7 +66,7 @@ SearchInterfaceSpecialWfs.prototype.search = async function (searchInput) {
     this.searchState = "running";
 
     for (const definition of this.definitions) {
-        const wfsXml = this.getWFS110Xml(definition, searchInput, false);
+        const wfsXml = this.getWFS110Xml(definition, searchInput);
         let result = {
             status: "success",
             message: "",
@@ -115,10 +115,9 @@ SearchInterfaceSpecialWfs.prototype.normalizeResults = function (searchResults) 
      * Creates the XML for a WFS 1.1.0 POST request
      * @param   {Object} definition    Definition from Configuration
      * @param   {String} searchString  The string queried
-     * @param   {Boolean} [usePropertyNames=false] Whether to use PropertyName restrictions (can cause issues with some WFS servers)
      * @returns {String}               XML String
      */
-SearchInterfaceSpecialWfs.prototype.getWFS110Xml = function (definition, searchString, usePropertyNames = false) {
+SearchInterfaceSpecialWfs.prototype.getWFS110Xml = function (definition, searchString) {
     const typeName = definition.typeName,
         propertyNames = definition.propertyNames,
         geometryName = definition.geometryName ? definition.geometryName : this.geometryName,
@@ -130,12 +129,10 @@ SearchInterfaceSpecialWfs.prototype.getWFS110Xml = function (definition, searchS
     data += namespaces + " traverseXlinkDepth='*' version='1.1.0'>";
     data += "<wfs:Query typeName='" + typeName + "'>";
 
-    if (usePropertyNames) {
-        for (propertyName of propertyNames) {
-            data += "<wfs:PropertyName>" + propertyName + "</wfs:PropertyName>";
-        }
-        data += "<wfs:PropertyName>" + geometryName + "</wfs:PropertyName>";
+    for (propertyName of propertyNames) {
+        data += "<wfs:PropertyName>" + propertyName + "</wfs:PropertyName>";
     }
+    data += "<wfs:PropertyName>" + geometryName + "</wfs:PropertyName>";
 
     data += "<wfs:maxFeatures>" + maxFeatures + "</wfs:maxFeatures>";
     data += "<ogc:Filter>";
