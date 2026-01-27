@@ -327,6 +327,36 @@
     }
   },
   {
+    "id": "ua_wasserhaushalt_2022:f_deltaw_2022",
+    "name": "Delta-W: Abweichung des Wasserhaushalts vom natürlichen Wasserhaushalt 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2022",
+    "typ": "WMS",
+    "layers": "f_deltaw_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "08e12768-0bc1-41c0-a8d2-0b2d78c596e0",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2022/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_6_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
     "name": "Flurabstand des Grundwassers 2009 differenziert Gewässer",
     "crs": "EPSG:25833",
@@ -12023,6 +12053,337 @@
     }
   },
   {
+    "id": "ua_klimabewertung_2022:ba_ua_phk_luftaust_2022",
+    "name": "Luftaustausch 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "ba_ua_phk_luftaust_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bb_ua_phk_belast_tag_grfrei_2022",
+    "name": "Grün-/Freiflächen mit einer starken oder extremen thermischen Belastung am Tag 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bb_ua_phk_belast_tag_grfrei_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bc_ua_phk_leitbahn_2022",
+    "name": "Leitbahnkorridor 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bc_ua_phk_leitbahn_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bd_ua_phk_klimarelevante_bebauung_2022",
+    "name": "Wohngebiete mit klimarelevanter Funktion 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bd_ua_phk_klimarelevante_bebauung_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:be_ua_phk_kvsd_grfrei_2022",
+    "name": "Flächen der Grün-/Freiflächen mit einer überdurchschnittlich hohen Kaltluftvolumenstromdichte 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "be_ua_phk_kvsd_grfrei_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bf_ua_phk_kaltluft_siedl_2022",
+    "name": "Kaltlufteinwirkbereich innerhalb von Siedlungs- und Verkehrsflächen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bf_ua_phk_kaltluft_siedl_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bg_ua_phk_oschlaf_2022",
+    "name": "Stadtgebiete ohne Schlaffunktion 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bg_ua_phk_oschlaf_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bh_ua_phk_luftbelast_2022",
+    "name": "Index der Luftbelastung durch Kfz-Verkehr für PM10 und NO2 (Prognose für 2020)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bh_ua_phk_luftbelast_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bi_ua_phk_biokl_str_2022",
+    "name": "Bioklimatische Gesamtbewertung der Verkehrsflächen anhand der Tag- und Nachtsituation 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bi_ua_phk_biokl_str_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bj_ua_phk_biokl_siedl_2022",
+    "name": "Bioklimatische Gesamtbewertung der Siedlungsflächen anhand der Tag- und Nachtsituation 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bj_ua_phk_biokl_siedl_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_klimabewertung_2022:bk_ua_phk_ausgl_grfrei_2022",
+    "name": "Nächtliche Ausgleichfunktion von Grün- und Freiflächen gegenüber den Siedlungsflächen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimabewertung_2022",
+    "typ": "WMS",
+    "layers": "bk_ua_phk_ausgl_grfrei_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d002e10f-d745-49e5-98b1-bde00700f4e4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimabewertung/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_klimabewertung_2022/docs/04_11_1_2022.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_klimabewertung_2022:ca_ua_phk_aufenth_grfrei_tag_2022",
     "name": "Grün- und Freiflächen: Bewertung der Aufenthaltsqualität am Tag anhand des mittleren Physiologisch Äquivalenten Temperatur (PET) pro Block(teil)fläche um 14:00 Uhr [°C] 2022",
     "crs": "EPSG:25833",
@@ -16959,543 +17320,6 @@
     }
   },
   {
-    "id": "ua_stratlaerm_2007:a_fp_gesamt2007",
-    "name": "Fassadenpegel aller bewerteten Lärmquellen 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "a_fp_gesamt2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:ba_fp_gesamt2007_lden",
-    "name": "Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "ba_fp_gesamt2007_lden",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:bb_strassegesamt_lden2007",
-    "name": "Straßenverkehr L DEN (Tag-Abend-Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "bb_strassegesamt_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_1_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:bc_tram_ubahn_lden2007",
-    "name": "Straßen-/U-Bahnverkehr L DEN (Tag-Abend-Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "bc_tram_ubahn_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_3_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:bd_flug_gesamt_lden2007",
-    "name": "Flugverkehr L DEN (Tag-Abend-Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "bd_flug_gesamt_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_6_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:be_industrie_lden2007",
-    "name": "Industrie und Gewerbe L DEN (Tag-Abend-Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "be_industrie_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_9_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:bf_schiene_aeg_lden2007",
-    "name": "Eisenbahn/S-Bahnverkehr L DEN (Tag-Abend-Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "bf_schiene_aeg_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "ignore",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_5_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:bg_gesamtlaerm_lden2007",
-    "name": "Gesamtlärmindex L DEN (Tag-Abend-Nacht) Raster 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "bg_gesamtlaerm_lden2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:ca_fp_gesamt2007_ln",
-    "name": "Fassadenpegel Gesamtlärm L N (Nacht) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "ca_fp_gesamt2007_ln",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007",
-    "name": "Straßenverkehr L N (Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "cb_strasse_gesamt_ln2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_2_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:cc_tram_ubahn_ln2007",
-    "name": "Straßen-/U-Bahnverkehr L N (Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "cc_tram_ubahn_ln2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_4_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:cd_flug_gesamt_ln2007",
-    "name": "Flugverkehr L N (Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "cd_flug_gesamt_ln2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_8_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:ce_industrie_n",
-    "name": "Industrie und Gewerbe L N (Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "ce_industrie_n",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "ignore",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_10_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:cf_schiene_aeg_ln2007",
-    "name": "Eisenbahn/S-Bahnverkehr L N (Nacht-Index) 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "cf_schiene_aeg_ln2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_6_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:cg_gesamtlaerm_ln2007",
-    "name": "Gesamtlärmindex L N (Nacht) Raster 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "cg_gesamtlaerm_ln2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_15_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
-    "name": "Bewertetes Hauptstraßennetz 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "da_bewerteteshauptstrassennetz2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007",
-    "name": "S- und Fernbahn 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "db_s_und_fernbahn2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007",
-    "name": "Straßen- und oberirdische U-Bahn 2007",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
-    "typ": "WMS",
-    "layers": "dc_strassen_oberirdischeubahn2007",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb1_pm",
     "name": "MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik",
     "crs": "EPSG:25833",
@@ -17554,16 +17378,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:a_lufttemp_22h_2005",
-    "name": "Lufttemperatur am Abend 22.00 Uhr 2005",
+    "id": "ua_boden_nfk30_2020:nfk30_2020",
+    "name": "Nutzbare Feldkapazität der Böden für Flachwurzler 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfk30_2020",
     "typ": "WMS",
-    "layers": "a_lufttemp_22h_2005",
+    "layers": "nfk30_2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17575,8 +17399,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_1_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_02_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17584,16 +17408,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:b_lufttemp_06h_2005",
-    "name": "Lufttemperatur am Morgen 06.00 Uhr 2005",
+    "id": "ua_bodenarten_2020:bodenarten2020",
+    "name": "Bodenarten 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodenarten_2020",
     "typ": "WMS",
-    "layers": "b_lufttemp_06h_2005",
+    "layers": "bodenarten2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17605,8 +17429,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_2_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17614,16 +17438,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:ca_windfeld_22h_2005",
-    "name": "Bodennahes Windfeld am Abend 22.00 Uhr 2005",
+    "id": "ua_boden_corg_2020:kohlenstoffvor2020",
+    "name": "Organischer Kohlenstoffvorrat der Böden 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_corg_2020",
     "typ": "WMS",
-    "layers": "ca_windfeld_22h_2005",
+    "layers": "kohlenstoffvor2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17634,10 +17458,9 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "maxScale": "10000",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_3_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_05_01_06_06__01_11_11_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17645,16 +17468,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:cb_luftaustausch_22h_2005",
-    "name": "Luftaustausch am Abend 22.00 Uhr 2005",
+    "id": "ua_boden_humus_2020:humus2020",
+    "name": "Humusmenge der Böden 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_humus_2020",
     "typ": "WMS",
-    "layers": "cb_luftaustausch_22h_2005",
+    "layers": "humus2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17666,8 +17489,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_3_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_05_01_06_06__01_11_11_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17675,16 +17498,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:da_windfeld_06h_2005",
-    "name": "Bodennahes Windfeld am Morgen 06.00 Uhr 2005",
+    "id": "ua_boden_ph_2020:ph2020",
+    "name": "pH-Werte des Oberbodens 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_ph_2020",
     "typ": "WMS",
-    "layers": "da_windfeld_06h_2005",
+    "layers": "ph2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17695,10 +17518,9 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "maxScale": "10000",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_4_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_07_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17706,16 +17528,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:db_luftaustausch_06h_2005",
-    "name": "Luftaustausch am Morgen 06.00 Uhr 2005",
+    "id": "ua_boden_kf_2020:wasdur2020",
+    "name": "Gesättigte Wasserleitfähigkeit (kf-Wert) der Böden 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_kf_2020",
     "typ": "WMS",
-    "layers": "db_luftaustausch_06h_2005",
+    "layers": "wasdur2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17727,8 +17549,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_4_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_10__01_11_09_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17736,16 +17558,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:ea_windfeld_22h_2005",
-    "name": "Bodennahes Windfeld am Abend 22.00 Uhr 2005",
+    "id": "ua_boden_nfkwe_2020:nfkwe_2020",
+    "name": "Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_nfkwe_2020",
     "typ": "WMS",
-    "layers": "ea_windfeld_22h_2005",
+    "layers": "nfkwe_2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17756,10 +17578,9 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "maxScale": "10000",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_04_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17767,16 +17588,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:eb_volstrom_22h_2005",
-    "name": "Kaltluftvolumenstrom am Abend 22.00 Uhr 2005",
+    "id": "ua_boden_kakeff_2020:kataus2020",
+    "name": "Mittlere effektive Kationenaustauschkapazität (KAKeff) der Böden 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_kakeff_2020",
     "typ": "WMS",
-    "layers": "eb_volstrom_22h_2005",
+    "layers": "kataus2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17788,8 +17609,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_09__01_11_06_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17797,47 +17618,16 @@
     }
   },
   {
-    "id": "ua_klimamodell_2005:fa_windfeld_06h_2005",
-    "name": "Bodennahes Windfeld am Morgen 06.00 Uhr 2005",
+    "id": "ua_boden_sumkat_2020:sumkat2020",
+    "name": "Summe austauschbarer basischer Kationen des Oberbodens (S-Wert, 0 - 3 dm) 2020",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_sumkat_2020",
     "typ": "WMS",
-    "layers": "fa_windfeld_06h_2005",
+    "layers": "sumkat2020",
     "legend": true,
     "datasets": [
       {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "10000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_6_2005.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimamodell_2005:fb_volstrom_06h_2005",
-    "name": "Kaltluftvolumenstrom am Morgen 06.00 Uhr 2005",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2005",
-    "typ": "WMS",
-    "layers": "fb_volstrom_06h_2005",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e6b0e62b-6e9a-3fbd-b8fa-ddfdbbff1e8e",
+        "md_id": "70b9fe9c-bdcc-4672-9b37-e2c8d49c4fb5",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -17849,8 +17639,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_6_2005.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_08__01_11_07_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -26802,96 +26592,6 @@
     }
   },
   {
-    "id": "ua_geoskizze:a_text",
-    "name": "Texte geomorphologischer Einheiten",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_geoskizze",
-    "typ": "WMS",
-    "layers": "a_text",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "b90ae7e2-e4e2-399a-a2f1-26a6be2f40fd",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-skizze/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/geologische-skizze/de-karten/01_17_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_geoskizze:b_gewaesserlaeufe",
-    "name": "Geologische Skizze - Liniengewässer (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_geoskizze",
-    "typ": "WMS",
-    "layers": "b_gewaesserlaeufe",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "b90ae7e2-e4e2-399a-a2f1-26a6be2f40fd",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-skizze/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/geologische-skizze/de-karten/01_17_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_geoskizze:c_geoskizze",
-    "name": "Geologische Skizze",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_geoskizze",
-    "typ": "WMS",
-    "layers": "c_geoskizze",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "b90ae7e2-e4e2-399a-a2f1-26a6be2f40fd",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-skizze/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/geologische-skizze/de-karten/01_17_2007.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_sumkat_1990:basensaettigung1990",
     "name": "Basensättigung des Oberbodens 1990",
     "crs": "EPSG:25833",
@@ -28783,186 +28483,6 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2009/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_02_2009.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:a_wb1971_2000",
-    "name": "Jahresmittel der Tage mit Wärmebelastung 1971 - 2000",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "a_wb1971_2000",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_1_2008_mit_strname.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:b_diff2021_1971",
-    "name": "Zunahme der Wärmebelastung 2021-2050 zu 1971-2000",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "b_diff2021_1971",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_2_2008_mit_strname.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:c_diff2071_1971",
-    "name": "Zunahme der Wärmebelastung 2071-2100 zu 1971-2000",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "c_diff2071_1971",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_3_2008_mit_strname.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:d_wb1971_2000",
-    "name": "Jahresmittel Tage mit Wärmebelastung 1971-2000 (Farbreihe 2)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "d_wb1971_2000",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_4_2008_mit_strname.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:e_wb2021_2050",
-    "name": "Jahresmittel Tage mit Wärmebelastung 2021-2050 (Farbreihe 2)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "e_wb2021_2050",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_5_2008_mit_strname.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_klimawandel_2008:f_wb2071_2100",
-    "name": "Jahresmittel Tage mit Wärmebelastung 2071-2100 (Farbreihe 2)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2008",
-    "typ": "WMS",
-    "layers": "f_wb2071_2100",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "43a8b06c-3163-3654-a609-99798a0a09a5",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2008/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_6_2008_mit_strname.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -33668,36 +33188,6 @@
       "name": "Fr. Haag",
       "tel": "+4930901395270",
       "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_einwohnerdichte_2009:ua_einwohnerdichte_2009",
-    "name": "Einwohnerdichte 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2009",
-    "typ": "WMS",
-    "layers": "ua_einwohnerdichte_2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "39810324-ad5a-36a9-a0a9-3a777a4865f8",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2009/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2009/de-karten/06_06_2009.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
     }
   },
   {
