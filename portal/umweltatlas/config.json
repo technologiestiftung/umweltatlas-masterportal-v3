@@ -2022,12 +2022,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_versiegelung_2021:versieg2021",
-                          "name": "2021 - Versiegelung der Block- und Blockteilflächen (Versiegelung)"
-                        },
-                        {
                           "id": "ua_versiegelung_2021:versieg2021_str",
                           "name": "2021 - Versiegelung der Straßenflächen (Versiegelung)"
+                        },
+                        {
+                          "id": "ua_versiegelung_2021:versieg2021",
+                          "name": "2021 - Versiegelung der Block- und Blockteilflächen (Versiegelung)"
                         }
                       ]
                     }
@@ -6136,24 +6136,40 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_klimaanalyse_2014:df_ua_kaltluftvol_gew_04h_2014",
-                          "name": "2014 - Gewässer: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:bf_ua_kaltluftvol_gew_22h_2014",
+                          "name": "2014 - Gewässer: Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:de_ua_kaltluftvol_str_04h_2014",
-                          "name": "2014 - Straßenraum: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:be_ua_kaltluftvol_str_22h_2014",
+                          "name": "2014 - Straßenraum: Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:dd_ua_kaltluftvol_grfrei_04h_2014",
-                          "name": "2014 - Grün- und Freiflächen: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:bd_ua_kaltluftvol_grfrei_22h_2014",
+                          "name": "2014 - Grün- und Freiflächen: Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:dc_ua_kaltluftvol_siedlg_04h_2014",
-                          "name": "2014 - Siedlungsraum: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:bc_ua_kaltluftvol_siedlg_22h_2014",
+                          "name": "2014 - Siedlungsraum: Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:da_ua_windfeld_2m_04h_2014",
-                          "name": "2014 - Windfeld in 2 m Höhe um 04:00 Uhr [m/s] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:bb_ua_windfeld_22m_22h_2014",
+                          "name": "2014 - Windfeld in 22 m Höhe um 22:00 Uhr [m/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ba_ua_windfeld_2m_22h_2014",
+                          "name": "2014 - Windfeld in 2 m Höhe um 22:00 Uhr [m/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014",
+                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014",
+                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014",
+                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6178,15 +6194,15 @@
                           "name": "2014 - Siedlungsraum: Lufttemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6210,6 +6226,18 @@
                         {
                           "id": "ua_klimaanalyse_2014:ja_ua_strahtemp_siedlg_t2m_04h_2014",
                           "name": "2014 - Siedlungsraum: Strahlungstemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.3",
+                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.3",
+                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.3",
+                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6234,15 +6262,15 @@
                           "name": "2014 - Siedlungsraum: Nächtliche Abkühlung zwischen 22:00 und 04:00 Uhr [K] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.4",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.4",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.4",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6252,20 +6280,32 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_klimaanalyse_2014:pd_ua_pet_gew_2014",
-                          "name": "2014 - Gewässer: Bewertungsindex PET in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:rd_ua_pet_gew_2014",
+                          "name": "2014 - Gewässer: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:pc_ua_pet_str_2014",
-                          "name": "2014 - Straßenraum: Bewertungsindex PET in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:rc_ua_pet_str_2014",
+                          "name": "2014 - Straßenraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:pb_ua_pet_grfrei_2014",
-                          "name": "2014 - Grün- und Freiflächen: Bewertungsindex PET in 2 m Höhe um 4 Uhr [°C] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:rb_ua_pet_grfrei_2014",
+                          "name": "2014 - Grün- und Freiflächen: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:pa_ua_pet_siedlg_2014",
-                          "name": "2014 - Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 4 Uhr [°C] (Klimaanalysekarten)"
+                          "id": "ua_klimaanalyse_2014:ra_ua_pet_siedlg_2014",
+                          "name": "2014 - Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.5",
+                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.5",
+                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.5",
+                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6274,8 +6314,16 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2014:tc_ua_tn_2014",
+                          "name": "2014 - Anzahl der Tropennächte (Temperaturminimum >= 20°C) (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2014:tb_ua_ht_2014",
                           "name": "2014 - Anzahl der Hitzetage (Temperaturmaximum >= 30°C) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ta_ua_st_2014",
+                          "name": "2014 - Anzahl der Sommertage (Temperaturmaximum >= 25°C) (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -7041,19 +7089,19 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_klimaanalyse_2014:rd_ua_pet_gew_2014",
+                          "id": "ua_klimaanalyse_2014:rd_ua_pet_gew_2014.2",
                           "name": "2014 - Gewässer: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:rc_ua_pet_str_2014",
+                          "id": "ua_klimaanalyse_2014:rc_ua_pet_str_2014.2",
                           "name": "2014 - Straßenraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:rb_ua_pet_grfrei_2014",
+                          "id": "ua_klimaanalyse_2014:rb_ua_pet_grfrei_2014.2",
                           "name": "2014 - Grün- und Freiflächen: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ra_ua_pet_siedlg_2014",
+                          "id": "ua_klimaanalyse_2014:ra_ua_pet_siedlg_2014.2",
                           "name": "2014 - Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         }
                       ]
