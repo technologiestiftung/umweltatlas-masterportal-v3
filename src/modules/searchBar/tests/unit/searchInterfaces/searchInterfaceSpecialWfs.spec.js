@@ -81,7 +81,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
     });
 
     describe("WFSXML", () => {
-        it("should build the correct request without PropertyName elements (default)", () => {
+        it("should build the correct request with PropertyName elements", () => {
             const definitions = [
                 {
                     "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
@@ -96,30 +96,6 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
             ];
 
             expect(SearchInterface1.getWFS110Xml(definitions[0], "abc")).to.equals(
-                "<wfs:GetFeature service='WFS' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ogc='http://www.opengis.net/ogc' xmlns:gml='http://www.opengis.net/gml' xmlns:app='http://www.deegree.org/app' traverseXlinkDepth='*' version='1.1.0'>" +
-                "<wfs:Query typeName='app:hh_hh_festgestellt'>" +
-                "<wfs:maxFeatures>20</wfs:maxFeatures>" +
-                "<ogc:Filter>" +
-                "<ogc:PropertyIsLike matchCase='false' wildCard='*' singleChar='#' escapeChar='!'><ogc:PropertyName>app:geltendes_planrecht</ogc:PropertyName><ogc:Literal>*abc*</ogc:Literal></ogc:PropertyIsLike>" +
-                "</ogc:Filter></wfs:Query></wfs:GetFeature>"
-            );
-        });
-
-        it("should build the correct request with PropertyName elements when usePropertyNames=true", () => {
-            const definitions = [
-                {
-                    "url": "https://geodienste.hamburg.de/HH_WFS_Bebauungsplaene",
-                    "typeName": "app:hh_hh_festgestellt",
-                    "propertyNames": [
-                        "app:geltendes_planrecht"
-                    ],
-                    "geometryName": "app:geom",
-                    "name": "common:modules.searchBar.specialWFS.terminated",
-                    "namespaces": "xmlns:app='http://www.deegree.org/app'"
-                }
-            ];
-
-            expect(SearchInterface1.getWFS110Xml(definitions[0], "abc", true)).to.equals(
                 "<wfs:GetFeature service='WFS' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ogc='http://www.opengis.net/ogc' xmlns:gml='http://www.opengis.net/gml' xmlns:app='http://www.deegree.org/app' traverseXlinkDepth='*' version='1.1.0'>" +
                 "<wfs:Query typeName='app:hh_hh_festgestellt'>" +
                 "<wfs:PropertyName>app:geltendes_planrecht</wfs:PropertyName>" +
