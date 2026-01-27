@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- Issue #1377: GetFeatureInfo: Added page counter display showing current position and total count of GFI responses.
 - LayerTree: The attribute `reverseLayer` can now be configured to reverse the layers behind the `addLayerButton`.
 
 ### Changed
