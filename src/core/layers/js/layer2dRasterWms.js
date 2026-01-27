@@ -1,6 +1,5 @@
 
 import {wms} from "@masterportal/masterportalapi/src/index.js";
-import store from "@appstore/index.js";
 import Layer2dRaster from "./layer2dRaster.js";
 
 /**
@@ -99,7 +98,7 @@ Layer2dRasterWms.prototype.getLayerParams = function (attributes) {
         zIndex: attributes.zIndex,
         featureCount: attributes.featureCount,
         gfiThemeSettings: attributes.gfiThemeSettings, // for accessing additional theme settings
-        useFetchForWMS: store.getters.isModuleAvailable("login") // login module overwrites window.fetch, that fetch shall be used to load tiles
+        useFetchForWMS: Config.overwriteWmsLoadfunction === true // Used to overwrite the global wms load function
     };
 };
 
