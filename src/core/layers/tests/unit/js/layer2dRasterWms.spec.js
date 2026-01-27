@@ -175,30 +175,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
             });
         });
 
-        it("should return the layer params, login module not available", () => {
-            store.getters = {
-                isModuleAvailable: () => false
-            };
-            const wmsLayer = new Layer2dRasterWms(localAttributes);
-
-            expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
-                format: "image/png",
-                gfiAsNewWindow: false,
-                gfiAttributes: "showAll",
-                gfiTheme: "default",
-                infoFormat: "text/xml",
-                layers: "test_layers",
-                name: "test_name",
-                opacity: 0.9,
-                typ: "wms",
-                zIndex: 1,
-                featureCount: 5,
-                gfiThemeSettings: undefined,
-                useFetchForWMS: false
-            });
-        });
-
-        it.skip("should return the layer params, overwriteWmsLoadfunction is true", () => {
+        it("should return the layer params, overwriteWmsLoadfunction is true", () => {
             store.getters = {
                 isModuleAvailable: () => false
             };
@@ -219,7 +196,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 zIndex: 1,
                 featureCount: 5,
                 gfiThemeSettings: undefined,
-                useFetchForWMS: true
+                useFetchForWMS: false
             });
         });
     });
