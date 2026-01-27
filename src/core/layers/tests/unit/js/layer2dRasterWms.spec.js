@@ -196,7 +196,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 zIndex: 1,
                 featureCount: 5,
                 gfiThemeSettings: undefined,
-                useFetchForWMS: false
+                useFetchForWMS: true
             });
         });
     });
