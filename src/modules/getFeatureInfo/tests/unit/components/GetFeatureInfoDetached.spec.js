@@ -148,6 +148,163 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
         expect(wrapper.find("div > div > span.gfi-title").text()).to.be.equal("Hallo");
     });
 
+    describe("Page Counter", () => {
+        it("should show page counter when showPageNumber is true and totalFeatures > 1", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 1,
+                    totalFeatures: 5,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".gfi-page-counter").exists()).to.be.true;
+            expect(wrapper.find(".gfi-page-counter").text()).to.be.equal("(2/5)");
+        });
+
+        it("should not show page counter when showPageNumber is false", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 1,
+                    totalFeatures: 5,
+                    showPageNumber: false
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".gfi-page-counter").exists()).to.be.false;
+        });
+
+        it("should not show page counter when totalFeatures is 1", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 0,
+                    totalFeatures: 1,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".gfi-page-counter").exists()).to.be.false;
+        });
+
+        it("should show correct counter for first page", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 0,
+                    totalFeatures: 3,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".gfi-page-counter").text()).to.be.equal("(1/3)");
+        });
+
+        it("should show correct counter for last page", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 4,
+                    totalFeatures: 5,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".gfi-page-counter").text()).to.be.equal("(5/5)");
+        });
+
+        it("should compute showCounter correctly", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 0,
+                    totalFeatures: 3,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.showCounter).to.be.true;
+        });
+
+        it("should compute pageCounterText correctly", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature,
+                    pagerIndex: 2,
+                    totalFeatures: 7,
+                    showPageNumber: true
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.pageCounterText).to.be.equal("(3/7)");
+        });
+    });
+
     it("should have the child component default (-Theme)", () => {
         const wrapper = mount(DetachedTemplate, {
             propsData: {
