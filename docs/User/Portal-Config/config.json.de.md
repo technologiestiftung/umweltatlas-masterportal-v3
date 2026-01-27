@@ -5652,11 +5652,11 @@ Mit StaticImage lassen sich Bilder als Layer laden und georeferenziert auf der K
 |----|-------------|---|-------|------------|------|
 |id|ja|String||Es muss eine eindeutige ID unter allen Layern vergeben werden.|false|
 |typ|ja|String||Setzt den Layertypen.|false|
-|urls|ja|[String]||URLs zu den anzuzeigenden GeoTiff-Ressourcen.|false|
-|sources|nein|[OpenLayers SourceInfo]||Erweiterte Konfiguration für die anzuzeigenden GeoTiff-Ressourcen. Ersetzt die Option "urls". Siehe [OpenLayers SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)|false|
+|urls|ja|String[]||URLs zu den anzuzeigenden GeoTiff-Ressourcen.|false|
+|sources|nein|String[]||Erweiterte Konfiguration für die anzuzeigenden GeoTiff-Ressourcen. Ersetzt die Option "urls". Siehe [OpenLayers SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)|false|
 |crs|nein|String||Erlaubt die Angabe eines CRS, z.B. "EPSG:25832". Wenn nicht gesetzt, wird das CRS aus den GeoTiff-Metadaten ausgelesen.|false|
 |styleId|nein|String||Id die den Style definiert. Id wird in der **[style.json](../Global-Config/style.json.md)** aufgelöst. Das GeoTiff Styleformat wird **[hier](../Global-Config/style.json.md#geotiff)** beschrieben.|false|
-|olSourceOptions|ja|OpenLayers GeoTiff Source||Erweiterte Optionen für die Openlayers GeoTiff-Source. Siehe [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)|false|
+|olSourceOptions|no|String[]||Erweiterte Optionen für die Openlayers GeoTiff-Source. Siehe [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)|false|
 
 
 **Beispiel (minimal)**
@@ -5701,7 +5701,7 @@ Hier werden WMS typische Attribute aufgelistet.
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
-|name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Tpy String[] konfiguriert werden.|false|
+|name|nein|String/String[]||Name des Layers. Falls das Attribute **styles** konfiguriert wird, muss dieses Attribute als Typ String[] konfiguriert werden.|false|
 |extent|nein|**[Extent](#datatypesextent)**|[454591, 5809000, 700000, 6075769]|Ausdehnung des Layers. Wenn nicht angegeben, wird er Extent der MapView verwendet.|false|
 |featureCount|nein|Number|1|Anzahl der Features, die bei einer GetFeatureInfo-Abfrage zurückgegeben werden sollen.|false|
 |gfiAsNewWindow|nein|**[gfiAsNewWindow](#layerconfigelementslayersrasterwmsgfiasnewwindow)**|null|Wird nur berücksichtigt wenn infoFormat text/html ist.|true|

@@ -5666,11 +5666,11 @@ The GeoTiff layer type allows GeoTiff images to be loaded as layers and to be di
 |----|--------|----|-------|-----------|------|
 |id|yes|String||A unique ID must be assigned among all layers.|false|
 |typ|yes|String||Sets the layer type.|false|
-|urls|yes|[String]||URLs of the GeoTiff resources to be displayed.|false|
-|sources|no|[OpenLayers SourceInfo]||Advanced configuration for the GeoTiff resources to be displayed. Replaces the `urls` option. See [https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)|false|
+|urls|yes|String[]||URLs of the GeoTiff resources to be displayed.|false|
+|sources|no|String[]||Advanced configuration for the GeoTiff resources to be displayed. Replaces the `urls` option. See [https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF.html#~SourceInfo)|false|
 |crs|no|String||Allows specifying a CRS, e.g. `"EPSG:25832"`. If not set, the CRS is read from the GeoTiff metadata.|false|
 |styleId|no|String||ID that references a style. The ID is resolved in **[style.json](../Global-Config/style.json.md)**. The GeoTiff style format is explained **[here](../Global-Config/style.json.md#geotiff)**.|false|
-|olSourceOptions|no|[OpenLayers GeoTiff Source]||Advanced options for the OpenLayers GeoTiff source. See [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)|false|
+|olSourceOptions|no|String[]||Advanced options for the OpenLayers GeoTiff source. See [OpenLayers GeoTIFFSource](https://openlayers.org/en/latest/apidoc/module-ol_source_GeoTIFF-GeoTIFFSource.html#GeoTIFFSource)|false|
 
 
 **Example (minimal)**
