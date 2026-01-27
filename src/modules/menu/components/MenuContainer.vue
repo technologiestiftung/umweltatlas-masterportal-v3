@@ -142,7 +142,7 @@ export default {
             const hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
                 footer = document.getElementById("module-portal-footer");
 
-            this.setLayerPillsHidden(menuPercentWidth <= hideElementBreakPoint);
+            this.setLayerPillsHidden(menuPercentWidth >= hideElementBreakPoint);
             if (footer) {
                 footer.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
             }
