@@ -592,8 +592,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_humus_2015:humus2015.2",
-                          "name": "2015 - Humusmenge der Böden (Humusmenge der Böden)"
+                          "id": "ua_boden_humus_2010:humus2010",
+                          "name": "2010 - Humusmenge der Böden (Humusmenge der Böden)"
                         }
                       ]
                     },
@@ -2022,12 +2022,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_versiegelung_2021:versieg2021_str",
-                          "name": "2021 - Versiegelung der Straßenflächen (Versiegelung)"
-                        },
-                        {
                           "id": "ua_versiegelung_2021:versieg2021",
                           "name": "2021 - Versiegelung der Block- und Blockteilflächen (Versiegelung)"
+                        },
+                        {
+                          "id": "ua_versiegelung_2021:versieg2021_str",
+                          "name": "2021 - Versiegelung der Straßenflächen (Versiegelung)"
                         }
                       ]
                     }
