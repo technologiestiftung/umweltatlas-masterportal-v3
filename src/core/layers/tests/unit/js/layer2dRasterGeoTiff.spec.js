@@ -101,6 +101,7 @@ describe("src/core/js/layers/layer2dRasterGeoTiff.js", () => {
                 urls: ["test.url"],
                 crs: "EPSG:25832",
                 sources: undefined,
+                olSourceOptions: undefined,
                 zIndex: 1,
                 styleId: "geotiffStyle",
                 style: []
