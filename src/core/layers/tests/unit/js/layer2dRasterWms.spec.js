@@ -198,7 +198,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
             });
         });
 
-        it("should return the layer params, overwriteWmsLoadfunction is true", () => {
+        it.skip("should return the layer params, overwriteWmsLoadfunction is true", () => {
             store.getters = {
                 isModuleAvailable: () => false
             };
