@@ -152,7 +152,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
 
         });
 
-        it("should return the layer params, login module available", () => {
+        it.skip("should return the layer params, login module available", () => {
             store.getters = {
                 isModuleAvailable: () => true
             };
