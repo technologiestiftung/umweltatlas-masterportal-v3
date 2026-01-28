@@ -150,7 +150,9 @@ export function getJSONFeatures (layer, url) {
  * @returns {Object[]}  a list of object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl} or an emtpy array
  */
 export function handleJSONResponse (featureInfos, layer, url) {
-    const geojsonReader = new GeoJSON({dataProjection: mapCollection.getMap("2D").getView().getProjection(), featureProjection: featureInfos?.crs?.properties?.name});
+    const map = mapCollection.getMap("2D"),
+        dataProjection = map?.getView()?.getProjection(),
+        geojsonReader = new GeoJSON({dataProjection, featureProjection: featureInfos?.crs?.properties?.name});
     let result = [];
 
     if (typeof featureInfos === "object" && Array.isArray(featureInfos?.features)) {
@@ -230,7 +232,21 @@ export function createGfiFeature (layer, url = "", feature = null, features = nu
         return {};
     }
     return {
-        getTitle: () => layer.get("name"),
+        getTitle: () => {
+            const gfiTitleAttribute = layer.get("gfiTitleAttribute"),
+                layerName = layer.get("name");
+
+            if (gfiTitleAttribute && feature) {
+                const properties = feature.getProperties(),
+                    attributeValue = properties[gfiTitleAttribute];
+
+                if (attributeValue !== undefined && attributeValue !== null && attributeValue !== "" && attributeValue !== 0) {
+                    return attributeValue;
+                }
+                console.warn(`GetFeatureInfo: gfiTitleAttribute "${gfiTitleAttribute}" is configured for layer "${layerName}" but the attribute is missing, empty, or null in the feature. Falling back to layer name.`);
+            }
+            return layerName;
+        },
         getTheme: () => layer.get("gfiTheme") || "defaultTheme",
         getAttributesToShow: () => layer.get("gfiAttributes"),
         getProperties: () => feature ? interpretLinebreaks(feature.getProperties()) : {},

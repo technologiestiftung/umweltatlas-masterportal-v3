@@ -10,6 +10,7 @@
 ### Added
 - Issue #1377: GetFeatureInfo: Added page counter display showing current position and total count of GFI responses.
 - LayerTree: The attribute `reverseLayer` can now be configured to reverse the layers behind the `addLayerButton`.
+- GetFeatureInfo: Added optional `gfiTitleAttribute` parameter to display a feature attribute value as GFI title instead of the layer name.
 
 ### Changed
 - WMS-Time:

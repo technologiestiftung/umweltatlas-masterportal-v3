@@ -90,6 +90,7 @@ Layer2dRasterWms.prototype.getLayerParams = function (attributes) {
         gfiAsNewWindow: attributes.gfiAsNewWindow,
         gfiAttributes: attributes.gfiAttributes,
         gfiTheme: attributes.gfiTheme,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         infoFormat: attributes.infoFormat,
         layers: attributes.layers,
         name: attributes.name,

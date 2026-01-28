@@ -77,6 +77,7 @@ Layer2dVectorTile.prototype.getRawLayerAttributes = function (attributes) {
 Layer2dVectorTile.prototype.getLayerParams = function (attributes) {
     return {
         gfiAttributes: attributes.gfiAttributes,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         opacity: (100 - attributes.transparency) / 100,
         zIndex: attributes.zIndex,
         renderer: attributes.renderer, // use "default" (canvas) or "webgl" renderer

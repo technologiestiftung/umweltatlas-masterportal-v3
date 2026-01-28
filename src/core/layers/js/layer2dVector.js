@@ -113,6 +113,7 @@ Layer2dVector.prototype.getLayerParams = function (attributes) {
         altitudeMode: attributes.altitudeMode,
         gfiAttributes: attributes.gfiAttributes,
         gfiTheme: attributes.gfiTheme,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         name: attributes.name,
         opacity: (100 - attributes.transparency) / 100,
         typ: attributes.typ,
