@@ -174,13 +174,9 @@ export default {
 @import "~variables";
 
 .slider-dual-range {
-    $base-margin: 0.25em;
-    $bigger-margin: calc(#{$base-margin} * 3);
-
     position: relative;
-    width: 300px;
     height: 1rem;
-    margin: 2rem 1rem 2.5rem 1rem;
+    margin: 2rem 1rem 3.5rem 1rem;
 
     .slider-track {
         position: absolute;
@@ -188,9 +184,10 @@ export default {
         left: 0;
         height: 0.5rem;
         width: 100%;
-        background: #ddd;
+        background: $light_grey;
         z-index: 1;
-        border-radius: 2px;
+        border-radius: 1rem;
+        box-shadow: 0 0 2px $light_grey;
         transform: translateY(-50%);
     }
 
@@ -217,7 +214,7 @@ export default {
     .range-slider input[type="range"] {
         width: 100%;
         height: 1rem;
-        background: none; /* Kein eigener Track */
+        background: none;
         position: absolute;
         left: 0;
         top: 0;
@@ -228,46 +225,48 @@ export default {
     }
 
     .range-slider input[type="range"]::-webkit-slider-runnable-track {
-        height: 4px;
+        height: 0.286rem;
         background: transparent;
     }
 
     .range-slider input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 18px;
-        height: 18px;
+        width: 1.286rem;
+        height: 1.286rem;
         border-radius: 50%;
         background: $secondary;
         border: 2px solid #fff;
-        box-shadow: 0 0 2px #888;
+        box-shadow: 0 0 2px $light_grey;
         cursor: pointer;
-        margin-top: -7px; /* Zentriert den Daumen auf dem Track */
+        margin-top: -7px;
         position: relative;
         z-index: 10;
     }
-        .range-slider input[type="range"]:focus::-webkit-slider-thumb {
+
+    .range-slider input[type="range"]:focus::-webkit-slider-thumb {
       outline: 2px solid #42a5f5;
     }
-    /* Firefox */
+
     .range-slider input[type="range"]::-moz-range-thumb {
-        width: 18px;
-        height: 18px;
+        width: 1.286rem;
+        height: 1.286rem;
         border-radius: 50%;
         background: $secondary;
-        border: 2px solid #fff;
-        box-shadow: 0 0 2px #888;
+        border: 2px solid $white;
+        box-shadow: 0 0 2px $light_grey;
         cursor: pointer;
     }
+
     .range-slider input[type="range"]::-moz-range-track {
-        height: 4px;
+        height: 0.286rem;
         background: transparent;
     }
 
     .labels {
         display: flex;
         justify-content: space-between;
-        margin: 1.5rem 0;
+        margin: 2rem 0;
     }
 }
 

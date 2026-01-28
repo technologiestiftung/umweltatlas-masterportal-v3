@@ -296,7 +296,7 @@ export default {
             :id="'timeSlider-input-range-' + layerId"
             ref="timeSliderInputs"
             :aria="$t('common:modules.wmsTime.timeSlider.inputRangeLabel')"
-            :label="selectedTime + '/' + selectedTimeEnd"
+            :label="selectedTime + ' / ' + selectedTimeEnd"
             :values="[sliderValue, sliderValueEnd]"
             :min="0"
             :max="sliderOptionCount"
