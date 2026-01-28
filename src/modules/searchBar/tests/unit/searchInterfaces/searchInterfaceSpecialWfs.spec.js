@@ -3,6 +3,8 @@ import sinon from "sinon";
 import {Polygon, Point, MultiLineString, MultiPolygon} from "ol/geom.js";
 import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
 import SearchInterfaceSpecialWfs from "@modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js";
+import mapCollection from "@core/maps/js/mapCollection.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", () => {
     let SearchInterface1 = null,
@@ -24,6 +26,23 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
             lng: "cimode",
             debug: false
         });
+
+        mapCollection.clear();
+        const map = {
+            id: "ol",
+            mode: "2D",
+            getView: () => {
+                return {
+                    getProjection: () => {
+                        return {
+                            getCode: () => "EPSG:25832"
+                        };
+                    }
+                };
+            }
+        };
+
+        mapCollection.addMap(map, "2D");
     });
 
     afterEach(() => {
@@ -194,6 +213,226 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceSpecialWfs.js", 
                     ]
                 ]
             );
+        });
+    });
+
+    describe("fillHitList", () => {
+        it("should parse WFS response and fill hit list with polygon geometry", () => {
+            const xml = "<wfs:FeatureCollection xmlns:wfs='http://www.opengis.net/wfs' xmlns:app='http://www.deegree.org/app' xmlns:gml='http://www.opengis.net/gml'>" +
+                    "<gml:featureMember>" +
+                        "<app:test_feature>" +
+                            "<app:name>Test Feature 1</app:name>" +
+                            "<app:geom>" +
+                                "<gml:Polygon srsName='EPSG:25832'>" +
+                                    "<gml:exterior>" +
+                                        "<gml:LinearRing>" +
+                                            "<gml:posList>100 200 110 210 120 200 100 200</gml:posList>" +
+                                        "</gml:LinearRing>" +
+                                    "</gml:exterior>" +
+                                "</gml:Polygon>" +
+                            "</app:geom>" +
+                        "</app:test_feature>" +
+                    "</gml:featureMember>" +
+                "</wfs:FeatureCollection>",
+                result = {hits: []},
+                requestConfig = {
+                    name: "Test Feature Type",
+                    typeName: "app:test_feature",
+                    propertyNames: ["app:name"],
+                    geometryName: "app:geom",
+                    icon: "bi-test-icon"
+                };
+
+            const filledResult = SearchInterface1.fillHitList(xml, result, requestConfig);
+
+            expect(filledResult.hits).to.have.lengthOf(1);
+            expect(filledResult.hits[0].identifier).to.equal("Test Feature 1");
+            expect(filledResult.hits[0].type).to.equal("Test Feature Type");
+            expect(filledResult.hits[0].geometryType).to.equal("Polygon");
+            expect(filledResult.hits[0].icon).to.equal("bi-test-icon");
+            expect(filledResult.hits[0].geometry).to.be.an.instanceof(Polygon);
+            expect(filledResult.hits[0].coordinates).to.be.undefined;
+        });
+
+        it("should parse WFS response and fill hit list with multipolygon geometry", () => {
+            const xml = "<wfs:FeatureCollection xmlns:wfs='http://www.opengis.net/wfs' xmlns:app='http://www.deegree.org/app' xmlns:gml='http://www.opengis.net/gml'>" +
+                    "<gml:featureMember>" +
+                        "<app:test_feature>" +
+                            "<app:name>MultiPolygon Feature</app:name>" +
+                            "<app:geom>" +
+                                "<gml:MultiPolygon srsName='EPSG:25832'>" +
+                                    "<gml:polygonMember>" +
+                                        "<gml:Polygon>" +
+                                            "<gml:exterior>" +
+                                                "<gml:LinearRing>" +
+                                                    "<gml:posList>100 200 110 210 120 200 100 200</gml:posList>" +
+                                                "</gml:LinearRing>" +
+                                            "</gml:exterior>" +
+                                        "</gml:Polygon>" +
+                                    "</gml:polygonMember>" +
+                                "</gml:MultiPolygon>" +
+                            "</app:geom>" +
+                        "</app:test_feature>" +
+                    "</gml:featureMember>" +
+                "</wfs:FeatureCollection>",
+                result = {hits: []},
+                requestConfig = {
+                    name: "Test Feature Type",
+                    typeName: "app:test_feature",
+                    propertyNames: ["app:name"],
+                    geometryName: "app:geom",
+                    icon: "bi-test-icon"
+                };
+
+            const filledResult = SearchInterface1.fillHitList(xml, result, requestConfig);
+
+            expect(filledResult.hits).to.have.lengthOf(1);
+            expect(filledResult.hits[0].identifier).to.equal("MultiPolygon Feature");
+            expect(filledResult.hits[0].geometryType).to.equal("MultiPolygon");
+            expect(filledResult.hits[0].coordinates).to.deep.equal([["100", "200", "110", "210", "120", "200", "100", "200"]]);
+        });
+
+        it("should parse WFS response with polygon containing interior rings", () => {
+            const xml = "<wfs:FeatureCollection xmlns:wfs='http://www.opengis.net/wfs' xmlns:app='http://www.deegree.org/app' xmlns:gml='http://www.opengis.net/gml'>" +
+                    "<gml:featureMember>" +
+                        "<app:test_feature>" +
+                            "<app:name>Polygon with Hole</app:name>" +
+                            "<app:geom>" +
+                                "<gml:Polygon srsName='EPSG:25832'>" +
+                                    "<gml:exterior>" +
+                                        "<gml:LinearRing>" +
+                                            "<gml:posList>100 200 200 200 200 100 100 100 100 200</gml:posList>" +
+                                        "</gml:LinearRing>" +
+                                    "</gml:exterior>" +
+                                    "<gml:interior>" +
+                                        "<gml:LinearRing>" +
+                                            "<gml:posList>120 180 180 180 180 120 120 120 120 180</gml:posList>" +
+                                        "</gml:LinearRing>" +
+                                    "</gml:interior>" +
+                                "</gml:Polygon>" +
+                            "</app:geom>" +
+                        "</app:test_feature>" +
+                    "</gml:featureMember>" +
+                "</wfs:FeatureCollection>",
+                result = {hits: []},
+                requestConfig = {
+                    name: "Test Feature Type",
+                    typeName: "app:test_feature",
+                    propertyNames: ["app:name"],
+                    geometryName: "app:geom",
+                    icon: "bi-test-icon"
+                };
+
+            const filledResult = SearchInterface1.fillHitList(xml, result, requestConfig);
+
+            expect(filledResult.hits).to.have.lengthOf(1);
+            expect(filledResult.hits[0].identifier).to.equal("Polygon with Hole");
+            expect(filledResult.hits[0].geometryType).to.equal("Polygon");
+            expect(filledResult.hits[0].interior).to.be.true;
+            expect(filledResult.hits[0].coordinates).to.have.lengthOf(1);
+            expect(filledResult.hits[0].coordinates[0]).to.have.lengthOf(2);
+        });
+
+        it("should use default icon when not specified in requestConfig", () => {
+            const xml = "<wfs:FeatureCollection xmlns:wfs='http://www.opengis.net/wfs' xmlns:app='http://www.deegree.org/app' xmlns:gml='http://www.opengis.net/gml'>" +
+                    "<gml:featureMember>" +
+                        "<app:test_feature>" +
+                            "<app:name>Test</app:name>" +
+                            "<app:geom>" +
+                                "<gml:Polygon srsName='EPSG:25832'>" +
+                                    "<gml:exterior>" +
+                                        "<gml:LinearRing>" +
+                                            "<gml:posList>100 200 110 210 120 200 100 200</gml:posList>" +
+                                        "</gml:LinearRing>" +
+                                    "</gml:exterior>" +
+                                "</gml:Polygon>" +
+                            "</app:geom>" +
+                        "</app:test_feature>" +
+                    "</gml:featureMember>" +
+                "</wfs:FeatureCollection>",
+                result = {hits: []},
+                requestConfig = {
+                    name: "Test Feature Type",
+                    typeName: "app:test_feature",
+                    propertyNames: ["app:name"],
+                    geometryName: "app:geom"
+                };
+
+            const filledResult = SearchInterface1.fillHitList(xml, result, requestConfig);
+
+            expect(filledResult.hits[0].icon).to.equal("bi-house");
+        });
+    });
+
+    describe("transformPointGeometryIfNeeded", () => {
+        it("should transform Point geometry when coordinates are in WGS84 range", () => {
+            const transformStub = sinon.stub(crs, "transformToMapProjection").returns([1168500, 7073500]),
+                geometry = new Point([10.5, 53.5]),
+                map = mapCollection.getMap("2D"),
+                geometryType = "Point";
+
+            SearchInterface1.transformPointGeometryIfNeeded(geometry, geometryType, map);
+
+            const coords = geometry.getCoordinates();
+
+            expect(transformStub.calledOnce).to.be.true;
+            expect(transformStub.firstCall.args[2]).to.deep.equal([53.5, 10.5]);
+            expect(coords[0]).to.equal(1168500);
+            expect(coords[1]).to.equal(7073500);
+
+            transformStub.restore();
+        });
+
+        it("should not transform Point geometry when coordinates are outside WGS84 range", () => {
+            const originalCoords = [565931.982, 5935196.323],
+                geometry = new Point([...originalCoords]),
+                map = mapCollection.getMap("2D"),
+                geometryType = "Point";
+
+            SearchInterface1.transformPointGeometryIfNeeded(geometry, geometryType, map);
+
+            const coords = geometry.getCoordinates();
+
+            expect(coords[0]).to.equal(originalCoords[0]);
+            expect(coords[1]).to.equal(originalCoords[1]);
+        });
+
+        it("should not transform non-Point geometries", () => {
+            const originalCoords = [[10, 20], [30, 40], [50, 60]],
+                geometry = new MultiLineString([[...originalCoords]]),
+                map = mapCollection.getMap("2D"),
+                geometryType = "MultiLineString";
+
+            SearchInterface1.transformPointGeometryIfNeeded(geometry, geometryType, map);
+
+            const coords = geometry.getCoordinates();
+
+            expect(coords[0]).to.deep.equal(originalCoords);
+        });
+
+        it("should handle null or undefined geometry gracefully", () => {
+            const map = mapCollection.getMap("2D"),
+                geometryType = "Point";
+
+            expect(() => SearchInterface1.transformPointGeometryIfNeeded(null, geometryType, map)).to.not.throw();
+            expect(() => SearchInterface1.transformPointGeometryIfNeeded(undefined, geometryType, map)).to.not.throw();
+        });
+
+        it("should handle Point at coordinate origin (0,0)", () => {
+            const transformStub = sinon.stub(crs, "transformToMapProjection").returns([1000, 2000]),
+                geometry = new Point([0, 0]),
+                map = mapCollection.getMap("2D"),
+                geometryType = "Point";
+
+            SearchInterface1.transformPointGeometryIfNeeded(geometry, geometryType, map);
+
+            const coords = geometry.getCoordinates();
+
+            expect(transformStub.calledOnce).to.be.true;
+            expect(transformStub.firstCall.args[2]).to.deep.equal([0, 0]);
+            expect(coords).to.deep.equal([1000, 2000]);
+
+            transformStub.restore();
         });
     });
 

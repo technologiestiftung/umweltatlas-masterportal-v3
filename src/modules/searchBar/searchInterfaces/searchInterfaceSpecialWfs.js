@@ -79,7 +79,7 @@ SearchInterfaceSpecialWfs.prototype.search = async function (searchInput) {
             this.pushHitsToSearchResults(result.hits);
         }
         catch (error) {
-            if (error.name !== "CanceledError") {
+            if (String(error) !== "AbortError: The user aborted a request." && error.name !== "AbortError" && error.code !== "ERR_CANCELED") {
                 console.warn(`Special WFS search failed for ${definition.name} (${definition.url}):`, error.message);
             }
         }
