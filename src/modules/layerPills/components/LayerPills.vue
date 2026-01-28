@@ -81,21 +81,31 @@ export default {
             );
 
             this.setVisibleLayers(sortedByTree, value);
+        },
+        /**
+         * Detects changes to the menu state and width to update the layerPills accordingly.
+         * Animation of menus opening or closing make the timeout necessary.
+         * @returns {void}
+         */
+        combinedMenuWidthState: {
+            handler () {
+                this.setToggleButtonVisibility();
+            }
         }
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, this.mode);
+
+        const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+            l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+        );
+
+        this.setVisibleLayers(sortedByTree, this.mode);
     },
     mounted () {
-        if (this.$refs.layerPillsContainer) {
-            this.resizeObserver = new ResizeObserver(() => {
-                this.setToggleButtonVisibility();
-            });
-            this.resizeObserver.observe(this.$refs.layerPillsContainer);
-        }
+        this.setupResizeObserver();
     },
-    beforeDestroy () {
+    beforeUnmount () {
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
         }
@@ -105,6 +115,27 @@ export default {
         ...mapMutations(["setVisibleSubjectDataLayerConfigs"]),
         ...mapActions(["initializeModule", "replaceByIdInLayerConfig"]),
         ...mapActions("Modules/LayerInformation", ["startLayerInformation"]),
+
+        /**
+         * Initializes and registers a ResizeObserver for the layer pills container.
+         * Ensures that the observer is created only once and only after the container
+         * element is available in the DOM. The observer recalculates the visibility
+         * of the toggle button whenever the container size changes.
+         *
+         * @returns {void}
+         */
+        setupResizeObserver () {
+            if (
+                !this.resizeObserver &&
+                this.$refs.layerPillsContainer &&
+                typeof ResizeObserver !== "undefined"
+            ) {
+                this.resizeObserver = new ResizeObserver(() => {
+                    this.setToggleButtonVisibility();
+                });
+                this.resizeObserver.observe(this.$refs.layerPillsContainer);
+            }
+        },
 
         /**
          * Sets the Layers to be shown as Buttons
@@ -163,22 +194,21 @@ export default {
          */
         setToggleButtonVisibility () {
             this.$nextTick(() => {
+                this.setupResizeObserver();
                 const container = this.$refs.layerPillsContainer,
-                    pills = container?.querySelectorAll(".nav-item");
+                    pills = container?.querySelectorAll(".nav-item"),
+                    pillWidth = pills?.[0]
+                        ? (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length
+                        : 0,
+                    containerWidth = container?.querySelector(".nav-pills")
+                        ? container.querySelector(".nav-pills").getBoundingClientRect().width
+                        : 0;
 
-                if (container && pills && pills[0]) {
-                    const toggleButton = container?.querySelector(".layer-pills-toggle-button"),
-                        toggleButtonWidth = toggleButton ? toggleButton.offsetWidth : 0,
-                        containerWidth = container.clientWidth,
-                        pillWidth = (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length;
-                    let availableContainerWidth = containerWidth;
-
-                    if (!this.showAllLayers && this.visibleSubjectDataLayers.length > 0) {
-                        availableContainerWidth -= toggleButtonWidth;
-                    }
-
-                    this.showToggleButton = pillWidth > availableContainerWidth;
+                if (!container || !pills || !pills[0]) {
+                    this.showToggleButton = false;
+                    return;
                 }
+                this.showToggleButton = pillWidth > containerWidth;
             });
         }
     }

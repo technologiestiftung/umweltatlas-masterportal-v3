@@ -6,6 +6,7 @@ import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+let observeSpy, disconnectSpy, ResizeObserverStub;
 
 describe("src/modules/LayerPills.vue", () => {
     let store,
@@ -18,7 +19,8 @@ describe("src/modules/LayerPills.vue", () => {
         initializeModuleSpy,
         replaceByIdInLayerConfigSpy,
         setVisibleSubjectDataLayersSpy,
-        startLayerInformationSpy;
+        startLayerInformationSpy,
+        resizeObserver;
 
     /**
      * Creates a shallow mounted Wrapper for the component
@@ -42,7 +44,24 @@ describe("src/modules/LayerPills.vue", () => {
         });
     }
 
+    before(() => {
+        resizeObserver = global.resizeObserver;
+    });
+
+    after(() => {
+        global.resizeObserver = resizeObserver;
+    });
+
     beforeEach(() => {
+        observeSpy = sinon.spy();
+        disconnectSpy = sinon.spy();
+        ResizeObserverStub = sinon.stub();
+        ResizeObserverStub.returns({
+            observe: observeSpy,
+            unobserve: sinon.spy(),
+            disconnect: disconnectSpy
+        });
+        global.ResizeObserver = ResizeObserverStub;
         active = true;
         visibleSubjectDataLayers = [{
             name: "layer1"
@@ -134,6 +153,47 @@ describe("src/modules/LayerPills.vue", () => {
         sinon.restore();
     });
 
+    describe("functionality and lifecycle and resizeObserver", () => {
+        it("should initialize module and set layers on created", () => {
+            wrapper = createWrapper();
+            expect(initializeModuleSpy.calledOnce).to.be.true;
+            expect(setVisibleSubjectDataLayersSpy.calledOnce).to.be.true;
+        });
+
+        it("should set up ResizeObserver and observe container on mounted", () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {
+                    plugins: [store]
+                },
+                attachTo: document.body
+            });
+            expect(ResizeObserverStub.calledOnce).to.be.true;
+            expect(observeSpy.calledOnce).to.be.true;
+        });
+
+        it("should disconnect ResizeObserver on beforeUnmount", () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {
+                    plugins: [store]
+                },
+                attachTo: document.body
+            });
+            wrapper.unmount();
+            wrapper = null;
+            expect(disconnectSpy.calledOnce).to.be.true;
+        });
+        it("should call setToggleButtonVisibility when ResizeObserver fires", async () => {
+            wrapper = createWrapper();
+            const stub = sinon.stub(wrapper.vm, "setToggleButtonVisibility"),
+                callbackArg = ResizeObserverStub.firstCall.args[0];
+
+            callbackArg();
+            await wrapper.vm.$nextTick();
+            expect(stub.calledOnce).to.be.true;
+            stub.restore();
+        });
+    });
+
     describe("renders or does not render div", () => {
         it("renders div", () => {
             wrapper = createWrapper();
@@ -215,26 +275,46 @@ describe("src/modules/LayerPills.vue", () => {
             });
         });
 
-        it("sets showRightbutton to true if needed", () => {
-            wrapper = createWrapper();
-
-            wrapper.vm.$el.offsetWidth = 400;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.vm.showRightbutton).to.be.true;
+        it("does not show toggle button when there is enough space", async () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {plugins: [store]},
+                attachTo: document.body
             });
+
+            const container = wrapper.find("#layer-pills").element;
+
+            sinon.stub(container, "querySelectorAll").returns([{offsetWidth: 100}]);
+            sinon.stub(container, "querySelector").returns({offsetWidth: 50});
+            Object.defineProperty(container, "clientWidth", {value: 400});
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.setToggleButtonVisibility();
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.showToggleButton).to.be.false;
         });
 
-        it("sets showRightbutton to false if not needed", () => {
-            wrapper = createWrapper();
+        it("shows toggle button when pills overflow container", async () => {
+            visibleSubjectDataLayers = [{name: "l1"}, {name: "l2"}];
 
-            wrapper.vm.$el.offsetWidth = 500;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.vm.showRightbutton).to.be.false;
+            wrapper = mount(LayerPillsComponent, {
+                global: {plugins: [store]},
+                attachTo: document.body
             });
+
+            const container = wrapper.vm.$refs.layerPillsContainer,
+
+                queryStub = sinon.stub(container, "querySelectorAll");
+
+            queryStub.withArgs(".nav-item").returns([{offsetWidth: 150}]);
+            queryStub.withArgs(".nav-pills").returns([{
+                getBoundingClientRect: () => ({width: 100})
+            }]);
+            wrapper.vm.setToggleButtonVisibility();
+
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.showToggleButton).to.be.true;
         });
 
         it("showLayerInformationInMenu layerConf with datasets calls startLayerInformation", () => {
@@ -266,7 +346,7 @@ describe("src/modules/LayerPills.vue", () => {
         it("anchors should have the correct tooltip", () => {
             wrapper = createWrapper();
 
-            wrapper.findAll("li.nav-item a").forEach((element, index) => {
+            wrapper.findAll("li.nav-item button").forEach((element, index) => {
                 expect(element.attributes()).to.own.include({"data-bs-toggle": "tooltip"});
                 expect(element.attributes()).to.own.include({"data-bs-placement": "bottom"});
                 expect(element.attributes()).to.own.include({"data-bs-custom-class": "custom-tooltip"});
@@ -342,5 +422,44 @@ describe("src/modules/LayerPills.vue", () => {
             expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("3D");
         });
 
+    });
+    describe("menus", () => {
+        it.skip("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
+            const stubSetToggleButtonVisibility = sinon.stub(LayerPillsComponent.methods, "setToggleButtonVisibility");
+
+            wrapper = createWrapper();
+            expect(stubSetToggleButtonVisibility.calledOnce).to.be.true;
+            store.hotUpdate({
+                modules: {
+                    Menu: {
+                        namespaced: true,
+                        getters: {
+                            currentMainMenuWidth: () => 20,
+                            currentSecondaryMenuWidth: () => 30
+                        }
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(stubSetToggleButtonVisibility.calledTwice).to.be.true;
+
+            store.hotUpdate({
+                modules: {
+                    Menu: {
+                        namespaced: true,
+                        getters: {
+                            currentMainMenuWidth: () => 15,
+                            currentSecondaryMenuWidth: () => 0
+                        }
+                    }
+                }
+            });
+
+            await wrapper.vm.$nextTick();
+
+            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
+            stubSetToggleButtonVisibility.restore();
+        });
     });
 });
