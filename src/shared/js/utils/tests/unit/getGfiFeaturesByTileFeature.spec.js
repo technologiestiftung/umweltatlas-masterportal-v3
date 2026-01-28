@@ -119,6 +119,99 @@ describe("src/shared/js/utils/getGfiFeaturesByTileFeature.js", () => {
 
             expect(result).to.equal("layerName");
         });
+
+        it("should use gfiTitleAttribute value when configured and attribute exists", () => {
+            const properties = {
+                    attributes: {
+                        stationName: "Hauptbahnhof",
+                        line: "U1"
+                    }
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("Hauptbahnhof");
+        });
+
+        it("should use gfiTitleAttribute value from flat properties object", () => {
+            const properties = {
+                    stationName: "Rathaus",
+                    line: "U3"
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("Rathaus");
+        });
+
+        it("should fall back to layer name when gfiTitleAttribute is configured but attribute is missing", () => {
+            const properties = {
+                    attributes: {
+                        line: "U1"
+                    }
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("ÖPNV-Haltestellen");
+        });
+
+        it("should fall back to layer name when gfiTitleAttribute is configured but attribute is empty string", () => {
+            const properties = {
+                    attributes: {
+                        stationName: "",
+                        line: "U1"
+                    }
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("ÖPNV-Haltestellen");
+        });
+
+        it("should fall back to layer name when gfiTitleAttribute is configured but attribute is null", () => {
+            const properties = {
+                    attributes: {
+                        stationName: null,
+                        line: "U1"
+                    }
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("ÖPNV-Haltestellen");
+        });
+
+        it("should prioritize gfiTitleAttribute over Objektart when both exist", () => {
+            const properties = {
+                    attributes: {
+                        Objektart: "ObjectType",
+                        stationName: "Berliner Tor"
+                    }
+                },
+                layerAttributes = {
+                    name: "ÖPNV-Haltestellen",
+                    gfiTitleAttribute: "stationName"
+                },
+                result = getGfiFeatureProvider.getLayerName(layerAttributes, properties);
+
+            expect(result).to.equal("Berliner Tor");
+        });
     });
     describe("getGfiFeature", () => {
         it("should use default values not for properties", () => {
