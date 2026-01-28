@@ -35,6 +35,7 @@
     - The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
     - The attibute `staticDimensions` can now be configured and sent to the service when the WMS time layer is loaded.
     - The time slider for WMS time services can now be configured as a dual-range slider with the `dualRangeSlider` attribute. In this case, the `default` attribute can be configured as an array with start and end values.
+    - The slider from the shared components is now being used.
 
 ### Changed
 - Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.
