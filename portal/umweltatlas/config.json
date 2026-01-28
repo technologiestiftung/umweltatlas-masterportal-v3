@@ -391,7 +391,7 @@
                       "elements": [
                         {
                           "id": "ua_boden_nfkwe_2020:nfkwe_2020",
-                          "name": "2020 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes (Nutzbare Feldkapazität des effektiven Wurzelraumes)"
+                          "name": "2020 - Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes (Nutzbare Feldkapazität der Böden des effektiven Wurzelraumes)"
                         }
                       ]
                     },
@@ -411,7 +411,7 @@
                       "elements": [
                         {
                           "id": "ua_boden_corg_2020:kohlenstoffvor2020",
-                          "name": "2020 - Organischer Kohlenstoffvorrat der Böden (Organischer Kohlenstoffvorrat)"
+                          "name": "2020 - Organischer Kohlenstoffvorrat der Böden (Organischer Kohlenstoffvorrat der Böden)"
                         }
                       ]
                     },
@@ -1048,8 +1048,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_archivfkt_2015:archiv2015",
-                          "name": "2015 - Archivfunktion der Böden für die Naturgeschichte (Archivfunktion der Böden für die Naturgeschichte)"
+                          "id": "ua_boden_austauschh_2015:austauschh2015",
+                          "name": "2015 - Austauschhäufigkeit des Bodenwassers (Austauschhäufigkeit des Bodenwassers)"
                         }
                       ]
                     },
@@ -1173,6 +1173,10 @@
                       "name": "01.11.7 Nährstoffversorgung",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_boden_schadstoff_2010:schadstoff2010.2",
+                          "name": "2010 - Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden (Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden)"
+                        },
                         {
                           "id": "ua_boden_naehrstoff_2010:naehrstoff2010",
                           "name": "2010 - Nährstoffversorgung des Oberbodens (Nährstoffversorgung des Oberbodens)"
@@ -1356,8 +1360,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_filter_2001:filter2001",
-                          "name": "2001 - Filtervermögen der Böden (Filtervermögen der Böden)"
+                          "id": "ua_boden_schadstoff_2001:schadstoff2001",
+                          "name": "2001 - Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden (Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden)"
                         }
                       ]
                     },
@@ -1386,7 +1390,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_filter_2001:filter2001.2",
+                          "id": "ua_boden_filter_2001:filter2001",
                           "name": "2001 - Filtervermögen der Böden (Filtervermögen der Böden)"
                         }
                       ]
@@ -1640,7 +1644,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_boden_archivfkt_2015:archiv2015.2",
+                          "id": "ua_boden_archivfkt_2015:archiv2015",
                           "name": "2015 - Archivfunktion der Böden für die Naturgeschichte (Archivfunktion der Böden für die Naturgeschichte)"
                         }
                       ]
@@ -1904,6 +1908,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_boden_wasserversorgung_2010:wasserversorgung2010.2",
+                          "name": "2010 - Wasserversorgung der Böden (Wasserversorgung der Böden)"
+                        },
+                        {
                           "id": "ua_boden_archivfkt_1990:archiv1990",
                           "name": "1990 - Archivfunktion der Böden für die Naturgeschichte (Archivfunktion der Böden für die Naturgeschichte)"
                         }
@@ -2022,12 +2030,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_versiegelung_2021:versieg2021",
-                          "name": "2021 - Versiegelung der Block- und Blockteilflächen (Versiegelung)"
+                          "id": "ua_versiegelung_2021:versiegelung_2021_raster",
+                          "name": "2021 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung)"
+                        },
+                        {
+                          "id": "ua_versiegelung_2021:versieg2021_veraenderung",
+                          "name": "2021 - Veränderungskartierung 2016 zu (Block- und Blockteilflächen) (Versiegelung)"
                         },
                         {
                           "id": "ua_versiegelung_2021:versieg2021_str",
                           "name": "2021 - Versiegelung der Straßenflächen (Versiegelung)"
+                        },
+                        {
+                          "id": "ua_versiegelung_2021:versieg2021",
+                          "name": "2021 - Versiegelung der Block- und Blockteilflächen (Versiegelung)"
                         }
                       ]
                     }
@@ -2062,6 +2078,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_versiegelung_2011:b_versiegelung_2011_raster",
+                          "name": "2011 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung)"
+                        },
+                        {
                           "id": "ua_versiegelung_2011:a_versieg2011",
                           "name": "2011 - Versiegelung (Versiegelung)"
                         }
@@ -2077,6 +2097,10 @@
                       "name": "01.02 Versiegelung",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_versiegelung_2005:b_versiegelung_2005_raster",
+                          "name": "2005 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung)"
+                        },
                         {
                           "id": "ua_versiegelung_2005:a_versieg2005",
                           "name": "2005 - Versiegelung (Versiegelung)"
@@ -2720,6 +2744,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_kanalisation_2012:rkan2012",
+                          "name": "2012 - Einzugsgebiete der Regenwasserkanalisation (Entsorgung von Regen- und Abwasser)"
+                        },
+                        {
                           "id": "ua_kanalisation_2012:rkd2012",
                           "name": "2012 - Regenwassereinzugsgebiete differenziert (Entsorgung von Regen- und Abwasser)"
                         }
@@ -2748,6 +2776,10 @@
                         {
                           "id": "ua_kanalisation_2006:rkan2006",
                           "name": "2006 - Einzugsgebiete der Regenwasserkanalisation (Entsorgung von Regen- und Abwasser)"
+                        },
+                        {
+                          "id": "ua_kanalisation_2006:rkd2006",
+                          "name": "2006 - Regenwassereinzugsgebiete differenziert (Entsorgung von Regen- und Abwasser)"
                         }
                       ]
                     }
@@ -2771,6 +2803,10 @@
                       "name": "02.09.2 Einzugsgebiete der Regenwasserkanalisation",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_kanalisation_2005:rkd2005",
+                          "name": "2005 - Regenwassereinzugsgebiete differenziert (Entsorgung von Regen- und Abwasser)"
+                        },
                         {
                           "id": "ua_kanalisation_2005:rkan2005",
                           "name": "2005 - Einzugsgebiete der Regenwasserkanalisation (Entsorgung von Regen- und Abwasser)"
@@ -4696,6 +4732,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_boden_wasserversorgung_2010:wasserversorgung2010.3",
+                          "name": "2010 - Wasserversorgung der Böden (Wasserversorgung der Böden)"
+                        },
+                        {
                           "id": "wsg_2006:wsg2006",
                           "name": "2006 - Wasserschutzgebiete 2006 (Wasserschutzgebiete)"
                         },
@@ -4904,12 +4944,32 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_srhk:m_hwgklow",
+                          "name": "Hochwassergefahrenkarte für Hochwasser mit niedriger Wahrscheinlichkeit (Starkregenhinweiskarte)"
+                        },
+                        {
+                          "id": "ua_srhk:l_srhk_senken",
+                          "name": "Topographische Senkenanalyse (Starkregenhinweiskarte)"
+                        },
+                        {
                           "id": "ua_srhk:f_srhk_gewaesser",
                           "name": "Gewässer (Starkregenhinweiskarte)"
                         },
                         {
                           "id": "ua_srhk:g_srhk_feuerwehreinsaetze",
                           "name": "Feuerwehreinsätze (Starkregenhinweiskarte)"
+                        },
+                        {
+                          "id": "ua_srhk:ec_wasserstand_extrem_max100mm",
+                          "name": "Wasserstand (extremes Ereignis) (Starkregenhinweiskarte)"
+                        },
+                        {
+                          "id": "ua_srhk:eb_fliessgeschw_extrem_max100mm",
+                          "name": "Fließgeschwindigkeit (extremes Ereignis) (Starkregenhinweiskarte)"
+                        },
+                        {
+                          "id": "ua_srhk:ea_fr_extrem_max100mm",
+                          "name": "Fließrichtung (extremes Ereignis) (Starkregenhinweiskarte)"
                         },
                         {
                           "id": "ua_srhk:dc_wasserstand_aussergew_kostra",
@@ -5248,8 +5308,60 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_luftquali_emission_2015:b_pm_2_5_everk",
+                          "name": "2015 - PM2,5-Emissionen Verkehr (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_2_5_eind",
+                          "name": "2015 - PM2,5-Emissionen Industrie (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_2_5_ehaus",
+                          "name": "2015 - PM2,5-Emissionen Hausbrand (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_2_5_egesamt",
+                          "name": "2015 - PM2,5-Emissionen Gesamt (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_10_everk",
+                          "name": "2015 - PM10-Emissionen Verkehr (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_10_eind",
+                          "name": "2015 - PM10-Emissionen Industrie (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_10_ehaus",
+                          "name": "2015 - PM10-Emissionen Hausbrand (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_pm_10_egesamt",
+                          "name": "2015 - PM10-Emissionen Gesamt (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_nox_everk",
+                          "name": "2015 - NOx-Emissionen Verkehr (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_nox_eind",
+                          "name": "2015 - NOx-Emissionen Industrie (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:b_nox_ehaus",
+                          "name": "2015 - NOx-Emissionen Hausbrand (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
                           "id": "ua_luftquali_emission_2015:b_nox_egesamt",
                           "name": "2015 - NOx-Emissionen Gesamt (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:a_pm_2_5_e_diagramm",
+                          "name": "2015 - Verursacher Diagramm PM2,5-Emissionen (Langjährige Entwicklung der Luftqualität - Emissionen)"
+                        },
+                        {
+                          "id": "ua_luftquali_emission_2015:a_pm10_e_diagramm",
+                          "name": "2015 - Verursacher Diagramm PM10-Emissionen (Langjährige Entwicklung der Luftqualität - Emissionen)"
                         },
                         {
                           "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
@@ -5792,6 +5904,34 @@
                         {
                           "id": "ua_luftreinhalteplan_2018_2025:trend_szenario",
                           "name": "2020 - Trend-Szenario (Gesamtindex der Luftbelastung aus NO2 und PM10) (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:g_no2_sz7",
+                          "name": "2018-2025 - Szenario 7 \"Fahrzeugtechnik - Nachrüstung von Dieselfahrzeugen\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:f_no2_sz6",
+                          "name": "2018-2025 - Szenario 6 \"Förderung des Umweltverbundes - 100 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:e_no2_sz5",
+                          "name": "2018-2025 - Szenario 5 \"Förderung des Umweltverbundes - 50 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:d_no2_sz4",
+                          "name": "2018-2025 - Szenario 4 \"Durchfahrtsbeschränkungen für schwere Nutzfahrzeuge (> 3,5 t) der Abgasstufen Euro V und schlechter\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:c_no2_sz3",
+                          "name": "2018-2025 - Szenario 3 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 6c und älter\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:b_no2_sz2",
+                          "name": "2018-2025 - Szenario 2 \"Durchfahrtsbeschränkungen für Diesel-Fahrzeuge mit Ausnahme der Linienbusse und der Motorräder der Abgasstufen Euro 5 / V und älter\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2018_2025:a_no2_sz1",
+                          "name": "2018-2025 - Szenario 1 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 5 und älter\" (Luftreinhalteplan - Szenarien zur NO2-Konzentration im Straßenraum 2020)"
                         }
                       ]
                     }
@@ -5838,8 +5978,28 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb5_no",
+                          "name": "2015 - MB5 - Vorgezogene Fahrzeugflotte 2020 (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb4_no",
+                          "name": "2015 - MB4 - Emissionsminderung im städtischen Hintergrund (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb3_no",
+                          "name": "2015 - MB3 - Tempo 30 an Hotspots (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb2_no",
+                          "name": "2015 - MB2 - Optimierung Verkehrsfluss (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
                           "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb1_no",
                           "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_gesamtindex",
+                          "name": "2015 - \"Ist-Zustand\" 2009 und Trends 2015 und 2020 ohne MB1 - MB5 (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
                         }
                       ]
                     },
@@ -5848,8 +6008,28 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb5_pm",
+                          "name": "2015 - MB5 - Vorgezogene Fahrzeugflotte 2020 (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb4_pm",
+                          "name": "2015 - MB4 - Emissionsminderung im städtischen Hintergrund (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb3_pm",
+                          "name": "2015 - MB3 - Tempo 30 an Hotspots (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb2_pm",
+                          "name": "2015 - MB2 - Optimierung Verkehrsfluss (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
                           "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_mb1_pm",
                           "name": "2015 - MB1 (Maßnahmenbündel) - Verbesserung Fahrzeugtechnik (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
+                        },
+                        {
+                          "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_gesamtindex.2",
+                          "name": "2015 - \"Ist-Zustand\" 2009 und Trends 2015 und 2020 ohne MB1 - MB5 (Luftreinhalteplan 2011-2017: Szenarien zur Wirkungsbeurteilung ausgewählter Maßnahmen auf die PM₁₀-Konzentration und die NO₂-Konzentration im Straßenraum)"
                         }
                       ]
                     }
@@ -5928,6 +6108,14 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_luftschadstoffbelastung:c_pollutant_grid_avg_pm2_5_2024",
+                          "name": "2024 - PM2,5 – Partikel < 2,5 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                        },
+                        {
+                          "id": "ua_luftschadstoffbelastung:b_pollutant_grid_avg_pm10_2024",
+                          "name": "2024 - PM10 – Partikel < 10 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                        },
+                        {
                           "id": "ua_luftschadstoffbelastung:a_pollutant_grid_avg_no2_2024",
                           "name": "2024 - NO2 – Stickstoffdioxid in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         }
@@ -5956,6 +6144,34 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2022:e_ua_kaltluftvol_raster_04h_2022",
+                          "name": "2022 - Raster: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:c_ua_kaltluftvol_raster_22h_2022",
+                          "name": "2022 - Raster: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:de_ua_kaltluftvol_grfrei_04h_2022",
+                          "name": "2022 - Grün- und Freiflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:dd_ua_kaltluftvol_str_04h_2022",
+                          "name": "2022 - Verkehrsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:dc_ua_kaltluftvol_siedlg_04h_2022",
+                          "name": "2022 - Siedlungsflächen: Kaltluftvolumenstromdichte um 04:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:db_ua_windfeld_2m_04h_2022_100m",
+                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] (ab Maßstab 1:2500) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:da_ua_windfeld_2m_04h_2022_20m",
+                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] (bis Maßstab 1:2500) (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2022:be_ua_kaltluftvol_grfrei_22h_2022",
                           "name": "2022 - Grün- und Freiflächen: Kaltluftvolumenstromdichte um 22:00 Uhr [m³/(m*s)] (Klimaanalysekarten)"
                         },
@@ -5982,6 +6198,26 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2022:i_ua_lufttemp_raster_t2m_14h_2022",
+                          "name": "2022 - Raster: Lufttemperatur 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:g_ua_lufttemp_raster_t2m_04h_2022",
+                          "name": "2022 - Raster: Lufttemperatur 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:hc_ua_lufttemp_grfrei_t2m_14h_2022",
+                          "name": "2022 - Grün- und Freiflächen: Lufttemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
+                          "name": "2022 - Verkehrsflächen: Lufttemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:ha_ua_lufttemp_siedlg_t2m_14h_2022",
+                          "name": "2022 - Siedlungsflächen: Lufttemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2022:fc_ua_lufttemp_grfrei_t2m_04h_2022",
                           "name": "2022 - Grün- und Freiflächen: Lufttemperatur um 04:00 Uhr [°C] (Klimaanalysekarten)"
                         },
@@ -6000,6 +6236,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2022:o_ua_abkuehl_raster_2022",
+                          "name": "2022 - Raster: Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr [K] (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2022:nc_ua_abkuehl_grfrei_2022",
                           "name": "2022 - Grün- und Freiflächen: Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr [K] (Klimaanalysekarten)"
                         },
@@ -6017,6 +6257,10 @@
                       "name": "04.10.5 Physiologisch Äquivalente Temperatur (PET) (14:00 Uhr)",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2022:q_ua_pet_raster_2022",
+                          "name": "2022 - Raster: Bewertungsindex Physiologisch Äquivalente Temperatur (PET) [°C] (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2022:pc_ua_pet_grfrei_2022",
                           "name": "2022 - Grün- und Freiflächen: Bewertungsindex Physiologisch Äquivalente Temperatur um 14:00 Uhr (PET) [°C] (Klimaanalysekarten)"
@@ -6094,6 +6338,26 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2022:m_ua_oberfltemp_raster_t2m_14h_2022",
+                          "name": "2022 - Raster: Oberflächentemperatur 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:k_ua_oberfltemp_raster_t2m_04h_2022",
+                          "name": "2022 - Raster: Oberflächentemperatur 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:lc_ua_oberfltemp_grfrei_t2m_14h_2022",
+                          "name": "2022 - Grün- und Freiflächen: Oberflächentemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:lb_ua_oberfltemp_str_t2m_14h_2022",
+                          "name": "2022 - Verkehrsflächen: Oberflächentemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2022:la_ua_oberfltemp_siedlg_t2m_14h_2022",
+                          "name": "2022 - Siedlungsflächen: Oberflächentemperatur um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2022:jc_ua_oberfltemp_grfrei_t2m_04h_2022",
                           "name": "2022 - Grün- und Freiflächen: Oberflächentemperatur um 04:00 Uhr [°C] (Klimaanalysekarten)"
                         },
@@ -6111,6 +6375,10 @@
                       "name": "04.10.9 Bewertungsindex Universeller Thermischer Klimaindex (UTCI) (14:00 Uhr)",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2022:s_ua_utci_raster_2022",
+                          "name": "2022 - Raster: Bewertungsindex Universeller Thermischer Klimaindex (UTCI) [°C] (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2022:rc_ua_utci_grfrei_2022",
                           "name": "2022 - Grün- und Freiflächen: Bewertungsindex Universeller Thermischer Klimaindex um 14:00 Uhr (UTCI) [°C] (Klimaanalysekarten)"
@@ -6136,6 +6404,38 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimaanalyse_2014:ea_ua_kaltluftvol_raster_04h_2014",
+                          "name": "2014 - Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Raster) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:df_ua_kaltluftvol_gew_04h_2014",
+                          "name": "2014 - Gewässer: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:de_ua_kaltluftvol_str_04h_2014",
+                          "name": "2014 - Straßenraum: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:dd_ua_kaltluftvol_grfrei_04h_2014",
+                          "name": "2014 - Grün- und Freiflächen: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:dc_ua_kaltluftvol_siedlg_04h_2014",
+                          "name": "2014 - Siedlungsraum: Kaltluftvolumenstrom um 04:00 Uhr [m³/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:db_ua_windfeld_22m_04h_2014",
+                          "name": "2014 - Windfeld in 22 m Höhe um 04:00 Uhr [m/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:da_ua_windfeld_2m_04h_2014",
+                          "name": "2014 - Windfeld in 2 m Höhe um 04:00 Uhr [m/s] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ca_ua_kaltluftvol_raster_22h_2014",
+                          "name": "2014 - Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Raster) (Klimaanalysekarten)"
+                        },
+                        {
                           "id": "ua_klimaanalyse_2014:bf_ua_kaltluftvol_gew_22h_2014",
                           "name": "2014 - Gewässer: Kaltluftvolumenstrom um 22:00 Uhr [m³/s] (Klimaanalysekarten)"
                         },
@@ -6158,18 +6458,6 @@
                         {
                           "id": "ua_klimaanalyse_2014:ba_ua_windfeld_2m_22h_2014",
                           "name": "2014 - Windfeld in 2 m Höhe um 22:00 Uhr [m/s] (Klimaanalysekarten)"
-                        },
-                        {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014",
-                          "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
-                        },
-                        {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014",
-                          "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
-                        },
-                        {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014",
-                          "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
                     },
@@ -6177,6 +6465,30 @@
                       "name": "04.10.02 Lufttemperatur",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2014:ia_ua_lufttemp_raster_t2m_14h_2014",
+                          "name": "2014 - Lufttemperatur in 2 m Höhe um 14:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:hd_ua_lufttemp_gew_t2m_14h_2014",
+                          "name": "2014 - Gewässer: Lufttemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:hc_ua_lufttemp_str_t2m_14h_2014",
+                          "name": "2014 - Straßenraum: Lufttemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:hb_ua_lufttemp_grfrei_t2m_14h_2014",
+                          "name": "2014 - Grün- und Freiflächen: Lufttemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ha_ua_lufttemp_siedlg_t2m_14h_2014",
+                          "name": "2014 - Siedlungsraum: Lufttemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ga_ua_lufttemp_raster_t2m_04h_2014",
+                          "name": "2014 - Lufttemperatur in 2 m Höhe um 04:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2014:fd_ua_lufttemp_gew_t2m_04h_2014",
                           "name": "2014 - Gewässer: Lufttemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
@@ -6194,15 +6506,15 @@
                           "name": "2014 - Siedlungsraum: Lufttemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6211,6 +6523,30 @@
                       "name": "04.10.03 Strahlungstemperatur",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2014:ma_ua_strahtemp_raster_t2m_14h_2014",
+                          "name": "2014 - Strahlungstemperatur in 2 m Höhe um 14:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ld_ua_strahtemp_gew_t2m_14h_2014",
+                          "name": "2014 - Gewässer: Strahlungstemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:lc_ua_strahtemp_str_t2m_14h_2014",
+                          "name": "2014 - Straßenraum: Strahlungstemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:lb_ua_strahtemp_grfrei_t2m_14h_2014",
+                          "name": "2014 - Grün- und Freiflächen: Strahlungstemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:la_ua_strahtemp_siedlg_t2m_14h_2014",
+                          "name": "2014 - Siedlungsraum: Strahlungstemperatur in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:ka_ua_strahtemp_raster_t2m_04h_2014",
+                          "name": "2014 - Strahlungstemperatur in 2 m Höhe um 04:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2014:je_ua_strahtemp_gew_t2m_04h_2014",
                           "name": "2014 - Gewässer: Strahlungstemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
@@ -6228,15 +6564,15 @@
                           "name": "2014 - Siedlungsraum: Strahlungstemperatur in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.3",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.3",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.3",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6245,6 +6581,10 @@
                       "name": "04.10.04 Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2014:oa_ua_abkuehl_raster_2014",
+                          "name": "2014 - Nächtliche Abkühlung zwischen 22:00 Uhr und 04:00 Uhr [K] (Raster) (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2014:nd_ua_abkuehl_gew_2014",
                           "name": "2014 - Gewässer: Nächtliche Abkühlung zwischen 22:00 und 04:00 Uhr [K] (Klimaanalysekarten)"
@@ -6262,15 +6602,15 @@
                           "name": "2014 - Siedlungsraum: Nächtliche Abkühlung zwischen 22:00 und 04:00 Uhr [K] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.4",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.3",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.4",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.3",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.4",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.3",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6279,6 +6619,30 @@
                       "name": "04.10.05 Bewertungsindex Physiologisch Äquivalente Temperatur (PET)",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimaanalyse_2014:qa_ua_pet_raster_04h_2014",
+                          "name": "2014 - Bewertungsindex Physiologisch Äquivalente Temperatur in 2 m Höhe um 04:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:pd_ua_pet_gew_2014",
+                          "name": "2014 - Gewässer: Bewertungsindex PET in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:pc_ua_pet_str_2014",
+                          "name": "2014 - Straßenraum: Bewertungsindex PET in 2 m Höhe um 04:00 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:pb_ua_pet_grfrei_2014",
+                          "name": "2014 - Grün- und Freiflächen: Bewertungsindex PET in 2 m Höhe um 4 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:pa_ua_pet_siedlg_2014",
+                          "name": "2014 - Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 4 Uhr [°C] (Klimaanalysekarten)"
+                        },
+                        {
+                          "id": "ua_klimaanalyse_2014:sa_ua_pet_raster_14h_2014",
+                          "name": "2014 - Bewertungsindex Physiologisch Äquivalente Temperatur in 2 m Höhe um 14:00 Uhr [°C] (Raster) (Klimaanalysekarten)"
+                        },
                         {
                           "id": "ua_klimaanalyse_2014:rd_ua_pet_gew_2014",
                           "name": "2014 - Gewässer: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
@@ -6296,15 +6660,15 @@
                           "name": "2014 - Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.5",
+                          "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.4",
                           "name": "2014 - nicht bewertete Flächen (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.5",
+                          "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.4",
                           "name": "2014 - Sonstige Gebäude (Klimaanalysekarten)"
                         },
                         {
-                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.5",
+                          "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.4",
                           "name": "2014 - Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. (Klimaanalysekarten)"
                         }
                       ]
@@ -6653,6 +7017,66 @@
                       "name": "04.11.3 Planungshinweise Stadtklima - Maßnahmen",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimabewertung_2022:fw_ua_phk_m23_2022",
+                          "name": "2022 - M-23 Schützen (Vorsorge Starkregen + Hochwasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fv_ua_phk_m22_2022",
+                          "name": "2022 - M-22 Starkregenabflüsse leiten (Vorsorge Starkregen + Hochwasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fu_ua_phk_m21_2022",
+                          "name": "2022 - M-21 Retentionsräume schaffen (Vorsorge Starkregen + Hochwasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:ft_ua_phk_m20_2022",
+                          "name": "2022 - M-20 Zuführen (Synergie Stadt und Wasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fs_ua_phk_m19_2022",
+                          "name": "2022 - M-19 Versickern (Synergie Stadt und Wasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fr_ua_phk_m18_2022",
+                          "name": "2022 - M-18 Regenwasser speichern (Synergie Stadt und Wasser) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fq_ua_phk_m17_2022",
+                          "name": "2022 - M-17 CO2 binden und speichern (klimaoptimierte, kühlende Grün- und Freiräume) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fp_ua_phk_m16_2022",
+                          "name": "2022 - M-16 Mehrfach nutzen (klimaoptimierte, kühlende Grün- und Freiräume) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fo_ua_phk_m15_2022",
+                          "name": "2022 - M-15 Bewässern (klimaoptimierte, kühlende Grün- und Freiräume) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fn_ua_phk_m14_2022",
+                          "name": "2022 - M-14 Ausstattung klimaoptimieren (klimaoptimierte, kühlende Grün- und Freiräume) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fm_ua_phk_m13_2022",
+                          "name": "2022 - M-13 Rückstrahlen (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fl_ua_phk_m12_2022",
+                          "name": "2022 - M-12 Klimakomfortplätze anlegen (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fk_ua_phk_m11_2022",
+                          "name": "2022 - M-11 Verdunsten (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fj_ua_phk_m10_2022",
+                          "name": "2022 - M-10 Begrünen (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
+                        },
+                        {
+                          "id": "ua_klimabewertung_2022:fi_ua_phk_m9_2022",
+                          "name": "2022 - M-09 Verschatten (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
+                        },
                         {
                           "id": "ua_klimabewertung_2022:fh_ua_phk_m8_2022",
                           "name": "2022 - M-08 Durchlüften (Blau-grüne Stadtentwicklung) (Klimabewertungskarten)"
@@ -7034,27 +7458,132 @@
                     {
                       "name": "04.02.1 Jahresmittel Lufttemperatur 1981-2010",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_gesamt",
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_gesamt",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_gesamt",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_gesamt",
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_gesamt",
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen (Langjähriges Mittel der Lufttemperatur)"
+                        }
+                      ]
                     },
                     {
                       "name": "04.02.2 Mittel Lufttemperatur Frühling 1981-2010",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_fruehling",
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_fruehling",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_fruehling",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_fruehling",
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_fruehling",
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Frühling (Langjähriges Mittel der Lufttemperatur)"
+                        }
+                      ]
                     },
                     {
                       "name": "04.02.3 Mittel Lufttemperatur Sommer 1981-2010",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_sommer",
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_sommer",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_sommer",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_sommer",
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_sommer",
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Sommer (Langjähriges Mittel der Lufttemperatur)"
+                        }
+                      ]
                     },
                     {
                       "name": "04.02.4 Mittel Lufttemperatur Herbst 1981-2010",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_herbst",
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_herbst",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_herbst",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_herbst",
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_herbst",
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Herbst (Langjähriges Mittel der Lufttemperatur)"
+                        }
+                      ]
                     },
                     {
                       "name": "04.02.5 Mittel Lufttemperatur Winter 1981-2010",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_winter",
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_winter",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_winter",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_winter",
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur)"
+                        },
+                        {
+                          "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_winter",
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Winter (Langjähriges Mittel der Lufttemperatur)"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -7139,6 +7668,34 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimawandel_2022:bc_st_raster_2071_2100",
+                          "name": "2071 - Raster: Anzahl der Sommertage -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:bb_st_raster_2031_2060",
+                          "name": "2031-2060 - Raster: Anzahl der Sommertage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ba_st_raster_1971_2000",
+                          "name": "1971-2000 - Raster: Anzahl der Sommertage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ae_st_diff1971_2071",
+                          "name": "2071 - Zunahme der Sommertage pro Jahr im Vergleich 1971-2000 zu -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ad_st_diff1971_2031",
+                          "name": "2031-2060 - Zunahme der Sommertage pro Jahr im Vergleich 1971-2000 zu (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ac_st_md2071_2100",
+                          "name": "2071 - Anzahl der Sommertage -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ab_st_md2031_2060",
+                          "name": "2031-2060 - Anzahl der Sommertage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
                           "id": "ua_klimawandel_2022:aa_st_md1971_2000",
                           "name": "1971-2000 - Anzahl der Sommertage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
                         }
@@ -7149,6 +7706,34 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_klimawandel_2022:dc_ht_raster_2071_2100",
+                          "name": "2071 - Raster: Anzahl der Hitzetage -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:db_ht_raster_2031_2060",
+                          "name": "2031-2060 - Raster: Anzahl der Hitzetage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:da_ht_raster_1971_2000",
+                          "name": "1971-2000 - Raster: Anzahl der Hitzetage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ce_ht_diff1971_2071",
+                          "name": "2071 - Zunahme der Hitzetage pro Jahr im Vergleich 1971-2000 zu -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:cd_ht_diff1971_2031",
+                          "name": "2031-2060 - Zunahme der Hitzetage pro Jahr im Vergleich 1971-2000 zu (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:cc_ht_md2071_2100",
+                          "name": "2071 - Anzahl der Hitzetage -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:cb_ht_md2031_2060",
+                          "name": "2031-2060 - Anzahl der Hitzetage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
                           "id": "ua_klimawandel_2022:ca_ht_md1971_2000",
                           "name": "1971-2000 - Anzahl der Hitzetage (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
                         }
@@ -7158,6 +7743,34 @@
                       "name": "04.12.3 Tropennächte (Minimumtemperatur ≥ 20 °C)",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_klimawandel_2022:fc_tn_raster_2071_2100",
+                          "name": "2071 - Raster: Anzahl der Tropennächte -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:fb_tn_raster_2031_2060",
+                          "name": "2060 - Raster: Anzahl der Tropennächte 2031_ (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:fa_tn_raster_1971_2000",
+                          "name": "1971-2000 - Raster: Anzahl der Tropennächte (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ee_tn_diff1971_2071",
+                          "name": "2071 - Zunahme der Tropennächte pro Jahr im Vergleich 1971-2000 zu -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ed_tn_diff1971_2031",
+                          "name": "2031-2060 - Zunahme der Tropennächte pro Jahr im Vergleich 1971-2000 zu (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:ec_tn_md2071_2100",
+                          "name": "2071 - Anzahl der Tropennächte -2100 (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
+                        {
+                          "id": "ua_klimawandel_2022:eb_tn_md2031_2060",
+                          "name": "2031-2060 - Anzahl der Tropennächte (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
+                        },
                         {
                           "id": "ua_klimawandel_2022:ea_tn_md1971_2000",
                           "name": "1971-2000 - Anzahl der Tropennächte (Entwicklung der Anzahl ausgewählter klimatologischer Kenntage)"
@@ -7505,12 +8118,64 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ad_niederschlag_block",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ac_niederschlag_str",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
                           "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl",
                           "name": "1981-2010 - Isoflächen der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien",
                           "name": "1981-2010 - Isolinien der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7519,12 +8184,64 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl",
+                          "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.2",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.2",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.2",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.2",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.2",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.2",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.2",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.2",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.2",
                           "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
-                          "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli",
+                          "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.2",
                           "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.2",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.2",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.2",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.2",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.2",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
                     },
@@ -7533,11 +8250,63 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl",
+                          "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.3",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.3",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.3",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.3",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.3",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.3",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.3",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.3",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.3",
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.3",
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.3",
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.3",
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.3",
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
+                        },
+                        {
+                          "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.3",
                           "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         },
                         {
-                          "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli",
+                          "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.3",
                           "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr (Langjährige Niederschlagsverteilung)"
                         }
                       ]
@@ -7925,6 +8694,14 @@
                         {
                           "id": "ua_vegetationshoehen_2020:a_vegetationshoehe_2020",
                           "name": "2020 - Mittlere Vegetationshöhen pro Block(teil-)fläche (Vegetationshöhen)"
+                        },
+                        {
+                          "id": "ua_vegetationshoehen_2020:b_vegetationshoehe_diff_2010_2020",
+                          "name": "2020 - Veränderung der mit Vegetation bedeckten Flächen zwischen 2010 und (Vegetationshöhen)"
+                        },
+                        {
+                          "id": "ua_vegetationshoehen_2020:c_vegetationshoehe_2020_raster",
+                          "name": "2020 - Vegetationshöhen (Raster) (Vegetationshöhen)"
                         }
                       ]
                     }
@@ -8061,8 +8838,20 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
+                          "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.2",
+                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
                           "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020",
                           "name": "2020 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
+                          "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
                     },
@@ -8071,8 +8860,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
+                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.2",
                           "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.3",
+                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.2",
+                          "name": "2020 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.2",
+                          "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
                     },
@@ -8081,7 +8882,19 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
+                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.3",
+                          "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.4",
+                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.3",
+                          "name": "2020 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.3",
                           "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
@@ -8099,6 +8912,18 @@
                         {
                           "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015",
                           "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015",
+                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015",
+                          "name": "2015 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015",
+                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
                     },
@@ -8107,8 +8932,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015",
+                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.2",
+                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.2",
+                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.2",
                           "name": "2015 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.2",
+                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
                     },
@@ -8117,8 +8954,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015",
+                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.3",
+                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.3",
                           "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.3",
+                          "name": "2015 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.3",
+                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
                     },
@@ -8127,7 +8976,19 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015",
+                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.4",
+                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.4",
+                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.4",
+                          "name": "2015 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.4",
                           "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
                         }
                       ]
@@ -8143,8 +9004,20 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010",
+                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
+                        },
+                        {
                           "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010",
                           "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010",
+                          "name": "2010 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010",
+                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung)"
                         }
                       ]
                     },
@@ -8153,8 +9026,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010",
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.2",
+                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.2",
+                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.2",
                           "name": "2010 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.2",
+                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung)"
                         }
                       ]
                     },
@@ -8163,7 +9048,19 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010",
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.3",
+                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.3",
+                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.3",
+                          "name": "2010 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.3",
                           "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung)"
                         }
                       ]
@@ -8173,8 +9070,20 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010",
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.4",
                           "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.4",
+                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.4",
+                          "name": "2010 - Reale Nutzung (Flächennutzung)"
+                        },
+                        {
+                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.4",
+                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung)"
                         }
                       ]
                     }
@@ -8393,6 +9302,10 @@
                       "type": "folder",
                       "elements": [
                         {
+                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010",
+                          "name": "2010 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur)"
+                        },
+                        {
                           "id": "ua_stadtstruktur_2010:ua_stadtstruktur_2010",
                           "name": "2010 - Stadtstruktur (Stadtstruktur)"
                         }
@@ -8403,8 +9316,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010",
+                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010.2",
                           "name": "2010 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur)"
+                        },
+                        {
+                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_2010.2",
+                          "name": "2010 - Stadtstruktur (Stadtstruktur)"
                         }
                       ]
                     }
@@ -8501,6 +9418,10 @@
                         {
                           "id": "ua_einwohnerdichte_2023:einwohnerdichte2023",
                           "name": "2023 - Einwohnerdichte (Einwohnerdichte)"
+                        },
+                        {
+                          "id": "ua_einwohnerdichte_2023:einwohnerdichte2023_entw",
+                          "name": "2023 - Einwohnerentwicklung zwischen 2022 und (Einwohnerdichte)"
                         }
                       ]
                     }
@@ -9109,6 +10030,14 @@
                         {
                           "id": "ua_staedtebauliche_dichte2011:c_gfz_plr2011",
                           "name": "2011 - Geschossflächenzahl (GFZ) (PLR) (Städtebauliche Dichte - GFZ/GRZ)"
+                        },
+                        {
+                          "id": "ua_staedtebauliche_dichte2011:b_grz2011",
+                          "name": "2011 - Grundflächenzahl (GRZ) (Städtebauliche Dichte - GFZ/GRZ)"
+                        },
+                        {
+                          "id": "ua_staedtebauliche_dichte2011:a_gfz2011",
+                          "name": "2011 - Geschossflächenzahl (GFZ) (Städtebauliche Dichte - GFZ/GRZ)"
                         }
                       ]
                     },
@@ -9117,7 +10046,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_staedtebauliche_dichte2011:b_grz2011",
+                          "id": "ua_staedtebauliche_dichte2011:b_grz2011.2",
                           "name": "2011 - Grundflächenzahl (GRZ) (Städtebauliche Dichte - GFZ/GRZ)"
                         }
                       ]
@@ -9166,22 +10095,6 @@
               "name": "Verkehrsmengen",
               "type": "folder",
               "elements": [
-                {
-                  "name": "2019",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "07.01 Verkehrsmengen DTV",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_verkehrsmengen_2019:verkehrsmengen_2019",
-                          "name": "2019 - Verkehrsmengen DTV (Verkehrsmengen DTV)"
-                        }
-                      ]
-                    }
-                  ]
-                },
                 {
                   "name": "2014",
                   "type": "folder",
@@ -10513,6 +11426,10 @@
                         {
                           "id": "ua_laerm_2004:ca_laerm_schiene_tag_links",
                           "name": "2004 - Beurteilungspegel (Tag 6-22 Uhr) an der Randbebauung der linken Abschnittsseite (Straßen- und Schienenverkehrslärm)"
+                        },
+                        {
+                          "id": "ua_laerm_2004:cb_laerm_schiene_tag_rechts",
+                          "name": "2004 - Beurteilungspegel (Tag 6-22 Uhr) an der Randbebauung der rechten Abschnittsseite (Straßen- und Schienenverkehrslärm)"
                         }
                       ]
                     },
@@ -10523,6 +11440,10 @@
                         {
                           "id": "ua_laerm_2004:da_schienlaerm_nachts_links",
                           "name": "2004 - Beurteilungspegel (Nacht 22-6 Uhr) an der Randbebauung der linken Abschnittsseite (Straßen- und Schienenverkehrslärm)"
+                        },
+                        {
+                          "id": "ua_laerm_2004:db_schienlaerm_nachts_rechts",
+                          "name": "2004 - Beurteilungspegel (Nacht 22-6 Uhr) an der Randbebauung der rechten Abschnittsseite (Straßen- und Schienenverkehrslärm)"
                         }
                       ]
                     }
@@ -10548,6 +11469,42 @@
                       "name": "08.09.1 Photovoltaik",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_solaranlagen_pv:o_sp_08_09_1solarpv_geb",
+                          "name": "Photovoltaik - Potenzial (theoretisch) - Gebäude (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:n_sp_08_09_1solarpv_dach",
+                          "name": "Photovoltaik-Potenzial (theoretisch) - Dachfläche (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:m_sp_08_09_1solarpv_pot_bez",
+                          "name": "Photovoltaik - Potenzial (theoretisch) pro Bezirk [MWp] (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:l_sp_08_09_01_pvdeckungbez",
+                          "name": "Relative Deckungsrate der Photovoltaik-Leistung pro Bezirk [%] (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:k_sp_08_09_01_pvstromeinplz",
+                          "name": "Photovoltaik-Stromeinspeisung pro Postleitzahl [MWh] (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:j_sp_08_09_01_pvstromeinbez",
+                          "name": "Photovoltaik-Stromeinspeisung pro Bezirk [MWh] (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:i_pvsummebezmietstr",
+                          "name": "Installierte Leistung der PV-Mieterstromanlagen pro Bezirk (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:h_sp08_09_1pvsummebez_oeh",
+                          "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk - Öffentliche Hand [MWp] (Solaranlagen - Photovoltaik)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_pv:g_sp08_09_1pvsummeplz",
+                          "name": "Installierte Leistung der Photovoltaikanlagen pro Postleitzahl [kWp] (Solaranlagen - Photovoltaik)"
+                        },
                         {
                           "id": "ua_solaranlagen_pv:f_sp08_09_1pvsummebez",
                           "name": "Installierte Leistung der Photovoltaikanlagen pro Bezirk [MWp] (Solaranlagen - Photovoltaik)"
@@ -10578,6 +11535,22 @@
                       "name": "08.09.2 Solarthermie",
                       "type": "folder",
                       "elements": [
+                        {
+                          "id": "ua_solaranlagen_st:g_solarthermie_gebaeudeflaechen",
+                          "name": "Solarthermie-Potenzial (theoretisch) - Gebäude (Solaranlagen - Solarthermie)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_st:f_solarthermie_dachflaechen",
+                          "name": "Solarthermie-Potenzial (theoretisch) - Dachfläche (Solaranlagen - Solarthermie)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_st:e_summe_stanlagen_bez_oeh",
+                          "name": "Summe der solarthermischen Anlagen pro Bezirk - Öffentliche Hand (Solaranlagen - Solarthermie)"
+                        },
+                        {
+                          "id": "ua_solaranlagen_st:d_summe_stanlagen_plz",
+                          "name": "Summe der solarthermischen Anlagen pro Postleitzahl (Solaranlagen - Solarthermie)"
+                        },
                         {
                           "id": "ua_solaranlagen_st:c_summe_stanlagen_bez",
                           "name": "Summe der solarthermischen Anlagen pro Bezirk (Solaranlagen - Solarthermie)"
