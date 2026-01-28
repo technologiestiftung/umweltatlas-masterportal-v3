@@ -273,6 +273,7 @@ export default {
                     :disabled="nextIndex(false) === -1"
                     :interaction="() => moveOne(false)"
                     :class-array="['btn-secondary']"
+                    class="mb-3"
                 />
                 <IconButton
                     :id="'timeSlider-button-play-' + layerId"
@@ -280,6 +281,7 @@ export default {
                     :icon-array="[playing ? 'bi-pause-fill' : 'bi-play-fill']"
                     :interaction="() => play()"
                     :class-array="['btn-secondary']"
+                    class="mb-3"
                 />
                 <IconButton
                     :id="'timeSlider-button-forward-' + layerId"
@@ -288,6 +290,7 @@ export default {
                     :disabled="nextIndex() === timeRange.length"
                     :interaction="() => moveOne(true)"
                     :class-array="['btn-secondary']"
+                    class="mb-3"
                 />
             </div>
         </div>

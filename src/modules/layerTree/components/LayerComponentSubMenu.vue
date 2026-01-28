@@ -206,10 +206,12 @@ export default {
             i {
                 padding-right: 1rem;
                 padding-left: 1rem;
+                align-self: normal;
             }
 
             label {
                 margin-right: .5rem;
+                align-self: normal;
             }
 
             .transparency-input {

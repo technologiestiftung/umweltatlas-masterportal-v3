@@ -259,10 +259,12 @@ export default {
                 &::-webkit-slider-thumb {
                     border-radius: 42px;
                     background: $secondary;
+                    cursor: pointer;
                 }
 
                 &::-moz-range-thumb {
                     background: $secondary;
+                    cursor: pointer;
                 }
 
                 &::-ms-thumb {
@@ -301,6 +303,10 @@ export default {
                 }
             }
         }
+    }
+
+    .label {
+        align-self: normal;
     }
 
     .markers {

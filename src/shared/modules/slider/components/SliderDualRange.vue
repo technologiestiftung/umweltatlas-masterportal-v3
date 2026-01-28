@@ -176,7 +176,7 @@ export default {
 .slider-dual-range {
     position: relative;
     height: 1rem;
-    margin: 2rem 1rem 3.5rem 1rem;
+    margin: 1rem 1rem 3.5rem 1rem;
 
     .slider-track {
         position: absolute;
