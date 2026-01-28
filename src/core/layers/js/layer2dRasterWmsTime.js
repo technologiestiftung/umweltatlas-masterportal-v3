@@ -431,10 +431,12 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
  */
 Layer2dRasterWmsTimeLayer.prototype.prepareTimeSliderObject = function (time, filteredTimeRange, timeSource, staticDimensions, step, attrs) {
     const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
-        defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default),
+        defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, Array.isArray(time.default) ? time.default[0] : time.default),
+        defaultValueEnd = time.dualRangeSlider === true && Array.isArray(time.default) && time.default.length >= 2 ? this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default[1]) : null,
         staticDimensionsWithDefaultValue = this.determineStaticDimensions(staticDimensions, time.staticDimensions),
         timeData = {
             defaultValue: defaultValue,
+            defaultValueEnd: defaultValueEnd,
             step: step,
             timeRange: filtereTimeRangeByRegex,
             staticDimensions: staticDimensionsWithDefaultValue,

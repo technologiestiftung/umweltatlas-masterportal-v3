@@ -42,7 +42,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/WmsTime", ["defaultValue", "minWidth", "timeRange", "timeSlider", "staticDimensions", "dualRangeSlider"]),
+        ...mapGetters("Modules/WmsTime", ["defaultValue", "defaultValueEnd", "dualRangeSlider", "minWidth", "staticDimensions", "timeRange", "timeSlider"]),
         ...mapGetters("Modules/LayerSwiper", {
             layerSwiperActive: "active"
         }),
@@ -204,7 +204,10 @@ export default {
          * @returns {Number} The slider end value.
          */
         calculateSliderValueEnd () {
-            if (this.sliderValue === 0) {
+            if (this.defaultValueEnd !== null) {
+                return this.timeRange.indexOf(this.defaultValueEnd);
+            }
+            else if (this.sliderValue === 0) {
                 return 1;
             }
             else if (this.sliderValue === this.sliderOptionCount) {

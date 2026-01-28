@@ -139,6 +139,14 @@ describe("src/shared/components/SliderDualRange.vue", () => {
         expect(label.text()).to.equal("Slider-Label");
     });
 
+    it("should trigger the method updateSliderRangeLayout by mounted", () => {
+        const updateSliderRangeLayoutSpy = sinon.spy(SliderDualRange.methods, "updateSliderRangeLayout");
+
+        mountComponent({side: "mainMenu"});
+
+        expect(updateSliderRangeLayoutSpy.calledOnce).to.be.true;
+    });
+
     describe("updateSliderRangeLayout", () => {
         it("should update style from slider range", async () => {
             const testStore = createTestStore({}),

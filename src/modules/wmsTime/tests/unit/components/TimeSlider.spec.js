@@ -13,11 +13,13 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
         timeSliderActive,
         winWidth,
         dualRangeSlider,
+        defaultValueEnd,
         timeRange;
 
     beforeEach(() => {
         dualRangeSlider = false;
         timeRange = ["2020-01-01"];
+        defaultValueEnd = null;
 
         store = createStore({
             modules: {
@@ -35,6 +37,7 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
                                     return winWidth > 800;
                                 },
                                 defaultValue: () => sinon.stub(),
+                                defaultValueEnd: () => defaultValueEnd,
                                 dualRangeSlider: () => dualRangeSlider,
                                 timeSlider: () => {
                                     return {
@@ -453,6 +456,22 @@ describe("src/modules/wmsTime/components/TimeSlider.vue", () => {
             wrapper.vm.sliderValue = 2;
 
             expect(wrapper.vm.calculateSliderValueEnd()).to.equals(3);
+        });
+
+        it("should return the position of default value end, if this is configured", () => {
+            timeRange = ["2020-01-01", "2021-01-01", "2022-01-01", "2023-01-01", "2024-01-01", "2025-01-01", "2026-01-01"];
+            defaultValueEnd = "2024-01-01";
+
+            const wrapper = shallowMount(TimeSlider, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {layerId: "1"}
+            });
+
+            wrapper.vm.sliderValue = 2;
+
+            expect(wrapper.vm.calculateSliderValueEnd()).to.equals(4);
         });
     });
 

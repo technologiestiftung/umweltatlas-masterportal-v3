@@ -112,7 +112,7 @@ If a parameter is also present in the service, the definition in this config is 
 
 | Name | Verpflichtend | Typ | default | Beschreibung | Beispiel |
 |---|---|---|---|---|---|
-| default | no | String/Number |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. A negative value starts at the end of the array.| `"1970"` |
+| default | no | String/Number/String[]/Number[] |  | Initial moment to be displayed for the WMS-T. **Beware**: If the configured value is not part of the time range of possible values, the default of the service is used instead. A specific value can be entered, or the value's position can be specified as a Number within the dimension. A negative value starts at the end of the array. If `dualRangeSlider` is configured, the default can be configured as an array with two values ​​(start and end).| `"1970"` |
 | dimensionName | no | String | `"time"` | Name of GetCapabilities  tag to use for layer; time format | `"REFERENCE_TIME"` |
 | dimensionRange | no | String/String[]/**[dimensionRange](#dimensionRange)** | An attribute used to filter the values ​​of the configured dimension (e.g. time). Only these filtered values ​​will then be offered for selection in the timeslider. The dimension range can be configured as an array or an object. It is also possible to specify a URL to a JSON file containing the array or object.| "./resources/dimensionRange.json" |
 | dimensionRegex | no | String | A regular expression used to filter the values ​​of the configured dimension (e.g., time). Only these filtered values ​​are then offered for selection in the time slider. Can be combined with the `dimensionRange` attribute.| "\\d{1,4}\\-\\d*[02468]\\-\\d{1,2}T\\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}Z" |
@@ -186,6 +186,7 @@ If a parameter is also present in the service, the definition in this config is 
 ```json title="Example 7 WMS-T configuration using dualRangeSlider"
    "time": {
       "dimensionName": "time",
+      "default": [100, 2000],
       "dualRangeSlider": true
    }
 ```

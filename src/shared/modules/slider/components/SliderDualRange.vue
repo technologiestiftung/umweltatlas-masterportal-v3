@@ -78,6 +78,9 @@ export default {
             this.updateSliderRangeLayout();
         }
     },
+    mounted () {
+        this.updateSliderRangeLayout();
+    },
     methods: {
         /**
          * Update the slider range layout.

@@ -636,6 +636,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 {
                     keyboardMovement: undefined,
                     defaultValue: "2003",
+                    defaultValueEnd: null,
                     dualRangeSlider: false,
                     step: {
                         year: "1"
@@ -674,6 +675,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 {
                     keyboardMovement: undefined,
                     defaultValue: "2005",
+                    defaultValueEnd: null,
                     dualRangeSlider: false,
                     step: {
                         year: "1"
@@ -726,6 +728,7 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 {
                     keyboardMovement: undefined,
                     defaultValue: "2005",
+                    defaultValueEnd: null,
                     dualRangeSlider: false,
                     step: {
                         year: "1"
@@ -768,7 +771,90 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 {
                     keyboardMovement: undefined,
                     defaultValue: "2005",
+                    defaultValueEnd: null,
                     dualRangeSlider: true,
+                    step: {
+                        year: "1"
+                    },
+                    timeRange: ["2001", "2002", "2003", "2004", "2005"],
+                    staticDimensions: {},
+                    layerId: "id"
+                }
+            );
+        });
+
+        it("should trigger addTimeSliderObject action with dualRangeSlider default values (start and end)", () => {
+            const time = {
+                    dimensionName: "time",
+                    extentName: "time",
+                    dualRangeSlider: true,
+                    default: [1, 3]
+                },
+                filteredTimeRange = ["2001", "2002", "2003", "2004", "2005"],
+                timeSource = {
+                    default: "2005",
+                    name: "time",
+                    nearestValue: "0",
+                    units: "ISO8601",
+                    value: "2001/2025/P1Y"
+                },
+                staticDimensions = [],
+                step = {
+                    year: "1"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                defaultValue = wmsTimeLayer.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attributes);
+
+            expect(defaultValue).to.equals("2002");
+            expect(commitStub.calledOnce).to.be.true;
+            expect(commitStub.firstCall.args[0]).to.equals("Modules/WmsTime/addTimeSliderObject");
+            expect(commitStub.firstCall.args[1]).to.deep.equals(
+                {
+                    keyboardMovement: undefined,
+                    defaultValue: "2002",
+                    defaultValueEnd: "2004",
+                    dualRangeSlider: true,
+                    step: {
+                        year: "1"
+                    },
+                    timeRange: ["2001", "2002", "2003", "2004", "2005"],
+                    staticDimensions: {},
+                    layerId: "id"
+                }
+            );
+        });
+
+        it("should return the first value of default value array from service for input time and trigger addTimeSliderObject action", () => {
+            const time = {
+                    dimensionName: "time",
+                    extentName: "time",
+                    dualRangeSlider: false,
+                    default: [1, 3]
+                },
+                filteredTimeRange = ["2001", "2002", "2003", "2004", "2005"],
+                timeSource = {
+                    default: "2005",
+                    name: "time",
+                    nearestValue: "0",
+                    units: "ISO8601",
+                    value: "2001/2025/P1Y"
+                },
+                staticDimensions = [],
+                step = {
+                    year: "1"
+                },
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes),
+                defaultValue = wmsTimeLayer.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attributes);
+
+            expect(defaultValue).to.equals("2002");
+            expect(commitStub.calledOnce).to.be.true;
+            expect(commitStub.firstCall.args[0]).to.equals("Modules/WmsTime/addTimeSliderObject");
+            expect(commitStub.firstCall.args[1]).to.deep.equals(
+                {
+                    keyboardMovement: undefined,
+                    defaultValue: "2002",
+                    defaultValueEnd: null,
+                    dualRangeSlider: false,
                     step: {
                         year: "1"
                     },
