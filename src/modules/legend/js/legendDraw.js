@@ -176,7 +176,7 @@ export default {
             strokeWidth = style.polygonStrokeWidth,
             fillOpacity = style.polygonFillColor?.[3] || 0,
             fillHatch = style.polygonFillHatch,
-            strokeOpacity = style.polygonStrokeColor[3] || 0,
+            strokeOpacity = style.polygonStrokeColor?.[3] || 0,
             strokeCap = style.polygonStrokeCap || "round",
             strokeDash = style.polygonStrokeDash?.toString() || "",
             type = style.type ? style.type.toLowerCase() : style.attributes?.type.toLowerCase();
