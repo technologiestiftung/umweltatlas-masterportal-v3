@@ -145,7 +145,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             }
         });
 
-        expect(wrapper.find("div > div > span.gfi-title").text()).to.be.equal("Hallo");
+        expect(wrapper.find(".gfi-title").text()).to.be.equal("Hallo");
     });
 
     describe("Page Counter", () => {
