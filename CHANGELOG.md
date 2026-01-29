@@ -33,6 +33,7 @@
 - The `authenticationUrl` attribute has been removed from the documentation, as it is no longer used.
 
 ### Fixed
+- Issue #1497: FeatureViaUrl: Fixed initial `"zoomTo"` feature for FeatureViaUrl-created vector layers.
 - Issue #1538: Fixed a bug where layerPills would show on width change of secondary menu despite them being configured as inactive in config.json.
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
 - LayerPills: Fix layer sequence so that it matches the LayerTree when opening via a link.

@@ -13,7 +13,7 @@ describe("src/core/maps/actionsMapsFeatureViaUrl", () => {
         mapCollection.clear();
         mapCollection.addMap(new Map(), "2D");
 
-        dispatch = sinon.spy();
+        dispatch = sinon.spy(() => Promise.resolve());
         rootGetters = {
             featureViaURL: {
                 zoomTo: "42",
@@ -140,8 +140,11 @@ describe("src/core/maps/actionsMapsFeatureViaUrl", () => {
             }
         ];
 
-        it("should create a feature via url", () => {
+        it("should create a feature via url", async () => {
             actions.featureViaUrl({dispatch, rootGetters}, urlLayers);
+
+            // like `$nextTick()`
+            await Promise.resolve();
 
             expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("createVectorLayer");
