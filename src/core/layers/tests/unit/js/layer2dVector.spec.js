@@ -268,6 +268,7 @@ describe("src/core/js/layers/layer2dVector.js", () => {
                 altitudeMode: "clampToGround",
                 gfiAttributes: "showAll",
                 gfiTheme: "default",
+                gfiTitleAttribute: undefined,
                 name: "The name",
                 opacity: 1,
                 typ: "Layer2d",

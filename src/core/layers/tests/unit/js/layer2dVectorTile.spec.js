@@ -146,6 +146,7 @@ describe("src/core/js/layers/layer2dVectorTile.js", () => {
 
             expect(vectorTileLayer.getLayerParams(localAttributes)).to.deep.equals({
                 gfiAttributes: "The attributes",
+                gfiTitleAttribute: undefined,
                 opacity: 0.5,
                 zIndex: 10,
                 renderer: "canvas",

@@ -183,6 +183,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 gfiAsNewWindow: false,
                 gfiAttributes: "showAll",
                 gfiTheme: "default",
+                gfiTitleAttribute: undefined,
                 infoFormat: "text/xml",
                 layers: "test_layers",
                 name: "test_name",
