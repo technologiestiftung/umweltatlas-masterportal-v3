@@ -283,11 +283,12 @@ SearchInterfaceElasticSearch.prototype.getResultByPath = function (searchResult,
         else {
             const splittedAttribute = mappingAttribute?.split(".") || [];
 
-            splittedAttribute.forEach(attribute => {
-                if (typeof result[attribute] !== "undefined") {
-                    result = result[attribute];
+            for (const attribute of splittedAttribute) {
+                if (result === null || typeof result !== "object") {
+                    return "";
                 }
-            });
+                result = result[attribute];
+            }
         }
 
         return result;

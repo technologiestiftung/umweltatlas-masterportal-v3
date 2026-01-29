@@ -47,6 +47,7 @@
 - LayerPills: Fix missing three dot menue when changing browser width. 
 - Issue #1548: draw_old/FileImport: Fixed KML export and import for square geometries. Square coordinates are now properly serialized as JSON string during KML export and correctly parsed back to array format during import.
 - Print / MapFish: Fixed missing vector (WFS) layers in print output caused by scale filtering.
+- ElasticSearch: Fixed the console error that was thrown when geometry in the the mappingAttribute is null.
 
 ---
 
