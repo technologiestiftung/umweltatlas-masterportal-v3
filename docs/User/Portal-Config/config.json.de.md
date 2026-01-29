@@ -556,7 +556,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |icon|nein|String|"bi-info-circle-fill"|CSS Klasse des Icons, das vor dem GFI im Menu angezeigt wird.|false|
 |menuSide|nein|String|"secondaryMenu"|Gibt an in welchem Menü die Informationen angezeigt werden sollen.|false|
 |name|ja|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
-|showPageNumber|nein|Boolean|true|Wenn der Parameter auf true gesetzt wird, wird neben dem Layer-Titel die aktuelle Position und Gesamtanzahl der GFI-Responses angezeigt (z.B. "(2/5)"). Die Anzeige erscheint nur, wenn mehr als eine Response vorhanden ist.|false|
+|showPageNumber|nein|Boolean|false|Wenn der Parameter auf true gesetzt wird, wird neben dem Layer-Titel die aktuelle Position und Gesamtanzahl der GFI-Responses angezeigt (z.B. "(2/5)"). Die Anzeige erscheint nur, wenn mehr als eine Response vorhanden ist.|false|
 |showPolygonMarkerForWMS|nein|Boolean|false| Wenn Wert auf true gesetzt ist, wird für WMS Features mit Geometrie ein Polygonmarker gesetzt.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**

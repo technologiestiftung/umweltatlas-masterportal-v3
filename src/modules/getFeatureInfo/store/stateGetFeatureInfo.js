@@ -16,7 +16,7 @@
  * @property {String} [name="common:modules.getFeatureInfo.name"] Displayed as title (config-param).
  * @property {Object[]} [path=[]] Path for menu navigation
  * @property {Boolean} [showMarker=true] Specifies whether the map marker should be set on click.
- * @property {Boolean} [showPageNumber=true] Specifies whether the page number counter should be displayed in the GFI.
+ * @property {Boolean} [showPageNumber=false] Specifies whether the page number counter should be displayed in the GFI.
  * @property {String} type=getFeatureInfo" The type of the gfi component.
  * @property {Boolean} [visible=false] True if the gfi is visible.
  * * @property {Object} [globeEventHandler=null] - The event handler for managing user interactions with the map (e.g., for highlighting 3D tiles).
@@ -40,7 +40,7 @@ export default {
     name: "common:modules.getFeatureInfo.name",
     path: [],
     showMarker: true,
-    showPageNumber: true,
+    showPageNumber: false,
     type: "getFeatureInfo",
     visible: false,
     globeEventHandler: null,
