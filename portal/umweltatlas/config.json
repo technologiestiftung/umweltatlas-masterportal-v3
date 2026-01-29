@@ -6109,15 +6109,15 @@
                       "elements": [
                         {
                           "id": "ua_luftschadstoffbelastung:c_pollutant_grid_avg_pm2_5_2024",
-                          "name": "2024 - PM2,5 – Partikel < 2,5 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - PM2,5 – Partikel < 2,5 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         },
                         {
                           "id": "ua_luftschadstoffbelastung:b_pollutant_grid_avg_pm10_2024",
-                          "name": "2024 - PM10 – Partikel < 10 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - PM10 – Partikel < 10 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         },
                         {
                           "id": "ua_luftschadstoffbelastung:a_pollutant_grid_avg_no2_2024",
-                          "name": "2024 - NO2 – Stickstoffdioxid in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - NO2 – Stickstoffdioxid in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         }
                       ]
                     }
@@ -8751,15 +8751,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2023",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2023 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung der bebauten Flächen 2023 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2022",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2022 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung der bebauten Flächen 2022 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
-                          "name": "2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8769,15 +8769,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2023",
-                          "name": "2021 - Reale Nutzung 2023 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung 2023 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2022",
-                          "name": "2021 - Reale Nutzung 2022 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung 2022 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2021",
-                          "name": "2021 - Reale Nutzung 2021 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8787,15 +8787,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2023",
-                          "name": "2021 - Grün- und Freiflächenbestand 2023 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Grün- und Freiflächenbestand 2023 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2022",
-                          "name": "2021 - Grün- und Freiflächenbestand 2022 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Grün- und Freiflächenbestand 2022 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
-                          "name": "2021 - Grün- und Freiflächenbestand 2021 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Grün- und Freiflächenbestand 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8805,15 +8805,15 @@
                       "elements": [
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2023",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung und Vegetationsbedeckung 2023 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2022",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung und Vegetationsbedeckung 2022 (Flächennutzung)"
                         },
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
-                          "name": "2021 - Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung - ab)"
+                          "name": "ab 2021 - Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung)"
                         }
                       ]
                     }
@@ -9209,15 +9209,15 @@
                       "elements": [
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2023",
-                          "name": "2021 - Stadtstruktur 2023 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur 2023 (Stadtstruktur)"
                         },
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2022",
-                          "name": "2021 - Stadtstruktur 2022 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur 2022 (Stadtstruktur)"
                         },
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2021",
-                          "name": "2021 - Stadtstruktur 2021 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur 2021 (Stadtstruktur)"
                         }
                       ]
                     },
@@ -9227,15 +9227,15 @@
                       "elements": [
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2023",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur - Flächentypen differenziert 2023 (Stadtstruktur)"
                         },
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2022",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur - Flächentypen differenziert 2022 (Stadtstruktur)"
                         },
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
-                          "name": "2021 - Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur - ab)"
+                          "name": "ab 2021 - Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur)"
                         }
                       ]
                     }
