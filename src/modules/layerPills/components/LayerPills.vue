@@ -89,7 +89,9 @@ export default {
          */
         combinedMenuWidthState: {
             handler () {
-                this.setToggleButtonVisibility();
+                if (this.active) {
+                    this.setToggleButtonVisibility();
+                }
             }
         }
     },
