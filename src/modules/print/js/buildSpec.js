@@ -249,7 +249,7 @@ const BuildSpecModel = {
         let features = [],
             returnLayer;
 
-        if (isInScaleRange || scaleDoesNotMatter) {
+        if (isInScaleRange || scaleDoesNotMatter || layer instanceof Vector) {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
