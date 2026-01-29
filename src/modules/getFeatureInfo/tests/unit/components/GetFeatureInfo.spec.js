@@ -161,6 +161,7 @@ beforeEach(() => {
         showPolygonMarkerForWMS: () => false,
         menuSide: () => false,
         showMarker: sinon.stub(),
+        showPageNumber: () => true,
         visible: () => true,
         type: () => "getFeatureInfo",
         configPaths: sinon.stub()

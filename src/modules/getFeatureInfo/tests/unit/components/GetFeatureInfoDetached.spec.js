@@ -42,6 +42,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             highlightVectorRules: () => highlightVectorRules,
             showPolygonMarkerForWMS: () => showPolygonMarkerForWMS,
             showMarker: () => showMarker,
+            showPageNumber: () => true,
             hideMapMarkerOnVectorHighlight: () => sinon.stub()
         },
         olFeature = new Feature({
