@@ -558,6 +558,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 |name|ja|String|"common:modules.getFeatureInfo.name"|Name des Moduls im Menü.|false|
 |showPageNumber|nein|Boolean|false|Wenn der Parameter auf true gesetzt wird, wird über dem Layer-Titel die aktuelle Position und Gesamtanzahl der GFI-Responses angezeigt (z.B. "(2/5)"). Die Anzeige erscheint nur, wenn mehr als eine Response vorhanden ist.|false|
 |showPolygonMarkerForWMS|nein|Boolean|false| Wenn Wert auf true gesetzt ist, wird für WMS Features mit Geometrie ein Polygonmarker gesetzt.|false|
+|stickyHeader|nein|Boolean|false|Wenn true, bleiben GFI-Titel und Navigationspfeile beim Scrollen durch lange Inhalte sichtbar (sticky). Ein Schatten erscheint wenn der Header fixiert ist, um gescrollten Inhalt anzuzeigen.|false|
 
 **Beispiel einer GetFeatureInfo Konfiguration**
 
@@ -565,6 +566,7 @@ Bei allen GFI-Abfragen, außer dem direkten Beziehen von HTML, welches durch das
 "getFeatureInfo": {
     "name":"Informationen abfragen",
     "icon":"bi-info-circle-fill",
+    "stickyHeader": true,
     "coloredHighlighting3D": {
         "enabled": true,
         "color": "GREEN"

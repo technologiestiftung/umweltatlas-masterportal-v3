@@ -557,6 +557,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 |name|yes|String|"common:modules.getFeatureInfo.name"|Name displayed in the menu.|false|
 |showPageNumber|no|Boolean|false|If set to true, displays the current position and total count of GFI responses above the layer title (e.g., "(2/5)"). The counter is only shown when more than one response is available.|false|
 |showPolygonMarkerForWMS|no|Boolean|false|If set to true, Polygonmarker will be shown for WMS features with geometry.|false|
+|stickyHeader|no|Boolean|false|If true, the GFI title and navigation arrows remain visible (sticky) when scrolling through long content. A shadow appears when the header is stuck to indicate scrolled content.|false|
 
 **Example of a GetFeatureInfo configuration**.
 
@@ -564,6 +565,7 @@ On all GFI request types except directly fetching HTML, which is done by using `
 "getFeatureInfo": {
     "name": "Request information",
     "icon": "bi-info-circle-fill",
+    "stickyHeader": true,
     "coloredHighlighting3D": {
         "enabled": true,
         "color": "GREEN"
