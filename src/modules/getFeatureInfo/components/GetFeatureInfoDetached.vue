@@ -406,7 +406,7 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
+    height: 0.0625rem;
     visibility: hidden;
     pointer-events: none;
 }
@@ -423,7 +423,7 @@ export default {
 }
 
 .gfi-header-sticky.is-stuck {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .gfi-title {
