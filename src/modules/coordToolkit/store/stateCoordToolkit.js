@@ -36,6 +36,7 @@
  * @property {Boolean} [showCopyButtons="true"] if true, copy-buttons are shown
  * @property {Boolean} [updatePosition="true"] if true, position is updated in tool
  * @property {String} [zoomLevel="7"] used by search
+ * @property {Boolean} [keepMarkerVisible=false] if true, the map marker remains visible after closing the tool
  */
 const state = {
     icon: "bi-globe",
@@ -63,6 +64,7 @@ const state = {
     heightLayerInfo: null,
     heightValueBuilding: null,
     heightValueWater: null,
+    keepMarkerVisible: false,
     mapProjection: null,
     mode: "supply",
     northingNoCoord: false,

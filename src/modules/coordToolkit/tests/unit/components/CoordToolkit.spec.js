@@ -230,6 +230,38 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
         expect(unregisterListenerSpy.calledOnce).to.equal(true);
     });
 
+    it("if coordToolkit is unmounted with keepMarkerVisible=false (default), marker should be removed", async () => {
+        const removeMarkerSpy = sinon.spy();
+
+        store.state.Modules.CoordToolkit.keepMarkerVisible = false;
+        wrapper = shallowMount(CoordToolkitComponent, {
+            global: {
+                plugins: [store]
+            }});
+        wrapper.vm.removeMarker = removeMarkerSpy;
+
+        wrapper.vm.$options.unmounted.call(wrapper.vm);
+        await wrapper.vm.$nextTick();
+
+        expect(removeMarkerSpy.calledOnce).to.equal(true);
+    });
+
+    it("if coordToolkit is unmounted with keepMarkerVisible=true, marker should NOT be removed", async () => {
+        const removeMarkerSpy = sinon.spy();
+
+        store.state.Modules.CoordToolkit.keepMarkerVisible = true;
+        wrapper = shallowMount(CoordToolkitComponent, {
+            global: {
+                plugins: [store]
+            }});
+        wrapper.vm.removeMarker = removeMarkerSpy;
+
+        wrapper.vm.$options.unmounted.call(wrapper.vm);
+        await wrapper.vm.$nextTick();
+
+        expect(removeMarkerSpy.called).to.equal(false);
+    });
+
     describe("CoordToolkit.vue methods", () => {
         it("method selectionChanged sets currentProjection", () => {
             const value = "http://www.opengis.net/gml/srs/epsg.xml#31467",

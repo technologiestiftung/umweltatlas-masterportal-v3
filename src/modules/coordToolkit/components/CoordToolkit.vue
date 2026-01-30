@@ -45,6 +45,7 @@ export default {
             "heightLayer",
             "heightLayerId",
             "heightLayerInfo",
+            "keepMarkerVisible",
             "mode",
             "northingNoCoord",
             "northingNoMatch",
@@ -107,7 +108,9 @@ export default {
         }
     },
     unmounted () {
-        this.removeMarker();
+        if (!this.keepMarkerVisible) {
+            this.removeMarker();
+        }
         this.resetErrorMessages("all");
         this.resetValues();
         this.setSupplyCoordInactive();

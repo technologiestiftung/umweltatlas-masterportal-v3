@@ -2215,6 +2215,7 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
 |heightValueBuilding|no|String||Coordinate query: the value in the element defined under "heightElementName" supplied by the WMS for a non-measured height in the building area, it will display the internationalized text "Building area, no heights available" under the key "common:modules.coordToolkit.noHeightBuilding" in the interface. If this attribute is not specified, then the text provided by the WMS will be displayed.|false|
 |heightValueWater|no|String||Coordinate query: the value in the element defined under "heightElementName" supplied by the WMS for an unmeasured height in the water area, it will display the internationalized text "Water surface, no heights available" under the key "common:modules.coordToolkit.noHeightWater" in the interface. If this attribute is not specified, then the text provided by the WMS will be displayed.|false|
 |icon|no|String|"bi-globe"|Icon that is shown in front of the module in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|keepMarkerVisible|no|Boolean|false|If set to `true`, the marker remains visible on the map after closing the coordinate tool.|false|
 |name|no|String|"common:modules.coordToolkit.name"|Name of the module in the menu.|false|
 |showCopyButtons|no|Boolean|true|Switch to show or hide the buttons for copying the coordinates.|false|
 |type|no|String|"coordToolkit"|The type of the module. Defines which module is configured.|false|
@@ -2230,6 +2231,7 @@ Coordinates tool: to display the height above sea level in addition to the 2 dim
     "heightValueWater": "-20",
     "heightValueBuilding": "200",
     "zoomLevel": 5,
+    "keepMarkerVisible": true,
     "heightLayerInfo": "Basis of the height information is the \"Digitalge Höhenmodell Hamburg DGM 1\".",
     "showDescription": true,
     "description": "Determine coordinates from the map or search for coordinates.",

@@ -2211,6 +2211,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
 |heightValueBuilding|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Gebäude-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gebäudefläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightBuilding" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
 |heightValueWater|nein|String||Koordinatenabfrage: Der Wert im unter "heightElementName" definierten Element, der für eine nicht gemessene Höhe im Wasser-Bereich vom WMS geliefert wird, es wird der internationalisierte Text "Gewässerfläche, keine Höhen vorhanden" unter dem Schlüssel "common:modules.coordToolkit.noHeightWater" in der Oberfläche angezeigt. Wenn dieses Attribut nicht angegeben wird, dann wird der Text, den das WMS liefert angezeigt.|false|
 |icon|no|String|"bi-globe"|Das Icon, das im Button für das Modul gezeigt wird. Hier eine Auswahl **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
+|keepMarkerVisible|nein|Boolean|false|Wenn auf `true` gesetzt, bleibt der Marker auf der Karte sichtbar, nachdem das Koordinatenwerkzeug geschlossen wurde.|false|
 |name|no|String|"common:modules.coordToolkit.name"|Name des Moduls im Menu.|false|
 |showCopyButtons|nein|Boolean|true|Schalter um die Buttons zum Kopieren der Koordinaten anzuzeigen oder auszublenden.|false|
 |type|nein|String|"coordToolkit"|Der type des Moduls. Definiert welches Modul konfiguriert ist.|false|
@@ -2226,6 +2227,7 @@ Koordinaten-Werkzeug: um zusätzlich zu den 2 dimensionalen Koordinaten die Höh
     "heightValueWater": "-20",
     "heightValueBuilding": "200",
     "zoomLevel": 5,
+    "keepMarkerVisible": true,
     "heightLayerInfo": "Grundlage der Höheninformation ist das \"Digitalge Höhenmodell Hamburg DGM 1\".",
     "showDescription": true,
     "description": "Bestimme Koordinaten aus der Karte oder suche nach Koordinaten.",
