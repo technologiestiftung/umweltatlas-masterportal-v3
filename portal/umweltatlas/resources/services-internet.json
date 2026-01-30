@@ -4005,6 +4005,36 @@
     }
   },
   {
+    "id": "ua_verkehrsmengen_2019:verkehrsmengen_2019",
+    "name": "Verkehrsmengen DTV 2019",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_verkehrsmengen_2019",
+    "typ": "WMS",
+    "layers": "verkehrsmengen_2019",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "125b728c-3ef9-49fd-94c5-24b2143ede2b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/verkehrsmengen/2019/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/verkehrsmengen/de-karten/07_01_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "dop_2016:dop_2016",
     "name": "Digitale farbige Orthophotos 2016 (DOP20RGB)",
     "crs": "EPSG:25833",
@@ -14484,7 +14514,7 @@
   },
   {
     "id": "ua_gebwaerme_heizarten_2005:b_versorg_gebfern_2005",
-    "name": "Versorgungsbereiche Gebäudewärme: Fernwäme 2005",
+    "name": "Versorgungsbereiche Gebäudewärme: Fernwärme 2005",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2005",
     "typ": "WMS",
@@ -28906,6 +28936,36 @@
     }
   },
   {
+    "id": "ua_einwohnerdichte_2018:ua_einwohnerdichte_2018_entw",
+    "name": "Einwohnerentwicklung zwischen 2017 und 2018",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2018",
+    "typ": "WMS",
+    "layers": "ua_einwohnerdichte_2018_entw",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "c9b976ad-32c0-4be8-ab00-e9a0850c079c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2018/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2018/de-karten/06_06_2018.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_stadtstruktur_2001:stadtstruktur_2001",
     "name": "Stadtstruktur 2001",
     "crs": "EPSG:25833",
@@ -30130,6 +30190,187 @@
     }
   },
   {
+    "id": "ua_gebwaerme_heizarten_2000:a_versorg_gebheizw_2000",
+    "name": "Brennstoffeinsatz bedeutender Heiz- und Kraftwerke 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "a_versorg_gebheizw_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "minScale": "2500",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_02_2_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_gebwaerme_heizarten_2000:b_versorg_gebfern_2000",
+    "name": "Versorgungsbereiche Gebäudewärme: Fernwärme 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "b_versorg_gebfern_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_01_1_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_gebwaerme_heizarten_2000:c_versorg_gebgas_2000",
+    "name": "Versorgungsbereiche Gebäudewärme: Gas 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "c_versorg_gebgas_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_01_2_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_gebwaerme_heizarten_2000:d_versorg_geboel_2000",
+    "name": "Versorgungsbereiche Gebäudewärme: Heizöl 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "d_versorg_geboel_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_01_3_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_gebwaerme_heizarten_2000:e_versorg_gebkohle_2000",
+    "name": "Versorgungsbereiche Gebäudewärme: Kohle 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "e_versorg_gebkohle_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_01_4_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_gebwaerme_heizarten_2000:f_versorg_gebeinzl_2000",
+    "name": "Versorgungsanteile der einzelnen Energieträger 2000",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_gebwaerme_heizarten_2000",
+    "typ": "WMS",
+    "layers": "f_versorg_gebeinzl_2000",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5393f7b9-7f0e-3c16-9cc7-b30cb2066234",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/gebaeudewaerme/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/energie/gebaeudewaerme/de-karten/08_02_1_2000.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_flaechennutzung_2000:sp06_02_01_gruen_und_freiflaechenbestand_2000_gs",
     "name": "Grün- und Freiflächenbestand 2000",
     "crs": "EPSG:25833",
@@ -30898,6 +31139,66 @@
     "singleTile": true
   },
   {
+    "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp",
+    "name": "Vorranggebiet Luftreinhaltung nach FNP",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "aa_vorrang_luft_fnp",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone",
+    "name": "Umweltzone",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ab_umweltzone",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_8_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
     "name": "Planungsraum 2009",
     "crs": "EPSG:25833",
@@ -31341,96 +31642,6 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
-    "name": "Planungsraum 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "ga_plr2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
-    "name": "weitgehend unbewohnte Fläche 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "gb_unbewofl",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
-    "name": "Integrierte Mehrfachbelastung Umwelt 2013",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
-    "typ": "WMS",
-    "layers": "gc_vierfach_belastung",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37798,7 +38009,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2023/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2022/karten/06_06_2022.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37828,7 +38038,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2023/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2022/karten/06_06_2022.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
