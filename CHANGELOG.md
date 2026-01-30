@@ -21,6 +21,7 @@
 
 ### Fixed
 - WFS-T: Multi-update works correctly when multiple layers are configured in the WFS-T tool.
+- i18next: Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
 
 ---
 

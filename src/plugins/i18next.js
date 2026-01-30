@@ -16,6 +16,7 @@ export function initiateVueI18Next (app) {
 * initialization of the language with i18next
 * @pre i18next is not initialized
 * @post i18next is initialized
+* @param {String} portalId the unique identifier for each portal
 * @param {Object} portalLanguageConfig the configuration red from config.js
 * @param {Object} portalLocales portal-specific locale overrides from config.js
 * @param {Boolean} config.enabled activates the GUI for language switching
@@ -26,18 +27,18 @@ export function initiateVueI18Next (app) {
 * @returns {void}
 */
 export function initLanguage (portalLanguageConfig, portalLocales) {
-    // default language configuration
-    const portalLanguage = Object.assign({
-        "enabled": false,
-        "debug": false,
-        "languages": {
-            "de": "deutsch",
-            "en": "english"
-        },
-        "fallbackLanguage": "de",
-        "changeLanguageOnStartWhen": ["querystring", "localStorage", "navigator", "htmlTag"],
-        "loadPath": "/locales/{{lng}}/{{ns}}.json"
-    }, portalLanguageConfig);
+    const portalId = window.location.pathname.split("/")[2] || window.location.hostname.split(".")[0],
+        portalLanguage = Object.assign({
+            "enabled": false,
+            "debug": false,
+            "languages": {
+                "de": "deutsch",
+                "en": "english"
+            },
+            "fallbackLanguage": "de",
+            "changeLanguageOnStartWhen": ["querystring", "localStorage", "navigator", "htmlTag"],
+            "loadPath": "/locales/{{lng}}/{{ns}}.json"
+        }, portalLanguageConfig);
 
     // init i18next
     if (Config.portalLanguage !== undefined && Config.portalLanguage.enabled) {
@@ -99,7 +100,7 @@ export function initLanguage (portalLanguageConfig, portalLocales) {
                 // keys or params to lookup language from
                 lookupQuerystring: "lng",
                 lookupCookie: "i18next",
-                lookupLocalStorage: "i18nextLng",
+                lookupLocalStorage: `i18nextLng_${portalId}`,
                 lookupFromPathIndex: 0,
                 lookupFromSubdomainIndex: 0,
 
