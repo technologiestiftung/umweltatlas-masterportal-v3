@@ -12,6 +12,7 @@ import mapCollection from "./core/maps/js/mapCollection";
 import MenuContainer from "./modules/menu/components/MenuContainer.vue";
 import MenuToggleButton from "./modules/menu/components/MenuToggleButton.vue";
 import addonsPlugin from "./plugins/addons";
+import LayerStartModal from "./modules/layerTree/components/LayerStartModal.vue";
 
 export default {
     name: "App",
@@ -20,7 +21,8 @@ export default {
         BaselayerSwitcher,
         ControlBar,
         MenuContainer,
-        MenuToggleButton
+        MenuToggleButton,
+        LayerStartModal
     },
     data () {
         return {
@@ -188,6 +190,10 @@ export default {
         id="masterportal-container"
         class="masterportal-container"
     >
+        <LayerStartModal
+            v-if="allConfigsLoaded && addonsLoaded"
+            >
+        </LayerStartModal>
         <div v-if="allConfigsLoaded && addonsLoaded">
             <Alerting />
         </div>
