@@ -319,14 +319,14 @@ export default {
         <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
             <slot name="pager-left" />
             <div class="gfi-title-container mx-3 flex-grow-1">
-                <div class="gfi-title font-bold">
-                    {{ translate(title) }}
-                </div>
                 <div
                     v-if="showCounter"
                     class="gfi-page-counter"
                 >
                     {{ pageCounterText }}
+                </div>
+                <div class="gfi-title font-bold">
+                    {{ translate(title) }}
                 </div>
             </div>
             <slot name="pager-right" />
@@ -357,6 +357,6 @@ export default {
     color: $dark_grey;
     font-weight: normal;
     white-space: nowrap;
-    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 </style>
