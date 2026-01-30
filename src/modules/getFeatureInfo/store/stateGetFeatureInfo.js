@@ -17,6 +17,7 @@
  * @property {Object[]} [path=[]] Path for menu navigation
  * @property {Boolean} [showMarker=true] Specifies whether the map marker should be set on click.
  * @property {Boolean} [showPageNumber=false] Specifies whether the page number counter should be displayed in the GFI.
+ * @property {Boolean} [stickyHeader=false] If true, the GFI title and navigation arrows remain visible (sticky) when scrolling through long content.
  * @property {String} type=getFeatureInfo" The type of the gfi component.
  * @property {Boolean} [visible=false] True if the gfi is visible.
  * * @property {Object} [globeEventHandler=null] - The event handler for managing user interactions with the map (e.g., for highlighting 3D tiles).
@@ -41,6 +42,7 @@ export default {
     path: [],
     showMarker: true,
     showPageNumber: false,
+    stickyHeader: false,
     type: "getFeatureInfo",
     visible: false,
     globeEventHandler: null,

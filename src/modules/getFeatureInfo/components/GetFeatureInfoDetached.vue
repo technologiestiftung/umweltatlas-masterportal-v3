@@ -51,7 +51,9 @@ export default {
     data () {
         return {
             isContentHtml: false,
-            lastFeature: null
+            lastFeature: null,
+            isHeaderStuck: false,
+            intersectionObserver: null
         };
     },
     computed: {
@@ -64,7 +66,8 @@ export default {
             "showPolygonMarkerForWMS",
             "menuSide",
             "showMarker",
-            "hideMapMarkerOnVectorHighlight"
+            "hideMapMarkerOnVectorHighlight",
+            "stickyHeader"
         ]),
 
         /**
@@ -109,6 +112,7 @@ export default {
         this.highlightVectorFeature();
         this.highlightWMSFeature();
         this.setMarker();
+        this.setupStickyObserver();
     },
     updated: function () {
         if (this.isUpdated) {
@@ -124,6 +128,7 @@ export default {
             this.removeHighlighting();
             this.removePolygonMarker();
         }
+        this.disconnectStickyObserver();
     },
     methods: {
         ...mapMutations("Modules/GetFeatureInfo", ["setShowMarker"]),
@@ -309,6 +314,48 @@ export default {
          */
         translate (key, options = null) {
             return this.$t(key, options);
+        },
+
+        /**
+         * Sets up the IntersectionObserver to detect when the sticky header is stuck.
+         * This allows adding a visual indicator (shadow/border) when scrolling.
+         * @returns {void}
+         */
+        setupStickyObserver () {
+            if (!this.stickyHeader) {
+                return;
+            }
+
+            this.$nextTick(() => {
+                const sentinel = this.$refs.stickySentinel;
+
+                if (!sentinel) {
+                    return;
+                }
+
+                this.intersectionObserver = new IntersectionObserver(
+                    ([entry]) => {
+                        this.isHeaderStuck = !entry.isIntersecting;
+                    },
+                    {
+                        threshold: [1],
+                        rootMargin: "-1px 0px 0px 0px"
+                    }
+                );
+
+                this.intersectionObserver.observe(sentinel);
+            });
+        },
+
+        /**
+         * Disconnects the IntersectionObserver when component is destroyed.
+         * @returns {void}
+         */
+        disconnectStickyObserver () {
+            if (this.intersectionObserver) {
+                this.intersectionObserver.disconnect();
+                this.intersectionObserver = null;
+            }
         }
     }
 };
@@ -316,7 +363,17 @@ export default {
 
 <template>
     <div>
-        <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
+        <div
+            ref="stickySentinel"
+            class="sticky-sentinel"
+        />
+        <div
+            class="gfi-header d-flex align-items-center justify-content-between mt-3 mb-4"
+            :class="{
+                'gfi-header-sticky': stickyHeader,
+                'is-stuck': isHeaderStuck
+            }"
+        >
             <slot name="pager-left" />
             <div class="gfi-title-container mx-3 flex-grow-1">
                 <div
@@ -344,6 +401,29 @@ export default {
 .gfi-title-container {
     min-width: 0;
     text-align: center;
+.sticky-sentinel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.gfi-header {
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.gfi-header-sticky {
+    position: sticky;
+    top: 0;
+    background-color: $white;
+    z-index: 10;
+}
+
+.gfi-header-sticky.is-stuck {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .gfi-title {
