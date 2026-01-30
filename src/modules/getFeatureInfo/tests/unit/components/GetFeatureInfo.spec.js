@@ -164,7 +164,8 @@ beforeEach(() => {
         showPageNumber: () => true,
         visible: () => true,
         type: () => "getFeatureInfo",
-        configPaths: sinon.stub()
+        configPaths: sinon.stub(),
+        stickyHeader: () => false
     };
     menuExpanded = true;
     toggleMenuSpy = sinon.spy();

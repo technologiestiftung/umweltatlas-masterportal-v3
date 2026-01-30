@@ -43,7 +43,8 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             showPolygonMarkerForWMS: () => showPolygonMarkerForWMS,
             showMarker: () => showMarker,
             showPageNumber: () => true,
-            hideMapMarkerOnVectorHighlight: () => sinon.stub()
+            hideMapMarkerOnVectorHighlight: () => sinon.stub(),
+            stickyHeader: () => false
         },
         olFeature = new Feature({
             name: "feature123"
@@ -146,7 +147,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             }
         });
 
-        expect(wrapper.find(".gfi-title").text()).to.be.equal("Hallo");
+        expect(wrapper.find(".gfi-header .gfi-title").text()).to.be.equal("Hallo");
     });
 
     describe("Page Counter", () => {
@@ -1029,6 +1030,211 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                 expect(setCenterSpy.notCalled).to.be.true;
                 expect(placingPointMarkerSpy.notCalled).to.be.true;
             });
+        });
+    });
+
+    describe("Sticky Header Feature", () => {
+        it("should not apply sticky classes when stickyHeader is false", () => {
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            const header = wrapper.find(".gfi-header");
+
+            expect(header.exists()).to.be.true;
+            expect(header.classes()).to.not.include("gfi-header-sticky");
+        });
+
+        it("should apply sticky classes when stickyHeader is true", () => {
+            mockGetters.stickyHeader = () => true;
+            const customStore = createStore({
+                namespaced: true,
+                modules: {
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            GetFeatureInfo: {
+                                namespaced: true,
+                                mutations: mockMutations,
+                                getters: mockGetters
+                            }
+                        }
+                    },
+                    Maps: {
+                        namespaced: true,
+                        actions: {
+                            placingPointMarker: placingPointMarkerSpy,
+                            removePointMarker: sinon.stub(),
+                            setCenter: setCenterSpy,
+                            removeHighlightFeature: removeHighlightFeatureSpy,
+                            removePolygonMarker: removePolygonMarkerSpy,
+                            highlightFeature: highlightFeatureSpy
+                        },
+                        getters: {
+                            clickCoordinate: () => clickCoordinateFromMap
+                        }
+                    },
+                    Menu: {
+                        namespaced: true,
+                        actions: {
+                            setMenuBackAndActivateItem: sinon.stub()
+                        }
+                    }
+                }
+            });
+
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [customStore]
+                }
+            });
+
+            const header = wrapper.find(".gfi-header");
+
+            expect(header.exists()).to.be.true;
+            expect(header.classes()).to.include("gfi-header-sticky");
+        });
+
+        it("should render sentinel element when stickyHeader is true", () => {
+            mockGetters.stickyHeader = () => true;
+            const customStore = createStore({
+                namespaced: true,
+                modules: {
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            GetFeatureInfo: {
+                                namespaced: true,
+                                mutations: mockMutations,
+                                getters: mockGetters
+                            }
+                        }
+                    },
+                    Maps: {
+                        namespaced: true,
+                        actions: {
+                            placingPointMarker: placingPointMarkerSpy,
+                            removePointMarker: sinon.stub(),
+                            setCenter: setCenterSpy,
+                            removeHighlightFeature: removeHighlightFeatureSpy,
+                            removePolygonMarker: removePolygonMarkerSpy,
+                            highlightFeature: highlightFeatureSpy
+                        },
+                        getters: {
+                            clickCoordinate: () => clickCoordinateFromMap
+                        }
+                    },
+                    Menu: {
+                        namespaced: true,
+                        actions: {
+                            setMenuBackAndActivateItem: sinon.stub()
+                        }
+                    }
+                }
+            });
+
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [customStore]
+                }
+            });
+
+            const sentinel = wrapper.find(".sticky-sentinel");
+
+            expect(sentinel.exists()).to.be.true;
+        });
+
+        it("should toggle is-stuck class based on isHeaderStuck state", async () => {
+            mockGetters.stickyHeader = () => true;
+            const customStore = createStore({
+                namespaced: true,
+                modules: {
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            GetFeatureInfo: {
+                                namespaced: true,
+                                mutations: mockMutations,
+                                getters: mockGetters
+                            }
+                        }
+                    },
+                    Maps: {
+                        namespaced: true,
+                        actions: {
+                            placingPointMarker: placingPointMarkerSpy,
+                            removePointMarker: sinon.stub(),
+                            setCenter: setCenterSpy,
+                            removeHighlightFeature: removeHighlightFeatureSpy,
+                            removePolygonMarker: removePolygonMarkerSpy,
+                            highlightFeature: highlightFeatureSpy
+                        },
+                        getters: {
+                            clickCoordinate: () => clickCoordinateFromMap
+                        }
+                    },
+                    Menu: {
+                        namespaced: true,
+                        actions: {
+                            setMenuBackAndActivateItem: sinon.stub()
+                        }
+                    }
+                }
+            });
+
+            const wrapper = mount(DetachedTemplate, {
+                propsData: {
+                    feature
+                },
+                components: {
+                    DefaultTheme: {
+                        name: "DefaultTheme",
+                        template: "<div />"
+                    }
+                },
+                global: {
+                    plugins: [customStore]
+                }
+            });
+
+            const header = wrapper.find(".gfi-header");
+
+            expect(header.classes()).to.not.include("is-stuck");
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.isHeaderStuck = true;
+            await wrapper.vm.$nextTick();
+
+            expect(header.classes()).to.include("is-stuck");
         });
     });
 
