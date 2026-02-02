@@ -5375,7 +5375,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_nox_1989_2009:ges_nox_1989",
-                          "name": "1989 - 2015 - NOx Emissionen aller Verursacher 1989 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen aller Verursacher 1989 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5385,7 +5385,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_nox_1989_2009:ges_nox_1994",
-                          "name": "1989 - 2015 - NOx Emissionen aller Verursacher 1994 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen aller Verursacher 1994 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5395,7 +5395,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_nox_1989_2009:ges_nox_2002",
-                          "name": "1989 - 2015 - NOx Emissionen aller Verursacher 2002 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen aller Verursacher 2002 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5405,7 +5405,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_nox_1989_2009:ges_nox_2005",
-                          "name": "1989 - 2015 - NOx Emissionen aller Verursacher 2005 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen aller Verursacher 2005 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5415,7 +5415,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_nox_1989_2009:ges_nox_2009",
-                          "name": "1989 - 2015 - NOx Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität NOx-Gesamtemissionen 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5425,7 +5425,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_1989",
-                          "name": "1989 - 2015 - NOx Emissionen Hausbrand 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Hausbrand 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5435,7 +5435,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_1994",
-                          "name": "1989 - 2015 - NOx Emissionen Hausbrand 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Hausbrand 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5445,7 +5445,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_2002",
-                          "name": "1989 - 2015 - NOx Emissionen Hausbrand 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Hausbrand 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5455,7 +5455,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_2005",
-                          "name": "1989 - 2015 - NOx Emissionen Hausbrand 2005 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Hausbrand 2005 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5465,7 +5465,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_nox_1989_2009:haus_nox_2009",
-                          "name": "1989 - 2015 - NOx Emissionen Hausbrand 2009 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Hausbrand 2009 (Langjährige Entwicklung Luftqualität NOx-Emissionen Hausbrand 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5475,7 +5475,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_nox_1989_2008:ind_nox_1989",
-                          "name": "1989 - 2015 - NOx Emissionen Industrie 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
+                          "name": "1989-2015 - NOx Emissionen Industrie 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
                         }
                       ]
                     },
@@ -5485,7 +5485,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_nox_1989_2008:ind_nox_1994",
-                          "name": "1989 - 2015 - NOx Emissionen Industrie 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
+                          "name": "1989-2015 - NOx Emissionen Industrie 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
                         }
                       ]
                     },
@@ -5495,7 +5495,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_nox_1989_2008:ind_nox_2002",
-                          "name": "1989 - 2015 - NOx Emissionen Industrie 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
+                          "name": "1989-2015 - NOx Emissionen Industrie 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
                         }
                       ]
                     },
@@ -5505,7 +5505,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_nox_1989_2008:ind_nox_2004",
-                          "name": "1989 - 2015 - NOx Emissionen Industrie 2004 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
+                          "name": "1989-2015 - NOx Emissionen Industrie 2004 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
                         }
                       ]
                     },
@@ -5515,7 +5515,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_nox_1989_2008:ind_nox_2008",
-                          "name": "1989 - 2015 - NOx Emissionen Industrie 2008 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
+                          "name": "1989-2015 - NOx Emissionen Industrie 2008 (Langjährige Entwicklung Luftqualität NOx-Emissionen Industrie 1989 bis 2008)"
                         }
                       ]
                     },
@@ -5525,7 +5525,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_nox_1989_2009:kfz_ges_nox_1989",
-                          "name": "1989 - 2015 - NOx Emissionen Kfz-Verkehr Gesamt 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Kfz-Verkehr Gesamt 1989 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5535,7 +5535,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_nox_1989_2009:kfz_ges_nox_1994",
-                          "name": "1989 - 2015 - NOx Emissionen Kfz-Verkehr Gesamt 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Kfz-Verkehr Gesamt 1994 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5545,7 +5545,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_nox_1989_2009:kfz_ges_nox_2002",
-                          "name": "1989 - 2015 - NOx Emissionen Kfz-Verkehr Gesamt 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Kfz-Verkehr Gesamt 2002 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5555,7 +5555,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_nox_1989_2009:kfz_ges_nox_2005",
-                          "name": "1989 - 2015 - NOx Emissionen Kfz-Verkehr Gesamt 2005 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Kfz-Verkehr Gesamt 2005 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5565,7 +5565,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_nox_1989_2009:kfz_ges_nox_2009",
-                          "name": "1989 - 2015 - NOx Emissionen Kfz-Verkehr Gesamt 2009 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
+                          "name": "1989-2015 - NOx Emissionen Kfz-Verkehr Gesamt 2009 (Langjährige Entwicklung Luftqualität NOx-Emissionen Kfz-Verkehr GN 1989 bis 2009)"
                         }
                       ]
                     },
@@ -5595,7 +5595,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_1989",
-                          "name": "1989 - 2015 - SO2 Emissionen aller Verursacher 1989 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen aller Verursacher 1989 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5605,7 +5605,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_1994",
-                          "name": "1989 - 2015 - SO2 Emissionen aller Verursacher 1994 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen aller Verursacher 1994 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5615,7 +5615,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_2002",
-                          "name": "1989 - 2015 - SO2 Emissionen aller Verursacher 2002 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen aller Verursacher 2002 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5625,7 +5625,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_2005",
-                          "name": "1989 - 2015 - SO2 Emissionen aller Verursacher 2005 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen aller Verursacher 2005 (Langjährige Entwicklung Luftqualität SO2-Gesamtemissionen 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5635,7 +5635,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_1989",
-                          "name": "1989 - 2015 - SO2 Emissionen Hausbrand 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Hausbrand 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5645,7 +5645,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_1994",
-                          "name": "1989 - 2015 - SO2 Emissionen Hausbrand 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Hausbrand 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5655,7 +5655,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_2002",
-                          "name": "1989 - 2015 - SO2 Emissionen Hausbrand 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Hausbrand 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5665,7 +5665,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_2005",
-                          "name": "1989 - 2015 - SO2 Emissionen Hausbrand 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Hausbrand 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Hausbrand 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5675,7 +5675,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_1989",
-                          "name": "1989 - 2015 - SO2 Emissionen Industrie 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Industrie 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5685,7 +5685,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_1994",
-                          "name": "1989 - 2015 - SO2 Emissionen Industrie 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Industrie 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5695,7 +5695,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_2002",
-                          "name": "1989 - 2015 - SO2 Emissionen Industrie 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Industrie 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5705,7 +5705,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_2004",
-                          "name": "1989 - 2015 - SO2 Emissionen Industrie 2004 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Industrie 2004 (Langjährige Entwicklung Luftqualität SO2-Emissionen Industrie 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5715,7 +5715,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1989",
-                          "name": "1989 - 2015 - SO2 Emissionen Verkehr 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Verkehr 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5725,7 +5725,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1994",
-                          "name": "1989 - 2015 - SO2 Emissionen Verkehr 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Verkehr 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5735,7 +5735,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2002",
-                          "name": "1989 - 2015 - SO2 Emissionen Verkehr 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Verkehr 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5745,7 +5745,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2005",
-                          "name": "1989 - 2015 - SO2 Emissionen Verkehr 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Verkehr 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5755,7 +5755,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_pm10_2009:pm10_ges_2009",
-                          "name": "1989 - 2015 - PM10 Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität PM10-Gesamtemissionen 2008/2009)"
+                          "name": "1989-2015 - PM10 Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität PM10-Gesamtemissionen 2008/2009)"
                         }
                       ]
                     },
@@ -5765,7 +5765,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_pm10_2009:haus_pm10_2009",
-                          "name": "1989 - 2015 - PM10 Emissionen Hausbrand 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Hausbrand 2009)"
+                          "name": "1989-2015 - PM10 Emissionen Hausbrand 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Hausbrand 2009)"
                         }
                       ]
                     },
@@ -5785,7 +5785,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ges_pm10_2009",
-                          "name": "1989 - 2015 - PM10 Emissionen Kfz-Verkehr gesamt 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr gesamt 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
@@ -5795,7 +5795,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_hs_pm10_2009",
-                          "name": "1989 - 2015 - PM10 Emissionen Kfz-Verkehr Hauptnetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Hauptnetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
@@ -5805,7 +5805,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ns_pm10_2009",
-                          "name": "1989 - 2015 - PM10 Emissionen Kfz-Verkehr Nebennetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Nebennetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
@@ -5815,7 +5815,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_ges_pm2_5_2009:pm2_5_ges_2009",
-                          "name": "1989 - 2015 - PM2,5 Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität PM2,5-Gesamtemissionen 2008/2009)"
+                          "name": "1989-2015 - PM2,5 Emissionen aller Verursacher 2009 (Langjährige Entwicklung Luftqualität PM2,5-Gesamtemissionen 2008/2009)"
                         }
                       ]
                     },
@@ -7461,23 +7461,23 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_gesamt",
-                          "name": "1981 - 2010 - Rasterflächen der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_gesamt",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_gesamt",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_gesamt",
-                          "name": "1981 - 2010 - Isoflächen der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_gesamt",
-                          "name": "1981 - 2010 - Isolinien der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         }
                       ]
                     },
@@ -7487,23 +7487,23 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_fruehling",
-                          "name": "1981 - 2010 - Rasterflächen der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_fruehling",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_fruehling",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_fruehling",
-                          "name": "1981 - 2010 - Isoflächen der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_fruehling",
-                          "name": "1981 - 2010 - Isolinien der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Frühling 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         }
                       ]
                     },
@@ -7513,23 +7513,23 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_sommer",
-                          "name": "1981 - 2010 - Rasterflächen der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_sommer",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_sommer",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_sommer",
-                          "name": "1981 - 2010 - Isoflächen der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_sommer",
-                          "name": "1981 - 2010 - Isolinien der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Sommer 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         }
                       ]
                     },
@@ -7539,23 +7539,23 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_herbst",
-                          "name": "1981 - 2010 - Rasterflächen der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_herbst",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_herbst",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_herbst",
-                          "name": "1981 - 2010 - Isoflächen der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_herbst",
-                          "name": "1981 - 2010 - Isolinien der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Herbst 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         }
                       ]
                     },
@@ -7565,23 +7565,23 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_e_r_winter",
-                          "name": "1981 - 2010 - Rasterflächen der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_d_b_winter",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_c_s_winter",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_b_if_winter",
-                          "name": "1981 - 2010 - Isoflächen der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         },
                         {
                           "id": "ua_lufttemp_1981_2010:temperaturmittel_a_il_winter",
-                          "name": "1981 - 2010 - Isolinien der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Jahresmitteltemperaturen Winter 1981-2010 (Langjähriges Mittel der Lufttemperatur 1981-2010)"
                         }
                       ]
                     }
@@ -7597,7 +7597,7 @@
                       "elements": [
                         {
                           "id": "ua_lufttemp_1961_1990:lufttemp_1961_1990",
-                          "name": "1961 - 1990 - Lufttemperatur (langj. Mittel 1961-1990) (Langjähriges Mittel der Lufttemperatur 1961-1990)"
+                          "name": "1961-1990 - Lufttemperatur (langj. Mittel 1961-1990) (Langjähriges Mittel der Lufttemperatur 1961-1990)"
                         }
                       ]
                     }
@@ -8035,23 +8035,23 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:ae_niederschlag_9120_raster",
-                          "name": "1991 - 2020 - Rasterflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ad_lniederschl_9120_str",
-                          "name": "1991 - 2020 - Straßenflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ac_lniederschl_9120_blockfl",
-                          "name": "1991 - 2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ab_lniederschl_9120_isofl",
-                          "name": "1991 - 2020 - Isoflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
-                          "name": "1991 - 2020 - Isolinien - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         }
                       ]
                     },
@@ -8061,23 +8061,23 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:be_niederschlag_9120_raster_sommer",
-                          "name": "1991 - 2020 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:bd_lniederschl_9120_str_sommer",
-                          "name": "1991 - 2020 - Straßenflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:bc_lniederschl_9120_block_sommer",
-                          "name": "1991 - 2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:bb_lniederschl_9120_isofl_sommer",
-                          "name": "1991 - 2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ba_lniederschl_9120_isoli_sommer",
-                          "name": "1991 - 2020 - Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Sommerhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         }
                       ]
                     },
@@ -8087,23 +8087,23 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1991_2020:ce_niederschlag_9120_raster_winter",
-                          "name": "1991 - 2020 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:cd_lniederschl_9120_str_winter",
-                          "name": "1991 - 2020 - Straßenflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Straßenflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:cc_lniederschl_9120_block_winter",
-                          "name": "1991 - 2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Block- und Blockteilflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:cb_lniederschl_9120_isofl_winter",
-                          "name": "1991 - 2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isoflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         },
                         {
                           "id": "ua_niederschlag_1991_2020:ca_lniederschl_9120_isoli_winter",
-                          "name": "1991 - 2020 - Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
+                          "name": "1991-2020 - Isolinien - Langjährige Niederschlagsverteilung Winterhalbjahr 1991-2020 (Langjährige Niederschlagsverteilung 1991-2020)"
                         }
                       ]
                     }
@@ -8119,63 +8119,63 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ad_niederschlag_block",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ac_niederschlag_str",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         }
                       ]
                     },
@@ -8185,63 +8185,63 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.2",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.2",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.2",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.2",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.2",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.2",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.2",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.2",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.2",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.2",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.2",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.2",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.2",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.2",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.2",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         }
                       ]
                     },
@@ -8251,63 +8251,63 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.3",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.3",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.3",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.3",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.3",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.3",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.3",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.3",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.3",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.3",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.3",
-                          "name": "1981 - 2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.3",
-                          "name": "1981 - 2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.3",
-                          "name": "1981 - 2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.3",
-                          "name": "1981 - 2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         },
                         {
                           "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.3",
-                          "name": "1981 - 2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
+                          "name": "1981-2010 - Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010 (Langjährige Niederschlagsverteilung 1981-2010)"
                         }
                       ]
                     }
@@ -8323,11 +8323,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:winterns1990_b_fl",
-                          "name": "1961 - 1990 - Niederschläge Winterhalbjahr 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Niederschläge Winterhalbjahr 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:winterns1990_a_li",
-                          "name": "1961 - 1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
                         }
                       ]
                     },
@@ -8337,11 +8337,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:sommerns1990_b_fl",
-                          "name": "1961 - 1990 - Niederschläge Sommerhalbjahr 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Niederschläge Sommerhalbjahr 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:sommerns1990_a_li",
-                          "name": "1961 - 1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
                         }
                       ]
                     },
@@ -8351,11 +8351,11 @@
                       "elements": [
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_b_fl",
-                          "name": "1961 - 1990 - Jahresniederschlag 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Jahresniederschlag 1961-1990 (Langjährige Niederschlagsverteilung 1961-1990)"
                         },
                         {
                           "id": "ua_niederschlag_1961_1990:jahrns1990_a_li",
-                          "name": "1961 - 1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
+                          "name": "1961-1990 - Isolinien (Langjährige Niederschlagsverteilung 1961-1990)"
                         }
                       ]
                     }
@@ -11838,12 +11838,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:b_09_01_1UGlaerm2021",
                           "name": "2021/2022 - Kernindikator Lärmbelastung (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11866,12 +11866,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.3",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:d_09_01_3UGgruen2021",
                           "name": "2021/2022 - Kernindikator Grünversorung (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.3",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11880,12 +11880,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.4",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:e_09_01_4UGbioklima2021",
                           "name": "2021/2022 - Kernindikator Thermische Belastung (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.4",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11908,12 +11908,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.6",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:g_09_01_6UGmehrfach4_2021",
                           "name": "2021/2022 - Integrierte Mehrfachbelastungskarte Umwelt (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.6",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11922,12 +11922,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.7",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:h_09_01_7UGmehrfach5_2021",
                           "name": "2021/2022 - Integrierte Mehrfachbelastungskarte Umwelt und Soziale Benachteiligung (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.7",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11936,12 +11936,12 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.8",
-                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
-                        },
-                        {
                           "id": "ua_umweltgerechtigkeit_2021:i_09_01_9gesamt2021",
                           "name": "2021/2022 - Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.8",
+                          "name": "2021/2022 - S-Bahnring (Umweltgerechtigkeit)"
                         }
                       ]
                     }
@@ -11966,6 +11966,14 @@
                         {
                           "id": "ua_umweltgerechtigkeit_2013:ba_plr2009",
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone",
+                          "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp",
+                          "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -11986,11 +11994,11 @@
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone",
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.2",
                           "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp",
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.2",
                           "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
@@ -12010,6 +12018,14 @@
                         {
                           "id": "ua_umweltgerechtigkeit_2013:da_plr2009",
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.3",
+                          "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.3",
+                          "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
                     },
@@ -12030,11 +12046,11 @@
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.2",
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.4",
                           "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.2",
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.4",
                           "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
@@ -12054,13 +12070,42 @@
                         {
                           "id": "ua_umweltgerechtigkeit_2013:fa_plr2009",
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.5",
+                          "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.5",
+                          "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
                     },
                     {
                       "name": "09.01.6 Integrierte Mehrfachbelastung Umwelt",
                       "type": "folder",
-                      "elements": []
+                      "elements": [
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
+                          "name": "2013 - Integrierte Mehrfachbelastung Umwelt (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
+                          "name": "2013 - weitgehend unbewohnte Fläche 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
+                          "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.6",
+                          "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.6",
+                          "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
+                        }
+                      ]
                     },
                     {
                       "name": "09.01.7 Integrierte Mehrfachbelastung Umwelt und Soziale Problematik",
@@ -12097,11 +12142,11 @@
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.3",
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.7",
                           "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
                         },
                         {
-                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.3",
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.7",
                           "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
@@ -12121,6 +12166,14 @@
                         {
                           "id": "ua_umweltgerechtigkeit_2013:ja_plr2009",
                           "name": "2013 - Planungsraum 2009 (Umweltgerechtigkeit 2013)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.8",
+                          "name": "2013 - Umweltzone (Umweltgerechtigkeit)"
+                        },
+                        {
+                          "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.8",
+                          "name": "2013 - Vorranggebiet Luftreinhaltung nach FNP (Umweltgerechtigkeit)"
                         }
                       ]
                     }
