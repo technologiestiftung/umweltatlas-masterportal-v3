@@ -82,8 +82,10 @@ export default {
         }
     },
     created () {
-        this.sliderValue = this.timeRange.indexOf(this.defaultValue);
-        this.sliderValueEnd = this.calculateSliderValueEnd();
+        if (Array.isArray(this.timeRange) && this.timeRange.length > 0) {
+            this.sliderValue = this.timeRange.indexOf(this.defaultValue);
+            this.sliderValueEnd = this.calculateSliderValueEnd();
+        }
     },
     methods: {
         ...mapActions("Modules/LayerSwiper", ["updateMap"]),

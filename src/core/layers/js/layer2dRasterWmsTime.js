@@ -1,6 +1,5 @@
 import Layer2dRaster from "./layer2dRaster.js";
 import WMSLayer from "./layer2dRasterWms.js";
-import layerCollection from "./layerCollection.js";
 import store from "@appstore/index.js";
 import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
 import detectIso8601Precision from "@shared/js/utils/detectIso8601Precision.js";
@@ -307,6 +306,16 @@ Layer2dRasterWmsTimeLayer.prototype.getIncrementsFromResolution = function (reso
 };
 
 /**
+ * Gets additional layer params.
+ * Note: The layer's visibility is initially turned off (and thus the loading of the tiles is disabled) because the TIME attribute is filled too late for layer processing due to asynchronous loading of getCapabilities.
+ * @param {Object} attributes The attributes of the layer configuration.
+ * @returns {Obeject} The layer params.
+ */
+Layer2dRasterWmsTimeLayer.prototype.getLayerParams = function (attrs) {
+    return Object.assign(WMSLayer.prototype.getLayerParams.call(this, attrs), {visible: false});
+};
+
+/**
  * Gets raw level attributes from parent extended by an attribute TIME.
  * @param {Object} attrs Params of the raw layer.
  * @returns {Object} The raw layer attributes with TIME.
@@ -411,10 +420,6 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
             }
         })
         .catch(error => {
-            this.removeLayer(attrs.id);
-            // remove layer from project completely
-            layerCollection.removeLayerById(attrs.id);
-
             console.error(i18next.t("common:modules.wmsTime.layer.errorTimeLayer", {error, id: attrs.id}));
         });
 };
@@ -546,6 +551,7 @@ Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue, newValu
             };
 
         this.getLayerSource().updateParams(dimensionParams);
+        this.getLayer().setVisible(true);
 
         if (store.getters["Modules/GetFeatureInfo/visible"] === true) {
             store.dispatch("Modules/GetFeatureInfo/collectGfiFeatures");

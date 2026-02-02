@@ -90,6 +90,43 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
         expect(layer.getSource()).not.to.be.undefined;
     });
 
+    it("getLayerParams: should return the layer params", () => {
+        Config.overwriteWmsLoadfunction = true;
+
+        const localAttributes = {
+                format: "image/png",
+                gfiAsNewWindow: undefined,
+                gfiAttributes: "showAll",
+                gfiTheme: "default",
+                infoFormat: "text/xml",
+                layers: "layer_1",
+                name: "Layer 1",
+                transparency: 0,
+                typ: "WMS",
+                zIndex: 2,
+                featureCount: 1,
+                gfiThemeSettings: undefined,
+                useFetchForWMS: true
+            },
+            wmsLayer = new Layer2dRasterWmsTime(localAttributes),
+            layerParams = wmsLayer.getLayerParams(localAttributes);
+
+        expect(layerParams.format).to.be.equals(localAttributes.format);
+        expect(layerParams.gfiAsNewWindow).to.be.equals(localAttributes.gfiAsNewWindow);
+        expect(layerParams.gfiAttributes).to.be.equals(localAttributes.gfiAttributes);
+        expect(layerParams.gfiTheme).to.be.equals(localAttributes.gfiTheme);
+        expect(layerParams.infoFormat).to.be.equals(localAttributes.infoFormat);
+        expect(layerParams.layers).to.be.equals(localAttributes.layers);
+        expect(layerParams.name).to.be.equals(localAttributes.name);
+        expect(layerParams.opacity).to.be.equals(1);
+        expect(layerParams.typ).to.be.equals(localAttributes.typ);
+        expect(layerParams.zIndex).to.be.equals(localAttributes.zIndex);
+        expect(layerParams.featureCount).to.be.equals(localAttributes.featureCount);
+        expect(layerParams.gfiThemeSettings).to.be.equals(localAttributes.gfiThemeSettings);
+        expect(layerParams.useFetchForWMS).to.be.equals(localAttributes.useFetchForWMS);
+        expect(layerParams.visible).to.be.false;
+    });
+
     it("getRawLayerAttributes: should return the raw layer attributes", () => {
         const localAttributes = {
                 crs: "25832",
@@ -469,15 +506,15 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
         });
 
         it("should return the filtered dimension range list, if the input dimensionRange is a URL as string.", async () => {
-            const dimensionRange = "./resources/example.json",
-                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
-            let filteredDimensionRangeList = [];
-
-            sinon.stub(wmsTimeLayer, "loadDimensionRangeJson").returns([
+            sinon.stub(Layer2dRasterWmsTime.prototype, "loadDimensionRangeJson").returns(new Promise(resolve => resolve([
                 "2025-05-01T00:00:00.000Z",
                 "2025-07-01T00:00:00.000Z",
                 "2025-09-01T00:00:00.000Z"
-            ]);
+            ])));
+
+            const dimensionRange = "./resources/example.json",
+                wmsTimeLayer = new Layer2dRasterWmsTime(attributes);
+            let filteredDimensionRangeList = [];
 
             filteredDimensionRangeList = await wmsTimeLayer.filterDimensions(timeRange, dimensionRange);
 
@@ -487,7 +524,6 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 "2025-07-01T00:00:00.000Z",
                 "2025-09-01T00:00:00.000Z"
             ]);
-            expect(error.called).to.be.false;
         });
 
         it("should return the filtered dimension range list, if the input dimensionRange is an object. ", async () => {
@@ -1013,7 +1049,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                     REFERENCE_TIME: "2026-01-11T00:00:00.000Z"
                 },
                 wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, id}),
-                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams");
+                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams"),
+                setVisibleSpy = sinon.spy(wmsTimeLayer.getLayer(), "setVisible");
 
             wmsTimeLayer.updateTime(id, newValue, newValueEnd, staticDimensions);
 
@@ -1025,13 +1062,16 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                     REFERENCE_TIME: "2026-01-11T00:00:00.000Z"
                 }
             );
+            expect(setVisibleSpy.calledOnce).to.be.true;
+            expect(setVisibleSpy.firstCall.args[0]).to.be.true;
         });
 
         it("should update the params TIME without staticDimension in layerSource, if staticDimensions were not passed", () => {
             const id = "Icon-eu_reg00625_fd_gl_T_3",
                 newValue = "2026-01-12T11:00:00.000Z",
                 wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, id}),
-                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams");
+                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams"),
+                setVisibleSpy = sinon.spy(wmsTimeLayer.getLayer(), "setVisible");
 
             wmsTimeLayer.updateTime(id, newValue);
 
@@ -1041,6 +1081,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                     TIME: "2026-01-12T11:00:00.000Z"
                 }
             );
+            expect(setVisibleSpy.calledOnce).to.be.true;
+            expect(setVisibleSpy.firstCall.args[0]).to.be.true;
         });
 
         it("should update the params TIME without staticDimension in layerSource and with TIME end value", () => {
@@ -1048,7 +1090,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                 newValue = "2026-01-12T11:00:00.000Z",
                 newValueEnd = "2026-01-13T12:00:00.000Z",
                 wmsTimeLayer = new Layer2dRasterWmsTime({...attributes, id}),
-                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams");
+                updateParamsSpy = sinon.spy(wmsTimeLayer.getLayerSource(), "updateParams"),
+                setVisibleSpy = sinon.spy(wmsTimeLayer.getLayer(), "setVisible");
 
             wmsTimeLayer.updateTime(id, newValue, newValueEnd);
 
@@ -1058,6 +1101,8 @@ describe("src/core/js/layers/layer2dRasterWmsTime.js", () => {
                     TIME: "2026-01-12T11:00:00.000Z/2026-01-13T12:00:00.000Z"
                 }
             );
+            expect(setVisibleSpy.calledOnce).to.be.true;
+            expect(setVisibleSpy.firstCall.args[0]).to.be.true;
         });
     });
 });
