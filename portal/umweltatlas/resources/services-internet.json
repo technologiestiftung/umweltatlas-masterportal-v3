@@ -37534,7 +37534,7 @@
   },
   {
     "id": "ua_gebaeudealter:ua_gebaeudealter_baualter",
-    "name": "Gebäudealter der Wohngebäude",
+    "name": "Gebäudealter der Wohngebäude 2016",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_gebaeudealter",
     "typ": "WMS",
