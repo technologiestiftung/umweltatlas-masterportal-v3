@@ -8,7 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
-- Issue #1377: GetFeatureInfo: Added page counter display showing current position and total count of GFI responses.
+- Issue \#1377: GetFeatureInfo: Added page counter display showing current position and total count of GFI responses.
 - LayerTree: The attribute `reverseLayer` can now be configured to reverse the layers behind the `addLayerButton`.
 - GetFeatureInfo: Added optional `gfiTitleAttribute` parameter to display a feature attribute value as GFI title instead of the layer name.
 - CoordToolkit: Added configurable parameter `keepMarkerVisible` to optionally keep the coordinate marker visible on the map after closing the tool (default: false).
@@ -23,8 +23,8 @@
 ### Removed
 
 ### Fixed
-- Issue #1542: MenuContainer: Fixed inconsistent menu behavior between 576px and 768px. Secondary menu now opens in full-screen mode like the main menu.
-- Issue #1556: Fixed an error, if using layers with `layerSequence` in Firefox.
+- Issue \#1542: MenuContainer: Fixed inconsistent menu behavior between 576px and 768px. Secondary menu now opens in full-screen mode like the main menu.
+- Issue \#1556: Fixed an error, if using layers with `layerSequence` in Firefox.
 - WFS-T: Multi-update works correctly when multiple layers are configured in the WFS-T tool.
 - i18next: Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
 - SearchInterfaceSpecialWfs: Improved namespace handling and coordinate transformation. Fixed issues with WFS servers using different namespace prefixes and EPSG:4326 point coordinates.
@@ -39,13 +39,13 @@
 - App: All locales can now be overridden with the config.js, and new locales can be added.
 
 ### Fixed
-- Issue #1168: Fix autoRefresh for LayerGroups.
-- Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
-- Issue #1501: Fix bad perfomance of filter module for clustering.
-- Issue #1512: Fix compareMaps for mobile devices, where the slider was previously missing.
-- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
-- Issue #1519: Fix initialization of print module.
-- Issue #1534: LayerInformation: Fix retrieval URL when using customMetadata.
+- Issue \#1168: Fix autoRefresh for LayerGroups.
+- Issue \#1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
+- Issue \#1501: Fix bad perfomance of filter module for clustering.
+- Issue \#1512: Fix compareMaps for mobile devices, where the slider was previously missing.
+- Issue \#1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
+- Issue \#1519: Fix initialization of print module.
+- Issue \#1534: LayerInformation: Fix retrieval URL when using customMetadata.
 - Print:
     - Layout A0: WMS image layer are printed correctly.
     - When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
@@ -60,8 +60,8 @@
 ## 2026-02-04 v3.19.0
 
 ### Added
-- Issue #1473: Layer2dRasterGeoTiff: Neuen Layertyp `GeoTiff` hinzugefügt.
-- Issue #1524: draw_old: Added documentation for drawSquareSettings.
+- Issue \#1473: Layer2dRasterGeoTiff: Neuen Layertyp `GeoTiff` hinzugefügt.
+- Issue \#1524: draw_old: Added documentation for drawSquareSettings.
 - CopyrightConstraints: Added Parameter `useLayerCswUrl` to use the CSW interface specified in the layers.
 - LayerTree: Added LayerComponentIconCustom to provide a custom action button for layers that can execute Masterportal actions.
 - Print: GFI can now always be opened in Print mode, it no longer depends on the Print Module side.
@@ -72,22 +72,22 @@
     - The attibute `staticDimensions` can now be configured and sent to the service when the WMS time layer is loaded.
 
 ### Changed
-- Issue #1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.
+- Issue \#1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.
 - ShareView: The state of the LayerSelection Module is transported and restored with the shareView-Url.
 - The following packages have been updated:
     - devDependencies:
         - @masterportal/masterportalapi: 2.54.0 to 2.56.0
 
 ### Removed
-- Issue #1541: Removed one-var and vars-on-top linting rules for improved dev experience.
+- Issue \#1541: Removed one-var and vars-on-top linting rules for improved dev experience.
 - The `authenticationUrl` attribute has been removed from the documentation, as it is no longer used.
 
 ### Fixed
-- Issue #1497: FeatureViaUrl: Fixed initial `"zoomTo"` feature for FeatureViaUrl-created vector layers.
-- Issue #1536: About: The documentation has been supplemented and corrected. Property `title` is now displayed.
-- Issue #1538: Fixed a bug where layerPills would show on width change of secondary menu despite them being configured as inactive in config.json.
-- Issue #1548: draw_old/FileImport: Fixed KML export and import for square geometries. Square coordinates are now properly serialized as JSON string during KML export and correctly parsed back to array format during import.
-- Issue #1549: WfsSearch with multiple select fields functions as expected. Fixed reset dependent fields at selection change.
+- Issue \#1497: FeatureViaUrl: Fixed initial `"zoomTo"` feature for FeatureViaUrl-created vector layers.
+- Issue \#1536: About: The documentation has been supplemented and corrected. Property `title` is now displayed.
+- Issue \#1538: Fixed a bug where layerPills would show on width change of secondary menu despite them being configured as inactive in config.json.
+- Issue \#1548: draw_old/FileImport: Fixed KML export and import for square geometries. Square coordinates are now properly serialized as JSON string during KML export and correctly parsed back to array format during import.
+- Issue \#1549: WfsSearch with multiple select fields functions as expected. Fixed reset dependent fields at selection change.
 - Documentation: Added jsDoc to various shared Components.
 - ElasticSearch: Fixed the console error that was thrown when geometry in the the mappingAttribute is null.
 - FileUpload: Fixed a bug where FileUpload was inaccessible through keyboard.
@@ -107,14 +107,14 @@
 ### Added
 - UISTYLE: Updated element visibility when the UISTYLE URL parameter is applied.
 - App: All locales can now be overridden with the config.js, and new locales can be added.
-- Issue #1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
+- Issue \#1248: BaselayerSwitcher: Added configuration option `visibleBaselayerIds` that allows to restrict base layers available in the layer switcher.
 - Issue: #1525: convertFeaturesToKml: Added alert for unsupported geometry types.
 - LayerSelection: All layers in a folder can now be enabled or disabled by checking the `isFolderSelectable` attribute under `Add subject` configurable in config.json.
 - WMS-Time: The default value can now be specified as a number within the dimension.
 - Shared component ConfirmModal — A preconfigured modal that prompts the user to confirm an action.
 
 ### Changed
-- Issue #1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
+- Issue \#1254: LayerPreview: Allow setting static layer preview images (`layerConfig.elements.layers.preview.src`) for all supported layer types.
 - Changed Node.js support: Versions from Node.js **22.19.0** up to Node.js **22.21.0** (LTS) are now supported
 - Adjusted module "statisticDashboard" and shared utility function "getOAFFeature" to changes in OAF standard.
 - LayerTree: Highlight clickable elements in breadcrumbs.
@@ -123,20 +123,20 @@
         - @masterportal/masterportalapi: 2.53.0 to 2.54.0
 
 ### Fixed
-- Issue #1168: Fix autoRefresh for LayerGroups.
-- Issue #1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
-- Issue #1307: print: add check if dpiForPdf is in dpiList and fall back to first list item if needed.
-- Issue #1310: legend images scale correctly now.
-- Issue #1317: encode the share link.
-- Issue #1323: draw_old - show icon id instead of translationkey when no translation was found.
-- Issue #1489: Print - fix rotated print masks and add missing rotation for MapFish. Add information regarding missing support of *High Resolution PlotService* to docs.
-- Issue #1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
-- Issue #1521: Login: Requesting GeoJSON layers now also works when the GeoJSON requires a login.
-- Issue #1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
-- Issue #1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
-- Issue #1530: LayerComponent: Fix translation of tooltip when switching languages.
-- Issue #1531: SelectFeatures: Fix link display in selectFeatures tool.
-- Issue #1534: LayerInformation: Fix retrieval URL when using `customMetadata`.
+- Issue \#1168: Fix autoRefresh for LayerGroups.
+- Issue \#1241: WfsSearch: Fix an issue where queryType "like" would not result in a "PropertyIsLike" expression.
+- Issue \#1307: print: add check if dpiForPdf is in dpiList and fall back to first list item if needed.
+- Issue \#1310: legend images scale correctly now.
+- Issue \#1317: encode the share link.
+- Issue \#1323: draw_old - show icon id instead of translationkey when no translation was found.
+- Issue \#1489: Print - fix rotated print masks and add missing rotation for MapFish. Add information regarding missing support of *High Resolution PlotService* to docs.
+- Issue \#1517: Fix issue where a single failing GFI request would prevent all requested feature information to be hidden from user.
+- Issue \#1521: Login: Requesting GeoJSON layers now also works when the GeoJSON requires a login.
+- Issue \#1527: statisticDashboard - restored WFS support for statistic dashboard and added default color palettes.
+- Issue \#1529: LayerSlider: Fix issue where after quitting the LayerSlider, effects of it remained on the map.
+- Issue \#1530: LayerComponent: Fix translation of tooltip when switching languages.
+- Issue \#1531: SelectFeatures: Fix link display in selectFeatures tool.
+- Issue \#1534: LayerInformation: Fix retrieval URL when using `customMetadata`.
 - Print: When printing a tiled WMS, the version is now specified, as without this information an error would occur when printing with some services.
 - wfsSearch: reset dependent fields at changed selection.
 - MouseHover: Prevent duplicate hover info for WebGL polygon and line layers.
@@ -189,14 +189,14 @@
 - LayerSelection: Removed search within current folder (requires `"filter": true"` in `config.json`).
 
 ### Fixed
-- Issue #1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
-- Issue #1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
-- Issue #1497: Fix styling of `featureviaurl` features that was previously missing, resulting in invisible features.
-- Issue #1501: Fix bad perfomance of filter module for clustering.
-- Issue #1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
-- Issue #1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
-- Issue #1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
-- Issue #1519: Fix initialization of print module.
+- Issue \#1477: The Calculate button is now disabled and a warning message is displayed when this limit of Isochrones is exceeded.
+- Issue \#1491: Fix connection between `import` and `draw_old` tool that wouldn't work if `draw_old` was opened first.
+- Issue \#1497: Fix styling of `featureviaurl` features that was previously missing, resulting in invisible features.
+- Issue \#1501: Fix bad perfomance of filter module for clustering.
+- Issue \#1505: Fix FileImport tool breaking after using ShareView URL with the tool being open.
+- Issue \#1509: Fix zIndex order of layers configured by URL that could've been wrong in edge cases.
+- Issue \#1512: Fix `compareMaps` for mobile devices, where the slider was previously missing.
+- Issue \#1519: Fix initialization of print module.
 - Searchbar and LayerSelection: Behavior restored to the way it was before layerSelection filtering was introduced.
 - 3D: When switching from 2D to 3D, the center coordinate of the current map section can be reproduced in 3D. This can be configured using `map3dParameter.camera.offset`.
 - Print: Layout A0: WMS image layer are printed correctly.
@@ -227,7 +227,7 @@
 ### Added
 - SearchBar: Added search status (min characters, loading, no results).
 - LayerSelection: Added search within current folder (requires `"filter": true"` in `config.json`).
-- Issue #1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
+- Issue \#1390: Added support for `.apng`, `.webp`,and `.svg` files in GFI window.
 - map3DParameter: Added new `shadowTime` configuration option to define a fixed time for shadow calculation in 3D mode.
 - Build Script: Added support for providing the portal path via environment variable `PORTAL_PATH` in the build script.
   - If `PORTAL_PATH` is set, the build script will use it instead of prompting the user.
@@ -274,17 +274,17 @@
     - Parameter 'snippetTag' has been removed. The new active filter area can be controled by the paramter 'showCurrentlyActiveFilters'
 
 ### Fixed
-- Issue #1385: Add missing internationalization calls for layer names.
-- Issue #1413: Fix legend toggle for featureless vector layers.
-- Issue #1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
-- Issue #1472: Fix usage of tokens to always use freshest token from cookies. Also allow all acceptable first `fetch` parameters for intercepted URLs now.
-- Issue #1476: Fix automated scale adjustment in Print module getting stuck on receiving scale as url parameter.
-- Issue #1481: Fix error when configuring customMenuElement as currentComponent.
-- Issue #1485: Fix keyboard interaction in compareMaps.
-- Issue #1486: Searchbar: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
-- Issue #1487: Filter: Fix filtering filter options when typing while `addSelectAll` is true.
-- Issue #1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
-- Issue #1499: Print: Fix missing legends when multiple WFS layers are active.
+- Issue \#1385: Add missing internationalization calls for layer names.
+- Issue \#1413: Fix legend toggle for featureless vector layers.
+- Issue \#1422: Reset layers in CompareMaps on any deselection to avoid bugs regarding which layers are visible on what side of the comparison.
+- Issue \#1472: Fix usage of tokens to always use freshest token from cookies. Also allow all acceptable first `fetch` parameters for intercepted URLs now.
+- Issue \#1476: Fix automated scale adjustment in Print module getting stuck on receiving scale as url parameter.
+- Issue \#1481: Fix error when configuring customMenuElement as currentComponent.
+- Issue \#1485: Fix keyboard interaction in compareMaps.
+- Issue \#1486: Searchbar: Disable scale restricted layers in search UI; add hover text regarding scale restriction.
+- Issue \#1487: Filter: Fix filtering filter options when typing while `addSelectAll` is true.
+- Issue \#1488: Prevent footer from being cut when using url parameter UISTYLE=simple.
+- Issue \#1499: Print: Fix missing legends when multiple WFS layers are active.
 - LayerInformation: The addresses of the TileSet3D layer and the Terrain3D layer are displayed correctly.
 - Documentation:
     - Corrected usage of 'treeType' (version 2).
@@ -311,11 +311,11 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 ### Fixed
 - wfsSearch: secured layers can now be searched.
-- Issue #1385: Add missing internationalization calls for layer names.
-- Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
-- Issue #1481: Fix error when configuring customMenuElement as currentComponent.
+- Issue \#1385: Add missing internationalization calls for layer names.
+- Issue \#1410: Legend – Fixed ordering of legend entries to match the style configuration.
+- Issue \#1481: Fix error when configuring customMenuElement as currentComponent.
 - buildSpec: Fixed runtime error in Print module caused by imported WMS layers where LAYERS parameter was not a string.
-- Issue #1499: Print: Fix missing legends when multiple WFS layers are active.
+- Issue \#1499: Print: Fix missing legends when multiple WFS layers are active.
 
 ---
 
@@ -351,12 +351,12 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Documentation: Updated config.json.md and config.json.de.md for copyrightConstraints module.
 
 ### Fixed
-- Issue #1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
-- Issue #1416: Dragging a node of the layerTree now hides its tooltip. This ensures it won't be dropped on the tooltip, which lead to disabling the node in the layer tree.
-- Issue #1419: SearchInterfaceSpecialWfs: handle multisurface geometries like multipolygon, to ensure correct extraction of interior and exterior surfaces.
-- Issue #1467: Print: The info message for printing layers with a predefined legend is now also available in German.
-- Issue #1469: Fix menu expansion state after collecting GFI features.
-- Issue #1475: LayerInformation: Added additional metadata in group layers.
+- Issue \#1404: searchInterfaceVisibleVector: The Visible Vector Search now manually loads all features, ensuring that results are found even outside the bounding box.
+- Issue \#1416: Dragging a node of the layerTree now hides its tooltip. This ensures it won't be dropped on the tooltip, which lead to disabling the node in the layer tree.
+- Issue \#1419: SearchInterfaceSpecialWfs: handle multisurface geometries like multipolygon, to ensure correct extraction of interior and exterior surfaces.
+- Issue \#1467: Print: The info message for printing layers with a predefined legend is now also available in German.
+- Issue \#1469: Fix menu expansion state after collecting GFI features.
+- Issue \#1475: LayerInformation: Added additional metadata in group layers.
 - Issue  #1482, #1484: WFSSearch with resultlist provides zoom on row-click by default and zoom with button.
 - wfsSearch: secured layers can now be searched.
 - TableComponent: Fixed right alignment for numeric string values.
@@ -367,7 +367,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - draw_old:
     - Fixed a bug where the download would return the portals index.js instead of the desired output after a specific sequence of interactions.
     - Hide drawing makes the drawn layer not visible.
-- Issue #1479: Legend is loaded for WMTS with optionsFromCapabilities.
+- Issue \#1479: Legend is loaded for WMTS with optionsFromCapabilities.
 - DOCS: Reverted Markdown table formatting as it was not compatible with soft line wrapping.
 - DOCS: Minor fixes in JSON and venv setup documentation.
 - SelectFeatures: unmounts correctly.
@@ -377,7 +377,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-09-03 v3.14.0
 
 ### Added
-- Issue #1038: Added tooltips to display area of drawn polygons/squares and length of drawn lines, as in version 2.
+- Issue \#1038: Added tooltips to display area of drawn polygons/squares and length of drawn lines, as in version 2.
 - WFS-T: Enables layers to support the insertion, update, and deletion of multipolygon geometries
 - WFS-T: Added confirmation dialogue for creating multipolygons with voids
 - Orientation: added parameter iFrameGeolocationEnabled to configure iFrame-Geolocation. If omitted or disabled, the errors within an iFrame now are more helpful.
@@ -409,11 +409,11 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Removed configuration portal/layer.
 
 ### Fixed
-- Issue #1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
-- Issue #1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
-- Issue #1451: CompareMaps: Both maps are now still visible after reset.
-- Issue #1453: WfsSearch: The geometry cell in the search results table is now displayed as a button that allows users to zoom to the parcel coordinates.
-- Issue #1454: MkDocs: Added instructions for packages needed to run the portalconfig-migrator.
+- Issue \#1435: Filter: Fixed an issue where additionalGeometries did not work when geometries from a WFS layer with version 2.0.0 were used as a filter area.
+- Issue \#1444: WMS-Time: Time-based WMS layers are now correctly reset when the comparison layer is removed.
+- Issue \#1451: CompareMaps: Both maps are now still visible after reset.
+- Issue \#1453: WfsSearch: The geometry cell in the search results table is now displayed as a button that allows users to zoom to the parcel coordinates.
+- Issue \#1454: MkDocs: Added instructions for packages needed to run the portalconfig-migrator.
 - CompareFeatures: Fixed failing for layers with alphanumeric IDs.
 - sortObjects: Ensure stable sortByLayerSequence order in Chrome/Firefox.
 - Housekeeping: Multiple important css-rules have been refactored to not use important.
@@ -425,7 +425,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - SearchInterfaceOsmNominatim: Fixed getter path in debounce check.
 - GroupLayer: Fixed errors when opening layer info for layers within a group.
 - wfsSearch: secured layers can now be searched.
-- Issue #1410: Legend – Fixed ordering of legend entries to match the style configuration.
+- Issue \#1410: Legend – Fixed ordering of legend entries to match the style configuration.
 
 ---
 
@@ -450,11 +450,11 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
   - A loading spinner shows before the styled features are loaded.
 
 ### Fixed
-- Issue #1223: Gazetteer: Fixed filtering of search results where only the address was used as identifier, which led to errors if the same address was used in multiple cities.
-- Issue #1418: Routing: Fixed add waypoint button functionality via keyboard input.
-- Issue #1432: CompareMaps: Remove the complete loading of maps before activating the addon or changing the map view.
-- Issue #1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
-- Issue #1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.
+- Issue \#1223: Gazetteer: Fixed filtering of search results where only the address was used as identifier, which led to errors if the same address was used in multiple cities.
+- Issue \#1418: Routing: Fixed add waypoint button functionality via keyboard input.
+- Issue \#1432: CompareMaps: Remove the complete loading of maps before activating the addon or changing the map view.
+- Issue \#1437: LayerComponentSubMenu: Added support for i18n keys to ensure translation.
+- Issue \#1440: SearchBar: Fixed setMarker and openGetFeatureInfo to work correctly with MultiPolygon features.
 - ShareView: Fixed share link to exclude legacy URL parameters that caused conflicts.
 - Routing: Fixed addition of waypoints during route modification. Waypoints added when modifying route are now geocoded correctly.
 - Alerting: Fixed alerts showing for layers hidden via link, even if set as visible in config.
@@ -476,7 +476,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-07-02 v3.12.0
 
 ### Added
-- Issue #1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
+- Issue \#1400: UrlParams: added url parameter `configjs` to provide an external config.js file.
 - SearchBar: Added functionality to highlight a 3D tile at the address coordinates.
 - Routing:
     - added avoid points, avoid area import and export
@@ -494,11 +494,11 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 ### Fixed
 - Menu: Menu title now updates correctly on language change.
-- Issue #1261: Implement configurable imprint link in PortalFooter and prevent duplication.
-- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
-- Issue #1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.
-- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
-- Issue #1441: SearchBar: Fixed missing zoom and marker placement for unique URL query results.
+- Issue \#1261: Implement configurable imprint link in PortalFooter and prevent duplication.
+- Issue \#1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
+- Issue \#1407: WMS-Time layers no longer render across the entire map when changing transparency during map comparison — they now correctly respect their designated area.
+- Issue \#1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue \#1441: SearchBar: Fixed missing zoom and marker placement for unique URL query results.
 - GraphicalSelect: Fix alert message popping up if not all values given in geographicValues are used in the options props.
 - Map: Fixed wrong zoom and center if camerea parameters are configured for map 3D and also considers urlParameter for center.
 - Tests: Fixed wrapper timing issues in multiple components and getComputedStyle error in ElevatedButton.
@@ -514,13 +514,13 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-06-19 v3.3.6 (LTS)
 
 ### Fixed
-- Issue #1366:
+- Issue \#1366:
     - SpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
     - SpecialWfs: Fixes search for coordinates with different format.
     - SpecialWfs: Fixes search for polygons with interior areas.
-- Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
-- Issue #1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
-- Issue #1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
+- Issue \#1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
+- Issue \#1405: SearchInterfaceTopicTree: Fixed search for layers with internal spaces.
+- Issue \#1411: Menu: Fixed duplicated breadcrumbs in Subject Layer selection after closing LayerInfo.
 - SpecialWfs search: Add hover/zoomTo support for linestring geometries.
 - Modeler3D: Fixed formerly unhandled cesium error that caused the tool to stop working. Disabled gfi in Modeler3D because of conflicting click event reactions.
 
@@ -534,13 +534,13 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - IconButton extended by further property label. If a label is given, it will be displayed under the button.
 
 ### Fixed
-- Issue #1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
-- Issue #1360: Fixed Errorhandling for 2D-layers.
-- Issue #1366: SpecialWfs: Fixes search for polygons with interior areas.
-- Issue #1371: Footer: Fixded rendering issue on menu expand.
-- Issue #1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
-- Issue #1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
-- Issue #1420: SliderItem:  Fixed opacity slider visibility in Firefox.
+- Issue \#1341: AboutModule: Show actual Masterportal version even when no cswUrl or metaId is configured.
+- Issue \#1360: Fixed Errorhandling for 2D-layers.
+- Issue \#1366: SpecialWfs: Fixes search for polygons with interior areas.
+- Issue \#1371: Footer: Fixded rendering issue on menu expand.
+- Issue \#1381: SpecialWFS: Fixes highlighting of multi linestring geometries.
+- Issue \#1398: SearchBar/SpecialWfs: Fixed incorrect type name for SpecialWfs in documentation.
+- Issue \#1420: SliderItem:  Fixed opacity slider visibility in Firefox.
 - WFST-Tool: Fixed Margins in editing of wfs-t fields.
 - AboutModule: fixed undefined in imprint.
 - AddLayerButton: Fixed overlap with underlying layer icons (e.g. info/settings) that blocked user interaction.
@@ -554,12 +554,12 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-02-21 v3.3.5 (LTS)
 
 ### Fixed
-- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
-- Issue #1331: Show group layers in right order.
-- Issue #1356: ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
-- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
-- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
-- Issue #1388: In a menu section are several modules of same type allowed.
+- Issue \#1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
+- Issue \#1331: Show group layers in right order.
+- Issue \#1356: ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
+- Issue \#1358: Topic tree search can now also be used in multiple languages via i18next.
+- Issue \#1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
+- Issue \#1388: In a menu section are several modules of same type allowed.
 - LayerInformation: Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - ShareView:
     - Url parameter are uri encoded now.
@@ -580,8 +580,8 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-05-15 v3.10.1
 
 ### Fixed
-- Issue #1366: SpecialWfs: Fixes search for coordinates with different format.
-- Issue #1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
+- Issue \#1366: SpecialWfs: Fixes search for coordinates with different format.
+- Issue \#1387: Sorting layer by `layerSequence` assigns fitting zIndexes.
 
 ---
 
@@ -609,20 +609,20 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Removed since version 3 not used state property `deactivateGFI` and `translate#`,`.tools.` in language-keys.
 
 ### Fixed
-- Issue #1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
-- Issue #1220: Routing: Calculated accessibility displayed on the map remains after exporting the result.
-- Issue #1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
-- Issue #1295: Extend error processing for error responses from MapFish server.
-- Issue #1345: Opacity of circleStrokeColor is now taken into account when printing.
-- Issue #1351: Fix OIDC Token Auto-Refresh After Initial Login.
-- Issue #1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
-- Issue #1373: Fixed theme tree not updating when adding WMS layers.
-- Issue #1375: Fixed topic tree search with respect to spaces.
-- Issue #1378: KML-export now uses the correct url for circle-icon.
-- Issue #1382: Icon Info button can now be conditionally hidden based on layer configuration.
-- Issue #1383: LightButton: Added padding-bottom, so the theme names are fully visible.
-- Issue #1388: In a menu section are several modules of same type allowed.
-- Issue #1389: Set and remove cookies with domain flag.
+- Issue \#1206: WMTS-Layer: legend is displayed, if configured in attribute legend.
+- Issue \#1220: Routing: Calculated accessibility displayed on the map remains after exporting the result.
+- Issue \#1233: Zoom to selected search result of "wfsSearch" when "resultList" is configured. Show message if no results where found and resultList was not configured.
+- Issue \#1295: Extend error processing for error responses from MapFish server.
+- Issue \#1345: Opacity of circleStrokeColor is now taken into account when printing.
+- Issue \#1351: Fix OIDC Token Auto-Refresh After Initial Login.
+- Issue \#1352: Updating menu item name from Login to Logout after a user is logged in and visa versa.
+- Issue \#1373: Fixed theme tree not updating when adding WMS layers.
+- Issue \#1375: Fixed topic tree search with respect to spaces.
+- Issue \#1378: KML-export now uses the correct url for circle-icon.
+- Issue \#1382: Icon Info button can now be conditionally hidden based on layer configuration.
+- Issue \#1383: LightButton: Added padding-bottom, so the theme names are fully visible.
+- Issue \#1388: In a menu section are several modules of same type allowed.
+- Issue \#1389: Set and remove cookies with domain flag.
 - Layer3dTileset: Prevent set cesium scene options if it wasn't changed before by another 3D tileset layer.
 - PortalFooter: The attribute `alias_mobil` has been corrected to `alias_mobile`.
 - WMS-Time: Listeners are now removed from Layers when compare maps is ended.
@@ -679,10 +679,10 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
   - Fixed an issue with no metadata, when cswUrl was undefined, rather than null.
 - Loading the layer is accelerated by fixing generation of folder ids.
 - ShareView: Duplicated url params are filtered.
-- Issue #1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
-- Issue #1348: BaselayerSwitcher: use preview settings from config.
-- Issue #1358: Topic tree search can now also be used in multiple languages via i18next.
-- Issue #1366: SearchInterfaceSpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
+- Issue \#1324: CompareMaps: always show loading spinner when loading and do not split maps after closing tool.
+- Issue \#1348: BaselayerSwitcher: use preview settings from config.
+- Issue \#1358: Topic tree search can now also be used in multiple languages via i18next.
+- Issue \#1366: SearchInterfaceSpecialWfs highlighted multipolygons with empty areas and zooms to the extent and not to the first point of the geometries.
 - layer2dVector: The style type "nominal" works on single features in clustered layers now.
 - layer3dTileset: Can change the cesium scene parameter depthTestAgainstTerrain to true if needed.
 - ShareView: Fixed sharing 3D map.
@@ -733,17 +733,17 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 
 ### Fixed
 - Alerting: Fixed bug, alerts now show everytime on pageload when alert.once is set to false.
-- Issue #1190: Print: legends for json layer with geometry type lineString can now be printed.
-- Issue #1218: Fixed the missing bbox in request for filter module if the param `searchInMapExtent` and `extern` is true.
-- Issue #1299: change of textsize and rm of padding in NewsView Component.
-- Issue #1320: Fixed long url when sharing a view with open search bar.
-- Issue #1331: Show group layers in right order.
-- Issue #1337: Fixed loading javascript addons missing import.
-- Issue #1340: fixed duplicate menu entries in the mobile version.
-- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
-- Issue #1357: Fixed unauthorized errors by restoring credentials: include in utilsAxios to ensure cookies with login information are properly attached to requests.
+- Issue \#1190: Print: legends for json layer with geometry type lineString can now be printed.
+- Issue \#1218: Fixed the missing bbox in request for filter module if the param `searchInMapExtent` and `extern` is true.
+- Issue \#1299: change of textsize and rm of padding in NewsView Component.
+- Issue \#1320: Fixed long url when sharing a view with open search bar.
+- Issue \#1331: Show group layers in right order.
+- Issue \#1337: Fixed loading javascript addons missing import.
+- Issue \#1340: fixed duplicate menu entries in the mobile version.
+- Issue \#1355: Fixed the "urlIsVisible" attribute to properly take effect.
+- Issue \#1357: Fixed unauthorized errors by restoring credentials: include in utilsAxios to ensure cookies with login information are properly attached to requests.
 - layer3dTileset: Fixed the default maximumScreenSpaceError value to be a number and increased it for better performance.
-- Issue #1355: Fixed the "urlIsVisible" attribute to properly take effect.
+- Issue \#1355: Fixed the "urlIsVisible" attribute to properly take effect.
 - ShareView: Deleted import of BorisState as it caused a compiler error when addons are not integrated. Replaced it with a string instead.
 - WMS-Time: GFIFeature is now called every time the time slider is used, ensuring the selected time is always displayed in the feature.
 - BaselayerSwitcher: Fixed scrolling issue on low-height browser, so that all elements can still be scrolled into view.
@@ -756,14 +756,14 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ## 2025-02-21 v3.3.4 (LTS)
 
 ### Fixed
-- Issue #1106: Layer names, folder names and breadcrumbs are translated.
-- Issue #1250: Loading the layer is accelerated.
-- Issue #1301: CustomMenuElement now also works in secondaryMenu.
-- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
-- Issue #1309: fixed translation of periodicity.
-- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
-- Issue #1320: Fixed long url when sharing a view with open search bar.
-- Issue #1340: fixed duplicate menu entries in the mobile version.
+- Issue \#1106: Layer names, folder names and breadcrumbs are translated.
+- Issue \#1250: Loading the layer is accelerated.
+- Issue \#1301: CustomMenuElement now also works in secondaryMenu.
+- Issue \#1305, Issue \#1327: fixed searchbar navigation, if used action-buttons.
+- Issue \#1309: fixed translation of periodicity.
+- Issue \#1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue \#1320: Fixed long url when sharing a view with open search bar.
+- Issue \#1340: fixed duplicate menu entries in the mobile version.
 - LayerInformation: Added LayerInfo for each layer within a GROUP layer.
 - Login-Module: Fix interceptor for login-secured services.
 - Addons: Added missing import on loading javascript addons.
@@ -786,7 +786,7 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 ### Changed
 - SearchBar: Added reset button to searchbar, so that the reset is shown and working in all browsers.
 - OL: Changes in tests LayerPreview.spec.js after OL update.
-- Issue #1338: AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
+- Issue \#1338: AddWMS: The attribute `featureCount` can now be configured for the getFeatureInfo.
 - dependencies:
         - @masterportal/masterportalapi: 2.42.2 to 2.45.0 (This also raised ol to version 10.3.1 and @cesium/engine to 13.0.0)
 
@@ -796,19 +796,19 @@ Migrator: Corrected 'infoText' of 'mouseHover' in created config.json.
 - Readme: Link to RemoteInterface.md deleted due to it being outdated
 
 ### Fixed
-- Issue #1106: Layer names, folder names and breadcrumbs are translated.
-- Issue #1250: Loading the layer is accelerated.
-- Issue #1301: CustomMenuElement now also works in secondaryMenu.
-- Issue #1306: Layer names containing HTML-tags are rendered as HTML in Layer Tree.
-- Issue #1312: AddWMS: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
-- Issue #1313: AddWMS: Added WMS layers are now no longer initially visible.
-- Issue #1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
-- Issue #1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error.
-- Issue #1321: Grouped Layer: Child layer adopt the transparency from the config.json.
-- Issue #1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/User/Global-Config/style.json.md).
-- Issue #1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
-- Issue #1336: CompareFeatures: The star in GFI is only shown, if module compareFeatures ist available.
-- Issue #1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
+- Issue \#1106: Layer names, folder names and breadcrumbs are translated.
+- Issue \#1250: Loading the layer is accelerated.
+- Issue \#1301: CustomMenuElement now also works in secondaryMenu.
+- Issue \#1306: Layer names containing HTML-tags are rendered as HTML in Layer Tree.
+- Issue \#1312: AddWMS: All layers of the added WMS layers are now added in a folder structure in the layerSelection.
+- Issue \#1313: AddWMS: Added WMS layers are now no longer initially visible.
+- Issue \#1314: AddWMS: Added WMS are added in a folder structure in the layerSelection.
+- Issue \#1320: Shortened shared link when topic tree or boris component are open in menu, resolving the 'Submitted URI too large' browser error.
+- Issue \#1321: Grouped Layer: Child layer adopt the transparency from the config.json.
+- Issue \#1325: 3D tileset layers can now be styled via style_v3.json, see also [style.json.md](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/User/Global-Config/style.json.md).
+- Issue \#1334: LayerSelection: Alphabetical sorting only takes place with tree type auto.
+- Issue \#1336: CompareFeatures: The star in GFI is only shown, if module compareFeatures ist available.
+- Issue \#1338: AddWMS: The infoFormat is now read from the capabilities. `application/vnd.ogc.gml` is preferred, because OL cannot handle the prefixes from the MapServer for the infoFormat `text/xml`
 - layer3dTileset: Update of the layer only executes setOpacity if the value has changed.
 - Print-Module: Exchanged deprecated mapfishServiceId for printServiceId and added optional chaining for payload.
 - Routing: Fixed URL of ORS request in TSR
@@ -840,11 +840,11 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - Measure-Tool: fixed missing getters in test mock to prevent warnings.
-- Issue #1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
-- Issue #1271: Draw_old: fix download of features with multi geometries.
-- Issue #1309: fixed translation of periodicity.
-- Issue #1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
-- Issue #1305, Issue #1327: fixed searchbar navigation, if used action-buttons.
+- Issue \#1270: draw_old: If the format selected for download does not support the geometry type of one or more drawn features, an error message is displayed.
+- Issue \#1271: Draw_old: fix download of features with multi geometries.
+- Issue \#1309: fixed translation of periodicity.
+- Issue \#1316: fixed issue where currentComponent in the secondary menu would close when clicking on the map.
+- Issue \#1305, Issue \#1327: fixed searchbar navigation, if used action-buttons.
 - Routing: fixed style for waypoints.
 - Filter: The searched result list in dropdown should be sorted alphabetically.
 - AddWMS: Fixed handling of service parameter.
@@ -857,9 +857,9 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
-- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
-- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
-- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Issue \#1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue \#1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue \#1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
 - Searchbar: the search in search results shows results and no error occurs.
 - wfst: layers that are not in services.json are supported.
 
@@ -890,31 +890,31 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 
 ### Removed
-- Issue #1300: Migrator: The following attributes are removed from the search interface bkg when migrating, as they have no effect: `minCharacters`, `suggestCount`, `suggestServiceId`, `zoomLevel`, `zoomToResultOnClick` and `zoomToResultOnHover`.
+- Issue \#1300: Migrator: The following attributes are removed from the search interface bkg when migrating, as they have no effect: `minCharacters`, `suggestCount`, `suggestServiceId`, `zoomLevel`, `zoomToResultOnClick` and `zoomToResultOnHover`.
 - GetFeatureInfo: The attributes `imageLinks` and `maxWidth` have been removed from the gfiTheme `Default`, as the images are now rendered within the table.
 
 ### Fixed
-- Issue #1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
-- Issue #1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
-- Issue #1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
-- Issue #1243: wfst: reacts on visibility changes of configured layer ids.
-- Issue #1244: wfst: the correct geometry-buttons are displayed.
-- Issue #1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
-- Issue #1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
-- Issue #1280: showInLayerTree can be set up to false.
-- Issue #1275: Layers without capabilitiesURL can now be added as baselayers.
-- Issue #1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
-- Issue #1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
-- Issue #1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
-- Issue #1292: fixed undefined in LayerInformation contact data and show zip code in one line with city.
-- Issue #1300:
+- Issue \#1121: For secured services that have the isSecured attribute, the lock icon is now displayed again.
+- Issue \#1172: printing a layer with multiple style conditions doesn´t cause an error anymore.
+- Issue \#1242: The correct tooltip for the selected baselayer is now displayed in the baselayerSwitcher.
+- Issue \#1243: wfst: reacts on visibility changes of configured layer ids.
+- Issue \#1244: wfst: the correct geometry-buttons are displayed.
+- Issue \#1266: For layers whose ids are configured as an array, the visible range can now be restricted with `minScale` and `maxScale` in config.json.
+- Issue \#1272: Prevents MDID layer IDs from being removed when setting layer IDs, when a shared link with both layer IDs and MDIDs is opened.
+- Issue \#1280: showInLayerTree can be set up to false.
+- Issue \#1275: Layers without capabilitiesURL can now be added as baselayers.
+- Issue \#1287: The layers are now added to the topic tree in the same order in the layer selection when you click on `add all`.
+- Issue \#1288: fixed crash that occurred when resetting `compareMaps` without selected layers.
+- Issue \#1291: fixed reset of tool `compareMaps` to prevent layers from being removed from the layer tree.
+- Issue \#1292: fixed undefined in LayerInformation contact data and show zip code in one line with city.
+- Issue \#1300:
     - Searchbar: The EPSG code 25832 is now set as the default value in the search interface bkg.
     - Migrator: The attribute `geosearchServiceId` in the search interface bkg is now correctly renamed to `geoSearchServiceId`.
-- Issue #1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
-- Issue #1308:
+- Issue \#1303: Resolved the issue with configs after migration, ensuring that the migrated portal now displays grouplayer IDs correctly.
+- Issue \#1308:
     - The postal code is now correctly placed before the city in the about module.
     - The `logo` and `version` in the about module can now be overwritten in config.json and shown or hidden.
-- Issue #1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
+- Issue \#1315: fix time slider for wms time layers ignoring default values from layer.json and capabilities.
 - wfst: layers that are not in services.json are supported.
 - 3D: Fixed issue where the 3D view would not launch when button3d was configured under controls.expandable in config.json.
 - Routing: The routing now also finds addresses with spaces and umlauts when the address search is carried out with the Locationfinder search interface.
@@ -958,11 +958,11 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ### Fixed
 - Fixed the issue that the legend information was empty when an empty legend-object was passed to the legend component.
 - Corrected link for geodata infrastructure information pdf by GDI-DE.
-- Issue #1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
-- Issue #1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/Dev/groupedLayers.md).
-- Issue #1276: Duplicate icons StartModule in expandable ControlBar.
-- Issue #1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
-- Issue #1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
+- Issue \#1238: fixed `CQL_FILTER` URL parameter sending invalid `undefined` values.
+- Issue \#1247: Grouped layer: added attribute `children` in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/Dev/groupedLayers.md).
+- Issue \#1276: Duplicate icons StartModule in expandable ControlBar.
+- Issue \#1286: i18next: Correct time patterns for missing key, converting 'HH.MM' to 'HH:MM'.
+- Issue \#1294: PoiChoice: Fixed translation for "customPosition",  PoiOrientation: Fixed layout for the list of POI items.
 - `tree.type: auto`: layers configured in config.json do overwrite configuration in services.json.
 - Fixed issue with German translation not displaying in styleVT and wfsSearch modules.
 - Print:
@@ -978,7 +978,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 ## 2024-11-05 v3.3.2 (LTS)
 
 ### Added
-- Issue #1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/groupedLayers.md).
+- Issue \#1247: Grouped layer: added attribute children in config.json to overwrite attributes for single grouped layers, more see [Grouped layer](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/docs/groupedLayers.md).
 
 ### Fixed
 - Print: Group layers of different `typ` are printed.
@@ -1003,8 +1003,8 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - AlertingItem: Fixed the position of closing button.
-- Issue #1166: function isHTML now recognizes more HTML tags in one String as valid.
-- Issue #1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
+- Issue \#1166: function isHTML now recognizes more HTML tags in one String as valid.
+- Issue \#1179: Add Parameter "WithCredentials" to highlightFeaturesByAttribute axios request, so that it works with secured layers.
 - LayerInfoContactButton: no warning in console, if at layer `md_name` ist not available in `datasets`.
 - LayerSelection: `tree.type: auto`: change of category creates correct folders.
 - Draw_old: import KML file works correctly.
@@ -1088,7 +1088,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - Legend: Same legends of group layers are shown only once.
 - Filter: The buttons were always disabled in the accordion of the filter.
 - LayerSelection: After layer category switch the visible background layer were removed from layer selection.
-- Issue #1224: SecondaryMenu for mobile after closing allows to select coordinates.
+- Issue \#1224: SecondaryMenu for mobile after closing allows to select coordinates.
 - GetFeatureInfo: Images are displayed and the size of images was adapted.
 - Login: Access Tokens are now revoked after logout
 - OAF-Layer: if parameter 'bbox' is not set, the 'bbox' in parameter 'datasets' is used. Fallback is maps extent.
@@ -1145,9 +1145,9 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 
 ### Fixed
 - Fix migration of login module to Masterportal v3
-- Issue #1192: Searchbar: The TopicTree search interface supports the search for folders.
-- Issue #1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
-- Issue #1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`.
+- Issue \#1192: Searchbar: The TopicTree search interface supports the search for folders.
+- Issue \#1219: AddWMS: Corrected z-index for imported layers if only on baselayer is initial visible.
+- Issue \#1232: Searchbar: The TopicTree search interface does not fail on configured `resultEvents`.
 - Added missing parentheses in v-for loops
 - StatisticDashboard:
     - Statistics and Regions are sorted alphabetically.
@@ -1172,7 +1172,7 @@ Geobasiskarten: Removed old layers Geobasiskarten (farbig, graublau, schwarzgrau
 - BaselayerSwitcher: if 2 baselayers are configured, switcher is displayed.
 - Cesium library is only loaded, if button to switch to 3D is configured.
 - Layertree: if no button to add layers is configured, layers cannot be removed by drop outside.
-- Issue #1198: WMS link can contain "?".
+- Issue \#1198: WMS link can contain "?".
 - ContactFormular:
     - removed attachments are not being send.
     - uploading attachments separately doesn't remove previously added attachments.
@@ -1343,24 +1343,24 @@ In certain circumstances this means that you have to update your portal files (i
 
 
 ### Fixed
-- Issue #1084: fix wrong pointMarker placement when featureType is MultiPolygon.
-- Issue #1095: FeatureLister: Fixed highlighting on hover and on click.
-- Issue #1114: pass credentials to tiled WMS layers if `isSecured` is set.
-- Issue #1118: the `wfsSearch` module now works with multiple select boxes.
-- Issue #1119: Routing module: the route is also displayed when the start and end points are selected via the search.
-- Issue #1120: the map view gets centered on searched coordinate again.
-- Issue #1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
-- Issue #1125: Routing module: Blocked areas can be deleted again.
-- Issue #1130: Routing module: fix the bug that interval value could be smaller than minimum interval value.
-- Issue #1132: Routing module: error messages have been improved.
-- Issue #1136: Routing module: the coordinates change again when point is moved or deleted.
-- Issue #1140: AddWMS module: GFI display works again with imported WMS.
-- Issue #1144/#1146: the baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
-- Issue #1148: fixed bug in vector search so that it can handle GeometryCollection.
-- Issue #1153: the Parameter "isSecured" is now recognized if defined in the config.json.
-- Issue #1174: Draw: the outer outline color of the double circle is drawn as selected.
-- Issue #1182: the order of the layers in the map for initially no subject layers has been corrected.
-- Issue #1203: Coordinates: MapMarker stays on the map until other place is selected and disappears when we leave coordinates section.
+- Issue \#1084: fix wrong pointMarker placement when featureType is MultiPolygon.
+- Issue \#1095: FeatureLister: Fixed highlighting on hover and on click.
+- Issue \#1114: pass credentials to tiled WMS layers if `isSecured` is set.
+- Issue \#1118: the `wfsSearch` module now works with multiple select boxes.
+- Issue \#1119: Routing module: the route is also displayed when the start and end points are selected via the search.
+- Issue \#1120: the map view gets centered on searched coordinate again.
+- Issue \#1124: fixed url used in WMS-time layer and in zoomTo environment to not use more than one questionmark.
+- Issue \#1125: Routing module: Blocked areas can be deleted again.
+- Issue \#1130: Routing module: fix the bug that interval value could be smaller than minimum interval value.
+- Issue \#1132: Routing module: error messages have been improved.
+- Issue \#1136: Routing module: the coordinates change again when point is moved or deleted.
+- Issue \#1140: AddWMS module: GFI display works again with imported WMS.
+- Issue \#1144/#1146: the baselayer preview now works for WMTS Layer that have an XML as getCapabilities-URL.
+- Issue \#1148: fixed bug in vector search so that it can handle GeometryCollection.
+- Issue \#1153: the Parameter "isSecured" is now recognized if defined in the config.json.
+- Issue \#1174: Draw: the outer outline color of the double circle is drawn as selected.
+- Issue \#1182: the order of the layers in the map for initially no subject layers has been corrected.
+- Issue \#1203: Coordinates: MapMarker stays on the map until other place is selected and disappears when we leave coordinates section.
 - Layer selection: the order of the layers corresponds to the order of the layers in config.json.
 - AddWMS module: now displays metadata correctly when adding a WMS layer, if "cswId" is specified in the configuration.
 - Fixed HighlightFeature for MultiPolygons: in certain WFS layers, when polygon selection is enabled,
@@ -1503,13 +1503,13 @@ In certain circumstances this means that you have to update your portal files (i
 - `Legend` : The `showLegend` and `showCollapseAllButton` attributes have been removed
 
 ### Fixed
-- Issue #859: Allow saveSelection for 3D.
-- Issue #1073: Routing: the route is updated after moving a waypoint in the map.
-- Issue #1085: Corrected case at import of layer2dRasterWmsTime layerFactory.js.
-- Issue #1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
-- Issue #1094: Measure Tool: unit changes not connected anymore.
-- Issue #1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
-- Issue #1105: Added easting and nothing labels for utm projections in CoordToolkit
+- Issue \#859: Allow saveSelection for 3D.
+- Issue \#1073: Routing: the route is updated after moving a waypoint in the map.
+- Issue \#1085: Corrected case at import of layer2dRasterWmsTime layerFactory.js.
+- Issue \#1091: VectorStyle: read geometry type from geoserver featureTypeRequest and do not fail if some rules in style.json have no condition.
+- Issue \#1094: Measure Tool: unit changes not connected anymore.
+- Issue \#1099: The package.json is adapted, now the size of the bundle, created with "npm run build" is reduced.
+- Issue \#1105: Added easting and nothing labels for utm projections in CoordToolkit
 - Mobile View: switching vertical and horizontal view works better now.
 - Fix click issue between link of logo area and searchbar.
 - Close Button is now in line with Menu navigation.
@@ -1644,7 +1644,7 @@ In certain circumstances this means that you have to update your portal files (i
 - `styleWMS` is no longer supported.
 
 ### Fixed
-- Issue #1072: Fixed a problem when launching the portal with addons in version 3.0.0.
+- Issue \#1072: Fixed a problem when launching the portal with addons in version 3.0.0.
 - 3D layer tree folder issues have been fixed. Vectortile layer appearing again.
 - SpecialWFS search: Bugs related to MultiPolygon and Point handling, result handling, getWKTGeom have been resolved.
 - Controls can be shown now on mobile mode.
