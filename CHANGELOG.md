@@ -72,6 +72,8 @@
 - WMS-Time:
     - Added the current time parameter (TIME) to ensure time-dynamic layers are correctly represented when printing.
     - The current timestamp of a WMS-T layer is now captured in the share link and restored upon activation.
+- Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
+
 
 ---
 

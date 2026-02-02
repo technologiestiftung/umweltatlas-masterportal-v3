@@ -478,12 +478,20 @@ const BuildSpecModel = {
         return mapObject;
     },
     /**
-     * Returns image wms layer information.
-     * If layout is A0, type is set to tiledWMS and tile size is added, to avoid red background color.
-     * @param {ol.layer.Image} layer - image layer with image wms source
-     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
-     * @returns {Object} - wms layer spec
-     */
+ * Returns ImageWMS layer information for MapFish print.
+ *
+ * For large layouts or high DPI values MapFish may create oversized single-image WMS requests.
+ * This can lead to rendering artifacts (e.g. red background) in the generated PDF.
+ *
+ * To avoid this, the layer is automatically requested as "tiledwms" instead of a single image:
+ * - for A0 layouts
+ * - for known problematic layers (e.g. id 21958) when DPI >= 400
+ *
+ * @param {ol.layer.Image} layer - Image layer with ImageWMS source
+ * @param {Number} [dpi] The dpi to use instead of the dpi from store
+ * @returns {Object} WMS layer spec for MapFish
+ */
+
     buildImageWms: function (layer, dpi) {
         const source = layer.getSource(),
             mapObject = {
@@ -513,9 +521,17 @@ const BuildSpecModel = {
         if (store.state.Modules.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
         }
-        if (this.defaults.layout !== null && this.defaults.layout.startsWith("A0")) {
+        const effectiveDpi = typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf;
+        const layout = this.defaults.layout ?? "";
+        const layerId = String(layer.get("id") ?? "");
+
+        const isA0 = layout.startsWith("A0");
+        const isProblemLayerAtHighDpi = layerId === "21958" && effectiveDpi >= 400;
+
+        if (isA0 || isProblemLayerAtHighDpi) {
             mapObject.type = "tiledwms";
-            mapObject.tileSize = [source.getParams().WIDTH || 512, source.getParams().HEIGHT || 512];
+            // Use a fixed tile size to avoid oversized single-image requests
+            mapObject.tileSize = [512, 512];
         }
 
         return mapObject;
