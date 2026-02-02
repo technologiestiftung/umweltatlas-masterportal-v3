@@ -632,36 +632,6 @@
     }
   },
   {
-    "id": "ua_boden_corg_2015:kohlenstoffvor2015",
-    "name": "Organischer Kohlenstoffvorrat der Böden 2015",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_corg_2015",
-    "typ": "WMS",
-    "layers": "kohlenstoffvor2015",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fb35cc8c-087f-4d8b-af3e-a94f74169236",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_06__01_11_11_2015.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_sumkat_2015:sumkat2015",
     "name": "Summe austauschbarer Kationen des Oberbodens 2015",
     "crs": "EPSG:25833",
@@ -685,6 +655,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2015/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_08__01_11_07_2015.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_corg_2015:kohlenstoffvor2015",
+    "name": "Organischer Kohlenstoffvorrat der Böden 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_corg_2015",
+    "typ": "WMS",
+    "layers": "kohlenstoffvor2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fb35cc8c-087f-4d8b-af3e-a94f74169236",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_06__01_11_11_2015.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -11962,36 +11962,6 @@
     }
   },
   {
-    "id": "ua_boden_humus_2010:humus2010",
-    "name": "Humusmenge der Böden 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_humus_2010",
-    "typ": "WMS",
-    "layers": "humus2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "27921401-f61a-3e1f-9b55-1070d86dbe00",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_05_2010.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_ph_2010:ph2010",
     "name": "pH-Werte im Oberboden 2010",
     "crs": "EPSG:25833",
@@ -12015,6 +11985,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_07_2010.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_humus_2010:humus2010",
+    "name": "Humusmenge der Böden 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_humus_2010",
+    "typ": "WMS",
+    "layers": "humus2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "27921401-f61a-3e1f-9b55-1070d86dbe00",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_05_2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -17896,36 +17896,6 @@
     }
   },
   {
-    "id": "ua_boden_kohlenstoffpuffer_2020:kohlenstoffpuffer2020",
-    "name": "Puffervermögen im organischen Kohlenstoffhaushalt der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_kohlenstoffpuffer_2020",
-    "typ": "WMS",
-    "layers": "kohlenstoffpuffer2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "2106ff3a-3394-4011-9b31-5cee4d4a9364",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_11_2020.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_austauschh_2020:austauschh2020",
     "name": "Austauschhäufigkeit des Bodenwassers 2020",
     "crs": "EPSG:25833",
@@ -17949,6 +17919,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_04_2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_kohlenstoffpuffer_2020:kohlenstoffpuffer2020",
+    "name": "Puffervermögen im organischen Kohlenstoffhaushalt der Böden 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_kohlenstoffpuffer_2020",
+    "typ": "WMS",
+    "layers": "kohlenstoffpuffer2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "2106ff3a-3394-4011-9b31-5cee4d4a9364",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_11_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -25951,36 +25951,6 @@
     }
   },
   {
-    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005",
-    "name": "Bodengesellschaften 2005",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_2005",
-    "typ": "WMS",
-    "layers": "bodengesellschaften2005",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2005/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2005.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_bodenarten_2005:bodenarten2005",
     "name": "Bodenarten 2005",
     "crs": "EPSG:25833",
@@ -26004,6 +25974,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenkundliche-kennwerte/2005/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenkundliche-kennwerte/de-karten/01_06_01_2005.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_bodengesellschaften_2005:bodengesellschaften2005",
+    "name": "Bodengesellschaften 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_2005",
+    "typ": "WMS",
+    "layers": "bodengesellschaften2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "8172905a-cf41-37fe-8cb8-606bc3392c5c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/2005/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_2005.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -35280,36 +35280,6 @@
     }
   },
   {
-    "id": "ua_luftqualitaet_ges_pm10_2009:pm10_ges_2009",
-    "name": "PM10 Emissionen aller Verursacher 2009",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_pm10_2009",
-    "typ": "WMS",
-    "layers": "pm10_ges_2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fd9d5b61-c9c8-37b2-8f4e-5ab45e94fce4",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_10_1_2009.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_luftqualitaet_ind_pm2_5_2008:ind_pm2_5_2008",
     "name": "PM2,5 Emissionen Industrie 2008",
     "crs": "EPSG:25833",
@@ -35333,6 +35303,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_16_1_2008.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ges_pm10_2009:pm10_ges_2009",
+    "name": "PM10 Emissionen aller Verursacher 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_pm10_2009",
+    "typ": "WMS",
+    "layers": "pm10_ges_2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fd9d5b61-c9c8-37b2-8f4e-5ab45e94fce4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_10_1_2009.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -41012,5 +41012,5792 @@
         "show_doc_url": "https://gdz.bkg.bund.de/index.php/default/wmts-basemapde-webraster-wmts-basemapde-webraster.html#"
       }
     ]
+  },
+  {
+    "id": "dop_2025_fruehjahr:dop_2025.2",
+    "name": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/dop_2025_fruehjahr",
+    "typ": "WMS",
+    "layers": "dop_2025",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "73a3de47-ab2a-4be2-ae5d-8d6f8fe5cc1c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true
+  },
+  {
+    "id": "ua_boden_schadstoff_2010:schadstoff2010.2",
+    "name": "Nährstoffspeicher- / Schadstoffbindungsvermögen der Böden 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_schadstoff_2010",
+    "typ": "WMS",
+    "layers": "schadstoff2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "98dd2076-e9ef-397a-9fbc-20750788fcf4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_boden_wasserversorgung_2010:wasserversorgung2010.2",
+    "name": "Wasserversorgung der Böden 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_wasserversorgung_2010",
+    "typ": "WMS",
+    "layers": "wasserversorgung2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "98dd2076-e9ef-397a-9fbc-20750788fcf4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_moore:b_sp01_19_1moorbodtyp2015_geb.2",
+    "name": "Moorgebiete",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_moore",
+    "typ": "WMS",
+    "layers": "b_sp01_19_1moorbodtyp2015_geb",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5e85a2c5-1436-3ff2-b6c2-8c194b0ceaef",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_moore:a_sp01_19_1moorbodtyp2015_pkt.2",
+    "name": "Aufnahmepunkte",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_moore",
+    "typ": "WMS",
+    "layers": "a_sp01_19_1moorbodtyp2015_pkt",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5e85a2c5-1436-3ff2-b6c2-8c194b0ceaef",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "100000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_zemhgw:d_zemhgw_geoskizzegew.2",
+    "name": "Geologische Skizze",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw",
+    "typ": "WMS",
+    "layers": "d_zemhgw_geoskizzegew",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "83f03951-dc74-3865-9c30-02556d10bbd5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_zemhgw:cb_zemhgw_fl.2",
+    "name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw",
+    "typ": "WMS",
+    "layers": "cb_zemhgw_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "83f03951-dc74-3865-9c30-02556d10bbd5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_zemhgw:b_zemhgw_wsg_sd.2",
+    "name": "Wasserschutzgebiete",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw",
+    "typ": "WMS",
+    "layers": "b_zemhgw_wsg_sd",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "83f03951-dc74-3865-9c30-02556d10bbd5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true
+  },
+  {
+    "id": "ua_zemhgw:a_zemhgw_wasserwerk.2",
+    "name": "Wasserwerke",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw",
+    "typ": "WMS",
+    "layers": "a_zemhgw_wasserwerk",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "83f03951-dc74-3865-9c30-02556d10bbd5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_wasserdurchlaessigkeit:a_wasserdurchlaessigkeit_bp.2",
+    "name": "verwendete Bohrungen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserdurchlaessigkeit",
+    "typ": "WMS",
+    "layers": "a_wasserdurchlaessigkeit_bp",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "2ca6021c-1884-45b3-bf7a-c469c5df2fa5",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "40000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.2",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.2",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.3",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.3",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.4",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.4",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.5",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.5",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.6",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.6",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.7",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.7",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser.8",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen.8",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_boden_wasserversorgung_2010:wasserversorgung2010.3",
+    "name": "Wasserversorgung der Böden 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_wasserversorgung_2010",
+    "typ": "WMS",
+    "layers": "wasserversorgung2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "98dd2076-e9ef-397a-9fbc-20750788fcf4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser.2",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwassergefahrenkarten",
+    "typ": "WMS",
+    "layers": "d_hwgk_gewaesser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_hochwassergefahrenkarten:d_hwgk_gewaesser.3",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_hochwassergefahrenkarten",
+    "typ": "WMS",
+    "layers": "d_hwgk_gewaesser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "de192463-9da8-46c1-adb2-00059276e150",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_luftreinhalteplan_2011_2017:luftreinhalteplan_gesamtindex.2",
+    "name": "\"Ist-Zustand\" 2009 und Trends 2015 und 2020 ohne MB1 - MB5",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2011_2017",
+    "typ": "WMS",
+    "layers": "luftreinhalteplan_gesamtindex",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "69676583-915d-3d92-87be-b2d015c266f6",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.2",
+    "name": "nicht bewertete Flächen 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ac_nicht_bew_flaechen_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.2",
+    "name": "Sonstige Gebäude 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ab_ua_gebsonst_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.2",
+    "name": "Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "aa_ua_alkgeb_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.3",
+    "name": "nicht bewertete Flächen 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ac_nicht_bew_flaechen_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.3",
+    "name": "Sonstige Gebäude 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ab_ua_gebsonst_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.3",
+    "name": "Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "aa_ua_alkgeb_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ac_nicht_bew_flaechen_2014.4",
+    "name": "nicht bewertete Flächen 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ac_nicht_bew_flaechen_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ab_ua_gebsonst_2014.4",
+    "name": "Sonstige Gebäude 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ab_ua_gebsonst_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:aa_ua_alkgeb_2014.4",
+    "name": "Gebäude einschl. zusätzlicher Objekte wie Garagen, Schuppen, Bahnviadukte etc. 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "aa_ua_alkgeb_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimamodell_2001:ca_windfeld_22h.2",
+    "name": "Windfeld 22:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "ca_windfeld_22h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "5001",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimamodell_2001:da_windfeld_06h.2",
+    "name": "Windfeld 06:00 Uhr 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimamodell_2001",
+    "typ": "WMS",
+    "layers": "da_windfeld_06h",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9000550a-47ae-3ff4-8fb2-1d7b3997350a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "5001",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:rd_ua_pet_gew_2014.2",
+    "name": "Gewässer: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "rd_ua_pet_gew_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:rc_ua_pet_str_2014.2",
+    "name": "Straßenraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "rc_ua_pet_str_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:rb_ua_pet_grfrei_2014.2",
+    "name": "Grün- und Freiflächen: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "rb_ua_pet_grfrei_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_klimaanalyse_2014:ra_ua_pet_siedlg_2014.2",
+    "name": "Siedlungsraum: Bewertungsindex PET in 2 m Höhe um 14:00 Uhr [°C] 2014",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_klimaanalyse_2014",
+    "typ": "WMS",
+    "layers": "ra_ua_pet_siedlg_2014",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "ec386697-4c00-4594-adef-9bcc6b2d69ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.2",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ae_niederschlag_gesamt_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.2",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ad_niederschlag_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.2",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ac_niederschlag_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.2",
+    "name": "Isoflächen der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ab_niederschlag_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.2",
+    "name": "Isolinien der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "aa_niederschlag_isolinien",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.2",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "be_niederschlag_sommer_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.2",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bd_niederschlag_som_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.2",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bc_niederschlag_som_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.2",
+    "name": "Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bb_niederschlag_som_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.2",
+    "name": "Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ba_niederschlag_som_isoli",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.2",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ce_niederschlag_winter_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.2",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cd_niederschlag_winter_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.2",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cc_niederschlag_winter_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.2",
+    "name": "Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cb_niederschlag_winter_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.2",
+    "name": "Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ca_niederschlag_winter_isoli",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ae_niederschlag_gesamt_1981_2010.3",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ae_niederschlag_gesamt_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ad_niederschlag_block.3",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ad_niederschlag_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ac_niederschlag_str.3",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ac_niederschlag_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ab_niederschlag_isofl.3",
+    "name": "Isoflächen der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ab_niederschlag_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:aa_niederschlag_isolinien.3",
+    "name": "Isolinien der Niederschlagsverteilung 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "aa_niederschlag_isolinien",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:be_niederschlag_sommer_1981_2010.3",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "be_niederschlag_sommer_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bd_niederschlag_som_block.3",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bd_niederschlag_som_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bc_niederschlag_som_str.3",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bc_niederschlag_som_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:bb_niederschlag_som_isofl.3",
+    "name": "Isoflächen der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "bb_niederschlag_som_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ba_niederschlag_som_isoli.3",
+    "name": "Isolinien der Niederschlagsverteilung Sommerhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ba_niederschlag_som_isoli",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ce_niederschlag_winter_1981_2010.3",
+    "name": "Rasterflächen - Langjährige Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ce_niederschlag_winter_1981_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cd_niederschlag_winter_block.3",
+    "name": "Block- und Blockteilflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cd_niederschlag_winter_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cc_niederschlag_winter_str.3",
+    "name": "Straßenflächenzuordnung der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cc_niederschlag_winter_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:cb_niederschlag_winter_isofl.3",
+    "name": "Isoflächen der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "cb_niederschlag_winter_isofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_niederschlag_1981_2010:ca_niederschlag_winter_isoli.3",
+    "name": "Isolinien der Niederschlagsverteilung Winterhalbjahr 1981-2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_niederschlag_1981_2010",
+    "typ": "WMS",
+    "layers": "ca_niederschlag_winter_isoli",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "72e72b3e-b07a-4bf3-801a-3659d63a137f",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.2",
+    "name": "Reale Nutzung der bebauten Flächen 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.2",
+    "name": "Grün- und Freiflächenbestand 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "b_ua_gruen_freiflaechenbestand",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.3",
+    "name": "Reale Nutzung der bebauten Flächen 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.2",
+    "name": "Reale Nutzung 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "c_ua_realnutz_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.2",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "d_ua_nutz_vegbestand_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.3",
+    "name": "Grün- und Freiflächenbestand 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "b_ua_gruen_freiflaechenbestand",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.4",
+    "name": "Reale Nutzung der bebauten Flächen 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.3",
+    "name": "Reale Nutzung 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "c_ua_realnutz_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.3",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2020",
+    "typ": "WMS",
+    "layers": "d_ua_nutz_vegbestand_2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e92641fa-44cc-4f63-8b18-8f36abca6dc4",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.2",
+    "name": "Reale Nutzung der bebauten Flächen 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.2",
+    "name": "Grün- und Freiflächenbestand 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "b_ua_gruen_freiflaechenbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.2",
+    "name": "Reale Nutzung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "c_ua_realnutz_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.2",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "d_ua_nutz_vegbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.3",
+    "name": "Reale Nutzung der bebauten Flächen 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.3",
+    "name": "Grün- und Freiflächenbestand 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "b_ua_gruen_freiflaechenbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.3",
+    "name": "Reale Nutzung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "c_ua_realnutz_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.3",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "d_ua_nutz_vegbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.4",
+    "name": "Reale Nutzung der bebauten Flächen 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "a_ua_reale_nutzung_bebauten_flaechen_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.4",
+    "name": "Grün- und Freiflächenbestand 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "b_ua_gruen_freiflaechenbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.4",
+    "name": "Reale Nutzung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "c_ua_realnutz_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.4",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2015",
+    "typ": "WMS",
+    "layers": "d_ua_nutz_vegbestand_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "84bb3be6-0fb6-4187-89dc-ce8a600a7c40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.2",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_und_vegetationsbedeckung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.2",
+    "name": "Reale Nutzung der bebauten Flächen 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_der_bebauten_flaechen_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_2010.2",
+    "name": "Reale Nutzung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.2",
+    "name": "Grün- und Freiflächenbestand 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "gruen_und_freiflaechenbestand_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.3",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_und_vegetationsbedeckung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.3",
+    "name": "Reale Nutzung der bebauten Flächen 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_der_bebauten_flaechen_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_2010.3",
+    "name": "Reale Nutzung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.3",
+    "name": "Grün- und Freiflächenbestand 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "gruen_und_freiflaechenbestand_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.4",
+    "name": "Reale Nutzung und Vegetationsbedeckung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_und_vegetationsbedeckung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.4",
+    "name": "Reale Nutzung der bebauten Flächen 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_der_bebauten_flaechen_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:reale_nutzung_2010.4",
+    "name": "Reale Nutzung 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "reale_nutzung_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.4",
+    "name": "Grün- und Freiflächenbestand 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
+    "typ": "WMS",
+    "layers": "gruen_und_freiflaechenbestand_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010.2",
+    "name": "Stadtstruktur - Flächentypen differenziert 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur_2010",
+    "typ": "WMS",
+    "layers": "ua_stadtstruktur_diff_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5714021d-e715-47fd-8c8c-595357ac712e",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stadtstruktur_2010:ua_stadtstruktur_2010.2",
+    "name": "Stadtstruktur 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stadtstruktur_2010",
+    "typ": "WMS",
+    "layers": "ua_stadtstruktur_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5714021d-e715-47fd-8c8c-595357ac712e",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2011:b_grz2011.2",
+    "name": "Grundflächenzahl  (GRZ) 2011",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2011",
+    "typ": "WMS",
+    "layers": "b_grz2011",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "2d1a5fef-7048-3e15-b252-d7af72516c0b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.2",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.2",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.2",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.2",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.3",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.2",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.4",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.5",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.3",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.3",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.3",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.3",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.6",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.4",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.2",
+    "name": "S- und Fernbahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dd_s_und_fernbahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.4",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.4",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.4",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ae_kita2022.2",
+    "name": "Kindertagesstätten 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ae_kita2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022.2",
+    "name": "Bildungseinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022.2",
+    "name": "Krankenhäuser 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ab_wohngebaeude2022.2",
+    "name": "Wohngebäude 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.7",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.5",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.3",
+    "name": "S- und Fernbahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dd_s_und_fernbahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.5",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.5",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.5",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ae_kita2022.3",
+    "name": "Kindertagesstätten 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ae_kita2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ad_bildungseinrichtung2022.3",
+    "name": "Bildungseinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ac_krankenhaeuser2022.3",
+    "name": "Krankenhäuser 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:ab_wohngebaeude2022.3",
+    "name": "Wohngebäude 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.8",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.6",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.4",
+    "name": "S- und Fernbahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dd_s_und_fernbahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.6",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.6",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.6",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:df_laermschutzeinrichtung2022.9",
+    "name": "Lärmschutzeinrichtungen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "df_laermschutzeinrichtung2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:de_strassen_oberirdischeubahn2022.7",
+    "name": "Straßen- und oberirdische U-Bahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "de_strassen_oberirdischeubahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dd_s_und_fernbahn2022.5",
+    "name": "S- und Fernbahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dd_s_und_fernbahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:dc_sonstigestr2022.7",
+    "name": "Sonstiges untersuchtes Straßennetz 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "dc_sonstigestr2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:db_bundesstrasse2022.7",
+    "name": "Bundesstraßen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "db_bundesstrasse2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2022:da_autobahn2022.7",
+    "name": "Autobahn 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2022",
+    "typ": "WMS",
+    "layers": "da_autobahn2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "767addc0-284c-44dc-8f29-819fab5f9d23",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.2",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.2",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.2",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.3",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.3",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.3",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ab_wohngebaeude2017.2",
+    "name": "Wohngebäude 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017.2",
+    "name": "Krankenhäuser 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017.2",
+    "name": "Bildungseinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.4",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.4",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.2",
+    "name": "S- und Fernbahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.4",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.2",
+    "name": "Lärmschutzeinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ab_wohngebaeude2017.3",
+    "name": "Wohngebäude 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ac_krankenhaeuser2017.3",
+    "name": "Krankenhäuser 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:ad_bildungseinrichtung2017.3",
+    "name": "Bildungseinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.5",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.5",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.3",
+    "name": "S- und Fernbahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.5",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.3",
+    "name": "Lärmschutzeinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.6",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.6",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.4",
+    "name": "S- und Fernbahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.6",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.4",
+    "name": "Lärmschutzeinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.7",
+    "name": "Autobahn und Bundesstrasse 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "da_autobahn_bundesstrasse2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.7",
+    "name": "Sonstiges untersuchtes Straßennetz 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "db_sonstigesstrassennetz2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.5",
+    "name": "S- und Fernbahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.7",
+    "name": "Straßen- und oberirdische U-Bahn 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.5",
+    "name": "Lärmschutzeinrichtungen 2017",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2017",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "53ef42dd-4c9e-3e8b-993a-e264ece2b350",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.2",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.2",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.2",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.3",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.3",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.3",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.4",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.4",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.2",
+    "name": "S- und Fernbahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.4",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.2",
+    "name": "Lärmschutzeinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012.2",
+    "name": "Bildungseinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012.2",
+    "name": "Krankenhäuser 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ab_wohngebaeude2012.2",
+    "name": "Wohngebäude 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.5",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.5",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.3",
+    "name": "S- und Fernbahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.5",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.3",
+    "name": "Lärmschutzeinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ad_bildungseinrichtung2012.3",
+    "name": "Bildungseinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ad_bildungseinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ac_krankenhaeuser2012.3",
+    "name": "Krankenhäuser 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ac_krankenhaeuser2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:ab_wohngebaeude2012.3",
+    "name": "Wohngebäude 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "ab_wohngebaeude2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.6",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.6",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.4",
+    "name": "S- und Fernbahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.6",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.4",
+    "name": "Lärmschutzeinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:da_bewerteteshauptsrassennetz2012.7",
+    "name": "Bewertetes Hauptstraßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptsrassennetz2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:db_sonstigestr2012.7",
+    "name": "Sonstiges untersuchtes Straßennetz 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "db_sonstigestr2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dc_s_und_fernbahn2012.5",
+    "name": "S- und Fernbahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dc_s_und_fernbahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:dd_strassen_oberirdischeubahn2012.7",
+    "name": "Straßen- und oberirdische U-Bahn 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "dd_strassen_oberirdischeubahn2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2012:de_laermschutzeinrichtung2012.5",
+    "name": "Lärmschutzeinrichtungen 2012",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2012",
+    "typ": "WMS",
+    "layers": "de_laermschutzeinrichtung2012",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "b977abc5-238a-3158-8f73-3c08bf289638",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007.2",
+    "name": "Straßenverkehr L N (Nacht-Index) 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "cb_strasse_gesamt_ln2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.2",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.2",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.2",
+    "name": "Bewertetes Hauptstraßennetz 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptstrassennetz2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.3",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.3",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.3",
+    "name": "Bewertetes Hauptstraßennetz 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptstrassennetz2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.4",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.4",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.4",
+    "name": "Bewertetes Hauptstraßennetz 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptstrassennetz2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.5",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.5",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.5",
+    "name": "Bewertetes Hauptstraßennetz 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptstrassennetz2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.6",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.6",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.6",
+    "name": "Bewertetes Hauptstraßennetz 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "da_bewerteteshauptstrassennetz2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:db_s_und_fernbahn2007.7",
+    "name": "S- und Fernbahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "db_s_und_fernbahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_stratlaerm_2007:dc_strassen_oberirdischeubahn2007.7",
+    "name": "Straßen- und oberirdische U-Bahn 2007",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2007",
+    "typ": "WMS",
+    "layers": "dc_strassen_oberirdischeubahn2007",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f053a77-bfce-3de9-a625-d4f5cfdd7b67",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "10000",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.2",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.3",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.4",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.5",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.6",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.7",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2021:a_09_01_sbahn2020.8",
+    "name": "S-Bahnring",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2021",
+    "typ": "WMS",
+    "layers": "a_09_01_sbahn2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "5460d175-35ee-4c93-a51c-5a114123d8ff",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.2",
+    "name": "Umweltzone",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ab_umweltzone",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.2",
+    "name": "Vorranggebiet Luftreinhaltung nach FNP",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "aa_vorrang_luft_fnp",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:ab_umweltzone.3",
+    "name": "Umweltzone",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ab_umweltzone",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:aa_vorrang_luft_fnp.3",
+    "name": "Vorranggebiet Luftreinhaltung nach FNP",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "aa_vorrang_luft_fnp",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   }
 ]
