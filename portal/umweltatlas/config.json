@@ -2270,6 +2270,28 @@
               ]
             },
             {
+              "name": "Geologische Karte",
+              "type": "folder",
+              "elements": [
+                {
+                  "name": "1937",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "01.20 Geologische Karte 1 : 25.000 (Historische GK25)",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_gk25:gk25.2",
+                          "name": "1937 - Geologische Karte 1 : 25.000 (Geologische Karte 1 : 25.000 (Historische GK25))"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "Ingenieurgeologische Karte",
               "type": "folder",
               "elements": [
