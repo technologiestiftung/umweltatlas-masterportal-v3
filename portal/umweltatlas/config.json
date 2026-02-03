@@ -145,10 +145,6 @@
                 "layerId": "luftbild_1928_04:c_luftbilder_1928_04_raster"
               },
               {
-                "title": "1938 - Luftbild",
-                "layerId": "luftbild_1938_04:c_luftbilder_1938_04_raster"
-              },
-              {
                 "title": "2004 - Luftbild",
                 "layerId": "dop_2004:dop_2004"
               },
@@ -12191,10 +12187,6 @@
             {
               "name": "1928 - Luftbild",
               "id": "luftbild_1928_04:c_luftbilder_1928_04_raster"
-            },
-            {
-              "name": "1938 - Luftbild",
-              "id": "luftbild_1938_04:c_luftbilder_1938_04_raster"
             },
             {
               "name": "2004 - Luftbild",
