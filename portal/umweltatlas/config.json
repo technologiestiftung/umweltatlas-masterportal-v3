@@ -2027,7 +2027,7 @@
                       "elements": [
                         {
                           "id": "ua_versiegelung_2021:versiegelung_2021_raster",
-                          "name": "2021 - Versiegelung 2021 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2021)"
+                          "name": "2021 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2021)"
                         },
                         {
                           "id": "ua_versiegelung_2021:versieg2021_veraenderung",
@@ -2055,7 +2055,7 @@
                       "elements": [
                         {
                           "id": "ua_versiegelung_2016:versiegelung_2016_raster",
-                          "name": "2016 - Versiegelung 2016 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2016)"
+                          "name": "2016 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2016)"
                         },
                         {
                           "id": "ua_versiegelung_2016:versieg2016",
@@ -2075,7 +2075,7 @@
                       "elements": [
                         {
                           "id": "ua_versiegelung_2011:b_versiegelung_2011_raster",
-                          "name": "2011 - Versiegelung 2011 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2011)"
+                          "name": "2011 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2011)"
                         },
                         {
                           "id": "ua_versiegelung_2011:a_versieg2011",
@@ -2095,7 +2095,7 @@
                       "elements": [
                         {
                           "id": "ua_versiegelung_2005:b_versiegelung_2005_raster",
-                          "name": "2005 - Versiegelung 2005 (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2005)"
+                          "name": "2005 - Versiegelung (unkorrigierte Versiegelungsgrade, Rasterdaten) (Versiegelung 2005)"
                         },
                         {
                           "id": "ua_versiegelung_2005:a_versieg2005",
@@ -3985,23 +3985,23 @@
                       "elements": [
                         {
                           "id": "ua_flurabstand_2009:e_flurabstand_2009_diff",
-                          "name": "2009 - Flurabstand des Grundwassers 2009 differenziert (Flurabstand des Grundwassers 2009 differenziert)"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert (Flurabstand des Grundwassers 2009 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2009:d_flurabstand_2009_diff_keinhgwl",
-                          "name": "2009 - Flurabstand des Grundwassers 2009 differenziert kein Hauptgrundwasserleiter (Flurabstand des Grundwassers 2009 differenziert)"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert kein Hauptgrundwasserleiter (Flurabstand des Grundwassers 2009 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2009:c_flurabstand_2009_diff_hgwlgespannt",
-                          "name": "2009 - Flurabstand des Grundwassers 2009 differenziert gespanntes Grundwasser (Flurabstand des Grundwassers 2009 differenziert)"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert gespanntes Grundwasser (Flurabstand des Grundwassers 2009 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2009:b_flurabstand_2009_diff_panketal",
-                          "name": "2009 - Flurabstand des Grundwassers 2009 differenziert Panketal (Flurabstand des Grundwassers 2009 differenziert)"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert Panketal (Flurabstand des Grundwassers 2009 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2009:a_flurabstand_2009_diff_gewaesser",
-                          "name": "2009 - Flurabstand des Grundwassers 2009 differenziert Gewässer (Flurabstand des Grundwassers 2009 differenziert)"
+                          "name": "2009 - Flurabstand des Grundwassers differenziert Gewässer (Flurabstand des Grundwassers 2009 differenziert)"
                         }
                       ]
                     }
@@ -4017,23 +4017,23 @@
                       "elements": [
                         {
                           "id": "ua_flurabstand_2006:e_flurabstand_2006_diff",
-                          "name": "2006 - Flurabstand des Grundwassers 2006 differenziert (Flurabstand des Grundwassers 2006 differenziert)"
+                          "name": "2006 - Flurabstand des Grundwassers differenziert (Flurabstand des Grundwassers 2006 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2006:d_flurabstand_2006_panketal",
-                          "name": "2006 - Flurabstand des Grundwassers 2006 differenziert Panketal (Flurabstand des Grundwassers 2006 differenziert)"
+                          "name": "2006 - Flurabstand des Grundwassers differenziert Panketal (Flurabstand des Grundwassers 2006 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2006:c_flurabstand_2006_hgwlgespannt",
-                          "name": "2006 - Flurabstand des Grundwassers 2006 differenziert Hauptgrundwasserleiter gespannt (Flurabstand des Grundwassers 2006 differenziert)"
+                          "name": "2006 - Flurabstand des Grundwassers differenziert Hauptgrundwasserleiter gespannt (Flurabstand des Grundwassers 2006 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2006:b_flurabstand_2006_fliessgw",
-                          "name": "2006 - Flurabstand des Grundwassers 2006 differenziert Fließgewässer (Flurabstand des Grundwassers 2006 differenziert)"
+                          "name": "2006 - Flurabstand des Grundwassers differenziert Fließgewässer (Flurabstand des Grundwassers 2006 differenziert)"
                         },
                         {
                           "id": "ua_flurabstand_2006:a_flurabstand_2006_gewaesser",
-                          "name": "2006 - Flurabstand des Grundwassers 2006 differenziert Oberflächengewässer (Flurabstand des Grundwassers 2006 differenziert)"
+                          "name": "2006 - Flurabstand des Grundwassers differenziert Oberflächengewässer (Flurabstand des Grundwassers 2006 differenziert)"
                         }
                       ]
                     }
@@ -4053,19 +4053,19 @@
                         },
                         {
                           "id": "ua_flurabstand_2005:d_flurabstand_2005_hgwlgespannt",
-                          "name": "2005 - Flurabstand des Grundwassers 2005 Hauptgrundwasserleiter gespannt (Flurabstand des Grundwassers 2005)"
+                          "name": "2005 - Flurabstand des Grundwassers Hauptgrundwasserleiter gespannt (Flurabstand des Grundwassers 2005)"
                         },
                         {
                           "id": "ua_flurabstand_2005:c_flurabstand_2005_panketal",
-                          "name": "2005 - Flurabstand des Grundwassers 2005 Panketal (Flurabstand des Grundwassers 2005)"
+                          "name": "2005 - Flurabstand des Grundwassers Panketal (Flurabstand des Grundwassers 2005)"
                         },
                         {
                           "id": "ua_flurabstand_2005:b_flurabstand_2005_gewaesser",
-                          "name": "2005 - Flurabstand des Grundwassers 2005 Oberflächengewässer (Flurabstand des Grundwassers 2005)"
+                          "name": "2005 - Flurabstand des Grundwassers Oberflächengewässer (Flurabstand des Grundwassers 2005)"
                         },
                         {
                           "id": "ua_flurabstand_2005:a_flurabstand_2005_fliessgw",
-                          "name": "2005 - Flurabstand des Grundwassers 2005 Fließgewässer (Flurabstand des Grundwassers 2005)"
+                          "name": "2005 - Flurabstand des Grundwassers Fließgewässer (Flurabstand des Grundwassers 2005)"
                         }
                       ]
                     }
@@ -6157,11 +6157,11 @@
                         },
                         {
                           "id": "ua_klimaanalyse_2022:db_ua_windfeld_2m_04h_2022_100m",
-                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] 2022 (ab Maßstab 1:2500) (Klimaanalysekarten 2022)"
+                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] (ab Maßstab 1:2500) (Klimaanalysekarten 2022)"
                         },
                         {
                           "id": "ua_klimaanalyse_2022:da_ua_windfeld_2m_04h_2022_20m",
-                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] 2022 (bis Maßstab 1:2500) (Klimaanalysekarten 2022)"
+                          "name": "2022 - Windfeld um 04:00 Uhr [m/s] (bis Maßstab 1:2500) (Klimaanalysekarten 2022)"
                         },
                         {
                           "id": "ua_klimaanalyse_2022:be_ua_kaltluftvol_grfrei_22h_2022",
@@ -6177,11 +6177,11 @@
                         },
                         {
                           "id": "ua_klimaanalyse_2022:bb_ua_windfeld_2m_22h_2022_100m",
-                          "name": "2022 - Windfeld um 22:00 Uhr [m/s] 2022 (ab Maßstab 1:2500) (Klimaanalysekarten 2022)"
+                          "name": "2022 - Windfeld um 22:00 Uhr [m/s] (ab Maßstab 1:2500) (Klimaanalysekarten 2022)"
                         },
                         {
                           "id": "ua_klimaanalyse_2022:ba_ua_windfeld_2m_22h_2022_20m",
-                          "name": "2022 - Windfeld um 22:00 Uhr [m/s] 2022 (bis Maßstab 1:2500) (Klimaanalysekarten 2022)"
+                          "name": "2022 - Windfeld um 22:00 Uhr [m/s] (bis Maßstab 1:2500) (Klimaanalysekarten 2022)"
                         }
                       ]
                     },
@@ -8689,7 +8689,7 @@
                         },
                         {
                           "id": "ua_vegetationshoehen_2020:c_vegetationshoehe_2020_raster",
-                          "name": "2020 - Vegetationshöhen 2020 (Raster) (Vegetationshöhen 2020)"
+                          "name": "2020 - Vegetationshöhen (Raster) (Vegetationshöhen 2020)"
                         }
                       ]
                     }
@@ -9881,7 +9881,7 @@
                       "elements": [
                         {
                           "id": "ua_staedtebauliche_dichte2011:c_gfz_plr2011",
-                          "name": "2011 - Geschossflächenzahl (GFZ) 2011 (PLR) (Städtebauliche Dichte - GFZ/GRZ 2011)"
+                          "name": "2011 - Geschossflächenzahl (GFZ) (PLR) (Städtebauliche Dichte - GFZ/GRZ 2011)"
                         },
                         {
                           "id": "ua_staedtebauliche_dichte2011:a_gfz2011",
