@@ -6101,15 +6101,15 @@
                       "elements": [
                         {
                           "id": "ua_luftschadstoffbelastung:c_pollutant_grid_avg_pm2_5_2024",
-                          "name": "ab 2024 - PM2,5 – Partikel < 2,5 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - PM2,5 – Partikel < 2,5 µm in µg/m³ 2024 (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         },
                         {
                           "id": "ua_luftschadstoffbelastung:b_pollutant_grid_avg_pm10_2024",
-                          "name": "ab 2024 - PM10 – Partikel < 10 µm in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - PM10 – Partikel < 10 µm in µg/m³ 2024 (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         },
                         {
                           "id": "ua_luftschadstoffbelastung:a_pollutant_grid_avg_no2_2024",
-                          "name": "ab 2024 - NO2 – Stickstoffdioxid in µg/m³ (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
+                          "name": "ab 2024 - NO2 – Stickstoffdioxid in µg/m³ 2024 (Durchschnittliche jährliche Luftschadstoffbelastung: Modelldaten)"
                         }
                       ]
                     }
@@ -8747,7 +8747,7 @@
                         },
                         {
                           "id": "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
-                          "name": "ab 2021 - Reale Nutzung der bebauten Flächen (Flächennutzung)"
+                          "name": "ab 2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8765,7 +8765,7 @@
                         },
                         {
                           "id": "ua_flaechennutzung:c_reale_nutzung_2021",
-                          "name": "ab 2021 - Reale Nutzung (Flächennutzung)"
+                          "name": "ab 2021 - Reale Nutzung 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8783,7 +8783,7 @@
                         },
                         {
                           "id": "ua_flaechennutzung:b_gruen_und_freiflaechenbestand_2021",
-                          "name": "ab 2021 - Grün- und Freiflächenbestand (Flächennutzung)"
+                          "name": "ab 2021 - Grün- und Freiflächenbestand 2021 (Flächennutzung)"
                         }
                       ]
                     },
@@ -8801,7 +8801,7 @@
                         },
                         {
                           "id": "ua_flaechennutzung:d_reale_nutzung_vegetationsbedeckung_2021",
-                          "name": "ab 2021 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung)"
+                          "name": "ab 2021 - Reale Nutzung und Vegetationsbedeckung 2021 (Flächennutzung)"
                         }
                       ]
                     }
@@ -9073,7 +9073,7 @@
                         },
                         {
                           "id": "ua_stadtstruktur:a_stadtstruktur_2021",
-                          "name": "ab 2021 - Stadtstruktur (Stadtstruktur)"
+                          "name": "ab 2021 - Stadtstruktur 2021 (Stadtstruktur)"
                         }
                       ]
                     },
@@ -9091,7 +9091,7 @@
                         },
                         {
                           "id": "ua_stadtstruktur:b_stadtstruktur_differenziert_2021",
-                          "name": "ab 2021 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur)"
+                          "name": "ab 2021 - Stadtstruktur - Flächentypen differenziert 2021 (Stadtstruktur)"
                         }
                       ]
                     }
