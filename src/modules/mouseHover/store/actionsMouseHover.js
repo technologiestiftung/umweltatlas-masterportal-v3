@@ -3,6 +3,7 @@ import Point from "ol/geom/Point.js";
 import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
 import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
 import store from "@appstore/index.js";
+import {getWebglFeaturesFromLayers} from "@shared/js/utils/getWebglFeaturesFromLayers.js";
 
 export default {
     /**
@@ -73,55 +74,20 @@ export default {
             * use buffered coord instead of pixel for hitTolerance
             * only necessary for WebGL polygon and line layers
             */
-            map.getLayers().getArray()
-                .filter(layer => layer.get("renderer") === "webgl" && !layer.get("isPointLayer")) // point features are already caught by map.forEachFeatureAtPixel loop
-                .forEach(layer => {
-                    if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
-                        /**
-             * use OL resolution based buffer to adjust the hitTolerance (in m) for lower zoom levels
-             */
-                        const resolution = mapCollection.getMapView("2D").getResolution(),
-                            hitBox = buffer(
-                                new Point(evt.coordinate).getExtent(),
-                                (layer.get("hitTolerance") || 1) * Math.sqrt(resolution)
-                            );
+            const resolution = mapCollection.getMapView("2D").getResolution();
+            const webglLayers = map.getLayers().getArray()
+                .filter(layer => layer.get("renderer") === "webgl" && !layer.get("isPointLayer"));
 
-                        if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
-                            const topLeft = map.getPixelFromCoordinate([hitBox[0], hitBox[3]]),
-                                bottomRight = map.getPixelFromCoordinate([hitBox[2], hitBox[1]]),
-                                features = [];
+            const webglFeatures = getWebglFeaturesFromLayers(
+                map,
+                webglLayers,
+                layer => buffer(
+                    new Point(evt.coordinate).getExtent(),
+                    (layer.get("hitTolerance") || 1) * Math.sqrt(resolution)
+                )
+            );
 
-                            for (let x = topLeft[0]; x <= bottomRight[0]; x++) {
-                                for (let y = topLeft[1]; y <= bottomRight[1]; y++) {
-                                    map.forEachFeatureAtPixel([x, y], (feature, candidateLayer) => {
-                                        if (candidateLayer === layer && !features.includes(feature)) {
-                                            features.push(feature);
-                                        }
-                                    }, {
-                                        layerFilter: l => l === layer
-                                    });
-                                }
-                            }
-
-                            features.forEach(feature => {
-                                featuresAtPixel.push(createGfiFeature(
-                                    layer,
-                                    "",
-                                    feature
-                                ));
-                            });
-                        }
-                        else {
-                            layer.getSource()?.forEachFeatureIntersectingExtent(hitBox, feature => {
-                                featuresAtPixel.push(createGfiFeature(
-                                    layer,
-                                    "",
-                                    feature
-                                ));
-                            });
-                        }
-                    }
-                });
+            featuresAtPixel.push(...webglFeatures);
             state.overlay.setPosition(evt.coordinate);
             state.overlay.setElement(document.querySelector("#mousehover-overlay"));
             commit("setInfoBox", null);

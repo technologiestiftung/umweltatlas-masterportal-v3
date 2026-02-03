@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
-import View from "ol/View.js";
 import sinon from "sinon";
 import getters from "@modules/getFeatureInfo/store/gettersGetFeatureInfo.js";
 
@@ -16,7 +15,9 @@ describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
                 map = {
                     id: "ol",
                     mode: "2D",
-                    view: new View(),
+                    getView: () => ({
+                        getResolution: () => 1
+                    }),
                     forEachFeatureAtPixel: sinon.spy(),
                     getLayers: () => {
                         return {
