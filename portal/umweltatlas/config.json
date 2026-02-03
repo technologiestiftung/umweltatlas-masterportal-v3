@@ -2144,32 +2144,6 @@
               ]
             },
             {
-              "name": "Entsiegelungspotenziale",
-              "type": "folder",
-              "elements": [
-                {
-                  "name": "fortlaufend aktualisiert",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "01.16 Entsiegelungspotenziale",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_entsiegelung:b_entsieg_klasse_teil",
-                          "name": "Entsiegelungspotenziale Signatur (Entsiegelungspotenziale)"
-                        },
-                        {
-                          "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
-                          "name": "Entsiegelungspotenziale Kontur (Entsiegelungspotenziale)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "name": "Moore",
               "type": "folder",
               "elements": [
@@ -2270,28 +2244,6 @@
               ]
             },
             {
-              "name": "Geologische Karte",
-              "type": "folder",
-              "elements": [
-                {
-                  "name": "1937",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "01.20 Geologische Karte 1 : 25.000 (Historische GK25)",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_gk25:gk25.2",
-                          "name": "1937 - Geologische Karte 1 : 25.000 (Geologische Karte 1 : 25.000 (Historische GK25))"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "name": "Ingenieurgeologische Karte",
               "type": "folder",
               "elements": [
@@ -2372,6 +2324,32 @@
                         {
                           "id": "ua_rieselfelder:a_rieselfelder_pkt",
                           "name": "2010 - Sondernutzung (Punkte) (Ehemalige Rieselfelder)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Entsiegelungspotenziale",
+              "type": "folder",
+              "elements": [
+                {
+                  "name": "fortlaufend aktualisiert",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "01.16 Entsiegelungspotenziale",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_entsiegelung:b_entsieg_klasse_teil",
+                          "name": "Entsiegelungspotenziale Signatur (Entsiegelungspotenziale)"
+                        },
+                        {
+                          "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
+                          "name": "Entsiegelungspotenziale Kontur (Entsiegelungspotenziale)"
                         }
                       ]
                     }
@@ -8434,7 +8412,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "05.08.1 Biotoptypen 2024",
+                      "name": "05.08.1 Biotoptypen",
                       "type": "folder",
                       "elements": [
                         {
@@ -8452,7 +8430,7 @@
                       ]
                     },
                     {
-                      "name": "05.08.2 Gesetzlich geschützte Biotope 2024",
+                      "name": "05.08.2 Gesetzlich geschützte Biotope",
                       "type": "folder",
                       "elements": [
                         {
@@ -8470,7 +8448,7 @@
                       ]
                     },
                     {
-                      "name": "05.08.3 Lebensraumtypen (FFH-Richtlinie) 2024",
+                      "name": "05.08.3 Lebensraumtypen (FFH-Richtlinie)",
                       "type": "folder",
                       "elements": [
                         {
@@ -8488,7 +8466,7 @@
                       ]
                     },
                     {
-                      "name": "05.08.4 Kartiermethode 2024",
+                      "name": "05.08.4 Kartiermethode",
                       "type": "folder",
                       "elements": [
                         {
@@ -12078,7 +12056,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.5 Soziale Problematik/Status-Index 2013",
+                      "name": "09.01.5 Soziale Problematik/Status-Index",
                       "type": "folder",
                       "elements": [
                         {
@@ -12104,7 +12082,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.6 Integrierte Mehrfachbelastung Umwelt 2013",
+                      "name": "09.01.6 Integrierte Mehrfachbelastung Umwelt",
                       "type": "folder",
                       "elements": [
                         {
@@ -12130,7 +12108,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.7 Integrierte Mehrfachbelastung Umwelt und Soziale Problematik 2013",
+                      "name": "09.01.7 Integrierte Mehrfachbelastung Umwelt und Soziale Problematik",
                       "type": "folder",
                       "elements": [
                         {
@@ -12148,7 +12126,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.8 Integrierte Mehrfachbelastungskarte - thematisch 2013",
+                      "name": "09.01.8 Integrierte Mehrfachbelastungskarte - thematisch",
                       "type": "folder",
                       "elements": [
                         {
@@ -12174,7 +12152,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte 2013",
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte - Berliner Umweltgerechtigkeitskarte",
                       "type": "folder",
                       "elements": [
                         {
