@@ -19,7 +19,8 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         closeMenuSpy,
         collapseMenuesSpy,
         isMobile,
-        setActiveSpy;
+        setActiveSpy,
+        setHiddenSpy;
 
     beforeEach(() => {
         currentMenuWidth = sinon.stub();
@@ -28,6 +29,7 @@ describe("src/modules/menu/MenuContainer.vue", () => {
         collapseMenuesSpy = sinon.spy();
         isMobile = false;
         setActiveSpy = sinon.spy();
+        setHiddenSpy = sinon.spy();
 
         store = createStore({
             modules: {
@@ -39,10 +41,12 @@ describe("src/modules/menu/MenuContainer.vue", () => {
                         LayerPills: {
                             namespaced: true,
                             getters: {
-                                active: () => true
+                                active: () => true,
+                                hidden: () => false
                             },
                             mutations: {
-                                setActive: setActiveSpy
+                                setActive: setActiveSpy,
+                                setHidden: setHiddenSpy
                             }
                         }
                     }
