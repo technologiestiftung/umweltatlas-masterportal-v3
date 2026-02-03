@@ -308,7 +308,7 @@ Layer2dRasterWmsTimeLayer.prototype.getIncrementsFromResolution = function (reso
 /**
  * Gets additional layer params.
  * Note: The layer's visibility is initially turned off (and thus the loading of the tiles is disabled) because the TIME attribute is filled too late for layer processing due to asynchronous loading of getCapabilities.
- * @param {Object} attributes The attributes of the layer configuration.
+ * @param {Object} attrs The attributes of the layer configuration.
  * @returns {Obeject} The layer params.
  */
 Layer2dRasterWmsTimeLayer.prototype.getLayerParams = function (attrs) {
