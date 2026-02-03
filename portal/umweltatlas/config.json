@@ -2140,6 +2140,32 @@
               ]
             },
             {
+              "name": "Entsiegelungspotenziale",
+              "type": "folder",
+              "elements": [
+                {
+                  "name": "fortlaufend aktualisiert",
+                  "type": "folder",
+                  "elements": [
+                    {
+                      "name": "01.16 Entsiegelungspotenziale",
+                      "type": "folder",
+                      "elements": [
+                        {
+                          "id": "ua_entsiegelung:b_entsieg_klasse_teil",
+                          "name": "Entsiegelungspotenziale Signatur (Entsiegelungspotenziale)"
+                        },
+                        {
+                          "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
+                          "name": "Entsiegelungspotenziale Kontur (Entsiegelungspotenziale)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "Moore",
               "type": "folder",
               "elements": [
@@ -2320,32 +2346,6 @@
                         {
                           "id": "ua_rieselfelder:a_rieselfelder_pkt",
                           "name": "2010 - Sondernutzung (Punkte) (Ehemalige Rieselfelder)"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Entsiegelungspotenziale",
-              "type": "folder",
-              "elements": [
-                {
-                  "name": "fortlaufend aktualisiert",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "01.16 Entsiegelungspotenziale",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "ua_entsiegelung:b_entsieg_klasse_teil",
-                          "name": "Entsiegelungspotenziale Signatur (Entsiegelungspotenziale)"
-                        },
-                        {
-                          "id": "ua_entsiegelung:a_entsieg_klasse_kontur",
-                          "name": "Entsiegelungspotenziale Kontur (Entsiegelungspotenziale)"
                         }
                       ]
                     }
@@ -4727,10 +4727,6 @@
                       "name": "02.11 Wasserschutzgebiete",
                       "type": "folder",
                       "elements": [
-                        {
-                          "id": "ua_boden_wasserversorgung_2010:wasserversorgung2010.3",
-                          "name": "2006 - Wasserversorgung der Böden 2010 (Wasserversorgung der Böden 2010)"
-                        },
                         {
                           "id": "wsg_2006:wsg2006",
                           "name": "2006 - Wasserschutzgebiete (Wasserschutzgebiete 2006)"
@@ -8830,20 +8826,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
-                          "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.2",
-                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung 2020)"
-                        },
-                        {
                           "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020",
                           "name": "2020 - Reale Nutzung (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
-                          "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2020)"
                         }
                       ]
                     },
@@ -8852,20 +8836,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.2",
+                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand",
                           "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.3",
-                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.2",
-                          "name": "2020 - Reale Nutzung (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.2",
-                          "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2020)"
                         }
                       ]
                     },
@@ -8874,19 +8846,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2020:b_ua_gruen_freiflaechenbestand.3",
-                          "name": "2020 - Grün- und Freiflächenbestand (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:a_ua_reale_nutzung_bebauten_flaechen_2020.4",
-                          "name": "2020 - Reale Nutzung der bebauten Flächen (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:c_ua_realnutz_2020.3",
-                          "name": "2020 - Reale Nutzung (Flächennutzung 2020)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020.3",
+                          "id": "ua_flaechennutzung_2020:d_ua_nutz_vegbestand_2020",
                           "name": "2020 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2020)"
                         }
                       ]
@@ -8904,18 +8864,6 @@
                         {
                           "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015",
                           "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015",
-                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015",
-                          "name": "2015 - Reale Nutzung (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015",
-                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2015)"
                         }
                       ]
                     },
@@ -8924,20 +8872,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.2",
-                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.2",
-                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.2",
+                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015",
                           "name": "2015 - Reale Nutzung (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.2",
-                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2015)"
                         }
                       ]
                     },
@@ -8946,20 +8882,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.3",
-                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.3",
+                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015",
                           "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.3",
-                          "name": "2015 - Reale Nutzung (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.3",
-                          "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2015)"
                         }
                       ]
                     },
@@ -8968,19 +8892,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2015:a_ua_reale_nutzung_bebauten_flaechen_2015.4",
-                          "name": "2015 - Reale Nutzung der bebauten Flächen (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:b_ua_gruen_freiflaechenbestand_2015.4",
-                          "name": "2015 - Grün- und Freiflächenbestand (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:c_ua_realnutz_2015.4",
-                          "name": "2015 - Reale Nutzung (Flächennutzung 2015)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015.4",
+                          "id": "ua_flaechennutzung_2015:d_ua_nutz_vegbestand_2015",
                           "name": "2015 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2015)"
                         }
                       ]
@@ -8996,20 +8908,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010",
-                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2010)"
-                        },
-                        {
                           "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010",
                           "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010",
-                          "name": "2010 - Reale Nutzung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010",
-                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung 2010)"
                         }
                       ]
                     },
@@ -9018,20 +8918,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.2",
-                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.2",
-                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.2",
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010",
                           "name": "2010 - Reale Nutzung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.2",
-                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung 2010)"
                         }
                       ]
                     },
@@ -9040,19 +8928,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.3",
-                          "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.3",
-                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.3",
-                          "name": "2010 - Reale Nutzung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.3",
+                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010",
                           "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung 2010)"
                         }
                       ]
@@ -9062,20 +8938,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010.4",
+                          "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010",
                           "name": "2010 - Reale Nutzung und Vegetationsbedeckung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010.4",
-                          "name": "2010 - Reale Nutzung der bebauten Flächen (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:reale_nutzung_2010.4",
-                          "name": "2010 - Reale Nutzung (Flächennutzung 2010)"
-                        },
-                        {
-                          "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010.4",
-                          "name": "2010 - Grün- und Freiflächenbestand (Flächennutzung 2010)"
                         }
                       ]
                     }
@@ -9294,10 +9158,6 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010",
-                          "name": "2010 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur 2010)"
-                        },
-                        {
                           "id": "ua_stadtstruktur_2010:ua_stadtstruktur_2010",
                           "name": "2010 - Stadtstruktur (Stadtstruktur 2010)"
                         }
@@ -9308,12 +9168,8 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010.2",
+                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_diff_2010",
                           "name": "2010 - Stadtstruktur - Flächentypen differenziert (Stadtstruktur 2010)"
-                        },
-                        {
-                          "id": "ua_stadtstruktur_2010:ua_stadtstruktur_2010.2",
-                          "name": "2010 - Stadtstruktur (Stadtstruktur 2010)"
                         }
                       ]
                     }
@@ -10028,10 +9884,6 @@
                           "name": "2011 - Geschossflächenzahl (GFZ) 2011 (PLR) (Städtebauliche Dichte - GFZ/GRZ 2011)"
                         },
                         {
-                          "id": "ua_staedtebauliche_dichte2011:b_grz2011",
-                          "name": "2011 - Grundflächenzahl (GRZ) (Städtebauliche Dichte - GFZ/GRZ 2011)"
-                        },
-                        {
                           "id": "ua_staedtebauliche_dichte2011:a_gfz2011",
                           "name": "2011 - Geschossflächenzahl (GFZ) (Städtebauliche Dichte - GFZ/GRZ 2011)"
                         }
@@ -10042,7 +9894,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_staedtebauliche_dichte2011:b_grz2011.2",
+                          "id": "ua_staedtebauliche_dichte2011:b_grz2011",
                           "name": "2011 - Grundflächenzahl (GRZ) (Städtebauliche Dichte - GFZ/GRZ 2011)"
                         }
                       ]
@@ -10710,10 +10562,6 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2017:ba_fp_gesamt2017_lden",
-                          "name": "2017 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten 2017)"
-                        },
-                        {
                           "id": "ua_stratlaerm_2017:ab_wohngebaeude2017.2",
                           "name": "2017 - Wohngebäude (Strategische Lärmkarten 2017)"
                         },
@@ -10726,24 +10574,28 @@
                           "name": "2017 - Bildungseinrichtungen (Strategische Lärmkarten 2017)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.4",
-                          "name": "2017 - Autobahn und Bundesstraße (Strategische Lärmkarten 2017)"
-                        },
-                        {
-                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.4",
-                          "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten 2017)"
-                        },
-                        {
-                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.2",
-                          "name": "2017 - S- und Fernbahn (Strategische Lärmkarten 2017)"
+                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.2",
+                          "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten 2017)"
                         },
                         {
                           "id": "ua_stratlaerm_2017:dd_strassen_oberirdischeubahn2017.4",
                           "name": "2017 - Straßen- und oberirdische U-Bahn (Strategische Lärmkarten 2017)"
                         },
                         {
-                          "id": "ua_stratlaerm_2017:de_laermschutzeinrichtung2017.2",
-                          "name": "2017 - Lärmschutzeinrichtungen (Strategische Lärmkarten 2017)"
+                          "id": "ua_stratlaerm_2017:dc_s_und_fernbahn2017.2",
+                          "name": "2017 - S- und Fernbahn (Strategische Lärmkarten 2017)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2017:db_sonstigesstrassennetz2017.4",
+                          "name": "2017 - Sonstiges untersuchtes Straßennetz (Strategische Lärmkarten 2017)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017.4",
+                          "name": "2017 - Autobahn und Bundesstraße (Strategische Lärmkarten 2017)"
+                        },
+                        {
+                          "id": "ua_stratlaerm_2017:ba_fp_gesamt2017_lden",
+                          "name": "2017 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten 2017)"
                         }
                       ]
                     },
@@ -11180,8 +11032,8 @@
                           "name": "2007 - Straßenverkehr L DEN (Tag-Abend-Nacht-Index) (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007",
-                          "name": "2007 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten 2007)"
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         }
                       ]
                     },
@@ -11190,11 +11042,11 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007.2",
+                          "id": "ua_stratlaerm_2007:cb_strasse_gesamt_ln2007",
                           "name": "2007 - Straßenverkehr L N (Nacht-Index) (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.2",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         }
                       ]
@@ -11304,7 +11156,7 @@
                           "name": "2007 - Fassadenpegel aller bewerteten Lärmquellen (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.2",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.3",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         },
                         {
@@ -11326,7 +11178,7 @@
                           "name": "2007 - Fassadenpegel Gesamtlärm L DEN (Tag-Abend-Nacht) (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.3",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.4",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         },
                         {
@@ -11344,7 +11196,7 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.4",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.5",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         },
                         {
@@ -11370,7 +11222,7 @@
                           "name": "2007 - Gesamtlärmindex L DEN (Tag-Abend-Nacht) Raster (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.5",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.6",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         },
                         {
@@ -11392,7 +11244,7 @@
                           "name": "2007 - Gesamtlärmindex L N (Nacht) Raster (Strategische Lärmkarten 2007)"
                         },
                         {
-                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.6",
+                          "id": "ua_stratlaerm_2007:da_bewerteteshauptstrassennetz2007.7",
                           "name": "2007 - Bewertetes Hauptstraßennetz (Strategische Lärmkarten 2007)"
                         },
                         {
@@ -11744,7 +11596,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "09.01.1 Lärmbelastung 2023/2024",
+                      "name": "09.01.1 Lärmbelastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11754,7 +11606,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.2 Luftbelastung 2023/2024",
+                      "name": "09.01.2 Luftbelastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11764,7 +11616,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.3 Grünversorgung 2023/2024",
+                      "name": "09.01.3 Grünversorgung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11774,7 +11626,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.4 Thermische Belastung 2023/2024",
+                      "name": "09.01.4 Thermische Belastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11784,7 +11636,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.5 Soziale Benachteiligung 2023/2024",
+                      "name": "09.01.5 Soziale Benachteiligung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11794,7 +11646,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.6 Mehrfachbelastung Umwelt 2023/2024",
+                      "name": "09.01.6 Mehrfachbelastung Umwelt",
                       "type": "folder",
                       "elements": [
                         {
@@ -11804,7 +11656,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung 2023/2024",
+                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11814,7 +11666,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte 2023/2024",
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte",
                       "type": "folder",
                       "elements": [
                         {
@@ -11830,7 +11682,7 @@
                   "type": "folder",
                   "elements": [
                     {
-                      "name": "09.01.1 Lärmbelastung 2021/2022",
+                      "name": "09.01.1 Lärmbelastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11844,7 +11696,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.2 Luftbelastung 2021/2022",
+                      "name": "09.01.2 Luftbelastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11858,7 +11710,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.3 Grünversorgung 2021/2022",
+                      "name": "09.01.3 Grünversorgung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11872,7 +11724,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.4 Thermische Belastung 2021/2022",
+                      "name": "09.01.4 Thermische Belastung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11886,7 +11738,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.5 Soziale Benachteiligung 2021/2022",
+                      "name": "09.01.5 Soziale Benachteiligung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11900,7 +11752,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.6 Mehrfachbelastung Umwelt 2021/2022",
+                      "name": "09.01.6 Mehrfachbelastung Umwelt",
                       "type": "folder",
                       "elements": [
                         {
@@ -11914,7 +11766,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung 2021/2022",
+                      "name": "09.01.7 Mehrfachbelastung Umwelt und Soziale Benachteiligung",
                       "type": "folder",
                       "elements": [
                         {
@@ -11928,7 +11780,7 @@
                       ]
                     },
                     {
-                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte 2021/2022",
+                      "name": "09.01.9 Integrierte Mehrfachbelastungskarte – Berliner Umweltgerechtigkeitskarte",
                       "type": "folder",
                       "elements": [
                         {
