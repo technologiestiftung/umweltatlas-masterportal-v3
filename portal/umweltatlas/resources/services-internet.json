@@ -510,6 +510,96 @@
     }
   },
   {
+    "id": "ua_umweltgerechtigkeit_2013:ga_plr2009",
+    "name": "Planungsraum 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "ga_plr2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gb_unbewofl",
+    "name": "weitgehend unbewohnte Fläche 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gb_unbewofl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_umweltgerechtigkeit_2013:gc_vierfach_belastung",
+    "name": "Integrierte Mehrfachbelastung Umwelt 2013",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_umweltgerechtigkeit_2013",
+    "typ": "WMS",
+    "layers": "gc_vierfach_belastung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e8c64e5c-e00f-3a9c-96bd-adffdb212975",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_6_2013_mit_strname.pdf",
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_umweltgerechtigkeit_2013:ha_plr2009",
     "name": "Planungsraum 2009",
     "crs": "EPSG:25833",
@@ -4887,7 +4977,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/stadtstruktur/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/stadtstruktur/de-karten/06_08_2010.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/stadtstruktur/de-karten/06_07_2010.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -12237,7 +12327,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2015.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_2015.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -12297,7 +12387,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2015.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_1_2015.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -12327,7 +12417,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2015.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2015.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -14901,7 +14991,7 @@
   },
   {
     "id": "ua_stratlaerm_2017:da_autobahn_bundesstrasse2017",
-    "name": "Autobahn und Bundesstrasse 2017",
+    "name": "Autobahn und Bundesstraße 2017",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_stratlaerm_2017",
     "typ": "WMS",
@@ -19573,8 +19663,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserschutzgebiete/2006/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserschutzgebiete/de-karten/02_11_2006.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -21650,7 +21740,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_6_2007.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_7_2007.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -32669,7 +32759,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2020.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -32699,7 +32789,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2020.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -32729,7 +32819,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2020.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_1_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37438,7 +37528,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2010.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_1_2010.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37468,7 +37558,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2010.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_2010.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37498,7 +37588,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2010.pdf",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2010.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -37818,26 +37908,6 @@
       "tel": "+4930901395270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
-  },
-  {
-    "id": "luftbild_1938_04:c_luftbilder_1938_04_raster",
-    "name": "Bildmosaik",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/luftbild_1938_04",
-    "typ": "WMS",
-    "layers": "c_luftbilder_1938_04_raster",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "4893a516-4862-300f-9f6e-b0a60386c7f1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "ignore",
-    "singleTile": true
   },
   {
     "id": "ua_lufttemp_1961_1990:lufttemp_1961_1990",
