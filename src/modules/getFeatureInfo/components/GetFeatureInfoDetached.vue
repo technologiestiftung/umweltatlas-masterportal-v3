@@ -398,9 +398,6 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.gfi-title-container {
-    min-width: 0;
-    text-align: center;
 .sticky-sentinel {
     position: absolute;
     top: 0;
@@ -412,7 +409,8 @@ export default {
 }
 
 .gfi-header {
-    transition: box-shadow 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
+    border-bottom: 0.0625rem solid transparent;
 }
 
 .gfi-header-sticky {
@@ -420,10 +418,19 @@ export default {
     top: 0;
     background-color: $white;
     z-index: 10;
+    margin-left: -0.9375rem;
+    margin-right: -0.9375rem;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
 }
 
 .gfi-header-sticky.is-stuck {
-    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+    border-bottom-color: $light_grey;
+}
+
+.gfi-title-container {
+    min-width: 0;
+    text-align: center;
 }
 
 .gfi-title {

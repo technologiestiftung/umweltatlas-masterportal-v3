@@ -13,6 +13,7 @@
 - GetFeatureInfo: Added optional `gfiTitleAttribute` parameter to display a feature attribute value as GFI title instead of the layer name.
 - CoordToolkit: Added configurable parameter `keepMarkerVisible` to optionally keep the coordinate marker visible on the map after closing the tool (default: false).
 - Calendar: Added women's day, liberation day and children day as holidays.
+- GetFeatureInfo: Added `stickyHeader` configuration option to keep GFI title and navigation arrows visible when scrolling through long content.
 
 ### Changed
 - WMS-Time:
@@ -76,7 +77,6 @@
 - WMS-Time:
     - The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
     - The attibute `staticDimensions` can now be configured and sent to the service when the WMS time layer is loaded.
-- GetFeatureInfo: Added `stickyHeader` configuration option to keep GFI title and navigation arrows visible when scrolling through long content.
 
 ### Changed
 - Issue \#1500: WfsSearch: Added multi-select functionality for search results with polygon markers on map and zoom to combined extent. Improved geometry extraction and row selection logic to prevent duplicate entries.
