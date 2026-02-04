@@ -36,7 +36,9 @@
 - Issue \#1556: Fixed an error, if using layers with `layerSequence` in Firefox.
 - Issue \#1557: WFSSearch: fixed selection bug with deeper nested options.
 - WFS-T: Multi-update works correctly when multiple layers are configured in the WFS-T tool.
-- i18next: Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
+- i18next: 
+    - Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
+    - Switching language no longer throws a 404-Error in console.
 - SearchInterfaceSpecialWfs: Improved namespace handling and coordinate transformation. Fixed issues with WFS servers using different namespace prefixes and EPSG:4326 point coordinates.
 - UrlParams: Fixed zIndex of second baselayer, when share link with mdid and multiple baselayers is opened.
 - Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
