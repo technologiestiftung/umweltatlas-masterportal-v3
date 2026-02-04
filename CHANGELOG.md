@@ -8,6 +8,7 @@
 ### __Breaking Changes__
 
 ### Added
+- LayerTree: The attribute `reverseLayer` can now be configured to reverse the layers behind the `addLayerButton`.
 
 ### Changed
 
@@ -26,12 +27,10 @@
 - Issue #1473: Layer2dRasterGeoTiff: Neuen Layertyp `GeoTiff` hinzugefügt.
 - Issue #1524: draw_old: Added documentation for drawSquareSettings.
 - CopyrightConstraints: Added Parameter `useLayerCswUrl` to use the CSW interface specified in the layers.
+- LayerTree: Added LayerComponentIconCustom to provide a custom action button for layers that can execute Masterportal actions.
 - Print: GFI can now always be opened in Print mode, it no longer depends on the Print Module side.
 - SearchBar/LocationFinder: Added `displayName` parameter to LocationFinder configuration to display custom category names in search results.
 - WMS: Added parameter `overwriteWmsLoadfunction` used in config.js to enable to overwrite the global wms load function.
-- LayerTree:
-    -  Added LayerComponentIconCustom to provide a custom action button for layers that can execute Masterportal actions.
-    -  The attribute `reverseLayer` can now be configured to reverse the layers behind the `addLayerButton`.
 - WMS-Time:
     - The attributes `dimensionRange` and `dimensionRegex` can now be used to filter the values ​​that should be displayed in the time slider.
     - The attibute `staticDimensions` can now be configured and sent to the service when the WMS time layer is loaded.
