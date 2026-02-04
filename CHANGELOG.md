@@ -4,8 +4,7 @@
 
 [Semantic versioning](https://semver.org/spec/v2.0.0.html) is used.
 
-## Unreleased - in development
-### __Breaking Changes__
+## 2026-02-04 v3.19.0
 
 ### Added
 - Issue #1473: Layer2dRasterGeoTiff: Neuen Layertyp `GeoTiff` hinzugefügt.
