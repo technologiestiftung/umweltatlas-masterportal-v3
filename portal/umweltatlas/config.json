@@ -4252,20 +4252,16 @@
                       "type": "folder",
                       "elements": [
                         {
-                          "id": "ua_zemhgw:d_zemhgw_geoskizzegew.2",
-                          "name": "Geologische Skizze (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
+                          "id": "ua_zemhgw_flurabstand:c_zemhgw_flurabstand",
+                          "name": "zeMHGW-Flurabstand (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand)"
                         },
                         {
-                          "id": "ua_zemhgw:cb_zemhgw_fl.2",
-                          "name": "Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
+                          "id": "ua_zemhgw_flurabstand:b_zemhgw_wsg_sd",
+                          "name": "Wasserschutzgebiete (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand)"
                         },
                         {
-                          "id": "ua_zemhgw:b_zemhgw_wsg_sd.2",
-                          "name": "Wasserschutzgebiete (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
-                        },
-                        {
-                          "id": "ua_zemhgw:a_zemhgw_wasserwerk.2",
-                          "name": "Wasserwerke (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW))"
+                          "id": "ua_zemhgw_flurabstand:a_zemhgw_wasserwerk",
+                          "name": "Wasserwerke (Zu erwartender mittlerer höchster Grundwasserstand (zeMHGW) - Flurabstand)"
                         }
                       ]
                     }
@@ -5085,15 +5081,15 @@
                       "elements": [
                         {
                           "id": "ua_gewaesserstrukturguete:seen",
-                          "name": "2011 - seen (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
+                          "name": "2011 - Seen (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
                         },
                         {
                           "id": "ua_gewaesserstrukturguete:fliessgewaesser_vorortverfahren",
-                          "name": "2011 - Gewässerstrukturgüte - Gesamtbewertung (WRRL), Fließgewässer VOV (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
+                          "name": "2011 - Fließgewässer Vor-Ort-Verfahren (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
                         },
                         {
                           "id": "ua_gewaesserstrukturguete:fliessgewaesser_uebersichtsverfahren",
-                          "name": "2011 - Gewässerstrukturgüte - Gesamtbewertung (WRRL), Fließgewässer ÜV (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
+                          "name": "2011 - Fließgewässer Übersichtsverfahren (Gewässerstrukturgüte - Gesamtbewertung (WRRL))"
                         }
                       ]
                     }
@@ -5707,7 +5703,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1989",
-                          "name": "1989-2015 - SO2 Emissionen Verkehr 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Kfz-Verkehr 1989 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5717,7 +5713,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1994",
-                          "name": "1989-2015 - SO2 Emissionen Verkehr 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Kfz-Verkehr 1994 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5727,7 +5723,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2002",
-                          "name": "1989-2015 - SO2 Emissionen Verkehr 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Kfz-Verkehr 2002 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5737,7 +5733,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2005",
-                          "name": "1989-2015 - SO2 Emissionen Verkehr 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
+                          "name": "1989-2015 - SO2 Emissionen Kfz-Verkehr 2005 (Langjährige Entwicklung Luftqualität SO2-Emissionen Kfz-Verkehr 1989 bis 2005)"
                         }
                       ]
                     },
@@ -5757,7 +5753,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_haus_pm10_2009:haus_pm10_2009",
-                          "name": "1989-2015 - PM10 Emissionen Hausbrand 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Hausbrand 2009)"
+                          "name": "1989-2015 - PM10 Emissionen Hausbrand 2009 (Langjährige Entwicklung Luftqualität PM10-Emissionen Hausbrand 2009)"
                         }
                       ]
                     },
@@ -5777,7 +5773,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ges_pm10_2009",
-                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr gesamt 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr gesamt 2009 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
@@ -5787,7 +5783,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_hs_pm10_2009",
-                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Hauptnetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Hauptnetz 2009 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
@@ -5797,7 +5793,7 @@
                       "elements": [
                         {
                           "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ns_pm10_2009",
-                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Nebennetz 2009, Stand 2011 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
+                          "name": "1989-2015 - PM10 Emissionen Kfz-Verkehr Nebennetz 2009 (Langjährige Entwicklung Luftqualität PM10-Emissionen Kfz-Verkehr)"
                         }
                       ]
                     },
