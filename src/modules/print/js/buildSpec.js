@@ -478,19 +478,17 @@ const BuildSpecModel = {
         return mapObject;
     },
     /**
- * Returns ImageWMS layer information for MapFish print.
- *
- * For large layouts or high DPI values MapFish may create oversized single-image WMS requests.
- * This can lead to rendering artifacts (e.g. red background) in the generated PDF.
- *
- * To avoid this, the layer is automatically requested as "tiledwms" instead of a single image:
- * - for A0 layouts
- * - for known problematic layers (e.g. id 21958) when DPI >= 400
- *
- * @param {ol.layer.Image} layer - Image layer with ImageWMS source
- * @param {Number} [dpi] The dpi to use instead of the dpi from store
- * @returns {Object} WMS layer spec for MapFish
- */
+     * Returns ImageWMS layer information for MapFish print.
+     * For large layouts or high DPI values MapFish may create oversized single-image WMS requests.
+     * This can lead to rendering artifacts (e.g. red background) in the generated PDF.
+     * To avoid this, the layer is automatically requested as "tiledwms" instead of a single image:
+     * - for A0 layouts
+     * - for known problematic layers (e.g. id 21958) when DPI >= 400
+     *
+     * @param {ol.layer.Image} layer - Image layer with ImageWMS source
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store
+     * @returns {Object} WMS layer spec for MapFish
+    */
 
     buildImageWms: function (layer, dpi) {
         const source = layer.getSource(),

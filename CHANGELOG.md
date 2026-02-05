@@ -27,6 +27,7 @@
 - i18next: Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
 - SearchInterfaceSpecialWfs: Improved namespace handling and coordinate transformation. Fixed issues with WFS servers using different namespace prefixes and EPSG:4326 point coordinates.
 - UrlParams: Fixed zIndex of second baselayer, when share link with mdid and multiple baselayers is opened.
+- Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
 
 ---
 
@@ -72,8 +73,6 @@
 - WMS-Time:
     - Added the current time parameter (TIME) to ensure time-dynamic layers are correctly represented when printing.
     - The current timestamp of a WMS-T layer is now captured in the share link and restored upon activation.
-- Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
-
 
 ---
 
