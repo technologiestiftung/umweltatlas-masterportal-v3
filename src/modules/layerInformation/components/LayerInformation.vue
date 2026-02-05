@@ -295,7 +295,7 @@ export default {
             :header-bold="true"
         >
             <span v-if="contact.length" class="contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Ansprechperson datenhaltende Stelle</p>
+                <p class="font-bold ua-dark-green pb-2">Fachlich verantwortlich</p>
                 <div
                 v-for="(c, idx) in contact"
                 :key="c.email || c.name || idx"
@@ -327,7 +327,7 @@ export default {
             </span>
 
             <span v-if="uaData.uaContact" class="ua-contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Ansprechperson Umweltatlas</p>
+                <p class="font-bold ua-dark-green pb-2">Umweltatlas</p>
                 <div class="ua-break-parent">
                     <div>
                         <img :src=imgLink alt="" class="ua-person-img">
