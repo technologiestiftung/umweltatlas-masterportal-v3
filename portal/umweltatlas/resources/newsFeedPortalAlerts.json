@@ -1,5 +1,5 @@
 {
-  "globalAlerts": [],
+  "globalAlerts": ["wartungsarbeiten", "wartungsarbeiten2"],
   "restrictedAlerts": {},
   "alerts": {
     "wartungsarbeiten": {
@@ -9,7 +9,11 @@
       "displayFrom": false,
       "displayUntil": false,
       "mustBeConfirmed": false,
-      "once": true
+      "once": true,
+      "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": { "type": "__never__" }
+      }
     },
     "wartungsarbeiten2": {
       "displayClass": "info",
@@ -18,7 +22,11 @@
       "displayFrom": false,
       "displayUntil": false,
       "mustBeConfirmed": false,
-      "once": true
+      "once": true,
+      "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": { "type": "__never__" }
+      }
     }
   }
 }
