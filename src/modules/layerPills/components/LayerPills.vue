@@ -50,7 +50,7 @@ export default {
          * @returns {Array<Object>} Sorted list of visible layer configuration objects
          */
         sortedVisibleLayerPills () {
-            const treeLayers = this.layerTreeSortedLayerConfigs,
+            const treeLayers = this.layerTreeSortedLayerConfigs(false),
                 visible = this.visibleSubjectDataLayerConfigs;
 
             return [
@@ -76,7 +76,7 @@ export default {
         * @returns {void}
         */
         mode (value) {
-            const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
+            const sortedByTree = this.layerTreeSortedLayerConfigs(false).filter(
                 l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
             );
 
@@ -97,12 +97,15 @@ export default {
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
+        const layers = this.layerTreeSortedLayerConfigs(false);
 
-        const sortedByTree = this.layerTreeSortedLayerConfigs.filter(
-            l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
-        );
+        if (layers) {
+            const sortedByTree = this.layerTreeSortedLayerConfigs(false).filter(
+                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
 
-        this.setVisibleLayers(sortedByTree, this.mode);
+            this.setVisibleLayers(sortedByTree, this.mode);
+        }
     },
     mounted () {
         this.setupResizeObserver();

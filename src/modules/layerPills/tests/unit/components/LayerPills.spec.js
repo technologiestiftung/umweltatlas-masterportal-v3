@@ -103,7 +103,7 @@ describe("src/modules/LayerPills.vue", () => {
                         LayerTree: {
                             namespaced: true,
                             getters: {
-                                layerTreeSortedLayerConfigs: () => visibleLayers
+                                layerTreeSortedLayerConfigs: () => () => visibleLayers
                             }
                         },
                         LayerInformation: {
@@ -369,14 +369,14 @@ describe("src/modules/LayerPills.vue", () => {
 
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
 
-            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs().filter(
                 l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
             );
 
             expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
             expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
 
-            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs;
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs();
 
             expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
             expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
@@ -393,10 +393,10 @@ describe("src/modules/LayerPills.vue", () => {
 
             wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue);
 
-            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs.filter(
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs().filter(
                 l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
             );
-            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs;
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs();
 
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
             expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);

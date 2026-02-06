@@ -1,6 +1,6 @@
 import {generateSimpleGetters} from "@shared/js/utils/generators.js";
 import stateLayerTree from "./stateLayerTree.js";
-import {sortObjects, sortByLayerSequence} from "@shared/js/utils/sortObjects.js";
+import sortObjectsProvider from "@shared/js/utils/sortObjects.js";
 
 /**
  * The getters for the LayerTree.
@@ -19,9 +19,10 @@ const simpleGetters = {
      * @param {Object} getters - Vuex getters of this module
      * @param {Object} rootState - Root Vuex state
      * @param {Object} rootGetters - Root Vuex getters
+     * @param {Boolean} sortLayerSequence - if true, layer configs are sorted by layerSequence
      * @returns {Array<Object>} Sorted layer configuration array
      */
-    layerTreeSortedLayerConfigs: (state, getters, rootState, rootGetters) => {
+    layerTreeSortedLayerConfigs: (state, getters, rootState, rootGetters)=> sortLayerSequence => {
         let configs;
 
         if (rootGetters.showLayerAddButton) {
@@ -33,12 +34,11 @@ const simpleGetters = {
 
         configs = [...configs];
 
-        sortObjects(configs, "zIndex", "desc");
+        sortObjectsProvider.sortObjects(configs, "zIndex", "desc");
 
-        if (configs.some(conf => "layerSequence" in conf)) {
-            sortByLayerSequence(configs);
+        if (sortLayerSequence && configs.some(conf => "layerSequence" in conf)) {
+            sortObjectsProvider.sortByLayerSequence(configs);
         }
-
         return configs;
     }
 };

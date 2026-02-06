@@ -174,31 +174,36 @@ describe("src/shared/js/utils/sortObjects.js", () => {
         });
     });
     describe("sortByLayerSequence", () => {
-        const layers = [
-            {
-                name: "a",
-                layerSequence: 2
-            },
-            {
-                name: "b",
-                layerSequence: 1
-            },
-            {
-                name: "c"
-            },
-            {
-                name: "d",
-                layerSequence: 3
-            },
-            {
-                name: "e"
-            }
-        ];
+        let layers;
+
+        beforeEach(() => {
+            layers = [
+                {
+                    name: "a",
+                    layerSequence: 2
+                },
+                {
+                    name: "b",
+                    layerSequence: 1
+                },
+                {
+                    name: "c"
+                },
+                {
+                    name: "d",
+                    layerSequence: 3
+                },
+                {
+                    name: "e"
+                }
+            ];
+        });
 
         it("should sort objects by layerSequence in ascending order", () => {
             const clonedLayers = [...layers];
 
             sortByLayerSequence(clonedLayers);
+
             expect(clonedLayers).to.be.an("array");
             expect(clonedLayers).to.have.deep.members([
                 {name: "b", layerSequence: 1, zIndex: 4},
@@ -212,10 +217,55 @@ describe("src/shared/js/utils/sortObjects.js", () => {
             const clonedLayers = [...layers];
 
             sortByLayerSequence(clonedLayers);
+
             expect(clonedLayers).to.be.an("array");
             expect(clonedLayers[3].name).to.equal("c");
             expect(clonedLayers[4].name).to.equal("e");
         });
+
+        it("should place objects without layerSequence at the end and do not change order of them, sort twice", () => {
+            layers.push({
+                name: "f"
+            });
+            layers[2].baselayer = true;
+            const clonedLayers = [...layers];
+
+            sortByLayerSequence(clonedLayers);
+
+            expect(clonedLayers).to.be.an("array");
+            expect(clonedLayers[3].name).to.equal("c");
+            expect(clonedLayers[4].name).to.equal("e");
+            expect(clonedLayers[5].name).to.equal("f");
+
+            sortByLayerSequence(clonedLayers);
+
+            expect(clonedLayers).to.be.an("array");
+            expect(clonedLayers[3].name).to.equal("c");
+            expect(clonedLayers[4].name).to.equal("e");
+            expect(clonedLayers[5].name).to.equal("f");
+        });
+
+        it("should place objects without layerSequence at the end and do not change order of them, sort twice", () => {
+            layers.push({
+                name: "f"
+            });
+            const clonedLayers = [...layers];
+
+            sortByLayerSequence(clonedLayers);
+
+            expect(clonedLayers).to.be.an("array");
+            expect(clonedLayers[3].name).to.equal("c");
+            expect(clonedLayers[4].name).to.equal("e");
+            expect(clonedLayers[5].name).to.equal("f");
+
+            sortByLayerSequence(clonedLayers);
+
+            expect(clonedLayers).to.be.an("array");
+            expect(clonedLayers[3].name).to.equal("c");
+            expect(clonedLayers[4].name).to.equal("e");
+            expect(clonedLayers[5].name).to.equal("f");
+        });
+
         it("should keep the relative order of objects with layerSequence", () => {
             const newLayers = [
                 {name: "a", layerSequence: 2},

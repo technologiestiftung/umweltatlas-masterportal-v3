@@ -60,18 +60,14 @@ export function getNestedElement (searchElement, nestedAttribute) {
  */
 export function sortByLayerSequence (objects) {
     let objectLength = objects.length;
+    const withLayerSequence = objects.filter(obj => "layerSequence" in obj),
+        withoutLayerSequence = objects.filter(obj => !Object.hasOwn(obj, "layerSequence"));
 
-    objects.sort((a, b) => {
+    withLayerSequence.sort((a, b) => {
         if (a.baselayer && !b.baselayer) {
             return 1;
         }
         if (!a.baselayer && b.baselayer) {
-            return -1;
-        }
-        if (!("layerSequence" in a)) {
-            return 1;
-        }
-        if (!("layerSequence" in b)) {
             return -1;
         }
 
@@ -81,8 +77,12 @@ export function sortByLayerSequence (objects) {
 
         return b.zIndex - a.zIndex;
     });
-    objects.forEach((object) => {
-        object.zIndex = --objectLength;
+
+    const all = withLayerSequence.concat(withoutLayerSequence);
+
+    all.forEach((element, index) => {
+        element.zIndex = --objectLength;
+        objects[index] = element;
     });
 }
-export default {sortObjects, getNestedElement};
+export default {sortObjects, getNestedElement, sortByLayerSequence};

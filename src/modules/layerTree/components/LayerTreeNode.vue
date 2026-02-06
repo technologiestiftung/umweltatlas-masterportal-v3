@@ -18,7 +18,8 @@ export default {
     data () {
         return {
             isOpen: false,
-            sortedByLayerSequence: false
+            sortedByLayerSequence: false,
+            firstDrag: false
         };
     },
     computed: {
@@ -34,7 +35,7 @@ export default {
              * @returns {void}
              */
             get () {
-                return this.layerTreeSortedLayerConfigs;
+                return this.layerTreeSortedLayerConfigs(!this.firstDrag);
             },
             /**
              * Sets the changed layer Configs order.
@@ -115,6 +116,7 @@ export default {
          */
         checkMove (event) {
             if (this.portalConfig.tree.allowBaselayerDrag !== false) {
+                this.firstDrag = true;
                 return true;
             }
 
@@ -128,6 +130,7 @@ export default {
             if (!draggedLayer.baselayer && targetLayer.baselayer) {
                 return false;
             }
+            this.firstDrag = true;
 
             return true;
         }
