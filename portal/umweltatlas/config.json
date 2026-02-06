@@ -88,7 +88,9 @@
             "icon": "bi-book"
           },
           {
-            "type": "news"
+            "type": "news",
+            "icon": "bi-newspaper",
+            "name": "common:modules.news.name"
           },
           {
             "icon": "bi-info-circle",
