@@ -1,5 +1,6 @@
 {
-  "globalAlerts": ["wartungsarbeiten", "wartungsarbeiten2"],
+  "globalAlerts": [],
+  "restrictedAlerts": {},
   "alerts": {
     "wartungsarbeiten": {
       "displayClass": "info",
