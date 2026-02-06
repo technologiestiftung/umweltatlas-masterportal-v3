@@ -483,7 +483,7 @@ const BuildSpecModel = {
      * This can lead to rendering artifacts (e.g. red background) in the generated PDF.
      * To avoid this, the layer is automatically requested as "tiledwms" instead of a single image:
      * - for A0 layouts
-     * - for known problematic layers (e.g. id 21958) when DPI >= 400
+     * - for known problematic layers when DPI >= 400
      *
      * @param {ol.layer.Image} layer - Image layer with ImageWMS source
      * @param {Number} [dpi] The dpi to use instead of the dpi from store
@@ -521,10 +521,9 @@ const BuildSpecModel = {
         }
         const effectiveDpi = typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf;
         const layout = this.defaults.layout ?? "";
-        const layerId = String(layer.get("id") ?? "");
 
         const isA0 = layout.startsWith("A0");
-        const isProblemLayerAtHighDpi = layerId === "21958" && effectiveDpi >= 400;
+        const isProblemLayerAtHighDpi = effectiveDpi >= 400;
 
         if (isA0 || isProblemLayerAtHighDpi) {
             mapObject.type = "tiledwms";
