@@ -107,6 +107,33 @@ export default {
             const pub = Array.isArray(this.publisher) ? this.publisher : (this.publisher ? [this.publisher] : []);
             return poc.length ? poc : pub; // fallback to publisher if no pointOfContact
         },
+        filteredContact () {
+            const contacts = Array.isArray(this.contact) ? this.contact : [];
+
+            // Wenn es 0 oder 1 Kontakt gibt: nichts filtern
+            if (contacts.length <= 1) {
+                return contacts;
+            }
+
+            // Bei >1 Kontakte: diese Namen ausblenden
+            const blacklist = ["haag", "dollefeld", "hartbecke"];
+
+            // Normalize (macht "Döllefeld" -> "dollefeld" für zuverlässigen Vergleich)
+            const norm = (s) =>
+                (s || "")
+                    .toString()
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, ""); // entfernt Umlaute/Diakritika
+
+            return contacts.filter((c) => {
+                const name = norm(c?.name);
+                const individualName = norm(c?.individualName);
+                const combined = `${name} ${individualName}`;
+
+                return !blacklist.some((b) => combined.includes(b));
+            });
+        },
         menuIndicator () {
             return this.mainMenu.currentComponent === "layerInformation"
                 ? "mainMenu"
@@ -294,10 +321,10 @@ export default {
             :coloured-body="true"
             :header-bold="true"
         >
-            <span v-if="contact.length" class="contact-wrapper">
+            <span v-if="filteredContact.length" class="contact-wrapper">
                 <p class="font-bold ua-dark-green pb-2">Fachlich verantwortlich</p>
                 <div
-                v-for="(c, idx) in contact"
+                v-for="(c, idx) in filteredContact"
                 :key="c.email || c.name || idx"
                 class="ua-break-parent"
                 style="padding-bottom: 10px;"
