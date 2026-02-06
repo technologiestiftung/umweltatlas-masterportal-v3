@@ -241,7 +241,7 @@ export default {
     position: fixed;
     background-color: $menu-background-color;
     transition: width 0.3s ease;
-    z-index: 2;
+    z-index: 4;
     flex-direction: column
 }
 
@@ -298,7 +298,7 @@ export default {
         min-width: 0%;
         flex-grow: 0;
         flex-shrink: 0;
-        position: relative;
+        position: absolute;
     }
 
     .mp-mainMenu {
@@ -328,6 +328,10 @@ export default {
 }
 
 @include media-breakpoint-up(md) {
+    .mp-menu {
+        position: relative;
+    }
+
     .mp-menu-header-close-button {
         display: none;
     }
