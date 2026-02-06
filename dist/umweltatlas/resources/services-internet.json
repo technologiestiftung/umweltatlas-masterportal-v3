@@ -1,15 +1,15 @@
 [
   {
-    "id": "ua_luftreinhalteplan_2018_2025:a_no2_sz1",
-    "name": "Szenario 1 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 5 und älter\"",
+    "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
+    "name": "Fischsymbol",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "a_no2_sz1",
+    "layers": "a_fischfauna2022_fischsymbol",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -21,8 +21,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -30,16 +30,16 @@
     }
   },
   {
-    "id": "ua_luftreinhalteplan_2018_2025:b_no2_sz2",
-    "name": "Szenario 2 \"Durchfahrtsbeschränkungen für Diesel-Fahrzeuge mit Ausnahme der Linienbusse und der Motorräder der Abgasstufen Euro 5 / V und älter\"",
+    "id": "ua_fischfauna_2022:b_fischfauna2022_messstelle",
+    "name": "Messstellen der Befischung",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "b_no2_sz2",
+    "layers": "b_fischfauna2022_messstelle",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -51,8 +51,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -60,16 +60,16 @@
     }
   },
   {
-    "id": "ua_luftreinhalteplan_2018_2025:c_no2_sz3",
-    "name": "Szenario 3 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 6c und älter\"",
+    "id": "ua_fischfauna_2022:c_fischfauna2022_gew_li",
+    "name": "Gewässer (Linien)",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "c_no2_sz3",
+    "layers": "c_fischfauna2022_gew_li",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -81,8 +81,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -90,16 +90,16 @@
     }
   },
   {
-    "id": "ua_luftreinhalteplan_2018_2025:d_no2_sz4",
-    "name": "Szenario 4 \"Durchfahrtsbeschränkungen für schwere Nutzfahrzeuge (> 3,5 t) der Abgasstufen Euro V und schlechter\"",
+    "id": "ua_fischfauna_2022:d_fischfauna2022_mit_fisch",
+    "name": "Gewässer mit Befischung",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "d_no2_sz4",
+    "layers": "d_fischfauna2022_mit_fisch",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -111,8 +111,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -120,16 +120,16 @@
     }
   },
   {
-    "id": "ua_luftreinhalteplan_2018_2025:e_no2_sz5",
-    "name": "Szenario 5 \"Förderung des Umweltverbundes - 50 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\"",
+    "id": "ua_fischfauna_2022:e_fischfauna2022_nicht_befischt",
+    "name": "Gewässer ohne Befischung",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "e_no2_sz5",
+    "layers": "e_fischfauna2022_nicht_befischt",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -141,8 +141,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -150,16 +150,16 @@
     }
   },
   {
-    "id": "ua_luftreinhalteplan_2018_2025:f_no2_sz6",
-    "name": "Szenario 6 \"Förderung des Umweltverbundes - 100 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\"",
+    "id": "ua_fischfauna_2022:f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
+    "name": "Sonstige Gewässer",
     "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
     "typ": "WMS",
-    "layers": "f_no2_sz6",
+    "layers": "f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
     "legend": true,
     "datasets": [
       {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
         "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
       }
     ],
@@ -171,68 +171,8 @@
     "gfiTheme": "default",
     "infoFormat": "application/json",
     "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_luftreinhalteplan_2018_2025:g_no2_sz7",
-    "name": "Szenario 7 \"Fahrzeugtechnik - Nachrüstung von Dieselfahrzeugen\"",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
-    "typ": "WMS",
-    "layers": "g_no2_sz7",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_luftreinhalteplan_2018_2025:trend_szenario",
-    "name": "Trend-Szenario 2020 (Gesamtindex der Luftbelastung aus NO2 und PM10)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
-    "typ": "WMS",
-    "layers": "trend_szenario",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -1281,6 +1221,52 @@
       "tel": "+4930901395270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "isu5_2015:isu5_2015_block",
+    "name": "Block- und Blockteilflächen 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2015",
+    "typ": "WMS",
+    "layers": "isu5_2015_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "11f2d46d-b875-377f-8864-4605e468fa1c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5_2015:isu5_2015_str",
+    "name": "Straßenflächen 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2015",
+    "typ": "WMS",
+    "layers": "isu5_2015_str",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "11f2d46d-b875-377f-8864-4605e468fa1c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   },
   {
     "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
@@ -2987,6 +2973,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3016,6 +3003,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3045,6 +3033,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3074,6 +3063,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3103,6 +3093,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3132,6 +3123,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3161,6 +3153,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3190,6 +3183,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3219,6 +3213,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3248,6 +3243,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3277,6 +3273,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3306,6 +3303,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3335,6 +3333,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3364,6 +3363,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -3393,6 +3393,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/niederschlagsverteilung/1981-2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/niederschlagsverteilung/de-karten/04_08_3_1981-2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -5454,6 +5455,246 @@
     }
   },
   {
+    "id": "ua_luftreinhalteplan_2018_2025:a_no2_sz1",
+    "name": "Szenario 1 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 5 und älter\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "a_no2_sz1",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:b_no2_sz2",
+    "name": "Szenario 2 \"Durchfahrtsbeschränkungen für Diesel-Fahrzeuge mit Ausnahme der Linienbusse und der Motorräder der Abgasstufen Euro 5 / V und älter\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "b_no2_sz2",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:c_no2_sz3",
+    "name": "Szenario 3 \"Durchfahrtsbeschränkungen für Diesel-Pkw der Abgasstufen Euro 6c und älter\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "c_no2_sz3",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:d_no2_sz4",
+    "name": "Szenario 4 \"Durchfahrtsbeschränkungen für schwere Nutzfahrzeuge (> 3,5 t) der Abgasstufen Euro V und schlechter\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "d_no2_sz4",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:e_no2_sz5",
+    "name": "Szenario 5 \"Förderung des Umweltverbundes - 50 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "e_no2_sz5",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:f_no2_sz6",
+    "name": "Szenario 6 \"Förderung des Umweltverbundes - 100 % Parkraumbewirtschaftung im Inneren S-Bahn-Ring\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "f_no2_sz6",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:g_no2_sz7",
+    "name": "Szenario 7 \"Fahrzeugtechnik - Nachrüstung von Dieselfahrzeugen\"",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "g_no2_sz7",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftreinhalteplan_2018_2025:trend_szenario",
+    "name": "Trend-Szenario 2020 (Gesamtindex der Luftbelastung aus NO2 und PM10)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftreinhalteplan_2018_2025",
+    "typ": "WMS",
+    "layers": "trend_szenario",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f356b7c-4799-4c2a-b66b-3f0a2b35e7e2",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/strassenverkehr-emissionen-und-immissionen/2016/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/luft/strassenverkehr-emissionen-und-immissionen/de-karten/03_11_3_2019.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_niederschlag_1991_2020:aa_lniederschl_9120_isoli",
     "name": "Isolinien - Langjährige Niederschlagsverteilung 1991-2020",
     "crs": "EPSG:25833",
@@ -7384,6 +7625,7 @@
     "maxScale": "100000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/moore/2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/moore/karten/01_19_2_2015.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -7413,6 +7655,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/moore/2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/moore/karten/01_19_2_2015.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -7899,6 +8142,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/hochwasser/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/hochwasser/de-karten/02_23_3_2024.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -11148,7 +11392,7 @@
   },
   {
     "id": "ua_luftbelastung_verkehr_2020_2025:ua_luftbelastung_verkehr_2020_2025",
-    "name": "Verkehrsbedingte Luftbelastung im Straßenraum 2020 und 2025 (Umweltatlas)",
+    "name": "Verkehrsbedingte Luftbelastung im Straßenraum 2020 und 2025",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftbelastung_verkehr_2020_2025",
     "typ": "WMS",
@@ -14125,6 +14369,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2017/docs/07_05_15_2017.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -14155,6 +14400,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2017/docs/07_05_15_2017.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -14185,6 +14431,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2017/docs/07_05_15_2017.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -14215,6 +14462,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2017/docs/07_05_15_2017.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -14245,6 +14493,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2017/docs/07_05_15_2017.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -15811,6 +16060,29 @@
     }
   },
   {
+    "id": "isu50_2010:isu50_2010",
+    "name": "Blöcke und Teilblöcke 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu50_2010",
+    "typ": "WMS",
+    "layers": "isu50_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "699ef9b4-8a9f-3ebf-b0ee-61bec89ac5c0",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "ua_grundwassertemperatur_1978_1998:Internetkarte",
     "name": "Grundwassertemperaturen für den Bezugshorizont 0m NHN",
     "crs": "EPSG:25833",
@@ -16949,6 +17221,96 @@
     "singleTile": true
   },
   {
+    "id": "ua_zemhgw_flurabstand:a_zemhgw_wasserwerk",
+    "name": "Wasserwerke",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw_flurabstand",
+    "typ": "WMS",
+    "layers": "a_zemhgw_wasserwerk",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2_2016.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_zemhgw_flurabstand:b_zemhgw_wsg_sd",
+    "name": "Wasserschutzgebiete",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw_flurabstand",
+    "typ": "WMS",
+    "layers": "b_zemhgw_wsg_sd",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2_2016.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_zemhgw_flurabstand:c_zemhgw_flurabstand",
+    "name": "zeMHGW-Flurabstand",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_zemhgw_flurabstand",
+    "typ": "WMS",
+    "layers": "c_zemhgw_flurabstand",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "256a41e2-57c0-4897-b039-ba53d830b7eb",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2_2016.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
     "id": "ua_fischfauna_2013:a_fischfauna2013_fischsymbol",
     "name": "Fischsymbol",
     "crs": "EPSG:25833",
@@ -17122,186 +17484,6 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2013/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/fischfauna/de-karten/02_08_2013.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
-    "name": "Fischsymbol",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "a_fischfauna2022_fischsymbol",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:b_fischfauna2022_messstelle",
-    "name": "Messstellen der Befischung",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "b_fischfauna2022_messstelle",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:c_fischfauna2022_gew_li",
-    "name": "Gewässer (Linien)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "c_fischfauna2022_gew_li",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:d_fischfauna2022_mit_fisch",
-    "name": "Gewässer mit Befischung",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "d_fischfauna2022_mit_fisch",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:e_fischfauna2022_nicht_befischt",
-    "name": "Gewässer ohne Befischung",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "e_fischfauna2022_nicht_befischt",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
-    "id": "ua_fischfauna_2022:f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
-    "name": "Sonstige Gewässer",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_fischfauna_2022",
-    "typ": "WMS",
-    "layers": "f_fischfauna2022_gew_rhb_feuchtgeb_sickerb",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "53eb844a-7d89-4519-81fe-311e78552f16",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/fischfauna/2022/zusammenfassung/",
-    "uaDownload": "https://gdi.berlin.de/data/ua_fischfauna_2022/docs/02_08_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18195,6 +18377,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2016.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18224,6 +18407,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2016.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18250,6 +18434,7 @@
     "gfiAttributes": "ignore",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2016.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18279,6 +18464,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserstand-zemhgw/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserstand-zemhgw/karten/02_20_2016.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18767,6 +18953,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_08_2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -18826,6 +19013,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2010/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_2010.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -20387,6 +20575,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2012/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2012/docs/07_05_14_2012.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -20417,6 +20606,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2012/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2012/docs/07_05_14_2012.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -20447,6 +20637,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2012/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2012/docs/07_05_14_2012.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -20477,6 +20668,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2012/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2012/docs/07_05_14_2012.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -20507,6 +20699,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2012/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_stratlaerm_2012/docs/07_05_14_2012.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -21161,6 +21354,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -21191,6 +21385,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -21221,6 +21416,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2007/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2007/de-karten/07_05_14_2008.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -22541,6 +22737,213 @@
     }
   },
   {
+    "id": "isu5:a_isu5_2024_ua_doku",
+    "name": "Änderungen an ISU-Flächen - Fortschreibung 2024",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "a_isu5_2024_ua_doku",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:b_isu5_2024",
+    "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2024",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "b_isu5_2024",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:a_isu5_2023_doku",
+    "name": "Änderungen an ISU-Flächen - Fortschreibung 2023",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "a_isu5_2023_doku",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:b_isu5_2023",
+    "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2023",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "b_isu5_2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:a_isu5_2022_doku",
+    "name": "Änderungen an ISU-Flächen - Fortschreibung 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "a_isu5_2022_doku",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:b_isu5_2022",
+    "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2022",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "b_isu5_2022",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:a_isu5_2021_doku",
+    "name": "Änderungen an ISU-Flächen - Fortschreibung 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "a_isu5_2021_doku",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5:b_isu5_2021",
+    "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2021",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5",
+    "typ": "WMS",
+    "layers": "b_isu5_2021",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "6d7dfc53-5ff0-4665-aaa1-59fc393ec923",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5_2010:isu5_2010",
+    "name": "Blöcke und Teilblöcke 2010",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2010",
+    "typ": "WMS",
+    "layers": "isu5_2010",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "31d27560-5552-3cf2-b47f-4c0e36555c21",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "luftbild_1928_04:c_luftbilder_1928_04_raster",
     "name": "Bildmosaik",
     "crs": "EPSG:25833",
@@ -22886,7 +23289,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -22916,7 +23318,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -22946,7 +23347,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -22976,7 +23376,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23006,7 +23405,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23036,7 +23434,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23066,7 +23463,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23096,7 +23492,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23126,7 +23521,6 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/biotope/biotoptypen/fortlaufend-aktualisiert/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/biotope/biotoptypen/de-karten/05_08_1_btk_2014_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -23195,7 +23589,7 @@
   },
   {
     "id": "ua_gewaesserstrukturguete:fliessgewaesser_uebersichtsverfahren",
-    "name": "Gewässerstrukturgüte - Gesamtbewertung (WRRL), Fließgewässer ÜV",
+    "name": "Fließgewässer Übersichtsverfahren",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_gewaesserstrukturguete",
     "typ": "WMS",
@@ -23225,7 +23619,7 @@
   },
   {
     "id": "ua_gewaesserstrukturguete:fliessgewaesser_vorortverfahren",
-    "name": "Gewässerstrukturgüte - Gesamtbewertung (WRRL), Fließgewässer VOV",
+    "name": "Fließgewässer Vor-Ort-Verfahren",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_gewaesserstrukturguete",
     "typ": "WMS",
@@ -23255,7 +23649,7 @@
   },
   {
     "id": "ua_gewaesserstrukturguete:seen",
-    "name": "seen",
+    "name": "Seen",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_gewaesserstrukturguete",
     "typ": "WMS",
@@ -23907,6 +24301,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -23937,6 +24332,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -23967,6 +24363,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -23997,6 +24394,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://fbinter.stadt-berlin.de/fb_daten/umweltatlas/karten/07_05_14_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -24027,6 +24425,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -24057,6 +24456,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2022/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/verkehr-laerm/laermbelastung/2022/karten/07_05_03_2022.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -24094,36 +24494,6 @@
     }
   },
   {
-    "id": "ua_boden_seltenheit_2015:seltenheit_2015",
-    "name": "Regionale Seltenheit der Bodengesellschaften 2015",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_seltenheit_2015",
-    "typ": "WMS",
-    "layers": "seltenheit_2015",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_01_2015.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_naehrstoff_2015:naehrstoff2015",
     "name": "Nährstoffversorgung des Oberbodens 2015",
     "crs": "EPSG:25833",
@@ -24147,6 +24517,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_06_08__01_11_07_2015.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_seltenheit_2015:seltenheit_2015",
+    "name": "Regionale Seltenheit der Bodengesellschaften 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_seltenheit_2015",
+    "typ": "WMS",
+    "layers": "seltenheit_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "51022e98-12ab-47dd-897e-5d24136679d1",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionskriterien/2015/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionskriterien/de-karten/01_11_01_2015.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -25512,6 +25912,29 @@
     }
   },
   {
+    "id": "isu5_2005:isu5_2005",
+    "name": "Blöcke und Teilblöcke 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2005",
+    "typ": "WMS",
+    "layers": "isu5_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "9c7204c1-41fb-3be4-9afe-8ae67b0d405a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "ua_sickerwasser_2003:verweilz_2003",
     "name": "Verweilzeit des Sickerwassers in der ungesättigten Zone 2003",
     "crs": "EPSG:25833",
@@ -26345,36 +26768,6 @@
     }
   },
   {
-    "id": "ua_boden_lebensfkt_2020:lebens2020",
-    "name": "Lebensraumfunktion für naturnahe und seltene Pflanzengesellschaften der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_lebensfkt_2020",
-    "typ": "WMS",
-    "layers": "lebens2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_2020.pdf",
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    }
-  },
-  {
     "id": "ua_boden_bklmv_2020:bklmv2020",
     "name": "Kühlleistung der Böden mit Berücksichtigung der Versiegelung 2020",
     "crs": "EPSG:25833",
@@ -26398,6 +26791,36 @@
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
     "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_7_3_2020.pdf",
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_boden_lebensfkt_2020:lebens2020",
+    "name": "Lebensraumfunktion für naturnahe und seltene Pflanzengesellschaften der Böden 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_boden_lebensfkt_2020",
+    "typ": "WMS",
+    "layers": "lebens2020",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_2020.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -26838,6 +27261,7 @@
     "maxScale": "40000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserdurchlaessigkeit-des-untergrundes/2019/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/wasserdurchlaessigkeit-des-untergrundes/karten/02_22_2_2019.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -27852,6 +28276,7 @@
     "maxScale": "5001",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_3_2002.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -27909,6 +28334,7 @@
     "maxScale": "5001",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2001/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_6_2002.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -29201,6 +29627,29 @@
     }
   },
   {
+    "id": "isu50_2001:isu50_2001",
+    "name": "Blöcke und Teilblöcke 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu50_2001",
+    "typ": "WMS",
+    "layers": "isu50_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "16afd9cf-3bc0-3936-ba58-bb9def4cc571",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "dop_2025_fruehjahr:dop_2025",
     "name": "Digitale farbige Orthophotos 2025 (DOP20RGBI)",
     "crs": "EPSG:25833",
@@ -29822,7 +30271,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_neben_nox_2009:kfz_neben_nox_2009",
-    "name": "NOx Emissionen Kfz-Verkehr Nebennetz 2009 (Umweltatlas)",
+    "name": "NOx Emissionen Kfz-Verkehr Nebennetz 2009",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_neben_nox_2009",
     "typ": "WMS",
@@ -29929,6 +30378,29 @@
       "tel": "+4930901395360",
       "email": "manuel.doellefeld@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "isu50_2015:isu50_2015",
+    "name": "Blöcke und Teilblöcke 2015",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu50_2015",
+    "typ": "WMS",
+    "layers": "isu50_2015",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "916115b6-3874-399c-a7e6-dc6894fe566b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   },
   {
     "id": "ua_grundwassergl_2006:grundwassergleichen_mai2006",
@@ -30636,6 +31108,29 @@
     }
   },
   {
+    "id": "isu50_2005:isu50_2005",
+    "name": "Blöcke und Teilblöcke 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu50_2005",
+    "typ": "WMS",
+    "layers": "isu50_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "91099ddf-ddc4-354c-8f9f-7745cad3662c",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "ua_stadtstruktur:a_stadtstruktur_2023",
     "name": "Stadtstruktur 2023",
     "crs": "EPSG:25833",
@@ -31002,6 +31497,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/oeffentliche-gruenanlagen/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/oeffentliche-gruenanlagen/de-karten/06_05_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -31031,6 +31527,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/oeffentliche-gruenanlagen/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/oeffentliche-gruenanlagen/de-karten/06_05_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -31060,6 +31557,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/oeffentliche-gruenanlagen/2020/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/nutzung/oeffentliche-gruenanlagen/de-karten/06_05_2020.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -31109,6 +31607,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -31138,6 +31637,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2013/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/mensch/umweltgerechtigkeit/de-karten/09_01_5_2013_mit_strname.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -32826,6 +33326,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -32856,6 +33357,7 @@
     "maxScale": "10000",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -32885,6 +33387,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -34238,6 +34741,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -34267,6 +34771,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -34296,6 +34801,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -34325,6 +34831,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimaanalyse/2014/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/klima/klimaanalyse/analysekarten/de-karten/04_10_5_04uhr_2014.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -35370,7 +35877,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ges_pm10_2009",
-    "name": "PM10 Emissionen Kfz-Verkehr gesamt 2009, Stand 2011",
+    "name": "PM10 Emissionen Kfz-Verkehr gesamt 2009",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_pm10_2009",
     "typ": "WMS",
@@ -35400,7 +35907,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_hs_pm10_2009",
-    "name": "PM10 Emissionen Kfz-Verkehr Hauptnetz 2009, Stand 2011",
+    "name": "PM10 Emissionen Kfz-Verkehr Hauptnetz 2009",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_pm10_2009",
     "typ": "WMS",
@@ -35430,7 +35937,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_pm10_2009:kfz_ns_pm10_2009",
-    "name": "PM10 Emissionen Kfz-Verkehr Nebennetz 2009, Stand 2011",
+    "name": "PM10 Emissionen Kfz-Verkehr Nebennetz 2009",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_pm10_2009",
     "typ": "WMS",
@@ -35640,7 +36147,7 @@
   },
   {
     "id": "ua_luftqualitaet_haus_pm10_2009:haus_pm10_2009",
-    "name": "PM10 Emissionen Hausbrand 2009, Stand 2011",
+    "name": "PM10 Emissionen Hausbrand 2009",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_haus_pm10_2009",
     "typ": "WMS",
@@ -37849,6 +38356,52 @@
     }
   },
   {
+    "id": "isu5_2020:isu5_2020_block",
+    "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2020",
+    "typ": "WMS",
+    "layers": "isu5_2020_block",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0dd101d4-c963-481e-a996-e0b94cc3449b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
+    "id": "isu5_2020:isu5_2020_doku",
+    "name": "Änderungen an ISU-Flächen - Fortschreibung 2020",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu5_2020",
+    "typ": "WMS",
+    "layers": "isu5_2020_doku",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0dd101d4-c963-481e-a996-e0b94cc3449b",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
+  },
+  {
     "id": "ua_lufttemp_1961_1990:lufttemp_1961_1990",
     "name": "Lufttemperatur (langj. Mittel 1961-1990)",
     "crs": "EPSG:25833",
@@ -38076,6 +38629,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/mensch/umweltgerechtigkeit/2022/zusammenfassung/",
+    "uaDownload": "https://gdi.berlin.de/data/ua_umweltgerechtigkeit_2021/docs/09_01_07_2022.pdf",
     "uaContact": {
       "name": "Hr. Döllefeld",
       "tel": "+4930901395360",
@@ -39930,7 +40484,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1989",
-    "name": "SO2 Emissionen Verkehr 1989",
+    "name": "SO2 Emissionen Kfz-Verkehr 1989",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
     "typ": "WMS",
@@ -39960,7 +40514,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1994",
-    "name": "SO2 Emissionen Verkehr 1994",
+    "name": "SO2 Emissionen Kfz-Verkehr 1994",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
     "typ": "WMS",
@@ -39990,7 +40544,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2002",
-    "name": "SO2 Emissionen Verkehr 2002",
+    "name": "SO2 Emissionen Kfz-Verkehr 2002",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
     "typ": "WMS",
@@ -40020,7 +40574,7 @@
   },
   {
     "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2005",
-    "name": "SO2 Emissionen Verkehr 2005",
+    "name": "SO2 Emissionen Kfz-Verkehr 2005",
     "crs": "EPSG:25833",
     "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
     "typ": "WMS",
@@ -40521,6 +41075,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_8_2003.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -40550,6 +41105,7 @@
     "infoFormat": "application/json",
     "singleTile": true,
     "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_8_2003.pdf",
     "uaContact": {
       "name": "Fr. Haag",
       "tel": "+4930901395270",
@@ -40795,6 +41351,29 @@
       "tel": "+4930901395270",
       "email": "leilah.haag@senstadt.berlin.de"
     }
+  },
+  {
+    "id": "isu50_1990:isu50_1990",
+    "name": "Blöcke und Teilblöcke 1990",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/isu50_1990",
+    "typ": "WMS",
+    "layers": "isu50_1990",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "4f67da32-518f-341c-aeee-521474231901",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true
   },
   {
     "id": "ua_einwohnerdichte_1994:ua_einwohnerdichte_1994",
