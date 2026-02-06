@@ -30,6 +30,7 @@
 - SearchInterfaceSpecialWfs: Improved namespace handling and coordinate transformation. Fixed issues with WFS servers using different namespace prefixes and EPSG:4326 point coordinates.
 - UrlParams: Fixed zIndex of second baselayer, when share link with mdid and multiple baselayers is opened.
 - Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
+- FeatureLister: Use configured parameter `featurePrefix` instead of fallback.
 
 ---
 
