@@ -25944,7 +25944,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_sickerwasser_2003:verweilz_2003",
