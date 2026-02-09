@@ -1243,7 +1243,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5_2015:isu5_2015_str",
@@ -1266,7 +1267,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_luftquali_emission_2015:a_nox_e_diagramm",
@@ -16080,7 +16082,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_grundwassertemperatur_1978_1998:Internetkarte",
@@ -22757,7 +22760,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:b_isu5_2024",
@@ -22780,7 +22784,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:a_isu5_2023_doku",
@@ -22803,7 +22808,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:b_isu5_2023",
@@ -22826,7 +22832,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:a_isu5_2022_doku",
@@ -22849,7 +22856,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:b_isu5_2022",
@@ -22872,7 +22880,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:a_isu5_2021_doku",
@@ -22895,7 +22904,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5:b_isu5_2021",
@@ -22918,7 +22928,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5_2010:isu5_2010",
@@ -22941,7 +22952,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "luftbild_1928_04:c_luftbilder_1928_04_raster",
@@ -29647,7 +29659,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "dop_2025_fruehjahr:dop_2025",
@@ -30400,7 +30413,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_grundwassergl_2006:grundwassergleichen_mai2006",
@@ -31128,7 +31142,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_stadtstruktur:a_stadtstruktur_2023",
@@ -38406,7 +38421,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "isu5_2020:isu5_2020_doku",
@@ -38429,7 +38445,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_lufttemp_1961_1990:lufttemp_1961_1990",
@@ -41405,7 +41422,8 @@
     "featureCount": "10",
     "gfiTheme": "default",
     "infoFormat": "application/json",
-    "singleTile": true
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/unser-portal/faq/#isu5"
   },
   {
     "id": "ua_einwohnerdichte_1994:ua_einwohnerdichte_1994",
