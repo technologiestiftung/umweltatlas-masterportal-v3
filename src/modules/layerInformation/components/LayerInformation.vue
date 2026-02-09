@@ -145,11 +145,17 @@ export default {
                 ? this.mainMenu.navigation.currentComponent.props.name
                 : this.secondaryMenu.navigation.currentComponent.props.name;
         },
-        uaData(){      
+        uaData(){                  
+            const raw = this.layerInfo?.uaDownload ?? null;
+            const uaDownload =
+                Array.isArray(raw) ? raw :
+                typeof raw === "string" && raw.trim() ? [raw.trim()] :
+                null;
+
             return {
                 uaGdiURL: this.layerInfo?.metaID ? 'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' + this.layerInfo.metaID : '',
                 uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
-                uaDownload: this.layerInfo?.uaDownload ?? null, 
+                uaDownload, 
                 uaContact: this.layerInfo?.uaContact ?? null,
                 uaNameLang: this.layerInfo?.uaNameLang ?? null
             }
@@ -235,7 +241,16 @@ export default {
         },
         openInLayerTree (id) {
             this.showInTree({layerId: id});
-        }
+        },
+        filenameFromUrl(url) {
+            try {
+            const clean = url.split("#")[0].split("?")[0];
+            const name = clean.substring(clean.lastIndexOf("/") + 1) || url;
+            return decodeURIComponent(name);
+            } catch {
+            return url;
+            }
+        },
     }
 };
 </script>
@@ -381,18 +396,24 @@ export default {
 
         </AccordionItem>
 
-        <p class="mb-4" v-if="uaData.uaDownload">
-            <a v-if="uaData.uaDownload" :href=uaData.uaDownload class="">
+        <div v-if="uaData.uaDownload?.length" class="mb-4 d-grid gap-2">
+            <p v-if="uaData.uaDownload.length > 1" class="mb-2 mt-8" style="margin-top: 20px;">Karten als PDF herunterladen</p>
+            <a v-for="(url, idx) in uaData.uaDownload" :key="url || idx" :href="url">
                 <button
-                    class="btn btn-light w-100 ua-button"
-                    type="button"
-                    :aria-label="'text'"
+                class="btn btn-light w-100 ua-button"
+                type="button"
+                aria-label="download"
+                :style="uaData.uaDownload.length === 1 ? { marginTop: '16px' } : {}"
                 >
-                    <i class="bi-download" style="padding-right: 2px;"/>
-                    Karte als PDF herunterladen
+                <i
+                    class="bi-download position-absolute"
+                    aria-hidden="true"
+                    style="left: .75rem; top: 50%; transform: translateY(-50%); line-height: 1;"
+                />
+                {{ uaData.uaDownload.length > 1 ? filenameFromUrl(url) : "Karte als PDF herunterladen" }}
                 </button>
             </a>
-        </p>
+        </div>
 
         <template
             v-if="showCustomMetaData"
@@ -553,11 +574,11 @@ export default {
 
     .ua-button{
         border: 1px solid #ddd;
-        margin: 10px 0px;
         border-radius: 5px;
         width: fit-content !important;
-        margin-top: 16px;
-        // float: right;
+        margin-top: 2px;
+        position:relative;
+        padding-left: 2.25rem;
     }
 
     .ua-contact-wrapper p {
