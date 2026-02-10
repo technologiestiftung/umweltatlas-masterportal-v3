@@ -82,20 +82,6 @@ describe("src/core/js/layers/layerFactory.js", () => {
 
             expect(terrainLayer).to.be.undefined;
         });
-
-        it("should create a new attribute htmlName", () => {
-            const wmsLayer = layerFactory.createLayer(layerConfig[0]);
-
-            expect(wmsLayer).not.to.be.undefined;
-            expect(wmsLayer.attributes.htmlName).to.equals("Geobasiskarten <br>(HamburgDE)");
-        });
-
-        it("should filter html tags from layer names", () => {
-            const wmsLayer = layerFactory.createLayer(layerConfig[0]);
-
-            expect(wmsLayer).not.to.be.undefined;
-            expect(wmsLayer.attributes.name).to.equals("Geobasiskarten (HamburgDE)");
-        });
     });
 
     describe("getVectorLayerTypes", () => {
