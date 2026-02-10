@@ -197,7 +197,6 @@ export default {
      * @returns {void}
      */
     processLayerNamesHtmlTags ({state}) {
-      console.log("Processing HTML tags in layer names...");
         const allLayerConfigs = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
 
         allLayerConfigs.forEach(layerConf => {
