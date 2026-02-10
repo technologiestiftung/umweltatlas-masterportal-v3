@@ -58,12 +58,6 @@ function createLayer (layerConf, mapMode) {
     else if (mapMode === "3D" && layerTypes3d[typ]) {
         layer = new layerTypes3d[typ](layerConf);
     }
-    if (layer) {
-        const htmlName = layer.attributes.name;
-
-        layer.attributes.htmlName = htmlName;
-        layer.attributes.name = removeHtmlTags(htmlName);
-    }
 
     return layer;
 }
