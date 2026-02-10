@@ -1,6 +1,8 @@
 import axios from "axios";
 import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
 import actionsLayerConfig from "./actionsLayerConfig.js";
 import {fetchFirstModuleConfig} from "@shared/js/utils/fetchFirstModuleConfig.js";
@@ -54,6 +56,7 @@ export default {
                     dispatch("moveStartModuleControls", "secondaryMenu");
                 }
                 commit("setLayerConfig", response.data ? response.data[treeTopicConfigKey] : null);
+                dispatch("processLayerNamesHtmlTags");
                 commit("setLoadedConfigs", "configJson");
             })
             .catch(error => {
@@ -184,5 +187,24 @@ export default {
 
         commit("setUrlParams", {params});
         globalUrlParams.processGlobalUrlParams();
+    },
+
+    /**
+     * Processes HTML tags in all layer names.
+     * Stores the original name in htmlName and removes HTML tags from name.
+     * @param {Object} context the vue context
+     * @param {Object} context.state the state
+     * @returns {void}
+     */
+    processLayerNamesHtmlTags ({state}) {
+      console.log("Processing HTML tags in layer names...");
+        const allLayerConfigs = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
+
+        allLayerConfigs.forEach(layerConf => {
+            if (layerConf?.name && !layerConf?.htmlName) {
+                layerConf.htmlName = layerConf.name;
+                layerConf.name = removeHtmlTags(layerConf.name);
+            }
+        });
     }
 };
