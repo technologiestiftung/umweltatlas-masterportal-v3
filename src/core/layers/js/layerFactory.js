@@ -14,7 +14,6 @@ import Layer2dGroup from "./layer2dGroup.js";
 import Layer3dEntities from "./layer3dEntities.js";
 import Layer3dTerrain from "./layer3dTerrain.js";
 import Layer3dTileset from "./layer3dTileset.js";
-import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
 const layerTypes2d = {
         GEOJSON: Layer2dVectorGeojson,
