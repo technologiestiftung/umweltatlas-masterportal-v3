@@ -55,12 +55,12 @@ describe("src/app-store/actions.js", () => {
             expect(commit.firstCall.args[0]).to.equals("setConfigJs");
             expect(commit.firstCall.args[1]).to.equals(payLoad);
         });
-        it("loadConfigJson", () => {
+        it("loadConfigJson", async () => {
             const getters = {
                 isMobile: false
             };
 
-            actions.loadConfigJson({commit, state, dispatch, getters});
+            await actions.loadConfigJson({commit, state, dispatch, getters});
 
             expect(axiosMock.calledOnce).to.be.true;
             expect(axiosMock.calledWith("config.json")).to.be.true;
