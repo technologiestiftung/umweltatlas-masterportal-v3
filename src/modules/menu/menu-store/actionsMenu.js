@@ -31,14 +31,23 @@ export default {
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.state the state
+     * @param {Object} param.rootGetters the rootGetters
      * @param {String} type The current component type.
      * @param {String} side secondary or main Menu
      * @param {String} props The props of the current component.
      * @returns {void}
      */
-    changeCurrentComponent ({commit, dispatch, state}, {type, side, props}) {
+    changeCurrentComponent ({commit, dispatch, state, rootGetters}, {type, side, props}) {
         const currentType = state[side].navigation.currentComponent.type,
             currentProps = state[side].navigation.currentComponent.props;
+
+        if (props?.closeOppositeMenu) {
+            const oppositeSide = side === "mainMenu" ? "secondaryMenu" : "mainMenu";
+
+            if (state[oppositeSide].expanded) {
+                commit("setExpandedBySide", {expanded: false, side: oppositeSide});
+            }
+        }
 
         if (currentType !== type || currentType === "folder" && type === "folder" || currentType === "layerSelection" && type === "layerSelection") {
             commit("setCurrentComponent", {type, side, props});

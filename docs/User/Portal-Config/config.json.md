@@ -1882,6 +1882,7 @@ Modules can be divided into sections. In the menu, sections are divided with a h
 
 |Name|Required|Type|Default|Description|Expert|
 |----|--------|----|-------|-----------|------|
+|closeOppositeMenu|no|Boolean|false|If set to true, the menu on the opposite side is closed as soon as this module is opened.|false|
 |description|no|String||The description that should be shown in the button in the right menu.|false|
 |icon|no|String||Icon that is shown in front of the module-name in the menu. For selection see **[Bootstrap Icons](https://icons.getbootstrap.com/)**.|false|
 |name|no|String||Name of the module in the menu.|false|

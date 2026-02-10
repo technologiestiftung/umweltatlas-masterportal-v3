@@ -1877,6 +1877,7 @@ Module lassen sich in Abschnitte (Sections) unterteilen. Im Menü werden Abschni
 
 |Name|Verpflichtend|Typ|Default|Beschreibung|Expert|
 |----|-------------|---|-------|------------|------|
+|closeOppositeMenu|nein|Boolean|false|Ist dieser Wert auf true gesetzt, wird das gegenüberliegende Menü geschlossen, sobald dieses Modul geöffnet wird.|false|
 |description|nein|String||Beschreibung zu einem Modul, die im Menü angezeigt wird.|false|
 |icon|nein|String||Icon das im Menü vor dem Modulnamen angezeigt wird. Zur Auswahl siehe **[Bootstrap Icons](https://icons.getbootstrap.com/)**|false|
 |name|nein|String||Name des Moduls im Menü.|false|

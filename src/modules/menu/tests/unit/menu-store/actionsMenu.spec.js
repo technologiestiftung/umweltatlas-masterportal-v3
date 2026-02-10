@@ -91,6 +91,31 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                 }
             });
         });
+
+        it("should close opposite menu if props.closeOppositeMenu is true", () => {
+            const currentComponent = {
+                    type: "fileImport",
+                    closeOppositeMenu: true
+                },
+                side = "mainMenu",
+                type = "FileImport",
+                props = {
+                    name: "File Import",
+                    closeOppositeMenu: true
+                };
+
+            state.secondaryMenu.expanded = true;
+
+            actions.changeCurrentComponent({commit, dispatch, state, rootGetters}, {type, side, props});
+
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("setExpandedBySide");
+            expect(commit.firstCall.args[1]).to.deep.equals({
+                expanded: false,
+                side: "secondaryMenu"
+            });
+            expect(commit.secondCall.args[0]).to.equals("setCurrentComponent");
+        });
     });
 
     describe("changeCurrentComponent", () => {
