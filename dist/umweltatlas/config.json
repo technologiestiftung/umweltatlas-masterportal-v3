@@ -88,7 +88,9 @@
             "icon": "bi-book"
           },
           {
-            "type": "news"
+            "type": "news",
+            "icon": "bi-newspaper",
+            "name": "common:modules.news.name"
           },
           {
             "icon": "bi-info-circle",
@@ -8490,7 +8492,7 @@
                   ]
                 },
                 {
-                  "name": "fortlaufend aktualisiert",
+                  "name": "2013",
                   "type": "folder",
                   "elements": [
                     {
@@ -8499,19 +8501,19 @@
                       "elements": [
                         {
                           "id": "ua_biotoptypen_2013:ac_btk_2013_fl_primaer",
-                          "name": "Biotope Primärdaten 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Biotope Primärdaten (Flächen) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:ab_btk_2013_li_primaer",
-                          "name": "Biotope Primärdaten 2013 (Linien) (Biotoptypen 2013)"
+                          "name": "2013 - Biotope Primärdaten (Linien) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:aa_btk_2013_pkt_primaer",
-                          "name": "Biotope Primärdaten 2013 (Symbole) (Biotoptypen 2013)"
+                          "name": "2013 - Biotope Primärdaten (Symbole) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:b_btk_2013_fl_sekundaer",
-                          "name": "Biotope Sekundärdaten 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Biotope Sekundärdaten (Flächen) (Biotoptypen 2013)"
                         }
                       ]
                     },
@@ -8521,15 +8523,15 @@
                       "elements": [
                         {
                           "id": "ua_biotoptypen_2013:ec_btk_gesetzschutz_2013_fl",
-                          "name": "Gesetzlich geschützte Biotope 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Gesetzlich geschützte Biotope (Flächen) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:eb_btk_gesetzschutz_2013_li",
-                          "name": "Gesetzlich geschützte Biotope 2013 (Linien) (Biotoptypen 2013)"
+                          "name": "2013 - Gesetzlich geschützte Biotope (Linien) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:ea_btk_gesetzschutz_2013_pkt",
-                          "name": "Gesetzlich geschützte Biotope 2013 (Symbole) (Biotoptypen 2013)"
+                          "name": "2013 - Gesetzlich geschützte Biotope (Symbole) (Biotoptypen 2013)"
                         }
                       ]
                     },
@@ -8539,15 +8541,15 @@
                       "elements": [
                         {
                           "id": "ua_biotoptypen_2013:fc_btk_ffh_2013_fl",
-                          "name": "Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) (Flächen) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:fb_btk_ffh_2013_li",
-                          "name": "Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) 2013 (Linien) (Biotoptypen 2013)"
+                          "name": "2013 - Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) (Linien) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:fa_btk_ffh_2013_pkt",
-                          "name": "Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) 2013 (Symbole) (Biotoptypen 2013)"
+                          "name": "2013 - Lebensraumtypen FFH (Fauna-Flora-Habitat-Richtlinie) (Symbole) (Biotoptypen 2013)"
                         }
                       ]
                     },
@@ -8557,7 +8559,7 @@
                       "elements": [
                         {
                           "id": "ua_biotoptypen_2013:g_btk_quellen_2013_fl",
-                          "name": "Datenquellen 2013 (Biotoptypen 2013)"
+                          "name": "2013 - Datenquellen (Biotoptypen 2013)"
                         }
                       ]
                     },
@@ -8567,11 +8569,11 @@
                       "elements": [
                         {
                           "id": "ua_biotoptypen_2013:d_btk_wert_2013_fl_sekundaer",
-                          "name": "Biotopwerte Sekundärdaten 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Biotopwerte Sekundärdaten (Flächen) (Biotoptypen 2013)"
                         },
                         {
                           "id": "ua_biotoptypen_2013:c_btk_wert_2013_fl_primaer",
-                          "name": "Biotopwerte Primärdaten 2013 (Flächen) (Biotoptypen 2013)"
+                          "name": "2013 - Biotopwerte Primärdaten (Flächen) (Biotoptypen 2013)"
                         }
                       ]
                     }
