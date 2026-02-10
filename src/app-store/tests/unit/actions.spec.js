@@ -64,7 +64,7 @@ describe("src/app-store/actions.js", () => {
 
             expect(axiosMock.calledOnce).to.be.true;
             expect(axiosMock.calledWith("config.json")).to.be.true;
-
+            expect(dispatch.calledWith("processLayerNamesHtmlTags")).to.be.true;
         });
         it("loadRestServicesJson", () => {
             actions.loadRestServicesJson({commit, state});
@@ -182,6 +182,82 @@ describe("src/app-store/actions.js", () => {
                 expect(state.portalConfig.map.controls.startModule.secondaryMenu).to.be.deep.equals([]);
 
             });
+        });
+    });
+
+    describe("processLayerNamesHtmlTags", () => {
+        it("should process layer names and extract HTML tags to htmlName", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "layer1",
+                                name: "Layer with <b>HTML</b> tags"
+                            },
+                            {
+                                id: "layer2",
+                                name: "Another <br>Layer"
+                            }
+                        ]
+                    }
+                }
+            };
+
+            actions.processLayerNamesHtmlTags({state: testState});
+
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Layer with <b>HTML</b> tags");
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Layer with HTML tags");
+            expect(testState.layerConfig.LayerSubjects.elements[1].htmlName).to.equals("Another <br>Layer");
+            expect(testState.layerConfig.LayerSubjects.elements[1].name).to.equals("Another Layer");
+        });
+
+        it("should not process layer names if htmlName already exists", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "layer1",
+                                name: "Clean name",
+                                htmlName: "Already processed <b>name</b>"
+                            }
+                        ]
+                    }
+                }
+            };
+
+            actions.processLayerNamesHtmlTags({state: testState});
+
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Clean name");
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Already processed <b>name</b>");
+        });
+
+        it("should handle nested layer structures with getNestedValues", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "folder1",
+                                name: "Folder <i>Name</i>",
+                                elements: [
+                                    {
+                                        id: "layer1",
+                                        name: "Nested <strong>Layer</strong>"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            };
+
+            actions.processLayerNamesHtmlTags({state: testState});
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Folder <i>Name</i>");
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Folder Name");
+            expect(testState.layerConfig.LayerSubjects.elements[0].elements[0].htmlName).to.equals("Nested <strong>Layer</strong>");
+            expect(testState.layerConfig.LayerSubjects.elements[0].elements[0].name).to.equals("Nested Layer");
         });
     });
 
