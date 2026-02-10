@@ -1,7 +1,6 @@
 import axios from "axios";
 import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import getNestedValues from "@shared/js/utils/getNestedValues.js";
 import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
 import actionsLayerConfig from "./actionsLayerConfig.js";
@@ -192,17 +191,35 @@ export default {
     /**
      * Processes HTML tags in all layer names.
      * Stores the original name in htmlName and removes HTML tags from name.
+     * Recursively processes nested layer structures.
      * @param {Object} context the vue context
      * @param {Object} context.state the state
      * @returns {void}
      */
     processLayerNamesHtmlTags ({state}) {
-        const allLayerConfigs = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
+        /**
+         * Recursively processes layer array and its nested elements
+         * @param {Object[]} layers The layers array to process
+         * @returns {void}
+         */
+        function processLayers (layers) {
+            if (!Array.isArray(layers)) {
+                return;
+            }
+            layers.forEach(layerConf => {
+                if (layerConf?.name && !layerConf?.htmlName) {
+                    layerConf.htmlName = layerConf.name;
+                    layerConf.name = removeHtmlTags(layerConf.name);
+                }
+                if (Array.isArray(layerConf?.elements)) {
+                    processLayers(layerConf.elements);
+                }
+            });
+        }
 
-        allLayerConfigs.forEach(layerConf => {
-            if (layerConf?.name && !layerConf?.htmlName) {
-                layerConf.htmlName = layerConf.name;
-                layerConf.name = removeHtmlTags(layerConf.name);
+        Object.values(state.layerConfig).forEach(layerGroup => {
+            if (Array.isArray(layerGroup?.elements)) {
+                processLayers(layerGroup.elements);
             }
         });
     }
