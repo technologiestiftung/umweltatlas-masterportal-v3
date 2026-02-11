@@ -329,6 +329,21 @@ module.exports = [
                     selector: "CallExpression[callee.type='Import'] > Literal[value=/^@(?:shared|core|modules|appstore|masterportal)/]:not([value=/\\.(?:js|vue)$/])",
                     message: "Dynamic alias imports must include .js or .vue."
                 }
+            ],
+            "vue/no-restricted-syntax": [
+                "error",
+
+                // 1) Disallow <input> without a type attribute (static or v-bind/:type)
+                {
+                    selector: "VElement[name='input']:not(:has(VAttribute[directive=false][key.name='type'])):not(:has(VAttribute[directive=true][key.name.name='bind'][key.argument.name='type']))",
+                    message: "Native <input> without a type attribute is not allowed. Use <InputText> or specify an explicit type."
+                },
+
+                // 2) Disallow only the static text type: <input type=\"text\">
+                {
+                    selector: "VElement[name='input']:has(VAttribute[directive=false][key.name='type'][value.value='text'])",
+                    message: "Native <input type=\"text\"> is not allowed. Use <InputText> instead."
+                }
             ]
 
 
@@ -337,7 +352,14 @@ module.exports = [
     {
         files: ["addons/**/*.{js,vue}"],
         rules: {
-            "no-restricted-syntax": "off"
+            "no-restricted-syntax": "off",
+            "vue/no-restricted-syntax": "off"
+        }
+    },
+    {
+        files: ["**/DrawItem.vue", "**/SnippetDownload.vue", "**/EntityAttributeSlider.vue", "**/EntityList.vue", "**/RoutingExportAvoidAreas.vue"],
+        rules: {
+            "vue/no-restricted-syntax": "off"
         }
     },
     {
