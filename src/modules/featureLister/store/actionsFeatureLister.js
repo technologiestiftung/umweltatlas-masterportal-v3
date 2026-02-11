@@ -73,10 +73,17 @@ export default {
      */
     highlightSelectedFeatures ({state, dispatch, getters, rootGetters}, features) {
         for (const feature of features) {
-            const mapFeature = getters.selectedFeature(feature.id_),
+            // Use the feature directly if it has geometry, otherwise look it up in the layer source
+            const mapFeature = feature.getGeometry ? feature : getters.selectedFeature(feature.id_),
                 layerConfig = rootGetters.layerConfigById(state.layer.id),
-                styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine,
-                featureGeometryType = mapFeature.getGeometry().getType(),
+                styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
+
+            if (!mapFeature || !mapFeature.getGeometry) {
+                console.warn("Feature could not be highlighted - no geometry found:", feature);
+                continue;
+            }
+
+            const featureGeometryType = mapFeature.getGeometry().getType(),
                 highlightObject = {
                     type: featureGeometryType === "Point" || featureGeometryType === "MultiPoint" ? "increase" : "highlightPolygon",
                     id: mapFeature.getId(),

@@ -34,6 +34,7 @@ const mutations = {
 
                         gfiFeature.id = nestedFeature.getId();
                         gfiFeature.geom = nestedFeature.getGeometry();
+                        gfiFeature.olFeature = nestedFeature;
                         gfiFeatures.push(gfiFeature);
                     });
                     state.nestedFeatures = true;
@@ -43,6 +44,7 @@ const mutations = {
 
                     gfiFeature.id = feature.getId();
                     gfiFeature.geom = feature.getGeometry();
+                    gfiFeature.olFeature = feature;
                     gfiFeatures.push(gfiFeature);
                     state.nestedFeatures = false;
                 }

@@ -13,10 +13,17 @@ const simpleGetters = {
      * @returns {ol.feature} the feature to the given index
      */
     selectedFeature: state => featureId => {
-        const layer = layerCollection.getLayerById(state.layer.id);
+        const gfiFeature = state.gfiFeaturesOfLayer.find(f => f.id === featureId);
 
-        return layer.getLayerSource().getFeatureById(featureId)
-    || layer.getLayerSource().getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
+        if (gfiFeature?.olFeature) {
+            return gfiFeature.olFeature;
+        }
+
+        const layer = layerCollection.getLayerById(state.layer.id),
+            features = layer.getLayerSource().getFeatures();
+
+        return features.find(feat => feat.getId() === featureId)
+            || features.find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
     },
     /**
      * Gets a list of all property keys to show in a table header.
