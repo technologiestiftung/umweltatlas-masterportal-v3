@@ -6,8 +6,25 @@ const {featureDetails, getGeometryType, headers, selectedFeature} = getters;
 
 describe("src/modules/featureLister/store/gettersFeatureLister", () => {
     let state;
-    const gfiFeature1 = {
+    const olFeature1 = {
+            getId: () => "1",
+            getGeometry: () => ({getType: () => "Polygon"})
+        },
+        olFeature2 = {
+            getId: () => "2"
+        },
+        olFeature3 = {
+            getId: () => "3"
+        },
+        olFeature4_1 = {
+            getId: () => "4.1"
+        },
+        olFeature4_2 = {
+            getId: () => "4.2"
+        },
+        gfiFeature1 = {
             id: "1",
+            olFeature: olFeature1,
             getAttributesToShow: () => "showAll",
             getProperties: () => ({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"}),
             getGeometry: () => ({
@@ -16,11 +33,13 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
         },
         gfiFeature2 = {
             id: "2",
+            olFeature: olFeature2,
             getAttributesToShow: () => ({generic: "Show Generic", alpha: "Show Alpha"}),
             getProperties: () => ({generic: "Test", alpha: "ohne", beta: "Gamma und Delta"})
         },
         gfiFeature3 = {
             id: "3",
+            olFeature: olFeature3,
             getAttributesToShow: () => ({generic: "Show Generic", beta: "Show Beta"}),
             getProperties: () => ({generic: "Test", alpha: "ohne", beta: "", gamma: "Delta"})
         };
@@ -30,7 +49,7 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
             selectedRow: {
                 id: 0
             },
-            gfiFeaturesOfLayer: [gfiFeature1, gfiFeature2, gfiFeature3, {id: "4.1"}, {id: "4.2"}],
+            gfiFeaturesOfLayer: [gfiFeature1, gfiFeature2, gfiFeature3, {id: "4.1", olFeature: olFeature4_1}, {id: "4.2", olFeature: olFeature4_2}],
             layer: {id: "id"}
         };
         sinon.stub(layerCollection, "getLayerById").returns(
@@ -38,10 +57,7 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
                 getLayerSource: () => {
                     return {
                         getFeatures: () => {
-                            return state.gfiFeaturesOfLayer;
-                        },
-                        getFeatureById: (id) => {
-                            return state.gfiFeaturesOfLayer.find(f => f.id === id);
+                            return [olFeature1, olFeature2, olFeature3, olFeature4_1, olFeature4_2];
                         }
                     };
                 }
@@ -63,13 +79,17 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
 
     describe("selectedFeature", () => {
         it("returns the feature at index 0", () => {
-            expect(selectedFeature(state)("1")).to.be.deep.equal(gfiFeature1);
+            expect(selectedFeature(state)("1")).to.be.deep.equal(olFeature1);
         });
         it("returns the feature at index 1", () => {
-            expect(selectedFeature(state)("2")).to.be.deep.equal(gfiFeature2);
+            expect(selectedFeature(state)("2")).to.be.deep.equal(olFeature2);
         });
         it("returns nested feature", () => {
-            expect(selectedFeature(state)("4.1")).to.be.deep.equal({id: "4.1"});
+            expect(selectedFeature(state)("4.1")).to.be.deep.equal(olFeature4_1);
+        });
+        it("falls back to layer source when olFeature is missing", () => {
+            state.gfiFeaturesOfLayer = [{id: "1"}];
+            expect(selectedFeature(state)("1")).to.be.deep.equal(olFeature1);
         });
     });
 

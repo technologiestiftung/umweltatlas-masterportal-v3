@@ -54,6 +54,8 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getProperties");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTheme");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTitle");
+                expect(state.gfiFeaturesOfLayer[i]).to.have.property("olFeature");
+                expect(state.gfiFeaturesOfLayer[i].olFeature).to.equal(features[i]);
             }
         });
         it("sets the gfiFeatures of a layer to state - with clustering", () => {
@@ -86,6 +88,7 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getProperties");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTheme");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTitle");
+                expect(state.gfiFeaturesOfLayer[i]).to.have.property("olFeature");
             }
         });
     });
