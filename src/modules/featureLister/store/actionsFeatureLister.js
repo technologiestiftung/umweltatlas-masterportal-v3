@@ -2,6 +2,7 @@ import {getCenter} from "ol/extent.js";
 import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
 import tabStatus from "../constantsTabStatus.js";
 import spatialSelection from "../js/getSpatialSelection.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 export default {
     /**
@@ -72,9 +73,18 @@ export default {
      * @returns {void}
      */
     highlightSelectedFeatures ({state, dispatch, getters, rootGetters}, features) {
+        const layer = layerCollection.getLayerById(state.layer.id),
+            layerSourceFeatures = layer?.getLayerSource()?.getFeatures() || [],
+            highlightedFeatureIds = new Set();
+
         for (const feature of features) {
-            // Use the feature directly if it has geometry, otherwise look it up in the layer source
-            const mapFeature = feature.getGeometry ? feature : getters.selectedFeature(feature.id_),
+            const featureCoords = feature.getGeometry?.()?.getCoordinates?.()?.toString(),
+                sourceFeature = layerSourceFeatures.find(f => {
+                    const coords = f.getGeometry?.()?.getCoordinates?.()?.toString();
+
+                    return coords && coords === featureCoords;
+                }),
+                mapFeature = sourceFeature || (feature.getGeometry ? feature : getters.selectedFeature(feature.id_)),
                 layerConfig = rootGetters.layerConfigById(state.layer.id),
                 styleObj = getters.getGeometryType?.toLowerCase().indexOf("polygon") > -1 ? state.highlightVectorRulesPolygon : state.highlightVectorRulesPointLine;
 
@@ -82,6 +92,12 @@ export default {
                 console.warn("Feature could not be highlighted - no geometry found:", feature);
                 continue;
             }
+            const featureUid = mapFeature.ol_uid;
+
+            if (highlightedFeatureIds.has(featureUid)) {
+                continue;
+            }
+            highlightedFeatureIds.add(featureUid);
 
             const featureGeometryType = mapFeature.getGeometry().getType(),
                 highlightObject = {
