@@ -13,7 +13,7 @@ import Polygon from "ol/geom/Polygon.js";
 async function getSpatialSelectionForWFS (geom, selectedLayer, epsg, {dispatch, commit}) {
     const service = selectedLayer.url,
         version = selectedLayer.version,
-        prefix = selectedLayer.featurePrefix || "app",
+        prefix = (selectedLayer.featurePrefix || "app").replace(/:$/, ""),
         featureType = selectedLayer.featureType,
         url = new URL(service),
         describeFeatureResponse = await (() => {
