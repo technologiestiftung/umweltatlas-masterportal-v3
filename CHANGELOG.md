@@ -23,8 +23,9 @@
 ### Removed
 
 ### Fixed
-- Issue \#1542: MenuContainer: Fixed inconsistent menu behavior between 576px and 768px. Secondary menu now opens in full-screen mode like the main menu.
-- Issue \#1556: Fixed an error, if using layers with `layerSequence` in Firefox.
+- Issue #1542: MenuContainer: Fixed inconsistent menu behavior between 576px and 768px. Secondary menu now opens in full-screen mode like the main menu.
+- Issue #1556: Fixed an error, if using layers with `layerSequence` in Firefox.
+- Issue #1557: WFSSearch: fixed selection bug with deeper nested options.
 - WFS-T: Multi-update works correctly when multiple layers are configured in the WFS-T tool.
 - i18next: Updated local storage key for i18n to include a portal identifier, ensuring unique language settings for different portals on the same server.
 - SearchInterfaceSpecialWfs: Improved namespace handling and coordinate transformation. Fixed issues with WFS servers using different namespace prefixes and EPSG:4326 point coordinates.

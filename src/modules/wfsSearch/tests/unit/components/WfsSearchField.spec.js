@@ -164,7 +164,7 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
 
             expect(wrapper.vm.value).to.equals("11");
             store.commit("Modules/WfsSearch/setSelectedOptions", {
-                options: "",
+                options: "fln",
                 index: 1,
                 value: "2"
             });
@@ -228,7 +228,7 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
 
             expect(wrapper.vm.value).to.equals("11");
             store.commit("Modules/WfsSearch/setSelectedOptions", {
-                options: "",
+                options: "fln",
                 index: 1,
                 value: "2"
             });
@@ -236,5 +236,156 @@ describe("src/modules/wfsSearch/components/WfsSearchField.vue", () => {
 
             expect(wrapper.vm.value).to.equals(undefined);
         });
+    });
+
+    describe("reset fields with deeper nested options", () => {
+
+        beforeEach(() => {
+            store.commit("Modules/WfsSearch/setParsedSource", {
+                Kreis1: {
+                    gemeinde: [
+                        {
+                            id: "Gemeinde1",
+                            gemarkung: [
+                                {
+                                    id: "Gemeinde1,Gemarkung1",
+                                    flur: ["002", "005", "006"]
+                                },
+                                {
+                                    id: "Gemeinde1,Gemarkung2",
+                                    flur: ["001"]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                Kreis2: {
+                    gemeinde: [
+                        {
+                            id: "Gemeinde2",
+                            gemarkung: [
+                                {
+                                    id: "Gemarkung2",
+                                    flur: ["002", "005", "006"]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+        });
+
+        it("reset value if options changed - nested options", async () => {
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: -1,
+                value: ""
+            });
+            store.commit("Modules/WfsSearch/setInstances", [{currentInstance: {addedOptions: ["", "gemeinde"]},
+                literals: [
+                    {
+                        clause: {
+                            type: "and",
+                            literals: [
+                                {
+                                    "field": {
+                                        "queryType": "equal",
+                                        "fieldName": "kreis",
+                                        "inputLabel": "Kreis",
+                                        "options": "",
+                                        "required": true
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "queryType": "equal",
+                                        "fieldName": "gemeinde",
+                                        "inputLabel": "Gemeinde",
+                                        "options": "gemeinde",
+                                        "required": true
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "queryType": "equal",
+                                        "fieldName": "gemarkungsname",
+                                        "inputLabel": "Gemarkung",
+                                        "options": "gemeinde.gemarkung",
+                                        "required": true
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "queryType": "equal",
+                                        "fieldName": "flur",
+                                        "inputLabel": "Flur",
+                                        "options": "gemeinde.gemarkung.flur",
+                                        "required": true
+                                    }
+                                },
+                                {
+                                    "field": {
+                                        "suggestions": "false",
+                                        "queryType": "equal",
+                                        "fieldName": "flurstuecksnummer",
+                                        "inputLabel": "Flurstücksnummer",
+                                        "required": true
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]}]);
+
+            wrapper = mount(WfsSearchField, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    fieldId: "fieldId",
+                    fieldName: "gemeinde",
+                    inputLabel: "label",
+                    options: "gemeinde",
+                    parameterIndex: 0
+                }
+            });
+
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 0,
+                value: "Kreis1"
+            });
+            await wrapper.vm.valueChanged("{\"value\":\"Gemeinde1\",\"index\":0}");
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.value).to.equals("Gemeinde1");
+
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "gemeinde.gemarkung",
+                index: 0,
+                value: "Gemeinde1,Gemarkung1"
+            });
+            await wrapper.vm.valueChanged("{\"value\":\"Gemeinde1,Gemarkung1\",\"index\":0}");
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.value).to.equals("Gemeinde1,Gemarkung1");
+
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "gemeinde.gemarkung.flur",
+                index: 0,
+                value: "005"
+            });
+            await wrapper.vm.valueChanged("{\"value\":\"005\",\"index\":1}");
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.value).to.equals("005");
+
+            // select Kreis2 --> reset
+            store.commit("Modules/WfsSearch/setSelectedOptions", {
+                options: "",
+                index: 1,
+                value: "Kreis2"
+            });
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.value).to.equals(undefined);
+        });
+
     });
 });

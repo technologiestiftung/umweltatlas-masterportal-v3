@@ -173,9 +173,10 @@ export default {
         },
         selectableOptions (newOptions) {
             if (this.value) {
-                const option = Array.isArray(this.options) && !isObject(this.options[0]) ? this.options[0] : this.options;
+                const option = Array.isArray(this.options) && !isObject(this.options[0]) ? this.options[0] : this.options,
+                    indexInNewOptions = newOptions.findIndex(e => e.fieldValue === this.value);
 
-                if (newOptions.length === 0 || newOptions.findIndex(e => e.fieldValue === this.value) !== this.selectedOptions[option]?.index) {
+                if (newOptions.length === 0 || (this.selectedOptions[option] === undefined && indexInNewOptions === -1) || (this.selectedOptions[option] !== undefined && indexInNewOptions > -1 && newOptions.findIndex(e => e.fieldValue === this.value) !== this.selectedOptions[option]?.index)) {
                     this.value = undefined;
                     fieldValueChanged(this.selectableParameters.fieldId, this.value, this.currentInstance.literals, this.requiredValues, this.parameterIndex);
                     this.$el.querySelector("select").value = undefined;
@@ -205,7 +206,7 @@ export default {
             "addOptions"
         ]),
         /**
-         * Update the addedOptions field for the current instance.         *
+         * Update the addedOptions field for the current instance.
          * @returns {void}
          */
         updateCurrentInstanceOptions () {
