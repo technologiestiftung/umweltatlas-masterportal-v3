@@ -63,7 +63,8 @@ export default {
             uaDownload:layerConf?.uaDownload,
             uaContact:layerConf?.uaContact,
             // uaNameLang - not used so far
-            uaNameLang: layerConf?.name_lang
+            uaNameLang: layerConf?.name_lang,
+            uaEbenenbeschreibung: layerConf?.uaEbenenbeschreibung
         }
     }
 };
