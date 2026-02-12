@@ -157,7 +157,8 @@ export default {
                 uaInfoURL: this.layerInfo?.uaInfoURL ?? null, 
                 uaDownload, 
                 uaContact: this.layerInfo?.uaContact ?? null,
-                uaNameLang: this.layerInfo?.uaNameLang ?? null
+                uaNameLang: this.layerInfo?.uaNameLang ?? null,
+                uaEbenenbeschreibung: this.layerInfo?.uaEbenenbeschreibung ?? null
             }
         },
         fullPath(){
@@ -291,6 +292,21 @@ export default {
                 {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
             </span>
         </p>
+
+        <AccordionItem
+            v-if="uaData.uaEbenenbeschreibung"
+            id="layer-info-ua-ebenenbeschreibung"
+            :title="'Ebenbeschreibung'"
+            :is-open="false"
+            :font-size="'font-size-base'"
+            :coloured-header="true"
+            :coloured-body="true"
+            :header-bold="true"
+        >
+            <p class="mb-0" style="white-space: pre-wrap;">
+                {{ uaData.uaEbenenbeschreibung }}
+            </p>
+        </AccordionItem>
 
         <AccordionItem
             v-if="uaData.uaInfoURL"
