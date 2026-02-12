@@ -296,7 +296,7 @@ export default {
         <AccordionItem
             v-if="uaData.uaEbenenbeschreibung"
             id="layer-info-ua-ebenenbeschreibung"
-            :title="'Ebenbeschreibung'"
+            :title="'Ebenenbeschreibung'"
             :is-open="false"
             :font-size="'font-size-base'"
             :coloured-header="true"
