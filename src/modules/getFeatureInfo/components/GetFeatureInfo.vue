@@ -414,7 +414,6 @@ export default {
     .gfi {
         color: $dark_blue;
         height: 100vh;
-        overflow-x: auto
     }
 
     .gfi-pager {

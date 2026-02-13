@@ -51,9 +51,7 @@ export default {
     data () {
         return {
             isContentHtml: false,
-            lastFeature: null,
-            isHeaderStuck: false,
-            intersectionObserver: null
+            lastFeature: null
         };
     },
     computed: {
@@ -112,7 +110,6 @@ export default {
         this.highlightVectorFeature();
         this.highlightWMSFeature();
         this.setMarker();
-        this.setupStickyObserver();
     },
     updated: function () {
         if (this.isUpdated) {
@@ -128,7 +125,6 @@ export default {
             this.removeHighlighting();
             this.removePolygonMarker();
         }
-        this.disconnectStickyObserver();
     },
     methods: {
         ...mapMutations("Modules/GetFeatureInfo", ["setShowMarker"]),
@@ -314,65 +310,20 @@ export default {
          */
         translate (key, options = null) {
             return this.$t(key, options);
-        },
-
-        /**
-         * Sets up the IntersectionObserver to detect when the sticky header is stuck.
-         * This allows adding a visual indicator (shadow/border) when scrolling.
-         * @returns {void}
-         */
-        setupStickyObserver () {
-            if (!this.stickyHeader) {
-                return;
-            }
-
-            this.$nextTick(() => {
-                const sentinel = this.$refs.stickySentinel;
-
-                if (!sentinel) {
-                    return;
-                }
-
-                this.intersectionObserver = new IntersectionObserver(
-                    ([entry]) => {
-                        this.isHeaderStuck = !entry.isIntersecting;
-                    },
-                    {
-                        threshold: [1],
-                        rootMargin: "-1px 0px 0px 0px"
-                    }
-                );
-
-                this.intersectionObserver.observe(sentinel);
-            });
-        },
-
-        /**
-         * Disconnects the IntersectionObserver when component is destroyed.
-         * @returns {void}
-         */
-        disconnectStickyObserver () {
-            if (this.intersectionObserver) {
-                this.intersectionObserver.disconnect();
-                this.intersectionObserver = null;
-            }
         }
     }
 };
 </script>
 
 <template>
-    <div>
+    <!-- Fixed header layout (when stickyHeader is true) -->
+    <div
+        v-if="stickyHeader"
+        class="gfi-detached-container"
+    >
         <div
-            ref="stickySentinel"
-            class="sticky-sentinel"
-        />
-        <div
-            class="gfi-header d-flex align-items-center justify-content-between mt-3 mb-4"
-            :class="{
-                'gfi-header-sticky': stickyHeader,
-                'is-stuck': isHeaderStuck
-            }"
+            ref="gfiHeader"
+            class="gfi-header-fixed d-flex align-items-center justify-content-between"
         >
             <slot name="pager-left" />
             <div class="gfi-title-container mx-3 flex-grow-1">
@@ -388,44 +339,65 @@ export default {
             </div>
             <slot name="pager-right" />
         </div>
-        <component
-            :is="theme"
-            :feature="feature"
-        />
+        <div class="gfi-content-scrollable">
+            <component
+                :is="theme"
+                :feature="feature"
+            />
+        </div>
+    </div>
+    <!-- Simple layout (default when stickyHeader is false) -->
+    <div v-else>
+        <div
+            ref="gfiHeader"
+            class="gfi-header-simple d-flex align-items-center justify-content-between mt-3 mb-4"
+        >
+            <slot name="pager-left" />
+            <div class="gfi-title-container mx-3 flex-grow-1">
+                <div
+                    v-if="showCounter"
+                    class="gfi-page-counter"
+                >
+                    {{ pageCounterText }}
+                </div>
+                <div class="gfi-title font-bold">
+                    {{ translate(title) }}
+                </div>
+            </div>
+            <slot name="pager-right" />
+        </div>
+        <div>
+            <component
+                :is="theme"
+                :feature="feature"
+            />
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~variables";
 
-.sticky-sentinel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0.0625rem;
-    visibility: hidden;
-    pointer-events: none;
+/* Fixed header layout (when stickyHeader is true) */
+.gfi-detached-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.gfi-header {
-    transition: border-color 0.2s ease-in-out;
-    border-bottom: 0.0625rem solid transparent;
-}
-
-.gfi-header-sticky {
-    position: sticky;
-    top: 0;
+.gfi-header-fixed {
+    flex-shrink: 0;
     background-color: $white;
+    padding: 1rem 0 1rem 0;
+    border-bottom: 0.0625rem solid $light_grey;
     z-index: 10;
-    margin-left: -0.9375rem;
-    margin-right: -0.9375rem;
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
 }
 
-.gfi-header-sticky.is-stuck {
-    border-bottom-color: $light_grey;
+.gfi-content-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding-top: 1rem;
 }
 
 .gfi-title-container {

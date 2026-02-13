@@ -208,96 +208,98 @@ export default {
                 />
             </template>
         </div>
-        <table
+        <div
             v-if="mimeType !== 'text/html'"
-            class="table table-hover"
+            class="table-wrapper"
         >
-            <tbody v-if="mappedPropertiesExists(feature)">
-                <tr v-if="!hasMappedProperties(feature)">
-                    <td>
-                        {{ $t("common:modules.getFeatureInfo.themes.default.noAttributeAvailable") }}
-                    </td>
-                </tr>
-                <tr
-                    v-for="(value, key) in getMappedPropertiesOfFeature(feature, showObjectKeysParam)"
-                    v-else
-                    :key="key"
-                >
-                    <td
-                        v-if="!isSensorChart(value)"
-                        class="font-bold firstCol"
+            <table class="table table-hover">
+                <tbody v-if="mappedPropertiesExists(feature)">
+                    <tr v-if="!hasMappedProperties(feature)">
+                        <td>
+                            {{ $t("common:modules.getFeatureInfo.themes.default.noAttributeAvailable") }}
+                        </td>
+                    </tr>
+                    <tr
+                        v-for="(value, key) in getMappedPropertiesOfFeature(feature, showObjectKeysParam)"
+                        v-else
+                        :key="key"
                     >
-                        <span v-if="beautifyKeysParam">
-                            {{ beautifyKey(translateKeyWithPlausibilityCheck(key, v => $t(v))) }}
-                        </span>
-                        <span v-else>
-                            {{ key }}
-                        </span>
-                    </td>
-                    <td v-if="isWebLink(value) && !isImage(value)">
-                        <a
-                            :href="value"
-                            target="_blank"
-                        >Link</a>
-                    </td>
-                    <td v-else-if="isWebLink(value) && isImage(value)">
-                        <a
-                            :href="value"
-                            target="_blank"
+                        <td
+                            v-if="!isSensorChart(value)"
+                            class="font-bold firstCol"
                         >
-                            <img
-                                class="gfi-theme-images-image"
-                                :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
-                                :src="value"
+                            <span v-if="beautifyKeysParam">
+                                {{ beautifyKey(translateKeyWithPlausibilityCheck(key, v => $t(v))) }}
+                            </span>
+                            <span v-else>
+                                {{ key }}
+                            </span>
+                        </td>
+                        <td v-if="isWebLink(value) && !isImage(value)">
+                            <a
+                                :href="value"
+                                target="_blank"
+                            >Link</a>
+                        </td>
+                        <td v-else-if="isWebLink(value) && isImage(value)">
+                            <a
+                                :href="value"
+                                target="_blank"
                             >
-                        </a>
-                    </td>
-                    <td v-else-if="isHTML(value)">
-                        <div v-html="value" />
-                    </td>
-                    <td v-else-if="isPhoneNumber(value)">
-                        <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
-                    </td>
-                    <td v-else-if="isEmailAddress(value)">
-                        <a :href="`mailto:${value}`">{{ value }}</a>
-                    </td>
-                    <td
-                        v-else-if="Array.isArray(value)"
-                        v-html="value.join('<br>')"
-                    />
-                    <td v-else-if="hasPipe(value)">
-                        <p
-                            v-for="(splitValue, splitKey) in value.split('|')"
-                            :key="splitKey"
-                        >
-                            {{ splitValue }}
-                        </p>
-                    </td>
-                    <td
-                        v-else-if="typeof value === 'string' && value.includes('<br>')"
-                        v-html="value"
-                    />
-                    <td
-                        v-else-if="isSensorChart(value)"
-                        colspan="2"
-                    >
-                        <DefaultThemeSensorChart
-                            :type="value.type"
-                            :label="value.label"
-                            :query="value.query"
-                            :format="value.format"
-                            :sta-object="value.staObject"
-                            :options="value.options"
-                            :chart-options="value.chartOptions"
-                            :download="value.download"
+                                <img
+                                    class="gfi-theme-images-image"
+                                    :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
+                                    :src="value"
+                                >
+                            </a>
+                        </td>
+                        <td v-else-if="isHTML(value)">
+                            <div v-html="value" />
+                        </td>
+                        <td v-else-if="isPhoneNumber(value)">
+                            <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
+                        </td>
+                        <td v-else-if="isEmailAddress(value)">
+                            <a :href="`mailto:${value}`">{{ value }}</a>
+                        </td>
+                        <td
+                            v-else-if="Array.isArray(value)"
+                            v-html="value.join('<br>')"
                         />
-                    </td>
-                    <td v-else>
-                        {{ value }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td v-else-if="hasPipe(value)">
+                            <p
+                                v-for="(splitValue, splitKey) in value.split('|')"
+                                :key="splitKey"
+                            >
+                                {{ splitValue }}
+                            </p>
+                        </td>
+                        <td
+                            v-else-if="typeof value === 'string' && value.includes('<br>')"
+                            v-html="value"
+                        />
+                        <td
+                            v-else-if="isSensorChart(value)"
+                            colspan="2"
+                        >
+                            <DefaultThemeSensorChart
+                                :type="value.type"
+                                :label="value.label"
+                                :query="value.query"
+                                :format="value.format"
+                                :sta-object="value.staObject"
+                                :options="value.options"
+                                :chart-options="value.chartOptions"
+                                :download="value.download"
+                            />
+                        </td>
+                        <td v-else>
+                            {{ value }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <iframe
             v-if="mimeType === 'text/html'"
             class="gfi-iFrame"
@@ -341,6 +343,10 @@ export default {
         font-size: $font_size_huge;
         padding: 0 2px;
     }
+}
+.table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
 }
 .table {
     margin-bottom: 0;
