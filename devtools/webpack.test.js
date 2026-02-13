@@ -173,6 +173,10 @@ module.exports = {
         hints: false
     },
     plugins: [
+        new webpack.NormalModuleReplacementPlugin(
+            /^zstddec\/stream$/,
+            "zstddec"
+        ),
         new webpack.ProvidePlugin({
             i18next: ["i18next/dist/cjs/i18next.js"],
             mapCollection: [path.resolve(path.join(__dirname, "../src/core/maps/js/mapCollection.js")), "default"],

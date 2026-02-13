@@ -184,6 +184,10 @@ module.exports = function () {
         },
         plugins: [
             // provide libraries globally
+            new webpack.NormalModuleReplacementPlugin(
+                /^zstddec\/stream$/,
+                "zstddec"
+            ),
             new webpack.ProvidePlugin({
                 i18next: ["i18next/dist/cjs/i18next.js"]
             }),

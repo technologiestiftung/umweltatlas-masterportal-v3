@@ -22,7 +22,7 @@
     - The slider from the shared components is now being used.
 - The following packages have been updated:
     - devDependencies:
-        - @masterportal/masterportalapi: 2.56.0 to 2.57.0
+        - @masterportal/masterportalapi: 2.56.0 to 2.58.0 (This also raised ol to version 10.8.0)
 
 ### Deprecated
 

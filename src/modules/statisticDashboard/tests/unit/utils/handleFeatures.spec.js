@@ -89,6 +89,7 @@ describe("src/modules/statisticDashboard/utils/handleFeatures.js", () => {
                     lineDashOffset_: undefined,
                     lineJoin_: undefined,
                     miterLimit_: undefined,
+                    offset_: undefined,
                     width_: 1
                 },
                 statisticData = {
