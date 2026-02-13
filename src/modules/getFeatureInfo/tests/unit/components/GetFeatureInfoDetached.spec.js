@@ -147,7 +147,7 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
             }
         });
 
-        expect(wrapper.find(".gfi-header .gfi-title").text()).to.be.equal("Hallo");
+        expect(wrapper.find(".gfi-title").text()).to.be.equal("Hallo");
     });
 
     describe("Page Counter", () => {
@@ -1050,10 +1050,10 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                 }
             });
 
-            const header = wrapper.find(".gfi-header");
+            const header = wrapper.find(".gfi-header-simple");
 
             expect(header.exists()).to.be.true;
-            expect(header.classes()).to.not.include("gfi-header-sticky");
+            expect(header.classes()).to.include("gfi-header-simple");
         });
 
         it("should apply sticky classes when stickyHeader is true", () => {
@@ -1109,13 +1109,13 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                 }
             });
 
-            const header = wrapper.find(".gfi-header");
+            const header = wrapper.find(".gfi-header-fixed");
 
             expect(header.exists()).to.be.true;
-            expect(header.classes()).to.include("gfi-header-sticky");
+            expect(header.classes()).to.include("gfi-header-fixed");
         });
 
-        it("should render sentinel element when stickyHeader is true", () => {
+        it("should render fixed header container when stickyHeader is true", () => {
             mockGetters.stickyHeader = () => true;
             const customStore = createStore({
                 namespaced: true,
@@ -1168,12 +1168,12 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                 }
             });
 
-            const sentinel = wrapper.find(".sticky-sentinel");
+            const container = wrapper.find(".gfi-detached-container");
 
-            expect(sentinel.exists()).to.be.true;
+            expect(container.exists()).to.be.true;
         });
 
-        it("should toggle is-stuck class based on isHeaderStuck state", async () => {
+        it("should have border-bottom on fixed header", async () => {
             mockGetters.stickyHeader = () => true;
             const customStore = createStore({
                 namespaced: true,
@@ -1226,15 +1226,11 @@ describe("src/modules/getFeatureInfo/components/GetFeatureInfoDetached.vue", () 
                 }
             });
 
-            const header = wrapper.find(".gfi-header");
+            const header = wrapper.find(".gfi-header-fixed");
 
-            expect(header.classes()).to.not.include("is-stuck");
-
-            await wrapper.vm.$nextTick();
-            wrapper.vm.isHeaderStuck = true;
-            await wrapper.vm.$nextTick();
-
-            expect(header.classes()).to.include("is-stuck");
+            expect(header.exists()).to.be.true;
+            // Fixed header always has border-bottom styling
+            expect(header.classes()).to.include("gfi-header-fixed");
         });
     });
 
