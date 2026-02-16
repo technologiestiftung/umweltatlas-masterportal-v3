@@ -29,6 +29,7 @@
 ### Removed
 
 ### Fixed
+- Issue \#1535: LayerPreview: Fixed WMS GetMap request building for services with query parameters in URL. The preview now correctly uses `&` instead of `?` when the service URL already contains a `?`.
 - Issue \#1542: MenuContainer: Fixed inconsistent menu behavior between 576px and 768px. Secondary menu now opens in full-screen mode like the main menu.
 - Issue \#1552: Strip HTML tags from layer names in UI components other than layer tree.
 - Issue: \#1555: FeatureLister: Handle WFS with dynamic ids in `getSpatialSelection`.
@@ -94,7 +95,6 @@
 
 ### Fixed
 - Issue \#1497: FeatureViaUrl: Fixed initial `"zoomTo"` feature for FeatureViaUrl-created vector layers.
-- Issue #1535: LayerPreview: Fixed WMS GetMap request building for services with query parameters in URL. The preview now correctly uses `&` instead of `?` when the service URL already contains a `?`.
 - Issue \#1536: About: The documentation has been supplemented and corrected. Property `title` is now displayed.
 - Issue \#1538: Fixed a bug where layerPills would show on width change of secondary menu despite them being configured as inactive in config.json.
 - Issue \#1548: draw_old/FileImport: Fixed KML export and import for square geometries. Square coordinates are now properly serialized as JSON string during KML export and correctly parsed back to array format during import.
