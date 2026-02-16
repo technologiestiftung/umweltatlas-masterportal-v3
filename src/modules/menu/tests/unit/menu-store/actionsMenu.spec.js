@@ -93,11 +93,7 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
         });
 
         it("should close opposite menu if props.closeOppositeMenu is true", () => {
-            const currentComponent = {
-                    type: "fileImport",
-                    closeOppositeMenu: true
-                },
-                side = "mainMenu",
+            const side = "mainMenu",
                 type = "FileImport",
                 props = {
                     name: "File Import",

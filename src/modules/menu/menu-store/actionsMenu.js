@@ -31,13 +31,12 @@ export default {
      * @param {Object} param.commit the commit
      * @param {Object} param.dispatch the dispatch
      * @param {Object} param.state the state
-     * @param {Object} param.rootGetters the rootGetters
      * @param {String} type The current component type.
      * @param {String} side secondary or main Menu
      * @param {String} props The props of the current component.
      * @returns {void}
      */
-    changeCurrentComponent ({commit, dispatch, state, rootGetters}, {type, side, props}) {
+    changeCurrentComponent ({commit, dispatch, state}, {type, side, props}) {
         const currentType = state[side].navigation.currentComponent.type,
             currentProps = state[side].navigation.currentComponent.props;
 
