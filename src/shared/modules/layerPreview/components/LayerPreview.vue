@@ -145,7 +145,17 @@ export default {
                     layerConfigUrl = layerConfig.url;
                     params = wms.makeParams(layerConfig);
                 }
-                const separator = layerConfigUrl.indexOf("?") !== -1 ? "&" : "?";
+                let separator;
+
+                if (layerConfigUrl.endsWith("?") || layerConfigUrl.endsWith("&")) {
+                    separator = "";
+                }
+                else if (layerConfigUrl.indexOf("?") !== -1) {
+                    separator = "&";
+                }
+                else {
+                    separator = "?";
+                }
 
                 url = `${layerConfigUrl}${separator}SERVICE=WMS&REQUEST=GetMap&WIDTH=${this.width}&HEIGHT=${this.height}`;
                 params.CRS = layerConfig.crs ? layerConfig.crs : mapCollection.getMapView("2D").getProjection().getCode();
