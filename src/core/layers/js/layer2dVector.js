@@ -319,19 +319,7 @@ Layer2dVector.prototype.createLegend = async function () {
     if (!Array.isArray(legend)) {
         if (styleObject && legend === true) {
 
-            const legendInfos = await Promise.race([
-                createStyle.returnLegendByStyleId(styleObject.styleId),
-                new Promise(resolve => setTimeout(() => resolve(null), 100))
-            ]);
-
-            if (!legendInfos) {
-                legend = [{
-                    id: `${this.get("styleGeometryType") || "Polygon"}null`,
-                    geometryType: this.get("styleGeometryType") || "Polygon",
-                    styleObject: rules[0].style
-                }];
-                return legend;
-            }
+            const legendInfos = await createStyle.returnLegendByStyleId(styleObject.styleId);
 
             if (styleObject.styleId === "default") {
                 const type = this.layer.getSource().getFeatures()[0].getGeometry().getType(),

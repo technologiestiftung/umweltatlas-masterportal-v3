@@ -41,6 +41,7 @@
 - UrlParams: Fixed zIndex of second baselayer, when share link with mdid and multiple baselayers is opened.
 - Print: Prevent red background at 400 dpi by forcing tiledWMS for large ImageWMS layers
 - FeatureLister: Use configured parameter `featurePrefix` if configured instead of fallback.
+- Legend: Removed fallback legend as it caused problems with other legends.
 
 ---
 
