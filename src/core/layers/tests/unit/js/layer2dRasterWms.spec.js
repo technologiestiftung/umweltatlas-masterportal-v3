@@ -3,7 +3,7 @@ import sinon from "sinon";
 import store from "@appstore/index.js";
 import Layer2dRasterWms from "@core/layers/js/layer2dRasterWms.js";
 
-describe("src/core/js/layers/layer2dRasterWms.js", () => {
+describe.only("src/core/js/layers/layer2dRasterWms.js", () => {
     let attributes,
         warn,
         origGetters;
@@ -153,7 +153,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
 
         });
 
-        it.skip("should return the layer params, , overwriteWmsLoadfunction not set", () => {
+        it("should return the layer params, , overwriteWmsLoadfunction not set", () => {
             const wmsLayer = new Layer2dRasterWms(localAttributes);
 
             expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
@@ -161,6 +161,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 gfiAsNewWindow: false,
                 gfiAttributes: "showAll",
                 gfiTheme: "default",
+                gfiTitleAttribute: undefined,
                 infoFormat: "text/xml",
                 layers: "test_layers",
                 name: "test_name",
