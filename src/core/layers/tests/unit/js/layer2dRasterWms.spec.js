@@ -3,7 +3,7 @@ import sinon from "sinon";
 import store from "@appstore/index.js";
 import Layer2dRasterWms from "@core/layers/js/layer2dRasterWms.js";
 
-describe.only("src/core/js/layers/layer2dRasterWms.js", () => {
+describe("src/core/js/layers/layer2dRasterWms.js", () => {
     let attributes,
         warn,
         origGetters;
