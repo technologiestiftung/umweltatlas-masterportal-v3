@@ -218,44 +218,56 @@ function parseDownloadLinks (json) {
  * @param {String} role - the role of the contact (e.g. owner)
  * @returns {String} name of the contact
  */
-function parseContactByRole (json, role) {
-    const pointOfContacts = getMdIdentification(json)?.pointOfContact;
-    let dateValue = {};
+function parseContactByRole(json, role) {
+  const pointOfContacts = getMdIdentification(json)?.pointOfContact;
+  const result = [];
 
-    if (Array.isArray(pointOfContacts)) {
-        pointOfContacts.forEach(contact => {
-            if (contact?.CI_ResponsibleParty?.role?.CI_RoleCode?.getAttributes()?.codeListValue === role) {
-                dateValue = {
-                    name: contact.CI_ResponsibleParty?.organisationName?.CharacterString?.getValue(),
-                    positionName: contact.CI_ResponsibleParty?.positionName?.CharacterString?.getValue().split(",").reverse(),
-                    street: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.deliveryPoint?.CharacterString?.getValue(),
-                    housenr: "",
-                    postalCode: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.postalCode?.CharacterString?.getValue(),
-                    city: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.city?.CharacterString?.getValue(),
-                    email: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.electronicMailAddress?.CharacterString?.getValue(),
-                    phone: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.phone?.CI_Telephone?.voice?.CharacterString?.getValue(),
-                    link: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.onlineResource?.CI_OnlineResource?.linkage?.URL?.getValue(),
-                    country: contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.country?.CharacterString?.getValue()
-                };
-            }
-        });
-    }
-    else if (pointOfContacts?.CI_ResponsibleParty?.role?.CI_RoleCode?.getAttributes()?.codeListValue === role) {
-        dateValue = {
-            name: pointOfContacts.CI_ResponsibleParty?.organisationName?.CharacterString?.getValue(),
-            positionName: pointOfContacts.CI_ResponsibleParty?.positionName?.CharacterString?.getValue().split(",").reverse(),
-            street: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.deliveryPoint?.CharacterString?.getValue(),
-            housenr: "",
-            postalCode: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.postalCode?.CharacterString?.getValue(),
-            city: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.city?.CharacterString?.getValue(),
-            email: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.electronicMailAddress?.CharacterString?.getValue(),
-            phone: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.phone?.CI_Telephone?.voice?.CharacterString?.getValue(),
-            link: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.onlineResource?.CI_OnlineResource?.linkage?.URL?.getValue(),
-            country: pointOfContacts.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address?.country?.CharacterString?.getValue()
-        };
+  const addIfMatch = (contact) => {
+    if (
+      contact?.CI_ResponsibleParty?.role?.CI_RoleCode?.getAttributes()?.codeListValue !== role
+    ) {
+      return;
     }
 
-    return dateValue;
+    const positionValue =
+      contact.CI_ResponsibleParty?.positionName?.CharacterString?.getValue();
+
+    result.push({
+      name: contact.CI_ResponsibleParty?.organisationName?.CharacterString?.getValue(),
+      individualName: contact.CI_ResponsibleParty?.individualName?.CharacterString?.getValue(),
+      positionName: positionValue ? positionValue.split(",").reverse() : [],
+      street:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address
+          ?.deliveryPoint?.CharacterString?.getValue(),
+      housenr: "",
+      postalCode:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address
+          ?.postalCode?.CharacterString?.getValue(),
+      city:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address
+          ?.city?.CharacterString?.getValue(),
+      email:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address
+          ?.electronicMailAddress?.CharacterString?.getValue(),
+      phone:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.phone?.CI_Telephone
+          ?.voice?.CharacterString?.getValue(),
+      link:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.onlineResource
+          ?.CI_OnlineResource?.linkage?.URL?.getValue(),
+      country:
+        contact.CI_ResponsibleParty?.contactInfo?.CI_Contact?.address?.CI_Address
+          ?.country?.CharacterString?.getValue()
+    });
+  };
+
+  if (Array.isArray(pointOfContacts)) {
+    pointOfContacts.forEach(addIfMatch);
+  } else if (pointOfContacts) {
+    addIfMatch(pointOfContacts);
+  }
+
+  return result;
 }
 
 export default {
