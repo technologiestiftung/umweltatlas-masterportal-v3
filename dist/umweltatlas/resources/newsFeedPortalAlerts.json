@@ -1,0 +1,55 @@
+{
+  "globalAlerts": [
+    "wartungsarbeiten",
+    "wartungsarbeiten2",
+    "wartungsarbeiten3"
+  ],
+  "restrictedAlerts": {},
+  "alerts": {
+    "wartungsarbeiten": {
+      "displayClass": "info",
+      "category": "Langjährige Entwicklung ausgewählter Klimaparameter",
+      "content": "Die Stationsauswertungen ausgewählter DWD-Messstationen in Berlin und Potsdam wurde aktualisiert. Sie dienten auch der Klimamodellierung 2022. <a href='https://www.berlin.de/umweltatlas/klima/entwicklung-von-klimaparametern/2022/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "displayFrom": false,
+      "displayUntil": false,
+      "mustBeConfirmed": false,
+      "once": true,
+      "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": {
+          "type": "__never__"
+        }
+      }
+    },
+    "wartungsarbeiten2": {
+      "displayClass": "info",
+      "category": "Biotoptypen",
+      "content": "Die Daten zu Biotoptypen wurden auf den Stand 2024 aktualisiert. <a href='https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "displayFrom": false,
+      "displayUntil": false,
+      "mustBeConfirmed": false,
+      "once": true,
+      "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": {
+          "type": "__never__"
+        }
+      }
+    },
+    "wartungsarbeiten3": {
+      "displayClass": "info",
+      "category": "Wasserhaushalt",
+      "content": "Die Karten zum Wasserhaushalt wurden auf den Stand 2022 aktualisiert. <a href='https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2022/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "displayFrom": false,
+      "displayUntil": false,
+      "mustBeConfirmed": false,
+      "once": true,
+      "displayOnEvent": {
+        "type": "Menu/changeCurrentComponent",
+        "value": {
+          "type": "__never__"
+        }
+      }
+    }
+  }
+}
