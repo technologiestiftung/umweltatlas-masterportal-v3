@@ -1,0 +1,58 @@
+name: Build and commit dist
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-and-commit-dist-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-commit-dist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit and push dist/ (except ignored subfolders)
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Avoid infinite loop if you ever add other triggers later
+          LAST_AUTHOR="$(git log -1 --pretty=%an)"
+          if [ "$LAST_AUTHOR" = "github-actions[bot]" ]; then
+            echo "Last commit was by github-actions[bot]; skipping to avoid loop."
+            exit 0
+          fi
+
+          # Stage only dist/ (respects .gitignore, so dist/auto etc won't be added)
+          git add -A dist
+
+          if git diff --cached --quiet; then
+            echo "No changes in dist/ to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update dist [skip ci]"
+          git push

@@ -40,7 +40,11 @@ export default {
          * @returns {String} Contanct details.
          */
         contact () {
-            return this.pointOfContact || this.publisher || null;
+            // IMPORTANT: parseContactByRole now always returns an array -> keep this computed as array too.
+            const poc = Array.isArray(this.pointOfContact) ? this.pointOfContact : (this.pointOfContact ? [this.pointOfContact] : []);
+            const pub = Array.isArray(this.publisher) ? this.publisher : (this.publisher ? [this.publisher] : []);
+
+            return poc.length ? poc : pub;
         },
         /**
          * Returns true if the contact module is configured in either of the menus.
@@ -80,14 +84,17 @@ export default {
          * @returns {void}
          */
         openContactModule () {
+            // IMPORTANT: contact is now an array -> map to Contact module "to" list.
+            const to = (this.contact || [])
+                .filter(c => c?.email)
+                .map(c => ({
+                    email: c.email,
+                    name: c.name
+                }));
+
             const props = {
                 name: this.$t(this.contactName),
-                to: [
-                    {
-                        email: this.contact.email,
-                        name: this.contact.name
-                    }
-                ],
+                to: to,
                 infoMessage: this.infoMessage,
                 includeSystemInfo: false,
                 subject: this.mailSubject,
@@ -110,7 +117,7 @@ export default {
         id="'layer-component-sub-menu-contact-button' + layerConf.id"
     >
         <FlatButton
-            v-if="contactConfigured && contact"
+            v-if="contactConfigured && contact.length"
             class="mb-3 openContactButton"
             :interaction="openContactModule"
             :text="$t('common:modules.about.contactButton')"

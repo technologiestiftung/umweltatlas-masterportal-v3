@@ -1,0 +1,34 @@
+name: Sync Bitbucket dev_vue to GitHub
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub mirror branch
+        uses: actions/checkout@v4
+        with:
+          ref: bitbucket_dev_vue
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+
+      - name: Fetch from Bitbucket and hard-reset mirror
+        env:
+          BITBUCKET_URL: https://bitbucket.org/geowerkstatt-hamburg/masterportal.git
+        run: |
+          git remote remove bitbucket 2>/dev/null || true
+          git remote add bitbucket "$BITBUCKET_URL"
+          git fetch bitbucket dev
+          git reset --hard FETCH_HEAD
+
+      - name: Push updates to GitHub
+        run: |
+          git push origin HEAD:bitbucket_dev_vue --force

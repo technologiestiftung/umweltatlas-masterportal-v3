@@ -48,9 +48,9 @@ export default {
 
 <template lang="html">
     <div id="module-layer-slider">
-        <h5 class="my-4">
+        <p class="my-4">
             {{ $t(title) }}
-        </h5>
+        </p>
         <ul
             id="layer-slider-tabs"
             class="nav nav-tabs nav-justified"

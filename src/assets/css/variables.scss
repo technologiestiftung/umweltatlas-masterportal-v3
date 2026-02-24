@@ -26,7 +26,8 @@ $enable-shadows:              true;
 //
 // Style anchor elements.
 
-$link-color: #337ab7;
+// $link-color: #337ab7;
+$link-color: #b8782b;
 $link-decoration: none;
 
 // Typography
@@ -86,13 +87,18 @@ $light_grey_outline: #050505;
 * Used for primary buttons like start a search, print etc.
 */
 $dark_blue: #151C27;
-$primary: #D6E3FF;
-$secondary: #3C5F94;
+// $primary: #edf8f4;
+$primary: #edf8f4;
+// $secondary: #1a4435;
+$secondary: #1a4435;
 $white: #ffffff;
 $black: #000;
 $light_red: #E10019;
 $dark_grey: #424242;
-$light_blue: #DCE2F3;
+// $light_blue: #edf8f4;
+$light_blue: #edf8f4;
+$dark_green: rgb(26, 68, 53);
+
 
 $placeholder-color: lighten($dark_grey, 30%);
 $navbar-light-color: $dark_grey;
@@ -132,12 +138,12 @@ $secondary_table_style: #F2F2F2;  // background for table view style
 // }
 
 .btn-primary {
-  --bs-btn-color: #001B3D;
-  --bs-btn-bg: #D6E3FF;
+  --bs-btn-color: #1a4435;
+  --bs-btn-bg: #edf8f4;
   --bs-btn-border-radius: 16px;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #001B3D;
-  --bs-btn-hover-border-color: #001B3D;
+  --bs-btn-hover-bg: #1a4435;
+  --bs-btn-hover-border-color: #1a4435;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #151C27;
   --bs-btn-focus-color: #fff;
@@ -145,12 +151,12 @@ $secondary_table_style: #F2F2F2;  // background for table view style
 }
 .btn-secondary {
   --bs-btn-color: #ffffff;
-  --bs-btn-bg: #3C5F94;
-  --bs-btn-border-color: #3C5F94;
+  --bs-btn-bg: #1a4435;
+  --bs-btn-border-color: #1a4435;
   --bs-btn-border-radius: 50px;
-  --bs-btn-hover-color: #001B3D;
-  --bs-btn-hover-bg: #D6E3FF;
-  --bs-btn-hover-border-color: #D6E3FF;
+  --bs-btn-hover-color: #1a4435;
+  --bs-btn-hover-bg: #edf8f4;
+  --bs-btn-hover-border-color: #edf8f4;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #151C27;
   --bs-btn-focus-color: #fff;
@@ -165,8 +171,8 @@ $secondary_table_style: #F2F2F2;  // background for table view style
   --bs-btn-border-radius: 50px;
   --bs-btn-disabled-opacity: 0.3;
   --bs-btn-hover-color: #151C27;
-  --bs-btn-hover-bg: #DCE2F3;
-  --bs-btn-hover-border-color: #DCE2F3;
+  --bs-btn-hover-bg: #edf8f4;
+  --bs-btn-hover-border-color: #edf8f4;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #151C27;
   --bs-btn-focus-color: #fff;
@@ -174,25 +180,29 @@ $secondary_table_style: #F2F2F2;  // background for table view style
   --bs-btn-box-shadow: none;
 }
 
+.bg-info{
+  background-color: $secondary !important;
+}
+
 /*
  * switches and checkboxes
  */
 
-$form-check-input-checked-bg-color: #001B3D;
+$form-check-input-checked-bg-color: #1a4435;
 $form-check-input-border: 1px solid #75777D;
 $form-check-input-focus-border: 1px solid #75777D;
 
 /*
  * Inputs
  */
-$input-focus-border-color: #3C5F94;
+$input-focus-border-color: #1a4435;
 
 /* ACCENT: Action
  * Action color for certain special accents
  * Examples: fileImport, routing
  */
 $accent: $light_blue;
-$accent_hover: #DCE2F3;
+$accent_hover: #edf8f4;
 $accent_focus: #204d74;
 $accent_active: #204d74;
 $accent_disabled: #7aa9d0;

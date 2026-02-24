@@ -209,13 +209,6 @@ export default {
                     >
                         <div class="accordion-body inaccuracy-list">
                             {{ $t("common:modules.measure.influenceFactors") }}
-                            <ul>
-                                <li>{{ $t("common:modules.measure.scale") }}</li>
-                                <li>{{ $t("common:modules.measure.resolution") }}</li>
-                                <li>{{ $t("common:modules.measure.screenResolution") }}</li>
-                                <li>{{ $t("common:modules.measure.inputAccuracy") }}</li>
-                                <li>{{ $t("common:modules.measure.measureDistance") }}</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
