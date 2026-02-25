@@ -94,7 +94,16 @@ module.exports = function () {
             alias: {
                 text: "text-loader",
                 "mixins": path.resolve(__dirname, "..", "src", "assets", "css", "mixins.scss"),
-                "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss")
+                "variables": path.resolve(__dirname, "..", "src", "assets", "css", "variables.scss"),
+                // Custom path aliases to simplify imports across the project.
+                // Make sure these aliases are also configured in jsconfig.json for proper IDE support.
+                "@appstore": path.resolve(__dirname, "../src/app-store"),
+                "@shared": path.resolve(__dirname, "../src/shared"),
+                "@core": path.resolve(__dirname, "../src/core"),
+                "@modules": path.resolve(__dirname, "../src/modules"),
+                "@plugins": path.resolve(__dirname, "../src/plugins"),
+                "@devtools": path.resolve(__dirname, "../devtools"),
+                "@masterportal/masterportalapi$": path.resolve(__dirname, "../node_modules/@masterportal/masterportalapi/src/index.js")
             },
             extensions: [".tsx", ".ts", ".js"]
         },
@@ -175,6 +184,10 @@ module.exports = function () {
         },
         plugins: [
             // provide libraries globally
+            new webpack.NormalModuleReplacementPlugin(
+                /^zstddec\/stream$/,
+                "zstddec"
+            ),
             new webpack.ProvidePlugin({
                 i18next: ["i18next/dist/cjs/i18next.js"]
             }),
@@ -188,6 +201,7 @@ module.exports = function () {
                 ADDONS: JSON.stringify(addonsRelPaths),
                 __VUE_OPTIONS_API__: true,
                 __VUE_PROD_DEVTOOLS__: false,
+                __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
                 VUE_ADDONS: JSON.stringify(vueAddonsRelPaths)
             })
         ]

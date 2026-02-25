@@ -1,21 +1,20 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import layerTypes from "@core/layers/js/layerTypes.js";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Layer Pills: show enabled toplayers as Buttons on top of the map. Adds Ability to remove Layers and call Layerinformation without using Layertree or open Menu.
  * @module modules/LayerPills
- * @vue-data {Object} scrolled - the horizontal Scrollposition of the Element.
- * @vue-data {Object} showRightButton - indicates if Button on the right to scroll horizontally is to be shown.
  */
 export default {
     name: "LayerPills",
     components: {IconButton},
     data () {
         return {
-            scrolled: 0,
-            showRightbutton: false
+            showAllLayers: false,
+            showToggleButton: false,
+            resizeObserver: null
         };
     },
     computed: {
@@ -25,9 +24,40 @@ export default {
             "configPaths",
             "mobileOnly",
             "type",
-            "visibleSubjectDataLayers"
+            "visibleSubjectDataLayers",
+            "hidden"
         ]),
-        ...mapGetters("Maps", ["mode"])
+        ...mapGetters("Modules/LayerTree", ["layerTreeSortedLayerConfigs"]),
+        ...mapGetters("Maps", ["mode"]),
+        ...mapGetters("Menu", ["currentSecondaryMenuWidth", "currentMainMenuWidth"]),
+        /**
+         * combinedMenuState keeps track of the state of menu, i.e. whether the menus are expanded and their current width.
+         * Enables the use of a single watcher on all four variables.
+         */
+        combinedMenuWidthState () {
+            return {
+                currentMainMenuWidth: this.currentMainMenuWidth,
+                currentSecondaryMenuWidth: this.currentSecondaryMenuWidth
+            };
+        },
+        /**
+         * Returns all visible subject data layers in the correct display order
+         * for the LayerPills component.
+         * The order is primarily defined by the LayerTree configuration
+         * (`layerTreeSortedLayerConfigs`). Layers that are visible but not part
+         * of the LayerTree (e.g. `showInLayerTree: false`) are appended afterwards
+         * to maintain backward compatibility.
+         * @returns {Array<Object>} Sorted list of visible layer configuration objects
+         */
+        sortedVisibleLayerPills () {
+            const treeLayers = this.layerTreeSortedLayerConfigs(false),
+                visible = this.visibleSubjectDataLayerConfigs;
+
+            return [
+                ...treeLayers.filter(l => visible.some(v => v.id === l.id)),
+                ...visible.filter(v => !treeLayers.some(l => l.id === v.id))
+            ];
+        }
     },
     watch: {
         /**
@@ -35,23 +65,8 @@ export default {
          * @returns {void}
          */
         visibleSubjectDataLayerConfigs: {
-            handler (newVal, oldVal) {
-                let newValue = {},
-                    oldValue = {};
-
-                if (oldVal.length !== newVal.length) {
-                    newValue = newVal.filter(x => !oldVal.includes(x));
-                    if (newValue.length === 0) {
-                        oldValue = oldVal.filter(x => !newVal.includes(x));
-                    }
-                }
-
-                if (Object.keys(newValue).length > 0) {
-                    this.setVisibleLayers(newVal, this.mode, newValue);
-                }
-                if (Object.keys(oldValue).length > 0) {
-                    this.setVisibleLayers(newVal, this.mode, newValue);
-                }
+            handler () {
+                this.setVisibleLayers(this.sortedVisibleLayerPills, this.mode);
             },
             deep: true
         },
@@ -61,15 +76,44 @@ export default {
         * @returns {void}
         */
         mode (value) {
-            this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, value);
+            const sortedByTree = this.layerTreeSortedLayerConfigs(false).filter(
+                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            this.setVisibleLayers(sortedByTree, value);
+        },
+        /**
+         * Detects changes to the menu state and width to update the layerPills accordingly.
+         * Animation of menus opening or closing make the timeout necessary.
+         * @returns {void}
+         */
+        combinedMenuWidthState: {
+            handler () {
+                if (this.active) {
+                    this.setToggleButtonVisibility();
+                }
+            }
         }
     },
     created () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setVisibleLayers(this.visibleSubjectDataLayerConfigs, this.mode);
+        const layers = this.layerTreeSortedLayerConfigs(false);
+
+        if (layers) {
+            const sortedByTree = this.layerTreeSortedLayerConfigs(false).filter(
+                l => this.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            this.setVisibleLayers(sortedByTree, this.mode);
+        }
     },
     mounted () {
-        this.setResizeObserver();
+        this.setupResizeObserver();
+    },
+    beforeUnmount () {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     },
     methods: {
         ...mapMutations("Modules/LayerPills", ["setVisibleSubjectDataLayers", "setActive"]),
@@ -78,41 +122,54 @@ export default {
         ...mapActions("Modules/LayerInformation", ["startLayerInformation"]),
 
         /**
+         * Initializes and registers a ResizeObserver for the layer pills container.
+         * Ensures that the observer is created only once and only after the container
+         * element is available in the DOM. The observer recalculates the visibility
+         * of the toggle button whenever the container size changes.
+         *
+         * @returns {void}
+         */
+        setupResizeObserver () {
+            if (
+                !this.resizeObserver &&
+                this.$refs.layerPillsContainer &&
+                typeof ResizeObserver !== "undefined"
+            ) {
+                this.resizeObserver = new ResizeObserver(() => {
+                    this.setToggleButtonVisibility();
+                });
+                this.resizeObserver.observe(this.$refs.layerPillsContainer);
+            }
+        },
+
+        /**
          * Sets the Layers to be shown as Buttons
          * @param {Array} visibleLayers list of visibleLayers.
          * @param {String} mapMode 2D or 3D Map mode.
-         * @param {Object} newValues added Layers.
          * @returns {void}
          */
-        setVisibleLayers (visibleLayers, mapMode, newValues = []) {
-            if (visibleLayers) {
-                if (mapMode === "2D") {
-                    const layerTypes3d = layerFactory.getLayerTypes3d(),
-                        visible2DLayers = visibleLayers.filter(layer => {
-                            return !layerTypes3d.includes(layer.typ?.toUpperCase());
-                        });
-
-                    if (Object.keys(newValues).length !== 0) {
-                        const layers = this.visibleSubjectDataLayers;
-
-                        newValues.forEach((val) => {
-                            layers.unshift(val);
-                        });
-
-                        this.setVisibleSubjectDataLayers(layers);
-                    }
-                    else {
-                        this.setVisibleSubjectDataLayers(visible2DLayers);
-                    }
-                }
-                else {
-                    this.setVisibleSubjectDataLayers(visibleLayers);
-                }
+        setVisibleLayers (visibleLayers, mapMode) {
+            if (!visibleLayers) {
+                return;
             }
+
+            if (mapMode === "2D") {
+                const layerTypes3d = layerTypes.getLayerTypes3d(),
+                    visible2DLayers = visibleLayers.filter(layer => !layerTypes3d.includes(layer.typ?.toUpperCase()));
+
+                this.setVisibleSubjectDataLayers(visible2DLayers);
+            }
+            else {
+                this.setVisibleSubjectDataLayers(visibleLayers);
+            }
+            this.setToggleButtonVisibility();
+        },
+        toggleLayerVisibility () {
+            this.showAllLayers = !this.showAllLayers;
         },
         /**
          * Removes Layer from List of Buttons
-         * @param {String} layer Layer to be removed.
+         * @param {Object} layer Layer to be removed.
          * @returns {void}
          */
         removeLayerFromVisibleLayers (layer) {
@@ -127,60 +184,6 @@ export default {
             });
         },
         /**
-         * Scrolls Element horizontally the width of one Button to the given direction
-         * @param {String} direction Direction to be scrolled to.
-         * @returns {void}
-         */
-        moveLayerPills (direction) {
-            const value = direction === "right" ? 158 : -158;
-
-            this.scrolled = this.$el.scrollLeft;
-            if (!(this.scrolled === 0 && direction === "left") || !(this.scrollEnd && direction === "right")) {
-                this.$el.scrollBy({
-                    left: value,
-                    behavior: "smooth"
-                });
-
-                this.scrolled = this.scrolled + value < 0 ? 0 : this.scrolled + value;
-
-                // await transition...
-                setTimeout(() => {
-                    this.setRightButton();
-                }, 310);
-            }
-
-        },
-        /**
-         * sets the showRightbutton-value depending on available width and width of element.
-         * @returns {void}
-         */
-        setRightButton () {
-            const containerWidth = this.$el.offsetWidth,
-                scrollWidth = this.$el.scrollWidth;
-
-            if (containerWidth && scrollWidth) {
-                if (containerWidth >= scrollWidth) {
-                    this.showRightbutton = false;
-                }
-                else {
-                    this.showRightbutton = true;
-                }
-                this.showRightbutton = !(scrollWidth - this.$el.scrollLeft === containerWidth);
-
-            }
-        },
-        /**
-         * sets an Observer to the width of the element to react on resizing.
-         * @returns {void}
-         */
-        setResizeObserver () {
-            const resizeObserver = new ResizeObserver(this.setRightButton);
-
-            if (this.active && this.visibleSubjectDataLayers.length > 0) {
-                resizeObserver.observe(this.$el);
-            }
-        },
-        /**
          * starts the Module layerInformation for given Layer
          * @param {Object} layerConf Configuration-Object of the layer.
          * @returns {void}
@@ -189,6 +192,29 @@ export default {
             if (layerConf.datasets) {
                 this.startLayerInformation(layerConf);
             }
+        },
+        /**
+         * Updates the visibility state of the toggle button based on the width available and the amount of layerpills present.
+         * @returns {void}
+         */
+        setToggleButtonVisibility () {
+            this.$nextTick(() => {
+                this.setupResizeObserver();
+                const container = this.$refs.layerPillsContainer,
+                    pills = container?.querySelectorAll(".nav-item"),
+                    pillWidth = pills?.[0]
+                        ? (pills[0].offsetWidth + 10) * this.visibleSubjectDataLayers.length
+                        : 0,
+                    containerWidth = container?.querySelector(".nav-pills")
+                        ? container.querySelector(".nav-pills").getBoundingClientRect().width
+                        : 0;
+
+                if (!container || !pills || !pills[0]) {
+                    this.showToggleButton = false;
+                    return;
+                }
+                this.showToggleButton = pillWidth > containerWidth;
+            });
         }
     }
 };
@@ -197,26 +223,21 @@ export default {
 
 <template>
     <div
-        v-if="visibleSubjectDataLayers.length > 0 && active"
+        v-if="visibleSubjectDataLayers.length > 0 && active && !hidden"
         id="layer-pills"
+        ref="layerPillsContainer"
         class="layer-pills-container"
         :class="[
             {'mobileOnly': mobileOnly}
         ]"
     >
-        <IconButton
-            v-if="!isMobile"
-            :id="'layerpills-left-button'"
-            :aria="$t('modules.layerPill.previous')"
-            :class-array="['btn-primary', 'layerpills-left-button', 'shadow']"
-            :icon="'bi-chevron-left'"
-            :style="scrolled !== 0 ? '' : 'visibility:hidden'"
-            :interaction="() => moveLayerPills('left')"
-        />
         <TransitionGroup
             name="list"
             tag="ul"
             class="nav nav-pills"
+            :class="{ collapsed: !showAllLayers }"
+            @after-enter="setToggleButtonVisibility"
+            @after-leave="setToggleButtonVisibility"
         >
             <li
                 v-for="(layer) in visibleSubjectDataLayers"
@@ -228,31 +249,40 @@ export default {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     data-bs-custom-class="custom-tooltip"
-                    :title="layer.name"
+                    :title="$t(layer.name)"
                     :class="layer.datasets ? 'nav-link-hover' : ''"
                     @click="showLayerInformationInMenu(layer)"
                     @keydown="showLayerInformationInMenu(layer)"
                 >
-                    {{ layer.name }}
+                    {{ $t(layer.name) }}
                 </button>
                 <IconButton
                     :aria="$t('common:modules.layerPills.remove')"
-                    :class-array="['btn-light', 'layerpillsbutton']"
-                    class="close-button"
+                    :class-array="['btn-light', 'layerpillsbutton', 'close-button']"
                     :icon="'bi-x-lg'"
                     :interaction="() => removeLayerFromVisibleLayers(layer)"
                 />
             </li>
         </TransitionGroup>
-        <IconButton
-            v-if="!isMobile"
-            :id="'layerpills-right-button'"
-            :aria="$t('modules.layerPill.next')"
-            :class-array="['btn-primary', 'layerpills-right-button', 'shadow']"
-            :icon="'bi-chevron-right'"
-            :style="showRightbutton ? '' : 'visibility:hidden'"
-            :interaction="() => moveLayerPills('right')"
-        />
+        <div
+            key="more-pill"
+            class="nav-item shadow layer-pills-toggle-button"
+        >
+            <button
+                v-if="showToggleButton"
+                class="nav-link"
+                @click="toggleLayerVisibility"
+            >
+                <i
+                    v-if="showAllLayers"
+                    class="bi bi-chevron-up"
+                />
+                <i
+                    v-else
+                    class="bi bi-three-dots"
+                />
+            </button>
+        </div>
     </div>
 </template>
 
@@ -264,14 +294,23 @@ export default {
         display: flex;
         justify-content: left;
         pointer-events: all;
-        overflow: hidden;
         margin: 0 auto 0 auto;
         border-radius: 19px;
+        overflow-y: auto;
+        z-index: 0;
     }
 
     .nav-pills {
         display: flex;
-        flex: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        scroll-snap-type: x mandatory;
+    }
+
+    .nav-pills.collapsed {
+        max-height: 40px;
+        overflow: hidden;
+        flex-wrap: wrap;
     }
 
     .nav-item {
@@ -281,11 +320,25 @@ export default {
         display: flex;
         align-items: center;
         max-height: fit-content;
+        scroll-snap-align: start;
+    }
+
+    .layer-pills-toggle-button {
+        height: 35px;
+        margin-right: 30px;
+        button {
+            background: white;
+            border-radius: 19px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+            padding-inline: 1rem
+        }
     }
 
     .nav-link {
         color: $black;
-        margin: 5px;
+        margin: 2px 5px;
         padding: 0 0 0 1rem;
         width: 110px;
         white-space: nowrap;
@@ -295,17 +348,6 @@ export default {
     }
     .nav-link-hover:hover {
         cursor: pointer;
-    }
-
-    .list-enter-active, .list-leave-active {
-      transition: width 0.3s ease;
-    }
-    .list-enter-to, .list-leave-from {
-        width: 148px;
-        transition: width 0.3s ease;
-    }
-    .list-enter-from, .list-leave-to{
-        width: 0;
     }
 
     .custom-tooltip {
@@ -319,31 +361,20 @@ export default {
         position: relative;
     }
 
-    .layerpills-right-button {
-        flex-shrink: 0;
-        z-index: 3;
-        right: 0px;
-    }
-
-    .layerpills-left-button {
-        flex-shrink: 0;
-        z-index: 3;
-        left: 0px;
-    }
-
     .mobileOnly {
         display: none;
     }
 
     @media (max-width: 767px) {
         .nav-pills {
-        display: flex;
-        flex-wrap: nowrap;
-        flex: unset;
-        overflow-x: auto;
-        scrollbar-width: none; /* for firefox */
-        width: 320px;
-    }
+            display: flex;
+            flex-wrap: wrap;
+            flex: unset;
+            overflow-x: auto;
+            scrollbar-width: none; /* for firefox */
+            width: 320px;
+        }
+
         .nav-pills::-webkit-scrollbar {
             display: none; /* for chrome */
         }
@@ -352,6 +383,18 @@ export default {
             display: flex;
         }
 
+    }
+
+    @media (max-width: 400px) {
+        .layer-pills-container {
+            max-width: 100%;
+            overflow-x: hidden;
+            padding-inline: 0.25rem;
+        }
+    }
+
+    .layer-pills-container::-webkit-scrollbar {
+    display: none;
     }
 
 </style>

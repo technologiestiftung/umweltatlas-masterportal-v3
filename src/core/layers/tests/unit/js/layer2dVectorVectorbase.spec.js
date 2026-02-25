@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import Layer2dVectorVectorbase from "../../../js/layer2dVectorVectorbase";
+import Layer2dVectorVectorbase from "@core/layers/js/layer2dVectorVectorbase.js";
 
 describe("src/core/js/layers/layer2dVectorVectorbase.js", () => {
     let attributes,

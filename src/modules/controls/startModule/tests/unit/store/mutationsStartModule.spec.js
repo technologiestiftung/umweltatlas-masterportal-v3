@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsStartModule";
+import mutations from "@modules/controls/startModule/store/mutationsStartModule.js";
 
 const {
     addConfiguredModel

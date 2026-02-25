@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import handleAxiosErrorModule from "../../../utils/handleAxiosError";
+import handleAxiosErrorModule from "@shared/js/utils/handleAxiosError.js";
 import sinon from "sinon";
 
 describe("src/shared/js/api/utils/handleAxiosError.js", () => {

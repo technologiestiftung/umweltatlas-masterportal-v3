@@ -1,7 +1,7 @@
-import stateMeasure from "./stateMeasure";
-import {calculateLineLengths, calculatePolygonAreas} from "../js/measureCalculation";
+import stateMeasure from "./stateMeasure.js";
+import {calculateLineLengths, calculatePolygonAreas} from "../js/measureCalculation.js";
 
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
 
 const simpleGetters = {
     ...generateSimpleGetters(stateMeasure),

@@ -1,9 +1,9 @@
 import sinon from "sinon";
 import {expect} from "chai";
 
-import actions from "../../../store/actionsWmsTime";
-import initialState from "../../../store/stateWmsTime";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import actions from "@modules/wmsTime/store/actionsWmsTime.js";
+import initialState from "@modules/wmsTime/store/stateWmsTime.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
     let commit, dispatch, getters, rootGetters, state, map;
@@ -40,6 +40,11 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
         );
         sinon.stub(layerCollection, "getLayerById").returns({
             getLayerSource: () => ({params_: {TIME: "2020"}, updateParams: sinon.spy()}),
+            getLayer: sinon.stub().returns({
+                once: sinon.stub(),
+                on: sinon.stub(),
+                un: sinon.stub()
+            }),
             attributes: {
                 name: "bester Layer der Welt",
                 id: "123",
@@ -70,7 +75,7 @@ describe("src/modules/wmsTime/store/actionsWmsTime.js", () => {
             await actions.toggleSwiper({commit, state, dispatch, rootGetters}, "someId");
 
             expect(commit.calledWith("Modules/LayerSwiper/setActive", true, {root: true})).to.be.true;
-            expect(commit.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer")).to.be.true;
+            expect(commit.calledWith("Modules/LayerSwiper/setTargetLayerId", null, {root: true})).to.be.true;
         });
 
         it("should deactivate LayerSwiper if currently active", async () => {

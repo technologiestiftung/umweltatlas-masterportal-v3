@@ -1,4 +1,4 @@
-import {getPropertiesWithFullKeys, escapeTerm} from "../../../js/getPropertiesWithFullKeys";
+import {getPropertiesWithFullKeys, escapeTerm} from "@modules/getFeatureInfo/themes/default/js/getPropertiesWithFullKeys.js";
 import {expect} from "chai";
 
 describe("src/modules/getFeatureInfo/themes/default/js/getPropertiesWithFullKeys.js", () => {

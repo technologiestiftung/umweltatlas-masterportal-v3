@@ -293,8 +293,8 @@ The extent needs to be described including its source projection and target proj
 See this basic implementation of `SensorThingsHttp` to receive data within the browser's current view extent only, using Masterportal events to show its functionality, as an example:
 
 ```js
-import {SensorThingsHttp} from "../../../shared/js/api/sensorThingsHttp";
-import store from "../../../app-store";
+import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp";
+import store from "@appstore/index.js";
 
 const http = new SensorThingsHttp(),
     extent = store.getters["Maps/extent"],
@@ -349,7 +349,7 @@ Example to transform a Location from your current projection into "EPSG:4326":
 
 ```js
 import crs from "@masterportal/masterportalapi/src/crs";
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 
 const extent = store.getters["Maps/extent"],
     projection = mapCollection.getMapView("2D").getProjection().getCode(),
@@ -362,7 +362,7 @@ const extent = store.getters["Maps/extent"],
 This way you will get the top left and bottom right corner of the view. To draw yourself a `POLYGON` to be used with *SensorThingsAPI* from that, the rectangle needs to be constructed as follows:
 
 ```js
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 
 const extent = store.getters["Maps/extent"],
     polygon = [
@@ -382,7 +382,7 @@ The Masterportal SensorThings software layer is capable of handling mqtt subscri
 This is a basic example for `mqtt 5.0`:
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt"";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt"";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",
@@ -412,7 +412,7 @@ mqtt.subscribe("v1.0/Datastreams(1234)/Observations", {
 This is a basic example for `mqtt 3.1` and `3.1.1`:
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",
@@ -509,7 +509,7 @@ An important option for mqtt subscriptions is the so-called "Retained Handling" 
 A "Retained Message" is a Sensor message sent in the past, but stored by the server to send immediately after subscription.
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",
@@ -532,7 +532,7 @@ mqtt.subscribe("v1.0/Datastreams(1234)/Observations", {rh: 0});
 As this might be an unwanted behavior, Retained Handling is inactive by default, that is, rh is set to 2 by default.
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",
@@ -555,7 +555,7 @@ mqtt.subscribe("v1.0/Datastreams(1234)/Observations");
 To identify whether a message is a Retained Message, check the `packet.retain` flag included.
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",
@@ -590,7 +590,7 @@ mqtt.subscribe("v1.0/Things(4321)/Datastreams", {rh: 0});
 To close a mqtt connection, execute `end` on the `SensorThingsMqtt` instance.
 
 ```js
-import {SensorThingsMqtt} from "../../../shared/js/api/sensorThingsMqtt";
+import {SensorThingsMqtt} from "@shared/js/api/sensorThingsMqtt";
 
 const mqtt = new SensorThingsMqtt({
         mqttUrl: "wss://iot.hamburg.de/mqtt",

@@ -23,6 +23,14 @@ export default {
     },
 
     /**
+     * Returns true, if mapCollection is empty.
+     * @returns {Boolean} true, if mapCollection is empty.
+     */
+    isEmpty: function () {
+        return mapCollection.length === 0;
+    },
+
+    /**
      * Gets a map by the given mode.
      * @param {String} mode The map mode.
      * @returns {module:ol/PluggableMap~PluggableMap} The map.

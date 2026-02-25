@@ -1,13 +1,13 @@
 <script>
 import {Pointer} from "ol/interaction.js";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import mutations from "../store/mutationsCoordToolkit";
-import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
-import InputText from "../../../shared/modules/inputs/components/InputText.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import mutations from "../store/mutationsCoordToolkit.js";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import {Toast} from "bootstrap";
-import initProjections from "../../../shared/js/utils/initProjections";
+import initProjections from "@shared/js/utils/initProjections.js";
 
 /**
  * Toolkit to access coordinates on the map or search for coordinates.
@@ -45,6 +45,7 @@ export default {
             "heightLayer",
             "heightLayerId",
             "heightLayerInfo",
+            "keepMarkerVisible",
             "mode",
             "northingNoCoord",
             "northingNoMatch",
@@ -107,7 +108,9 @@ export default {
         }
     },
     unmounted () {
-        this.removeMarker();
+        if (!this.keepMarkerVisible) {
+            this.removeMarker();
+        }
         this.resetErrorMessages("all");
         this.resetValues();
         this.setSupplyCoordInactive();
@@ -375,7 +378,18 @@ export default {
                 const el = this.$refs[id];
 
                 if (el) {
-                    values.push(el.value);
+                    // Support InputText component or native input
+                    let val = "";
+
+                    if (el.$el && el.$el.querySelector) {
+                        const input = el.$el.querySelector("input");
+
+                        val = input ? input.value : "";
+                    }
+                    else if (el.value !== undefined) {
+                        val = el.value;
+                    }
+                    values.push(val);
                 }
             });
             if (this.currentProjection.projName === "longlat") {
@@ -473,12 +487,12 @@ export default {
                 <InputText
                     :id="'coordinatesEastingField'"
                     ref="coordinatesEastingField"
-                    :value="coordinatesEasting.value"
+                    v-model="coordinatesEasting.value"
                     :label="$t(getLabel('eastingLabel'))"
                     :placeholder="isEnabled('search') ? $t('common:modules.coordToolkit.exampleAcronym') + coordinatesEastingExample : ''"
-                    :input="(value) => onInputEvent(value, coordinatesEasting)"
                     :readonly="isEnabled('supply')"
                     :class-obj="{ inputError: getEastingError }"
+                    @input="(value) => onInputEvent(value, coordinatesEasting)"
                 >
                     <div
                         v-if="isEnabled('supply') && !isMobile && showCopyButtons"
@@ -522,12 +536,12 @@ export default {
                 <InputText
                     :id="'coordinatesNorthingField'"
                     ref="coordinatesNorthingField"
+                    v-model="coordinatesNorthing.value"
                     :label="$t(getLabel('northingLabel'))"
                     :placeholder="isEnabled('search') ? $t('common:modules.coordToolkit.exampleAcronym') + coordinatesNorthingExample : ''"
-                    :value="coordinatesNorthing.value"
-                    :input="(value) => onInputEvent(value, coordinatesNorthing)"
                     :readonly="isEnabled('supply')"
                     :class-obj="{ inputError: getNorthingError }"
+                    @input="(value) => onInputEvent(value, coordinatesNorthing)"
                 >
                     <div
                         v-if="isEnabled('supply') && !isMobile && showCopyButtons"
@@ -594,8 +608,8 @@ export default {
                 <InputText
                     :id="'coordinatesHeightLabel'"
                     :label="$t('common:modules.coordToolkit.heightLabel')"
-                    :value="$t(height)"
-                    :readonly="true"
+                    :model-value="$t(height)"
+                    readonly
                     :placeholder="$t('common:modules.coordToolkit.heightLabel')"
                 />
             </div>

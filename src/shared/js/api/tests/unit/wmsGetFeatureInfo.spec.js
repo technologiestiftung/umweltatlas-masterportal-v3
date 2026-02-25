@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import sinon from "sinon";
 
-import {parseDocumentString, parseFeatures} from "../../wmsGetFeatureInfo.js";
-import handleAxiosResponse from "../../../utils/handleAxiosResponse.js";
+import {parseDocumentString, parseFeatures} from "@shared/js/api/wmsGetFeatureInfo.js";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
 
 describe("src/shared/js/api/wmsGetFeatureInfo.js", () => {
     let warn;
@@ -12,7 +12,7 @@ describe("src/shared/js/api/wmsGetFeatureInfo.js", () => {
         sinon.stub(console, "warn").callsFake(warn);
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 

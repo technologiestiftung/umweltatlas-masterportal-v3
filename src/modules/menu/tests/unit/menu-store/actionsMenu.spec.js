@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {nextTick} from "vue";
-import actions from "../../../menu-store/actionsMenu";
+import actions from "@modules/menu/menu-store/actionsMenu.js";
 
 describe("src/modules/menu/menu-store/actionsMenu.js", () => {
     let commit,
@@ -90,6 +90,27 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                     name: "File Import"
                 }
             });
+        });
+
+        it("should close opposite menu if props.closeOppositeMenu is true", () => {
+            const side = "mainMenu",
+                type = "FileImport",
+                props = {
+                    name: "File Import",
+                    closeOppositeMenu: true
+                };
+
+            state.secondaryMenu.expanded = true;
+
+            actions.changeCurrentComponent({commit, dispatch, state, rootGetters}, {type, side, props});
+
+            expect(commit.calledTwice).to.be.true;
+            expect(commit.firstCall.args[0]).to.equals("setExpandedBySide");
+            expect(commit.firstCall.args[1]).to.deep.equals({
+                expanded: false,
+                side: "secondaryMenu"
+            });
+            expect(commit.secondCall.args[0]).to.equals("setCurrentComponent");
         });
     });
 
@@ -290,11 +311,14 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
         let side = "mainMenu";
 
         it("should switch to previous component", async () => {
-            rootGetters = {"Modules/SearchBar/showAllResults": false};
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": false,
+                "Modules/SearchBar/globalPlaceholder": "placeholder"
+            };
             getters = {
                 currentComponent: () => {
                     return {
-                        type: "searchbar"
+                        type: "searchBar"
                     };
                 }
             };
@@ -305,14 +329,10 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(commit.calledTwice).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
-                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
-                expect(commit.secondCall.args[1]).to.equal(false);
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setPlaceholder");
+                expect(commit.secondCall.args[1]).to.equal("placeholder");
 
-                expect(dispatch.calledTwice).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
-                expect(dispatch.firstCall.args[1]).to.equal(side);
-                expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
-                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
+                expect(dispatch.notCalled).to.be.true;
             });
         });
 
@@ -324,17 +344,12 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledTwice).to.be.true;
+                expect(commit.calledOnce).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
-                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
-                expect(commit.secondCall.args[1]).to.equal(false);
-
-                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
-                expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
-                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
             });
         });
 
@@ -349,87 +364,283 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
             actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledTwice).to.be.true;
+                expect(commit.calledOnce).to.be.true;
                 expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
                 expect(commit.firstCall.args[1]).to.equal(side);
-                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowInTree");
-                expect(commit.secondCall.args[1]).to.equal(false);
-
-                expect(dispatch.calledTwice).to.be.true;
+                expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
                 expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
-                expect(dispatch.secondCall.args[0]).to.equal("handleActionButtons");
-                expect(dispatch.secondCall.args[1]).to.deep.equal({side: side, searchValue: undefined});
             });
         });
-    });
-    describe("handleActionButtons", () => {
-        const side = "mainMenu";
 
-        it("should update searchbar navigation from layerinformation within main search", async () => {
-            rootGetters = {"Modules/SearchBar/Modules/SearchBar/searchInput": "",
-                "Modules/SearchBar/searchInput": "Neue"
+        it("should resetSearchbarNavigation - no action event", async () => {
+            side = "mainMenu";
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": true,
+                "Modules/SearchBar/currentSide": "mainMenu",
+                "Modules/SearchBar/currentActionEvent": "",
+                "Modules/SearchBar/globalPlaceholder": "placeholder"
             };
             getters = {
                 currentComponent: () => {
                     return {
-                        type: "layerInformation"
+                        type: "searchBar"
                     };
-                },
-                navigationHistory: () => {
-                    return [
-                        {type: "root"},
-                        {type: "searchBar"},
-                        {type: "searchBar"}
-                    ];
                 }
             };
 
-            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, {side: side, searchValue: "Neue"});
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
 
             await nextTick(() => {
-                expect(commit.calledTwice).to.be.true;
-                expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
-                expect(commit.firstCall.args[1]).to.equal(side);
-                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setSearchInput");
-                expect(commit.secondCall.args[1]).to.equal("Neue");
-
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setPlaceholder");
+                expect(commit.firstCall.args[1]).to.equal("placeholder");
                 expect(dispatch.calledOnce).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
-                expect(dispatch.firstCall.args[1]).to.equal(side);
+                expect(dispatch.firstCall.args[0]).to.equal("resetSearchbarNavigation");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
             });
         });
-        it("should update searchbar navigation from layerSelection", async () => {
+
+        it("should navigateSearchbarInLayerSelection if current component is layerSelection - no action event", async () => {
+            side = "mainMenu";
             rootGetters = {
-                "Modules/SearchBar/searchInput": "Neue"
+                "Modules/SearchBar/showAllResults": true,
+                "Modules/SearchBar/currentSide": "mainMenu",
+                "Modules/SearchBar/currentActionEvent": ""
             };
             getters = {
                 currentComponent: () => {
                     return {
                         type: "layerSelection"
                     };
-                },
+                }
+            };
+
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.notCalled).to.be.true;
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("navigateSearchbarInLayerSelection");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
+            });
+        });
+
+        it("should navigateSearchbarActionEventNotInLayerSelection if current component is searchBar - with action event", async () => {
+            side = "mainMenu";
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": true,
+                "Modules/SearchBar/currentSide": "mainMenu",
+                "Modules/SearchBar/currentActionEvent": "showInTree",
+                "Modules/SearchBar/globalPlaceholder": "placeholder"
+            };
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "searchBar"
+                    };
+                }
+            };
+
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setPlaceholder");
+                expect(commit.firstCall.args[1]).to.equal("placeholder");
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("navigateSearchbarActionEventNotInLayerSelection");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
+            });
+        });
+
+        it("should switchToPreviousComponent if current component is layerInformation - with action event", async () => {
+            side = "mainMenu";
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": true,
+                "Modules/SearchBar/currentSide": "mainMenu",
+                "Modules/SearchBar/currentActionEvent": "showLayerInfo"
+            };
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "layerInformation"
+                    };
+                }
+            };
+
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.firstCall.args[1]).to.equal(side);
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("navigateSearchbarActionEventNotInLayerSelection");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
+            });
+        });
+        it("should switchToPreviousComponent if current component is layerInformation - with action event and showAllResults is false", async () => {
+            side = "mainMenu";
+            rootGetters = {
+                "Modules/SearchBar/showAllResults": false,
+                "Modules/SearchBar/currentSide": "mainMenu",
+                "Modules/SearchBar/currentActionEvent": "showLayerInfo"
+            };
+            getters = {
+                currentComponent: () => {
+                    return {
+                        type: "layerInformation"
+                    };
+                }
+            };
+
+            actions.navigateBack({commit, dispatch, getters, state, rootGetters}, side);
+
+            await nextTick(() => {
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.firstCall.args[1]).to.equal(side);
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("navigateSearchbarActionEventNotInLayerSelection");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
+            });
+        });
+    });
+    describe("navigateSearchbarActionEventNotInLayerSelection", () => {
+        const side = "mainMenu";
+
+        it("if action event is not 'showInTree' and not 'showLayerInfo' shall reset searchbar navigation and current action event", async () => {
+            rootGetters = {
+                "Modules/SearchBar/currentActionEvent": "otherActionEvent"
+            };
+
+            actions.navigateSearchbarActionEventNotInLayerSelection({commit, dispatch, rootGetters}, {side: side});
+
+            await nextTick(() => {
+                expect(commit.calledTwice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowSearchResultsInTree");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setCurrentActionEvent");
+                expect(commit.secondCall.args[1]).to.equal("");
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("resetSearchbarNavigation");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({side});
+            });
+        });
+
+        it("if action event is 'showInTree' shall not reset searchbar navigation and shall reset current action event", async () => {
+            rootGetters = {
+                "Modules/SearchBar/currentActionEvent": "showInTree"
+            };
+
+            actions.navigateSearchbarActionEventNotInLayerSelection({commit, dispatch, rootGetters}, {side: side});
+
+            await nextTick(() => {
+                expect(commit.calledThrice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowSearchResultsInTree");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowAllResults");
+                expect(commit.secondCall.args[1]).to.equal(true);
+                expect(commit.thirdCall.args[0]).to.equal("Modules/SearchBar/setCurrentActionEvent");
+                expect(commit.thirdCall.args[1]).to.equal("");
+                expect(dispatch.notCalled).to.be.true;
+            });
+        });
+
+        it("if action event is 'showLayerInfo' shall not reset searchbar navigation and shall reset current action event", async () => {
+            rootGetters = {
+                "Modules/SearchBar/currentActionEvent": "showLayerInfo"
+            };
+
+            actions.navigateSearchbarActionEventNotInLayerSelection({commit, dispatch, rootGetters}, {side: side});
+
+            await nextTick(() => {
+                expect(commit.calledThrice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowSearchResultsInTree");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowAllResults");
+                expect(commit.secondCall.args[1]).to.equal(true);
+                expect(commit.thirdCall.args[0]).to.equal("Modules/SearchBar/setCurrentActionEvent");
+                expect(commit.thirdCall.args[1]).to.equal("");
+                expect(dispatch.notCalled).to.be.true;
+            });
+        });
+    });
+
+    describe("navigateSearchbarInLayerSelection", () => {
+        const side = "mainMenu";
+
+        it("if history contains 'layerSelection' 2 times setShowSearchResultsInTree is called ", async () => {
+            getters = {
                 navigationHistory: () => {
                     return [
                         {type: "root"},
-                        {type: "layerSelction"}
+                        {type: "layerSelection"},
+                        {type: "layerSelection"}
                     ];
                 }
             };
 
-            actions.handleActionButtons({commit, dispatch, getters, rootGetters}, {side: side});
+            actions.navigateSearchbarInLayerSelection({commit, dispatch, getters}, {side: side});
 
             await nextTick(() => {
-                expect(commit.calledTwice).to.be.true;
-                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setSearchInput");
-                expect(commit.firstCall.args[1]).to.equal("");
-                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setCurrentSearchInputValue");
-                expect(commit.secondCall.args[1]).to.equal("");
-                expect(dispatch.calledTwice).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
-                expect(dispatch.firstCall.args[1]).to.equal(side);
-                expect(dispatch.secondCall.args[0]).to.equal("navigateBack");
-                expect(dispatch.secondCall.args[1]).to.equal(side);
+                expect(commit.calledThrice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowAllResults");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setShowSearchResultsInTree");
+                expect(commit.secondCall.args[1]).to.be.true;
+                expect(commit.thirdCall.args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.thirdCall.args[1]).to.equal(side);
+                expect(dispatch.notCalled).to.be.true;
+            });
+        });
+
+        it("if history not contains 'layerSelection' 2 times navigateBack in layerSelection is called ", async () => {
+            getters = {
+                navigationHistory: () => {
+                    return [
+                        {type: "root"},
+                        {type: "layerSelection"}
+                    ];
+                }
+            };
+
+            actions.navigateSearchbarInLayerSelection({commit, dispatch, getters}, {side: side});
+
+            await nextTick(() => {
+                expect(commit.callCount).to.be.equal(4);
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowAllResults");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Modules/SearchBar/setSearchResultsActive");
+                expect(commit.secondCall.args[1]).to.be.false;
+                expect(commit.thirdCall.args[0]).to.equal("Modules/SearchBar/setShowSearchResultsInTree");
+                expect(commit.thirdCall.args[1]).to.be.false;
+                expect(commit.getCall(3).args[0]).to.equal("switchToPreviousComponent");
+                expect(commit.getCall(3).args[1]).to.equal(side);
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("Modules/LayerSelection/navigateBack");
+                expect(dispatch.firstCall.args[1]).to.deep.equals(null);
+            });
+        });
+    });
+
+    describe("resetSearchbarNavigation", () => {
+        const side = "mainMenu";
+
+        it("shall commit three times", async () => {
+            actions.resetSearchbarNavigation({commit}, {side: side});
+
+            await nextTick(() => {
+                expect(commit.calledThrice).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("Modules/SearchBar/setShowAllResults");
+                expect(commit.firstCall.args[1]).to.be.false;
+                expect(commit.secondCall.args[0]).to.equal("Menu/setCurrentComponentPropsName");
+                expect(commit.secondCall.args[1]).to.be.deep.equals({side: side, name: "common:modules.searchBar.searchResultList"});
+                expect(commit.thirdCall.args[0]).to.equal("Menu/setNavigationHistoryBySide");
+                expect(commit.thirdCall.args[1]).to.be.deep.equals({side: side, newHistory: [{type: "root", props: []}]});
+                expect(dispatch.notCalled).to.be.true;
             });
         });
     });
@@ -507,43 +718,9 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
     });
 
     describe("resetMenu", () => {
-        let side = "mainMenu";
+        const side = "mainMenu";
 
         it("should switch to Root but not change Interaction if already GFI", async () => {
-            rootGetters["Modules/SearchBar/currentSide"] = side;
-            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
-
-            await nextTick(() => {
-                expect(dispatch.calledOnce).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
-                expect(dispatch.firstCall.args[1]).to.equal(side);
-                expect(commit.calledOnce).to.be.true;
-                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
-                expect(commit.firstCall.args[1]).to.equal(side);
-            });
-        });
-
-        it("should switch to Root and change Interaction if not already GFI", async () => {
-            Object.assign(state, {currentMouseMapInteractionsComponent: "abc"});
-            rootGetters["Modules/SearchBar/currentSide"] = side;
-
-            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
-
-            await nextTick(() => {
-                expect(dispatch.calledTwice).to.be.true;
-                expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
-                expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
-                expect(dispatch.secondCall.args[0]).to.equal("Modules/SearchBar/updateSearchNavigation");
-                expect(dispatch.secondCall.args[1]).to.equal(side);
-                expect(commit.calledOnce).to.be.true;
-                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
-                expect(commit.firstCall.args[1]).to.equal(side);
-            });
-        });
-
-        it("should switch to Root but not change searchNAvigation, if search is on other side", async () => {
-            rootGetters["Modules/SearchBar/currentSide"] = "mainMenu";
-            side = "secondaryMenu";
             actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
 
             await nextTick(() => {
@@ -552,6 +729,74 @@ describe("src/modules/menu/menu-store/actionsMenu.js", () => {
                 expect(commit.firstCall.args[0]).to.equal("switchToRoot");
                 expect(commit.firstCall.args[1]).to.equal(side);
             });
+        });
+
+        it("should switch to Root and change Interaction if not already GFI", async () => {
+            Object.assign(state, {currentMouseMapInteractionsComponent: "abc"});
+
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
+
+            await nextTick(() => {
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equal("changeCurrentMouseMapInteractionsComponent");
+                expect(dispatch.firstCall.args[1]).to.deep.equal({type: state.defaultComponent, side});
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
+                expect(commit.firstCall.args[1]).to.equal(side);
+            });
+        });
+
+        it("should reset LayerSelection if currentComponent is layerInformation", async () => {
+            getters.currentComponent = () => ({type: "layerInformation"});
+
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
+
+            await nextTick(() => {
+                expect(dispatch.calledWith("Modules/LayerSelection/reset", null, {root: true})).to.be.true;
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
+                expect(commit.firstCall.args[1]).to.equal(side);
+            });
+        });
+
+        it("should reset LayerSelection and change mouse interaction if needed", async () => {
+            state.currentMouseMapInteractionsComponent = "layerInformation";
+            state.defaultComponent = "defaultComp";
+            getters.currentComponent = () => ({type: "layerInformation"});
+
+            actions.resetMenu({commit, dispatch, getters, rootGetters, state}, side);
+
+            await nextTick(() => {
+                expect(dispatch.calledWith("Modules/LayerSelection/reset", null, {root: true})).to.be.true;
+                expect(dispatch.calledWith("changeCurrentMouseMapInteractionsComponent", {type: "defaultComp", side})).to.be.true;
+                expect(commit.calledOnce).to.be.true;
+                expect(commit.firstCall.args[0]).to.equal("switchToRoot");
+                expect(commit.firstCall.args[1]).to.equal(side);
+            });
+        });
+        it("should change width of menu if urlParams are used", () => {
+            const params = {
+                    MENUWIDTH: 20
+                },
+                s = params.MENUWIDTH + "%";
+
+            actions.setCurrentMenuWidth({commit}, {type: "mainMenu", attributes: {width: params.MENUWIDTH}});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentMenuWidth");
+            expect(commit.firstCall.args[1]).to.deep.equal({side: "mainMenu", width: s});
+        });
+        it("should change width of secondary menu if urlParams are used", () => {
+            const params = {
+                    SECONDARYWIDTH: 12
+                },
+                s = params.SECONDARYWIDTH + "%";
+
+            actions.setCurrentMenuWidth({commit}, {type: "secondaryMenu", attributes: {width: params.SECONDARYWIDTH}});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setCurrentMenuWidth");
+            expect(commit.firstCall.args[1]).to.deep.equal({side: "secondaryMenu", width: s});
         });
     });
 });

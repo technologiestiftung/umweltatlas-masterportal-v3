@@ -1,5 +1,5 @@
 <script>
-import IconButton from "../../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Shared component that provides buttons for two-level selection of ready to place 3D elements.

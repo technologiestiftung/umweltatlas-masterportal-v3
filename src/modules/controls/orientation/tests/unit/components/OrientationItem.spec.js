@@ -2,19 +2,21 @@ import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import OrientationItemComponent from "../../../components/OrientationItem.vue";
-import layerCollection from "../../../../../../core/layers/js/layerCollection";
+import OrientationItemComponent from "@modules/controls/orientation/components/OrientationItem.vue";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/controls/orientation/components/OrientationItem.vue", () => {
     let store,
-        onlyFilteredFeatures = false;
+        onlyFilteredFeatures = false,
+        iconGeolocationMarker;
     const mockAlertingActions = {
         addSingleAlert: sinon.stub()
     };
 
     beforeEach(() => {
+        iconGeolocationMarker = "bi-crosshair";
         store = createStore({
             namespaced: true,
             modules: {
@@ -27,6 +29,7 @@ describe("src/modules/controls/orientation/components/OrientationItem.vue", () =
                                 geolocation: sinon.stub(),
                                 iconGeolocate: sinon.stub(),
                                 iconGeolocatePOI: sinon.stub(),
+                                iconGeolocationMarker: () => iconGeolocationMarker,
                                 poiDistances: () => [],
                                 poiMode: sinon.stub(),
                                 poiModeCurrentPositionEnabled: sinon.stub(),
@@ -63,6 +66,7 @@ describe("src/modules/controls/orientation/components/OrientationItem.vue", () =
 
         expect(wrapper.find(".orientationButtons").exists()).to.be.true;
         expect(wrapper.find("#geolocation_marker").exists()).to.be.true;
+        expect(wrapper.find("#geolocation_marker > i").wrapperElement.className).to.be.equals(iconGeolocationMarker);
     });
 
     it("renders the Orientation button", () => {

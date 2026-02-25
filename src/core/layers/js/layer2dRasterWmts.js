@@ -1,6 +1,6 @@
-import {wmts} from "@masterportal/masterportalapi";
-import getNestedValues from "../../../shared/js/utils/getNestedValues";
-import Layer2dRaster from "./layer2dRaster";
+import {wmts} from "@masterportal/masterportalapi/src/index.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import Layer2dRaster from "./layer2dRaster.js";
 
 /**
  * Creates a 2d raster wmts (Web Map Tile Service) layer.
@@ -12,7 +12,8 @@ import Layer2dRaster from "./layer2dRaster";
  */
 export default function Layer2dRasterWmts (attributes) {
     const defaultAttributes = {
-        optionsFromCapabilities: false
+        optionsFromCapabilities: false,
+        capabilitiesUrl: false
     };
 
     this.attributes = Object.assign(defaultAttributes, attributes);
@@ -50,7 +51,7 @@ Layer2dRasterWmts.prototype.getRawLayerAttributes = function (attributes) {
  */
 Layer2dRasterWmts.prototype.getLayerParams = function (attributes) {
     return {
-        opacity: (100 - attributes.transparency) / 100,
+        opacity: (100 - attributes.transparent) / 100,
         zIndex: attributes.zIndex
     };
 };
@@ -66,6 +67,19 @@ Layer2dRasterWmts.prototype.getLayerParams = function (attributes) {
 Layer2dRasterWmts.prototype.createLegend = async function () {
     let legend = this.inspectLegendUrl();
 
+    if (this.get("legend")) {
+        if (this.get("legend") === "") {
+            legend = true;
+        }
+        else if (this.get("legend") === "ignore") {
+            legend = false;
+        }
+        else {
+            legend = this.get("legend");
+            legend = Array.isArray(legend) ? legend : [legend];
+        }
+    }
+
     if ((this.get("optionsFromCapabilities") === undefined) && (legend === true)) {
         console.error("WMTS: No legendURL is specified for the layer!");
     }
@@ -79,7 +93,7 @@ Layer2dRasterWmts.prototype.createLegend = async function () {
                     const getLegend = getNestedValues(layer, "LegendURL", true);
 
                     if (getLegend !== null && getLegend !== undefined) {
-                        legend = getLegend[0]?.[0]?.href;
+                        legend = getLegend[0]?.[0]?.href ?? getLegend[0]?.href;
                         if (legend) {
                             legend = [legend];
                         }

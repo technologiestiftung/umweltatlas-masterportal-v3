@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer from "../../../js/layer";
+import Layer from "@core/layers/js/layer.js";
 
 describe("src/core/js/layers/layer.js", () => {
     let attributes,
@@ -85,7 +85,7 @@ describe("src/core/js/layers/layer.js", () => {
         });
 
         it("inspectLegendUrl with filled legendURL", () => {
-            attributes.legendURL = "https://legendURL";
+            attributes.legendURL = ["https://legendURL"];
             const layerWrapper = new Layer(attributes);
 
             expect(layerWrapper.inspectLegendUrl()).to.be.equals(attributes.legendURL);

@@ -1,4 +1,4 @@
-import {getValueFromObjectByPath, getPathPartsFromPath} from "../../getValueFromObjectByPath.js";
+import {getValueFromObjectByPath, getPathPartsFromPath} from "@shared/js/utils/getValueFromObjectByPath.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/getValueFromObjectByPath.js", () => {

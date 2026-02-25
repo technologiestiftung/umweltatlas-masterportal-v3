@@ -1,7 +1,8 @@
 <script>
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 import SnippetInfo from "./SnippetInfo.vue";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 /**
 * Snippet Input
@@ -29,6 +30,7 @@ import SnippetInfo from "./SnippetInfo.vue";
 export default {
     name: "SnippetInput",
     components: {
+        InputText,
         SnippetInfo
     },
     props: {
@@ -151,6 +153,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 value
@@ -182,7 +185,8 @@ export default {
          * Triggers when the input field has lost its focus.
          * @returns {void}
          */
-        inputChanged () {
+        inputChanged (val) {
+            this.value = val;
             if (!this.value) {
                 this.deleteCurrentRule();
             }
@@ -197,68 +201,55 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetInputContainer"
+        class="form-floating input-container d-flex justify-content-between align-items-center"
     >
+        <InputText
+            :id="'snippetInput-' + snippetId"
+            v-model="value"
+            class="snippetInput d-flex"
+            :label="titleText"
+            :aria-label="ariaLabelInput"
+            :placeholder="placeholder"
+            :input="inputChanged"
+            :disabled="disabled"
+        />
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
                 :translation-key="translationKey"
             />
         </div>
-        <div class="input-container">
-            <label
-                v-if="title !== false"
-                :for="'snippetInput-' + snippetId"
-                class="snippetInputLabel left"
-            >{{ titleText }}</label>
-            <input
-                :id="'snippetInput-' + snippetId"
-                v-model="value"
-                :aria-label="ariaLabelInput"
-                class="snippetInput form-control"
-                type="text"
-                name="input"
-                :disabled="disabled"
-                :placeholder="placeholder"
-                @blur="inputChanged()"
-                @keyup.enter="inputChanged()"
-            >
-        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     @import "~mixins";
-    input {
+    .snippetInput {
         box-sizing: border-box;
-        outline: 0;
         position: relative;
         width: 100%;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+        -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        &:focus-within {
+            border: 1px solid $form-check-input-checked-bg-color;
+        }
     }
-    .snippetInputContainer {
-        height: auto;
-    }
-    .snippetInputContainer input {
-        clear: left;
-        width: 100%;
-        box-sizing: border-box;
-        outline: 0;
-        position: relative;
-        margin-bottom: 5px;
-    }
-    .snippetInputContainer .bottom {
-        clear: left;
-        width: 100%;
-    }
-    .snippetInputContainer .left {
-        float: left;
-        width: 90%;
-    }
-    .snippetInputContainer .right {
-        position: absolute;
-        right: 0;
+</style>
+
+<style lang="scss">
+    @import "~mixins";
+    .snippetInput {
+        .form-control {
+            height: unset;
+            min-height: unset;
+        }
+        .input-label {
+            padding: 1rem 0.75rem;
+        }
     }
 </style>

@@ -1,11 +1,11 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceKomootPhoton from "../../../searchInterfaces/searchInterfaceKomootPhoton.js";
-import store from "../../../../../app-store";
-import {reset} from "../../../../../shared/js/utils/uniqueId";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceKomootPhoton from "@modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js";
+import store from "@appstore/index.js";
+import {reset} from "@shared/js/utils/uniqueId.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js", () => {
     let SearchInterface1 = null,
@@ -79,7 +79,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js"
         it("SearchInterfaceKomootPhoton should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
         });
     });
 
@@ -245,6 +245,12 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceKomootPhoton.js"
 
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [
+                            9.988176,
+                            53.55481
+                        ]
+                    },
                     setMarker: {
                         coordinates: [1, 2]
                     },

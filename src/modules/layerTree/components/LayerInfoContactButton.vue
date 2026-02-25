@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Button to open contact module with specific email parameters relating to layer information
@@ -24,7 +24,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["isModuleAvailable"]),
+        ...mapGetters(["isModuleAvailable", "portalConfig"]),
         ...mapGetters("Modules/LayerInformation", [
             "layerInfo",
             "pointOfContact",
@@ -33,11 +33,11 @@ export default {
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/Contact", {contactType: "type", contactName: "name"}),
         ...mapGetters("Modules/BaselayerSwitcher", [
-            "topBaselayerId"
+            "topBaselayer"
         ]),
         /**
          * Returns contact details from pointOfContact if given otherwise from publisher from meta data information.
-         * @returns {String} Contanct details.
+         * @returns {String} Contact details.
          */
         contact () {
             // IMPORTANT: parseContactByRole now always returns an array -> keep this computed as array too.
@@ -58,6 +58,10 @@ export default {
          * @returns {String} info message.
          */
         infoMessage () {
+            if (this.portalConfig.tree.contactPublisherName && this.contact.name) {
+                return this.$t("common:modules.layerInformation.contactPublisher") + this.contact.name;
+            }
+
             return this.$t("common:modules.layerInformation.contactInfoMessage") + this.layerName;
         },
         /**
@@ -74,7 +78,7 @@ export default {
         mailOriginHint () {
             const layerInfo = `{"layerInfo":{"id":"${this.layerInfo.id}"}}`;
 
-            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayerId}","visibility":true}]`);
+            return this.$t("common:modules.layerInformation.mailOriginHint") + " <br>" + encodeURI(window.location.href.toString().split("#")[0] + `?MENU={"main":{"currentComponent":"layerInformation","attributes":${layerInfo}}}&LAYERS=[{"id":"${this.layerInfo.id}","visibility":true},{"id":"${this.topBaselayer?.id}","visibility":true}]`);
         }
     },
     methods: {

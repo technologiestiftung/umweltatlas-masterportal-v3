@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {buildFilter, buildXmlFilter, buildStoredFilter} from "../../../js/buildFilter";
+import {buildFilter, buildXmlFilter, buildStoredFilter} from "@modules/wfsSearch/js/buildFilter.js";
 
 describe("src/modules/wfsSearch/js/buildFilter.js", () => {
     const values = [
@@ -9,7 +9,7 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
                 "literals": [
                     {
                         "field": {
-                            "type": "equal",
+                            "queryType": "equal",
                             "inputLabel": "Gemarkungsname*",
                             "fieldName": "gemname",
                             "options": "",
@@ -20,7 +20,7 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
                     },
                     {
                         "field": {
-                            "type": "equal",
+                            "queryType": "equal",
                             "inputLabel": "Flurnummer",
                             "fieldName": "flur",
                             "options": "flur",
@@ -30,7 +30,7 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
                     },
                     {
                         "field": {
-                            "type": "equal",
+                            "queryType": "equal",
                             "inputLabel": "Zähler*",
                             "fieldName": "zaehler",
                             "options": "flur.zaehler",
@@ -41,7 +41,7 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
                     },
                     {
                         "field": {
-                            "type": "equal",
+                            "queryType": "equal",
                             "inputLabel": "Nenner",
                             "fieldName": "nenner",
                             "options": "flur.zaehler.nenner",
@@ -72,7 +72,7 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
     describe("buildXmlFilter", () => {
         it("should build the XML filter for the given fieldName and value", () => {
             const field = {
-                "type": "equal",
+                "queryType": "equal",
                 "inputLabel": "Gemarkungsname*",
                 "fieldName": "gemname",
                 "options": "",
@@ -83,5 +83,20 @@ describe("src/modules/wfsSearch/js/buildFilter.js", () => {
 
             expect(buildXmlFilter(field)).to.equal("<ogc:PropertyIsEqualTo matchCase=\"false\"><ogc:PropertyName>gemname</ogc:PropertyName><ogc:Literal>Waldesch</ogc:Literal></ogc:PropertyIsEqualTo>");
         });
+
+        it("should build a PropertyIsLike XML filter for the queryType 'like'", () => {
+            const field = {
+                "queryType": "like",
+                "inputLabel": "Gemarkungsname*",
+                "fieldName": "gemarkungsname",
+                "options": "",
+                "required": true,
+                "id": "wfsSearch-clause-0+field-0",
+                "value": "Altona"
+            };
+
+            expect(buildXmlFilter(field)).to.equal("<ogc:PropertyIsLike matchCase=\"false\" wildCard=\"*\" singleChar=\"%23\" escapeChar=\"!\"><ogc:PropertyName>gemarkungsname</ogc:PropertyName><ogc:Literal>Altona*</ogc:Literal></ogc:PropertyIsLike>");
+        });
+
     });
 });

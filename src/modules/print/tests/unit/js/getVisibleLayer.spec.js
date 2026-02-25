@@ -1,8 +1,8 @@
 import {Group as LayerGroup} from "ol/layer.js";
-import layerProvider from "../../../js/getVisibleLayer";
+import layerProvider from "@modules/print/js/getVisibleLayer.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import store from "../../../../../app-store";
+import store from "@appstore/index.js";
 
 describe("src/modules/print/utils/getVisibleLayer", function () {
     let layers,

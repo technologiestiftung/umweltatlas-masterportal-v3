@@ -1,12 +1,12 @@
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import {getCenter} from "ol/extent";
-import webgl from "./webglRenderer";
-import store from "../../../app-store";
-import Layer2d from "./layer2d";
-import Cluster from "ol/source/Cluster";
-import Style from "ol/style/Style";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService.js";
+import {getCenter} from "ol/extent.js";
+import webgl from "./webglRenderer.js";
+import store from "@appstore/index.js";
+import Layer2d from "./layer2d.js";
+import Cluster from "ol/source/Cluster.js";
+import Style from "ol/style/Style.js";
 
 /**
  * Creates a 2d vector layer.
@@ -24,6 +24,7 @@ export default function Layer2dVector (attributes) {
         styleId: "default"
     };
 
+    this.isStyling = false;
     this.geometryTypeRequestLayers = [];
     this.attributes = Object.assign(defaultAttributes, attributes);
     Layer2d.call(this, this.attributes);
@@ -91,7 +92,7 @@ Layer2dVector.prototype.clusterGeometryFunction = function (feature) {
  * @returns {module:ol/Feature~Feature[]} to filter features with
  */
 Layer2dVector.prototype.featuresFilter = function (attributes, features) {
-    let filteredFeatures = features.filter(feature => feature.getGeometry() !== undefined);
+    let filteredFeatures = features.filter(feature => Boolean(feature.getGeometry()));
 
     if (attributes.bboxGeometry) {
         filteredFeatures = filteredFeatures.filter(
@@ -112,6 +113,7 @@ Layer2dVector.prototype.getLayerParams = function (attributes) {
         altitudeMode: attributes.altitudeMode,
         gfiAttributes: attributes.gfiAttributes,
         gfiTheme: attributes.gfiTheme,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         name: attributes.name,
         opacity: (100 - attributes.transparency) / 100,
         typ: attributes.typ,
@@ -202,19 +204,31 @@ Layer2dVector.prototype.initStyle = async function (attrs) {
  */
 Layer2dVector.prototype.createStyle = async function (attrs) {
     const styleId = attrs.styleId,
-        styleObject = styleList.returnStyleObject(styleId);
+        styleObject = styleList.returnStyleObject(styleId) ?? await styleList.initStyleAndAddToList(Config, styleId);
 
     if (styleObject !== undefined) {
         /**
-         * Returns style function to style fature.
+         * Returns style function to style feature.
          * @param {ol.Feature} feature the feature to style
-         * @returns {Function} style function to style fature
+         * @returns {Function} style function to style feature
          */
         const style = (feature) => {
-            const feat = feature !== undefined ? feature : this,
-                isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features"));
+            if (this.isStyling) {
+                return new Style();
+            }
+            this.isStyling = true;
+            let styleResult;
 
-            return createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+            try {
+                const feat = feature !== undefined ? feature : this,
+                    isClusterFeature = typeof feat.get("features") === "function" || typeof feat.get("features") === "object" && Boolean(feat.get("features").length > 1);
+
+                styleResult = createStyle.createStyle(styleObject, feat, isClusterFeature, Config.wfsImgPath);
+            }
+            finally {
+                this.isStyling = false;
+            }
+            return styleResult;
         };
 
         this.setStyle(style);
@@ -241,7 +255,7 @@ Layer2dVector.prototype.showFeaturesByIds = function (featureIdList) {
         allLayerFeatures = layerSource.getFeatures(),
         featuresToShow = featureIdList.map(id => layerSource.getFeatureById(id));
 
-    this.hideAllFeatures();
+    this.hideAllFeatures(true);
     featuresToShow.forEach(feature => {
         const style = this.getStyleAsFunction(this.get("style"));
 
@@ -256,9 +270,10 @@ Layer2dVector.prototype.showFeaturesByIds = function (featureIdList) {
 
 /**
  * Hides all features by setting style= null for all features.
+ * @param {Boolean} [preventReAddFeaturesAfterClean=true] If true, features are not re-added after clearing the source.
  * @returns {void}
  */
-Layer2dVector.prototype.hideAllFeatures = function () {
+Layer2dVector.prototype.hideAllFeatures = function (preventReAddFeaturesAfterClean = false) {
     const layerSource = this.getLayerSource() instanceof Cluster ? this.getLayerSource().getSource() : this.getLayerSource(),
         features = layerSource.getFeatures();
 
@@ -270,6 +285,9 @@ Layer2dVector.prototype.hideAllFeatures = function () {
         feature.setStyle(new Style());
     });
 
+    if (preventReAddFeaturesAfterClean) {
+        return;
+    }
     layerSource.addFeatures(features);
 };
 
@@ -345,41 +363,158 @@ Layer2dVector.prototype.createLegend = async function () {
 };
 
 /**
- * Filters unique legend information
- * @param {Object} features selected features
- * @param {Object} rules  the styleObject rules
- * @param {Object} legendInfos styleObject legend information
- * @returns {Object[]} uniqueLegendInformation as array
+ * Filters legend information based on active features and style rules.
+ * Ensures the resulting legend order follows the order of rules in the style JSON.
+ * Supports both shapes of `conditions.properties`:
+ *  1) Array of objects: [{ attrName, value }]
+ *  2) Plain object: { <attrName>: <value>, ... }
+ * Handles numeric/string equality and numeric ranges [min, max).
+ *
+ * @param {Object[]} features - Selected OL features of the layer.
+ * @param {Object[]} rules - Style rules from the style JSON.
+ * @param {Object[]} legendInfos - All available legend entries (label, icon, etc.).
+ * @returns {Object[]} Filtered legend entries, ordered by rule order; falls back to legendInfos if none matched.
  */
 Layer2dVector.prototype.filterUniqueLegendInfo = function (features, rules, legendInfos) {
-    if (!features.length) {
+    if (!Array.isArray(features) || features.length === 0) {
         return legendInfos;
     }
-    const rulesKey = Object.keys(rules[0].conditions.properties)[0],
-        conditionProperties = [...new Set(features.map(feature => feature.get(rulesKey)))];
-    let uniqueLegendInformation = [];
 
-    rules.forEach(rule => {
-        const ruleValue = rule.conditions?.properties[rulesKey],
-            value = String(ruleValue);
-        let legendInformation;
+    // Fast lookup: label -> legend entry
+    const legendMap = new Map((legendInfos || []).map(li => [String(li?.label), li])),
+        valuesByAttr = new Map(), // Cache collected feature values per attribute
+        uniqueLegendInformation = [];
 
-        if (Array.isArray(ruleValue) && ruleValue.length === 2
-            && conditionProperties.some(conditionValue => Number(conditionValue) >= ruleValue[0] && Number(conditionValue) < ruleValue[1])) {
-            legendInformation = legendInfos.find(legendInfo => legendInfo?.label === rule.style?.legendValue);
-        }
-        else if (conditionProperties.includes(value)) {
-            legendInformation = legendInfos.find(legendInfo => legendInfo?.label === (rule.style?.legendValue || value));
-        }
-        if (typeof legendInformation !== "undefined") {
-            uniqueLegendInformation.push(legendInformation);
-        }
-    });
+    // Reused variables (keeps function scope tidy)
+    let attrName, ruleValue, featVals, hasMatch, label, li, rule, propsRaw, propKeys;
 
-    if (uniqueLegendInformation.length === 0) {
-        uniqueLegendInformation = legendInfos;
+    /**
+     * Converts a value to a finite number; returns null if not numeric.
+     * @param {*} v
+     * @returns {number|null} The numeric value if conversion succeeds, otherwise null.
+     */
+    function toNum (v) {
+        const n = Number(v);
+
+        return Number.isFinite(n) ? n : null;
     }
 
-    return uniqueLegendInformation;
+    /**
+     * Collects all distinct values for a given attribute from features (cached).
+     * @param {string} aName - The attribute name to collect values for.
+     * @returns {Set<*>} A set containing all unique values found for the given attribute.
+     */
+    function getFeatureValuesFor (aName) {
+        if (valuesByAttr.has(aName)) {
+            return valuesByAttr.get(aName);
+        }
+        const set = new Set();
+
+        for (let i = 0; i < features.length; i++) {
+            const v = features[i].get(aName);
+
+            if (typeof v !== "undefined") {
+                set.add(v);
+            }
+        }
+        valuesByAttr.set(aName, set);
+        return set;
+    }
+
+    /**
+     * Checks if a rule value matches any collected feature values.
+     * Supports ranges [min, max) and exact (numeric/string) matches.
+     * @param {Set<*>} featValues
+     * @param {*} rValue
+     * @returns {boolean} True if at least one feature value matches the rule value, otherwise false.
+     */
+    function ruleMatches (featValues, rValue) {
+        // Range [min, max)
+        if (Array.isArray(rValue) && rValue.length === 2) {
+            const min = toNum(rValue[0]),
+                max = toNum(rValue[1]);
+
+            if (min === null || max === null) {
+                return false;
+            }
+            for (const val of featValues) {
+                const n = toNum(val);
+
+                if (n !== null && n >= min && n < max) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Exact match (numeric or string)
+        const wantedNum = toNum(rValue);
+
+        for (const val of featValues) {
+            const n = toNum(val);
+
+            if (wantedNum !== null && n !== null) {
+                if (n === wantedNum) {
+                    return true;
+                }
+            }
+            else if (String(val) === String(rValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Preserve JSON rule order in the resulting legend
+    for (rule of rules || []) {
+        // Support both schema formats for conditions.properties
+        propsRaw = rule && rule.conditions ? rule.conditions.properties : undefined;
+
+        if (Array.isArray(propsRaw) && propsRaw.length > 0) {
+            attrName = propsRaw[0] && propsRaw[0].attrName;
+            ruleValue = propsRaw[0] && propsRaw[0].value;
+        }
+        else if (propsRaw && typeof propsRaw === "object") {
+            propKeys = Object.keys(propsRaw);
+            if (propKeys.length > 0) {
+                attrName = propKeys[0];
+                ruleValue = propsRaw[attrName];
+            }
+            else {
+                attrName = undefined;
+                ruleValue = undefined;
+            }
+        }
+        else {
+            attrName = undefined;
+            ruleValue = undefined;
+        }
+
+        if (!attrName) {
+            continue;
+        }
+
+        featVals = getFeatureValuesFor(attrName);
+        hasMatch = ruleMatches(featVals, ruleValue);
+        if (!hasMatch) {
+            continue;
+        }
+
+        // Prefer an explicit style.legendValue; otherwise derive label from rule value
+        if (rule && rule.style && rule.style.legendValue !== null && typeof rule.style.legendValue !== "undefined") {
+            label = String(rule.style.legendValue);
+        }
+        else {
+            label = String(Array.isArray(ruleValue) ? `${ruleValue[0]},${ruleValue[1]}` : ruleValue);
+        }
+
+        li = legendMap.get(label);
+        if (li) {
+            uniqueLegendInformation.push(li);
+        }
+    }
+
+    return uniqueLegendInformation.length ? uniqueLegendInformation : legendInfos;
 };
+
 

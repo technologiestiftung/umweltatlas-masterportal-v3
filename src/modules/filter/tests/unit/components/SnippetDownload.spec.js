@@ -1,10 +1,9 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetDownload from "../../../components/SnippetDownload.vue";
-import ExportButtonCSV from "../../../../../shared/modules/buttons/components/ExportButtonCSV.vue";
-import ExportButtonGeoJSON from "../../../../../shared/modules/buttons/components/ExportButtonGeoJSON.vue";
+import SnippetDownload from "@modules/filter/components/SnippetDownload.vue";
+import ExportButtonGeoJSON from "@shared/modules/buttons/components/ExportButtonGeoJSON.vue";
 import {expect} from "chai";
-import openlayerFunctions from "../../../utils/openlayerFunctions.js";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -33,57 +32,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
         sinon.restore();
     });
 
-    describe("toggleShowDownload", async () => {
-        beforeEach(() => {
-            wrapper = shallowMount(SnippetDownload, {
-                propsData: {
-                    layerConfig: {
-                        service: {
-                            type: "something external"
-                        }
-                    },
-                    layerId: "12345",
-                    filteredItems: [
-                        {
-                            a: "test ",
-                            b: "test2 "
-                        }
-                    ]
-                },
-                global: {
-                    plugins: [store]
-                }
-            });
-            sinon.spy(wrapper.vm, "enableDownloadBtn");
-            sinon.spy(wrapper.vm, "setDownloadSelectedFormat");
-        });
-
-        it("should toggle showDownload", async () => {
-            wrapper.vm.toggleShowDownload();
-            expect(wrapper.vm.showDownload).to.equal(true);
-            wrapper.vm.toggleShowDownload();
-            expect(wrapper.vm.showDownload).to.equal(false);
-        });
-        it("should render download dropdowns if showDownload is true", async () => {
-            const checkboxClick = wrapper.find("#tool-filter-download-box");
-
-            checkboxClick.trigger("click");
-            await wrapper.vm.$nextTick();
-            expect(wrapper.find("#tool-filter-download-format").exists()).to.be.true;
-            expect(wrapper.find("#tool-filter-download-filename").exists()).to.be.true;
-        });
-        it("should not render download dropdowns if showDownlad is false", async () => {
-            const checkboxClick = wrapper.find("#tool-filter-download-box");
-
-            checkboxClick.trigger("click");
-            checkboxClick.trigger("click");
-            await wrapper.vm.$nextTick();
-            expect(wrapper.find("#tool-filter-download-format").exists()).to.be.false;
-            expect(wrapper.find("#tool-filter-download-filename").exists()).to.be.false;
-        });
-    });
-
-    describe("enableDownloadBtn", async () => {
+    describe("enableDownloadBtn", () => {
         beforeEach(() => {
             wrapper = shallowMount(SnippetDownload, {
                 propsData: {
@@ -198,7 +147,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
         });
     });
 
-    describe("enableFileDownload", async () => {
+    describe("enableFileDownload", () => {
         beforeEach(() => {
             wrapper = shallowMount(SnippetDownload, {
                 propsData: {
@@ -232,7 +181,7 @@ describe("src/modules/filter/components/SnippetDownload.vue", () => {
                 }
             );
             await wrapper.vm.$nextTick();
-            expect(wrapper.findComponent(ExportButtonCSV).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "ExportButtonCSV"}).exists()).to.be.true;
         });
         it("should render ExportButtonGeoJSON component", async () => {
             await wrapper.setData(

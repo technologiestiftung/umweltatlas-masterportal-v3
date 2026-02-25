@@ -1,16 +1,16 @@
 <script>
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
-import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import DrawLayout from "@shared/modules/draw/components/DrawLayout.vue";
 import DrawModels from "./ui/DrawModels.vue";
-import DrawTypes from "../../../shared/modules/draw/components/DrawTypes.vue";
+import DrawTypes from "@shared/modules/draw/components/DrawTypes.vue";
 import EntityList from "./ui/EntityList.vue";
 import EntityModel from "./Modeler3DEntityModel.vue";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 
-import crs from "@masterportal/masterportalapi/src/crs";
-import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../js/draw";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import {adaptCylinderToEntity, adaptCylinderToGround, adaptCylinderUnclamped, calculatePolygonArea} from "../js/draw.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 /**
  * The 3D modeler component that displays the draw types, draw layout and drawn entities.
  * @module modules/modeler3D/components/Modeler3DDraw
@@ -918,12 +918,11 @@ export default {
                 v-if="drawModelTypes?.length > 0"
                 class="d-flex flex-column"
             >
-                <label
+                <div
                     class="col col-form-label"
-                    for="tool-modeler3D-draw-models"
                 >
                     {{ $t("modules.modeler3D.draw.captions.readyGeometries") }}
-                </label>
+                </div>
                 <DrawModels
                     id="tool-modeler3D-draw-models"
                     :draw-model-types="drawModelTypes"
@@ -933,15 +932,13 @@ export default {
                 />
             </div>
             <div class="d-flex flex-column">
-                <label
+                <div
                     class="col col-form-label"
-                    for="tool-modeler3d-draw-types"
                 >
                     {{ $t("modules.modeler3D.draw.captions.geometries") }}
-                </label>
-                <div>
+                </div>
+                <div data-test="draw-types">
                     <DrawTypes
-                        id="tool-modeler3d-draw-types"
                         :source="{}"
                         :current-layout="currentLayout"
                         :draw-types="drawTypes"
@@ -958,12 +955,11 @@ export default {
                 v-if="selectedDrawType !== ''"
                 class="d-flex flex-column flex-wrap"
             >
-                <label
+                <div
                     class="col-md-5 col-form-label"
-                    for="tool-modeler3d-draw-types"
                 >
                     {{ $t("modules.modeler3D.draw.captions.options") }}
-                </label>
+                </div>
                 <DrawLayout
                     :current-layout="currentLayout"
                     :set-current-layout="setCurrentLayout"

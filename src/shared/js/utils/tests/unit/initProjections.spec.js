@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import initProjections from "../../initProjections";
+import initProjections from "@shared/js/utils/initProjections.js";
 
 describe("initProjections", () => {
     let crs,

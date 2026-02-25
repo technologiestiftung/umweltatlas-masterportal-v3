@@ -6,7 +6,7 @@ import {
     getAttrTypeFromSchema,
     getAttrTypeFromRef,
     isSpecifiedOafKey
-} from "../../../utils/getOafAttributeTypes.js";
+} from "@modules/filter/utils/getOafAttributeTypes.js";
 
 describe("src/modules/filter/utils/getOafAttributeTypes.js", () => {
     describe("isSpecifiedOafKey", () => {

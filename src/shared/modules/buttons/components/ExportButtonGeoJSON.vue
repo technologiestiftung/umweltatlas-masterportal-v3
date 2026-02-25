@@ -5,6 +5,14 @@ import {
     downloadBlobPerHTML5
 } from "../js/exportButtonUtils.js";
 
+/**
+ * ExportButtonGeoJSON component: A component for handling, preparing and downloading Data in geojson format.
+ * @module shared/modules/buttons/ExportButtonGeoJSON
+ * @vue-prop {String} title is the label of the Button. An i18next-String can be used for internationalization.
+ * @vue-prop {[Object, Boolean]} data is the geojson data to be downloaded, provided as either a String.
+ * @vue-prop {String, Boolean} filename sets the prefix of the filename. Can be set to false to use "download".
+ * @vue-prop {String} postfixFormat sets the dayjs format to be used as a postfix for filename. Only used if filename is not a boolean value.
+ */
 export default {
     name: "ExportButtonGeoJSON",
     props: {
@@ -127,7 +135,7 @@ export default {
     <button
         v-if="!downloadDisabled"
         type="button"
-        class="btn btn-primary exportButton"
+        :class="['btn', 'exportButton']"
         @click="download()"
     >
         <span
@@ -141,7 +149,7 @@ export default {
     <button
         v-else
         type="button"
-        class="btn btn-primary exportButton"
+        :class="['btn', 'exportButton']"
         disabled
     >
         <span

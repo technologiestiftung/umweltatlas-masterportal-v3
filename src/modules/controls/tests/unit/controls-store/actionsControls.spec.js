@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../controls-store/actionsControls";
+import actions from "@modules/controls/controls-store/actionsControls.js";
 
 const {
     mergeControlState

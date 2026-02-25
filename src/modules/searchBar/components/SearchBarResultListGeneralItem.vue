@@ -29,8 +29,13 @@ export default {
     },
     methods: {
         ...mapActions("Modules/SearchBar", [
-            "activateActions"
-        ])
+            "activateActions",
+            "removeHighlight3DTile"
+        ]),
+        handleClick () {
+            this.removeHighlight3DTile();
+            this.activateActions({searchResult: this.searchResult, actionType: "onClick"});
+        }
     }
 };
 </script>
@@ -43,11 +48,17 @@ export default {
                 class="btn btn-light d-flex"
                 :title="searchResult.toolTip ? searchResult.toolTip : searchResult.name"
                 :aria-label="searchResult.toolTip ? searchResult.toolTip : searchResult.name"
-                @click="activateActions({searchResult: searchResult, actionType: 'onClick'})"
+                @click="handleClick"
                 @keydown.enter="activateActions({searchResult: searchResult, actionType: 'onClick'})"
                 @mouseover="activateActions({searchResult: searchResult, actionType: 'onHover'})"
                 @focus="activateActions({searchResult: searchResult, actionType: 'onHover'})"
             >
+                <img
+                    v-if="searchResult?.imagePath"
+                    alt="search result image"
+                    class="search-bar-result-list-general-image"
+                    :src="searchResult?.imagePath"
+                >
                 <span class="btn-title">
                     {{ searchResult.name }}
                 </span>
@@ -81,5 +92,14 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+}
+
+.search-bar-result-list-general-image{
+    max-width: 21px;
+    max-height: 21px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-right: 0.5rem;
 }
 </style>

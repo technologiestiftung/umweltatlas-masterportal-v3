@@ -1,5 +1,6 @@
 const fs = require("fs-extra"),
     execute = require("child-process-promise").exec,
+    exampleCopy = require("./exampleCopy"),
 
     path = require("path"),
     rootPath = path.resolve(__dirname, "../../"),
@@ -12,6 +13,9 @@ const fs = require("fs-extra"),
     buildTempPath = path.resolve(distPath, "build/"),
     mastercodeVersionPath = path.resolve(distPath, "mastercode/", mastercodeVersionFolderName).split(path.sep).join("/");
 
+if (!global.mastercodeVersionFolderName) {
+    global.mastercodeVersionFolderName = mastercodeVersionFolderName;
+}
 /**
  * remove files if if they already exist.
  * @param {Array} allPortalPaths all source paths of all portals to be built
@@ -21,6 +25,9 @@ function buildSinglePortal (allPortalPaths) {
     let sourcePortalPath = [];
 
     if (allPortalPaths.length === 0) {
+        if (global.exampleCopy) {
+            exampleCopy();
+        }
         return;
     }
 
@@ -36,7 +43,7 @@ function buildSinglePortal (allPortalPaths) {
         // console.warn("NOTE: Deleted directory \"" + distPortalPath + "\".");
         fs.copy(sourcePortalPath, distPortalPath).then(() => {
             // console.warn("NOTE: Copied \"" + sourcePortalPath + "\" to \"" + distPortalPath + "\".");
-            replaceStrings(distPortalPath);
+            replaceStrings(distPortalPath, global.mastercodeVersionFolderName);
             buildSinglePortal(allPortalPaths);
         }).catch(error => console.error(error));
     }).catch(function (err) {
@@ -87,7 +94,7 @@ module.exports = function buildWebpack (answers) {
                     fs.copy(buildTempPath, mastercodeVersionPath).then(() => {
                         // console.warn("NOTE: Copied \"" + buildTempPath + "\" to \"" + mastercodeVersionPath + "\".");
 
-                        replaceStrings(mastercodeVersionPath);
+                        replaceStrings(mastercodeVersionPath, global.mastercodeVersionFolderName);
                     }).catch(error => console.error(error));
                 }).catch(error => console.error(error));
             }).catch(error => console.error(error));

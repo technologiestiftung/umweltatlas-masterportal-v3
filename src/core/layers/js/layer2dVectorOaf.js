@@ -1,10 +1,10 @@
 import {all, bbox} from "ol/loadingstrategy.js";
-import {oaf} from "@masterportal/masterportalapi";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import store from "../../../app-store";
-import Layer2dVector from "./layer2dVector";
+import {oaf} from "@masterportal/masterportalapi/src/index.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService.js";
+import store from "@appstore/index.js";
+import Layer2dVector from "./layer2dVector.js";
 
 /**
  * Creates a 2d vector oaf (OGC API - Features) layer.
@@ -70,6 +70,7 @@ Layer2dVectorOaf.prototype.getRawLayerAttributes = function (attributes) {
 Layer2dVectorOaf.prototype.getOptions = function (attributes) {
     const options = {
         clusterGeometryFunction: this.clusterGeometryFunction,
+        doNotLoadInitially: attributes.doNotLoadInitially,
         featuresFilter: (features) => this.featuresFilter(attributes, features),
         loadingParams: this.loadingParams(attributes),
         loadingStrategy: attributes.loadingStrategy === "all" ? all : bbox,

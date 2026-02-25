@@ -49,4 +49,40 @@ export function getNestedElement (searchElement, nestedAttribute) {
     return isNaN(parseInt(nestedElement, 10)) ? nestedElement : parseInt(nestedElement, 10);
 }
 
-export default {sortObjects, getNestedElement};
+/**
+ * Sorts an array of objects by their `layerSequence` property in ascending order.
+ * Objects without a `layerSequence` property are moved to the end of the array.
+ * Baselayer objects are always moved to the end of the array.
+ *
+ * @param {Array<Object>} objects - The array of objects to sort.
+ *                                  Each object can optionally contain a `layerSequence` property.
+ * @return {void} This function modifies the input array in place and does not return a value.
+ */
+export function sortByLayerSequence (objects) {
+    let objectLength = objects.length;
+    const withLayerSequence = objects.filter(obj => "layerSequence" in obj),
+        withoutLayerSequence = objects.filter(obj => !Object.hasOwn(obj, "layerSequence"));
+
+    withLayerSequence.sort((a, b) => {
+        if (a.baselayer && !b.baselayer) {
+            return 1;
+        }
+        if (!a.baselayer && b.baselayer) {
+            return -1;
+        }
+
+        if (a.layerSequence !== b.layerSequence) {
+            return a.layerSequence - b.layerSequence;
+        }
+
+        return b.zIndex - a.zIndex;
+    });
+
+    const all = withLayerSequence.concat(withoutLayerSequence);
+
+    all.forEach((element, index) => {
+        element.zIndex = --objectLength;
+        objects[index] = element;
+    });
+}
+export default {sortObjects, getNestedElement, sortByLayerSequence};

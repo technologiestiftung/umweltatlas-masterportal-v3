@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mapCollect from "../../../js/mapCollection";
+import mapCollect from "@core/maps/js/mapCollection.js";
 
 describe("src/core/js/maps/maps.js", () => {
     beforeEach(() => {

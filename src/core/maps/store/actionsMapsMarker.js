@@ -1,7 +1,7 @@
 import Feature from "ol/Feature.js";
 import Point from "ol/geom/Point.js";
 
-import mapMarker from "../js/mapMarker";
+import mapMarker from "../js/mapMarker.js";
 
 /**
  * Place and remove map markers as point or polygon.
@@ -37,7 +37,7 @@ export default {
                     geometry: new Point(coordinates)
                 });
 
-            if (rootGetters["Menu/currentComponent"]("mainMenu").type !== "searchbar" && rootGetters["Modules/SearchBar/searchInput"] !== "") {
+            if (rootGetters["Menu/currentComponent"]("mainMenu").type !== "searchBar" && rootGetters["Modules/SearchBar/searchInput"] !== "") {
                 commit("Modules/SearchBar/setSearchInput", "", {root: true});
                 commit("Modules/SearchBar/setCurrentSearchInputValue", "", {root: true});
             }
@@ -47,6 +47,8 @@ export default {
             if (position.rotation) {
                 dispatch("rotatePointMarker", {feature, position});
             }
+
+            commit("setCurrentMarker", coordinates);
         }
     },
 
@@ -54,8 +56,9 @@ export default {
      * Removes the features from the point map marker.
      * @returns {void}
      */
-    removePointMarker () {
+    removePointMarker ({commit}) {
         mapMarker.removeMapMarker("marker_point_layer");
+        commit("setCurrentMarker");
     },
 
     /**

@@ -2,7 +2,7 @@
 
 The `config.js` contains Masterportal configuration not directly related to UI or layers. For example, paths to other configuration files belong here. This file is usually placed next to the `index.html` and `config.json` files.
 
-In the following, all configuration options are described. For all configuration options of type `object`, further nested options are linked and described in detail after the main table. You may also refer to **[this config.js example file](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src_3_0_0/dev_vue/portal/basic/config.js)**.
+In the following, all configuration options are described. For all configuration options of type `object`, further nested options are linked and described in detail after the main table. You may also refer to **[this config.js example file](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src_3_0_0/dev/portal/basic/config.js)**.
 
 |Name|Required|Type|Default|Description|Example|
 |----|--------|----|-------|-----------|-------|
@@ -15,8 +15,10 @@ In the following, all configuration options are described. For all configuration
 |matomo|no|**[matomo](#matomo)**||Options to integrate tracking via matomo.||
 |metaDataCatalogueId|no|String|`"2"`|URL to the metadata catalog linked to in the layer information window. The ID is resolved to a service of the **[rest-services.json](../Global-Config/rest-services.json.md)** file. Note: This attribute is only necessary, when no "show_doc_url" is configured in the metadata dataset in the **[services.json](../Global-Config/services.json.md)**. The url can either be set globally (**[config.js](config.js.md)**) or layer-specific(**[services.json](../Global-Config/services.json.md)**).|`"MetaDataCatalogueUrl"`|
 |namedProjections|yes|String[]||Definition of the usable coordinate systems. See **[syntax definition](http://proj4js.org/#named-projections)** for details..|`[["EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"]]`|
+|overwriteWmsLoadfunction|no|Boolean||Enable to overwrite the global wms load function.||
 |portalConf|no|String|`"config.json"`|Path to the portal's `config.json` file. You may also enter a node; in that case the taken path is controlled by the urlParameter `config`.|Direct path: "../masterDefault/config.json"; Node: "../../portal/master/". In the node scenario, a query parameter like `config=config.json` must exist in the URL.|
 |portalLanguage|no|**[portalLanguage](#portallanguage)**||Settings for multilingualism of the portal interface.||
+|portalLocales|no|**[portalLocales](#portallocales)**||Override locales by configuration, and allows adding new locales.||
 |proxyHost|no|String||Host name of a remote proxy with CORS configured to support the portal's domain, among others.|`"https://proxy.example.com"`|
 |remoteInterface|no|**[remoteInterface](#remoteinterface)**||Optional remote interface configuration.||
 |restConf|yes|String||Path to the **[rest-services.json](../Global-Config/rest-services.json.md)** file describing further services, e.g. print service, WPS, CSW. The path is relative to *js/main.js*.|`https://geodienste.hamburg.de/lgv-config/rest-services-internet.json"`||
@@ -112,13 +114,45 @@ Settings for multilingualism of the portal interface.
             pt: "Português",
             ru: "Русский",
             tr: "Türkçe",
-            ua: "Українська"
+            ua: "Українська",
+            nl: "Nederlands"
         },
         fallbackLanguage: "de",
         changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]
     }
 }
 ```
+
+***
+
+## portalLocales
+
+It is possible to override or add locales by configuration. This way, the same build can be used with varying titles and texts. A configuration may e.g. look like this:
+
+```js
+{
+    portalLocales: {
+        en: {
+            common: {
+                modules: {
+                    layerTree: {
+                        addLayer: "Custom addLayer button text"
+                    }
+                }
+            },
+            additional: {
+                modules: {
+                    populationRequest: {
+                        name: "Custom addon tool name"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+In `portalLocales`, the first-level keys are languages (`de`, `en`, ...), the second-level keys are namespaces (`common` for all core features, `additional` for all addons) and, from then on, the usual nesting is used.
 
 ***
 
@@ -141,6 +175,7 @@ Optional remote interface configuration.
 ***
 ## login
 This module allows the user to login with an OIDC server. The retrieved access token is stored in cookies which can be used by the backend to deliver user-specific data (e.g. layers). Since the cookies are technically required to implement the login functionality, there is not corresponding cookie notice.
+
 |Name|Required|Type|Default|Description|
 |----|--------|----|-------|-----------|
 |oidcAuthorizationEndpoint|yes|String||The oidc auth endpoint, e.g. "https://idm.domain.de/auth/realms/REALM/protocol/openid-connect/auth".|
@@ -150,6 +185,7 @@ This module allows the user to login with an OIDC server. The retrieved access t
 |oidcScope|yes|String||The scope used for oidc, defaults to "profile email openid".|
 |oidcRedirectUri|yes|String||The url to redirect the oidc process to - after login.|
 |interceptorUrlRegex|yes|String||An regexp pattern that allows to specify urls the oidc token will be attached to.|
+
 Make sure in keycloak the client is configured as follows:
 ```
 Access Type: public

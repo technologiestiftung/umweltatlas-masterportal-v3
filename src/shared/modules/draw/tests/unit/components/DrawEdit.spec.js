@@ -2,15 +2,15 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
-import modifyInteraction from "@masterportal/masterportalapi/src/maps/interactions/modifyInteraction";
+import modifyInteraction from "@masterportal/masterportalapi/src/maps/interactions/modifyInteraction.js";
 import {pointerMove} from "ol/events/condition.js";
 import {Select} from "ol/interaction.js";
-import selectInteraction from "@masterportal/masterportalapi/src/maps/interactions/selectInteraction";
+import selectInteraction from "@masterportal/masterportalapi/src/maps/interactions/selectInteraction.js";
 import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 
-import DrawEditComponent from "../../../components/DrawEdit.vue";
+import DrawEditComponent from "@shared/modules/draw/components/DrawEdit.vue";
 
 config.global.mocks.$t = key => key;
 

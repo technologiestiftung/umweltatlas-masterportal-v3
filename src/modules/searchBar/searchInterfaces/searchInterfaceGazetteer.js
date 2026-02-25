@@ -1,7 +1,7 @@
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress";
-
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
+import {search, setGazetteerUrl, setShowGeographicIdentifier} from "@masterportal/masterportalapi/src/searchAddress/index.js";
+import proj4 from "proj4";
 /**
  * The search interface to the gazetteer.
  * @module modules/searchBar/searchInterfaces/SearchInterfaceGazetteer
@@ -30,7 +30,7 @@ export default function SearchInterfaceGazetteer ({serviceId, hitTemplate, resul
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -114,15 +114,23 @@ SearchInterfaceGazetteer.prototype.normalizeResults = function (searchResults) {
     const normalizedResults = [];
 
     searchResults.forEach(searchResult => {
-        const translatedType = this.getTranslationByType(searchResult.type);
+        const translatedType = this.getTranslationByType(searchResult.type),
+            displayName = searchResult.name,
 
-        if (!normalizedResults.some(e => e.id === searchResult.name.replace(/ /g, "") + translatedType)) {
+            uniqueIdParts = [
+                searchResult.name,
+                searchResult.properties?.geographicIdentifier?._
+            ].filter(Boolean),
+
+            id = uniqueIdParts.join("_").replace(/ /g, "");
+
+        if (!normalizedResults.some(e => e.id === id)) {
             normalizedResults.push({
                 events: this.normalizeResultEvents(this.resultEvents, searchResult),
                 category: translatedType,
-                id: searchResult.name.replace(/ /g, "") + translatedType,
+                id,
                 icon: "bi-signpost-split",
-                name: searchResult.name
+                name: displayName
             });
         }
     });
@@ -155,7 +163,8 @@ SearchInterfaceGazetteer.prototype.getTranslationByType = function (type) {
  * @returns {Object} The possible actions.
  */
 SearchInterfaceGazetteer.prototype.createPossibleActions = function (searchResult) {
-    const coords = [parseFloat(searchResult.geometry.coordinates[0]), parseFloat(searchResult.geometry.coordinates[1])];
+    const coords = [parseFloat(searchResult.geometry.coordinates[0]), parseFloat(searchResult.geometry.coordinates[1])],
+        targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coords);
 
     return {
         setMarker: {
@@ -167,6 +176,9 @@ SearchInterfaceGazetteer.prototype.createPossibleActions = function (searchResul
         startRouting: {
             coordinates: coords,
             name: searchResult.name
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

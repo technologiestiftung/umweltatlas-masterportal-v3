@@ -2,11 +2,11 @@ import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import requestProvider from "../../../js/requests";
+import requestProvider from "@modules/wfsSearch/js/requests.js";
 
-import WfsSearchLiteral from "../../../components/WfsSearchLiteral.vue";
-import WfsSearch from "../../../components/WfsSearch.vue";
-import WfsSearchModule from "../../../store/indexWfsSearch";
+import WfsSearchLiteral from "@modules/wfsSearch/components/WfsSearchLiteral.vue";
+import WfsSearch from "@modules/wfsSearch/components/WfsSearch.vue";
+import WfsSearchModule from "@modules/wfsSearch/store/indexWfsSearch.js";
 
 config.global.mocks.$t = key => key;
 
@@ -21,7 +21,8 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
         setCenterSpy,
         setZoomSpy,
         zoomToExtentSpy,
-        resetResultOrig;
+        resetResultOrig,
+        wrapper;
 
     beforeEach(() => {
         const map = {
@@ -94,6 +95,12 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
                     actions: {
                         addSingleAlert: sinon.stub()
                     }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        currentSecondaryMenuWidth: () => sinon.stub().returns(0.25)
+                    }
                 }
             },
             getters: {
@@ -105,12 +112,13 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
 
     afterEach(() => {
         sinon.restore();
+        wrapper.unmount();
         WfsSearchModule.actions.resetResult = resetResultOrig;
     });
 
     it("renders a literal", async () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
+        wrapper = mount(WfsSearch, {
             global: {
                 plugins: [store]
             }
@@ -131,7 +139,7 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
             fieldName: "Name3"
         }});
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
+        wrapper = mount(WfsSearch, {
             global: {
                 plugins: [store]
             }
@@ -145,7 +153,7 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
             literals: [{}]
         });
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
+        wrapper = mount(WfsSearch, {
             global: {
                 plugins: [store]
             }
@@ -157,7 +165,7 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     it("renders a container with userHelp if configured", () => {
         store.commit("Modules/WfsSearch/setUserHelp", "test");
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
+        wrapper = mount(WfsSearch, {
             global: {
                 plugins: [store]
             }
@@ -169,12 +177,12 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     });
     it("renders a button to reset the UI", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
-                global: {
-                    plugins: [store]
-                }
-            }),
-            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+        wrapper = mount(WfsSearch, {
+            global: {
+                plugins: [store]
+            }
+        });
+        const resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
 
         expect(resetButton.exists()).to.be.true;
         expect(resetButton.text()).to.equal("common:modules.wfsSearch.resetButton");
@@ -182,12 +190,12 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     it("resets the UI, if the button is clicked", async () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
 
-        const wrapper = shallowMount(WfsSearch, {
-                global: {
-                    plugins: [store]
-                }
-            }),
-            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+        wrapper = shallowMount(WfsSearch, {
+            global: {
+                plugins: [store]
+            }
+        });
+        const resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
 
         expect(resetButton.exists()).to.be.true;
 
@@ -198,54 +206,55 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     });
     it("does not render a button to reset the UI if prop showResetButton is set to false", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
-                global: {
-                    plugins: [store]
-                },
-                props: {
-                    showResetButton: false
-                }
-            }),
-            resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
+        wrapper = mount(WfsSearch, {
+            global: {
+                plugins: [store]
+            },
+            props: {
+                showResetButton: false
+            }
+        });
+        const resetButton = wrapper.find("#module-wfsSearch-button-resetUI");
 
         expect(resetButton.exists()).to.be.false;
     });
     it("renders an input element of type submit to search", () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
-                global: {
-                    plugins: [store]
-                }
-            }),
-            searchInput = wrapper.find("#module-wfsSearch-button-search");
+        wrapper = mount(WfsSearch, {
+            global: {
+                plugins: [store]
+            }
+        });
+        const searchInput = wrapper.find("#module-wfsSearch-button-search");
 
         expect(searchInput.exists()).to.be.true;
         expect(searchInput.element.type).to.equal("submit");
     });
     it("sets zoom according to prop if set", async () => {
         const features = [
-                {
-                    getGeometry () {
-                        return {
-                            getCoordinates () {
-                                return undefined;
-                            }
-                        };
-                    },
-                    values_: {
-                        Ort: "Hamburg"
-                    }
-                }
-            ],
-            wrapper = mount(WfsSearch, {
-                props: {
-                    zoomLevelProp: 1
+            {
+                getGeometry () {
+                    return {
+                        getCoordinates () {
+                            return undefined;
+                        }
+                    };
                 },
-                global: {
-                    plugins: [store]
+                values_: {
+                    Ort: "Hamburg"
                 }
-            }),
-            setZoomStub = sinon.stub(wrapper.vm, "setZoom");
+            }
+        ];
+
+        wrapper = mount(WfsSearch, {
+            props: {
+                zoomLevelProp: 1
+            },
+            global: {
+                plugins: [store]
+            }
+        });
+        const setZoomStub = sinon.stub(wrapper.vm, "setZoom");
 
         sinon.stub(requestProvider, "searchFeatures").returns(features);
         sinon.stub(wrapper.vm, "setCenter");
@@ -258,7 +267,7 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     });
     it("renders a table to show the search results if the user searched and results were found", async () => {
         store.commit("Modules/WfsSearch/setInstances", instances);
-        const wrapper = mount(WfsSearch, {
+        wrapper = mount(WfsSearch, {
             global: {
                 plugins: [store]
             }
@@ -275,28 +284,29 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
 
     it("sets zoom according to config/store if no such prop set", async () => {
         const features = [
-                {
-                    getGeometry () {
-                        return {
-                            getCoordinates () {
-                                return undefined;
-                            }
-                        };
-                    },
-                    values_: {
-                        Ort: "Hamburg"
-                    }
-                }
-            ],
-            wrapper = mount(WfsSearch, {
-                props: {
-                    zoomLevelProp: undefined
+            {
+                getGeometry () {
+                    return {
+                        getCoordinates () {
+                            return undefined;
+                        }
+                    };
                 },
-                global: {
-                    plugins: [store]
+                values_: {
+                    Ort: "Hamburg"
                 }
-            }),
-            setZoomStub = sinon.stub(wrapper.vm, "setZoom");
+            }
+        ];
+
+        wrapper = mount(WfsSearch, {
+            props: {
+                zoomLevelProp: undefined
+            },
+            global: {
+                plugins: [store]
+            }
+        });
+        const setZoomStub = sinon.stub(wrapper.vm, "setZoom");
 
         sinon.stub(requestProvider, "searchFeatures").returns(features);
         sinon.stub(wrapper.vm, "setCenter");
@@ -309,54 +319,47 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
     });
 
     describe("markerAndZoom", () => {
-        let pointFeatures,
-            polygonFeatures;
+        let pointGeometry,
+            polygonGeometry;
 
         beforeEach(() => {
-            pointFeatures = [
+            pointGeometry =
                 {
-                    getGeometry: () => {
-                        return {
-                            getCoordinates: () => [568366.068, 5941065.428]
-                        };
-                    }
-                }
-            ];
-            polygonFeatures = [
+
+                    getCoordinates: () => [568366.068, 5941065.428]
+
+                };
+            polygonGeometry =
                 {
-                    getGeometry: () => {
-                        return {
-                            getCoordinates: () => [
-                                [456881.4, 5341325.7, 0],
-                                [456905.5, 5341311.3, 0],
-                                [456931.2, 5341295.9, 0],
-                                [456932.3, 5341295.6, 0],
-                                [456936.2, 5341294.5, 0],
-                                [456940, 5341301.7, 0],
-                                [456943.2, 5341308, 0],
-                                [456946.6, 5341314.5, 0],
-                                [456949.4, 5341319.9, 0],
-                                [456929.5, 5341329.8, 0],
-                                [456914, 5341337.5, 0],
-                                [456893, 5341347.9, 0],
-                                [456882.2, 5341327.1, 0],
-                                [456881.4, 5341325.7, 0]
-                            ],
-                            getExtent: () => [456881.4, 5341294.5, 456949.4, 5341347.9]
-                        };
-                    }
-                }
-            ];
+                    getCoordinates: () => [
+                        [456881.4, 5341325.7, 0],
+                        [456905.5, 5341311.3, 0],
+                        [456931.2, 5341295.9, 0],
+                        [456932.3, 5341295.6, 0],
+                        [456936.2, 5341294.5, 0],
+                        [456940, 5341301.7, 0],
+                        [456943.2, 5341308, 0],
+                        [456946.6, 5341314.5, 0],
+                        [456949.4, 5341319.9, 0],
+                        [456929.5, 5341329.8, 0],
+                        [456914, 5341337.5, 0],
+                        [456893, 5341347.9, 0],
+                        [456882.2, 5341327.1, 0],
+                        [456881.4, 5341325.7, 0]
+                    ],
+                    getExtent: () => [456881.4, 5341294.5, 456949.4, 5341347.9]
+
+                };
         });
 
         it("should start action placingPointMarker, if the feature has a point geometry", async () => {
-            const wrapper = mount(WfsSearch, {
+            wrapper = mount(WfsSearch, {
                 global: {
                     plugins: [store]
                 }
             });
 
-            await wrapper.vm.markerAndZoom(pointFeatures);
+            wrapper.vm.markerAndZoom(pointGeometry);
             expect(placingPointMarkerSpy.calledOnce).to.be.true;
             expect(setCenterSpy.calledOnce).to.be.true;
             expect(setZoomSpy.calledOnce).to.be.true;
@@ -366,16 +369,16 @@ describe("src/modules/wfsSearch/components/WfsSearch.vue", () => {
         });
 
         it("should start action placingPolygonMarker, if the feature has a polygon geometry", async () => {
-            const wrapper = mount(WfsSearch, {
+            wrapper = mount(WfsSearch, {
                 global: {
                     plugins: [store]
                 }
             });
 
-            await wrapper.vm.markerAndZoom(polygonFeatures);
+            await wrapper.vm.markerAndZoom(polygonGeometry);
             expect(placingPolygonMarkerSpy.calledOnce).to.be.true;
             expect(zoomToExtentSpy.calledOnce).to.be.true;
-            expect(placingPolygonMarkerSpy.firstCall.args[1]).to.deep.equals(polygonFeatures[0]);
+            expect(placingPolygonMarkerSpy.firstCall.args[1]).to.deep.equals(polygonGeometry);
             expect(zoomToExtentSpy.firstCall.args[1]).to.deep.equals({
                 extent: [456881.4, 5341294.5, 456949.4, 5341347.9]
             });

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import mutations from "../../../store/mutationsBackForward.js";
+import mutations from "@modules/controls/backForward/store/mutationsBackForward.js";
 
 let center,
     zoom;
@@ -47,6 +47,9 @@ const {memorize, forward, backward} = mutations,
         zoom: 1
     };
 
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/controls/backForward/store/mutationsBackForward.js", () => {
     describe("memorize", () => {

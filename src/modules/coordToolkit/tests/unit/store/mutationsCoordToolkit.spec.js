@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import crs from "@masterportal/masterportalapi/src/crs";
-import mutations from "../../../store/mutationsCoordToolkit";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import mutations from "@modules/coordToolkit/store/mutationsCoordToolkit.js";
 
 const {setProjections, setExample} = mutations,
     namedProjections = [

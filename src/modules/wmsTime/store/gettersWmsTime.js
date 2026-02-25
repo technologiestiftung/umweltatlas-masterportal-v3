@@ -1,6 +1,6 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import initialState from "./stateWmsTime";
-import findCurrentTimeSliderObject from "../utils/findCurrentTimeSliderObject";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import initialState from "./stateWmsTime.js";
+import findCurrentTimeSliderObject from "../utils/findCurrentTimeSliderObject.js";
 
 const getters = {
     ...generateSimpleGetters(initialState),
@@ -10,6 +10,12 @@ const getters = {
     },
     defaultValue (_, {currentTimeSliderObject}) {
         return currentTimeSliderObject.defaultValue;
+    },
+    defaultValueEnd (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject.defaultValueEnd;
+    },
+    dualRangeSlider (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject?.dualRangeSlider || false;
     },
     /**
      * Test whether the current width surpasses the mobileWidth
@@ -22,6 +28,9 @@ const getters = {
         const mobileWidth = 800;
 
         return windowWidth > mobileWidth;
+    },
+    staticDimensions (_, {currentTimeSliderObject}) {
+        return currentTimeSliderObject?.staticDimensions || {};
     },
     timeRange (_, {currentTimeSliderObject}) {
         return currentTimeSliderObject?.timeRange || [];

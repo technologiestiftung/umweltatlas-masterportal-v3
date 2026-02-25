@@ -1,7 +1,8 @@
 import {KML} from "ol/format.js";
-import getProjections from "./getProjections";
+import getProjections from "./getProjections.js";
 import proj4 from "proj4";
-import isObject from "./isObject";
+import isObject from "./isObject.js";
+import store from "@appstore/index.js";
 
 const projections = getProjections("EPSG:25832", "EPSG:4326", "32"),
     colorOptions = [
@@ -119,7 +120,16 @@ function transformPoint (coords) {
  */
 function transformCoordinates (geometry) {
     const coords = geometry.getCoordinates(),
-        type = geometry.getType();
+        type = geometry.getType(),
+        alert = {
+            category: "error",
+            content: i18next.t(
+                "common:modules.draw_old.download.unknownGeometry",
+                {geometry: type}
+            ),
+            displayClass: "error",
+            multipleAlert: true
+        };
 
     switch (type) {
         case "LineString":
@@ -128,8 +138,11 @@ function transformCoordinates (geometry) {
             return transformPoint(coords);
         case "Polygon":
             return transform(coords, true);
+        case "MultiPolygon":
+            return coords;
+
         default:
-            // dispatch("Alerting/addSingleAlert", i18next.t("common:modules.download.unknownGeometry", {geometry: type}), {root: true});
+            store.dispatch("Alerting/addSingleAlert", alert, {root: true});
             return [];
     }
 }
@@ -270,7 +283,6 @@ export default async function convertFeaturesToKml (features) {
             const style = placemark.getElementsByTagName("Style")[0];
 
             if (hasIconUrl[i] === false && pointColors[i]) {
-                // Please be aware of devtools/tasks/replace.js and devtools/tasks/customBuildPortalconfigsReplace.js if you change the path of the SVG
                 const iconUrl = `${window.location.origin}/src/assets/img/tools/draw/circle_${getIconColor(pointColors[i])}.svg`,
                     iconStyle = createKmlIconStyle(iconUrl, pointScales[i]);
 

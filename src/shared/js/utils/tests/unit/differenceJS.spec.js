@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import differenceJs from "../../differenceJS.js";
+import differenceJs from "@shared/js/utils/differenceJS.js";
 
 describe("src/shared/js/utils/differenceJS.js", () => {
     describe("differenceJs", function () {

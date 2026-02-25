@@ -1,6 +1,14 @@
 <script>
-import IconButton from "../../buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
+/**
+ * ModalItem component: A customizable modal component with three slots to fill #header, #footer and the unnamed content.
+ * @module shared/modules/modals/ModalItem
+ * @vue-prop {Boolean} showModal - if true, the modal is visible.
+ * @vue-prop {Boolean} forceClickToClose - if true, the modal can only be closed by clicking the X, not by clicking anywhere outside the modal.
+ * @vue-prop {String} modalInnerWrapperStyle - can be used to provide inline-styles for the inner wrapper of the modal.
+ * @vue-prop {String} modalContentContainerStyle - can be used to provide inline-styles for the container around the content slot.
+ */
 export default {
     name: "ModalItem",
     components: {IconButton},
@@ -104,6 +112,7 @@ export default {
                 ref="discard"
                 tabindex="0"
                 :style="modalInnerWrapperStyle"
+                class="modal-rounded-dialog"
             >
                 <IconButton
                     :class-array="['btn-light', 'bootstrap-icon']"
@@ -137,6 +146,10 @@ export default {
     // @todo
     // @import "~/css/mixins.scss";
     @import "~variables";
+
+    .modal-rounded-dialog {
+    border-radius: 0.3em;
+}
 
     #modal-1-container{
         display:none;

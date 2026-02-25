@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import mutations from "../../store/mutationsOrientation";
+import mutations from "../../store/mutationsOrientation.js";
 
 /**
  * Orientation control that allows the user to locate themselves on the map.
@@ -12,8 +12,17 @@ export default {
     name: "PoiChoice",
     emits: ["track"],
     computed: {
-        ...mapGetters("Controls/Orientation", ["poiMode", "customPosition"]),
+        ...mapGetters("Controls/Orientation", ["poiMode", "customPosition", "iFrameGeolocationEnabled"]),
         choices () {
+            const inIframe = window.self !== window.top,
+                iFrameGeolocationEnabled = this.iFrameGeolocationEnabled === true;
+
+            if (inIframe && !iFrameGeolocationEnabled) {
+                this.setPoiMode("customPosition");
+                return {
+                    customPosition: this.$t(this.customPosition)
+                };
+            }
             return {
                 currentPosition: this.$t("common:modules.controls.orientation.poiChoiceCurrentPosition"),
                 customPosition: this.$t(this.customPosition)

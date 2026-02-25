@@ -3,10 +3,10 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import escapeId from "../../../../../shared/js/utils/escapeId";
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import LayerCheckBox from "../../../components/LayerCheckBox.vue";
-import baselayerHandler from "../../../../layerSelection/js/handleSingleBaselayer";
+import escapeId from "@shared/js/utils/escapeId.js";
+import layerTypes from "@core/layers/js/layerTypes.js";
+import LayerCheckBox from "@modules/layerTree/components/LayerCheckBox.vue";
+import baselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer.js";
 
 config.global.mocks.$t = key => key;
 
@@ -43,7 +43,7 @@ describe("src/modules/layerTree/components/LayerCheckBox.vue", () => {
         replaceByIdInLayerConfigSpy = sinon.spy();
         changeVisibilitySpy = sinon.spy();
         baselayerHandlerSpy = sinon.spy(baselayerHandler, "checkAndAdd");
-        sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
+        sinon.stub(layerTypes, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
             modules: {
                 Modules: {
@@ -219,6 +219,22 @@ describe("src/modules/layerTree/components/LayerCheckBox.vue", () => {
         expect(wrapper.find(".bi-check-square").exists()).to.be.true;
         expect(wrapper.find(".layer-tree-layer-label").text()).to.equal(propsData.conf.name);
         expect(wrapper.find(".layer-tree-layer-label").attributes("class")).to.include("font-bold");
+    });
+
+    it("render the lock fill icon, if the layer has the attribute isSecured=true", () => {
+        propsData.conf.isSecured = true;
+
+        wrapper = shallowMount(LayerCheckBox, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.find("#layer-checkbox-" + propsData.conf.id).exists()).to.be.true;
+        expect(wrapper.find("#layer-checkbox-" + propsData.conf.id + " > i").exists()).to.be.true;
+        expect(wrapper.find("#layer-checkbox-" + propsData.conf.id + " > i").classes()).to.be.an("array").that.includes("bi-lock-fill", "pe-1");
+
     });
 
     it("computed property isLayerVisible with visibility=false ", () => {

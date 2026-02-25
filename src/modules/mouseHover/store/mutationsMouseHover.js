@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import stateMouseHover from "./stateMouseHover";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateMouseHover from "./stateMouseHover.js";
 
 const mutations = {
     ...generateSimpleMutations(stateMouseHover),

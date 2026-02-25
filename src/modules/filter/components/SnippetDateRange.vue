@@ -1,6 +1,6 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import isObject from "@shared/js/utils/isObject.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -118,6 +118,11 @@ export default {
             type: String,
             required: false,
             default: "AND"
+        },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         prechecked: {
             type: Array,
@@ -692,6 +697,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: translateKeyWithPlausibilityCheck(this.getTitle(), key => this.$t(key)),
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.getOperator(),
                 format: this.format,
@@ -776,6 +782,41 @@ export default {
             </div>
         </div>
         <div
+            v-if="display === 'all' || display === 'slider'"
+            class="sliderWrapper"
+        >
+            <div :class="['track', outOfZoom ? 'disabledClass' : '']">
+                <div
+                    :class="['measure', outOfZoom ? 'disabledClass' : '']"
+                    :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
+                />
+            </div>
+            <input
+                v-model="sliderFrom"
+                type="range"
+                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                class="from"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
+                :min="currentSliderMin"
+                :max="currentSliderMax"
+                @mousedown="setSliderMouseDown"
+                @mouseup="setSliderMouseUp"
+            >
+            <input
+                v-model="sliderUntil"
+                type="range"
+                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                class="until"
+                :disabled="disabled || outOfZoom"
+                :class="{ disabledClass: disabled || outOfZoom }"
+                :min="currentSliderMin"
+                :max="currentSliderMax"
+                @mousedown="setSliderMouseDown"
+                @mouseup="setSliderMouseUp"
+            >
+        </div>
+        <div
             v-if="display === 'all' || display === 'datepicker'"
             class="datepickerWrapper"
         >
@@ -796,7 +837,9 @@ export default {
                         :min="dateMinComputed"
                         :max="dateMaxComputed"
                         :aria-label="$t('common:modules.filter.ariaLabel.dateRange.from', {param: getAttrNameFrom()})"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
+                        class="form-control"
+                        :class="{ disabledClass: disabled || outOfZoom }"
                     >
                 </div>
                 <div class="until">
@@ -813,43 +856,12 @@ export default {
                         :min="dateMinComputed"
                         :max="dateMaxComputed"
                         :aria-label="$t('common:modules.filter.ariaLabel.dateRange.to', {param: getAttrNameUntil()})"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
+                        class="form-control"
+                        :class="{ disabledClass: disabled || outOfZoom }"
                     >
                 </div>
             </div>
-        </div>
-        <div
-            v-if="display === 'all' || display === 'slider'"
-            class="sliderWrapper"
-        >
-            <div class="track">
-                <div
-                    class="measure"
-                    :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
-                />
-            </div>
-            <input
-                v-model="sliderFrom"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                class="from"
-                :disabled="disabled"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
-            <input
-                v-model="sliderUntil"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                class="until"
-                :disabled="disabled"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
         </div>
     </div>
 </template>
@@ -861,47 +873,44 @@ export default {
         height: auto;
 
         .titleWrapper {
+            display: flex;
             position: relative;
-            height: 16px;
             .title {
-                position: absolute;
-                left: 0;
-                width: 90%;
+                padding-right: 10px;
             }
             .info {
-                position: absolute;
-                right: 0;
+                margin-top: -1px;
             }
         }
         .datepickerWrapper {
             position: relative;
-            margin-top: 5px;
+            margin: 5px 0 15px;
             height: 38px;
+            input {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                &.disabledClass {
+                    color: #9B9A9A;
+                }
+            }
+            label {
+                display: block;
+                height: 18px;
+                margin-bottom: 5px;
+            }
             .from {
                 position: absolute;
                 left: 0;
-                width: 50%;
-
-                label {
-                    display: block;
-                    height: 18px;
-                }
-                input {
-                    width: 90%;
-                }
             }
             .until {
                 position: absolute;
                 right: 0;
-                width: 50%;
                 text-align: right;
-
-                label {
-                    display: block;
-                    height: 18px;
-                }
                 input {
-                    width: 90%;
+                    text-align: right;
                 }
             }
         }
@@ -918,16 +927,21 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #D9D9D9;
+                }
             }
             .measure {
                 height: 15px;
-                background-color: $light_blue;
+                background-color: $secondary;
                 position: absolute;
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
-
             input[type="range"] {
                 -webkit-appearance: none;
                 -moz-appearance: none;
@@ -937,7 +951,7 @@ export default {
                 position: absolute;
                 margin: auto;
                 top: 0;
-                bottom: 1px;
+                bottom: 2px;
                 left: 0;
                 background-color: transparent;
                 pointer-events: none;
@@ -965,42 +979,40 @@ export default {
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 10px;
+                border: 1px solid $white;
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-moz-range-thumb {
-                -appearance: none;
+                appearance: auto;
+                -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
-                cursor: pointer;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
-            }
-            input[type="range"]:active::-ms-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-moz-range-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-webkit-slider-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -1021,8 +1033,8 @@ export default {
                     top: 48px;
                 }
             }
-            input[type="range"].disabled::-webkit-slider-thumb {
-                background-color: $light_grey;
+            input[type="range"].disabledClass::-webkit-slider-thumb {
+                background-color: #9B9A9A;
             }
         }
     }

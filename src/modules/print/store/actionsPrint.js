@@ -1,15 +1,15 @@
 import axios from "axios";
 import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 
-import actionsPrintInitialization from "./actionsPrintInitialization";
-import BuildSpec from "../js/buildSpec";
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
-import layerProvider from "../js/getVisibleLayer";
-import omit from "../../../shared/js/utils/omit";
-import changeCase from "../../../shared/js/utils/changeCase";
+import actionsPrintInitialization from "./actionsPrintInitialization.js";
+import BuildSpec from "../js/buildSpec.js";
+import getCswRecordById from "@shared/js/api/getCswRecordById.js";
+import layerProvider from "../js/getVisibleLayer.js";
+import omit from "@shared/js/utils/omit.js";
+import changeCase from "@shared/js/utils/changeCase.js";
 import {takeScreenshot} from "olcs/lib/olcs/print/takeCesiumScreenshot.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
-import {trackMatomo} from "../../../plugins/matomo";
+import {trackMatomo} from "@plugins/matomo";
 
 const actions = {
     ...actionsPrintInitialization,
@@ -33,7 +33,6 @@ const actions = {
             dispatch(String(serviceRequest.onSuccess), response.data);
         });
     },
-
     /**
      * sets the printStarted to activie for the Add Ons
      * @param {Object} param.commit the commit
@@ -177,10 +176,12 @@ const actions = {
                 "outputFormat": state.currentFormat,
                 "attributes": {
                     "title": state.title,
+                    ...state.transferParameter,
                     "map": {
                         "dpi": state.dpiForPdf,
                         "projection": mapCollection.getMapView("2D").getProjection().getCode(),
                         "center": mapCollection.getMapView("2D").getCenter(),
+                        "rotation": mapCollection.getMapView("2D").getRotation() * (180 / Math.PI),
                         "scale": state.currentScale
                     }
                 }
@@ -314,8 +315,8 @@ const actions = {
         if (state.serviceUrl === "") {
             let serviceUrl;
 
-            if (state.mapfishServiceId !== "") {
-                serviceUrl = rootGetters.restServiceById(state.mapfishServiceId).url;
+            if (state.printServiceId !== "" && state.printServiceId !== undefined) {
+                serviceUrl = rootGetters.restServiceById(state.printServiceId).url;
             }
             else {
                 serviceUrl = rootGetters.restServiceById("mapfish").url;
@@ -352,7 +353,7 @@ const actions = {
             dispatch("waitForPrintJob", response.data);
         }
 
-        if (printJob.payload.attributes.is3dMode) {
+        if (printJob.payload?.attributes?.is3dMode) {
             trackMatomo("Print", "3D printjob created ", "Layout: " + printJob.payload.layout);
         }
         else {
@@ -455,12 +456,14 @@ const actions = {
         }
 
         // Error processing...
-        if (response.status === "error") {
+        if (response.status === "error" || response.data?.status === "error") {
             dispatch("Alerting/addSingleAlert", {
                 category: "error",
                 content: i18next.t("common:modules.print.waitForPrintErrorMessage")
             }, {root: true});
             console.error("Error: " + response.error);
+            commit("setPrintStarted", false);
+            commit("setFileDownloads", []);
         }
         else if (response.done) {
             commit("setProgressWidth", "width: 100%");

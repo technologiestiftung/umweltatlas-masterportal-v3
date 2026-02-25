@@ -1,7 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import processUrlParams from "../../processUrlParams";
-import store from "../../../../../app-store";
+import processUrlParams from "@shared/js/utils/processUrlParams.js";
+import store from "@appstore/index.js";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/shared/js/utils/processUrlParams.js", () => {
     let spyMenu;

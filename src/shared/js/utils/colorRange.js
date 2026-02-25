@@ -1,4 +1,4 @@
-import {convertHslToHex, convertHexToHSL, convertColor, isHexColorString} from "./convertColor";
+import {convertHslToHex, convertHexToHSL, convertColor, isHexColorString} from "./convertColor.js";
 
 /**
  * Generates a range of colors starting from a hex value
@@ -14,7 +14,6 @@ function generateColorRange (startColor, rangeSize = 5) {
         return false;
     }
 
-    /* eslint-disable one-var*/
     const hsl = convertHexToHSL(startColor),
         colors = [];
 

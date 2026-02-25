@@ -1,6 +1,6 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import isObject from "@shared/js/utils/isObject.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import SnippetInfo from "./SnippetInfo.vue";
 import {mapActions} from "vuex";
@@ -25,7 +25,6 @@ import {mapActions} from "vuex";
 * @vue-prop {Number} snippetId - The snippet's id.
 * @vue-prop {Boolean} visible - Shows if snippet is visible.
 *
-* @vue-data {Boolean} disable - Shows if snippet is disabled.
 * @vue-data {Boolean} isInitializing - Shows if snippet is initializing.
 * @vue-data {Boolean} isAdjusting - Shows if snippet is adjusting.
 * @vue-data {Number} minimumValue - The minimum value for the slider.
@@ -119,10 +118,20 @@ export default {
             required: false,
             default: undefined
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         prechecked: {
             type: Number,
             required: false,
             default: undefined
+        },
+        preventUniqueValueRequest: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         fixedRules: {
             type: Array,
@@ -141,6 +150,11 @@ export default {
             required: false,
             default: 800
         },
+        searchInMapExtent: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         snippetId: {
             type: Number,
             required: false,
@@ -152,10 +166,9 @@ export default {
             default: true
         }
     },
-    emits: ["changeRule", "deleteRule", "disableFilterButton", "enableFilterButton", "setSnippetPrechecked"],
+    emits: ["changeRule", "deleteRule", "disableFilterButton", "enableFilterButton", "registerUniqueValueOnMove", "setSnippetPrechecked"],
     data () {
         return {
-            disable: true,
             isInitializing: true,
             isAdjusting: false,
             value: 0,
@@ -253,9 +266,6 @@ export default {
                 return;
             }
             this.setInput(value);
-        },
-        disabled (value) {
-            this.disable = typeof value === "boolean" ? value : true;
         }
     },
     created () {
@@ -267,7 +277,23 @@ export default {
         this.sliderMouseDown = false;
     },
     mounted () {
-        this.$nextTick(() => {
+        this.$emit("registerUniqueValueOnMove", this.snippetId, this.gatherAllValues);
+        this.gatherAllValues();
+    },
+    methods: {
+        ...mapActions("Alerting", ["addSingleAlert"]),
+        translateKeyWithPlausibilityCheck,
+
+        /**
+         * Gathers all values for the slider.
+         * @returns {void}
+         */
+        gatherAllValues () {
+            if (this.preventUniqueValueRequest) {
+                this.setIsInitializing(false);
+                this.$emit("setSnippetPrechecked", false);
+                return;
+            }
             this.$nextTick(() => {
                 this.getInitialSliderMin(this.attrName, min => {
                     this.getInitialSliderMax(this.attrName, max => {
@@ -295,12 +321,7 @@ export default {
                     console.error(error);
                 });
             });
-        });
-    },
-    methods: {
-        ...mapActions("Alerting", ["addSingleAlert"]),
-        translateKeyWithPlausibilityCheck,
-
+        },
         /**
          * Receives the initial min and max by props or api.
          * @param {String} attrName The attrName to get the value from.
@@ -335,7 +356,8 @@ export default {
                 false,
                 {rules: this.fixedRules, filterId: this.filterId, commands: {
                     filterGeometry: this.filterGeometry,
-                    geometryName: this.filterGeometryName
+                    geometryName: this.filterGeometryName,
+                    searchInMapExtent: this.searchInMapExtent
                 }}
             );
         },
@@ -373,7 +395,8 @@ export default {
                 false,
                 {rules: this.fixedRules, filterId: this.filterId, commands: {
                     filterGeometry: this.filterGeometry,
-                    geometryName: this.filterGeometryName
+                    geometryName: this.filterGeometryName,
+                    searchInMapExtent: this.searchInMapExtent
                 }}
             );
         },
@@ -459,6 +482,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 value
@@ -665,41 +689,44 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetSliderContainer"
+        class="snippetSliderContainer container"
     >
         <div
             v-if="info"
-            :class="title !== false ? 'right' : 'h-right'"
+            :class="title !== false ? '' : 'h-right'"
         >
             <SnippetInfo
                 :info="info"
                 :translation-key="translationKey"
             />
         </div>
-        <label
-            v-if="title !== false"
-            :for="'snippetSlider-' + snippetId"
-            class="snippetSliderLabel left"
-        >{{ titleText }}</label>
-        <input
-            :id="'snippetSlider-' + snippetId"
-            ref="inputNumber"
-            v-model="input"
-            :aria-label="ariaLabelSlider"
-            class="input-single form-control"
-            type="number"
-            :min="currentSliderMin"
-            :max="currentSliderMax"
-            :name="title"
-            :disabled="disabled"
-            @input="setCurrentSource('input')"
-        >
+        <div class="row pb-3">
+            <label
+                v-if="title !== false"
+                :for="'snippetSlider-' + snippetId"
+                class="snippetSliderLabel col col-md-auto align-self-center me-1"
+            >{{ titleText }}</label>
+            <input
+                :id="'snippetSlider-' + snippetId"
+                ref="inputNumber"
+                v-model="input"
+                :aria-label="ariaLabelSlider"
+                class="input-single form-control col col-md-3 align-self-center mb-0 p-1"
+                :class="{ disabledClass: disabled || outOfZoom }"
+                type="number"
+                :min="currentSliderMin"
+                :max="currentSliderMax"
+                :name="title"
+                :disabled="disabled"
+                @input="setCurrentSource('input')"
+            >
+        </div>
         <div class="slider-input-container">
             <input
                 v-model="slider"
                 class="slider-single"
                 type="range"
-                :class="disabled ? 'disabled':''"
+                :class="{ disabledClass: disabled || outOfZoom }"
                 :step="getSliderSteps(decimalPlaces)"
                 :disabled="disabled"
                 :min="currentSliderMin"
@@ -734,10 +761,6 @@ export default {
         float: left;
         width: 90%;
     }
-    .snippetSliderContainer .right {
-        position: absolute;
-        right: 0;
-    }
     .snippetSliderContainer .h-right {
         min-height: 24px;
     }
@@ -751,25 +774,28 @@ export default {
         margin-bottom: 10px;
         padding-top: 5px;
         margin-top: 2px;
+        &.disabledClass {
+            color: #9B9A9A;
+        }
     }
 
     input[type="range"]:active::-ms-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
     input[type="range"]:active::-moz-range-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
     input[type="range"]:active::-webkit-slider-thumb {
-        background-color: $white;
-        border: 1px solid $light_blue;
+        background-color: $secondary;
+        border: 1px solid $white;
     }
 
     /* Firefox */
     input[type="range"] {
         -webkit-appearance: none;
-        appearance: auto;
+        appearance: none;
         background-color: $light_grey;
         height: 15px;
         overflow: hidden;
@@ -780,27 +806,36 @@ export default {
     input[type="range"]::-webkit-slider-runnable-track {
         -webkit-appearance: none;
         height: 15px;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        background: $white;
+        background: $secondary;
         border-radius: 50%;
-        box-shadow: -210px 0 0 200px $light_blue;
+        box-shadow: -210px 0 0 200px $secondary;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-moz-range-thumb {
-        background: $white;
+        background: $secondary;
         border-radius: 50%;
-        box-shadow: -1010px 0 0 1000px $light_blue;
+        box-shadow: -1010px 0 0 1000px $secondary;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
+        &.disabledClass {
+            background-color: #9B9A9A;
+        }
     }
 
     input[type="range"]::-moz-range-track {
@@ -824,46 +859,46 @@ export default {
             float: right;
         }
     }
-    input[type="range"].disabled {
+    input[type="range"].disabledClass {
         appearance: auto;
         -webkit-appearance: none;
-        background-color: $dark_grey;
+        background-color: #9B9A9A;
         height: 15px;
         overflow: hidden;
         width: 100%;
     }
 
-    input[type="range"].disabled::-webkit-slider-thumb {
+    input[type="range"].disabledClass::-webkit-slider-thumb {
         -webkit-appearance: none;
-        background: $light_grey;
+        background: #9B9A9A;
         border-radius: 50%;
         box-shadow: -210px 0 0 200px $light_grey;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
     }
 
-    input[type="range"].disabled::-moz-range-thumb {
-        background: #ddd;
+    input[type="range"].disabledClass::-moz-range-thumb {
+        background: #9B9A9A;
         border-radius: 50%;
         box-shadow: -1010px 0 0 1000px $dark_grey;
         cursor: pointer;
         height: 15px;
         width: 15px;
-        border: 0;
+        border: 1px solid $white;
     }
-    input[type="range"].disabled::-moz-range-track {
+    input[type="range"].disabledClass::-moz-range-track {
         background-color: $dark_grey;
     }
-    input[type="range"].disabled::-moz-range-progress {
+    input[type="range"].disabledClass::-moz-range-progress {
         background-color: $dark_grey;
         height: 15px
     }
-    input[type="range"].disabled::-ms-fill-upper {
+    input[type="range"].disabledClass::-ms-fill-upper {
         background-color: $dark_grey;
     }
-    input[type="range"].disabled::-ms-fill-lower {
+    input[type="range"].disabledClass::-ms-fill-lower {
         background-color: $dark_grey;
     }
 </style>

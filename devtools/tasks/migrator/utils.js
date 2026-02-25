@@ -1,7 +1,7 @@
 const fs = require("fs-extra"),
     path = require("path"),
     {replacementsInConfigJson} = require("./configuration"),
-    replace = require("replace-in-file"),
+    {replaceInFileSync} = require("replace-in-file"),
     {PORTALCONFIG_OLD} = require("./constants");
 
 /**
@@ -54,7 +54,7 @@ function replaceInFile (file) {
         // to replace all(!) occurrences of key in file, use regex with g flag
         const regex = new RegExp(key, "g");
 
-        replace.sync({
+        replaceInFileSync({
             files: file,
             from: regex,
             to: value
@@ -100,13 +100,19 @@ function deleteTranslateInName (toolConfig) {
  */
 function migrateIdWithSuffix (layers) {
     layers?.forEach(layer => {
-        if (typeof layer.id === "object") {
+        if (typeof layer.id === "object" && !Array.isArray(layer.id)) {
             const idCopy = {...layer.id};
 
             layer.id = idCopy.layerId + "." + idCopy.suffix;
         }
+        else if (Array.isArray(layer.id)) {
+            layer.id = layer.id.map(id => {
+                return id;
+            });
+        }
     });
 }
+
 
 module.exports = {
     copyDir,

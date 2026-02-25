@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {isHTML} from "../../isHTML";
+import {isHTML} from "@shared/js/utils/isHTML.js";
 
 describe("src/utils/isHTML.js", function () {
     it("should return false for null", function () {

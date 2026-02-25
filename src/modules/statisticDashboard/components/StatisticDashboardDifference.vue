@@ -1,17 +1,17 @@
 <script>
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
 import Multiselect from "vue-multiselect";
 import {mapGetters, mapMutations} from "vuex";
-import isObject from "../../../shared/js/utils/isObject";
-import StatisticSwitcher from "./StatisticDashboardSwitcher.vue";
-import getOAFFeature from "../../../shared/js/api/oaf/getOAFFeature";
-import {rawLayerList} from "@masterportal/masterportalapi";
+import isObject from "@shared/js/utils/isObject.js";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 
 
 export default {
     name: "StatisticDashboardDifference",
     components: {
-        Multiselect,
-        StatisticSwitcher
+        ButtonGroup,
+        Multiselect
     },
     props: {
         referenceData: {
@@ -90,7 +90,7 @@ export default {
             if (evt.target.closest(".difference-button")) {
                 return;
             }
-            document.querySelector(".dropdown-menu").classList.remove("show");
+            document.querySelector(".dropdown-menu")?.classList?.remove("show");
         },
         /**
          * Updates the emit value.
@@ -152,43 +152,71 @@ export default {
                 <h4>{{ $t("common:modules.statisticDashboard.reference.title") }}</h4>
             </div>
             <div class="col-md-12">
-                <StatisticSwitcher
+                <ButtonGroup
                     :buttons="buttonGroupReference"
                     :pre-checked-value="referenceType"
                     group="referenceGroup"
-                    @show-view="handleReference"
+                    @set-selected-button="handleReference"
                 />
             </div>
             <div
                 v-if="referenceType === buttonGroupReference[0].name"
                 class="col-md-12 mt-2"
             >
+                <div class="des">
+                    {{ $t("common:modules.statisticDashboard.reference.optionDate") }}
+                </div>
                 <Multiselect
                     v-model="selectedDate"
                     :multiple="false"
                     :options="dateOptions"
-                    :searchable="false"
                     :show-labels="false"
                     :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                     label="label"
                     track-by="label"
                     @update:model-value="updateSelectedReferenceData('date')"
-                />
+                >
+                    <template #singleLabel="{ option }">
+                        <button
+                            class="multiselect__tag pe-1"
+                            :class="option"
+                            @click="selectedDate='', updateSelectedReferenceData('date')"
+                            @keypress="selectedDate='', updateSelectedReferenceData('date')"
+                        >
+                            {{ option.label }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
+                </Multiselect>
             </div>
             <div
                 v-else
                 class="col-md-12  mt-2"
             >
+                <div class="des">
+                    {{ $t("common:modules.statisticDashboard.reference.optionArea") }}
+                </div>
                 <Multiselect
                     id="reference-value"
                     v-model="selectedRegion"
                     :multiple="false"
                     :options="regionOptions"
-                    :searchable="false"
                     :show-labels="false"
                     :placeholder="$t('common:modules.statisticDashboard.reference.placeholder')"
                     @update:model-value="updateSelectedReferenceData('region')"
-                />
+                >
+                    <template #singleLabel="{ option }">
+                        <button
+                            class="multiselect__tag pe-1"
+                            :class="option"
+                            @click="selectedRegion='', updateSelectedReferenceData('region')"
+                            @keypress="selectedRegion='', updateSelectedReferenceData('region')"
+                        >
+                            {{ option }}
+                            <i class="bi bi-x" />
+                        </button>
+                    </template>
+                </Multiselect>
             </div>
         </div>
     </div>
@@ -212,6 +240,10 @@ export default {
     margin-top: 0.5rem;
     margin-bottom: 0.8rem;
 }
+.des {
+    margin-top: 0.5rem;;
+    margin-bottom: 0.25rem;;
+}
 </style>
 
 <style lang="scss">
@@ -221,4 +253,6 @@ export default {
     font-family: inherit;
     font-size: 11px;
 }
+
+
 </style>

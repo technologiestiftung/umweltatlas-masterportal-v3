@@ -1,6 +1,6 @@
-import {convertColor} from "../../../../../shared/js/utils/convertColor";
-import {getPrimaryColor, getColorUniversalDesign} from "../../../../../shared/js/utils/colors";
-import {SensorThingsHttp} from "../../../../../shared/js/api/sensorThingsHttp.js";
+import {convertColor} from "@shared/js/utils/convertColor.js";
+import {getPrimaryColor, getColorUniversalDesign} from "@shared/js/utils/colors.js";
+import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp.js";
 import dayjs from "dayjs";
 
 /**

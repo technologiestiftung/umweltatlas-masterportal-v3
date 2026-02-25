@@ -1,5 +1,5 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import stateNewsView from "./stateNewsView";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import stateNewsView from "./stateNewsView.js";
 
 const getters = {
     ...generateSimpleGetters(stateNewsView)

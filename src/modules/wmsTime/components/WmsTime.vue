@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LayerSwiper from "../../../shared/modules/layerSwiper/components/LayerSwiper.vue";
+import LayerSwiper from "@shared/modules/layerSwiper/components/LayerSwiper.vue";
 import TimeSlider from "./TimeSlider.vue";
 
 export default {
@@ -10,10 +10,17 @@ export default {
         TimeSlider
     },
     computed: {
+        ...mapGetters("Menu", ["currentMouseMapInteractionsComponent"]),
         ...mapGetters("Modules/WmsTime", ["currentTimeSliderObject", "layerAppendix", "minWidth", "timeSlider"]),
         ...mapGetters("Modules/LayerSwiper", {
             layerSwiperActive: "active"
-        })
+        }),
+        renderLayerSwiper () {
+            return this.layerSwiperActive && (
+                this.currentMouseMapInteractionsComponent === "compareMaps" ||
+                this.minWidth
+            );
+        }
     },
     created () {
         window.addEventListener("resize", this.windowWidthChanged);
@@ -42,7 +49,7 @@ export default {
             :layer-id="currentTimeSliderObject.layerId + layerAppendix"
         />
         <LayerSwiper
-            v-if="layerSwiperActive && minWidth"
+            v-if="renderLayerSwiper"
             :current-time-slider-object="currentTimeSliderObject"
         />
     </div>

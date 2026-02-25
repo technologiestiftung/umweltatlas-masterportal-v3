@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import directionsAvoidStyle from "./directionsAvoidStyle";
-import directionsAvoidSource from "./directionsAvoidSource";
+import directionsAvoidStyle from "./directionsAvoidStyle.js";
+import directionsAvoidSource from "./directionsAvoidSource.js";
 
 export default new Draw({
     source: directionsAvoidSource,

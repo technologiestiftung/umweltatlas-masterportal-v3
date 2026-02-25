@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import mutations from "../store/mutationsShareView";
+import mutations from "../store/mutationsShareView.js";
 import QRCode from "qrcode";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 import {Toast} from "bootstrap";
 
 /**
@@ -96,7 +96,6 @@ export default {
         },
         /**
          * Lets you copy the url to the clipboard.
-         * ToDo: add "link copied" Hinweis
          * @returns {void}
          */
         copyToClipboard () {

@@ -1,32 +1,41 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
 import {WMSCapabilities} from "ol/format.js";
-import {intersects} from "ol/extent";
-import crs from "@masterportal/masterportalapi/src/crs";
+import {intersects} from "ol/extent.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import axios from "axios";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {deleteParams} from "@shared/js/utils/deleteUrlParams.js";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import buildTreeStructure from "@appstore/js/buildTreeStructure.js";
 
 /**
  * Adds WMS
  * @module modules/AddWMS
  * @vue-data {Number} uniqueId - Current unique id.
+ * @vue-data {String} infoFormat - The infoFormat for gfi requests.
  * @vue-data {Boolean} invalidUrl - Shows if Url is invalid.
  * @vue-data {String} wmsUrl - Current wms url.
  * @vue-data {String} version - Current version.
  */
 export default {
     name: "AddWMS",
+    components: {
+        InputText
+    },
     data () {
         return {
             uniqueId: 100,
+            infoFormat: "",
             invalidUrl: false,
             wmsUrl: "",
             version: ""
         };
     },
     computed: {
-        ...mapGetters(["mapViewSettings"]),
-        ...mapGetters("Maps", ["projection", "mode"])
+        ...mapGetters("Modules/AddWMS", ["exampleURLs", "featureCount", "visibility", "showInLayerTree"]),
+        ...mapGetters("Maps", ["projection", "mode"]),
+        ...mapGetters(["mapViewSettings", "portalConfig"])
     },
     mounted () {
         this.setFocusToFirstControl();
@@ -82,11 +91,26 @@ export default {
                     title: this.$t("common:modules.addWMS.errorTitle")});
             }
             else {
+
+                deleteParams(url, ["request", "service"]);
                 url.searchParams.set("request", "GetCapabilities");
                 url.searchParams.set("service", "WMS");
             }
             return url.href;
         },
+
+        /**
+         * Creates the url without the parameter service, request and version
+         * @param {String} serviceUrl inserted url by user
+         * @returns {String} the url.href
+         */
+        getBaseServiceUrl: function (serviceUrl) {
+            const url = new URL(serviceUrl);
+
+            deleteParams(url, ["request", "service", "version"]);
+            return url.href;
+        },
+
         /**
          * Importing the external wms layers
          * @returns {void}
@@ -110,7 +134,13 @@ export default {
                             capability = parser.read(data),
                             version = capability?.version,
                             checkVersion = this.isVersionEnabled(version),
-                            currentExtent = this.mapViewSettings?.extent;
+                            currentExtent = this.mapViewSettings?.extent,
+                            folder = {
+                                type: "folder",
+                                isExternal: true,
+                                name: "",
+                                elements: []
+                            };
                         let checkExtent = this.getIfInExtent(capability, currentExtent),
                             finalCapability = capability;
 
@@ -132,10 +162,14 @@ export default {
 
                         this.version = version;
                         this.wmsUrl = url;
+                        this.infoFormat = this.getInfoFormat(finalCapability?.Capability?.Request?.GetFeatureInfo?.Format);
 
+                        folder.name = finalCapability.Capability.Layer.Title;
                         finalCapability.Capability.Layer.Layer.forEach(layer => {
-                            this.parseLayer(layer, 1);
+                            this.parseLayerStructure(folder, layer, 1);
                         });
+                        buildTreeStructure.setIdsAtFolders([folder]);
+                        this.addLayerToTopicTree(folder);
                     }
                     catch (e) {
                         this.displayErrorMessage();
@@ -172,16 +206,48 @@ export default {
         },
 
         /**
-         * Creates a new layer and adds it to layerConfigs.
+         * Returns the infoFormat for the wms.
+         * If the wms does not provide any formats, `text/xml` is used as default.
+         * Note: The infoFormat `Application/vnd.ogc.gml` is preferred because OL on MapServer WMS cannot handle the prefixes `ogr` in the `text/xml` infoFormat.
+         * @param {String[]} possibleFormats The possible infoFormats of capabilities.
+         * @returns {String} The infoFormat.
+         */
+        getInfoFormat: function (possibleFormats) {
+            let infoFormat = this.portalConfig?.tree?.rasterLayerDefaultInfoFormat;
+
+            if (possibleFormats?.includes("gml") || possibleFormats?.includes("application/vnd.ogc.gml")) {
+                infoFormat = "application/vnd.ogc.gml";
+            }
+            else if (possibleFormats?.length > 0 && !possibleFormats.includes(infoFormat)) {
+                infoFormat = possibleFormats[0];
+            }
+
+            if (infoFormat === undefined) {
+                infoFormat = "text/xml";
+            }
+
+            return infoFormat;
+        },
+
+        /**
+         * Creates recursive the layer structure with subfolders and layers.
          * @info recursive function
-         * @param {Object} object the layer object to add
-         * @param {Number} level the depth of the recursion
+         * @param {Object} folder The layerTree folder.
+         * @param {Object} object the layer object to add.
+         * @param {Number} level The depth of the recursion.
          * @return {void}
          */
-        parseLayer: function (object, level) {
+        parseLayerStructure: function (folder, object, level) {
             if (Object.prototype.hasOwnProperty.call(object, "Layer")) {
+                const subFolder = {
+                    type: "folder",
+                    name: object.Title,
+                    elements: []
+                };
+
+                folder.elements.push(subFolder);
                 object.Layer.forEach(layer => {
-                    this.parseLayer(layer, level + 1);
+                    this.parseLayerStructure(subFolder, layer, level + 1);
                 });
             }
             else {
@@ -200,35 +266,46 @@ export default {
                     name: object.Title,
                     typ: "WMS",
                     layers: [object.Name],
-                    url: this.wmsUrl,
+                    url: this.getBaseServiceUrl(this.wmsUrl),
                     version: this.version,
-                    visibility: true,
+                    visibility: this.visibility,
                     type: "layer",
-                    showInLayerTree: true,
+                    isExternal: true,
+                    featureCount: this.featureCount,
+                    infoFormat: this.infoFormat,
+                    showInLayerTree: this.showInLayerTree,
                     maxScale: object?.MaxScaleDenominator?.toString(),
                     minScale: object?.MinScaleDenominator?.toString(),
                     legendURL: object?.Style?.[0].LegendURL?.[0].OnlineResource?.toString(),
                     datasets
                 };
 
-                this.addLayerToLayerConfig({layerConfig: layerObject, parentKey: treeSubjectsKey}).then((addedLayer) => {
-                    if (addedLayer) {
-                        this.addSingleAlert({
-                            content: this.$t("common:modules.addWMS.completeMessage"),
-                            category: "success",
-                            title: this.$t("common:modules.addWMS.alertTitleSuccess")});
-                        this.$refs.wmsUrl.value = "";
-                    }
-                    else {
-                        this.addSingleAlert({
-                            content: this.$t("common:modules.addWMS.alreadyAdded"),
-                            category: "warning",
-                            title: this.$t("common:modules.addWMS.errorTitle")});
-                        this.$refs.wmsUrl.value = "";
-                    }
-                });
-
+                folder.elements.push(layerObject);
             }
+        },
+
+        /**
+         * Adds the layer in folder structure to the topic tree.
+         * @param {Object} folder The layerTree folder.
+         * @returns {void}
+         */
+        addLayerToTopicTree: function (folder) {
+            this.addLayerToLayerConfig({layerConfig: folder, parentKey: treeSubjectsKey}).then((addedLayer) => {
+                if (addedLayer) {
+                    this.addSingleAlert({
+                        content: this.showInLayerTree ? this.$t("common:modules.addWMS.completeMessageShowInLayerTree") : this.$t("common:modules.addWMS.completeMessage"),
+                        category: "success",
+                        title: this.$t("common:modules.addWMS.alertTitleSuccess")});
+                    this.wmsUrl = "";
+                }
+                else {
+                    this.addSingleAlert({
+                        content: this.$t("common:modules.addWMS.alreadyAdded"),
+                        category: "warning",
+                        title: this.$t("common:modules.addWMS.errorTitle")});
+                    this.wmsUrl = "";
+                }
+            });
         },
 
         /**
@@ -340,15 +417,15 @@ export default {
                 class="mb-3"
                 v-html="$t('common:modules.addWMS.wmsText')"
             />
-            <input
+            <InputText
                 id="wmsUrl"
                 ref="wmsUrl"
+                v-model="wmsUrl"
                 aria-label="WMS-Url"
-                type="text"
-                class="form-control wmsUrlsChanged"
+                :label="$t('common:modules.addWMS.placeholder')"
                 :placeholder="$t('common:modules.addWMS.placeholder')"
                 @keydown.enter="inputUrl"
-            >
+            />
             <button
                 id="addWMSButton"
                 type="button"
@@ -367,6 +444,20 @@ export default {
                 </span>
             </button>
         </div>
+        <div
+            v-if="exampleURLs && exampleURLs.length > 0"
+            class="WMS_example_urls"
+        >
+            <h5>{{ $t('common:modules.addWMS.examples') }}</h5>
+            <ul>
+                <li
+                    v-for="url in exampleURLs"
+                    :key="url"
+                >
+                    {{ url }}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -384,5 +475,9 @@ export default {
         font-size: $font-size-lg;
         color: $light_red;
         margin-bottom: 10px;
+    }
+    .WMS_example_urls {
+        margin-top: 32px;
+        font-size: $font-size-sm;
     }
 </style>

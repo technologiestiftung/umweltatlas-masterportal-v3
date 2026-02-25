@@ -1,13 +1,14 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import mutations from "../../../store/mutationsFeatureLister";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import mutations from "@modules/featureLister/store/mutationsFeatureLister.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import tabStatus from "../../../constantsTabStatus.js";
 
 describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
     let state, features, layer;
 
     beforeEach(() => {
-        features = [{name: "erstesFeature", getId: () => "123"}, {name: "zweitesFeature", getId: () => "456"}, {name: "drittesFeature", getId: () => "789"}];
+        features = [{name: "erstesFeature", getId: () => "123", getGeometry: () => "Point"}, {name: "zweitesFeature", getId: () => "456", getGeometry: () => "LineString"}, {name: "drittesFeature", getId: () => "789", getGeometry: () => "Polygon"}];
         layer = {
             name: "ersterLayer",
             id: "1",
@@ -27,9 +28,9 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
             setGfiFeaturesOfLayer: null,
             nestedFeatures: false,
             selectedFeatureIndex: null,
-            layerListView: true,
-            featureListView: false,
-            featureDetailView: false
+            layerListView: tabStatus.ACTIVE,
+            featureListView: tabStatus.DISABLED,
+            featureDetailView: tabStatus.DISABLED
         };
         sinon.stub(layerCollection, "getLayerById").returns(layer);
     });
@@ -53,14 +54,16 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getProperties");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTheme");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTitle");
+                expect(state.gfiFeaturesOfLayer[i]).to.have.property("olFeature");
+                expect(state.gfiFeaturesOfLayer[i].olFeature).to.equal(features[i]);
             }
         });
         it("sets the gfiFeatures of a layer to state - with clustering", () => {
             const clusteredFeatures = [
                     {name: "cluster1",
-                        getId: () => "5.1"},
+                        getId: () => "5.1", getGeometry: () => "ClusterGeometry"},
                     {name: "cluster2",
-                        getId: () => "5.2"}
+                        getId: () => "5.2", getGeometry: () => "ClusterGeometry"}
                 ],
                 clustered = {
                     values_: {
@@ -85,22 +88,26 @@ describe("src/modules/featureLister/store/mutationsFeatureLister", () => {
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getProperties");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTheme");
                 expect(state.gfiFeaturesOfLayer[i]).to.have.property("getTitle");
+                expect(state.gfiFeaturesOfLayer[i]).to.have.property("olFeature");
             }
         });
     });
 
     describe("resetToThemeChooser", () => {
         it("resets the state to display the themeChooser tab", () => {
-            state.selectedFeatureIndex = 1;
-            state.layerListView = false;
-            state.featureListView = true;
+            state.selectedRow = {id: 1};
+            state.layerListView = tabStatus.ENABLED;
+            state.featureListView = tabStatus.ACTIVE;
+            state.featureDetailView = tabStatus.DISABLED;
+            state.selectedArea = [[500000, 5900000], [501000, 5900000], [501000, 5899000], [500000, 5899000], [500000, 5900000]];
 
             mutations.resetToThemeChooser(state);
-            expect(state.selectedFeatureIndex).to.eql(null);
+            expect(state.selectedRow).to.eql(null);
             expect(state.layer).to.eql(null);
-            expect(state.layerListView).to.eql(true);
-            expect(state.featureListView).to.eql(false);
-            expect(state.featureDetailView).to.eql(false);
+            expect(state.selectedArea).to.eql(null);
+            expect(state.layerListView).to.eql(tabStatus.ACTIVE);
+            expect(state.featureListView).to.eql(tabStatus.DISABLED);
+            expect(state.featureDetailView).to.eql(tabStatus.DISABLED);
         });
     });
 });

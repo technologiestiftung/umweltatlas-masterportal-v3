@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {calculateOneHour, filterDataByActualTimeStep, calculateWorkloadforOneDay, createInitialDayPerHour, calculateWorkloadForOneWeekday} from "../../../js/calculateWorkloadForOneWeekday.js";
+import {calculateOneHour, filterDataByActualTimeStep, calculateWorkloadforOneDay, createInitialDayPerHour, calculateWorkloadForOneWeekday} from "@modules/getFeatureInfo/themes/sensor/js/calculateWorkloadForOneWeekday.js";
 
 describe("src/modules/getFeatureInfo/themes/sensor/js/calculateWorkloadForOneWeekday.js", () => {
 

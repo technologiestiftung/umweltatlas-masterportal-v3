@@ -1,5 +1,5 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetDateRange from "../../../components/SnippetDateRange.vue";
+import SnippetDateRange from "@modules/filter/components/SnippetDateRange.vue";
 import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";
@@ -582,6 +582,7 @@ describe("src/modules/filter/components/SnippetDateRange.vue", () => {
                     startup: "startup",
                     fixed: true,
                     attrName: "attrName",
+                    attrLabel: "attrName",
                     operator: "INTERSECTS",
                     operatorForAttrName: "AND",
                     format: "DD.MM.YYYY",

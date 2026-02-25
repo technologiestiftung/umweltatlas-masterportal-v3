@@ -1,4 +1,4 @@
-import {badPathSymbol, idx} from "../../../shared/js/utils/idx";
+import {badPathSymbol, idx} from "@shared/js/utils/idx.js";
 
 /**
  * Builds the path to the given option in the external source object.

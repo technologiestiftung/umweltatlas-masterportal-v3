@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import LegendSingleLayer from "./LegendSingleLayer.vue";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 /**
  * Legend Container
@@ -73,7 +73,7 @@ export default {
             :key="index"
         >
             <div class="font-bold mt-3">
-                <span>{{ legendObj.name }}</span>
+                <span>{{ $t(legendObj.name) }}</span>
             </div>
             <LegendSingleLayer
                 :id="generateId(legendObj.name)"
@@ -87,4 +87,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+    :deep(img[src^="data:image/png"]) {
+        width: 26px;
+        height: 26px;
+        display: inline;
+        margin-left: 4px;
+        margin-right: 4px;
+}
 </style>
+

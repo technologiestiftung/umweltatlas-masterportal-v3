@@ -1,22 +1,26 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsDirections from "../../../../store/directions/actionsDirections";
-import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
-import Polygon from "ol/geom/Polygon";
-import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
-import Draw from "ol/interaction/Draw";
-import Select from "ol/interaction/Select";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import {RoutingDirections} from "../../../../js/classes/routing-directions";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
+import actionsDirections from "@modules/routing/store/directions/actionsDirections.js";
+import Feature from "ol/Feature.js";
+import LineString from "ol/geom/LineString.js";
+import Polygon, {fromCircle} from "ol/geom/Polygon.js";
+import Point from "ol/geom/Point.js";
+import Circle from "ol/geom/Circle.js";
+import VectorSource from "ol/source/Vector.js";
+import Draw from "ol/interaction/Draw.js";
+import Select from "ol/interaction/Select.js";
+import Modify from "ol/interaction/Modify.js";
+import {Translate} from "ol/interaction.js";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint.js";
+import {RoutingDirections} from "@modules/routing/js/classes/routing-directions.js";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
 
 describe("src/modules/routing/store/directions/actionsDirections.js", () => {
-    let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoints, wgs84Coordinates, routingDirectionsWaypointSource, routingDirectionsAvoidSource, routingDirectionsResult, routeFeature, highlightFeature, startWaypoint, endWaypoint, avoidPolygonCoordinates;
+    let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoints, wgs84Coordinates, routingDirectionsWaypointSource, routingDirectionsAvoidSource, routingDirectionsAvoidPointSource, routingDirectionsResult, routeFeature, highlightFeature, startWaypoint, endWaypoint, avoidPolygonCoordinates, avoidPointCenter, routingRestrictionIsValid, allHGVRestrictionsValid;
 
     beforeEach(() => {
         avoidPolygonCoordinates = [[[8.1, 51.1], [8.2, 51.2], [8.3, 51.3], [8.1, 51.1]]];
+        avoidPointCenter = [8.1, 51.1];
         routingDirectionsWaypointSource = new VectorSource();
         routingDirectionsAvoidSource = new VectorSource({
             features: [
@@ -24,6 +28,15 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
                     geometry: new Polygon(avoidPolygonCoordinates)
                 })
             ]
+        });
+
+        const avoidCircle = new Feature({
+            geometry: new Circle(avoidPointCenter)
+        });
+
+        avoidCircle.getGeometry().setRadius(5);
+        routingDirectionsAvoidPointSource = new VectorSource({
+            features: [avoidCircle]
         });
 
         routeFeature = new Feature({
@@ -53,6 +66,15 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             lineStringWaypointIndex: [0, 2]
         });
 
+        routingRestrictionIsValid = {
+            length: true,
+            width: true,
+            height: true,
+            weight: true,
+            axleload: true
+        };
+        allHGVRestrictionsValid = true;
+
         commitSpy = sinon.spy();
         commit = (...args) => {
             commitSpy(...args);
@@ -70,6 +92,9 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             if (args[0] === "Modules/Routing/transformCoordinatesLocalToWgs84Projection") {
                 return args[1];
             }
+            else if (args[0] === "Modules/Routing/Directions/getAvoidCoordinates") {
+                return args[1];
+            }
             else if (args[0] === "Modules/Routing/fetchTextByCoordinates") {
                 return new RoutingGeosearchResult([args[1].coordinates[0], args[1].coordinates[1]], "test");
             }
@@ -77,7 +102,9 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
         };
         getters = {
             directionsCoordinates: wgs84Coordinates,
-            waypoints: waypoints
+            waypoints: waypoints,
+            routingRestrictionIsValid: routingRestrictionIsValid,
+            allHGVRestrictionsValid: allHGVRestrictionsValid
         };
 
         rootState = {
@@ -109,6 +136,7 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             },
             routingAvoidFeaturesOptions: [],
             waypoints: waypoints,
+            addStartEndPoint: -1,
             directionsRouteSource: new VectorSource({
                 features: [
                     routeFeature,
@@ -117,6 +145,7 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             }),
             directionsWaypointSource: routingDirectionsWaypointSource,
             directionsAvoidSource: routingDirectionsAvoidSource,
+            directionsAvoidPointSource: routingDirectionsAvoidPointSource,
             directionsWaypointsDrawInteraction: new Draw({
                 source: "",
                 type: "Point",
@@ -127,7 +156,17 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
                 type: "Polygon",
                 geometryFunction: undefined
             }),
+            directionsAvoidPointDrawInteraction: new Draw({
+                source: "",
+                type: "Point",
+                geometryFunction: undefined
+            }),
+            directionsAvoidPointTranslate: new Translate(),
             directionsAvoidSelectInteraction: new Select(),
+            directionsAvoidPointSelectInteraction: new Select(),
+            directionsWaypointsModifyInteraction: new Modify({
+                source: routingDirectionsWaypointSource
+            }),
             directionsRouteLayer: {
                 get: sinon.stub().returns("directions_route_layer")
             },
@@ -136,6 +175,12 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             },
             directionsAvoidLayer: {
                 get: sinon.stub().returns("directions_avoid_layer")
+            },
+            directionsAvoidPointLayer: {
+                get: sinon.stub().returns("directions_avoid_point_layer")
+            },
+            directionsElevationLayer: {
+                get: sinon.stub().returns("directions_elevation_layer")
             }
         };
     });
@@ -235,27 +280,36 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
     });
 
     it("should getAvoidPolygonsWgs84", async () => {
-        const avoidPolygonsWgs84 = await actionsDirections.getAvoidPolygonsWgs84({state, getters, commit, dispatch, rootState});
+        const avoidPolygonsWgs84 = await actionsDirections.getAvoidPolygonsWgs84({state, getters, commit, dispatch, rootState}),
 
-        expect(dispatchSpy.args).to.deep.equal(
-            avoidPolygonCoordinates[0].map(coords => ["Modules/Routing/transformCoordinatesLocalToWgs84Projection", coords, {root: true}])
-        );
+            polygonFromCircle = new fromCircle(
+                routingDirectionsAvoidPointSource.getFeatures()[0].getGeometry(), 36);
 
-        expect(avoidPolygonsWgs84).to.deep.equal({"type": "MultiPolygon", "coordinates": [avoidPolygonCoordinates]});
+        // test first array element, i.e. avoid polygon
+        expect(dispatchSpy.args[0]).to.deep.equal(["getAvoidCoordinates", routingDirectionsAvoidSource.getFeatures()[0].getGeometry()]);
+
+        // test second array element, i.e. avoid point
+        expect(dispatchSpy.args[1][0]).to.deep.equal("getAvoidCoordinates");
+        expect(dispatchSpy.args[1][1].getCoordinates()).to.deep.equal(polygonFromCircle.getCoordinates());
+
+        // check n of avoid polygons
+        expect(avoidPolygonsWgs84.coordinates.length).to.deep.equal(2);
     });
 
     it("should initDirections without mapListenerAdded", async () => {
         state.mapListenerAdded = false;
-
         await actionsDirections.initDirections({state, getters, commit, dispatch, rootState});
         expect(dispatchSpy.args).to.deep.equal([
             ["initWaypoints"],
             ["createDirectionsWaypointsModifyInteractionListener"],
             ["createDirectionsAvoidModifyInteractionListener"],
+            ["createDirectionsAvoidPointTranslateInteractionListener"],
             ["createDirectionsRouteModifyInteractionListener"],
             ["Maps/addLayer", state.directionsRouteLayer, {root: true}],
             ["Maps/addLayer", state.directionsWaypointsLayer, {root: true}],
             ["Maps/addLayer", state.directionsAvoidLayer, {root: true}],
+            ["Maps/addLayer", state.directionsAvoidPointLayer, {root: true}],
+            ["Maps/addLayer", state.directionsElevationLayer, {root: true}],
             ["createInteractionFromMapInteractionMode"]
         ]);
 
@@ -274,6 +328,8 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             ["Maps/addLayer", state.directionsRouteLayer, {root: true}],
             ["Maps/addLayer", state.directionsWaypointsLayer, {root: true}],
             ["Maps/addLayer", state.directionsAvoidLayer, {root: true}],
+            ["Maps/addLayer", state.directionsAvoidPointLayer, {root: true}],
+            ["Maps/addLayer", state.directionsElevationLayer, {root: true}],
             ["createInteractionFromMapInteractionMode"]
         ]);
     });
@@ -293,6 +349,15 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
 
         expect(dispatchSpy.args).to.deep.equal([
             ["createDirectionsAvoidDrawInteraction"]
+        ]);
+    });
+
+    it("should createInteractionFromMapInteractionMode with mapInteractionMode 'AVOID_POINTS'", async () => {
+        state.mapInteractionMode = "AVOID_POINTS";
+        await actionsDirections.createInteractionFromMapInteractionMode({state, getters, commit, dispatch, rootState});
+
+        expect(dispatchSpy.args).to.deep.equal([
+            ["createDirectionsAvoidPointDrawInteraction"]
         ]);
     });
 
@@ -398,6 +463,69 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
 
             expect(waypoints.length).equal(3);
             expect(waypoints[2]).equal(waypoint);
+        });
+
+        it("should add startpoint with coordinates and with activated input field", async () => {
+            state.addStartEndPoint = 0;
+            const featurePoint = new Feature({
+                geometry: new Point([10, 10])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint});
+            expect(waypoints.length).equal(2);
+            expect(waypoints[0].coordinates).to.deep.equal(featurePoint.getGeometry().getCoordinates());
+        });
+        it("should add point with coordinates and with activated input field", async () => {
+
+            state.addStartEndPoint = 1;
+            const featurePoint2 = new Feature({
+                geometry: new Point([16, 16])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint2});
+            expect(waypoints.length).equal(2);
+            expect(waypoints[1].coordinates).to.deep.equal(featurePoint2.getGeometry().getCoordinates());
+        });
+        it("should add new point with coordinates and without activating input field", async () => {
+            state.addStartEndPoint = -1;
+            const featurePoint = new Feature({
+                geometry: new Point([5, 5])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint});
+            expect(waypoints.length).equal(3);
+            expect(waypoints[2].coordinates).to.deep.equal(featurePoint.getGeometry().getCoordinates());
+        });
+        it("should add startpoint with coordinates and with activated input field", async () => {
+            state.addStartEndPoint = 0;
+            const featurePoint = new Feature({
+                geometry: new Point([10, 10])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint});
+            expect(waypoints.length).equal(2);
+            expect(waypoints[0].coordinates).to.deep.equal(featurePoint.getGeometry().getCoordinates());
+        });
+        it("should add point with coordinates and with activated input field", async () => {
+
+            state.addStartEndPoint = 1;
+            const featurePoint2 = new Feature({
+                geometry: new Point([16, 16])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint2});
+            expect(waypoints.length).equal(2);
+            expect(waypoints[1].coordinates).to.deep.equal(featurePoint2.getGeometry().getCoordinates());
+        });
+        it("should add new point with coordinates and without activating input field", async () => {
+            state.addStartEndPoint = -1;
+            const featurePoint = new Feature({
+                geometry: new Point([5, 5])
+            });
+
+            await actionsDirections.addWaypoint({state, getters, commit, dispatch, rootState}, {feature: featurePoint});
+            expect(waypoints.length).equal(3);
+            expect(waypoints[2].coordinates).to.deep.equal(featurePoint.getGeometry().getCoordinates());
         });
     });
 
@@ -521,6 +649,10 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             getters.directionsAvoidSource = {
                 clear: sinon.spy()
             };
+            getters.directionsAvoidPointSource = {
+                clear: sinon.spy()
+            };
+
             await actionsDirections.reset({getters, commit, dispatch});
             expect(dispatchSpy.callCount).equal(3);
             expect(dispatchSpy.firstCall.args[0]).to.be.equals("removeWaypoint");
@@ -534,6 +666,7 @@ describe("src/modules/routing/store/directions/actionsDirections.js", () => {
             expect(commitSpy.firstCall.args[1]).to.be.null;
             expect(getters.directionsRouteSource.getFeatures.callCount).equal(1);
             expect(getters.directionsAvoidSource.clear.callCount).equal(1);
+            expect(getters.directionsAvoidPointSource.clear.callCount).equal(1);
         });
     });
 

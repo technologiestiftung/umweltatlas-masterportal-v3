@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 
-import actions from "../../../store/actionsLayerPreview";
+import actions from "@shared/modules/layerPreview/store/actionsLayerPreview.js";
 
 const {initialize} = actions;
 

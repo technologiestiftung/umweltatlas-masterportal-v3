@@ -1,8 +1,8 @@
 import axios from "axios";
-import {handleAxiosError} from "../../../../shared/js/utils/handleAxiosError";
-import getWfsError from "../../../../shared/js/utils/getWfsError";
+import {handleAxiosError} from "@shared/js/utils/handleAxiosError.js";
+import getWfsError from "@shared/js/utils/getWfsError.js";
 import {WFS} from "ol/format.js";
-import isObject from "../../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 
 /**
  * Handles the WFS GetFeature request by GET.

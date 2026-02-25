@@ -2,7 +2,8 @@
 
 ## Node Version
 
-v20.12.2
+~~v20.12.2~~
+22.19.0
 
 ## Development
 

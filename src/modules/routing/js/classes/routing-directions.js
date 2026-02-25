@@ -16,13 +16,15 @@ class RoutingDirections {
         distance,
         duration,
         lineString,
-        lineStringWaypointIndex
+        lineStringWaypointIndex,
+        elevationProfile
     }) {
         this.bbox = bbox;
         this.distance = distance;
         this.duration = duration;
         this.lineString = lineString;
         this.lineStringWaypointIndex = lineStringWaypointIndex;
+        this.elevationProfile = elevationProfile;
         this.segments = [];
     }
 

@@ -1,9 +1,9 @@
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 import {intersects} from "ol/extent.js";
-import LayerGroup from "ol/layer/Group";
-import isObject from "../../../shared/js/utils/isObject";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import Cluster from "ol/source/Cluster";
+import LayerGroup from "ol/layer/Group.js";
+import isObject from "@shared/js/utils/isObject.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import Cluster from "ol/source/Cluster.js";
 
 /**
  * Returns the map projection.
@@ -94,6 +94,7 @@ function isFeatureInGeometry (feature, geometry) {
     if (typeof geometry?.intersectsExtent !== "function" || !isObject(feature)) {
         return false;
     }
+
     return geometry.intersectsExtent(feature.getGeometry().getExtent());
 }
 

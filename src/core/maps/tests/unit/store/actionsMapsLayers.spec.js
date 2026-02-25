@@ -1,11 +1,11 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import View from "ol/View";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
+import View from "ol/View.js";
 
-import actions from "../../../store/actionsMapsLayers";
+import actions from "@core/maps/store/actionsMapsLayers.js";
 
 const {
     addLayer,

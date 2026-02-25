@@ -1,15 +1,15 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import CompareMaps from "../../../components/CompareMaps.vue";
+import CompareMaps from "@modules/compareMaps/components/CompareMaps.vue";
 import {expect} from "chai";
 import sinon from "sinon";
-import mapCollection from "../../../../../core/maps/js/mapCollection";
-import mutations from "../../../store/mutationsCompareMaps";
+import mapCollection from "@core/maps/js/mapCollection.js";
+import mutations from "@modules/compareMaps/store/mutationsCompareMaps.js";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
-    let store, initializeSpy, rootCommitSpy, wrapper, map;
+    let store, rootCommitSpy, rootDispatchSpy, wrapper, map;
 
     beforeEach(() => {
         map = {
@@ -22,8 +22,8 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
 
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
-        initializeSpy = sinon.spy();
         rootCommitSpy = sinon.spy();
+        rootDispatchSpy = sinon.spy();
 
         store = createStore({
             modules: {
@@ -32,11 +32,12 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                     modules: {
                         CompareMaps: {
                             namespaced: true,
-                            actions: {
-                                initialize: initializeSpy
-                            },
                             mutations: {
                                 ...mutations
+                            },
+                            actions: {
+                                activateSwiper: sinon.stub(),
+                                deactivateSwiper: sinon.stub()
                             },
                             getters: {
                                 layerNames: () => [{name: "Layer 1", id: "layer1"}, {name: "Layer 2", id: "layer2"}],
@@ -52,8 +53,11 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
                             },
                             mutations: {
                                 setActive: sinon.spy(),
-                                setLayerSwiperSourceLayer: sinon.spy(),
-                                setLayerSwiperTargetLayer: sinon.spy()
+                                setSourceLayerId: sinon.spy(),
+                                setTargetLayerId: sinon.spy(),
+                                setSplitDirection: sinon.spy(),
+                                setLayerSwiperValueY: sinon.spy(),
+                                setLayerSwiperValueX: sinon.spy()
                             }
                         },
                         LayerSelection: {
@@ -80,6 +84,7 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
         });
 
         store.commit = rootCommitSpy;
+        store.dispatch = rootDispatchSpy;
     });
 
     afterEach(() => {
@@ -97,7 +102,7 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
         expect(wrapper.find("#compare-maps").exists()).to.be.true;
     });
 
-    it("initializes the component and sets active", async () => {
+    it("sets tool active", async () => {
         wrapper = shallowMount(CompareMaps, {
             global: {
                 plugins: [store]
@@ -106,7 +111,6 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
 
         await wrapper.vm.$nextTick();
 
-        expect(initializeSpy.calledOnce).to.be.true;
         expect(wrapper.vm.splitDirection).to.equal("vertical");
     });
 
@@ -122,10 +126,35 @@ describe("src/modules/compareMaps/components/CompareMaps.vue", () => {
         expect(wrapper.vm.selectedLayer1).to.be.null;
         expect(wrapper.vm.selectedLayer2).to.be.null;
 
+        expect(rootDispatchSpy.calledWith("Modules/CompareMaps/deactivateSwiper")).to.be.true;
         expect(rootCommitSpy.calledWith("Modules/CompareMaps/setSelectedLayer1Id", "", undefined)).to.be.true;
         expect(rootCommitSpy.calledWith("Modules/CompareMaps/setSelectedLayer2Id", "", undefined)).to.be.true;
-        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setActive", false, undefined)).to.be.true;
-        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setLayerSwiperSourceLayer", null, undefined)).to.be.true;
-        expect(rootCommitSpy.calledWith("Modules/LayerSwiper/setLayerSwiperTargetLayer", null, undefined)).to.be.true;
+    });
+
+    it("render labels for vertical split", async () => {
+        wrapper = shallowMount(CompareMaps, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#module-compareMaps-select-layer1").element.labels[0].textContent).to.equal("common:modules.compareMaps.leftLayer");
+        expect(wrapper.find("#module-compareMaps-select-layer2").element.labels[0].textContent).to.equal("common:modules.compareMaps.rightLayer");
+    });
+
+    it("render labels for horizontal split", async () => {
+        wrapper = shallowMount(CompareMaps, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        wrapper.vm.splitDirection = "horizontal";
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find("#module-compareMaps-select-layer1").element.labels[0].textContent).to.equal("common:modules.compareMaps.upperLayer");
+        expect(wrapper.find("#module-compareMaps-select-layer2").element.labels[0].textContent).to.equal("common:modules.compareMaps.lowerLayer");
     });
 });

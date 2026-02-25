@@ -1,8 +1,8 @@
 <script>
-import beautifyKey from "../../../../../shared/js/utils/beautifyKey.js";
-import {isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
-import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 
 /**
  * The bar chart for sensor theme of the get feature info.
@@ -83,64 +83,70 @@ export default {
         v-if="show"
         class="px-3"
     >
-        <table class="table">
-            <thead>
-                <tr class="row">
-                    <th class="col">
-                        {{ firstColumnHeaderName }}
-                    </th>
-                    <th
-                        v-for="(name, index) in columnHeaders"
-                        :key="name + '_' + index"
-                        class="col"
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr class="row">
+                        <th class="col">
+                            {{ firstColumnHeaderName }}
+                        </th>
+                        <th
+                            v-for="(name, index) in columnHeaders"
+                            :key="name + '_' + index"
+                            class="col"
+                        >
+                            {{ name }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(value, key) in splittedMappedProperties"
+                        :key="key"
+                        class="row"
                     >
-                        {{ name }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    v-for="(value, key) in splittedMappedProperties"
-                    :key="key"
-                    class="row"
-                >
-                    <th class="col">
-                        {{ beautifyKey(key) }}
-                    </th>
-                    <td
-                        v-for="(property, index) in value"
-                        :key="property + '_' + index"
-                        class="col"
-                    >
-                        <span v-if="isWebLink(property)">
-                            <a
-                                :href="property"
-                                target="_blank"
-                            >
-                                Link
-                            </a>
-                        </span>
-                        <span v-else-if="isPhoneNumber(property)">
-                            <a :href="getPhoneNumberAsWebLink(property)">
+                        <th class="col">
+                            {{ beautifyKey(key) }}
+                        </th>
+                        <td
+                            v-for="(property, index) in value"
+                            :key="property + '_' + index"
+                            class="col"
+                        >
+                            <span v-if="isWebLink(property)">
+                                <a
+                                    :href="property"
+                                    target="_blank"
+                                >
+                                    Link
+                                </a>
+                            </span>
+                            <span v-else-if="isPhoneNumber(property)">
+                                <a :href="getPhoneNumberAsWebLink(property)">
+                                    {{ property }}
+                                </a>
+                            </span>
+                            <span v-else-if="isEmailAddress(property)">
+                                <a :href="`mailto:${property}`">
+                                    {{ property }}
+                                </a>
+                            </span>
+                            <span v-else>
                                 {{ property }}
-                            </a>
-                        </span>
-                        <span v-else-if="isEmailAddress(property)">
-                            <a :href="`mailto:${property}`">
-                                {{ property }}
-                            </a>
-                        </span>
-                        <span v-else>
-                            {{ property }}
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+    .table-wrapper {
+        overflow-x: auto;
+        max-width: 100%;
+    }
     .table > :not(:first-child) {
         border-top: none;
     }

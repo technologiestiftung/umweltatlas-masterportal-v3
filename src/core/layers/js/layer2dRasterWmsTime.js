@@ -1,9 +1,9 @@
-import Layer2dRaster from "./layer2dRaster";
-import WMSLayer from "./layer2dRasterWms";
-import layerCollection from "./layerCollection";
-import store from "../../../app-store";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
-import detectIso8601Precision from "../../../shared/js/utils/detectIso8601Precision";
+import Layer2dRaster from "./layer2dRaster.js";
+import WMSLayer from "./layer2dRasterWms.js";
+import store from "@appstore/index.js";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
+import detectIso8601Precision from "@shared/js/utils/detectIso8601Precision.js";
+import isNumber from "@shared/js/utils/isNumber.js";
 
 import axios from "axios";
 import dayjs from "dayjs";
@@ -34,6 +34,44 @@ export default function Layer2dRasterWmsTimeLayer (attrs) {
 Layer2dRasterWmsTimeLayer.prototype = Object.create(WMSLayer.prototype);
 
 /**
+ * Creates the capabilities url.
+ * @param {String} wmsTimeUrl The url of wms time.
+ * @param {String} version The version of wms time.
+ * @param {String} layers The layers of wms time.
+ * @returns {String} the created url
+ */
+Layer2dRasterWmsTimeLayer.prototype.createCapabilitiesUrl = function (wmsTimeUrl, version, layers) {
+    const url = new URL(wmsTimeUrl);
+
+    url.searchParams.set("service", "WMS");
+    url.searchParams.set("version", version);
+    url.searchParams.set("layers", layers);
+    url.searchParams.set("request", "GetCapabilities");
+    return url;
+};
+
+/**
+ * Create a dimension range list.
+ * @param {Object} dimensionRange The dimension range.
+ * @param {String} dimensionRange.min The minimum value of dimension range.
+ * @param {String} dimensionRange.max The maximum value of dimension range.
+ * @param {String} dimensionRange.resolution The resolution of dimension range.
+ * @returns {String[]} The dimension range list.
+ */
+Layer2dRasterWmsTimeLayer.prototype.createDimensionRangeList = function (dimensionRange) {
+    const {min, max, resolution} = dimensionRange;
+
+    if (min && max && resolution) {
+        const increment = this.getIncrementsFromResolution(resolution);
+
+        return this.createTimeRange(min, max, increment);
+    }
+
+    console.warn(`The attribute "dimensionRange": ${dimensionRange} is not correctly configured as an object. Ensure that all three attributes, "start", "end", and "range", are configured correctly.`);
+    return [];
+};
+
+/**
  * Creates an array with ascending values from min to max separated by resolution.
  * @param {String} min Minimum value.
  * @param {String} max Maximum value.
@@ -60,18 +98,22 @@ Layer2dRasterWmsTimeLayer.prototype.createTimeRange = function (min, max, increm
 };
 
 /**
- * @param {String[]} timeRange valid points in time for WMS-T
- * @param {String?} extentDefault default specified by service
- * @param {String?} configuredDefault default specified by config (preferred usage)
- * @returns {String} default to use
+ * Determines the default value from time range.
+ * @param {String[]} timeRange Valid points in time for WMS-T.
+ * @param {String|Number} extentDefault Default specified by service. Either a specific value from the time range is specified as a string, or a position in the time range is specified as a number.
+ * @param {String?} configuredDefault Default specified by config (preferred usage).
+ * @returns {String} Default to use.
  */
 Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, extentDefault, configuredDefault) {
-    if (configuredDefault && configuredDefault !== "current") {
+    if (typeof configuredDefault !== "undefined" && configuredDefault !== "current") {
         if (timeRange.includes(configuredDefault)) {
             return configuredDefault;
         }
+        else if (isNumber(configuredDefault) && timeRange.at(configuredDefault)) {
+            return timeRange.at(configuredDefault);
+        }
 
-        console.error(
+        console.warn(
             `Configured WMS-T default ${configuredDefault} is not within timeRange:`,
             timeRange,
             "Falling back to WMS-T default value."
@@ -80,14 +122,34 @@ Layer2dRasterWmsTimeLayer.prototype.determineDefault = function (timeRange, exte
 
     if (configuredDefault === "current" || extentDefault === "current") {
         const now = dayjs(),
-            firstGreater = timeRange.find(
-                timestamp => dayjs(timestamp).diff(now) >= 0
+            firstGreater = timeRange.findLast(
+                timestamp => dayjs(timestamp).diff(now) <= 0
             );
 
         return firstGreater || timeRange[timeRange.length - 1];
     }
 
     return extentDefault || timeRange[0];
+};
+
+/**
+ * Determines the default value of the static dimensions.
+ * @param {Object[]} staticDimensions The static dimensions from getCapabilities.
+ * @param {Object} timeStaticDimensions The static dimensions from config.
+ * @returns {Object} The static dimensions with default values.
+ */
+Layer2dRasterWmsTimeLayer.prototype.determineStaticDimensions = function (staticDimensions, timeStaticDimensions = {}) {
+    const staticDimensionsWithDefaultValue = {};
+
+    staticDimensions.forEach(staticDimension => {
+        const timeRange = this.extractExtentValues(staticDimension)?.timeRange,
+            configuredDefaultValue = timeStaticDimensions[staticDimension.name],
+            defaultValue = this.determineDefault(timeRange, undefined, configuredDefaultValue === true ? undefined : configuredDefaultValue);
+
+        staticDimensionsWithDefaultValue[staticDimension.name.toUpperCase()] = defaultValue;
+    });
+
+    return staticDimensionsWithDefaultValue;
 };
 
 /**
@@ -136,6 +198,74 @@ Layer2dRasterWmsTimeLayer.prototype.extractExtentValues = function (extent) {
 };
 
 /**
+ * Filter the dimension range list by time range.
+ * @param {String[]} dimensionRangeList The dimension range list.
+ * @param {String[]} timeRange The time range.
+ * @returns {String[]} The filtered dimension range
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterDimensionRangeList = function (dimensionRangeList, timeRange) {
+    return dimensionRangeList.filter(entry => {
+        if (timeRange.includes(entry)) {
+            return true;
+        }
+
+        console.warn(`The entry: ${entry} is not present in the dimension and has been removed from the dimensionRange!`);
+        return false;
+    });
+};
+
+/**
+ * The configured attributes of the dimension range are filtered out of the time range.
+ * @param {String[]} timeRange The time range.
+ * @param {String|String[]|Object} dimensionRange The configured dimension range.
+ * @returns {String[]} The filtered time range.
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterDimensions = async function (timeRange, dimensionRange) {
+    let filteredDimensionRangeList = [],
+        dimensionRangeList = dimensionRange;
+
+    if (typeof dimensionRange === "undefined") {
+        return timeRange;
+    }
+
+    if (typeof dimensionRange === "string") {
+        dimensionRangeList = await this.loadDimensionRangeJson(dimensionRange);
+    }
+
+    if (typeof dimensionRangeList === "object" && !Array.isArray(dimensionRangeList) && Object.keys(dimensionRangeList).length > 0) {
+        dimensionRangeList = this.createDimensionRangeList(dimensionRangeList);
+    }
+
+    if (Array.isArray(dimensionRangeList) && dimensionRangeList.length > 0) {
+        filteredDimensionRangeList = this.filterDimensionRangeList(dimensionRangeList, timeRange);
+    }
+
+    if (filteredDimensionRangeList?.length === 0) {
+        filteredDimensionRangeList = timeRange;
+        console.error("No valid dimensions could be filtered using the attribute: 'dimensionRange'! The entire dimension of the service is being used.");
+    }
+
+    return filteredDimensionRangeList;
+};
+
+/**
+ * Filters the time range by a regex.
+ * @param {String} dimension.dimensionRegex The configured dimension regex.
+ * @param {String[]} timeRange The time range.
+ * @returns {String[]} The filtered time range
+ */
+Layer2dRasterWmsTimeLayer.prototype.filterWithDimensionRegex = function (dimensionRegex, timeRange) {
+    let dimensionRangeList = timeRange.filter(time => new RegExp(dimensionRegex).test(time));
+
+    if (dimensionRangeList.length === 0) {
+        dimensionRangeList = timeRange;
+        console.warn("The regular expression returns no matches, therefore the service's dimension range is used!");
+    }
+
+    return dimensionRangeList;
+};
+
+/**
  * Finds the Element with the given name inside the given HTMLCollection.
  * @param {HTMLCollection} element HTMLCollection to be found.
  * @param {String} nodeName Name of the Element to be searched for.
@@ -176,6 +306,16 @@ Layer2dRasterWmsTimeLayer.prototype.getIncrementsFromResolution = function (reso
 };
 
 /**
+ * Gets additional layer params.
+ * Note: The layer's visibility is initially turned off (and thus the loading of the tiles is disabled) because the TIME attribute is filled too late for layer processing due to asynchronous loading of getCapabilities.
+ * @param {Object} attrs The attributes of the layer configuration.
+ * @returns {Obeject} The layer params.
+ */
+Layer2dRasterWmsTimeLayer.prototype.getLayerParams = function (attrs) {
+    return Object.assign(WMSLayer.prototype.getLayerParams.call(this, attrs), {visible: false});
+};
+
+/**
  * Gets raw level attributes from parent extended by an attribute TIME.
  * @param {Object} attrs Params of the raw layer.
  * @returns {Object} The raw layer attributes with TIME.
@@ -206,20 +346,18 @@ Layer2dRasterWmsTimeLayer.prototype.incrementIsSmaller = function (step, increme
 };
 
 /**
- * Creates the capabilities url.
- * @param {String} wmsTimeUrl The url of wms time.
- * @param {String} version The version of wms time.
- * @param {String} layers The layers of wms time.
- * @returns {String} the created url
+ * Load dimension range from a JSON-File.
+ * @param {String[]} dimensionRange The dimension range.
+ * @returns {Promise<String[]>} A Promise that returns the dimension range attribute from the loaded JSON file.
  */
-Layer2dRasterWmsTimeLayer.prototype.createCapabilitiesUrl = function (wmsTimeUrl, version, layers) {
-    const url = new URL(wmsTimeUrl);
-
-    url.searchParams.set("service", "WMS");
-    url.searchParams.set("version", version);
-    url.searchParams.set("layers", layers);
-    url.searchParams.set("request", "GetCapabilities");
-    return url;
+Layer2dRasterWmsTimeLayer.prototype.loadDimensionRangeJson = async function (dimensionRange) {
+    return axios.get(dimensionRange)
+        .then(response => handleAxiosResponse(response))
+        .then(data => data.dimensionRange)
+        .catch(error => {
+            console.error(`The file: "${dimensionRange}" could not be loaded. Please ensure that the file is in the correct location and format!`);
+            console.error(error);
+        });
 };
 
 /**
@@ -263,45 +401,58 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
         time.extentName = "time";
     }
 
-    // @deprecated
-    if (typeof time.default === "number") {
-        console.warn(
-            `WMS-T has '"default": ${time.default}' configured as number.
-            Using number is deprecated, this field is now a string.
-            Please use '"default": "${time.default}"' instead.`
-        );
-        time.default = String(time.default);
-    }
-
     return this.requestCapabilities(attrs.url, attrs.version, attrs.layers)
         .then(xmlCapabilities => {
-            const {dimension, extent} = this.retrieveTimeData(xmlCapabilities, attrs.layers, time);
+            const {dimension, extent, staticDimensions} = this.retrieveTimeData(xmlCapabilities, attrs.layers, time),
+                timeSource = extent ? extent : dimension;
 
-            if (!dimension || !extent) {
+            if (!timeSource) {
                 throw Error(i18next.t("common:modules.core.modelList.layer.wms.invalidTimeLayer", {id: this.id}));
             }
-            else if (dimension.units !== "ISO8601") {
+            else if (dimension && dimension.units !== "ISO8601") {
                 throw Error(`WMS-T layer ${this.id} specifies time dimension in unit ${dimension.units}. Only ISO8601 is supported.`);
             }
             else {
-                const {step, timeRange} = this.extractExtentValues(extent),
-                    defaultValue = this.determineDefault(timeRange, extent.default, time.default),
-                    timeData = {defaultValue, step, timeRange};
+                const {step, timeRange} = this.extractExtentValues(timeSource);
 
-                attrs.time = {...time, ...timeData};
-                timeData.layerId = attrs.id;
-                store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
-
-                return defaultValue;
+                return this.filterDimensions(timeRange, time.dimensionRange)
+                    .then(filteredTimeRange => this.prepareTimeSliderObject(time, filteredTimeRange, timeSource, staticDimensions, step, attrs));
             }
         })
         .catch(error => {
-            this.removeLayer(attrs.id);
-            // remove layer from project completely
-            layerCollection.removeLayerById(attrs.id);
-
-            console.error(i18next.t("common:modules.core.modelList.layer.wms.errorTimeLayer", {error, id: attrs.id}));
+            console.error(i18next.t("common:modules.wmsTime.layer.errorTimeLayer", {error, id: attrs.id}));
         });
+};
+
+/**
+ * Prepare the time attributes for time slider and receive the default value.
+ * @param {Object} time The time dimension.
+ * @param {String[]} filteredTimeRange The filtered time range.
+ * @param {Object} timeSource The time source.
+ * @param {Object[]} staticDimensions The static dimensions.
+ * @param {Object} step The time step.
+ * @param {Object} attrs Attributes of the layer.
+ * @returns {String} The default value.
+ */
+Layer2dRasterWmsTimeLayer.prototype.prepareTimeSliderObject = function (time, filteredTimeRange, timeSource, staticDimensions, step, attrs) {
+    const filtereTimeRangeByRegex = typeof time.dimensionRegex === "string" ? this.filterWithDimensionRegex(time.dimensionRegex, filteredTimeRange) : filteredTimeRange,
+        defaultValue = this.determineDefault(filtereTimeRangeByRegex, timeSource.default, Array.isArray(time.default) ? time.default[0] : time.default),
+        defaultValueEnd = time.dualRangeSlider === true && Array.isArray(time.default) && time.default.length >= 2 ? this.determineDefault(filtereTimeRangeByRegex, timeSource.default, time.default[1]) : null,
+        staticDimensionsWithDefaultValue = this.determineStaticDimensions(staticDimensions, time.staticDimensions),
+        timeData = {
+            defaultValue: defaultValue,
+            defaultValueEnd: defaultValueEnd,
+            step: step,
+            timeRange: filtereTimeRangeByRegex,
+            staticDimensions: staticDimensionsWithDefaultValue,
+            dualRangeSlider: time.dualRangeSlider || false
+        };
+
+    attrs.time = {...time, ...timeData};
+    timeData.layerId = attrs.id;
+    store.commit("Modules/WmsTime/addTimeSliderObject", {keyboardMovement: attrs.keyboardMovement, ...timeData});
+
+    return defaultValue;
 };
 
 /**
@@ -311,9 +462,15 @@ Layer2dRasterWmsTimeLayer.prototype.prepareTime = function (attrs) {
  */
 Layer2dRasterWmsTimeLayer.prototype.removeLayer = function (layerId) {
     // If the swiper is active, two WMS-T are currently active
-    if (store.getters["Modules/WmsTime/layerSwiper"].active) {
+    if (store.getters["Modules/WmsTime/timeSlider"].active) {
         if (!layerId.endsWith(store.getters["Modules/WmsTime/layerAppendix"])) {
-            this.setIsSelected(true);
+            store.dispatch("replaceByIdInLayerConfig", {layerConfigs: [{
+                id: layerId,
+                layer: {
+                    visibility: true,
+                    showInLayerTree: true
+                }
+            }]});
         }
         store.dispatch("Modules/WmsTime/toggleSwiper", layerId);
     }
@@ -323,14 +480,38 @@ Layer2dRasterWmsTimeLayer.prototype.removeLayer = function (layerId) {
 };
 
 /**
+ * Retrieves the configured static dimensions from wms-time layer.
+ * @param {String[]} staticDimensionsNames The static dimensions names.
+ * @param {HTMLCollection} layerNode The layernode from getCapabilities.
+ * @returns {Object[]} The static dimensions.
+ */
+Layer2dRasterWmsTimeLayer.prototype.retrieveStaticDimensions = function (staticDimensionsNames, layerNode) {
+    const staticDimensions = [];
+
+    staticDimensionsNames.forEach(staticDimensionName => {
+        const xmlstaticDimension = layerNode.querySelector(`Dimension[name="${staticDimensionName}"]`);
+
+        if (xmlstaticDimension) {
+            staticDimensions.push(this.retrieveAttributeValues(xmlstaticDimension));
+        }
+        else {
+            console.warn(`No dimension "${staticDimensionName}" could be found! Please check your configuration.`);
+        }
+    });
+
+    return staticDimensions;
+};
+
+/**
  * Retrieves wmsTime-related entries from GetCapabilities layer specification.
  * @param {String} xmlCapabilities GetCapabilities XML response
  * @param {String} layerName name of layer to use
  * @param {Object} timeSpecification may contain "dimensionName" and "extentName"
- * @returns {Object} dimension and extent of layer
+ * @returns {Object} dimension, extent and staticDimensions of layer
  */
 Layer2dRasterWmsTimeLayer.prototype.retrieveTimeData = function (xmlCapabilities, layerName, timeSpecification) {
     const {dimensionName, extentName} = timeSpecification,
+        staticDimensionsNames = typeof timeSpecification.staticDimensions === "object" ? Object.keys(timeSpecification.staticDimensions) : [],
         xmlDocument = new DOMParser().parseFromString(xmlCapabilities, "text/xml"),
         layerNode = [
             ...xmlDocument.querySelectorAll("Layer > Name")
@@ -338,9 +519,10 @@ Layer2dRasterWmsTimeLayer.prototype.retrieveTimeData = function (xmlCapabilities
         xmlDimension = layerNode.querySelector(`Dimension[name="${dimensionName}"]`),
         xmlExtent = layerNode.querySelector(`Extent[name="${extentName}"]`),
         dimension = xmlDimension ? this.retrieveAttributeValues(xmlDimension) : null,
-        extent = xmlExtent ? this.retrieveAttributeValues(xmlExtent) : null;
+        extent = xmlExtent ? this.retrieveAttributeValues(xmlExtent) : null,
+        staticDimensions = this.retrieveStaticDimensions(staticDimensionsNames, layerNode);
 
-    return {dimension, extent};
+    return {dimension, extent, staticDimensions};
 };
 
 /**
@@ -357,10 +539,22 @@ Layer2dRasterWmsTimeLayer.prototype.setIsVisibleInMap = function (newValue) {
  * Updates the time parameter of the WMS-T if the id of the layer is correct.
  * @param {String} id Unique Id of the layer to update.
  * @param {String} newValue New TIME value of the WMS-T.
+ * @param {Object} [staticDimensions={}] The static dimensions.
  * @returns {void}
  */
-Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue) {
+Layer2dRasterWmsTimeLayer.prototype.updateTime = function (id, newValue, newValueEnd = null, staticDimensions = {}) {
     if (id === this.get("id")) {
-        this.getLayerSource().updateParams({"TIME": newValue});
+        const value = newValueEnd !== null ? newValue + "/" + newValueEnd : newValue,
+            dimensionParams = {
+                "TIME": value,
+                ...staticDimensions
+            };
+
+        this.getLayerSource().updateParams(dimensionParams);
+        this.getLayer().setVisible(true);
+
+        if (store.getters["Modules/GetFeatureInfo/visible"] === true) {
+            store.dispatch("Modules/GetFeatureInfo/collectGfiFeatures");
+        }
     }
 };

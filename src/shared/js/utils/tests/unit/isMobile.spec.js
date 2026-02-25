@@ -1,4 +1,4 @@
-import isMobile from "../../isMobile.js";
+import isMobile from "@shared/js/utils/isMobile.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/isMobile.js", () => {

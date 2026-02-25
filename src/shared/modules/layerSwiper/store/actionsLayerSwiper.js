@@ -1,5 +1,6 @@
-import {getRenderPixel} from "ol/render";
-import getPosition from "../utils/getPosition";
+import {getRenderPixel} from "ol/render.js";
+import getPosition from "@shared/modules/layerSwiper/utils/getPosition.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 /**
  * The actions for the LayerSwiper.
@@ -7,13 +8,13 @@ import getPosition from "../utils/getPosition";
  */
 const actions = {
     /**
-     * Sets the position of the layerSwiper to state according to the x- or y-coordinate of the mousedown event
+     * Sets the position of the layerSwiper to state according to the x- or y-coordinate of the PointerEvent
      * or adjusts it based on the direction of the key pressed by the state defined value.
      * @param {Object} context - The Vuex context object.
      * @param {Object} context.state - The Vuex state object.
      * @param {Function} context.commit - The Vuex commit function.
      * @param {Function} context.dispatch - The Vuex dispatch function.
-     * @param {KeyboardEvent|MouseEvent} event - The DOM event.
+     * @param {(KeyboardEvent|PointerEvent)} event - The DOM event.
      * @returns {void}
      */
     moveSwiper ({state, commit, dispatch}, event) {
@@ -41,21 +42,38 @@ const actions = {
      * @returns {void}
      */
     async updateMap ({state, rootGetters, dispatch}) {
+        const targetLayer = layerCollection.getLayerById(state.targetLayerId),
+            sourceLayer = layerCollection.getLayerById(state.sourceLayerId);
+
         if (!rootGetters["Modules/WmsTime/TimeSlider/playing"]) {
             await mapCollection.getMap(rootGetters["Maps/mode"]).render();
         }
-        state.targetLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.targetLayer?.getLayer().once("postrender", ({context}) => {
-            context.restore();
-        });
 
-        state.sourceLayer?.getLayer().once("prerender", renderEvent => dispatch("drawLayer", renderEvent));
-        state.sourceLayer?.getLayer().once("postrender", ({context}) => {
-            context.restore();
-            if (!state.active) {
-                mapCollection.getMap(rootGetters["Maps/mode"]).render();
-            }
-        });
+        if (targetLayer && !targetLayer?._onPrerenderListener && !targetLayer?._onPostrenderListener) {
+            targetLayer._onPrerenderListener = renderEvent => {
+                dispatch("drawLayer", renderEvent);
+            };
+
+            targetLayer._onPostrenderListener = ({context}) => {
+                context.restore();
+            };
+
+            targetLayer.getLayer().on("prerender", targetLayer._onPrerenderListener);
+            targetLayer.getLayer().on("postrender", targetLayer._onPostrenderListener);
+        }
+
+        if (sourceLayer && !sourceLayer?._onPrerenderListener && !sourceLayer?._onPostrenderListener) {
+            sourceLayer._onPrerenderListener = renderEvent => {
+                dispatch("drawLayer", renderEvent);
+            };
+
+            sourceLayer._onPostrenderListener = ({context}) => {
+                context.restore();
+            };
+
+            sourceLayer.getLayer().on("prerender", sourceLayer._onPrerenderListener);
+            sourceLayer.getLayer().on("postrender", sourceLayer._onPostrenderListener);
+        }
     },
 
     /**
@@ -67,6 +85,10 @@ const actions = {
  * @returns {void}
  */
     drawLayer ({state, rootGetters}, renderEvent) {
+        if (!state.sourceLayerId && !state.targetLayerId) {
+            return;
+        }
+
         const {context} = renderEvent,
             mapSize = mapCollection.getMap(rootGetters["Maps/mode"]).getSize(),
             isSecondLayer = renderEvent.target.get("id").endsWith(rootGetters["Modules/WmsTime/layerAppendix"]);

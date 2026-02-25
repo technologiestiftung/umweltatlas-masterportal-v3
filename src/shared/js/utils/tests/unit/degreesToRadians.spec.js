@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import degreesToRadians from "../../degreesToRadians";
+import degreesToRadians from "@shared/js/utils/degreesToRadians.js";
 
 describe("src/utils/degreesToRadians.js", () => {
     describe("degreesToRadians", () => {

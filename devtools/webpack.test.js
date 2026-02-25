@@ -33,16 +33,55 @@ module.exports = {
     // },
     resolve: {
         alias: {
-            vue: "vue/dist/vue.esm-bundler.js"
+            vue: "vue/dist/vue.esm-bundler.js",
+            // Custom path aliases to simplify imports across the project.
+            // Make sure these aliases are also configured in jsconfig.json for proper IDE support.
+            // NOTE: Aliases are defined manually here to ensure test environment resolves paths correctly.
+            "@vue/compiler-dom": "@vue/compiler-dom/dist/compiler-dom.cjs.js",
+            "@vue/compiler-core": "@vue/compiler-core/dist/compiler-core.cjs.js",
+            "@appstore": path.resolve(__dirname, "../src/app-store"),
+            "@shared": path.resolve(__dirname, "../src/shared"),
+            "@core": path.resolve(__dirname, "../src/core"),
+            "@modules": path.resolve(__dirname, "../src/modules"),
+            "@plugins": path.resolve(__dirname, "../src/plugins"),
+            "@devtools": path.resolve(__dirname, "../devtools"),
+            "@masterportal/masterportalapi$": path.resolve(__dirname, "../node_modules/@masterportal/masterportalapi/src"),
+            "@masterportal/masterportalapi": path.resolve(__dirname, "../node_modules/@masterportal/masterportalapi")
         },
-        extensions: [".tsx", ".ts", ".js"]
+        extensions: [".tsx", ".ts", ".js", ".mjs", ".cjs"]
     },
-    externals: [
-        "utf-8-validate",
-        "bufferutil"
+    externals: [{
+        "utf-8-validate": "commonjs2 utf-8-validate",
+        "bufferutil": "commonjs2 bufferutil",
+        "css-tree": "commonjs2 css-tree"
+    },
+    function (context, request, callback) {
+        if ((/^jsdom(\/|$)/).test(request)) {
+            return callback(null, "commonjs2 " + request);
+        }
+        return callback();
+    }
     ],
     module: {
         rules: [
+            {
+                // Transpile @csstools/* and @asamuzakjp/css-color (CJS/MJS/JS) to strip modern class fields for Webpack 4
+                test: /\.(cjs|mjs|js)$/,
+                include: [
+                    /[\\/]node_modules[\\/]@csstools[\\/]css-tokenizer[\\/]/,
+                    /[\\/]node_modules[\\/]@csstools[\\/]css-parser-algorithms[\\/]/,
+                    /[\\/]node_modules[\\/]@csstools[\\/]css-color-parser[\\/]/,
+                    /[\\/]node_modules[\\/]@csstools[\\/]css-calc[\\/]/,
+                    /[\\/]node_modules[\\/]@asamuzakjp[\\/]css-color[\\/]/
+                ],
+                loader: "esbuild-loader",
+                options: {
+                    loader: "js",
+                    target: "es2018",
+                    format: "cjs",
+                    platform: "node"
+                }
+            },
             {
                 test: /\.js$/,
                 exclude: /\bturf\b|\bjsts\b/,
@@ -106,9 +145,27 @@ module.exports = {
                 ]
             },
             {
+                test: /\.m?js$/,
+                include: [
+                    /[\\/]node_modules[\\/]@vue[\\/]test-utils[\\/]/,
+                    /[\\/]node_modules[\\/]@vue[\\/]devtools-api[\\/]/
+                ],
+                loader: "esbuild-loader",
+                options: {
+                    loader: "js",
+                    target: "es2018",
+                    format: "cjs",
+                    platform: "node"
+                }
+            },
+            {
                 test: /\.mjs$/,
                 include: /node_modules/,
                 type: "javascript/auto"
+            },
+            {
+                test: /@vue[\\/]server-renderer/,
+                use: "null-loader"
             }
         ]
     },
@@ -116,16 +173,22 @@ module.exports = {
         hints: false
     },
     plugins: [
+        new webpack.NormalModuleReplacementPlugin(
+            /^zstddec\/stream$/,
+            "zstddec"
+        ),
         new webpack.ProvidePlugin({
             i18next: ["i18next/dist/cjs/i18next.js"],
             mapCollection: [path.resolve(path.join(__dirname, "../src/core/maps/js/mapCollection.js")), "default"],
             Config: path.resolve(__dirname, "../devtools/tests/testConfig")
         }),
         new VueLoaderPlugin(),
-        new webpack.IgnorePlugin(/canvas/, /jsdom$/),
+        new webpack.IgnorePlugin({resourceRegExp: /^canvas$/}),
+        new webpack.IgnorePlugin(/^@asamuzakjp\/dom-selector$/),
         new webpack.DefinePlugin({
             __VUE_OPTIONS_API__: true,
             __VUE_PROD_DEVTOOLS__: false,
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
             VUE_ADDONS: JSON.stringify({
                 AddonControl: {
                     entry: "controls/addonControl/index.js",

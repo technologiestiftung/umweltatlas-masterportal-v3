@@ -1,4 +1,4 @@
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 
 /**
  * Clones, checks and modifies the given original layers to match the needs of Filter.
@@ -19,7 +19,8 @@ function compileLayers (originalLayerGroups, originalLayers, FilterApi) {
         prepareLayers(layersOfGroup, nextFilter, FilterApi);
         groups.push({
             title: group.title,
-            layers: layersOfGroup
+            layers: layersOfGroup,
+            collapseButtons: group.collapseButtons
         });
         nextFilterId = layersOfGroup.length > 0 ?
             layersOfGroup[layersOfGroup.length - 1].filterId + 1 :

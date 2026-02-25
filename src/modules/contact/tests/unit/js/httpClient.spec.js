@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import axios from "axios";
 
-import httpClientModule from "../../../js/httpClient";
+import httpClientModule from "@modules/contact/js/httpClient.js";
 
 describe("src/modules/contact/js/httpClient", function () {
     describe("httpClient", function () {

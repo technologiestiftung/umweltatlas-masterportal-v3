@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import Feature from "ol/Feature";
-import Polygon from "ol/geom/Polygon";
-import calculateExtent from "../../calculateExtent.js";
+import Feature from "ol/Feature.js";
+import Polygon from "ol/geom/Polygon.js";
+import calculateExtent from "@shared/js/utils/calculateExtent.js";
 
 describe("src/shared/js/utils/calculateExtent.js", () => {
     const features = [];

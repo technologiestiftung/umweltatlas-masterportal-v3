@@ -1,83 +1,63 @@
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
-import {convertJsonToCsv} from "../../../js/utils/convertJsonToCsv.js";
+import {convertJsonToCsv} from "@shared/js/utils/convertJsonToCsv.js";
 import {
     createCsvBlob,
     downloadBlobPerNavigator,
     downloadBlobPerHTML5
 } from "../js/exportButtonUtils.js";
 
-export default {
-    name: "ExportButtonCSV",
-    props: {
-        /**
-         * the title to use, can be an i18next string
-         */
-        title: {
-            type: String,
-            required: false,
-            default: "common:shared.modules.buttons.download"
-        },
-        /**
-         * first case: "data"
-         * - hand over an Array of Arrays with any values [[1, 2], [3, 4]] to create a csv file "1,2\r\n3,4"
-         * - or hand over an Array of Objects, using the keys as csv header [{a: 1, b: 2}, {a: 3, b: 4}] to create a csv file "a,b\r\n1,2\r\n3,4"
-         * - if no filename is given using first case "data", the default filename is hard coded to "download" (+ postfixFormat)
-         */
-        data: {
-            type: [Object, Boolean],
-            required: false,
-            default: false
-        },
-        /**
-         * second case: "handler"
-         * - hand over a handler to hand over data to as function(onsuccess) where the handler is called on export button click and onsuccess shall be called when the data with the available data as onsuccess(data)
+
+/**
+ * ExportButtonCSV component: A component for handling, preparing and downloading Data in the csv format. The data to be downloaded can be specified in 3 different ways, either as a data-Object containing the raw data in either an Array or Object-Format
+ * @module shared/modules/buttons/ExportButtonCSV
+ * @vue-prop {String} title is the label of the Button. An i18next-String can be used for internationalization.
+ * @vue-prop {[Object, Boolean]} data is the data to be downloaded, provided as either an Array or an Array of Objects. In the latter case, the keys of the objects are used as csv Headers, e.g. [{a: 1, b: 2}, {a: 3, b: 4}] to create a csv file "a,b\r\n1,2\r\n3,4"
+ * @vue-prop {function, boolean} handler - a handler function can be passed to provide the downloadable data as well. the handler is called on export button click and onsuccess shall be called when the data with the available data as onsuccess(data)
          * e.g.: handler = onsuccess => {
          *   // do stuff and create the data here
          *   // than start download as csv file by handing over data to exportButton via onsuccess
          *   onsuccess(data);
          * }
-         */
+ * @vue-prop {String, Boolean} url can used to provide the data through an url. This way filename can be used to rename the file to be downloaded. If  filename is set to false it triggers a direct download of the csv file.
+ * @vue-prop {String, Boolean} filename sets the prefix of the filename. Can be set to false to use the filename of the url download or "download" in  other cases.
+ * @vue-prop {String} postfixFormat sets the dayjs format to be used as a postfix for filename. Only used if filename is not a boolean value.
+ * @vue-prop {Boolean} useSemicolon can be set to use a semicolon instead of a comma as delimiter.
+ */
+export default {
+    name: "ExportButtonCSV",
+    props: {
+        title: {
+            type: String,
+            required: false,
+            default: "common:shared.modules.buttons.download"
+        },
+        data: {
+            type: [Object, Boolean],
+            required: false,
+            default: false
+        },
         handler: {
             type: [Function, Boolean],
             required: false,
             default: false
         },
-        /**
-         * third case: "url"
-         * - give an url to download a csv file with and use filename to rename the file
-         * - set filename to false to trigger a direct download of the csv file
-         */
         url: {
             type: [String, Boolean],
             required: false,
             default: false
         },
-        /**
-         * the prefix to use for the filename, set to false to use filename of url download (third case) or "download" in first and second case
-         * - in case of a given url, this will trigger download in the background and renaming of the file
-         * - set postfixFormat to "" to use filename without postfixFormat
-         * - set filename and postfixFormat to "" to download a file named ".csv"
-         */
         filename: {
             type: [String, Boolean],
             required: false,
             default: false
         },
-        /**
-         * if a filename is given as any string, dayjs is used to create a postfix
-         * - set the dayjs format here to alter the postfix
-         * - will only be used if filename is set to string
-         */
         postfixFormat: {
             type: String,
             required: false,
             default: "_YYYY-MM-DD_HH-mm-ss"
         },
-        /**
-         * Decides if semicolon is used as delimiter for the data in csv
-         */
         useSemicolon: {
             type: Boolean,
             required: false,
@@ -271,30 +251,28 @@ export default {
     <button
         v-if="!downloadDisabled"
         type="button"
-        class="btn btn-primary exportButton"
+        :class="['btn', 'exportButton']"
         @click="download()"
     >
-        <span
-            id="bootstrap-icon"
-            class="bootstrap-icon"
-        >
+        <span class="bootstrap-icon">
             <i class="bi-cloud-arrow-down-fill" />
         </span>
-        {{ $t(title) }}
+        <span class="btn-texts">
+            {{ $t(title) }}
+        </span>
     </button>
     <button
         v-else
         type="button"
-        class="btn btn-primary exportButton"
+        :class="['btn', 'exportButton']"
         disabled
     >
-        <span
-            id="bootstrap-icon"
-            class="bootstrap-icon spin-animation"
-        >
+        <span class="bootstrap-icon spin-animation">
             <i class="bi-cloud-arrow-down-fill" />
         </span>
-        {{ $t(title) }}
+        <span class="btn-texts">
+            {{ $t(title) }}
+        </span>
     </button>
 </template>
 
@@ -310,6 +288,12 @@ export default {
 
     .exportButton {
         outline:none;
+        padding-right: 1.5rem;
+        padding-left: 1rem;
+        .btn-texts {
+            white-space: normal;
+            margin-left: .5rem;
+        }
     }
     .exportButton > .spin-animation {
         animation: exportButtonLoaderSpinAnimation 1s 0.1s ease-in-out infinite both;

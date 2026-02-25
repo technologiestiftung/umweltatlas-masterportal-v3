@@ -1,5 +1,5 @@
-import {generateSimpleGetters} from "../../../js/utils/generators";
-import stateLayerPreview from "./stateLayerPreview";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import stateLayerPreview from "./stateLayerPreview.js";
 
 const getters = {
     /**

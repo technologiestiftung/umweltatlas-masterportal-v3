@@ -1,6 +1,6 @@
 
-import {wms} from "@masterportal/masterportalapi";
-import Layer2dRaster from "./layer2dRaster";
+import {wms} from "@masterportal/masterportalapi/src/index.js";
+import Layer2dRaster from "./layer2dRaster.js";
 
 /**
  * Creates a 2d raster wms (Web Map Service) layer.
@@ -47,7 +47,7 @@ Layer2dRasterWms.prototype.createLayer = function (attributes) {
             this.requestCapabilitiesToFitExtent();
         }
     }
-    this.setLayer(wms.createLayer(rawLayerAttributes, layerParams, options));
+    this.setLayer(wms.createLayer(rawLayerAttributes, {layerParams, options}));
 };
 
 /**
@@ -90,6 +90,7 @@ Layer2dRasterWms.prototype.getLayerParams = function (attributes) {
         gfiAsNewWindow: attributes.gfiAsNewWindow,
         gfiAttributes: attributes.gfiAttributes,
         gfiTheme: attributes.gfiTheme,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         infoFormat: attributes.infoFormat,
         layers: attributes.layers,
         name: attributes.name,
@@ -97,7 +98,8 @@ Layer2dRasterWms.prototype.getLayerParams = function (attributes) {
         typ: attributes.typ,
         zIndex: attributes.zIndex,
         featureCount: attributes.featureCount,
-        gfiThemeSettings: attributes.gfiThemeSettings // for accessing additional theme settings
+        gfiThemeSettings: attributes.gfiThemeSettings, // for accessing additional theme settings
+        useFetchForWMS: Config.overwriteWmsLoadfunction === true // Used to overwrite the global wms load function
     };
 };
 

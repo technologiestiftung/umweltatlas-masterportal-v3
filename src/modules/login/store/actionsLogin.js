@@ -1,7 +1,21 @@
-import Cookie from "../js/utilsCookies";
-import OIDC from "../js/utilsOIDC";
+import Cookie from "../js/utilsCookies.js";
+import OIDC from "../js/utilsOIDC.js";
 
 export default {
+    /**
+     * Starts a timer to periodically check if the user is still logged in
+     * @param {Object} context the context Vue instance
+     * @return {void}
+     */
+    async setUpTokenRefreshInterval ({dispatch}) {
+        // Initial check
+        await dispatch("checkLoggedIn");
+        // Set up interval periodically check
+        setInterval(() => {
+            dispatch("checkLoggedIn");
+        }, 10_000);
+    },
+
     /**
      * Returns authentication URL
      *
@@ -53,33 +67,30 @@ export default {
      * @param {Object} context the context Vue instance
      * @return {Boolean} logged in
      */
-    checkLoggedIn ({commit, dispatch}) {
-
+    async checkLoggedIn ({commit, dispatch}) {
         const config = Config.login,
             token = Cookie.get("token"),
-            refreshToken = Cookie.get("refresh_token");
+            refreshToken = Cookie.get("refresh_token"),
+            loggedIn = Boolean(token);
 
-        let loggedIn = false;
-
+        // Set login props immediately based on token presence
+        commit("setIcon", loggedIn ? "bi-door-closed" : "bi-door-open");
+        commit("setName", loggedIn ? "common:modules.login.logout" : "common:modules.login.login");
 
         commit("setAccessToken", token);
         commit("setRefreshToken", refreshToken);
 
         if (OIDC.getTokenExpiry(token) < 1) {
-            dispatch("logout");
+            await dispatch("logout");
             return false;
         }
 
-        OIDC.renewTokenIfNecessary(token, refreshToken, config);
-
-        loggedIn = Boolean(token);
+        await OIDC.renewTokenIfNecessary(token, refreshToken, config);
 
         commit("setLoggedIn", loggedIn);
-
         commit("setScreenName", Cookie.get("name"));
         commit("setUsername", Cookie.get("username"));
         commit("setEmail", Cookie.get("email"));
-
         return loggedIn;
     }
 };

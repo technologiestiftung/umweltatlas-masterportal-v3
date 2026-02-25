@@ -1,9 +1,9 @@
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 import {nextTick} from "vue";
-import isObject from "../../../shared/js/utils/isObject.js";
-import LayerGroup from "ol/layer/Group";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import isObject from "@shared/js/utils/isObject.js";
+import LayerGroup from "ol/layer/Group.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 /**
  * The MapHandler has control over OL and the Map.
@@ -92,6 +92,7 @@ export default class MapHandler {
                         layerModel = layer;
                     }
                 });
+
                 store.dispatch("replaceByIdInLayerConfig", {
                     layerConfigs: [{
                         id: layerConfig.id,
@@ -177,6 +178,8 @@ export default class MapHandler {
             return;
         }
 
+        layerConfig.zIndex = store.getters.determineZIndex(layerConfig.id);
+
         if (!this.isLayerActivated(filterId) && !layerSource?.getFeatures().length > 0) {
             layerConfig.visibility = true;
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
@@ -184,7 +187,7 @@ export default class MapHandler {
             nextTick(() => {
                 layerModel = layerCollection.getLayerById(layerConfig.id);
                 layerSource = typeof layerModel?.layer?.getSource()?.getSource === "function" && layerConfig.clusterDistance > 0 ? layerModel.layer.getSource().getSource() : layerModel?.layer?.getSource();
-                (layerConfig.typ === "SensorThings" ? layerModel : layerSource).once("featuresloadend", () => {
+                layerSource.once("featuresloadend", () => {
                     if (typeof onActivated === "function") {
                         onActivated();
                     }
@@ -193,10 +196,12 @@ export default class MapHandler {
 
             });
             layerConfig.showInLayerTree = true;
+
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
         }
         else if (!this.isLayerActivated(filterId)) {
             layerConfig.showInLayerTree = true;
+
             store.dispatch("replaceByIdInLayerConfig", layerConfig);
             if (typeof onActivated === "function") {
                 onActivated();
@@ -460,6 +465,7 @@ export default class MapHandler {
         if (!isObject(wfsLayerModel) || typeof wfsLayerModel.get !== "function") {
             return;
         }
+
         store.dispatch("replaceByIdInLayerConfig", {
             layerConfigs: [{
                 id: filterId,

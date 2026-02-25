@@ -1,11 +1,12 @@
-import Cluster from "ol/source/Cluster";
+import Cluster from "ol/source/Cluster.js";
 import axios from "axios";
 
-import store from "../../../app-store";
-import Layer from "./layer";
-import {boundingExtent} from "ol/extent";
-import crs from "@masterportal/masterportalapi/src/crs";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
+import store from "@appstore/index.js";
+import Layer from "./layer.js";
+import {boundingExtent} from "ol/extent.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
+import {Group as LayerGroup} from "ol/layer.js";
 
 /**
  * Creates a 2d layer.
@@ -80,6 +81,11 @@ Layer2d.prototype.updateLayerValues = function (attributes) {
     this.getLayer()?.setOpacity((100 - attributes.transparency) / 100);
     this.getLayer()?.setVisible(attributes.visibility);
     this.getLayer()?.setZIndex(attributes.zIndex);
+    if (this.getLayer() instanceof LayerGroup) {
+        this.getLayer().getLayers().getArray().forEach(layer => {
+            layer.setZIndex(attributes.zIndex);
+        });
+    }
     this.controlAutoRefresh(attributes);
 
     if (attributes.fitCapabilitiesExtent && attributes.visibility && !attributes.encompassingBoundingBox) {
@@ -269,19 +275,19 @@ Layer2d.prototype.errorHandling = function (errorCode, layerName) {
             + linkMetadata;
 
         store.dispatch("Alerting/addSingleAlert", {content: alertingContent, multipleAlert: true});
-    }
-    store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
-        store.dispatch("replaceByIdInLayerConfig", {
-            layerConfigs: [{
-                id: this.attributes.id,
-                layer: {
+        store.watch((state, getters) => getters["Alerting/showTheModal"], showTheModal => {
+            store.dispatch("replaceByIdInLayerConfig", {
+                layerConfigs: [{
                     id: this.attributes.id,
-                    visibility: showTheModal,
-                    showInLayerTree: false
-                }
-            }]
-        }, {root: true});
-    });
+                    layer: {
+                        id: this.attributes.id,
+                        visibility: showTheModal,
+                        showInLayerTree: false
+                    }
+                }]
+            }, {root: true});
+        });
+    }
 };
 
 

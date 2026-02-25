@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import chartProcessor from "../../../js/chartProcessor";
+import chartProcessor from "@modules/statisticDashboard/js/chartProcessor.js";
 
 describe("src/modules/statisticDashboard/utils/chartProcessor.js", () => {
     describe("parsePreparedDataToLineChartFormat", () => {

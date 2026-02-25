@@ -1,15 +1,11 @@
-const replace = require("replace-in-file"),
-    path = require("path"),
-    rootPath = path.resolve(__dirname, "../../"),
-    mastercodeVersionFolderName = require(path.resolve(rootPath, "devtools/tasks/getMastercodeVersionFolderName"))().split(path.sep).join("/");
+const {replaceInFileSync} = require("replace-in-file");
 
-
-module.exports = function (destination) {
+module.exports = function (destination, mastercodeVersionFolderName) {
     const replacements = [
         {
             "files": destination + "/js/masterportal.js",
             "from": /\/src\/assets\/img\/tools\/draw\/circle_/g,
-            "to": "/mastercode/" + mastercodeVersionFolderName + "/src/assets/img/tools/draw/circle_"
+            "to": "/mastercode/" + mastercodeVersionFolderName + "/img/tools/draw/circle_"
         },
         {
             "files": destination + "/index.html",
@@ -39,7 +35,7 @@ module.exports = function (destination) {
     ];
 
     replacements.forEach(function (replacement) {
-        replace.sync({
+        replaceInFileSync({
             files: replacement.files,
             from: replacement.from,
             to: replacement.to

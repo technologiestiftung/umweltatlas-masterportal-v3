@@ -1,9 +1,7 @@
 <script>
 import draggable from "vuedraggable";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-
 import Layer from "./LayerComponent.vue";
-import {sortObjects} from "../../../shared/js/utils/sortObjects";
 
 /**
  * Representation of a node in layertree containing folders or layers.
@@ -19,12 +17,14 @@ export default {
     },
     data () {
         return {
-            isOpen: false
+            isOpen: false,
+            sortedByLayerSequence: false,
+            firstDrag: false
         };
     },
     computed: {
         ...mapGetters(["portalConfig", "allLayerConfigs", "layerConfigsByAttributes", "showLayerAddButton"]),
-        ...mapGetters("Modules/LayerTree", ["delay", "delayOnTouchOnly", "removeOnSpill", "touchStartThreshold"]),
+        ...mapGetters("Modules/LayerTree", ["delay", "delayOnTouchOnly", "removeOnSpill", "touchStartThreshold", "layerTreeSortedLayerConfigs"]),
 
         /**
          * v-model for sorted layerConfig.
@@ -35,17 +35,7 @@ export default {
              * @returns {void}
              */
             get () {
-                let sortedLayerConfig;
-
-                if (this.showLayerAddButton) {
-                    sortedLayerConfig = this.layerConfigsByAttributes({showInLayerTree: true});
-                }
-                else {
-                    sortedLayerConfig = this.allLayerConfigs;
-                }
-                sortObjects(sortedLayerConfig, "zIndex", "desc");
-
-                return sortedLayerConfig;
+                return this.layerTreeSortedLayerConfigs(!this.firstDrag);
             },
             /**
              * Sets the changed layer Configs order.
@@ -54,6 +44,8 @@ export default {
              */
             set (changedLayerConfig) {
                 let configLength = changedLayerConfig.length;
+
+                this.sortedByLayerSequence = true;
 
                 changedLayerConfig.forEach(conf => {
                     conf.zIndex = --configLength;
@@ -98,6 +90,49 @@ export default {
             if (this.showLayerAddButton) {
                 this.removeLayer(this.sortedLayerConfig[event.oldIndex]);
             }
+        },
+
+        /**
+         * Hides the tooltip of dragged layer.
+         * Ensures that the dragged layer won't be removed via onSpill when dropped onto its tooltip.
+         *
+         * @param {Event} event The drag start event.
+         * @returns {void}
+         */
+        hideTooltip (event) {
+            const tooltipId = event.item.querySelector(".layer-checkbox-tooltip").getAttribute("aria-describedby");
+
+            if (tooltipId) {
+                document.getElementById(tooltipId).style.display = "none";
+            }
+        },
+
+        /**
+         * Validates the movement of a dragged layer to a target layer.
+         * Ensures that base layers cannot be moved above non-base layers and vice versa.
+         *
+         * @param {Object} event - The event object containing information about the drag-and-drop operation.
+         * @return {boolean} Returns true if the move is valid; otherwise, returns false.
+         */
+        checkMove (event) {
+            if (this.portalConfig.tree.allowBaselayerDrag !== false) {
+                this.firstDrag = true;
+                return true;
+            }
+
+            const draggedLayer = event.draggedContext.element,
+                targetLayer = event.relatedContext.element;
+
+            if (draggedLayer.baselayer && !targetLayer.baselayer) {
+                return false;
+            }
+
+            if (!draggedLayer.baselayer && targetLayer.baselayer) {
+                return false;
+            }
+            this.firstDrag = true;
+
+            return true;
         }
     }
 };
@@ -118,6 +153,8 @@ export default {
         :remove-on-spill="removeOnSpill"
         :touch-start-threshold="touchStartThreshold"
         :onSpill="removeLayerOnSpill"
+        :move="checkMove"
+        @start="hideTooltip"
     >
         <template #item="{ element }">
             <li>

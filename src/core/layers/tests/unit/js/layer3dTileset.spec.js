@@ -1,19 +1,28 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer3dTileset from "../../../js/layer3dTileset";
-import layerCollection from "../../../js/layerCollection";
+import Layer3dTileset from "@core/layers/js/layer3dTileset.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import store from "@appstore/index.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 
 describe("src/core/js/layers/layer3dTileset.js", () => {
     let attributes,
         fromUrlSpy,
-        warn;
+        warn,
+        origGetters,
+        origDispatch,
+        style;
 
     before(() => {
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
+        origGetters = store.getters;
+        origDispatch = store.dispatch;
     });
 
     beforeEach(() => {
+        style = {};
         attributes = {
             id: "id",
             name: "tilesetLayer",
@@ -29,6 +38,10 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
         global.Cesium = {};
         global.Cesium.Cesium3DTileset = () => { /* no content*/ };
         global.Cesium.Cesium3DTileset.fromUrl = () => sinon.stub();
+        global.Cesium.Cesium3DTileset.tileset = Promise.resolve({
+            style: "Styling",
+            readyPromise: Promise.resolve(true)
+        });
 
         fromUrlSpy = sinon.spy(global.Cesium.Cesium3DTileset, "fromUrl");
     });
@@ -36,6 +49,8 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
     afterEach(() => {
         sinon.restore();
         global.Cesium = null;
+        store.getters = origGetters;
+        store.dispatch = origDispatch;
     });
 
     describe("createLayer", () => {
@@ -102,6 +117,49 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
             checkLayer(layer, layer3dTileset, attributes, done);
             expect(addToHiddenObjectsSpy.calledOnce).to.be.true;
             expect(addToHiddenObjectsSpy.firstCall.args[0]).to.be.deep.equals(attributes.hiddenFeatures);
+        });
+    });
+    describe("style funtions", () => {
+        it("initStyle shall be called on creation and call createStyle if styleListLoaded=true", function () {
+            const createStyleSpy = sinon.spy(Layer3dTileset.prototype, "createStyle");
+
+            store.getters = {
+                styleListLoaded: true
+            };
+            attributes.styleId = "styleId";
+            new Layer3dTileset(attributes);
+
+            expect(createStyleSpy.calledOnce).to.be.true;
+        });
+
+        it("initStyle shall be called on creation and not call createStyle if styleListLoaded=false", function () {
+            const createStyleSpy = sinon.spy(Layer3dTileset.prototype, "createStyle");
+
+            store.getters = {
+                styleListLoaded: false
+            };
+            attributes.styleId = "styleId";
+            new Layer3dTileset(attributes);
+
+            expect(createStyleSpy.notCalled).to.be.true;
+        });
+
+        it("createStyle shall set the style at attributes nd at tileset", async function () {
+            style = [["true", "color"]];
+            global.Cesium.Cesium3DTileStyle = sinon.stub().returns(style);
+            sinon.stub(createStyle, "createStyle").returns(style);
+            sinon.stub(styleList, "returnStyleObject").returns({});
+            let layer3d = null,
+                layerStyle = null,
+                tileset = null;
+
+            attributes.styleId = "styleId";
+            layer3d = new Layer3dTileset(attributes);
+            layer3d.createStyle(attributes);
+            layerStyle = layer3d.get("style");
+            tileset = await layer3d.layer.tileset;
+            expect(tileset.style).to.be.deep.equals([["true", "color"]]);
+            expect(layerStyle).to.be.deep.equals([["true", "color"]]);
         });
     });
     describe("setVisible", function () {
@@ -223,6 +281,110 @@ describe("src/core/js/layers/layer3dTileset.js", () => {
             tilesetLayer.setOpacity(0);
             expect(setOpacitySpy.calledOnce).to.be.true;
             expect(setOpacitySpy.firstCall.args[0]).to.be.equals(1);
+        });
+    });
+    describe("setCesiumSceneOptions", function () {
+        it("setCesiumSceneOptions updates the scene option depthTestAgainstTerrain of the cesium map to true", function () {
+            attributes.visibility = true;
+            const tilesetLayer = new Layer3dTileset(attributes),
+                dispatchCalls = {},
+                sceneOptions = {
+                    globe: {
+                        depthTestAgainstTerrain: false
+                    }
+                },
+                map = {
+                    getCesiumScene: () => {
+                        return {
+                            globe: {
+                                depthTestAgainstTerrain: true
+                            }
+                        };
+                    }
+                },
+                replaceByIdInLayerConfig = {
+                    layerConfigs: [{
+                        id: attributes.id,
+                        layer: {
+                            id: attributes.id,
+                            defaultDepthTestAgainstTerrain: {
+                                globe: {
+                                    depthTestAgainstTerrain: true
+                                }
+                            }
+                        }
+                    }]
+                };
+
+            store.dispatch = (action, payload) => {
+                dispatchCalls[action] = payload;
+            };
+            tilesetLayer.setCesiumSceneOptions(sceneOptions, map);
+            expect(dispatchCalls.replaceByIdInLayerConfig).to.deep.equal(replaceByIdInLayerConfig);
+        });
+        it("setCesiumSceneOptions updates the scene option depthTestAgainstTerrain of the cesium map to false and resets the defaultDepthTestAgainstTerrrain to undefined", function () {
+            attributes.visibility = true;
+            attributes.defaultDepthTestAgainstTerrain = {
+                globe: {
+                    depthTestAgainstTerrain: true
+                }
+            };
+            const tilesetLayer = new Layer3dTileset(attributes),
+                dispatchCalls = {},
+                sceneOptions = {
+                    globe: {
+                        depthTestAgainstTerrain: false
+                    }
+                },
+                map = {
+                    getCesiumScene: () => {
+                        return {
+                            globe: {
+                                depthTestAgainstTerrain: false
+                            }
+                        };
+                    }
+                },
+                replaceByIdInLayerConfig = {
+                    layerConfigs: [{
+                        id: attributes.id,
+                        layer: {
+                            id: attributes.id,
+                            defaultDepthTestAgainstTerrain: undefined
+                        }
+                    }]
+                };
+
+            store.dispatch = (action, payload) => {
+                dispatchCalls[action] = payload;
+            };
+            tilesetLayer.setCesiumSceneOptions(sceneOptions, map);
+            expect(dispatchCalls.replaceByIdInLayerConfig).to.deep.equal(replaceByIdInLayerConfig);
+        });
+        it("setCesiumSceneOptions doesn't update the scene options depthTestAgainstTerrain of the cesium map if defaultDepthTestAgainstTerrrain is undefined", function () {
+            attributes.visibility = true;
+            const tilesetLayer = new Layer3dTileset(attributes),
+                dispatchCalls = {},
+                sceneOptions = {
+                    globe: {
+                        depthTestAgainstTerrain: false
+                    }
+                },
+                map = {
+                    getCesiumScene: () => {
+                        return {
+                            globe: {
+                                depthTestAgainstTerrain: false
+                            }
+                        };
+                    }
+                };
+
+            store.dispatch = (action, payload) => {
+                dispatchCalls[action] = payload;
+            };
+            tilesetLayer.setCesiumSceneOptions(sceneOptions, map);
+            expect(Object.keys(dispatchCalls).length).to.be.equals(0);
         });
     });
     describe("featureExists", function () {

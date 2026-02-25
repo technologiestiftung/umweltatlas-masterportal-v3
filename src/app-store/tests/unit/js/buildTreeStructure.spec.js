@@ -1,8 +1,9 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import buildTreeStructure from "../../../js/buildTreeStructure.js";
-import {getAndMergeRawLayer, getAndMergeAllRawLayers} from "../../../js/getAndMergeRawLayer.js";
-import getNestedValues from "../../../../shared/js/utils/getNestedValues";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../../shared/js/utils/constants";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import buildTreeStructure from "@appstore/js/buildTreeStructure.js";
+import {getAndMergeRawLayer, getAndMergeAllRawLayers} from "@appstore/js/getAndMergeRawLayer.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -61,7 +62,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             [treeBaselayersKey]: {
                 elements: [
                     {
-                        "id": "452",
+                        "id": "34127",
                         "name": "Luftbilder DOP 20 (DOP 40 mit Umland)",
                         "visibility": true
                     },
@@ -97,7 +98,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
     describe("build", () => {
         it("should return the unchanged layerlist if no param is given", () => {
             const shortList = [{
-                "id": "452",
+                "id": "34127",
                 "name": "Luftbilder DOP 20 (DOP 40 mit Umland)",
                 "visibility": true
             },
@@ -132,7 +133,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInSecondFolders = result.elements[1].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
 
             expect(result.elements).to.be.an("array").to.have.lengthOf(2);
@@ -228,7 +229,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
 
             filteredResult = getNestedValues(result, "id").flat(Infinity);
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(filteredResult.indexOf("12883")).not.to.be.equals(-1);
             expect(filteredResult.indexOf("12884")).not.to.be.equals(-1);
@@ -271,7 +272,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             filteredResult = getNestedValues(result, "id").flat(Infinity);
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(filteredResult.indexOf("23555")).not.to.be.equals(-1);
             expect(result.elements[1].elements).to.be.an("array").to.have.lengthOf(1);
@@ -279,6 +280,85 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             expect(result.elements[1].elements[0].time).to.be.true;
             expect(result.elements[1].elements[0].name).to.be.equals(result.elements[1].elements[0].datasets[0].md_name);
         });
+
+        it("should return tree structured with empty category array", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = [];
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
+        it("should return tree structured with empty category string in array", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = [""];
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
+        it("should return tree structured with empty category String", () => {
+            let result = null;
+
+            layerList[0].datasets[0].kategorie_opendata = "";
+            result = buildTreeStructure.build(layerList, layerConfig, categories[0]);
+            result.elements.sort((a, b) => {
+                const nameA = a.name.toUpperCase(),
+                    nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            expect(result).to.be.an("object");
+            expect(result.elements[0].name).to.be.equals("common:modules.layerTree.noCategory");
+            expect(result.elements[0].elements[0].id).to.be.equals("95");
+
+            expect(result.elements[1].name).to.be.equals("Sonstiges");
+            expect(result.elements[2].name).to.be.equals("Umwelt und Klima");
+        });
+
 
         it("should return tree structured for second category", () => {
             let result = null,
@@ -304,7 +384,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInThirdFolders = result.elements[2].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(result.elements).to.be.an("array").to.have.lengthOf(3);
 
@@ -398,7 +478,7 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             layersInFourthFolders = result.elements[3].elements[0].elements.filter(el => el.type === "layer");
 
             expect(result).to.be.an("object");
-            expect(filteredResult.indexOf("452")).to.be.equals(-1);
+            expect(filteredResult.indexOf("34127")).to.be.equals(-1);
             expect(filteredResult.indexOf("453")).to.be.equals(-1);
             expect(folders).to.be.an("array").to.have.lengthOf(4);
 
@@ -519,6 +599,58 @@ describe("src/app-store/js/buildTreeStructure.js", () => {
             expect(folderConfig.elements[0].elements[3].parentId).to.be.equals(folderConfig.elements[0].id);
             expect(folderConfig.elements[0].elements[3].elements[0].id).to.be.equals("1103");
             expect(folderConfig.elements[0].elements[3].elements[0].parentId).to.be.equals(folderConfig.elements[0].elements[3].id);
+        });
+        it("should call getId once per folder", () => {
+            let previousId = 0,
+                nextId = 0;
+            const folderConfig = {
+                "name": "1",
+                "type": "folder",
+                "elements": [
+                    {
+                        "name": "1.1",
+                        "type": "folder",
+                        "elements": [
+                            {
+                                "name": "1.1.1",
+                                "type": "folder"
+                            },
+                            {
+                                "name": "1.1.2",
+                                "type": "folder"
+                            },
+                            {
+                                "name": "1.1.3",
+                                "type": "folder"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "1.2",
+                        "type": "folder",
+                        "elements": [
+                            {
+                                "name": "1.2.1",
+                                "type": "folder"
+                            },
+                            {
+                                "name": "1.2.2",
+                                "type": "folder"
+                            },
+                            {
+                                "name": "1.2.3",
+                                "type": "folder"
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            previousId = parseInt(uniqueId(""), 10);
+            sinon.stub(rawLayerList, "getLayerList").returns(layerList);
+            buildTreeStructure.setIdsAtFolders([folderConfig]);
+            nextId = parseInt(uniqueId(""), 10);
+            expect(nextId - previousId).to.be.equals(10);
         });
     });
 

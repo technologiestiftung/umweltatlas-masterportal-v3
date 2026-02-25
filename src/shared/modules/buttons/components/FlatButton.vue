@@ -1,13 +1,38 @@
 <script>
 import SpinnerItem from "../../spinner/components/SpinnerItem.vue";
 
+
+/**
+ * FlatButton component: A simple Button component.
+ * @module shared/modules/buttons/FlatButton
+ * @vue-prop {String} customclass can be used to give custom html-classes to the Button.
+ * @vue-prop {Boolean} disabled can be used to disable the buttons functionality.
+ * @vue-prop {String} icon can be used to attach a (bootstrap-)icon to the button that shows left of the buttons title.
+ * @vue-prop {Function} interaction provides the function to be called on click of the button.
+ * @vue-prop {Boolean} secondary - if true, the button will be styled in masterportals secondary colors.
+ * @vue-prop {Boolean} spinnerTrigger - if set to true, a loading spinner is shown during execution of the attached function.
+ * @vue-prop {String} text is used to set the label of the button.
+ * @vue-prop {String} type sets the type of button.
+ * @vue-prop {String} title defines the text shown in the tooltip of the button on hover.
+ */
 export default {
     name: "FlatButton",
     components: {SpinnerItem},
     props: {
-        text: {
+        customclass: {
             type: String,
-            required: true
+            default: null,
+            required: false
+        },
+        disabled: {
+            type: Boolean,
+            default: null,
+            required: false
+        },
+        icon: {
+            type: String,
+            default: null,
+            required: false
         },
         interaction: {
             type: Function,
@@ -16,9 +41,9 @@ export default {
                 return true;
             }
         },
-        icon: {
-            type: String,
-            default: null,
+        secondary: {
+            type: Boolean,
+            default: false,
             required: false
         },
         spinnerTrigger: {
@@ -26,20 +51,19 @@ export default {
             default: false,
             required: false
         },
+        text: {
+            type: String,
+            required: true
+        },
         type: {
             type: String,
             required: false,
             default: "button"
         },
-        customclass: {
+        title: {
             type: String,
-            default: null,
-            required: false
-        },
-        secondary: {
-            type: Boolean,
-            default: false,
-            required: false
+            required: false,
+            default: ""
         }
     }
 };
@@ -47,15 +71,16 @@ export default {
 
 <template>
     <button
-        class="flat-button btn btn-secondary d-flex align-items-center mb-3"
+        class="flat-button btn btn-secondary d-flex align-items-center custom-mb-3"
         :class="[
             customclass,
             secondary ? 'btn-scnd' : ''
         ]"
         :type="type"
         :aria-label="text"
+        :disabled="disabled"
+        :title="title"
         @click="interaction"
-        @keydown.enter="interaction"
     >
         <i
             v-if="icon !== null && !spinnerTrigger "
@@ -94,6 +119,10 @@ export default {
     .btn-texts {
         white-space: normal;
         margin-left: .5rem;
+    }
+
+    &.custom-mb-3 {
+        margin-bottom: 1rem;
     }
 }
 

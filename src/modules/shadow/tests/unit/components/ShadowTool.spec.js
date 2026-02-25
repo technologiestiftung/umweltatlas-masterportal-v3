@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import ShadowComponent from "../../../components/ShadowTool.vue";
+import ShadowComponent from "@modules/shadow/components/ShadowTool.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;

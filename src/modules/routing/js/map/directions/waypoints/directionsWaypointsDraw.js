@@ -1,11 +1,11 @@
 import {Draw} from "ol/interaction.js";
-import directionsWaypointsStyle from "./directionsWaypointsStyle";
-import directionsWaypointsSource from "./directionsWaypointsSource";
+import directionsWaypointsStyle from "./directionsWaypointsStyle.js";
+import directionsWaypointsSource from "./directionsWaypointsSource.js";
 
 export default new Draw({
     source: directionsWaypointsSource,
     type: "Point",
-    style: directionsWaypointsStyle
+    style: directionsWaypointsStyle,
     // allow only left click
-    // condition: e => e.pointerEvent.buttons === 1
+    condition: e => e.originalEvent.buttons === 1
 });

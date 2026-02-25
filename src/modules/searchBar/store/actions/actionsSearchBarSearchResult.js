@@ -1,11 +1,18 @@
-import markerHelper from "../../js/marker";
-import {treeSubjectsKey} from "../../../../shared/js/utils/constants";
-import WKTUtil from "../../../../shared/js/utils/getWKTGeom";
-import wmsGFIUtil from "../../../../shared/js/utils/getWmsFeaturesByMimeType";
-import {rawLayerList} from "@masterportal/masterportalapi/src";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import {trackMatomo} from "../../../../plugins/matomo";
-
+import markerHelper from "../../js/marker.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import WKTUtil from "@shared/js/utils/getWKTGeom.js";
+import wmsGFIUtil from "@shared/js/utils/getWmsFeaturesByMimeType.js";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import {trackMatomo} from "@plugins/matomo";
+import mapMarker from "@core/maps/js/mapMarker.js";
+import calculateScreenPosition from "../../js/calculateScreenPosition.js";
+import addInitialTilesLoadedListener from "../../js/addInitialTilesLoadedListener.js";
+import find3DPickedFeature from "@shared/js/utils/find3DPickedFeature.js";
+import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor.js";
+import applyTileStyle from "@shared/js/utils/applyTileStyle.js";
+import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight.js";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 
 /**
  * Contains actions that communicate with other components after an interaction, such as onClick or onHover, with a search result.
@@ -115,12 +122,31 @@ export default {
      * @param {Object} payload.hit The search result, must contain properties 'coordinate' as Array and 'geometryType'.
      * @returns {void}
      */
-    highlightFeature: ({dispatch}, {hit}) => {
-        let feature = WKTUtil.getWKTGeom(hit);
+    highlightFeature: ({getters, dispatch}, {hit}) => {
+        let feature,
+            mapMarkerLayer;
+
+        if (!Array.isArray(hit.coordinate[0])) {
+            hit.geometryType = hit.geometryType.toUpperCase().replace("MULTI", "");
+        }
+
+        feature = WKTUtil.getWKTGeom(hit, hit.geometryType.toUpperCase());
 
         feature = feature?.getGeometry().getType() !== "MultiPolygon" ? feature : feature?.getGeometry();
 
-        dispatch("Maps/placingPolygonMarker", feature, {root: true});
+        if (hit.geometryType === "Point" || hit.geometryType === "MultiPoint") {
+            dispatch("Maps/placingPointMarker", feature, {root: true});
+            mapMarkerLayer = mapMarker.getMapmarkerLayerById("marker_point_layer");
+        }
+        else {
+            dispatch("Maps/placingPolygonMarker", feature, {root: true});
+            mapMarkerLayer = mapMarker.getMapmarkerLayerById("marker_polygon_layer");
+        }
+        const extent = mapMarkerLayer.getSource().getExtent();
+
+        if (markerHelper.extentIsValid(extent)) {
+            dispatch("Maps/zoomToExtent", {extent: extent, options: {maxZoom: getters.zoomLevel}}, {root: true});
+        }
     },
 
     /**
@@ -152,40 +178,71 @@ export default {
      * @param {Object} payload.layer The dedicated layer.
      * @returns {void}
      */
-    setMarker: ({dispatch, rootGetters}, {coordinates, feature, layer}) => {
+    setMarker: ({dispatch, commit, state, rootGetters}, {coordinates, feature, geometryType, layer}) => {
         const numberCoordinates = coordinates?.map(coordinate => parseFloat(coordinate, 10)),
-            geomType = feature?.getGeometry()?.getType();
-        let coordinateForMarker = geomType === "GeometryCollection" ? markerHelper.getFirstPointCoordinates(feature, numberCoordinates) : numberCoordinates;
+            geomType = feature ? feature?.getGeometry()?.getType() : geometryType;
+        let coordinateForMarker = geomType === "GeometryCollection"
+            ? markerHelper.getFirstPointCoordinates(feature, numberCoordinates)
+            : numberCoordinates;
 
         if (layer && geomType === "MultiPolygon") {
             const highlightObject = {},
                 highlightVectorRules = rootGetters["Modules/GetFeatureInfo/highlightVectorRules"],
-                styleObject = highlightVectorRules ? highlightVectorRules : styleList.returnStyleObject("defaultMapMarkerPolygon"),
-                style = styleObject.rules ? styleObject.rules[0].style : styleObject.style,
+                lastId = state.lastPickedFeatureId,
+                prevFeature = rootGetters["Maps/highlightedFeatures"]?.find(f => f.getId?.() === lastId);
+
+            if (prevFeature) {
+                dispatch("Maps/removeHighlightFeature", prevFeature, {root: true});
+            }
+
+            let fill, stroke;
+
+            if (highlightVectorRules && highlightVectorRules.fill && highlightVectorRules.stroke) {
                 fill = {
-                    color: `rgb(${style.polygonFillColor.join(", ")})`
-                },
+                    color: convertColor(highlightVectorRules.fill.color)
+                };
                 stroke = {
-                    color: `rgb(${style.polygonStrokeColor.join(", ")})`,
+                    color: convertColor(highlightVectorRules.stroke.color),
+                    width: highlightVectorRules.stroke.width || 1
+                };
+            }
+            else {
+                const styleObject = styleList.returnStyleObject("defaultMapMarkerPolygon"),
+                    style = styleObject.rules ? styleObject.rules[0].style : styleObject?.style;
+
+                fill = {
+                    color: `rgba(${style.polygonFillColor.join(", ")})`
+                };
+                stroke = {
+                    color: `rgba(${style.polygonStrokeColor.join(", ")})`,
                     width: style.polygonStrokeWidth[0]
                 };
+            }
 
             highlightObject.highlightStyle = {fill, stroke};
             highlightObject.type = "highlightMultiPolygon";
             highlightObject.feature = feature;
             highlightObject.styleId = layer.get("styleId");
             dispatch("Maps/highlightFeature", highlightObject, {root: true});
+
+            if (feature.getId?.()) {
+                commit("setLastPickedFeatureId", feature.getId());
+            }
         }
-        if (feature && geomType === "Polygon" || geomType === "MultiPolygon") {
+        if (feature && (geomType === "Polygon" || geomType === "MultiPolygon")) {
             const isPointInsidePolygon = markerHelper.checkIsCoordInsidePolygon(feature, coordinateForMarker);
 
             if (!isPointInsidePolygon) {
                 coordinateForMarker = markerHelper.getRandomCoordinate(feature.getGeometry().getCoordinates());
             }
         }
+        else if (!feature && (geomType === "Polygon" || geomType === "MultiPolygon" || geomType === "MultiLineString")) {
+            const polygonFeature = WKTUtil.getWKTGeom([numberCoordinates], geometryType.toUpperCase());
+
+            coordinateForMarker = polygonFeature.getGeometry().getFirstCoordinate();
+        }
         dispatch("Maps/placingPointMarker", coordinateForMarker, {root: true});
     },
-
 
     /**
      * Open folders in layerSelection and shows layer or folder to select.
@@ -197,11 +254,9 @@ export default {
      * @returns {void}
      */
     showInTree: async ({commit, dispatch}, {layerId, source}) => {
-        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source}),
-            typeLayerSelection = {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}};
+        const layerConfig = await dispatch("retrieveLayerConfig", {layerId, source});
 
-        commit("setShowInTree", true);
-        commit("Menu/setNavigationHistoryBySide", {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]}, {root: true});
+        commit("setShowSearchResultsInTree", true);
         dispatch("Menu/changeCurrentComponent", {type: "layerSelection", side: "mainMenu", props: {name: "common:modules.layerSelection.name"}}, {root: true});
         if (layerId.includes("folder-")) {
             const folderChildId = layerConfig.elements[0]?.id;
@@ -319,5 +374,201 @@ export default {
             dispatch("Maps/zoomToCoordinates", {center: numberCoordinates, zoom: getters.zoomLevel}, {root: true});
         }
 
+    },
+
+    /**
+     * Highlights a 3D tile feature at the given coordinates by changing its color.
+     * Moves the camera to the specified coordinates and attempts to highlight a feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.rootGetters The Vuex root getters.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Object} payload The payload.
+     * @param {Number[]} payload.coordinates The [longitude, latitude] of the feature to highlight.
+     * @returns {void}
+     */
+    highlight3DTileByCoordinates ({rootGetters, dispatch}, {coordinates}) {
+        if (rootGetters["Maps/mode"] !== "3D") {
+            return;
+        }
+
+        const scene = mapCollection.getMap("3D").getCesiumScene(),
+            [longitude, latitude] = coordinates,
+            height = 0,
+            cartesian = Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+            camera = scene.camera,
+            cameraHeight = Cesium.Ellipsoid.WGS84.cartesianToCartographic(camera.position).height + 140;
+
+        dispatch("Maps/setCamera", {
+            cameraPosition: [longitude, latitude, cameraHeight],
+            heading: 0,
+            pitch: -90,
+            roll: 0
+        }, {root: true});
+
+        dispatch("detectAndHighlight3DTile", {scene, cartesian});
+    },
+
+    /**
+     * Detects and highlights a 3D tile feature at the given Cartesian coordinates.
+     * If a previously highlighted feature exists, it attempts to highlight it again.
+     * Otherwise, it performs a drill pick to find a new feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.state The Vuex state.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Cesium.Scene} payload.scene The Cesium scene object.
+     * @param {Cesium.Cartesian3} payload.cartesian The Cartesian coordinates of the feature.
+     * @returns {Promise<void>}
+     */
+    async detectAndHighlight3DTile ({state, dispatch, commit}, {scene, cartesian}) {
+        try {
+            if (state.lastPickedFeatureId) {
+                const pickedFeature = await find3DPickedFeature(scene, state.lastPickedFeatureId);
+
+                if (pickedFeature) {
+                    dispatch("highlightPickedFeature", {
+                        pickedFeature
+                    });
+
+                    return;
+                }
+            }
+
+            const screenPosition = calculateScreenPosition(scene, cartesian),
+                pickedFeatures = scene.drillPick(screenPosition);
+
+            if (!screenPosition) {
+                console.warn("Unable to project the position into screen space.");
+                return;
+            }
+
+            let pickedFeature;
+
+            if (pickedFeatures.length > 0) {
+                pickedFeature = pickedFeatures.find(feature => typeof feature._batchId !== "undefined");
+            }
+
+            if (!screenPosition) {
+                console.warn("Unable to project the position into screen space.");
+                return;
+            }
+
+            if (pickedFeature) {
+                commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+
+                dispatch("highlightPickedFeature", {pickedFeature});
+            }
+            else {
+                dispatch("handleLayerLoading", {scene, screenPosition});
+            }
+        }
+        catch (error) {
+            console.error("Error during camera move end:", error);
+        }
+    },
+
+    /**
+     * Waits for 3D tiles to fully load, then attempts to pick and highlight a feature.
+     * If no feature is found initially, retries after a short delay.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Function} context.dispatch The Vuex dispatch function.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Cesium.Scene} payload.scene The Cesium scene object.
+     * @param {Cesium.Cartesian2} payload.screenPosition The screen-space position to pick from.
+     * @returns {Promise<void>}
+     */
+    async handleLayerLoading ({dispatch, commit}, {scene, screenPosition}) {
+        try {
+            const {allLayersLoaded, cleanup} = await addInitialTilesLoadedListener(scene.camera);
+
+            if (!allLayersLoaded) {
+                throw new Error("Not all layers are loaded.");
+            }
+
+            let pickedFeatures = scene.drillPick(screenPosition),
+                pickedFeature = pickedFeatures.find(feature => feature._batchId !== undefined);
+
+            if (pickedFeature) {
+                commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+                dispatch("highlightPickedFeature", {pickedFeature});
+            }
+            else {
+                setTimeout(() => {
+                    pickedFeatures = scene.drillPick(screenPosition);
+                    pickedFeature = pickedFeatures.find(feature => feature._batchId !== undefined);
+
+                    if (pickedFeature) {
+                        commit("setLastPickedFeatureId", pickedFeature?.getProperty("id"));
+                        dispatch("highlightPickedFeature", {pickedFeature});
+                    }
+                    else {
+                        dispatch("removeHighlight3DTile");
+                    }
+                }, 1000);
+            }
+            cleanup();
+        }
+        catch (error) {
+            console.error("Error waiting for layer loading:", error);
+        }
+    },
+
+    /**
+     * Applies a highlight effect to the given picked 3D tile feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Object} context.getters The Vuex getters.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} payload The payload.
+     * @param {Object} payload.pickedFeature The picked Cesium 3D tile feature.
+     * @returns {void}
+     */
+    highlightPickedFeature ({rootGetters, getters, commit, dispatch}, {pickedFeature}) {
+        if (!pickedFeature || typeof pickedFeature.getProperty !== "function") {
+            console.warn("Invalid picked feature:", pickedFeature);
+            return;
+        }
+
+        const featureId = pickedFeature.getProperty("id"),
+            GetFeatureInfoMenSide = rootGetters["Modules/GetFeatureInfo/menuSide"],
+            currentComponentType = rootGetters["Menu/currentComponent"](GetFeatureInfoMenSide)?.type;
+
+        if (!featureId) {
+            console.warn("Picked feature has no ID:", pickedFeature);
+            return;
+        }
+
+        dispatch("Modules/GetFeatureInfo/removeHighlightColor", "", {root: true});
+        commit("Modules/GetFeatureInfo/setGfiFeatures", null, {root: true});
+
+        if (currentComponentType === "getFeatureInfo") {
+            commit("Menu/switchToPreviousComponent", rootGetters["Modules/GetFeatureInfo/menuSide"], {root: true});
+            if (GetFeatureInfoMenSide === "secondaryMenu" && rootGetters["Menu/secondaryMenu"].currentComponent === "root") {
+                dispatch("Menu/closeMenu", "secondaryMenu", {root: true});
+            }
+        }
+
+        applyTileStyle(featureId, get3DHighlightColor(getters.coloredHighlighting3D?.color, "YELLOW"));
+        commit("setLastPickedFeatureId", featureId);
+    },
+
+    /**
+     * Removes the highlight from the previously highlighted 3D tile feature.
+     *
+     * @param {Object} context The Vuex context.
+     * @param {Function} context.commit The Vuex commit function.
+     * @param {Object} context.state The Vuex state.
+     * @returns {void}
+     */
+    removeHighlight3DTile ({commit, state}) {
+        if (state.lastPickedFeatureId) {
+            remove3DFeatureHighlight(state.lastPickedFeatureId);
+            commit("setLastPickedFeatureId", null);
+        }
     }
 };

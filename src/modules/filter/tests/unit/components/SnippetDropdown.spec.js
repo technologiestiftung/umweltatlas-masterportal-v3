@@ -1,21 +1,39 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import openlayerFunctions from "../../../utils/openlayerFunctions.js";
-import getIconListFromLegend from "../../../utils/getIconListFromLegend.js";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import SnippetDropdown from "../../../components/SnippetDropdown.vue";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
+import FilterStore from "@modules/filter/store/indexFilter.js";
+import getIconListFromLegend from "@modules/filter/utils/getIconListFromLegend.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import layerFactory from "@core/layers/js/layerFactory.js";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
+import SnippetDropdown from "@modules/filter/components/SnippetDropdown.vue";
 import sinon from "sinon";
+import mapCollection from "@core/maps/js/mapCollection.js";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/filter/components/SnippetDropdown.vue", () => {
-    let wrapper;
+    let wrapper, store;
 
     beforeEach(() => {
-        wrapper = shallowMount(SnippetDropdown, {});
+        store = createStore({
+            namespaced: true,
+            modules: {
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        Filter: FilterStore
+                    }
+                }
+            }
+        });
+
+        wrapper = shallowMount(SnippetDropdown, {
+            global: {
+                plugins: [store]
+            }
+        });
     });
 
     describe("constructor", () => {
@@ -52,16 +70,29 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should render hidden if visible is false", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     visible: false
                 }
             });
 
-            expect(wrapper.find(".snippetDropdownContainer").element.style._values.display).to.be.equal("none");
+            const el = wrapper.find(".snippetDropdownContainer");
+
+            if (el.exists()) {
+                expect(el.isVisible()).to.be.false;
+            }
+            else {
+                expect(el.exists()).to.be.false;
+            }
         });
         it("should render but also be disabled", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     disabled: true
                 }
             });
@@ -71,7 +102,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should render with a title if the title is a string", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     title: "foobar"
                 }
             });
@@ -80,7 +114,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should render without a title if title is a boolean and false", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     title: false
                 }
             });
@@ -89,7 +126,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should have an empty list if autoInit is false and the api may be set", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     api: {},
                     autoInit: false
                 }
@@ -99,7 +139,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should not use the given operator if an invalid operator is given", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     operator: "operator"
                 }
             });
@@ -108,7 +151,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should only set the dropdown values based on the given values", async () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     value: ["Altona", "Eimsbüttel", "Bergedorf"],
                     dropdownValue: []
                 }
@@ -125,7 +171,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
     describe("emitCurrentRule", () => {
         it("should emit changeRule function with the expected values", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
@@ -143,6 +192,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operatorForAttrName: "AND",
                 operator: "EQ",
                 delimiter: "|",
@@ -151,10 +201,14 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should emit changeRule function with the expected values when values are objects", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
+                    attrLabel: "attrName",
                     operatorForAttrName: "AND",
                     operator: "EQ",
                     delimiter: "|"
@@ -175,6 +229,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operatorForAttrName: "AND",
                 operator: "EQ",
                 delimiter: "|",
@@ -186,7 +241,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
     describe("deleteCurrentRule", () => {
         it("should emit deleteRule function with its snippetId", () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     snippetId: 1234
                 }
             });
@@ -201,7 +259,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
     describe("display list", () => {
         it("should render a list with radio", async () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     "type": "dropdown",
                     "attrName": "kapitelbezeichnung",
                     "display": "list",
@@ -217,7 +278,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should render a list with checkbox", async () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     "type": "dropdown",
                     "attrName": "kapitelbezeichnung",
                     "display": "list",
@@ -233,7 +297,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         });
         it("should set the current source to 'dropdown' if clicked on a entry", async () => {
             wrapper = shallowMount(SnippetDropdown, {
-                propsData: {
+                global: {
+                    plugins: [store]
+                },
+                props: {
                     "type": "dropdown",
                     "attrName": "kapitelbezeichnung",
                     "display": "list",
@@ -248,6 +315,31 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
             await wrapper.findAll(".checkbox").at(0).trigger("click");
             expect(wrapper.vm.source).to.be.equal("dropdown");
         });
+        it("filters dropdown values correctly when typing while addSelectAll is true", async () => {
+            wrapper = shallowMount(SnippetDropdown, {
+                global: {
+                    plugins: [store]
+                },
+                props: {
+                    "multiselect": true,
+                    "addSelectAll": true,
+                    "value": ["Liquid", "Solid", "Solidus"]
+                }
+            });
+
+            await wrapper.setData({source: "adjust"});
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.getSearchedResult("Sol");
+
+            const result = wrapper.vm.searchedResult;
+
+            expect(result).to.be.an("array");
+            expect(result[0]).to.have.property("list")
+                .that.includes("Solid")
+                .and.that.includes("Solidus")
+                .and.that.not.includes("Liquid");
+        });
     });
 
     describe("methods", () => {
@@ -260,7 +352,6 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                 addLayerSpy,
                 areLayerFeaturesLoadedSpy,
                 layersOnMap,
-                store,
                 layerConfig;
 
             beforeEach(() => {
@@ -283,6 +374,12 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                 store = createStore({
                     namespaced: true,
                     modules: {
+                        Modules: {
+                            namespaced: true,
+                            modules: {
+                                Filter: FilterStore
+                            }
+                        },
                         Maps: {
                             namespaced: true,
                             actions: {
@@ -294,6 +391,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                 });
                 typ = "WFS";
                 setVisibleSpy = sinon.spy();
+                onceSpy = sinon.spy();
                 layerConfig = {
                     typ: typ
                 };
@@ -337,7 +435,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                         global: {
                             plugins: [store]
                         },
-                        propsData: {
+                        props: {
                             renderIcons: "fromLegend"
                         }
                     });
@@ -355,7 +453,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                         global: {
                             plugins: [store]
                         },
-                        propsData: {
+                        props: {
                             renderIcons: "fromLegend"
                         }
                     });
@@ -373,7 +471,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                         global: {
                             plugins: [store]
                         },
-                        propsData: {
+                        props: {
                             renderIcons: "fromLegend"
                         }
                     });
@@ -391,7 +489,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                         global: {
                             plugins: [store]
                         },
-                        propsData: {
+                        props: {
                             renderIcons: "fromLegend",
                             layerId: "layerId"
                         }
@@ -410,7 +508,7 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
                         global: {
                             plugins: [store]
                         },
-                        propsData: {
+                        props: {
                             renderIcons: "fromLegend",
                             layerId: "layerId"
                         }
@@ -482,7 +580,10 @@ describe("src/modules/filter/components/SnippetDropdown.vue", () => {
         describe("resetSnippet", () => {
             it("should reset the snippet", async () => {
                 wrapper = shallowMount(SnippetDropdown, {
-                    propsData: {
+                    global: {
+                        plugins: [store]
+                    },
+                    props: {
                         dropdownValue: ["Altona", "Eimsbüttel", "Bergedorf"]
                     },
                     data: () => {

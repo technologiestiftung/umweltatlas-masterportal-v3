@@ -1,8 +1,9 @@
-import collectDataByFolderModule from "../js/collectDataByFolder";
-import baselayerHandler from "../js/handleSingleBaselayer";
-import sortBy from "../../../shared/js/utils/sortBy";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
-import {trackMatomo} from "../../../plugins/matomo";
+import collectDataByFolderModule from "../js/collectDataByFolder.js";
+import baselayerHandler from "../js/handleSingleBaselayer.js";
+import sortBy from "@shared/js/utils/sortBy.js";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {trackMatomo} from "@plugins/matomo";
+import store from "@appstore/index.js";
 
 const actions = {
 
@@ -157,6 +158,71 @@ const actions = {
                 commit("setVisible", true);
             }
         }
+    },
+
+    /**
+     * Waits for loading finished and restores the layer selection from urlParams.
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} attributes of urlParams
+     * @returns {void}
+     */
+    restoreFromUrlParams ({dispatch, rootGetters}, attributes) {
+        if (rootGetters.styleListLoaded) {
+            dispatch("Modules/LayerSelection/restoreLayerSelection", attributes.lastFolderNames, {root: true});
+        }
+        else {
+            store.watch((state, getters) => getters.styleListLoaded, value => {
+                if (value) {
+                    dispatch("Modules/LayerSelection/restoreLayerSelection", attributes.lastFolderNames, {root: true});
+                }
+            });
+        }
+    },
+    /**
+     * Restores the layerSelection module and the selected folder.
+     * @param {Object} param store context
+     * @param {Object} param.getters the getter
+     * @param {Object} param.dispatch the dispatch
+     * @param {Object} param.commit the commit
+     * @param {Object} param.rootGetters the rootGetters
+     * @param {Object} path of folderstructure
+     * @returns {void}
+     */
+    restoreLayerSelection ({getters, dispatch, commit, rootGetters}, path) {
+        const allLayerConfigsStructured = rootGetters.allLayerConfigsStructured,
+            baselayerConfs = allLayerConfigsStructured(treeBaselayersKey);
+
+        let subjectDataLayerConfs = sortBy(allLayerConfigsStructured(treeSubjectsKey), (conf) => conf.type !== "folder"),
+            layerConf;
+
+
+        dispatch("Modules/LayerSelection/navigateForward", {
+            lastFolderName: "root",
+            subjectDataLayerConfs,
+            baselayerConfs
+        }, {root: true});
+        if (path && Array.isArray(path)) {
+            for (const folder of path) {
+                if (folder !== "root") {
+                    layerConf = subjectDataLayerConfs.find(layer => layer.name === folder && layer.type === "folder");
+                    if (layerConf) {
+                        subjectDataLayerConfs = sortBy(layerConf.elements, (conf) => conf.type !== "folder");
+                        dispatch("Modules/LayerSelection/navigateForward", {
+                            lastFolderName: layerConf.name,
+                            subjectDataLayerConfs,
+                            baselayerConfs: []
+                        }, {root: true});
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        commit("setVisible", true);
+        dispatch("Menu/changeCurrentComponent", {type: getters.type, side: getters.menuSide, props: {name: getters.name}}, {root: true});
     }
 
 };

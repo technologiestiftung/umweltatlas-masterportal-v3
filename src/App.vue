@@ -4,14 +4,13 @@ import {Tooltip} from "bootstrap";
 import Alerting from "./modules/alerting/components/AlertingItem.vue";
 import BaselayerSwitcher from "./modules/baselayerSwitcher/components/BaselayerSwitcher.vue";
 import ControlBar from "./modules/controls/components/ControlBar.vue";
-import initializeLayers from "./core/layers/js/layerProcessor";
-import {initializeMaps} from "./core/maps/js/maps";
-import {initializeUrlParams, startProcessUrlParams} from "./core/urlParams/js/urlParams";
-import isMobile from "./shared/js/utils/isMobile";
-import mapCollection from "./core/maps/js/mapCollection";
+import initializeLayers from "./core/layers/js/layerProcessor.js";
+import {initializeMaps} from "./core/maps/js/maps.js";
+import {startProcessUrlParams} from "./core/urlParams/js/urlParams.js";
+import mapCollection from "./core/maps/js/mapCollection.js";
 import MenuContainer from "./modules/menu/components/MenuContainer.vue";
 import MenuToggleButton from "./modules/menu/components/MenuToggleButton.vue";
-import addonsPlugin from "./plugins/addons";
+import addonsPlugin from "./plugins/addons.js";
 import LayerStartModal from "./modules/layerTree/components/LayerStartModal.vue";
 
 export default {
@@ -26,7 +25,8 @@ export default {
     },
     data () {
         return {
-            addonsLoaded: false
+            addonsLoaded: false,
+            cleanupResize: null
         };
     },
     computed: {
@@ -51,7 +51,7 @@ export default {
     watch: {
         async allConfigsLoaded (value) {
             if (value) {
-                await addonsPlugin.loadAddons(Config.addons);
+                await addonsPlugin.loadAddons(this.$.appContext.app, Config.addons);
                 this.addonsLoaded = true;
                 this.extendLayers();
                 this.initializeVectorStyle();
@@ -59,12 +59,22 @@ export default {
                 initializeLayers(this.visibleLayerConfigs);
                 startProcessUrlParams();
                 this.initializeOther();
+
+                // Wait until next tick to ensure that the menu components is rendered
+                await this.$nextTick();
+
+                // Check if login module is available after configs are loaded
+                if (this.$store?.getters?.isModuleAvailable?.("login")) {
+                    // Start periodic check to verify if user token is still valid
+                    await this.setUpTokenRefreshInterval();
+                }
+
             }
         }
     },
     created () {
         this.setGlobalVariables();
-        initializeUrlParams();
+        this.initializeUrlParams();
         this.loadConfigsToTheVuexState();
         this.checkVueObservation();
         this.regulateDeviceMode();
@@ -73,7 +83,10 @@ export default {
         });
     },
     unmounted () {
-        window.removeEventListener("resize", this.onResize());
+        if (this.cleanupResize) {
+            this.cleanupResize();
+        }
+
     },
     methods: {
         ...mapMutations([
@@ -86,8 +99,10 @@ export default {
             "loadConfigJs",
             "loadConfigJson",
             "loadRestServicesJson",
-            "loadServicesJson"
+            "loadServicesJson",
+            "initializeUrlParams"
         ]),
+        ...mapActions("Modules/Login", ["checkLoggedIn", "setUpTokenRefreshInterval"]),
 
         /**
          * Sets global variables.
@@ -140,45 +155,21 @@ export default {
          * @returns {void}
          */
         regulateDeviceMode () {
-            const desktop = "Desktop",
-                mobile = "Mobile";
+            const MOBILE = "Mobile",
+                DESKTOP = "Desktop",
+                breakpoint = "(max-width: 768px)",
+                mediaQuery = window.matchMedia(breakpoint);
 
-            this.setDeviceMode(isMobile() ? mobile : desktop);
-            window.addEventListener("resize", this.onResize(mobile, desktop));
-        },
+            this.setDeviceMode(mediaQuery.matches ? MOBILE : DESKTOP);
 
-        /**
-         * Sets the device mode after resize and 250 ms.
-         * @param {String} mobile string for mobile
-         * @param {String} desktop string for desktop
-         * @returns {void}
-         */
-        onResize (mobile, desktop) {
-            this.debounce(() => {
-                const nextIsMobile = isMobile();
+            this.mediaQueryHandler = (event) => {
+                this.setDeviceMode(event.matches ? MOBILE : DESKTOP);
+            };
 
-                if (nextIsMobile && this.deviceMode !== mobile) {
-                    this.setDeviceMode("Mobile");
-                }
-                else if (!nextIsMobile && this.deviceMode !== desktop) {
-                    this.setDeviceMode(desktop);
-                }
-            }, 250);
-        },
-        /**
-         * Debounce function
-         * @param {Function} callback The callback form debounce function.
-         * @param {Number} wait Wait before the callback function is called.
-         * @returns {Function} Calls the given callback after the given time.
-         */
-        debounce (callback, wait) {
-            let timeout;
+            mediaQuery.addEventListener("change", this.mediaQueryHandler);
 
-            return (...args) => {
-                const that = this;
-
-                clearTimeout(timeout);
-                timeout = setTimeout(() => callback.apply(that, args), wait);
+            this.cleanupResize = () => {
+                mediaQuery.removeEventListener("change", this.mediaQueryHandler);
             };
         }
     }
@@ -205,17 +196,27 @@ export default {
             v-if="allConfigsLoaded && addonsLoaded && mainMenu && uiStyle !== 'SIMPLE'"
             side="mainMenu"
         />
-        <div
-            v-if="allConfigsLoaded && addonsLoaded"
-            class="elements-positioned-over-map"
-        >
-            <component :is="componentMap.mouseHover" />
-            <ControlBar class="controls" />
-            <component :is="componentMap.wmsTime" />
-            <BaselayerSwitcher />
-            <component :is="componentMap.layerPills" />
-            <component :is="componentMap.portalFooter" />
-        </div>
+        <template v-if="allConfigsLoaded && addonsLoaded">
+            <div
+                class="elements-positioned-over-map"
+            >
+                <component :is="componentMap.mouseHover" />
+                <component :is="componentMap.wmsTime" />
+                <BaselayerSwitcher v-if="uiStyle !== 'SIMPLE'" />
+                <component
+                    :is="componentMap.layerPills"
+                    v-if="uiStyle !== 'SIMPLE'"
+                />
+                <component :is="componentMap.portalFooter" />
+            </div>
+            <div
+                class="controls-element"
+            >
+                <ControlBar
+                    class="controls"
+                />
+            </div>
+        </template>
         <MenuToggleButton
             v-if="allConfigsLoaded && addonsLoaded && secondaryMenu && uiStyle !== 'SIMPLE'"
             side="secondaryMenu"
@@ -269,19 +270,28 @@ export default {
         overflow: hidden;
     }
 }
+.overlay-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  height: 100%;
+}
 .elements-positioned-over-map {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    z-index: 1;
-    pointer-events: none;
+    @extend .overlay-block;
     width: 100%;
-    height: 100%;
+    z-index: 1;
+}
+.controls-element{
+    @extend .overlay-block;
+    z-index: 3;
 
     .controls {
         flex-grow: 1;
+        z-index: 3;
     }
 }
+
 </style>
 
 <style lang="scss">

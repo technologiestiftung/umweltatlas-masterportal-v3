@@ -1,4 +1,4 @@
-import store from "../../../../app-store";
+import store from "@appstore/index.js";
 /**
  * Translates the AvoidOption in the corresponding value for the service
  * @param {String} avoidOption set by the user

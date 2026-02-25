@@ -1,11 +1,12 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import sinon from "sinon";
 import {expect} from "chai";
 import {resetZIndex} from "../../js/getAndMergeRawLayer.js";
-import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
-import actions from "../../actionsLayerConfig";
-import buildTreeStructure from "../../js/buildTreeStructure";
-import replaceInNestedValuesModule from "../../../shared/js/utils/replaceInNestedValues";
+import {treeTopicConfigKey, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import actions from "../../actionsLayerConfig.js";
+import buildTreeStructure from "../../js/buildTreeStructure.js";
+import replaceInNestedValuesModule from "@shared/js/utils/replaceInNestedValues.js";
 
 describe("src/app-store/actionsLayerConfig.js", () => {
     let commit,
@@ -18,7 +19,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         setIdsAtFoldersSpy,
         replaceInNestedValuesSpy,
         buildSpy;
-    const restConf = "./resources/rest-services-internet.json",
+    const restConf = "./resources/rest-services.json",
         layerConf = "./services.json";
 
     beforeEach(() => {
@@ -73,7 +74,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                     kategorie_inspire: ["kein INSPIRE-Thema"],
                     kategorie_organisation: "Landesbetrieb Straßen, Brücken und Gewässer"
                 }],
-                zIndex: 4
+                zIndex: 4,
+                showInLayerTree: true
             },
             {
                 id: "451",
@@ -148,7 +150,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                     visibility: true
                 },
                 {
-                    id: "10220"
+                    id: "10220",
+                    showInLayerTree: true
                 }
             ]
         };
@@ -187,7 +190,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                                     id: "folder_3",
                                     elements: [
                                         {
-                                            id: "1103"
+                                            id: "1103",
+                                            visibility: true
                                         }
                                     ]
                                 },
@@ -197,7 +201,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                             ]
                         },
                         {
-                            id: "10220"
+                            id: "10220",
+                            showInLayerTree: true
                         },
                         {
                             id: "451"
@@ -227,7 +232,6 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 }
             }
         };
-        global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
         sinon.stub(rawLayerList, "getLayerWhere").callsFake(function (searchAttributes) {
             return layerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
         });
@@ -434,6 +438,13 @@ describe("src/app-store/actionsLayerConfig.js", () => {
     });
 
     describe("extendLayers", () => {
+        beforeEach(() => {
+            getters = {
+                allLayerConfigs: [],
+                allLayerConfigsByParentKey: () => [],
+                allLayerConfigsStructured: () => []
+            };
+        });
         it("extend layers for simple tree", () => {
             state.layerConfig = layerConfig;
             actions.extendLayers({dispatch, getters, state});
@@ -446,13 +457,14 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 {id: "453", visibility: true},
                 {id: "452"},
                 {id: "1132", name: "100 Jahre Stadtgruen POIs", visibility: true},
-                {id: "10220"}
+                {id: "10220", showInLayerTree: true}
             ]
             );
         });
 
         it("extend layer configs for custom tree", () => {
             state.layerConfig = layerConfigCustom;
+            getters.showLayerAddButton = true;
             actions.extendLayers({dispatch, getters, state});
 
             expect(dispatch.callCount).to.be.equals(2);
@@ -465,17 +477,22 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                     visibility: true,
                     name: "Geobasiskarten (farbig)"
                 },
-                {id: "453"},
-                {id: "1103"},
-                {id: "10220"},
-                {id: "10220"},
-                {id: "451"}
+                {
+                    id: "1103",
+                    visibility: true
+                },
+                {
+                    id: "10220",
+                    showInLayerTree: true
+                }
             ]);
         });
 
         it("extend layers for special configuration with folders", () => {
             getters = {
-                allLayerConfigsStructured: () => []
+                allLayerConfigsStructured: () => [],
+                allLayerConfigsByParentKey: () => [],
+                showLayerAddButton: true
             };
             layerConfig = {
                 [treeSubjectsKey]: {
@@ -502,7 +519,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                                         },
                                         {
                                             id: "718",
-                                            visibility: true
+                                            showInLayerTree: true
                                         },
                                         {
                                             id: "719"
@@ -513,7 +530,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                                             elements: [
                                                 {
                                                     id: "1103",
-                                                    visibility: true
+                                                    showInLayerTree: true
                                                 }
                                             ]
                                         }
@@ -535,11 +552,9 @@ describe("src/app-store/actionsLayerConfig.js", () => {
             expect(dispatch.secondCall.args[0]).to.equals("updateLayerConfigs");
             expect(dispatch.secondCall.args[1]).to.deep.equals([
                 {id: "1132", name: "100 Jahre Stadtgruen POIs", visibility: true},
-                {id: "10220"},
                 {id: "717", visibility: true},
-                {id: "718", visibility: true},
-                {id: "719"},
-                {id: "1103", visibility: true}
+                {id: "718", showInLayerTree: true},
+                {id: "1103", showInLayerTree: true}
 
             ]);
         });
@@ -645,7 +660,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
         });
 
         describe("replaceByIdInLayerConfig", () => {
-            it("replaceByIdInLayerConfig layer is contained in layerConfig", () => {
+            it("replaceByIdInLayerConfig layer is contained in layerConfig, mode is 2D and showLayerAttributions are called", () => {
                 const toReplace = {
                         id: "453",
                         visibility: true,
@@ -659,7 +674,8 @@ describe("src/app-store/actionsLayerConfig.js", () => {
 
                 getters = {
                     layerConfigById: () => sinon.stub(),
-                    determineZIndex: determineZIndexSpy
+                    determineZIndex: determineZIndexSpy,
+                    "Maps/mode": "2D"
                 };
 
                 state.layerConfig = layerConfig;
@@ -681,8 +697,56 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expect(state.layerConfig[treeSubjectsKey]?.elements[0].id).to.be.equals("1132");
                 expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[0]).length).to.be.equals(3);
                 expect(state.layerConfig[treeSubjectsKey]?.elements[1].id).to.be.equals("10220");
-                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[1]).length).to.be.equals(1);
+                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[1]).length).to.be.equals(2);
                 expect(determineZIndexSpy.calledOnce).to.be.true;
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("showLayerAttributions");
+            });
+
+            it("replaceByIdInLayerConfig layer is contained in layerConfig, mode is 3D and showLayerAttributions are called", () => {
+                const toReplace = {
+                        id: "453",
+                        visibility: true,
+                        att1: "bla",
+                        att2: [{
+                            foo: "foo",
+                            bar: "bar"
+                        }],
+                        is3DLayer: true
+                    },
+                    determineZIndexSpy = sinon.spy();
+
+                getters = {
+                    layerConfigById: () => sinon.stub(),
+                    determineZIndex: determineZIndexSpy,
+                    "Maps/mode": "3D"
+                };
+
+                state.layerConfig = layerConfig;
+
+                actions.replaceByIdInLayerConfig({dispatch, getters, state}, {layerConfigs: [{layer: toReplace, id: "453"}]});
+
+                expect(state.layerConfig[treeBaselayersKey].elements).to.be.an("array");
+                expect(state.layerConfig[treeBaselayersKey].elements.length).to.be.equals(2);
+                expect(Object.keys(state.layerConfig[treeBaselayersKey]?.elements[0]).length).to.be.equals(6);
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].id).to.be.equals("453");
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].visibility).to.be.true;
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].att1).to.be.equals("bla");
+                expect(state.layerConfig[treeBaselayersKey]?.elements[0].att2).to.be.deep.equals(toReplace.att2);
+                expect(state.layerConfig[treeBaselayersKey]?.elements[1].id).to.be.equals("452");
+                expect(Object.keys(state.layerConfig[treeBaselayersKey]?.elements[1]).length).to.be.equals(1);
+
+                expect(state.layerConfig[treeSubjectsKey]?.elements).to.be.an("array");
+                expect(state.layerConfig[treeSubjectsKey]?.elements.length).to.be.equals(2);
+                expect(state.layerConfig[treeSubjectsKey]?.elements[0].id).to.be.equals("1132");
+                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[0]).length).to.be.equals(3);
+                expect(state.layerConfig[treeSubjectsKey]?.elements[1].id).to.be.equals("10220");
+                expect(Object.keys(state.layerConfig[treeSubjectsKey]?.elements[1]).length).to.be.equals(2);
+                expect(determineZIndexSpy.calledOnce).to.be.true;
+
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("showLayerAttributions");
             });
 
             it("replaceByIdInLayerConfig layer is not contained in layerConfig", () => {
@@ -752,6 +816,36 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfig: expectedConfig, parentKey: treeSubjectsKey});
             });
 
+            it.skip("layer is not contained in layerConfig but contained in rawLayerList, isBaseLayer:false, add style to styleList", async () => {
+                sinon.stub(styleList, "returnStyleObject").returns(undefined);
+                getters = {
+                    configJs: () => {
+                        return {"foo": "bar"};
+                    },
+                    layerConfigById: () => null,
+                    determineZIndex: () => 5
+                };
+
+                const initStyleAndAddToListStub = sinon.stub(styleList, "initStyleAndAddToList").callsFake(() => {
+                        return Promise.resolve({id: "1132"});
+                    }),
+                    expectedConfig = layerList[2];
+
+                expectedConfig.visibility = true;
+                expectedConfig.transparency = 0;
+                expectedConfig.showInLayerTree = true;
+                expectedConfig.zIndex = 5;
+                expectedConfig.styleId = "1132";
+
+                await actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132"});
+                expect(initStyleAndAddToListStub.calledOnce).to.be.true;
+                expect(initStyleAndAddToListStub.firstCall.args[0]).to.equals(getters.configJs);
+                expect(initStyleAndAddToListStub.firstCall.args[1]).to.equals(expectedConfig.styleId);
+                expect(dispatch.calledOnce).to.be.true;
+                expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
+                expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfig: expectedConfig, parentKey: treeSubjectsKey});
+            });
+
             it("layer is not contained in layerConfig but contained in rawLayerList, isBaseLayer:true", () => {
                 getters = {
                     layerConfigById: () => null,
@@ -785,6 +879,7 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 expectedConfig.transparency = 0;
                 expectedConfig.showInLayerTree = true;
                 expectedConfig.zIndex = 5;
+                expectedConfig.time = undefined;
 
                 actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132"});
                 expect(dispatch.calledOnce).to.be.true;
@@ -803,17 +898,19 @@ describe("src/app-store/actionsLayerConfig.js", () => {
                 };
                 layerList[2].zIndex = 5;
                 layerList[2].visibility = true;
+                layerList[2].showInLayerTree = true;
 
                 expectedConfig.visibility = true;
                 expectedConfig.transparency = 0;
                 expectedConfig.showInLayerTree = true;
-                expectedConfig.zIndex = 6;
+                expectedConfig.zIndex = 5;
+                expectedConfig.time = undefined;
 
                 actions.addOrReplaceLayer({dispatch, getters}, {layerId: "1132", showInLayerTree: true});
                 expect(dispatch.calledOnce).to.be.true;
                 expect(dispatch.firstCall.args[0]).to.equals("replaceByIdInLayerConfig");
                 expect(dispatch.firstCall.args[1]).to.deep.equals({layerConfigs: [{id: "1132", layer: expectedConfig}]});
-                expect(determineZIndexSpy.calledOnce).to.be.true;
+                expect(determineZIndexSpy.notCalled).to.be.true;
             });
 
         });

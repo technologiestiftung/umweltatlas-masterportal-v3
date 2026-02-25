@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import getters from "../../../store/gettersSelectFeatures";
-import stateSelectFeatures from "../../../store/stateSelectFeatures";
+import getters from "@modules/selectFeatures/store/gettersSelectFeatures.js";
+import stateSelectFeatures from "@modules/selectFeatures/store/stateSelectFeatures.js";
 
 
 const {

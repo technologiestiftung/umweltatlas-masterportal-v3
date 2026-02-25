@@ -1,10 +1,11 @@
 <script>
-import beautifyKey from "../../../../../shared/js/utils/beautifyKey.js";
-import {isImage, isWebLink} from "../../../../../shared/js/utils/urlHelper.js";
-import {translateKeyWithPlausibilityCheck} from "../../../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import {isPhoneNumber, getPhoneNumberAsWebLink} from "../../../../../shared/js/utils/isPhoneNumber.js";
-import {isEmailAddress} from "../../../../../shared/js/utils/isEmailAddress.js";
-import {isHTML} from "../../../../../shared/js/utils/isHTML.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
+import {isImage, isWebLink} from "@shared/js/utils/urlHelper.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {isPhoneNumber, getPhoneNumberAsWebLink} from "@shared/js/utils/isPhoneNumber.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
+import {isHTML} from "@shared/js/utils/isHTML.js";
+import CompareFeatureIcon from "./favoriteIcons/components/CompareFeatureIcon.vue";
 import DefaultThemeSensorChart from "./DefaultThemeSensorChart.vue";
 import {getPropertiesWithFullKeys} from "../js/getPropertiesWithFullKeys.js";
 import {markRaw} from "vue";
@@ -13,18 +14,16 @@ import {markRaw} from "vue";
  * The default theme for the get feature info.
  * @module modules/getFeatureInfo/themes/default/components/DefaultTheme
  * @vue-prop {Object} feature - The required feature.
- * @vue-data {String[]} [imageLinks=["bildlink", "link_bild", "Bild", "bild"]] - Links to images, are rendered as an image.
  * @vue-data {Object[]} importedComponents - The imported gfi themes.
  * @vue-data {Boolean} [showFavoriteIcons=true] - Show favorite icons.
- * @vue-data {String} [maxWidth=600px] - Max width for an iframe
  * @vue-data {Boolean} [beautifyKeysParam=true] - Specifies if the keys should be displayed more nicely, like first letter cap.
  * @vue-data {Boolean} [showObjectKeysParam=false] - Show objects key params.
- * @vue-computed {String} imageAttribute - Returns the first value found from the feature properties based on the imageLinks
  * @vue-computed {String} mimeType - Returns the mimeType of the gfi feature
  */
 export default {
     name: "DefaultTheme",
     components: {
+        CompareFeatureIcon: markRaw(CompareFeatureIcon),
         DefaultThemeSensorChart: markRaw(DefaultThemeSensorChart)
     },
     props: {
@@ -35,33 +34,13 @@ export default {
     },
     data: () => {
         return {
-            imageLinks: ["bildlink", "link_bild", "Bild", "bild"],
             importedComponents: [],
             showFavoriteIcons: true,
-            maxWidth: "600px",
             beautifyKeysParam: true,
             showObjectKeysParam: false
         };
     },
     computed: {
-        /**
-         * Returns the first value found from the feature properties based on the imageLinks.
-         * @return {String} The attribute with image link.
-         */
-        imageAttribute: function () {
-            const properties = this.feature.getProperties();
-
-            if (properties === null || typeof properties !== "object" || !Array.isArray(this.imageLinks)) {
-                return undefined;
-            }
-            for (const key of this.imageLinks) {
-                if (Object.prototype.hasOwnProperty.call(properties, key)) {
-                    return properties[key];
-                }
-            }
-            return undefined;
-        },
-
         /**
          * Returns the mimeType of the gfi feature.
          * @returns {String} The mimeType.
@@ -74,7 +53,6 @@ export default {
         feature () {
             this.$nextTick(() => {
                 this.addTextHtmlContentToIframe();
-                this.setMaxWidth(this.feature.getTheme()?.params);
                 this.initParams(this.feature.getTheme()?.params);
             });
         }
@@ -83,13 +61,11 @@ export default {
         this.showFavoriteIcons = this.feature.getTheme()?.params?.showFavoriteIcons ?
             this.feature.getTheme().params.showFavoriteIcons : this.showFavoriteIcons;
 
-        this.replacesConfiguredImageLinks();
         this.setImportedComponents();
     },
     mounted () {
         this.$nextTick(() => {
             this.addTextHtmlContentToIframe();
-            this.setMaxWidth(this.feature.getTheme()?.params);
             this.initParams(this.feature.getTheme()?.params);
         });
     },
@@ -133,15 +109,30 @@ export default {
          * @param {Boolean} [showObjectKeysParam=false] the switch to activate getPropertiesWithFullKeys
          * @returns {Object} returns mapped properties
          */
+        // getMappedPropertiesOfFeature (feature, showObjectKeysParam = false) {
+        //     if (showObjectKeysParam === true) {
+        //         const properties = getPropertiesWithFullKeys(feature.getMappedProperties());
+
+        //         return properties !== false ? properties : {};
+        //     }
+        //     return feature.getMappedProperties();
+        // },
         getMappedPropertiesOfFeature (feature, showObjectKeysParam = false) {
+            let properties = {};
+
             if (showObjectKeysParam === true) {
-                const properties = getPropertiesWithFullKeys(feature.getMappedProperties());
-
-                return properties !== false ? properties : {};
+                const fullKeys = getPropertiesWithFullKeys(feature.getMappedProperties());
+                properties = fullKeys !== false ? fullKeys : {};
             }
-            return feature.getMappedProperties();
-        },
+            else {
+                properties = feature.getMappedProperties();
+            }
 
+            // UA-MAP change: do not add 'geometry' property
+            return Object.fromEntries(
+                Object.entries(properties).filter(([key]) => key !== "geometry")
+            );
+        },
         /**
          * sets params from gfiTheme params
          * @param {Object} params the params to set
@@ -185,21 +176,6 @@ export default {
         },
 
         /**
-         * Replaces  the configured imageLinks from the gfiTheme.params to the imageLinks.
-         * @returns {void}
-         */
-        replacesConfiguredImageLinks: function () {
-            const imageLinksAttribute = this.feature.getTheme()?.params?.imageLinks;
-
-            if (Array.isArray(imageLinksAttribute)) {
-                this.imageLinks = imageLinksAttribute;
-            }
-            else if (typeof imageLinksAttribute === "string") {
-                this.imageLinks = [imageLinksAttribute];
-            }
-        },
-
-        /**
          * Adds the text/html content to the iframe.
          * The onLoad event of the iframe starts with the execution of close().
          * @returns {void}
@@ -226,35 +202,13 @@ export default {
             document.getElementsByClassName("gfi-theme-iframe")[0].style.maxWidth = "";
             iframe.style.width = params?.iframe?.width;
             iframe.style.height = params?.iframe?.height;
-        },
-
-        /**
-         * Sets the max-width of the default gfiTheme content.
-         * @param {Object} params The gfi parameters.
-         * @returns {void}
-         */
-        setMaxWidth: function (params) {
-            if (this.mimeType !== "text/html") {
-                const gfiThemeContainer = document.getElementsByClassName("gfi-theme-images")[0];
-
-                if (typeof gfiThemeContainer?.style !== "object" || gfiThemeContainer?.style === null) {
-                    return;
-                }
-
-                if (params?.maxWidth) {
-                    gfiThemeContainer.style.maxWidth = params?.maxWidth;
-                }
-                else {
-                    gfiThemeContainer.style.maxWidth = this.maxWidth;
-                }
-            }
         }
     }
 };
 </script>
 
 <template>
-    <div :class="mimeType === 'text/html' ? 'gfi-theme-iframe' : 'gfi-theme-images'">
+    <div :class="mimeType === 'text/html' ? 'gfi-theme-iframe' : ''">
         <div
             v-if="showFavoriteIcons && mimeType !== 'text/html'"
             class="favorite-icon-container"
@@ -269,109 +223,98 @@ export default {
                 />
             </template>
         </div>
-        <div v-if="mimeType !== 'text/html'">
-            <a
-                v-if="imageAttribute"
-                :href="imageAttribute"
-                target="_blank"
-            >
-                <img
-                    class="gfi-theme-images-image"
-                    :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
-                    :src="imageAttribute"
-                >
-            </a>
-        </div>
-        <table
+        <div
             v-if="mimeType !== 'text/html'"
-            class="table table-hover"
+            class="table-wrapper"
         >
-            <tbody v-if="mappedPropertiesExists(feature)">
-                <tr v-if="!hasMappedProperties(feature)">
-                    <td>
-                        {{ $t("common:modules.getFeatureInfo.themes.default.noAttributeAvailable") }}
-                    </td>
-                </tr>
-                <tr
-                    v-for="(value, key) in getMappedPropertiesOfFeature(feature, showObjectKeysParam)"
-                    v-else
-                    :key="key"
-                >
-                    <td
-                        v-if="!isSensorChart(value)"
-                        class="font-bold firstCol"
+            <table class="table table-hover">
+                <tbody v-if="mappedPropertiesExists(feature)">
+                    <tr v-if="!hasMappedProperties(feature)">
+                        <td>
+                            {{ $t("common:modules.getFeatureInfo.themes.default.noAttributeAvailable") }}
+                        </td>
+                    </tr>
+                    <tr
+                        v-for="(value, key) in getMappedPropertiesOfFeature(feature, showObjectKeysParam)"
+                        v-else
+                        :key="key"
                     >
-                        <span v-if="beautifyKeysParam">
-                            {{ beautifyKey(translateKeyWithPlausibilityCheck(key, v => $t(v))) }}
-                        </span>
-                        <span v-else>
-                            {{ key }}
-                        </span>
-                    </td>
-                    <td v-if="isWebLink(value) && !isImage(value)">
-                        <a
-                            :href="value"
-                            target="_blank"
-                        >Link</a>
-                    </td>
-                    <td v-else-if="isWebLink(value) && isImage(value)">
-                        <a
-                            :href="value"
-                            target="_blank"
+                        <td
+                            v-if="!isSensorChart(value)"
+                            class="font-bold firstCol"
                         >
-                            <img
-                                class="gfi-theme-images-image"
-                                :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
-                                :src="value"
+                            <span v-if="beautifyKeysParam">
+                                {{ beautifyKey(translateKeyWithPlausibilityCheck(key, v => $t(v))) }}
+                            </span>
+                            <span v-else>
+                                {{ key }}
+                            </span>
+                        </td>
+                        <td v-if="isWebLink(value) && !isImage(value)">
+                            <a
+                                :href="value"
+                                target="_blank"
+                            >Link</a>
+                        </td>
+                        <td v-else-if="isWebLink(value) && isImage(value)">
+                            <a
+                                :href="value"
+                                target="_blank"
                             >
-                        </a>
-                    </td>
-                    <td v-else-if="isHTML(value)">
-                        <div v-html="value" />
-                    </td>
-                    <td v-else-if="isPhoneNumber(value)">
-                        <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
-                    </td>
-                    <td v-else-if="isEmailAddress(value)">
-                        <a :href="`mailto:${value}`">{{ value }}</a>
-                    </td>
-                    <td
-                        v-else-if="Array.isArray(value)"
-                        v-html="value.join('<br>')"
-                    />
-                    <td v-else-if="hasPipe(value)">
-                        <p
-                            v-for="(splitValue, splitKey) in value.split('|')"
-                            :key="splitKey"
-                        >
-                            {{ splitValue }}
-                        </p>
-                    </td>
-                    <td
-                        v-else-if="typeof value === 'string' && value.includes('<br>')"
-                        v-html="value"
-                    />
-                    <td
-                        v-else-if="isSensorChart(value)"
-                        colspan="2"
-                    >
-                        <DefaultThemeSensorChart
-                            :type="value.type"
-                            :label="value.label"
-                            :query="value.query"
-                            :format="value.format"
-                            :sta-object="value.staObject"
-                            :options="value.options"
-                            :chart-options="value.chartOptions"
-                            :download="value.download"
+                                <img
+                                    class="gfi-theme-images-image"
+                                    :alt="$t('common:modules.getFeatureInfo.themes.default.imgAlt')"
+                                    :src="value"
+                                >
+                            </a>
+                        </td>
+                        <td v-else-if="isHTML(value)">
+                            <div v-html="value" />
+                        </td>
+                        <td v-else-if="isPhoneNumber(value)">
+                            <a :href="getPhoneNumberAsWebLink(value)">{{ value }}</a>
+                        </td>
+                        <td v-else-if="isEmailAddress(value)">
+                            <a :href="`mailto:${value}`">{{ value }}</a>
+                        </td>
+                        <td
+                            v-else-if="Array.isArray(value)"
+                            v-html="value.join('<br>')"
                         />
-                    </td>
-                    <td v-else>
-                        {{ value }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td v-else-if="hasPipe(value)">
+                            <p
+                                v-for="(splitValue, splitKey) in value.split('|')"
+                                :key="splitKey"
+                            >
+                                {{ splitValue }}
+                            </p>
+                        </td>
+                        <td
+                            v-else-if="typeof value === 'string' && value.includes('<br>')"
+                            v-html="value"
+                        />
+                        <td
+                            v-else-if="isSensorChart(value)"
+                            colspan="2"
+                        >
+                            <DefaultThemeSensorChart
+                                :type="value.type"
+                                :label="value.label"
+                                :query="value.query"
+                                :format="value.format"
+                                :sta-object="value.staObject"
+                                :options="value.options"
+                                :chart-options="value.chartOptions"
+                                :download="value.download"
+                            />
+                        </td>
+                        <td v-else>
+                            {{ value }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <iframe
             v-if="mimeType === 'text/html'"
             class="gfi-iFrame"
@@ -401,10 +344,6 @@ export default {
 .gfi-theme-iframe {
     line-height: 1px;
 }
-.gfi-theme-images {
-    max-width: 600px;
-    height: 100%;
-}
 .gfi-theme-images-image {
     margin: auto;
     display: block;
@@ -420,10 +359,19 @@ export default {
         padding: 0 2px;
     }
 }
+.table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+}
 .table {
     margin-bottom: 0;
     @include media-breakpoint-up(sm) {
         max-width: 400px;
     }
+}
+.table td:nth-child(2) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 </style>

@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 
 /**
  * The About Module gives information about the metadata, contact and current version of the portal
@@ -22,6 +22,7 @@ export default {
             "logoText",
             "metaUrl",
             "showAdditionalMetaData",
+            "title",
             "version",
             "versionLink",
             "ustId",
@@ -60,10 +61,11 @@ export default {
     },
     mounted () {
         this.initializeAboutInfo();
+        this.currentMasterportalVersionNumber();
     },
 
     methods: {
-        ...mapActions("Modules/About", ["initializeAboutInfo"]),
+        ...mapActions("Modules/About", ["initializeAboutInfo", "currentMasterportalVersionNumber"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
         /**
          * Opens the privacy statement URL in a new tab.
@@ -103,6 +105,12 @@ export default {
         class="d-flex flex-column justify-content-between"
     >
         <div class="content d-flex flex-column">
+            <div v-if="title">
+                <h5
+                    class="title"
+                    v-html="title"
+                />
+            </div>
             <div>
                 <div
                     class="pb-2 abstract"
@@ -180,10 +188,10 @@ export default {
                         v-html="positionName"
                     />
                     <p>
-                        {{ contact.street + "  " + contact.postalCode }}
+                        {{ contact.street }}
                     </p>
                     <p>
-                        {{ contact.city }}
+                        {{ contact.postalCode }} {{ contact.city }}
                     </p>
                     <a
                         :href="'mailto:' + contact.email"
@@ -214,6 +222,7 @@ export default {
             </div>
         </div>
         <div
+            v-if="logo || version"
             class="d-flex flex-row justify-content-between mb-3 mt-5 align-items-center logoAndVersion"
         >
             <a
@@ -227,7 +236,10 @@ export default {
                     :alt="logoText"
                 >
             </a>
-            <span class="version">
+            <span
+                v-if="version"
+                class="version"
+            >
                 <a
                     :href="versionLink ? versionLink : '#'"
                     :target="versionLink ? '_blank' : '_self'"

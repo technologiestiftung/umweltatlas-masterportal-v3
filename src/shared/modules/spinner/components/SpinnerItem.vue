@@ -1,4 +1,10 @@
 <script>
+
+/**
+ * SpinnerItem component: A small loading spinner.
+ * @module shared/modules/spinner/SpinnerItem
+ * @vue-prop {String} customClass - can be used to add custom styles to the spinner.
+ */
 export default {
     name: "SpinnerItem",
     props: {

@@ -1,4 +1,4 @@
-import thousandsSeparator from "../../thousandsSeparator.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/thousandsSeparator.js", () => {

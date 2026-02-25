@@ -1,6 +1,9 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import IconButton from "../../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
+import RoutingExportAvoidAreas from "../RoutingExportAvoidAreas.vue";
+import RoutingImportAvoidAreas from "../RoutingImportAvoidAreas.vue";
 import RoutingCoordinateInput from "../RoutingCoordinateInput.vue";
 import RoutingDistanceDisplay from "../RoutingDistanceDisplay.vue";
 import RoutingDurationDisplay from "../RoutingDurationDisplay.vue";
@@ -9,22 +12,31 @@ import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vu
 import RoutingDownload from "../RoutingDownload.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
-import * as constants from "../../store/directions/constantsDirections";
-import * as constantsRouting from "../../store/constantsRouting";
-
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
+import RoutingElevationProfile from "../RoutingElevationProfile.vue";
+import RoutingContextMenu from "../RoutingContextMenu.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import * as constants from "../../store/directions/constantsDirections.js";
+import * as constantsRouting from "../../store/constantsRouting.js";
+import {Modal} from "bootstrap";
 
 /**
  * DirectionsItem
- * @module modules/DirectionsItem
+ * @module modules/routing/components/Directions/DirectionsItem
  * @vue-data {*} constants - The constants direction.
  * @vue-data {*} constantsRouting - The constants routing.
+ * @vue-data {*} defaultpreference - default preference.
+ * @vue-data {*} avoidRadius - Radius of avoid points.
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasEdit - Shows if current map mode is "AVOID_AREAS".
+ * @vue-computed {Boolean} isMapInteractionModeAvoidPointsEdit - Shows if current map mode is "AVOID_POINTS".
  * @vue-computed {Boolean} isMapInteractionModeAvoidAreasDelete - Shows if current map mode is "DELETE_AVOID_AREAS".
  */
 export default {
     name: "DirectionsItem",
     components: {
         IconButton,
+        RoutingExportAvoidAreas,
+        RoutingImportAvoidAreas,
         RoutingCoordinateInput,
         RoutingDistanceDisplay,
         RoutingDurationDisplay,
@@ -32,22 +44,32 @@ export default {
         DirectionsItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput,
+        RoutingElevationProfile,
+        LightButton,
+        RoutingContextMenu,
+        InputText
     },
     data () {
         return {
             constants,
             constantsRouting,
-            preferencesFromConfig: null
+            defaultPreference: null,
+            avoidRadius: 0,
+            showAvoidAreaButtons: false
         };
     },
     computed: {
         ...mapGetters("Modules/Routing/Directions", [
             "directionsRouteSource",
             "directionsAvoidSource",
+            "directionsAvoidPointSource",
+            "directionsWaypointsSource",
             "isInputDisabled",
             "mapInteractionMode",
             "routingAvoidFeaturesOptions",
+            "routingRestrictionsInputData",
             "routingDirections",
             "settings",
             "waypoints",
@@ -62,25 +84,58 @@ export default {
             return this.mapInteractionMode === "AVOID_AREAS";
         },
         /**
+         * Checks if current map mode is "AVOID_POINTS"
+         * @returns {Boolean} true if mode is "AVOID_POINTS"
+         */
+        isMapInteractionModeAvoidPointsEdit () {
+            return this.mapInteractionMode === "AVOID_POINTS";
+        },
+        /**
          * Checks if current map mode is "DELETE_AVOID_AREAS"
          * @returns {Boolean} true if mode is "DELETE_AVOID_AREAS"
          */
         isMapInteractionModeAvoidAreasDelete () {
             return this.mapInteractionMode === "DELETE_AVOID_AREAS";
+        },
+        /**
+         * Check if radius of barrier point is valid.
+         * @return {Boolean} true if radius is valid.
+         */
+        isRadiusValid () {
+            return this.avoidRadius !== "" && this.avoidRadius <= this.settings.maxAvoidRadius && this.avoidRadius >= 0;
         }
     },
-    async created () {
+    watch: {
+        /**
+         * Update state with new value when radius is changed and check
+         * if new value is within valid range.
+         * @returns {void}
+         */
+        avoidRadius () {
+            this.settings.avoidRadius = this.avoidRadius;
+            this.isRadiusValid ? this.createDirectionsAvoidPointDrawInteraction() : this.removeDirectionsAvoidDrawInteraction();
+        }
+    },
+    created () {
         this.initDirections();
-        this.preferencesFromConfig = this.directionsSettings?.customPreferences;
+        this.defaultPreference = this.directionsSettings?.preference;
     },
     beforeUnmount () {
         this.closeDirections();
+        this.removeModalFromBody();
+    },
+    mounted () {
+        this.appendModalToBody();
+        this.setMapInteractionMode("WAYPOINTS");
+        this.createInteractionFromMapInteractionMode();
+        this.avoidRadius = this.settings.avoidRadius;
     },
     methods: {
         ...mapMutations("Modules/Routing/Directions", [
             "setRoutingDirections",
             "setMapInteractionMode",
-            "setKeepRoutes"
+            "setKeepRoutes",
+            "setRoutingAvoidFeaturesOptions"
         ]),
         ...mapActions("Modules/Routing/Directions", [
             "findDirections",
@@ -93,7 +148,10 @@ export default {
             "addWaypoint",
             "removeWaypoint",
             "moveWaypointDown",
-            "moveWaypointUp"
+            "moveWaypointUp",
+            "isStartEndInput",
+            "createDirectionsAvoidPointDrawInteraction",
+            "removeDirectionsAvoidDrawInteraction"
         ]),
 
         /**
@@ -122,25 +180,39 @@ export default {
          * @returns {void}
          */
         changeMapInteractionModeAvoidAreasEdit () {
-            if (this.mapInteractionMode === "AVOID_AREAS") {
-                this.setMapInteractionMode("WAYPOINTS");
-            }
-            else {
-                this.setMapInteractionMode("AVOID_AREAS");
-            }
+            const avoidAreasMode = this.mapInteractionMode === "AVOID_AREAS";
+
+            this.setMapInteractionMode(avoidAreasMode ? "WAYPOINTS" : "AVOID_AREAS");
             this.createInteractionFromMapInteractionMode();
+        },
+        /**
+         * Toggles the current map mode between "AVOID_POINTS" and "WAYPOINTS"
+         * @returns {void}
+         */
+        changeMapInteractionModeAvoidPointsEdit () {
+            const avoidPointsMode = this.mapInteractionMode === "AVOID_POINTS";
+
+            this.setMapInteractionMode(avoidPointsMode ? "WAYPOINTS" : "AVOID_POINTS");
+            this.avoidRadius = avoidPointsMode ? this.avoidRadius : this.settings.avoidRadius;
+            this.createInteractionFromMapInteractionMode();
+            this.isRadiusValid && this.mapInteractionMode === "AVOID_POINTS" ? this.createDirectionsAvoidPointDrawInteraction() : this.removeDirectionsAvoidDrawInteraction();
         },
         /**
          * Toggles the current map mode between "DELETE_AVOID_AREAS" and "WAYPOINTS"
          * @returns {void}
          */
         changeMapInteractionModeAvoidAreasDelete () {
-            if (this.mapInteractionMode === "DELETE_AVOID_AREAS") {
-                this.setMapInteractionMode("WAYPOINTS");
-            }
-            else {
-                this.setMapInteractionMode("DELETE_AVOID_AREAS");
-            }
+            const avoidAreasMode = this.mapInteractionMode === "DELETE_AVOID_AREAS";
+
+            this.setMapInteractionMode(avoidAreasMode ? "WAYPOINTS" : "DELETE_AVOID_AREAS");
+            this.createInteractionFromMapInteractionMode();
+        },
+        /**
+         * Reset mapInteractionMode to "Waypoints".
+         * @returns {void}
+         */
+        resetMapInteractionMode () {
+            this.setMapInteractionMode("WAYPOINTS");
             this.createInteractionFromMapInteractionMode();
         },
         /**
@@ -152,8 +224,23 @@ export default {
                 this.removeWaypoint({index: this.waypoints[i].index});
             }
             this.directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
+            this.directionsWaypointsSource?.getFeatures().forEach(feature => this.directionsWaypointsSource.removeFeature(feature));
             this.setRoutingDirections(null);
             this.directionsAvoidSource.clear();
+            this.directionsAvoidPointSource.clear();
+
+            if (this.settings.speedProfile === "HGV") {
+                this.routingRestrictionsInputData.length = 10.0;
+                this.routingRestrictionsInputData.width = 2.4;
+                this.routingRestrictionsInputData.height = 2.8;
+                this.routingRestrictionsInputData.weight = 18;
+                this.routingRestrictionsInputData.axleload = 6;
+                this.routingRestrictionsInputData.hazmat = false;
+            }
+            this.avoidRadius = this.settings.defaultAvoidRadius;
+
+            this.setRoutingAvoidFeaturesOptions([]);
+            this.settings.preference = this.defaultPreference;
         },
         /**
          * Adds a new option to avoid when requesting directions afterwards
@@ -184,6 +271,45 @@ export default {
          */
         onBatchProcessingCheckboxInput (input) {
             this.directionsSettings.batchProcessing.active = input;
+        },
+        /**
+         * Called after file validation of upload
+         * @returns {void}
+         */
+        afterFileValidation () {
+            const modalElement = this.$refs.uploadModal,
+                modal = Modal.getInstance(modalElement);
+
+            modal.hide();
+        },
+        /**
+         * Appends modal to body in order to place modal correctly
+         * @returns {void}
+         */
+        appendModalToBody () {
+            const uploadModal = this.$refs.uploadModal;
+
+            if (uploadModal) {
+                document.body.appendChild(uploadModal);
+            }
+        },
+        /**
+         * Removes modal from body
+         * @returns {void}
+         */
+        removeModalFromBody () {
+            const uploadModal = this.$refs.uploadModal;
+
+            if (uploadModal) {
+                document.body.removeChild(uploadModal);
+            }
+        },
+        /**
+         * set Avoid Radius
+         * @returns {void}
+         */
+        setAvoidRadius () {
+            this.settings.avoidRadius = this.avoidRadius;
         }
     }
 };
@@ -235,171 +361,236 @@ export default {
                     <span>{{ $t('common:modules.routing.coordinateInputHelp') }}</span>
                 </div>
                 <RoutingCoordinateInput
-                    v-for="(waypoint, index) of waypoints"
+                    v-for="(waypoint, index) in waypoints.slice(0, waypoints.length - 1)"
                     :key="index"
+                    :class="index === 0 ? 'startpoint-input' : 'waypoint-input'"
                     :count-waypoints="waypoints.length"
                     :waypoint="waypoint"
                     @move-waypoint-up="moveWaypointUp(waypoint.index)"
                     @move-waypoint-down="moveWaypointDown(waypoint.index)"
                     @remove-waypoint="removeWaypoint({index: waypoint.index, reload: true})"
-                    @search-result-selected="findDirections()"
+                    @remove-avoid-interaction="resetMapInteractionMode()"
+                    @add-start-end="isStartEndInput(index)"
+                    @search-result-selected="isStartEndInput(-1); findDirections()"
+                />
+                <div class="row mb-3 m-1">
+                    <button
+                        id="add-waypoint"
+                        type="button"
+                        class="btn btn-light justify-content-left text-start"
+                        :title="$t('common:modules.routing.addWaypoint')"
+                        @click="isStartEndInput(-1); addWaypoint({index: waypoints.length - 1})"
+                    >
+                        <i class="bi-plus-circle" />
+                        {{ $t('common:modules.routing.addWaypoint') }}
+                    </button>
+                </div>
+                <RoutingCoordinateInput
+                    v-for="(waypoint, index) in waypoints.slice(waypoints.length - 1, waypoints.length)"
+                    :key="index"
+                    :class="'endpoint-input'"
+                    :count-waypoints="waypoints.length"
+                    :waypoint="waypoint"
+                    @move-waypoint-up="moveWaypointUp(waypoints.length - 1)"
+                    @remove-waypoint="removeWaypoint({index: waypoints.length - 1, reload: true})"
+                    @remove-avoid-interaction="resetMapInteractionMode()"
+                    @add-start-end="isStartEndInput(waypoints.length - 1)"
+                    @search-result-selected="isStartEndInput(-1); findDirections()"
                 />
             </form>
 
-            <div class="d-flex justify-content-between mt-4">
-                <div class="d-flex">
-                    <span> {{ $t('common:modules.routing.directions.restrictedAreas') }}:</span>
+            <hr>
+            <div
+                id="routing-avoid-features"
+                class="d-flex flex-column"
+            >
+                <button
+                    class="d-flex btn-dropdown"
+                    @click="showAvoidAreaButtons = !showAvoidAreaButtons, resetMapInteractionMode()"
+                    @keydown.enter="showAvoidAreaButtons = !showAvoidAreaButtons , resetMapInteractionMode()"
+                >
+                    <i
+                        :class="showAvoidAreaButtons? 'bi-chevron-down' : 'bi-chevron-right'"
+                    />
+                    <b class="mx-2">{{ $t('common:modules.routing.directions.restrictedAreas') }}</b>
+                </button>
+                <div
+                    v-if="showAvoidAreaButtons"
+                    class="mt-2"
+                >
+                    <div class="d-flex justify-content-between">
+                        <!-- avoid area -->
+                        <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
+                            <IconButton
+                                id="addAvoidAreaBtn"
+                                class="mx-2"
+                                :aria="$t('common:modules.routing.directions.editRestrictedAreas')"
+                                :icon="'bi-bounding-box-circles fs-7'"
+                                :class-array="[isMapInteractionModeAvoidAreasEdit ? 'btn-primary' : 'btn-light']"
+                                @click="changeMapInteractionModeAvoidAreasEdit()"
+                                @keydown.enter="changeMapInteractionModeAvoidAreasEdit()"
+                            />
+                            <label
+                                id="addAvoidArea"
+                                for="addAvoidAreasBtn"
+                                class="btn-description"
+                            >{{ $t('common:modules.routing.directions.avoidAreas.avoidArea') }}</label>
+                        </div>
 
-                    <button
-                        class="m-1 btn-icon"
-                        @click="changeMapInteractionModeAvoidAreasEdit()"
-                        @keydown.enter="changeMapInteractionModeAvoidAreasEdit()"
+                        <!-- Avoid Points -->
+                        <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
+                            <IconButton
+                                id="addAvoidPointBtn"
+                                class="mx-2"
+                                :aria="$t('common:modules.routing.directions.editRestrictedPoints')"
+                                :icon="'bi-record-circle fs-7'"
+                                :class-array="[isMapInteractionModeAvoidPointsEdit ? 'btn-primary' : 'btn-light']"
+                                @click="changeMapInteractionModeAvoidPointsEdit()"
+                                @keydown.enter="changeMapInteractionModeAvoidPointsEdit()"
+                            />
+                            <label
+                                id="addAvoidPoint"
+                                for="addAvoidPointBtn"
+                                class="btn-description"
+                            >{{ $t('common:modules.routing.directions.avoidAreas.avoidPoint') }}
+                            </label>
+                        </div>
+
+                        <!-- delete avoid area -->
+                        <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
+                            <IconButton
+                                id="deleteAvoidAreaBtn"
+                                class="mx-2"
+                                :aria="$t('common:modules.routing.directions.deleteRestrictedAreas')"
+                                :icon="'bi-x-square fs-7'"
+                                :class-array="[isMapInteractionModeAvoidAreasDelete ? 'btn-primary' : 'btn-light']"
+                                @click="changeMapInteractionModeAvoidAreasDelete()"
+                                @keydown.enter="changeMapInteractionModeAvoidAreasDelete()"
+                            />
+                            <label
+                                id="deleteAvoidArea"
+                                for="deleteAvoidAreaBtn"
+                                class="btn-description"
+                            >{{ $t('common:modules.routing.directions.avoidAreas.delete') }}
+                            </label>
+                        </div>
+                        <!-- export avoid area -->
+                        <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
+                            <IconButton
+                                id="exportAvoidAreasBtn"
+                                class="mx-2"
+                                :aria="$t('common:modules.routing.exportAvoidAreas.tooltip')"
+                                :class-array="['btn-light']"
+                                :icon="'bi-file-earmark-arrow-down fs-7'"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exportAvoidAreasModal"
+                            />
+                            <RoutingExportAvoidAreas />
+                            <label
+                                id="exportAvoidAreas"
+                                for="exportAvoidAreasBtn"
+                                class="btn-description"
+                            >{{ $t('common:modules.routing.directions.avoidAreas.export') }}</label>
+                        </div>
+                        <!-- import avoid areas -->
+                        <div class="btn-grouping d-flex flex-column align-items-center justify-content-center">
+                            <IconButton
+                                id="importAvoidAreasBtn"
+                                class="mx-2"
+                                :aria="$t('common:modules.routing.importAvoidAreas.tooltip')"
+                                :class-array="['btn-light']"
+                                :icon="'bi-upload fs-7'"
+                                data-bs-toggle="modal"
+                                data-bs-target="#uploadModal"
+                            />
+                            <label
+                                id="importAvoidAreas"
+                                for="importAvoidAreasBtn"
+                                class="btn-description"
+                            >{{ $t('common:modules.routing.directions.avoidAreas.import') }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="isMapInteractionModeAvoidPointsEdit">
+                    <div
+                        class="d-flex flex-row mb-3"
                     >
-                        <svg
-                            width="20px"
-                            height="20px"
-                            viewBox="0 0 30 30"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xml:space="preserve"
-                            xmlns:serif="http://www.serif.com/"
-                            fill-rule="evenodd"
+                        <div class="form-floating mb-3 w-100 mt-3">
+                            <InputText
+                                :id="'avoidRadius'"
+                                v-model="avoidRadius"
+                                type="number"
+                                :class-obj="['form-control' + (isRadiusValid ? ' is-valid': ' is-invalid')]"
+                                class="w-100"
+                                :aria-describedby="`avoidPointRadius-input-help`"
+                                :label="$t('common:modules.routing.directions.avoidAreas.avoidPointRadius')"
+                                :placeholder="$t('common:modules.routing.directions.avoidAreas.avoidPointRadiusOutOfRangeKm')"
+                                :min="0"
+                                :max="12"
+                                :step="0.1"
+                                :error-message="$t('common:modules.routing.directions.avoidAreas.avoidPointRadiusOutOfRangeKm')"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select
+                            id="draw-avoidPoint-settings"
+                            class="form-select"
+                            disabled
                         >
-                            <title>{{ $t('common:modules.routing.directions.editRestrictedAreas') }}</title>
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                d="M3,0c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                d="M27,4c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                d="M27,20c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                d="M3,24c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                d="M3,6l0,18"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M27,10l0,10"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M24,23l-18,4"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M24,7l-18,-4"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasEdit ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            />
-                        </svg>
-                    </button>
-                    <button
-                        class="m-1 btn-icon"
-                        @click="changeMapInteractionModeAvoidAreasDelete()"
-                        @keydown.enter="changeMapInteractionModeAvoidAreasDelete()"
-                    >
-                        <svg
-                            width="20px"
-                            height="20px"
-                            viewBox="0 0 30 30"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xml:space="preserve"
-                            xmlns:serif="http://www.serif.com/"
-                            fill-rule="evenodd"
-                        >
-                            <title>{{ $t('common:modules.routing.directions.deleteRestrictedAreas') }}</title>
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                d="M3,0c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                d="M27,4c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                d="M27,20c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                :fill="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                d="M3,24c1.656,0 3,1.344 3,3c0,1.656 -1.344,3 -3,3c-1.656,0 -3,-1.344 -3,-3c0,-1.656 1.344,-3 3,-3Zm0,1.5c0.828,0 1.5,0.672 1.5,1.5c0,0.828 -0.672,1.5 -1.5,1.5c-0.828,0 -1.5,-0.672 -1.5,-1.5c0,-0.828 0.672,-1.5 1.5,-1.5Z"
-                            />
-                            <path
-                                d="M3,6l0,18"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M27,10l0,10"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M24,23l-18,4"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M24,7l-18,-4"
-                                fill="none"
-                                :stroke="isMapInteractionModeAvoidAreasDelete ? '#f00' : '#000'"
-                                stroke-width="1px"
-                            /><path
-                                d="M23.044,19.067l-15.588,-9l-0.5,0.866l15.588,9l0.5,-0.866Z"
-                                fill="#f00"
-                            /><path
-                                d="M22.544,10.067l-15.588,9l0.5,0.866l15.588,-9l-0.5,-0.866Z"
-                                fill="#f00"
-                            />
-                        </svg>
-                    </button>
+                            <option>
+                                {{ $t('common:modules.routing.directions.avoidAreas.avoidPointRadiusUnitKm') }}
+                            </option>
+                        </select>
+                        <label for="draw-circle-settings">
+                            {{ $t("common:shared.modules.draw.drawSettingsCircle.unit") }}
+                        </label>
+                    </div>
                 </div>
 
-                <div class="d-flex">
-                    <IconButton
-                        id="button-up"
-                        :aria="$t('common:modules.routing.resetSettings')"
-                        :class-array="['btn-light']"
-                        :icon="'bi-trash fs-6'"
-                        :interaction="() => reset()"
-                    />
-                    <button
-                        class="bootstrap-icon m-2 btn-icon"
-                        :title="$t('common:modules.routing.addWaypoint')"
-                        @click="addWaypoint({index: waypoints.length -1})"
-                        @keydown.enter="addWaypoint({index: waypoints.length -1})"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="12"
-                            height="12"
-                            fill="currentColor"
-                            class="bi bi-plus-lg"
-                            viewBox="0 0 16 16"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-                                stroke="black"
-                                stroke-width="2"
-                            />
-                        </svg>
-                    </button>
+                <!-- Modal -->
+                <div
+                    id="uploadModal"
+                    ref="uploadModal"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-labelledby="uploadModalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1
+                                    id="uploadModalLabel"
+                                    class="modal-title fs-5"
+                                >
+                                    {{ $t('common:modules.routing.importAvoidAreas.header') }}
+                                    <a
+                                        href="#"
+                                        :aria-label="$t('common:modules.routing.importAvoidAreas.help')"
+                                    />
+                                </h1>
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                />
+                            </div>
+                            <div class="modal-body">
+                                <div class="mt-2 col-md-12">
+                                    {{ $t('common:modules.routing.importAvoidAreas.description') }}
+                                </div>
+                                <div class="mt-2 mb-2 col-md-12">
+                                    {{ $t('common:modules.routing.importAvoidAreas.structure') }}
+                                    <hr>
+                                    <RoutingImportAvoidAreas
+                                        @after-file-validation="afterFileValidation()"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </template>
@@ -418,7 +609,7 @@ export default {
             @change="changePreference($event.target.value)"
         >
             <option
-                v-for="option in preferencesFromConfig?.hasOwnProperty(settings.speedProfile) ? preferencesFromConfig[settings.speedProfile] : constants.preferenceOptions"
+                v-for="option in constants.preferenceOptions"
                 :id="option"
                 :key="'routing-directions-preference-' + option"
                 :value="option"
@@ -430,6 +621,10 @@ export default {
         </select>
 
         <hr>
+
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput />
+        </div>
 
         <RoutingAvoidFeatures
             :settings="settings"
@@ -472,7 +667,9 @@ export default {
                         @mouseout="unHighlightRoute()"
                         @blur="unHighlightRoute()"
                     >
-                        <button
+                        <span
+                            role="button"
+                            tabindex="0"
                             class="d-flex btn-icon"
                             @click="segment.displayDetails = !segment.displayDetails"
                             @keydown.enter="segment.displayDetails = !segment.displayDetails"
@@ -487,9 +684,11 @@ export default {
                                     <i class="bi-chevron-right" />
                                 </span>
                             </b>
-                        </button>
+                        </span>
 
-                        <button
+                        <span
+                            role="button"
+                            tabindex="0"
                             class="d-flex flex-column ms-2 w-100 btn-directions"
                             @click="zoomToRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
                             @keydown.enter="zoomToRoute({fromWaypointIndex: segmentIndex, toWaypointIndex: segmentIndex + 1})"
@@ -501,7 +700,7 @@ export default {
                                 <RoutingDurationDisplay :duration="segment.duration" />
                                 <RoutingDistanceDisplay :distance="segment.distance" />
                             </div>
-                        </button>
+                        </span>
                     </button>
 
                     <hr
@@ -574,12 +773,33 @@ export default {
                     <b class="ms-2">{{ waypoints[waypoints.length - 1].getDisplayName() }}</b>
                 </button>
 
-                <hr class="mt-0">
+                <hr>
+
+                <div v-if="directionsSettings.elevation && routingDirections">
+                    <RoutingElevationProfile />
+                    <hr>
+                </div>
+
 
                 <RoutingDownload />
             </div>
         </template>
+        <div class="d-flex justify-content-between mt-2">
+            <span
+                class="pointer col-8"
+                :title="$t(('common:modules.routing.resetSettings'))"
+            >
+                <LightButton
+                    id="button-reset"
+                    :class-array="['btn-light']"
+                    :icon="'bi-trash fs-6'"
+                    :interaction="() => reset()"
+                    :text="$t('common:modules.routing.resetSettings')"
+                />
+            </span>
+        </div>
     </div>
+    <RoutingContextMenu />
 </template>
 
 <style lang="scss" scoped>
@@ -589,9 +809,18 @@ export default {
     background-color: yellow;
 }
 .btn-icon {
-    border: none;
     background-color: $white;
+    border: none;
 }
+
+.btn-dropdown {
+    background-color: $white;
+    border: none;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 5px 0;
+}
+
 .btn-directions {
     border: none;
     padding-left: 0px;
@@ -631,5 +860,27 @@ export default {
 }
 .none-pointer-events {
     pointer-events: none;
+}
+
+.form-control {
+    width: 5.5rem;
+}
+
+.radius-unit {
+    padding-left: 0.5rem;
+    margin-top: 5px;
+}
+.avoidPoint {
+    display: flex;
+    flex-direction: row;
+}
+#button-reset{
+    min-width: 100%;
+}
+.invalid-feedback {
+    max-width: fit-content;
+}
+#draw-avoidPoint-settings {
+  background-image: none;
 }
 </style>

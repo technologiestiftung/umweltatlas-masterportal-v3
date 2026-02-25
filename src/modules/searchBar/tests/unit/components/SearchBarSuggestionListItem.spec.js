@@ -3,7 +3,7 @@ import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarSuggestionListItemComponent from "../../../components/SearchBarSuggestionListItem.vue";
+import SearchBarSuggestionListItemComponent from "@modules/searchBar/components/SearchBarSuggestionListItem.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -42,7 +42,17 @@ describe("src/modules/searchBar/components/SearchBarSuggestionListItem.vue", () 
     ];
 
     beforeEach(() => {
-        store = createStore({});
+        store = createStore({
+            modules: {
+                Maps: {
+                    namespaced: true,
+                    getters: {
+                        scale: () => 500,
+                        mode: () =>"2D"
+                    }
+                }
+            }
+        });
     });
 
     afterEach(() => {

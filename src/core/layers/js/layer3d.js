@@ -1,6 +1,6 @@
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import Layer from "./layer";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import Layer from "./layer.js";
 
 /**
  * Creates a 3d layer.
@@ -41,6 +41,17 @@ Layer3d.prototype.updateLayerValues = function (attributes) {
     if (this.get("visibility") !== attributes.visibility) {
         this.setVisible(attributes.visibility, mapCollection.getMap("3D"), attributes);
     }
+};
+
+/**
+ * Setter for style at attributes.
+ * @param {Object} value The style to set at ol layer. If value is null, undefined is set as style at layer to use defaultStyle.
+ * @returns {void}
+ */
+Layer3d.prototype.setStyle = function (value) {
+    const style = value === null ? undefined : value;
+
+    this.set("style", style);
 };
 
 /**

@@ -1,9 +1,9 @@
-import {rawLayerList} from "@masterportal/masterportalapi";
-import {getFeatureGET} from "../../../shared/js/api/wfs/getFeature";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
+import {getFeatureGET} from "@shared/js/api/wfs/getFeature.js";
 import {WFS} from "ol/format.js";
-import isObject from "../../../shared/js/utils/isObject";
-import {describeFeatureType, getFeatureDescription} from "../../../shared/js/api/wfs/describeFeatureType";
-import getOAFFeature from "../../../shared/js/api/oaf/getOAFFeature";
+import isObject from "@shared/js/utils/isObject.js";
+import {describeFeatureType, getFeatureDescription} from "@shared/js/api/wfs/describeFeatureType.js";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 
 /**
  * Gets the unique values for the given attributes.
@@ -114,16 +114,10 @@ function getUniqueValuesFromFeatures (features, attributes) {
  * @param {Number} [limit=400] The limit per request.
  * @returns {ol/Feature[]} An array of openlayer features.
  */
-async function getOAFFeatures (baseUrl, collection, propertyNames, featureProjection, crs, dataProjection, filter, filterCrs, limit = 400) {
+async function getOAFFeatures (baseUrl, collection, propertyNames, featureProjection, crs, dataProjection, filter, filterCrs, signal) {
     let features = [];
 
-    try {
-        features = await getOAFFeature.getOAFFeatureGet(baseUrl, collection, limit, filter, filterCrs, crs, propertyNames);
-    }
-    catch (error) {
-        console.error(error);
-        return [];
-    }
+    features = await getOAFFeature.getOAFFeatureGet(baseUrl, collection, {signal, filter, filterCrs, crs, propertyNames});
 
     return getOAFFeature.readAllOAFToGeoJSON(features, {featureProjection, dataProjection});
 }

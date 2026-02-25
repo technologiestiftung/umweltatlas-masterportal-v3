@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import MenuContainerBody from "./MenuContainerBody.vue";
-import ResizeHandle from "../../../shared/modules/resize/components/ResizeHandle.vue";
+import ResizeHandle from "@shared/modules/resize/components/ResizeHandle.vue";
 import MenuContainerBodyRootLogo from "./MenuContainerBodyRootLogo.vue";
 import SearchBar from "../../searchBar/components/SearchBar.vue";
 
@@ -102,8 +102,11 @@ export default {
         ...mapMutations("Menu", [
             "collapseMenues",
             "mergeMenuState",
-            "setCurrentMenuWidth"
+            "setCurrentMenuWidth",
+            "setCurrentSecondaryMenuWidth",
+            "setCurrentMainMenuWidth"
         ]),
+        ...mapMutations("Modules/LayerPills", {setLayerPillsHidden: "setHidden"}),
         ...mapActions("Menu", ["clickedMenuElement", "toggleMenu", "closeMenu"]),
         /**
          * Opens the searchbar module.
@@ -113,8 +116,52 @@ export default {
             this.clickedMenuElement({
                 name: "common:modules.searchBar.searchResultList",
                 side: this.side,
-                type: "searchbar"
+                type: "searchBar"
             });
+        },
+        /**
+         * Keeps track of current menu sizes and triggers function to hide layerPills and Footer with a sufficiently big secondary menu.
+         * @param {object} eventData emitted Data from ResizeHandle Event
+         */
+        onResize (eventData) {
+            const menuPercentWidth = eventData.handleElement.offsetWidth / document.documentElement.clientWidth;
+
+            if (this.side === "mainMenu" && this.uiStyle === "DEFAULT") {
+                this.setCurrentMainMenuWidth(menuPercentWidth);
+            }
+            if (this.side === "secondaryMenu" && this.uiStyle === "DEFAULT") {
+                this.hideElementsForBiggerMenu(menuPercentWidth);
+                this.setCurrentSecondaryMenuWidth(menuPercentWidth);
+            }
+        },
+        /**
+         * Hides or displays layerPills and Footer depending on width of secondary Menu.
+         * @param {number} menuPercentWidth the width of the secondary Menu in percent of the viewport.
+         */
+        hideElementsForBiggerMenu (menuPercentWidth) {
+            const hideElementBreakPoint = document.documentElement.clientWidth > 1000 ? 0.7 : 0.5,
+                footer = document.getElementById("module-portal-footer");
+
+            this.setLayerPillsHidden(menuPercentWidth >= hideElementBreakPoint);
+            if (footer) {
+                footer.style.display = menuPercentWidth > hideElementBreakPoint ? "none" : "";
+            }
+        },
+        /**
+         * Triggers when css transition of menu ends to propagate new menu width to the state
+         * @param {object} event data-object from the css-transition element
+         */
+        onTransitionEnd (event) {
+            const menuPercentWidth = event.target.offsetWidth / document.documentElement.clientWidth;
+
+            if (event.propertyName === "width") {
+                if (event.target.id.includes("secondary")) {
+                    this.setCurrentSecondaryMenuWidth(menuPercentWidth);
+                }
+                else {
+                    this.setCurrentMainMenuWidth(menuPercentWidth);
+                }
+            }
         }
     }
 };
@@ -134,6 +181,7 @@ export default {
         tabindex="-1"
         :style="expanded ? 'width:' + currentMenuWidth(side) : 'width:0'"
         :aria-label="titleBySide(side) ? titleBySide(side).text : null"
+        @transitionend="onTransitionEnd"
     >
         <div
             :id="'mp-header-' + side"
@@ -176,8 +224,10 @@ export default {
             :handle-position="handlePosition"
             :mutation="setCurrentMenuWidth"
             :min-width="0"
-            :max-width="0.6"
+            :max-width="0.95"
             :min-height="1"
+            :side="side"
+            @resizing="eventData => onResize(eventData)"
         >
             &#8942;
         </ResizeHandle>
@@ -191,7 +241,7 @@ export default {
     position: fixed;
     background-color: $menu-background-color;
     transition: width 0.3s ease;
-    z-index: 2;
+    z-index: 4;
     flex-direction: column
 }
 
@@ -248,7 +298,7 @@ export default {
         min-width: 0%;
         flex-grow: 0;
         flex-shrink: 0;
-        position: relative;
+        position: absolute;
     }
 
     .mp-mainMenu {
@@ -278,6 +328,10 @@ export default {
 }
 
 @include media-breakpoint-up(md) {
+    .mp-menu {
+        position: relative;
+    }
+
     .mp-menu-header-close-button {
         display: none;
     }

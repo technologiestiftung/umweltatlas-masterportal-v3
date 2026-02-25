@@ -1,12 +1,12 @@
 import {Stroke, Style} from "ol/style.js";
-import stateRouting from "../../../../store/stateRouting";
+import stateRouting from "@modules/routing/store/stateRouting.js";
 
 /**
  * Creates Direction Route Style Function
  * @param {ol/Feature} feature for the current style
  * @returns {ol/Style} style function
  */
-export default function createDirectionsRouteStyle (feature) {
+function createDirectionsRouteStyle (feature) {
     // check if correct?
     const styleSetting = stateRouting.directionsSettings.styleRoute ? stateRouting.directionsSettings.styleRoute : stateRouting.Directions.settings.styleRoute,
         isHighlight = feature.get("isHighlight");
@@ -35,3 +35,4 @@ export default function createDirectionsRouteStyle (feature) {
         })
     ];
 }
+export default {createDirectionsRouteStyle};

@@ -1,4 +1,4 @@
-import {isRule} from "./isRule";
+import {isRule} from "./isRule.js";
 /**
  * Checks if there are rules with fixed=false in the set of rules.
  * @param {Object[]} rules an array of rules

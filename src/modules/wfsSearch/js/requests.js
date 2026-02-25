@@ -1,9 +1,9 @@
 import axios from "axios";
-import Feature from "ol/Feature";
-import {Point, Polygon} from "ol/geom";
-import WFS from "ol/format/WFS";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
-import {buildFilter, buildStoredFilter} from "./buildFilter";
+import Feature from "ol/Feature.js";
+import {Point, Polygon} from "ol/geom.js";
+import WFS from "ol/format/WFS.js";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
+import {buildFilter, buildStoredFilter} from "./buildFilter.js";
 
 /**
  * Makes sure that the filter is ready to be used.
@@ -107,15 +107,19 @@ function storedFilter (requestUrl, filter, storedQueryId) {
  * Returns the version and filter to the request url for a WFS@1.1.0
  * @param {Object} requestUrl The Url object.
  * @param {XML[]} filter The filter written in XML.
+ * @param {String} featureNS The featureNS as defined in the services.json. If not configured, http://www.opengis.net/gml is used.
+ * @param {String} featurePrefix The  featurePrefix as defined in the services.json. If not configured, gml is used.
  * @returns {String} The added parts for the request Url.
  */
-function xmlFilter (requestUrl, filter) {
-    const value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">${adjustFilter(filter)}</ogc:Filter>`;
+function xmlFilter (requestUrl, featureNS, featurePrefix, filter) {
+    const xmln = featureNS && featurePrefix ? `${featurePrefix}="${featureNS}"` : "gml=\"http://www.opengis.net/gml\"",
+        value = `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" xmlns:${xmln}>${adjustFilter(filter)}</ogc:Filter>`;
 
     requestUrl.searchParams.set("version", "1.1.0");
     requestUrl.searchParams.set("filter", value);
     return requestUrl;
 }
+
 
 let currentRequest = null;
 
@@ -161,6 +165,8 @@ function searchFeatures (store, {literals, requestConfig: {gazetteer = null, lay
  * Creates the url depending on params.
  * @param {String} urlString The base Url as defined in the services.json or rest-services.json.
  * @param {String} typeName If the Url was defined in the services.json, the typeName is set to be added to the Url.
+ * @param {String} featureNS The featureNS as defined in the services.json.
+ * @param {String} featurePrefix The  featurePrefix as defined in the services.json.
  * @param {(XML | XML[] | String)} filter The filter to constrain the returned features.
  * @param {Boolean} fromServicesJson Whether the service was defined in the services.json or the rest-service.json.
  * @param {String} storedQueryId The Id of the Stored Query. Present when using a WFS@2.0.0.
@@ -168,7 +174,7 @@ function searchFeatures (store, {literals, requestConfig: {gazetteer = null, lay
  * @param {?String} [featureType = null] FeatureType of the features which should be requested. Only given for queries for suggestions.
  * @returns {Object} the created Url
  */
-function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType) {
+function createUrl (urlString, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType) {
     let requestUrl = new URL(urlString);
 
     if (fromServicesJson) {
@@ -183,7 +189,7 @@ function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId
         requestUrl = storedFilter(requestUrl, filter, storedQueryId);
     }
     else {
-        requestUrl = xmlFilter(requestUrl, filter);
+        requestUrl = xmlFilter(requestUrl, featureNS, featurePrefix, filter);
     }
     return requestUrl;
 }
@@ -195,6 +201,8 @@ function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId
  * @param {Object} service The service to send the request to.
  * @param {String} service.url The base Url as defined in the services.json or rest-services.json.
  * @param {String} service.typeName If the Url was defined in the services.json, the typeName is set to be added to the Url.
+ * @param {String} service.featureNS The featureNS as defined in the services.json.
+ * @param {String} service.featurePrefix The  featurePrefix as defined in the services.json.
  * @param {(XML | XML[] | String)} filter The filter to constrain the returned features.
  * @param {Boolean} fromServicesJson Whether the service was defined in the services.json or the rest-service.json.
  * @param {String} storedQueryId The Id of the Stored Query. Present when using a WFS@2.0.0.
@@ -203,15 +211,23 @@ function createUrl (urlString, typeName, filter, fromServicesJson, storedQueryId
  * @returns {Promise} If the request was successful, the data of the response gets resolved.
  *                    If an error occurs (e.g. the service is not reachable or there was no such feature) the error is caught and the message is displayed as an alert.
  */
-function sendRequest (store, {url, typeName}, filter, fromServicesJson, storedQueryId, maxFeatures = 8, featureType = null) {
-    const requestUrl = createUrl(url, typeName, filter, fromServicesJson, storedQueryId, maxFeatures, featureType);
+function sendRequest (store, {url, typeName, featureNS, featurePrefix}, filter, fromServicesJson, storedQueryId, maxFeatures = 8, featureType = null) {
+    const requestUrl = createUrl(url, typeName, featureNS, featurePrefix, filter, fromServicesJson, storedQueryId, maxFeatures, featureType),
+        currentInstance = store.getters["Modules/WfsSearch/currentInstance"],
+        currentLayerId = currentInstance?.requestConfig?.layerId;
+
+    let layer = null;
+
+    if (currentLayerId) {
+        layer = store.getters.allLayerConfigs.find(l => l.id === currentLayerId);
+    }
 
     if (currentRequest) {
         currentRequest.cancel();
     }
     currentRequest = axios.CancelToken.source();
 
-    return axios.get(decodeURI(requestUrl))
+    return axios.get(decodeURI(requestUrl), {withCredentials: layer?.isSecured ?? false})
         .then(response => handleAxiosResponse(response, "WfsSearch, searchFeatures, sendRequest"))
         .catch(error => store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.wfsSearch.searchError", {error})));
 }

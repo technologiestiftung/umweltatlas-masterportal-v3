@@ -1,6 +1,6 @@
 import {Style} from "ol/style.js";
 import {expect} from "chai";
-import createStyleModule from "../../../../js/style/createStyle";
+import createStyleModule from "@modules/draw_old/js/style/createStyle.js";
 
 describe("src/modules/draw/js/style/createStyle.js", () => {
     let iconPath;

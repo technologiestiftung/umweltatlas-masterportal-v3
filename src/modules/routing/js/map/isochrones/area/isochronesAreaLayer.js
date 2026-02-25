@@ -1,5 +1,5 @@
-import isochronesAreaSource from "./isochronesAreaSource";
-import isochronesAreaStyle from "./isochronesAreaStyle";
+import isochronesAreaSource from "./isochronesAreaSource.js";
+import isochronesAreaStyle from "./isochronesAreaStyle.js";
 import VectorLayer from "ol/layer/Vector.js";
 
 export default new VectorLayer({

@@ -1,7 +1,7 @@
 <script>
 import {pointerMove} from "ol/events/condition.js";
-import selectInteraction from "@masterportal/masterportalapi/src/maps/interactions/selectInteraction";
-import modifyInteraction from "@masterportal/masterportalapi/src/maps/interactions/modifyInteraction";
+import selectInteraction from "@masterportal/masterportalapi/src/maps/interactions/selectInteraction.js";
+import modifyInteraction from "@masterportal/masterportalapi/src/maps/interactions/modifyInteraction.js";
 import {mapActions} from "vuex";
 
 import IconButton from "../../buttons/components/IconButton.vue";

@@ -1,9 +1,9 @@
 import axios from "axios";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {WFS} from "ol/format";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import {WFS} from "ol/format.js";
 import escape from "escape-html";
 
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
 
 /**
  * Retrieves features from the defined layer.

@@ -1,7 +1,7 @@
 <script>
-import escapeId from "../../../shared/js/utils/escapeId";
+import escapeId from "@shared/js/utils/escapeId.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "../../../core/layers/js/layerCollection.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 /**
  * A Checkbox to select all layers at one time.
@@ -37,7 +37,8 @@ export default {
          */
         clicked () {
             this.checked = !this.checked;
-            this.confs.forEach(conf => {
+
+            this.confs.slice().reverse().forEach(conf => {
                 this.changeVisibility({layerId: conf.id, value: this.checked});
                 if (conf.fitCapabilitiesExtent === true) {
                     this.zoomToCapabilitiesExtent(conf);

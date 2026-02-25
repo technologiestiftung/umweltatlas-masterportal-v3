@@ -1,4 +1,4 @@
-import getters from "../getters";
+import getters from "../getters.js";
 /**
  * Rewrites the URL by replacing the dots with underlined
  * If a proxyHost is configured, it is prepended to the URL.
@@ -73,6 +73,7 @@ export function updateProxyUrl (obj, proxyHost) {
         }
     }
     if (obj?.useProxy === true && obj?.url) {
+        obj.origUrl = obj.url;
         obj.url = getProxyUrl(obj.url, proxyHost);
     }
     return obj;

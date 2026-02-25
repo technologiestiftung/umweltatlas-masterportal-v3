@@ -2,7 +2,7 @@
 
 The *style.json* file describes visualization rules to control the styling of vector features. It may be used in all sorts of vector layers, namely *WFS*, *GeoJSON*, and *Sensor*.
 
-Style rules may be defined for *3DTileSets*, too.
+Style rules may be defined for *3DTileSets* and *GeoTiff* layers, too.
 
 ## What happens on Masterportal start-up
 
@@ -599,7 +599,7 @@ With the example style above, the following patterns are rendered, where `patter
 |`{"patternCode": "diagonal", "lineWidth": 10}`|![Polygon Fill Diagonal Hatch Pattern Example](media/style.diagonal.png)|
 |`{"patternCode": "zig-line", "lineWidth": 10}`|![Polygon Fill Zig-Line Hatch Pattern Example](media/style.zigline.png)|
 
-The alternatives `"zig-lines-horizontal"` and `"diagonal-right"` match the above patterns rotated by 90°.
+The alternatives `"zig-line-horizontal"` and `"diagonal-right"` match the above patterns rotated by 90°.
 
 >🛠️ Expert feature: Defining your own pattern.
 
@@ -730,6 +730,51 @@ You may also use [rect](https://developer.mozilla.org/en-US/docs/Web/API/CanvasR
             "style": {
                 "type": "cesium",
                 "color": "rgba(150, 150, 150, 0.5)"
+            }
+        }
+    ]
+}
+```
+
+### GeoTiff
+
+|Name|Required|Type|Default|Description|
+|----|--------|----|-------|-----------|
+|color|yes|OpenLayers Style||Openlayers style definition that translates tile data to rendered pixels.|
+|type|yes|String|`"raster"`|Type property to identify the style as a GeoTiff raster style. This property is removed before applying the style to the layer.|
+
+Please note that the `raster` style does not support the `"conditions"` property and only a single style rule. Instead, conditional styling is possible by assigning RGBa values to certain breakpoints: Please see the [OpenLayers WebGLTile Style documentation](https://openlayers.org/en/latest/apidoc/module-ol_layer_WebGLTile.html#~Style) and the [OpenLayers Tile Layer Style example](https://openlayers.org/en/latest/examples/cog-style.html) for additional details.
+
+#### Example
+
+```json
+{
+    "styleId": "GeoTiffStyle",
+    "rules": [
+        {
+            "style": {
+                "type": "raster",
+                "color": [
+                    "interpolate",
+                    ["linear"],
+                    [
+                        "/",
+                        ["-", ["band", 2], ["band", 1]],
+                        ["+", ["band", 2], ["band", 1]]
+                    ],
+                    20,
+                    [0, 0, 131, 1],
+                    28,
+                    [0, 60, 170, 1],
+                    36,
+                    [5, 255, 255, 1],
+                    44,
+                    [255, 255, 0, 1],
+                    52,
+                    [250, 0, 0, 1],
+                    60,
+                    [128, 0, 0, 1]
+                ]
             }
         }
     ]

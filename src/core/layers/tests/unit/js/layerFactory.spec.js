@@ -1,25 +1,31 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
+import store from "@appstore/index.js";
 
-import layerFactory from "../../../js/layerFactory";
+import layerFactory from "@core/layers/js/layerFactory.js";
 
 describe("src/core/js/layers/layerFactory.js", () => {
     let layerConfig,
         map,
-        warn;
+        warn,
+        origGetters;
 
     before(() => {
+        origGetters = store.getters;
         warn = sinon.spy();
         sinon.stub(console, "warn").callsFake(warn);
     });
 
     beforeEach(() => {
+        store.getters = {
+            isModuleAvailable: sinon.stub().returns(false)
+        };
         layerConfig = [
             {
                 id: "453",
-                name: "Geobasiskarten (HamburgDE)",
+                name: "Geobasiskarten <br>(HamburgDE)",
                 visibility: true,
                 url: "https://geodienste.hamburg.de/HH_WMS_HamburgDE",
                 typ: "WMS",
@@ -52,6 +58,7 @@ describe("src/core/js/layers/layerFactory.js", () => {
     });
 
     after(() => {
+        store.getters = origGetters;
         sinon.restore();
     });
 
@@ -80,12 +87,6 @@ describe("src/core/js/layers/layerFactory.js", () => {
     describe("getVectorLayerTypes", () => {
         it("should return all vector layer types", () => {
             expect(layerFactory.getVectorLayerTypes()).to.deep.equals(["GEOJSON", "OAF", "SENSORTHINGS", "VECTORBASE", "WFS"]);
-        });
-    });
-
-    describe("getLayerTypesNotVisibleIn3d", () => {
-        it("should return all vector layer types not visible in 3D", () => {
-            expect(layerFactory.getLayerTypesNotVisibleIn3d()).to.deep.equals(["VECTORTILE"]);
         });
     });
 });

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import mutations from "../../../store/mutationsMeasure";
+import mutations from "@modules/measure/store/mutationsMeasure.js";
 
 const {addFeature, addUnlistener} = mutations;
 

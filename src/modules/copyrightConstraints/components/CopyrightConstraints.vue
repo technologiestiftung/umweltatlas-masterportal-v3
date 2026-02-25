@@ -1,5 +1,5 @@
 <script>
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
+import getCswRecordById from "@shared/js/api/getCswRecordById.js";
 import {mapGetters} from "vuex";
 
 /**
@@ -19,7 +19,8 @@ export default {
     },
     computed: {
         ...mapGetters("Modules/CopyrightConstraints", [
-            "cswUrl"
+            "cswUrl",
+            "useLayerCswUrl"
         ]),
         ...mapGetters(["visibleLayerConfigs"]),
         getConstraints: function () {
@@ -41,14 +42,14 @@ export default {
     methods: {
         /**
          * gets the meta data for a layer
-         * @param {String} id meta data id of the layer
+         * @param {Object} dataset with meta data id and csw url of the layer
          * @returns {Promise} meta data as Promise
          */
-        getMetaData (id) {
+        getMetaData (dataset) {
             return new Promise((resolve) => {
                 const metadata = getCswRecordById.getRecordById(
-                    this.cswUrl,
-                    id
+                    this.useLayerCswUrl && dataset.csw_url ? dataset.csw_url : this.cswUrl,
+                    dataset.md_id
                 );
 
                 resolve(metadata);
@@ -62,11 +63,11 @@ export default {
             const visibleLayerList = this.getVisibleLayer();
 
             this.constraints = [];
-            visibleLayerList.forEach((element) => {
-                this.getMetaData(element).then((metadata) => {
-                    if (!this.constraints.map((x) => x.md_id).includes(element)) {
+            visibleLayerList.forEach((layer) => {
+                this.getMetaData(layer).then((metadata) => {
+                    if (!this.constraints.map((x) => x.md_id).includes(layer.md_id)) {
                         this.constraints.push({
-                            md_id: element,
+                            md_id: layer.md_id,
                             title: metadata?.getTitle(),
                             accessConstraints: metadata?.getConstraints()?.access,
                             useConstraints: metadata?.getConstraints(true)?.use,
@@ -78,8 +79,8 @@ export default {
         },
 
         /**
-         * gets the visible layers and detects the meta data ids for these layers
-         * @returns {Array} layers list of meta data ids
+         * gets the visible layers and detects the datasets with meta data id and csw url for these layers
+         * @returns {Array} layers list of datasets
          */
         getVisibleLayer () {
             const layers = [];
@@ -87,7 +88,7 @@ export default {
             this.visibleLayerConfigs?.forEach(layer => {
                 if (layer.datasets) {
                     if (layer.datasets[0]?.md_id && !layers.includes(layer.datasets[0]?.md_id)) {
-                        layers.push(layer.datasets[0]?.md_id);
+                        layers.push(layer.datasets[0]);
                     }
                 }
             });

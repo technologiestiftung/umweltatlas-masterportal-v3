@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsLayerClusterToggler";
+import actions from "@modules/layerClusterToggler/store/actionsLayerClusterToggler.js";
 
 describe("src/modules/layerClusterToggler/store/actionsLayerClusterToggler.js", () => {
     let commit,

@@ -1,8 +1,8 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import dayjs from "dayjs";
-import NewsViewComponent from "../../../components/NewsView.vue";
-import News from "../../../store/indexNewsView";
+import NewsViewComponent from "@modules/news/components/NewsView.vue";
+import News from "@modules/news/store/indexNewsView.js";
 import {expect} from "chai";
 import sinon from "sinon";
 

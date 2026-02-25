@@ -1,11 +1,14 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import {getProxyUrl, updateProxyUrl} from "../../../js/getProxyUrl";
+import {getProxyUrl, updateProxyUrl} from "@appstore/js/getProxyUrl.js";
 
 
 describe("src/app-store/js/getProxyUrl.js", () => {
     beforeEach(() => {
         sinon.stub(console, "warn");
+    });
+    afterEach(() => {
+        sinon.restore();
     });
 
     describe("getProxyUrl", () => {
@@ -36,18 +39,21 @@ describe("src/app-store/js/getProxyUrl.js", () => {
 
     describe("updateProxyUrl", () => {
         it("replaces the url if useProxy is set in object", function () {
-            const testproxyObject = {
-                url: "https://test.proxyurl.de/folder/",
-                useProxy: true,
-                fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json"
-            };
+            const url = "https://test.proxyurl.de/folder/",
+                testproxyObject = {
+                    url: url,
+                    useProxy: true,
+                    fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json"
+                };
 
             updateProxyUrl(testproxyObject);
 
             expect(testproxyObject.url).to.be.equal("/test_proxyurl_de/folder/");
+            expect(testproxyObject.origUrl).to.be.equal(url);
         });
         it("returns the upperCase url if useProxy is set in object", async function () {
-            const testproxyObject = {
+            const url = "https://test.proxyURL.de/folder/",
+                testproxyObject = {
                     url: "https://test.proxyURL.de/folder/",
                     useProxy: true,
                     fetchBroadcastUrl: "./resources/newsFeedPortalAlerts.json"
@@ -55,16 +61,31 @@ describe("src/app-store/js/getProxyUrl.js", () => {
                 testobj = await updateProxyUrl(testproxyObject);
 
             expect(testobj.url).to.be.equal("/test_proxyURL_de/folder/");
+            expect(testproxyObject.origUrl).to.be.equal(url);
         });
         it("replaces the url if useProxy is set in nested array", async function () {
-            const testproxyObject = {
-                    testproxyArray: [{url: "https://test.proxyurl.de/folder/", useProxy: true}, {url: "https://test.proxyurl.de/folder2/", useProxy: false}, {url: "https://test.proxyurl.de/folder3/", useProxy: false}]
+            const url = "https://test.proxyurl.de/folder/",
+                testproxyObject = {
+                    testproxyArray: [{url: url, useProxy: true}, {url: "https://test.proxyurl.de/folder2/", useProxy: false}, {url: "https://test.proxyurl.de/folder3/", useProxy: false}]
                 },
                 testobj = await updateProxyUrl(testproxyObject);
 
             if (testobj.length === testproxyObject.testproxyArray.length) {
                 expect(testobj[0].url).to.be.equal("/test_proxyurl_de/folder/");
+                expect(testobj[0].origUrl).to.be.equal(url);
             }
+        });
+        it("does nothing, if useProxy is false", function () {
+            const url = "https://test.proxyurl.de/folder/",
+                testproxyObject = {
+                    url: url,
+                    useProxy: false
+                };
+
+            updateProxyUrl(testproxyObject);
+
+            expect(testproxyObject.url).to.be.equal(url);
+            expect(testproxyObject.origUrl).to.be.undefined;
         });
     });
 });

@@ -1,5 +1,6 @@
-import {requestGfi} from "../api/wmsGetFeatureInfo";
-import {interpretLinebreaks} from "./interpretLinebreaks";
+import {requestGfi} from "@shared/js/api/wmsGetFeatureInfo.js";
+import {interpretLinebreaks} from "./interpretLinebreaks.js";
+import {GeoJSON} from "ol/format.js";
 
 /**
  * returns a list of wms features for the given url and mimeType
@@ -149,6 +150,9 @@ export function getJSONFeatures (layer, url) {
  * @returns {Object[]}  a list of object{getTheme, getTitle, getAttributesToShow, getProperties, getGfiUrl} or an emtpy array
  */
 export function handleJSONResponse (featureInfos, layer, url) {
+    const map = mapCollection.getMap("2D"),
+        dataProjection = map?.getView()?.getProjection(),
+        geojsonReader = new GeoJSON({dataProjection, featureProjection: featureInfos?.crs?.properties?.name});
     let result = [];
 
     if (typeof featureInfos === "object" && Array.isArray(featureInfos?.features)) {
@@ -156,7 +160,15 @@ export function handleJSONResponse (featureInfos, layer, url) {
             if (typeof feature === "object") {
                 feature.getProperties = () => interpretLinebreaks(feature.properties || {});
                 feature.getId = () => feature.id || "";
-                result.push(createGfiFeature(layer, url, feature));
+                try {
+                    result.push(createGfiFeature(layer, url, geojsonReader.readFeature(feature)));
+                }
+                catch (err) {
+                    result.push(createGfiFeature(layer, url, feature));
+                    if (typeof onerror === "function") {
+                        onerror(new Error("handleJSONResponse: JSON structure in WMS FeatureInfo can't be parsed."));
+                    }
+                }
             }
         });
     }
@@ -220,7 +232,21 @@ export function createGfiFeature (layer, url = "", feature = null, features = nu
         return {};
     }
     return {
-        getTitle: () => layer.get("name"),
+        getTitle: () => {
+            const gfiTitleAttribute = layer.get("gfiTitleAttribute"),
+                layerName = layer.get("name");
+
+            if (gfiTitleAttribute && feature) {
+                const properties = feature.getProperties(),
+                    attributeValue = properties[gfiTitleAttribute];
+
+                if (attributeValue !== undefined && attributeValue !== null && attributeValue !== "" && attributeValue !== 0) {
+                    return attributeValue;
+                }
+                console.warn(`GetFeatureInfo: gfiTitleAttribute "${gfiTitleAttribute}" is configured for layer "${layerName}" but the attribute is missing, empty, or null in the feature. Falling back to layer name.`);
+            }
+            return layerName;
+        },
         getTheme: () => layer.get("gfiTheme") || "defaultTheme",
         getAttributesToShow: () => layer.get("gfiAttributes"),
         getProperties: () => feature ? interpretLinebreaks(feature.getProperties()) : {},

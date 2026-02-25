@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import ActionButton from "../../../components/ActionButton.vue";
+import ActionButton from "@modules/searchBar/components/ActionButton.vue";
 
 config.global.mocks.$t = key => key;
 

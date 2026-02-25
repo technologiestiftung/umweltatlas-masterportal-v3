@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import localeCompare from "../../localeCompare";
+import localeCompare from "@shared/js/utils/localeCompare.js";
 
 describe("src/utils/localeCompare.js", () => {
     describe("Testing localeCompare without options in German", () => {

@@ -1,9 +1,11 @@
 import {createStore} from "vuex";
+import {nextTick} from "vue";
 import {expect} from "chai";
 import sinon from "sinon";
-import {config, shallowMount} from "@vue/test-utils";
-import Modeler3DDrawComponent from "../../../components/Modeler3DDraw.vue";
-import Modeler3D from "../../../store/indexModeler3D";
+import {config, mount} from "@vue/test-utils";
+import Modeler3DDrawComponent from "@modules/modeler3D/components/Modeler3DDraw.vue";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D.js";
+import actions from "@modules/modeler3D/store/actionsModeler3D.js";
 
 config.global.mocks.$t = key => key;
 
@@ -13,6 +15,10 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
             mouseCoordinate: () => {
                 return [11.549606597773037, 48.17285700012215];
             }
+        },
+        mockMapActions = {
+            removeInteraction: sinon.stub(),
+            addInteraction: sinon.stub()
         },
         Cartesian3Coordinates = {
             x: 3739310.9273738265,
@@ -62,17 +68,16 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         };
 
     let store,
-        originalCreateCylinder,
+        createCylinderSpy,
         wrapper,
         scene;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         global.URL = {
             createObjectURL: sinon.stub(),
             revokeObjectURL: sinon.stub()
         };
-        originalCreateCylinder = Modeler3D.actions.createCylinder;
-        Modeler3D.actions.createCylinder = sinon.spy();
+        createCylinderSpy = sinon.spy();
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
 
@@ -210,18 +215,38 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        Modeler3D
+                        Modeler3D: {
+                            ...Modeler3D,
+                            actions: {
+                                ...actions,
+                                createCylinder: createCylinderSpy
+                            }
+                        }
                     }
                 },
                 Maps: {
                     namespaced: true,
-                    getters: mockMapGetters
+                    getters: mockMapGetters,
+                    actions: mockMapActions
                 }
             }
         });
-        wrapper = shallowMount(Modeler3DDrawComponent, {
+        sinon.stub(Modeler3DDrawComponent.methods, "downloadGeoJson");
+        wrapper = mount(Modeler3DDrawComponent, {
             global: {
-                plugins: [store]
+                plugins: [store],
+                stubs: {
+                    DrawTypes: {
+                        name: "DrawTypes",
+                        template: `
+                            <div>
+                                <button id="draw-polygon" class="active">Draw Polygon</button>
+                                <button id="draw-line" class="active">Draw Line</button>
+                                <button id="draw-rectangle" class="active">Draw Rectangle</button>
+                            </div>
+                        `
+                    }
+                }
             }
         });
 
@@ -229,34 +254,36 @@ describe("src/modules/modeler3D/components/Modeler3DDraw.vue", () => {
         store.commit("Modules/Modeler3D/setCylinderId", "FloatingPointId");
         store.commit("Modules/Modeler3D/setIsDrawing", false);
         store.commit("Modules/Modeler3D/setSelectedDrawType", "");
+        await nextTick();
     });
 
     afterEach(() => {
-        Modeler3D.actions.createCylinder = originalCreateCylinder;
         sinon.restore();
         global.URL = globalURL;
     });
 
-    describe("renders Modeler3DDraw", async () => {
-        expect(wrapper.find("#modeler3D-draw-tool").exists()).to.be.true;
-        expect(wrapper.find("#tool-modeler3D-geometry").exists()).to.be.true;
-        expect(wrapper.find("#modeler3D-draw-name").exists()).to.be.true;
-        expect(wrapper.find("#tool-modeler3D-transparency").exists()).to.be.true;
-        expect(wrapper.find("#clampToGroundSwitch").exists()).to.be.true;
-        expect(wrapper.find("#tool-modeler3D-modelling-interaction").exists()).to.be.true;
-
-        it("renders the template for the polygon attributes", () => {
-            expect(wrapper.find("#tool-modeler3D-extrudedHeight").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-fill-color").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-outline-color").exists()).to.be.true;
+    describe("renders Modeler3DDraw", () => {
+        it("renders the main elements", () => {
+            expect(wrapper.find("#modeler3D-draw").exists()).to.be.true;
+            expect(wrapper.find("#tool-modeler3D-draw-models").exists()).to.be.true;
+            expect(wrapper.find("[data-test='draw-types']").exists()).to.be.true;
+            expect(wrapper.find("#clampToGroundSwitch").exists()).to.be.true;
+            expect(wrapper.find("#dimensionsSwitch").exists()).to.be.true;
         });
-        it("renders the template for the polyline attributes", () => {
-            store.commit("Modules/Modeler3D/setSelectedGeometry", "polygon");
 
-            expect(wrapper.find("#tool-modeler3D-lineWidth").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-extrudedHeight").exists()).to.be.false;
-            expect(wrapper.find("#tool-modeler3D-fill-color").exists()).to.be.true;
-            expect(wrapper.find("#tool-modeler3D-outline-color").exists()).to.be.false;
+        it("renders the draw types", () => {
+
+            expect(wrapper.find("#draw-polygon").exists()).to.be.true;
+            expect(wrapper.find("#draw-line").exists()).to.be.true;
+            expect(wrapper.find("#draw-rectangle").exists()).to.be.true;
+        });
+        it("renders the template for the polyline attributes", async () => {
+            store.commit("Modules/Modeler3D/setSelectedDrawType", "polygon");
+
+            await nextTick();
+            const polygonButton = wrapper.find("#draw-polygon");
+
+            expect(polygonButton.classes()).contain("active");
         });
     });
     describe("Modeler3DDraw.vue methods", () => {

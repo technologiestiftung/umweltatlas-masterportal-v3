@@ -1,9 +1,9 @@
 import sinon from "sinon";
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsLayerSlider";
+import testAction from "@devtools/tests/VueTestUtils.js";
+import actions from "@modules/layerSlider/store/actionsLayerSlider.js";
 
 const {
-    addIndexToLayerIds,
+    addInformationToLayerIds,
     checkIfAllLayersAvailable,
     sendModification,
     setActiveIndex,
@@ -16,8 +16,8 @@ describe("src/modules/layerSlider/store/actionsLayerSlider.js", () => {
         sinon.restore();
     });
 
-    describe("addIndexToLayerIds", () => {
-        it("addIndexToLayerIds", done => {
+    describe("addInformationToLayerIds", () => {
+        it("addInformationToLayerIds", done => {
             const layerIds = [
                     {
                         layerId: "123",
@@ -29,30 +29,42 @@ describe("src/modules/layerSlider/store/actionsLayerSlider.js", () => {
                     },
                     {
                         layerId: "789",
-                        title: "Myonnaise"
+                        title: "Mayonnaise"
                     }
                 ],
-                layerIdsWithIndex = [
+                layerIdsWithInformation = [
                     {
                         layerId: "123",
                         title: "Pommes",
-                        index: 0
+                        index: 0,
+                        visibility: false,
+                        transparency: 0
                     },
                     {
                         layerId: "456",
                         title: "Ketchup",
-                        index: 1
+                        index: 1,
+                        visibility: true,
+                        transparency: 1
                     },
                     {
                         layerId: "789",
-                        title: "Myonnaise",
-                        index: 2
+                        title: "Mayonnaise",
+                        index: 2,
+                        visibility: false,
+                        transparency: 2
                     }
                 ];
 
-            testAction(addIndexToLayerIds, layerIds, {}, {}, [
-                {type: "setLayerIds", payload: layerIdsWithIndex}
-            ], {}, done);
+            testAction(addInformationToLayerIds, layerIds, {}, {}, [
+                {type: "setLayerIds", payload: layerIdsWithInformation}
+            ], {}, done, {
+                allLayerConfigs: [
+                    {id: "123", visibility: false, transparency: 0},
+                    {id: "456", visibility: true, transparency: 1},
+                    {id: "789", visibility: false, transparency: 2}
+                ]
+            });
         });
     });
 

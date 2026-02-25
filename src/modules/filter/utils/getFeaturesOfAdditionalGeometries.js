@@ -1,5 +1,5 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {getFeatureGET} from "../../../shared/js/api/wfs/getFeature";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import {getFeatureGET} from "@shared/js/api/wfs/getFeature.js";
 import {WFS} from "ol/format.js";
 
 /**
@@ -9,8 +9,7 @@ import {WFS} from "ol/format.js";
  * @returns {Object[]} The additional geometries.
  */
 export async function getFeaturesOfAdditionalGeometries (additionalGeometries) {
-    const result = [],
-        wfsReader = new WFS();
+    const result = [];
 
     if (!Array.isArray(additionalGeometries)) {
         return result;
@@ -18,11 +17,13 @@ export async function getFeaturesOfAdditionalGeometries (additionalGeometries) {
 
     for (let i = 0; i < additionalGeometries.length; i++) {
         const rawLayer = rawLayerList.getLayerWhere({id: additionalGeometries[i].layerId});
-        let features = [];
+        let features = [],
+            wfsReader = null;
 
         if (rawLayer === null) {
             continue;
         }
+        wfsReader = new WFS({version: rawLayer.version});
         features = await getFeatureGET(rawLayer.url, {version: rawLayer.version, featureType: rawLayer.featureType});
 
         result[i] = JSON.parse(JSON.stringify(additionalGeometries[i]));

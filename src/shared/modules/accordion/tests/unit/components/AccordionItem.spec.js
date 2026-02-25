@@ -1,6 +1,6 @@
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import AccordionItem from "../../../components/AccordionItem.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 
 config.global.mocks.$t = key => key;
 

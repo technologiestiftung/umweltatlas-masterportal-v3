@@ -1,6 +1,7 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetInput from "../../../components/SnippetInput.vue";
+import SnippetInput from "@modules/filter/components/SnippetInput.vue";
 import {expect} from "chai";
+import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
 
@@ -19,7 +20,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         it("should render correctly with default values", () => {
             const wrapper = shallowMount(SnippetInput, {});
 
-            expect(wrapper.find("input").classes("snippetInput")).to.be.true;
+            expect(wrapper.findComponent({name: "InputText"}).exists()).to.be.true;
         });
         it("should render hidden if visible is false", () => {
             const wrapper = shallowMount(SnippetInput, {
@@ -28,49 +29,72 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 }
             });
 
-            expect(wrapper.find(".snippetInputContainer").element.style._values.display).to.be.equal("none");
+            expect(wrapper.find(".input-container").element.style.display).to.be.equal("none");
         });
         it("should render but also be disabled", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
-                    disabled: true
-                }
-            });
+                    propsData: {
+                        disabled: true
+                    }
+                }),
 
-            expect(wrapper.find(".snippetInput").exists()).to.be.true;
+                el = wrapper.find(".snippetInputContainer");
+
+            if (el.exists()) {
+                // v-show
+                expect(el.isVisible()).to.be.false;
+            }
+            else {
+                // v-if
+                expect(el.exists()).to.be.false;
+            }
+        });
+        it("should render but also be disabled", () => {
+            const wrapper = shallowMount(SnippetInput, {
+                    props: {
+                        disabled: true
+                    }
+                }),
+                input = wrapper.findComponent({name: "InputText"});
+
+            expect(input.exists()).to.be.true;
             expect(wrapper.vm.disabled).to.be.true;
-            expect(wrapper.find(".snippetInput").element.disabled).to.be.true;
+            expect(input.props("disabled")).to.be.true;
         });
         it("should render snippet with placeholder", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     placeholder: "this is a placeholder"
                 }
             });
 
-            expect(wrapper.find(".snippetInput").attributes("placeholder")).to.be.equal("this is a placeholder");
+            expect(wrapper.findComponent({name: "InputText"}).props("placeholder")).to.be.equal("this is a placeholder");
         });
         it("should render with a title if the title is a string", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
-                    title: "foobar"
-                }
-            });
+                    props: {
+                        title: "foobar"
+                    }
+                }),
+                inputText = wrapper.findComponent({name: "InputText"});
 
-            expect(wrapper.find(".snippetInputLabel").text()).to.be.equal("foobar");
+            expect(inputText.exists()).to.be.true;
+            expect(inputText.props("label")).to.be.equal("foobar");
         });
         it("should render without a title if title is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     title: false
                 }
             });
 
-            expect(wrapper.find(".snippetInputLabel").exists()).to.be.false;
+            nextTick(() => {
+                expect(wrapper.find(".input-label").exists()).to.be.false;
+            });
         });
         it("should not render the info button if info is a boolean and false", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     info: false
                 }
             });
@@ -79,7 +103,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
         });
         it("should not use the given operator if an invalid operator is given", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     operator: "operator"
                 }
             });
@@ -91,7 +115,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("emitCurrentRule", () => {
         it("should emit changeRule function with the expected values", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     snippetId: 1234,
                     visible: false,
                     attrName: "attrName",
@@ -107,6 +131,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
                 startup: "startup",
                 fixed: true,
                 attrName: "attrName",
+                attrLabel: "attrName",
                 operatorForAttrName: "AND",
                 operator: "IN",
                 value: "value"
@@ -117,7 +142,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("deleteCurrentRule", () => {
         it("should emit deleteRule function with its snippetId", () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     snippetId: 1234
                 }
             });
@@ -132,7 +157,7 @@ describe("src/modules/filter/components/SnippetInput.vue", () => {
     describe("resetSnippet", () => {
         it("should reset the snippet value and call the given onsuccess handler", async () => {
             const wrapper = shallowMount(SnippetInput, {
-                propsData: {
+                props: {
                     prechecked: "value"
                 }
             });

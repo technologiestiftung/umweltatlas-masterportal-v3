@@ -1,11 +1,11 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceBkg from "../../../searchInterfaces/searchInterfaceBkg.js";
-import store from "../../../../../app-store";
-import {reset} from "../../../../../shared/js/utils/uniqueId";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceBkg from "@modules/searchBar/searchInterfaces/searchInterfaceBkg.js";
+import store from "@appstore/index.js";
+import {reset} from "@shared/js/utils/uniqueId.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
     let SearchInterface1 = null,
@@ -21,7 +21,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
                 return {
                     url: "test.url"
                 };
-            }
+            },
+            "Maps/projectionCode": "EPSG:25832",
+            "Maps/projection": {getCode: () => "EPSG:4326"}
         };
 
         mapCollection.clear();
@@ -83,7 +85,14 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
         it("SearchInterfaceBkg should has the prototype SearchInterface", () => {
             expect(SearchInterface1).to.be.an.instanceof(SearchInterface);
             expect(checkConfigSpy.calledOnce).to.be.true;
-            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting"]);
+            expect(checkConfigSpy.firstCall.args[1]).to.be.deep.equals(["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"]);
+        });
+
+        it("should set the default values to SearchInterfaceBkg", () => {
+            expect(SearchInterface1.epsg).to.equals("EPSG:25832");
+            expect(SearchInterface1.extent).to.deep.equals([454591, 5809000, 700000, 6075769]);
+            expect(SearchInterface1.minScore).to.equals(0.6);
+            expect(SearchInterface1.resultCount).to.equals(20);
         });
     });
 
@@ -91,7 +100,7 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
         it("should create the search url with GET parameters", () => {
             const searchInput = "abc";
 
-            expect(SearchInterface1.createSearchUrl(searchInput)).to.equals("test.url?bbox=454591,5809000,700000,6075769&outputformat=json&srsName=undefined&count=20&query=abc");
+            expect(SearchInterface1.createSearchUrl(searchInput)).to.equals("test.url?bbox=454591,5809000,700000,6075769&outputformat=json&srsName=EPSG:25832&count=20&query=abc");
         });
     });
 
@@ -174,6 +183,9 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceBkg.js", () => {
 
             expect(SearchInterface1.createPossibleActions(searchResults[0])).to.deep.equals(
                 {
+                    highlight3DTileByCoordinates: {
+                        coordinates: [9.988176000000001, 53.55481]
+                    },
                     setMarker: {
                         coordinates: [9.988176, 53.55481]
                     },

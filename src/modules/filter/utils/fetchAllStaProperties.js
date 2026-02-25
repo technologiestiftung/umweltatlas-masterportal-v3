@@ -1,5 +1,5 @@
-import isObject from "../../../shared/js/utils/isObject.js";
-import {SensorThingsHttp} from "../../../shared/js/api/sensorThingsHttp.js";
+import isObject from "@shared/js/utils/isObject.js";
+import {SensorThingsHttp} from "@shared/js/api/sensorThingsHttp.js";
 
 /**
  * Calls the sta url and collects all properties of the features.

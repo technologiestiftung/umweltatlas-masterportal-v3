@@ -1,5 +1,5 @@
-import {createGfiFeature} from "./getWmsFeaturesByMimeType";
-import store from "../../../app-store";
+import {createGfiFeature} from "./getWmsFeaturesByMimeType.js";
+import store from "@appstore/index.js";
 
 /**
  * gets an array of gfiFeatures for 3d tile features, using ./getWmsFeaturesByMimeType->createGfiFeature
@@ -64,13 +64,25 @@ function isCesiumEntity (entity) {
 
 /**
  * Returns the name of the layer or the 'Objektart' in attributes of properties.
+ * If gfiTitleAttribute is configured, tries to use that attribute value from the feature.
  * @param {Object} layerAttributes the attributes of the layer to set the feature with
+ * @param {String} [layerAttributes.gfiTitleAttribute] the attribute key to use as title
  * @param {Object} properties an object with a key "attributes" or the data of the feature as simple key/value pairs
  * @param {Object} [properties.attributes] if set, the data of the feature as simple key/value pairs
  * @returns {String}  the title for the gfi module
  */
 function getLayerName (layerAttributes, properties) {
     let layerName = null;
+
+    if (layerAttributes?.gfiTitleAttribute) {
+        const featureProperties = properties?.attributes ? properties.attributes : properties,
+            attributeValue = featureProperties[layerAttributes.gfiTitleAttribute];
+
+        if (attributeValue !== undefined && attributeValue !== null && attributeValue !== "") {
+            return attributeValue;
+        }
+        console.warn(`GetFeatureInfo: gfiTitleAttribute "${layerAttributes.gfiTitleAttribute}" is configured for layer "${layerAttributes?.name || layerAttributes?.id || "unknown"}" but the attribute is missing, empty, or null in the feature. Falling back to layer name.`);
+    }
 
     if (properties?.attributes?.Objektart) {
         layerName = properties?.attributes?.Objektart;
@@ -120,6 +132,9 @@ function getGfiFeature (layerAttributes, properties) {
                 }
                 else if (key === "gfiAttributes") {
                     return attributesToShow;
+                }
+                else if (key === "gfiTitleAttribute") {
+                    return layerAttributes?.gfiTitleAttribute;
                 }
                 return null;
             }

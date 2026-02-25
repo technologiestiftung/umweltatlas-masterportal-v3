@@ -21,7 +21,7 @@ export default {
         text: {
             type: String,
             required: false,
-            default: ""
+            default: null
         },
         /** URL of an external website to link to */
         link: {
@@ -48,15 +48,19 @@ export default {
         :href="link ? link : '#'"
         :target="link ? '_blank' : '_self'"
         :title="toolTip"
-        class="mp-menu-logo"
+        :class="['mp-menu-logo', { 'logo-only': text === null }]"
     >
 
         <img
             v-if="logo"
             :src="logo"
             :alt="toolTip || text"
+            :class="{'logoOnly': text === null}"
         >
-        <h1>{{ $t(text) }}</h1>
+        <h1
+            v-if="text !== null"
+            v-html="$t(text)"
+        />
     </a>
 </template>
 
@@ -64,25 +68,44 @@ export default {
 @import "~variables";
 
 .mp-menu-logo {
-        padding: 0 $padding 0 $padding;
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-        overflow-wrap: break-word;
+    // padding: 0 $padding 0 $padding;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 20px;
+    gap: 0.5rem;
 
-        img {
-            max-height: 30px;
-            flex-grow: 0;
-            flex-shrink: 0;
-        }
 
-        h1 {
-            color: $dark_blue;
-            font-size: $font_size_huge;
-            flex-grow: 1;
-            margin-left: 20px;
+    img {
+        max-height: 30px;
+        flex-shrink: 0;
+        margin-right: 0.5rem;
+
+        &.logoOnly {
+            max-width: 80%;
+            max-height: 80px;
+            justify-content: center;
         }
     }
+
+    h1 {
+        color: $dark_blue;
+        font-size: $font_size_huge;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 1;
+        text-align: left;
+    }
+}
+
+.mp-menu-logo.logo-only {
+    justify-content: center;
+
+    img.logoOnly {
+        margin-right: 0;
+    }
+}
 
 @include media-breakpoint-up(sm)  {
     .mp-menu-logo {
@@ -90,7 +113,6 @@ export default {
         img {
             max-height: 40px;
         }
-
     }
 }
 

@@ -75,7 +75,7 @@ module.exports = {
                 "bezeichnung": "Kartographie und Gestaltung: ",
                 "url": "https://geoinfo.hamburg.de/",
                 "alias": "Landesbetrieb Geoinformation und Vermessung",
-                "alias_mobil": "LGV"
+                "alias_mobile": "LGV"
             }
         ]
     },

@@ -1,6 +1,7 @@
-import store from "../../../app-store";
-import changeCase from "../../../shared/js/utils/changeCase";
-import processUrlParams from "../../../shared/js/utils/processUrlParams";
+import store from "@appstore/index.js";
+import changeCase from "@shared/js/utils/changeCase.js";
+import processUrlParams from "@shared/js/utils/processUrlParams.js";
+import isMobile from "@shared/js/utils/isMobile.js";
 
 /**
  * Here the urlParams for the menu are processed.
@@ -11,10 +12,19 @@ import processUrlParams from "../../../shared/js/utils/processUrlParams";
  * - https://localhost:9001/portal/master/?isinitopen=draw
  * - https://localhost:9001/portal/master/?isinitopen=fileimport
  * - https://localhost:9001/portal/master/?STARTUPMODUL=fileimport
+ * - https://localhost:9001/portal/master/?secondaryWidth=77&mainWidth=20
+ * - https://localhost:9001/portal/master/?mainWidth=20
+ * - https://localhost:9001/portal/master/?secondaryclosed=true
+ * - https://localhost:9001/portal/master/?mainclosed=true&secondaryclosed=true
+ * - https://localhost:9001/portal/master/?mainclosed=false&secondaryclosed=false
  */
 
 const menuUrlParams = {
-        MENU: setAttributesToComponent
+        MENU: setAttributesToComponent,
+        MAINWIDTH: setMenuWidth,
+        SECONDARYWIDTH: setSecondaryMenuWidth,
+        MAINCLOSED: setMainMenuClosed,
+        SECONDARYCLOSED: setSecondaryMenuClosed
     },
     legacyMenuUrlParams = {
         ISINITOPEN: isInitOpen,
@@ -63,11 +73,13 @@ function setAttributesToComponent (params) {
 function isInitOpen (params) {
     const {currentComponent, side} = getCurrentComponent(params.ISINITOPEN || params.STARTUPMODUL);
 
-    if (side) {
-        const type = changeCase.upperFirst(currentComponent.type);
-
-        store.dispatch("Menu/activateCurrentComponent", {currentComponent, type, side});
+    if (!currentComponent || !side) {
+        return;
     }
+
+    const type = changeCase.upperFirst(currentComponent.type);
+
+    store.dispatch("Menu/activateCurrentComponent", {currentComponent, type, side});
 }
 
 /**
@@ -76,48 +88,40 @@ function isInitOpen (params) {
  * @param {String} menuSide The menu side.
  * @returns {Object} The current component and the related menu side.
  */
-function getCurrentComponent (searchType, menuSide) {
-    let mainMenuComponent = findInSections(store.getters["Menu/mainMenu"]?.sections, searchType),
-        secondaryMenuComponent = findInSections(store.getters["Menu/secondaryMenu"]?.sections, searchType),
-        side,
-        currentComponent;
+function getCurrentComponent (searchType) {
+    const mainMenuSections = store.getters["Menu/mainMenu"]?.sections || [];
+    const secondaryMenuSections = store.getters["Menu/secondaryMenu"]?.sections || [];
 
-    if (menuSide === "MAIN" && mainMenuComponent && secondaryMenuComponent) {
-        secondaryMenuComponent = undefined;
-    }
-    else if (menuSide === "SECONDARY" && mainMenuComponent && secondaryMenuComponent) {
-        mainMenuComponent = undefined;
-    }
+    const mainMenuComponent = findInSections(mainMenuSections, searchType);
+    const secondaryMenuComponent = findInSections(secondaryMenuSections, searchType);
 
-    if (mainMenuComponent) {
-        currentComponent = mainMenuComponent;
-        side = "mainMenu";
+    if (mainMenuComponent && !secondaryMenuComponent) {
+        return {currentComponent: mainMenuComponent, side: "mainMenu"};
     }
-    else if (secondaryMenuComponent) {
-        currentComponent = secondaryMenuComponent;
-        side = "secondaryMenu";
+    else if (!mainMenuComponent && secondaryMenuComponent) {
+        return {currentComponent: secondaryMenuComponent, side: "secondaryMenu"};
     }
-
-    return {currentComponent, side};
+    else if (mainMenuComponent && secondaryMenuComponent) {
+        return {currentComponent: secondaryMenuComponent, side: "secondaryMenu"};
+    }
+    return {currentComponent: undefined, side: undefined};
 }
 
 /**
- * Find elements in sections by serch type.
+ * Recursively searches sections for the component
  * @param {Object[]} sections Sections that are searched.
  * @param {String} searchType The search type.
  * @returns {Object} The found object.
  */
 function findInSections (sections, searchType) {
-    let currentComponent;
-
-    sections.forEach(elements => {
+    for (const elements of sections) {
         const element = findElement(elements, searchType);
 
         if (element) {
-            currentComponent = element;
+            return element;
         }
-    });
-    return currentComponent;
+    }
+    return undefined;
 }
 
 /**
@@ -127,23 +131,79 @@ function findInSections (sections, searchType) {
  * @returns {Object} The found object.
  */
 function findElement (elements, searchType) {
-    let currentComponent;
-
-    elements.forEach(element => {
-        const type = element.type.toUpperCase();
-
-        if (currentComponent) {
-            return;
+    for (const element of elements || []) {
+        if (!element.type) {
+            continue;
         }
 
-        if (type === searchType.toUpperCase()) {
-            currentComponent = element;
+        if (element.type.toUpperCase() === searchType.toUpperCase()) {
+            return element;
         }
-        else if (type === "FOLDER") {
-            currentComponent = findElement(element.elements, searchType);
+
+        if (element.type.toUpperCase() === "FOLDER" && Array.isArray(element.elements)) {
+            const found = findElement(element.elements, searchType);
+
+            if (found) {
+                return found;
+            }
         }
-    });
-    return currentComponent;
+    }
+    return undefined;
+}
+
+
+/**
+ * Set Menu width
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setMenuWidth (params) {
+    if (params.MAINWIDTH && !isMobile()) {
+        store.dispatch("Menu/setCurrentMenuWidth", {type: "mainMenu", attributes: {width: params.MAINWIDTH}}, {root: true});
+    }
+}
+
+/**
+ * Set secondary Menu width
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setSecondaryMenuWidth (params) {
+    if (params.SECONDARYWIDTH && !isMobile()) {
+        store.dispatch("Menu/setCurrentMenuWidth", {type: "secondaryMenu", attributes: {width: params.SECONDARYWIDTH}}, {root: true});
+    }
+}
+
+/**
+ * Closes Main Menu according to URL-Param
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setMainMenuClosed (params) {
+    if (!isMobile()) {
+        const shouldBeClosed = params.MAINCLOSED === "true",
+            isCurrentlyExpanded = store.getters["Menu/mainExpanded"];
+
+        if (shouldBeClosed === isCurrentlyExpanded) {
+            store.dispatch("Menu/toggleMenu", "mainMenu");
+        }
+    }
+}
+
+/**
+ * Closes Secondary Menu according to URL-Param
+ * @param {Object} params The found params.
+ * @returns {void}
+ */
+function setSecondaryMenuClosed (params) {
+    if (!isMobile()) {
+        const shouldBeClosed = params.SECONDARYCLOSED === "true",
+            isCurrentlyExpanded = store.getters["Menu/secondaryExpanded"];
+
+        if (shouldBeClosed === isCurrentlyExpanded) {
+            store.dispatch("Menu/toggleMenu", "secondaryMenu");
+        }
+    }
 }
 
 export default {
@@ -152,5 +212,9 @@ export default {
     isInitOpen,
     getCurrentComponent,
     findInSections,
-    findElement
+    findElement,
+    setMenuWidth,
+    setSecondaryMenuWidth,
+    setMainMenuClosed,
+    setSecondaryMenuClosed
 };

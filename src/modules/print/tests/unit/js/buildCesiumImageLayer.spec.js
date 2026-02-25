@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import buildCesiumImageLayer from "../../../js/buildCesiumImageLayer";
+import buildCesiumImageLayer from "@modules/print/js/buildCesiumImageLayer.js";
 describe("buildCesiumImageLayer", () => {
     afterEach(() => {
         sinon.restore();

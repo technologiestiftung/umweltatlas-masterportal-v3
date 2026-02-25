@@ -1,15 +1,26 @@
 import {createStore} from "vuex";
-import {config, mount} from "@vue/test-utils";
+import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import AboutComponent from "../../../components/AboutModule.vue";
+import AboutComponent from "@modules/about/components/AboutModule.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/about/components/AboutModule.vue", () => {
-    let store;
+    let logo,
+        store,
+        version,
+        contact;
 
     beforeEach(() => {
+        logo = "../../src/assets/img/Logo_Masterportal.svg";
+        version = "3.0.0";
+        contact = null;
+
         store = createStore({
             namespaced: true,
             modules: {
@@ -22,14 +33,15 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                             namespaced: true,
                             getters: {
                                 abstractText: () => "Test",
-                                contact: () => null,
-                                logo: () => "",
+                                contact: () => contact,
+                                logo: () => logo,
                                 logoLink: () => "",
+                                logoText: () => "Masterportallogo",
                                 metaUrl: () => "",
                                 noMetadataLoaded: () => "",
                                 showAdditionalMetaData: () => true,
-                                title: () => "",
-                                version: () => "3.0.0",
+                                title: () => "Titel",
+                                version: () => version,
                                 versionLink: () => "",
                                 ustId: () => "DE12345",
                                 privacyStatementText: () => "Privacy Statement",
@@ -38,7 +50,8 @@ describe("src/modules/about/components/AboutModule.vue", () => {
                                 accessibilityUrl: () => "https://accessibilityStatementUrl"
                             },
                             actions: {
-                                initializeAboutInfo: () => sinon.stub()
+                                initializeAboutInfo: () => sinon.stub(),
+                                currentMasterportalVersionNumber: () => sinon.stub()
                             }
                         }
                     }
@@ -99,18 +112,30 @@ describe("src/modules/about/components/AboutModule.vue", () => {
         expect(wrapper.find(".abstract")).to.exist;
     });
     it("should have a logo and version", async () => {
-        const wrapper = mount(AboutComponent, {
+        const wrapper = shallowMount(AboutComponent, {
             global: {
                 plugins: [store]
             }
         });
 
-        expect(wrapper.find("div.logoAndVersion")).to.exist;
-        expect(wrapper.find("div.logoAndVersion > a.logo")).to.exist;
-        expect(wrapper.find("div.logoAndVersion > a.logo > img")).to.exist;
-        expect(wrapper.find("div.logoAndVersion > span.version")).to.exist;
-        expect(wrapper.find("div.logoAndVersion > span.version > a")).to.exist;
+        expect(wrapper.find("div.logoAndVersion").exists()).to.be.true;
+        expect(wrapper.find("div.logoAndVersion > a.logo").exists()).to.be.true;
+        expect(wrapper.find("div.logoAndVersion > a.logo > img").exists()).to.be.true;
+        expect(wrapper.find("div.logoAndVersion > span.version").exists()).to.be.true;
+        expect(wrapper.find("div.logoAndVersion > span.version > a").exists()).to.be.true;
         expect(wrapper.find("div.logoAndVersion > span.version > a").text()).to.equals("common:modules.about.version3.0.0");
+    });
+    it("should do not have a logo and version, if version and logo are false", async () => {
+        logo = false;
+        version = false;
+
+        const wrapper = shallowMount(AboutComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("div.logoAndVersion").exists()).to.be.false;
     });
     it("should have an ustId", async () => {
         const wrapper = mount(AboutComponent, {
@@ -122,6 +147,16 @@ describe("src/modules/about/components/AboutModule.vue", () => {
         expect(wrapper.find("div.ustIdWrapper").exists()).to.be.true;
         expect(wrapper.find(".ustId").exists()).to.be.true;
         expect(wrapper.find(".ustId").text()).to.equals("DE12345");
+    });
+    it("should have a title", async () => {
+        const wrapper = mount(AboutComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("h5").exists()).to.be.true;
+        expect(wrapper.find("h5").text()).to.equals("Titel");
     });
     it("should have a privacy statement section", async () => {
         const wrapper = mount(AboutComponent, {
@@ -156,5 +191,21 @@ describe("src/modules/about/components/AboutModule.vue", () => {
 
         expect(wrapper.find("button.openContactButton").exists()).to.be.true;
         expect(wrapper.find("button.openContactButton").text()).to.equals("common:modules.about.contactButton");
+    });
+
+
+    it("should not show undefined for missing address information", async () => {
+        contact = {
+            "name": "Behörde ABC",
+            "email": "test@gv.hamburg.de"
+        };
+
+        const wrapper = mount(AboutComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        expect(wrapper.find("#imprint").html()).to.not.contains("undefined");
     });
 });

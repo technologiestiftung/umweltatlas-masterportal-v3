@@ -3,9 +3,9 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerSliderComponent from "../../../components/LayerSlider.vue";
-import LayerSlider from "../../../store/indexLayerSlider";
-import NavTab from "../../../../../shared/modules/tabs/components/NavTab.vue";
+import LayerSliderComponent from "@modules/layerSlider/components/LayerSlider.vue";
+import LayerSlider from "@modules/layerSlider/store/indexLayerSlider.js";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -68,24 +68,48 @@ describe("src/modules/layerSlider/components/LayerSlider.vue", () => {
         expect(wrapper.findComponent(layerSliderHandleComponentMock).exists()).to.be.true;
     });
 
-    it("should reset activeLayer from store and ste invisible to layerTree in unmounted-hook", async () => {
-        const layerSliderWrapper = shallowMount(LayerSliderComponent, {
-                global: {
-                    plugins: [store]
+    it("should reset activeLayer from store and restore affected layers to pre-tool state in unmounted-hook", async () => {
+        wrapper = shallowMount(LayerSliderComponent, {
+            global: {
+                plugins: [store]
+            }
+        });
+
+        const sendModificationSpy = sinon.spy(wrapper.vm, "sendModification"),
+            layerIds = [
+                {
+                    layerId: "123",
+                    title: "Pommes",
+                    index: 0,
+                    visibility: false,
+                    transparency: 0
+                },
+                {
+                    layerId: "456",
+                    title: "Ketchup",
+                    index: 1,
+                    visibility: true,
+                    transparency: 1
+                },
+                {
+                    layerId: "789",
+                    title: "Mayonnaise",
+                    index: 2,
+                    visibility: false,
+                    transparency: 2
                 }
-            }),
-            sendModificationSpy = sinon.spy(layerSliderWrapper.vm, "sendModification");
+            ];
 
+        store.commit("Modules/LayerSlider/setLayerIds", layerIds);
 
-        layerSliderWrapper.vm.$options.unmounted.call(layerSliderWrapper.vm);
+        wrapper.vm.$options.unmounted.call(wrapper.vm);
         await wrapper.vm.$nextTick();
 
         expect(store.state.Modules.LayerSlider.windowsInterval).to.equals(null);
-        expect(sendModificationSpy.calledOnce).to.be.true;
-        expect(sendModificationSpy.firstCall.args[0]).to.deep.equals({
-            layerId: "",
-            visibility: false
-        });
+        expect(sendModificationSpy.calledThrice).to.be.true;
+        expect(sendModificationSpy.firstCall.args[0]).to.deep.equals(layerIds[0]);
+        expect(sendModificationSpy.secondCall.args[0]).to.deep.equals(layerIds[1]);
+        expect(sendModificationSpy.thirdCall.args[0]).to.deep.equals(layerIds[2]);
         expect(store.state.Modules.LayerSlider.activeLayer).to.deep.equals({
             layerId: "",
             index: -1

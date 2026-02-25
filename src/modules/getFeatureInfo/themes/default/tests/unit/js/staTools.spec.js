@@ -3,7 +3,7 @@ import {
     isObservation,
     getQueryLink,
     convertObservationsToLinechart
-} from "../../../js/staTools";
+} from "@modules/getFeatureInfo/themes/default/js/staTools.js";
 import dayjs from "dayjs";
 import {expect} from "chai";
 

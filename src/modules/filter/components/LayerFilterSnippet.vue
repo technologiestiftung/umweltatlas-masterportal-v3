@@ -3,27 +3,26 @@ import {mapGetters, mapMutations} from "vuex";
 import ProgressBar from "./ProgressBar.vue";
 import SnippetCheckbox from "./SnippetCheckbox.vue";
 import SnippetCheckboxFilterInMapExtent from "./SnippetCheckboxFilterInMapExtent.vue";
+import SnippetCustomComponent from "./SnippetCustomComponent.vue";
 import SnippetDate from "./SnippetDate.vue";
 import SnippetDateRange from "./SnippetDateRange.vue";
 import SnippetDropdown from "./SnippetDropdown.vue";
 import SnippetInput from "./SnippetInput.vue";
 import SnippetSlider from "./SnippetSlider.vue";
 import SnippetSliderRange from "./SnippetSliderRange.vue";
-import SnippetTag from "./SnippetTag.vue";
-import SnippetFeatureInfo from "./SnippetFeatureInfo.vue";
-import SnippetChart from "./SnippetChart.vue";
 import SnippetDownload from "./SnippetDownload.vue";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import FilterApi from "../js/interfaces/filter.api.js";
+import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
 import MapHandler from "../utils/mapHandler.js";
-import {compileSnippets} from "../utils/compileSnippets.js";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {compileSnippets, removeInvalidSnippets} from "../utils/compileSnippets.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getSnippetAdjustments} from "../utils/getSnippetAdjustments.js";
-import openlayerFunctions from "../utils/openlayerFunctions";
+import openlayerFunctions from "../utils/openlayerFunctions.js";
 import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
-import VectorTileLayer from "ol/layer/VectorTile";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import VectorTileLayer from "ol/layer/VectorTile.js";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Layer Filter Snippet
@@ -47,7 +46,7 @@ import AccordionItem from "../../../shared/modules/accordion/components/Accordio
  * @vue-data {Boolean} showStop - Shows if terminate button is visible.
  * @vue-data {Boolean} searchInMapExtent - Shows if search in map extend is enabled.
  * @vue-data {Array} snippets - Array of all the snippets.
- * @vue-data {String} postSnippetKey - The post snippet key.
+ * @vue-data {Number} postSnippetKey - The post snippet key.
  * @vue-data {Boolean} autoRefreshSet - Shows if auto refresh is set.
  * @vue-data {Boolean} isRefreshing - Shows if it is refreshing.
  * @vue-data {Boolean} amountOfFilteredItems - Shows ???
@@ -57,26 +56,24 @@ import AccordionItem from "../../../shared/modules/accordion/components/Accordio
  * @vue-data {Boolean} filterButtonDisabled - Shows if filter button is disabled.
  *
  * @vue-computed {String} labelFilterButton - The label for the filter button.
- * @vue-computed {String} snippetTagsResetAllText - The text for the reset tags.
  * @vue-computed {Object} fixedRules - The fixed rules.
  */
 export default {
     name: "LayerFilterSnippet",
     components: {
+        FlatButton,
+        ProgressBar,
         SnippetCheckbox,
         SnippetCheckboxFilterInMapExtent,
+        SnippetCustomComponent,
         SnippetDate,
         SnippetDateRange,
         SnippetDropdown,
         SnippetInput,
         SnippetSlider,
         SnippetSliderRange,
-        SnippetTag,
-        SnippetFeatureInfo,
-        SnippetChart,
         SnippetDownload,
-        ProgressBar,
-        AccordionItem
+        SpinnerItem
     },
     props: {
         api: {
@@ -86,10 +83,6 @@ export default {
         },
         layerConfig: {
             type: Object,
-            required: true
-        },
-        layerSelectorVisible: {
-            type: Boolean,
             required: true
         },
         mapHandler: {
@@ -106,11 +99,6 @@ export default {
             type: Number,
             required: false,
             default: 0
-        },
-        filterRules: {
-            type: Array,
-            required: false,
-            default: () => []
         },
         filterHits: {
             type: [Number, Boolean],
@@ -149,9 +137,12 @@ export default {
             showStop: false,
             searchInMapExtent: false,
             snippets: [],
-            postSnippetKey: "",
+            showSpinner: true,
+            postSnippetKey: 0,
             autoRefreshSet: false,
             isRefreshing: false,
+            initialRules: [],
+            initialValue: [],
             amountOfFilteredItems: false,
             precheckedSnippets: [],
             filteredItems: [],
@@ -160,25 +151,105 @@ export default {
             isLoading: false,
             outOfZoom: false,
             gfiFirstActive: false,
-            visibleSnippet: false
+            visibleSnippet: false,
+            uniqueValuesOnMoveListeners: {}
         };
     },
     computed: {
         ...mapGetters("Maps", ["scale"]),
+        ...mapGetters("Modules/Filter", [
+            "clearAll",
+            "deletedRuleFilterId",
+            "deletedRuleSnippetId",
+            "onValueDeselect",
+            "rulesOfFilters",
+            "triggerAllTagsDeleted",
+            "totalResults"
+        ]),
         labelFilterButton () {
             if (typeof this.layerConfig.labelFilterButton === "string") {
                 return translateKeyWithPlausibilityCheck(this.layerConfig.labelFilterButton, key => this.$t(key));
             }
             return this.$t("common:modules.filter.filterButton");
         },
-        snippetTagsResetAllText () {
-            return this.$t("common:modules.filter.snippetTags.resetAll");
-        },
         fixedRules () {
             return this.filterRules.filter(rule => rule?.fixed);
+        },
+        filterRules () {
+            return typeof this.rulesOfFilters?.[this.layerConfig?.filterId] !== "undefined" ? this.rulesOfFilters[this.layerConfig?.filterId] : [];
+        },
+        isClearAll () {
+            if (typeof this.layerConfig?.clearAll === "boolean") {
+                return this.layerConfig?.clearAll;
+            }
+            return this.clearAll;
         }
     },
     watch: {
+        snippets: {
+            handler (val) {
+                const initialValidSnippets = removeInvalidSnippets(this.layerConfig?.snippets);
+                let totalCountInitialSnippets = initialValidSnippets.length;
+
+                initialValidSnippets.forEach(snippet => {
+                    if (Array.isArray(snippet?.children)) {
+                        totalCountInitialSnippets = totalCountInitialSnippets + snippet?.children.length;
+                    }
+                });
+
+                if (val?.length === totalCountInitialSnippets) {
+                    this.showSpinner = false;
+                }
+
+                this.initialValue = val.filter(v => typeof v?.initialPrechecked !== "undefined" && v?.visible !== false).map(({snippetId, initialPrechecked}) => ({snippetId, initialPrechecked}));
+            },
+            deep: true
+        },
+        initialValue: {
+            handler (val) {
+                if (!Array.isArray(val) || !val.length) {
+                    this.initialRules = [];
+                }
+
+                this.initialRules.forEach(rule => {
+                    const intialPrecheckedValue = val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked;
+
+                    if (typeof intialPrecheckedValue !== "undefined" && rule?.value !== val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked) {
+                        rule.value = val.filter(v => v?.snippetId === rule?.snippetId)[0]?.initialPrechecked;
+                    }
+                });
+            },
+            deep: true
+        },
+        onValueDeselect: {
+            handler (val) {
+                if (this.layerConfig.filterId !== val.filterId || typeof val.snippetId !== "number") {
+                    return;
+                }
+                const rule = this.filterRules.find(r => r?.snippetId === val.snippetId);
+                let valueIndex = null;
+
+                if (!isRule(rule)) {
+                    return;
+                }
+                valueIndex = rule.value.indexOf(val.value);
+
+                if (valueIndex !== -1) {
+                    rule.value.splice(valueIndex, 1);
+                }
+                this.changeRule(rule, true);
+            },
+            deep: true
+        },
+        deletedRuleSnippetId: {
+            handler (val) {
+                if (typeof val === "number" && this.layerConfig.filterId === this.deletedRuleFilterId) {
+                    this.resetSnippet(val, this.deleteRule.bind(this, val));
+                    this.setDeletedRuleSnippetId(undefined);
+                }
+            },
+            immediate: true
+        },
         filterRules: {
             handler (rules) {
                 if (this.isStrategyActive()) {
@@ -194,8 +265,11 @@ export default {
             },
             deep: true
         },
+        triggerAllTagsDeleted () {
+            this.resetAllSnippets(this.deleteAllRules());
+        },
         paging (val) {
-            if (val.page >= val.total) {
+            if (val?.page >= val?.total) {
                 this.setFormDisable(false);
                 if (!this.isRefreshing && !this.getSearchInMapExtent() && this.liveZoomToFeatures) {
                     if (this.filterGeometry) {
@@ -226,11 +300,18 @@ export default {
                     if (snippetIds.length) {
                         this.handleActiveStrategy(snippetIds);
                     }
+                    this.initialRules = JSON.parse(JSON.stringify(this.filterRules));
                 }
             },
             deep: true
         },
         amountOfFilteredItems (val) {
+            const currentTotalResult = this.totalResults;
+
+            currentTotalResult[this.layerConfig?.filterId] = val;
+
+            this.setTotalResults(currentTotalResult);
+
             if (this.isStrategyActive()) {
                 return;
             }
@@ -245,13 +326,15 @@ export default {
             });
         },
         filterGeometry () {
-            if (this.isLayerFilterSelected === true) {
+            if (this.isLayerFilterSelected === true || typeof this.isLayerFilterSelected === "function" && this.isLayerFilterSelected(this.layerConfig.filterId)) {
                 this.handleActiveStrategy();
             }
         },
         outOfZoom: {
             handler (val) {
-                this.setIsLoading(!val);
+                if (!val) {
+                    this.setIsLoading(val);
+                }
             },
             immediate: true
         }
@@ -304,11 +387,17 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("Modules/Filter", [
+            "setDeletedRuleSnippetId",
+            "setDeletedRuleFilterId",
+            "setTriggerAllTagsDeleted",
+            "setTotalResults"
+        ]),
         ...mapMutations("Modules/GetFeatureInfo", {
             setGfiVisible: "setVisible"
         }),
-        isRule,
         hasUnfixedRules,
+        isRule,
         translateKeyWithPlausibilityCheck,
 
         /**
@@ -317,10 +406,16 @@ export default {
          */
         onMounted () {
             this.setIsLoading(false);
+            if (typeof this.layerConfig.minZoom === "number" || typeof this.layerConfig.maxZoom === "number") {
+                this.checkZoomLevel(this.layerConfig.minZoom, this.layerConfig.maxZoom);
+            }
             compileSnippets(this.layerConfig.snippets, this.api, FilterApi, snippets => {
                 this.snippets = snippets;
+                this.snippets.forEach(snippet => {
+                    snippet.initialPrechecked = snippet.prechecked;
+                });
                 this.setSnippetValueByState(this.filterRules);
-                if (this.layerSelectorVisible && this.layerConfig.filterOnOpen && this.layerConfig.strategy === "active") {
+                if (this.layerConfig.filterOnOpen && this.layerConfig.strategy === "active" && !this.outOfZoom) {
                     this.$nextTick(() => {
                         this.$nextTick(() => {
                             this.$nextTick(() => {
@@ -340,9 +435,6 @@ export default {
                 && this.isLayerFilterSelected === true) {
                 this.handleActiveStrategy();
             }
-            if (typeof this.layerConfig.minZoom === "number" || typeof this.layerConfig.maxZoom === "number") {
-                this.checkZoomLevel(this.layerConfig.minZoom, this.layerConfig.maxZoom);
-            }
             if (this.layerConfig.filterOnMove === true && !this.openMultipleAccordeons && this.layerConfig?.strategy === "active") {
                 this.$watch("$store.state.Tools.Gfi.gfiFeatures", (newVal, oldVal) => {
                     if (Array.isArray(oldVal) && !oldVal.length) {
@@ -358,12 +450,35 @@ export default {
                     listener: evt => this.updateSnippets(evt)
                 });
                 this.$nextTick(() => {
-                    if (!this.outOfZoom) {
+                    if (!this.outOfZoom && !this.isExtern()) {
                         this.isLockedHandleActiveStrategy = false;
                         this.handleActiveStrategy();
                     }
                 });
             }
+        },
+        /**
+         * Applies the passive values to the tags section.
+         * @param {Object[]} rules an array of rules.
+         * @returns {void}
+         */
+        applyPassiveValuesToTags (rules) {
+            if (!Array.isArray(rules)) {
+                return;
+            }
+            rules.forEach(rule => {
+                if (!this.isRule(rule)) {
+                    return;
+                }
+                if (Array.isArray(rule.appliedPassiveValues) && rule.value.length !== rule.appliedPassiveValues.length) {
+                    rule.appliedPassiveValues = rule.value;
+                    this.$emit("updateRules", {
+                        filterId: this.layerConfig.filterId,
+                        snippetId: rule.snippetId,
+                        rule
+                    });
+                }
+            });
         },
         /**
          * Set the prechecked value for each snippet by state data.
@@ -519,7 +634,7 @@ export default {
             // Please use the true or false check otherwise the fuzzy logic (true, false, undefined) wouldn't work anymore
             const rules = reset === true ? [] : false,
                 adjust = reset !== true,
-                alterMap = reset !== false,
+                alterMap = reset !== false && !this.outOfZoom,
                 onfinish = reset === true ? () => this.handleActiveStrategy(snippetId, false) : false;
 
             this.filter(snippetId, filterAnswer => {
@@ -557,18 +672,26 @@ export default {
         /**
          * Triggered when a rule changed at a snippet.
          * @param {Object} rule the rule to set
+         * @param {Boolean} [ignoreStrategyCheck=false] true if the active strategy should be triggered regardlessly
          * @returns {void}
          */
-        changeRule (rule) {
+        changeRule (rule, ignoreStrategyCheck = false) {
+            const oldRule = this.filterRules[rule.snippetId];
+
+            if (!this.isStrategyActive() && isObject(oldRule) && rule.value.length < oldRule.value.length) {
+                rule.appliedPassiveValues = oldRule.value;
+            }
             if (this.isRule(rule)) {
+                const appliedPassiveValues = oldRule?.appliedPassiveValues?.length ? oldRule.appliedPassiveValues : [];
+
                 this.$emit("updateRules", {
                     filterId: this.layerConfig.filterId,
                     snippetId: rule.snippetId,
-                    rule
+                    rule: Object.assign(!this.isStrategyActive() && !("appliedPassiveValues" in rule) ? {appliedPassiveValues} : {}, rule)
                 });
                 this.deleteRulesOfChildren(this.getSnippetById(rule.snippetId));
                 this.deleteRulesOfParallelSnippets(this.getSnippetById(rule.snippetId));
-                if (!rule.startup && (this.isStrategyActive() || this.isParentSnippet(rule.snippetId))) {
+                if (ignoreStrategyCheck || (!rule.startup && (this.isStrategyActive() || this.isParentSnippet(rule.snippetId)))) {
                     this.$nextTick(() => {
                         this.handleActiveStrategy(rule.snippetId);
                     });
@@ -589,11 +712,14 @@ export default {
                 snippetId,
                 rule: false
             });
+            if (isObject(this.snippets[snippetId])) {
+                this.snippets[snippetId].prechecked = this.snippets[snippetId].initialPrechecked;
+            }
             this.deleteRulesOfChildren(this.getSnippetById(snippetId));
             this.deleteRulesOfParallelSnippets(this.getSnippetById(snippetId));
             if (this.isStrategyActive() || this.isParentSnippet(snippetId)) {
                 this.$nextTick(() => {
-                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.layerConfig.clearAll ? true : undefined);
+                    this.handleActiveStrategy(snippetId, !this.hasUnfixedRules(this.filterRules) && this.layerConfig.resetLayer && !this.isClearAll ? true : undefined);
                 });
             }
         },
@@ -652,12 +778,16 @@ export default {
                 filterId: this.layerConfig.filterId
             });
 
+            this.snippets.forEach(snippet => {
+                snippet.prechecked = snippet.initialPrechecked;
+            });
+
             if (this.isStrategyActive()) {
                 this.$nextTick(() => {
                     this.isLockedHandleActiveStrategy = false;
                     this.handleActiveStrategy(
                         undefined,
-                        this.layerConfig.resetLayer || this.layerConfig.initialStartupReset && !this.layerConfig.clearAll ? true : undefined
+                        this.layerConfig.resetLayer || this.hasChildSnippets(this.snippets) && !this.isClearAll ? true : undefined
                     );
                 });
             }
@@ -764,6 +894,7 @@ export default {
                     rules: Array.isArray(rules) ? rules : this.getCleanArrayOfRules()
                 };
 
+            this.applyPassiveValuesToTags(this.filterRules);
             this.setFormDisable(true);
             this.showStopButton(true);
             if (this.closeGfi) {
@@ -795,11 +926,11 @@ export default {
                             if (
                                 !this.hasUnfixedRules(filterQuestion.rules)
                                 && (
-                                    this.layerConfig.clearAll || this.layerConfig.initialStartupReset || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
+                                    this.isClearAll || this.hasChildSnippets(this.snippets) || Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")
                                 )
                                 && !filterQuestion.commands.filterGeometry
                             ) {
-                                if (this.layerConfig.clearAll && Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")) {
+                                if (this.isClearAll && Object.prototype.hasOwnProperty.call(this.layerConfig, "wmsRefId")) {
                                     this.mapHandler.toggleWMSLayer(this.layerConfig.wmsRefId, false, false);
                                 }
                                 this.amountOfFilteredItems = false;
@@ -906,12 +1037,43 @@ export default {
             this.isLoading = value;
         },
         /**
+         * Adds a listener for given snippetId.
+         * This listener will be triggered on move if it is configured. The
+         * listeners are used to get the unique values for if the searchInMapExtern value is true
+         * and extern is true as well.
+         * @param {Number} snippetId The snippet id.
+         * @param {Function} listener The listener to register.
+         * @returns {void}
+         */
+        addToUniqueValuesOnMoveListeners (snippetId, listener) {
+            this.uniqueValuesOnMoveListeners[snippetId] = listener;
+        },
+        /**
+         * Triggers the uniqueValues onmove listeners to update the unique values.
+         * The listeners are used to get the unique values for if the searchInMapExtern value is true.
+         * @returns {void}
+         */
+        updateSnippetUniqueValues () {
+            if (this.outOfZoom) {
+                return;
+            }
+            Object.values(this.uniqueValuesOnMoveListeners).forEach(listener => {
+                listener();
+            });
+        },
+        /**
          * Update the snippets with adjustment
          * @param {Object} evt - Openlayers MapEvent.
          * @returns {void}
          */
         updateSnippets (evt) {
             if (this.gfiFirstActive) {
+                return;
+            }
+            if (!this.mapHandler.isLayerActivated(this.layerConfig.filterId)) {
+                if (this.layerConfig.filterOnMove && (evt.type === "moveend")) {
+                    this.updateSnippetUniqueValues();
+                }
                 return;
             }
             if (evt.type === "moveend" && !evt.map.loaded_) {
@@ -947,6 +1109,10 @@ export default {
             this.api.stop(() => {
                 this.showStopButton(false);
                 this.setFormDisable(false);
+                this.paging = {
+                    page: 0,
+                    total: 0
+                };
             },
             err => {
                 console.warn(err);
@@ -965,27 +1131,19 @@ export default {
             if (Object.prototype.hasOwnProperty.call(snippet, "title")) {
                 return snippet.title;
             }
-            const model = openlayerFunctions.getLayerByLayerId(layerId),
-                title = isObject(model) && isObject(model.gfiAttributes) ? model.gfiAttributes[
-                    Array.isArray(snippet.attrName) ? snippet.attrName[0] : snippet.attrName
-                ] : undefined;
+            const model = openlayerFunctions.getLayerByLayerId(layerId);
+            let title = isObject(model) && isObject(model.gfiAttributes) ? model.gfiAttributes[
+                Array.isArray(snippet.attrName) ? snippet.attrName[0] : snippet.attrName
+            ] : undefined;
+
+            if (isObject(title) && title.name) {
+                title = title.name;
+            }
 
             if (typeof title !== "undefined") {
                 return title;
             }
             return true;
-        },
-        /**
-         * Getting the tag title from rule
-         * @param {Object} rule the rule to set
-         * @returns {String} the tag title
-         */
-        getTagTitle (rule) {
-            if (Object.prototype.hasOwnProperty.call(rule, "tagTitle")) {
-                return String(rule.tagTitle);
-            }
-
-            return String(rule.value);
         },
         /**
          * Returns the api for the given snippet.
@@ -1071,12 +1229,66 @@ export default {
                 : false;
         },
         /**
+         * Checks if the value of snippet is the same as prechecked value.
+         * @param {Object[]} ruleA the first array of rules.
+         * @param {Object[]} ruleB the second array of rules.
+         * @returns {Boolean} true if value is the same.
+         */
+        isInitialValue (ruleA, ruleB) {
+            if (!Array.isArray(ruleA) || !ruleA.length || !Array.isArray(ruleB) || !ruleB.length) {
+                return true;
+            }
+
+            const valueA = ruleA.map(arr => arr?.value),
+                valueB = ruleB.map(arr => arr?.value),
+                sortedValueA = [],
+                sortedValueB = [];
+
+            JSON.parse(JSON.stringify(valueA)).forEach(value => {
+                if (Array.isArray(value)) {
+                    sortedValueA.push(value.sort());
+                }
+                else {
+                    sortedValueA.push(value);
+                }
+            });
+
+            JSON.parse(JSON.stringify(valueB)).forEach(value => {
+                if (Array.isArray(value)) {
+                    sortedValueB.push(value.sort());
+                }
+                else {
+                    sortedValueB.push(value);
+                }
+            });
+
+            return JSON.stringify(sortedValueA) === JSON.stringify(sortedValueB);
+        },
+        /**
          * Resets the snippets and the rules.
          * Currently only called by FilterGeneral to get rid of rules deleting bug for children snippets.
          * @returns {void}
          */
         resetsSnippetsAndRules () {
             this.resetAllSnippets(() => this.deleteAllRules());
+        },
+        /**
+         * Resets the snippets to the original precked value.
+         * @returns {void}
+         */
+        resetOriginSnippetsAndRules () {
+            if (Array.isArray(this.initialRules) && this.initialRules.length) {
+                this.initialRules.forEach(rule => {
+                    if (rule !== null && rule.snippetId) {
+                        if (this.isLayerFilterSelected === true) {
+                            this.deleteRule(rule.snippetId);
+                        }
+                        this.changeRule(rule);
+                    }
+                });
+
+                this.setPostSnippetKey(this.postSnippetKey + 1);
+            }
         }
     }
 };
@@ -1088,14 +1300,22 @@ export default {
     >
         <div
             v-if="outOfZoom"
-            class="diabled-overlayer"
+            class="info form-control"
         >
-            <div class="info">
-                <span>
-                    <i class="bi bi-exclamation-circle-fill" />
-                    {{ $t("common:modules.filter.filterResult.disabledInfo") }}
-                </span>
-            </div>
+            <span>
+                <i class="bi bi-exclamation-circle-fill" />
+                {{ $t("common:modules.filter.filterResult.disabledInfo") }}
+            </span>
+        </div>
+        <div
+            v-if="outOfZoom"
+            class="disabled-overlayer"
+        />
+        <div
+            v-if="showSpinner"
+            class="loading-spinner"
+        >
+            <SpinnerItem />
         </div>
         <div
             v-if="isLoading"
@@ -1116,46 +1336,9 @@ export default {
                 {{ translateKeyWithPlausibilityCheck(layerConfig.description, key => $t(key)) }}
             </div>
             <div
-                v-if="layerConfig.snippetTags !== false && !outOfZoom"
-                class="snippetTags"
-            >
-                <div
-                    v-show="hasUnfixedRules(filterRules)"
-                    class="snippetTagsWrapper"
-                >
-                    <div
-                        class="snippetTagText"
-                    >
-                        {{ $t("common:modules.filter.snippetTags.selectionText") }}
-                    </div>
-                    <SnippetTag
-                        :is-reset-all="true"
-                        :value="snippetTagsResetAllText"
-                        @reset-all-snippets="resetAllSnippets"
-                        @delete-all-rules="deleteAllRules"
-                    />
-                </div>
-                <div
-                    v-for="(rule, ruleIndex) in filterRules"
-                    :key="'rule-' + ruleIndex"
-                    class="snippetTagsWrapper"
-                >
-                    <SnippetTag
-                        v-if="isRule(rule) && rule.fixed === false"
-                        :snippet-id="rule.snippetId"
-                        :value="getTagTitle(rule)"
-                        @reset-snippet="resetSnippet"
-                        @delete-rule="deleteRule"
-                    />
-                </div>
-            </div>
-            <div
-                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'&& !outOfZoom"
+                v-if="layerConfig.showHits !== false && typeof amountOfFilteredItems === 'number'&& !outOfZoom && !showSpinner"
                 class="filter-result"
             >
-                <span>
-                    {{ $t("common:modules.filter.filterResult.label") }}
-                </span>
                 <span>
                     {{ $t("common:modules.filter.filterResult.unit", {amountOfFilteredItems}) }}
                 </span>
@@ -1222,10 +1405,13 @@ export default {
                         :multiselect="snippet.multiselect"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :placeholder="snippet.placeholder"
                         :prechecked="snippet.prechecked"
+                        :prevent-unique-value-request="isStrategyActive && outOfZoom"
                         :render-icons="snippet.renderIcons"
                         :fixed-rules="fixedRules"
+                        :search-in-map-extent="getSearchInMapExtent()"
                         :snippet-id="snippet.snippetId"
                         :show-all-values="snippet.showAllValues"
                         :value="snippet.value"
@@ -1236,6 +1422,7 @@ export default {
                         :filter-geometry-name="layerConfig.geometryName"
                         @change-rule="changeRule"
                         @delete-rule="deleteRule"
+                        @registerUniqueValueOnMove="addToUniqueValuesOnMoveListeners"
                         @set-snippet-prechecked="setSnippetPrechecked"
                     />
                 </div>
@@ -1253,6 +1440,7 @@ export default {
                         :operator="snippet.operator"
                         :placeholder="snippet.placeholder"
                         :prechecked="snippet.prechecked"
+                        :search-in-map-extent="getSearchInMapExtent()"
                         :snippet-id="snippet.snippetId"
                         :visible="snippet.visible"
                         @change-rule="changeRule"
@@ -1269,7 +1457,7 @@ export default {
                         :api="getSnippetApi(snippet)"
                         :adjustment="snippet.adjustment"
                         :attr-name="snippet.attrName"
-                        :disabled="disabled"
+                        :disabled="disabled || outOfZoom"
                         :info="snippet.info"
                         :format="snippet.format"
                         :filter-id="layerConfig.filterId"
@@ -1309,6 +1497,7 @@ export default {
                         :sub-titles="snippet.subTitles"
                         :value="snippet.value"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :prechecked="snippet.prechecked"
                         :fixed-rules="fixedRules"
                         :snippet-id="snippet.snippetId"
@@ -1342,8 +1531,11 @@ export default {
                         :max-value="snippet.maxValue"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :prechecked="snippet.prechecked"
+                        :prevent-unique-value-request="isStrategyActive && outOfZoom"
                         :fixed-rules="fixedRules"
+                        :search-in-map-extent="getSearchInMapExtent()"
                         :snippet-id="snippet.snippetId"
                         :timeout-slider="getTimeoutSlider(snippet)"
                         :timeout-input="getTimeoutInput(snippet)"
@@ -1352,6 +1544,7 @@ export default {
                         :filter-geometry-name="layerConfig.geometryName"
                         @change-rule="changeRule"
                         @delete-rule="deleteRule"
+                        @registerUniqueValueOnMove="addToUniqueValuesOnMoveListeners"
                         @set-snippet-prechecked="setSnippetPrechecked"
                     />
                 </div>
@@ -1372,12 +1565,15 @@ export default {
                         :title="getTitle(snippet, layerConfig.layerId)"
                         :min-value="snippet.minValue"
                         :prechecked="snippet.prechecked"
+                        :prevent-unique-value-request="isStrategyActive && outOfZoom"
                         :fixed-rules="fixedRules"
+                        :search-in-map-extent="getSearchInMapExtent()"
                         :snippet-id="snippet.snippetId"
                         :timeout-slider="getTimeoutSlider(snippet)"
                         :timeout-input="getTimeoutInput(snippet)"
                         :operator-for-attr-name="snippet.operatorForAttrName"
                         :operator="snippet.operator"
+                        :out-of-zoom="outOfZoom"
                         :visible="snippet.visible"
                         :value="snippet.value"
                         :filter-geometry="filterGeometry"
@@ -1387,73 +1583,63 @@ export default {
                         @set-snippet-prechecked="setSnippetPrechecked"
                         @disable-filter-button="disableFilterButton"
                         @enable-filter-button="enableFilterButton"
+                        @registerUniqueValueOnMove="addToUniqueValuesOnMoveListeners"
                     />
                 </div>
                 <div
-                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'featureInfo')"
+                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'customComponent')"
                     class="snippet"
                 >
-                    <AccordionItem
+                    <SnippetCustomComponent
                         v-show="visibleSnippet"
-                        id="snippet-feature-info"
-                        :title="snippet.title"
-                        icon="bi bi-list-ul"
-                        :is-open="true"
-                    >
-                        <SnippetFeatureInfo
-                            :ref="'snippet-' + snippet.snippetId"
-                            :attr-name="snippet.attrName"
-                            :adjustment="snippet.adjustment"
-                            :layer-id="layerConfig.layerId"
-                            :snippet-id="snippet.snippetId"
-                            :filtered-items="filteredItems"
-                            :universal-search="snippet.universalSearch"
-                            :beautified-attr-name="snippet.beautifiedAttrName"
-                            @set-snippet-prechecked="setSnippetPrechecked"
-                            @set-snippet-visible="setSnippetVisible"
-                        />
-                    </AccordionItem>
-                </div>
-                <div
-                    v-else-if="hasThisSnippetTheExpectedType(snippet, 'chart')"
-                    class="snippet"
-                >
-                    <AccordionItem
-                        v-show="visibleSnippet"
-                        id="snippet-chart"
-                        :title="snippet.title"
-                        icon="bi bi-bar-chart"
-                        :is-open="true"
-                    >
-                        <SnippetChart
-                            :ref="'snippet-' + snippet.snippetId"
-                            :api="getSnippetApi(snippet)"
-                            :filtered-items="filteredItems"
-                            :info-text="snippet.infoText"
-                            :chart-config="snippet.chartConfig"
-                            :subtitle="snippet.subtitle"
-                            :tooltip-unit="snippet.tooltipUnit"
-                            :alternative-text-for-empty-chart="snippet.alternativeTextForEmptyChart"
-                        />
-                    </AccordionItem>
+                        :component-name="snippet.componentName"
+                        :props-object="snippet"
+                        :filtered-items="filteredItems"
+                        :api="getSnippetApi(snippet)"
+                        @set-snippet-prechecked="setSnippetPrechecked"
+                        @set-snippet-visible="setSnippetVisible"
+                    />
                 </div>
             </div>
             <div class="snippet">
-                <button
-                    v-if="!isStrategyActive()"
-                    class="btn btn-primary btn-sm"
-                    :disabled="filterButtonDisabled || disabled"
-                    @click="filter()"
-                >
-                    {{ labelFilterButton }}
-                </button>
-                <button
-                    v-if="paging.page < paging.total && showStop"
-                    class="btn btn-secondary btn-sm"
-                    @click="stopFilter()"
-                >
-                    {{ $t("common:modules.filter.button.stop") }}
-                </button>
+                <div class="d-flex justify-content-center mt-2">
+                    <FlatButton
+                        v-if="!isStrategyActive()"
+                        id="runFilter"
+                        :aria-label="labelFilterButton"
+                        :text="labelFilterButton"
+                        :icon="'bi bi-sliders'"
+                        class="btn btn-secondary me-1"
+                        :disabled="filterButtonDisabled || disabled"
+                        :interaction="filter"
+                    />
+                    <FlatButton
+                        v-if="hasUnfixedRules(filterRules) && (!(paging.page < paging.total) || !showStop)"
+                        class="btn btn-secondary me-1"
+                        :aria-label="$t('common:modules.filter.filterReset')"
+                        :text="$t('common:modules.filter.filterReset')"
+                        :disabled="filterButtonDisabled || disabled"
+                        :icon="'bi-x-circle'"
+                        :interaction="resetsSnippetsAndRules"
+                    />
+                    <FlatButton
+                        v-if="initialRules.length && !isInitialValue(initialRules, filterRules)"
+                        class="btn btn-secondary me-1"
+                        :aria-label="$t('common:modules.filter.filterResetOrigin')"
+                        :text="$t('common:modules.filter.filterResetOrigin')"
+                        :disabled="filterButtonDisabled || disabled"
+                        :icon="'bi-x-circle'"
+                        :interaction="resetOriginSnippetsAndRules"
+                    />
+                    <FlatButton
+                        v-if="paging.page < paging.total && showStop"
+                        class="btn btn-secondary me-1"
+                        :aria-label="$t('common:modules.filter.button.stop')"
+                        :text="$t('common:modules.filter.button.stop')"
+                        :icon="'bi-x-circle'"
+                        :interaction="stopFilter"
+                    />
+                </div>
                 <ProgressBar
                     :paging="paging"
                 />
@@ -1461,6 +1647,7 @@ export default {
                     <SnippetDownload
                         :filtered-items="filteredItems"
                         :layer-id="layerConfig.layerId"
+                        :out-of-zoom="outOfZoom"
                     />
                 </div>
             </div>
@@ -1475,45 +1662,54 @@ export default {
         padding: 0;
     }
     .panel-body {
-        padding: 0 5px;
-         position: relative;
+        position: inherit;
+        min-height: 80px;
         &.disabled {
-            padding: 50px 5px 0;
+            padding: 5px 5px 0;
+            color: #9B9A9A;
         }
-        .diabled-overlayer {
+        .info {
+            color: $secondary;
+            margin-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+            border: 2px solid $secondary;
+            z-index: 2;
+            position: relative;
+            background-color: rgba(60, 95, 148, 0.14);
+        }
+        .disabled-overlayer {
             position: absolute;
-            z-index: 1;
-            top: 0;
+            z-index: 2;
+            top: 25px;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: rgba(227, 227, 227, 0.4);
-            .info {
-                font-family: $font_family_accent;
-                font-size: $font-size-lg;
-                color: $light_red;
-                margin-top: 10px;
-                display: inline-block;
-                width: 100%;
-            }
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+        }
+        .loading-spinner {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            align-content: center;
         }
     }
     .panel-heading {
         padding: 5px;
     }
     .filter-result {
-        font-size: $font-size-lg;
-        color: $light_red;
-        margin-top: 10px;
+        font-family: "MasterPortalFont Bold";
+        color: $secondary;
         display: inline-block;
         width: 100%;
         span {
-            width: 50%;
-            display: inline-block;
-            &:last-child {
-                text-align: right;
-                padding-right: 10px;
-            }
+            float: right;
         }
     }
     .snippet {
@@ -1527,17 +1723,6 @@ export default {
         b {
             display: block;
         }
-    }
-    .snippetTags {
-        display: flow-root;
-        margin: 8px 0;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    .snippetTagText {
-        font-size: $font-size-base;
-        float: left;
-        padding: 6px 4px 0 0;
     }
     .form-group {
         clear: both;

@@ -1,6 +1,6 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import featureListerState from "./stateFeatureLister";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import featureListerState from "./stateFeatureLister.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 const simpleGetters = {
     ...generateSimpleGetters(featureListerState),
@@ -9,46 +9,21 @@ const simpleGetters = {
      * Returns the feature to the given index in the list of gfiFeatures.
      * Clustering is respected.
      * @param {Object} state state of this module
-     * @param {Number} featureIndex index of the feature in the list of gfiFeatures
+     * @param {Number} featureId id of the feature in the list of gfiFeatures
      * @returns {ol.feature} the feature to the given index
      */
-    selectedFeature: state => featureIndex => {
+    selectedFeature: state => featureId => {
+        const gfiFeature = state.gfiFeaturesOfLayer.find(f => f.id === featureId);
+
+        if (gfiFeature?.olFeature) {
+            return gfiFeature.olFeature;
+        }
+
         const layer = layerCollection.getLayerById(state.layer.id),
-            featureId = state.gfiFeaturesOfLayer[featureIndex]?.id;
+            features = layer.getLayerSource().getFeatures();
 
-        return layer.getLayerSource().getFeatureById(featureId)
-    || layer.getLayerSource().getFeatures().find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
-    },
-    /**
-     * Builds and returns a two-dimensional array that contains value lists per feature based on the header
-     * @param {Object} state state of this module
-     * @returns {Array} [[a1, b1], [a2, b2], ...] array for each line containing array for each property of the header
-     */
-    featureProperties: state => {
-        return state.gfiFeaturesOfLayer
-            .map(feature => feature.getProperties())
-            .map(properties => state.headers.map(({key}) => properties[key] ?? ""));
-    },
-    /**
-     * The v-for calls this function for every property of the selected feature and returns pairs of header and
-     * value as an array
-     * @param {Object} state state of this module
-     * @param {Object} getters getters of this module
-     * @param {Object} rootState root state
-     * @param {Object} rootGetters root getters
-     * @returns {Array} [header, value] for each property of the selected feature
-     */
-    featureDetails: (state, getters, rootState, rootGetters) => {
-        const gfiFeature = state.gfiFeaturesOfLayer[state.selectedFeatureIndex],
-            attributesToShow = gfiFeature.getAttributesToShow(),
-            featureProperties = gfiFeature.getProperties();
-
-        return attributesToShow === "showAll"
-            ? Object.entries(featureProperties)
-                .filter(([key, value]) => value && !rootGetters.ignoredKeys.includes(key.toUpperCase()))
-            : Object.entries(attributesToShow)
-                .filter(([key]) => featureProperties[key])
-                .map(([key, value]) => [value, featureProperties[key]]);
+        return features.find(feat => feat.getId() === featureId)
+            || features.find(feat => feat.get("features")?.find(feat_ => feat_.getId() === featureId));
     },
     /**
      * Gets a list of all property keys to show in a table header.
@@ -59,8 +34,14 @@ const simpleGetters = {
      * @returns {Array} [key, value] for each property
      */
     headers: (state, getters, rootState, rootGetters) => {
-        const headers = Object.entries(state.gfiFeaturesOfLayer
-            .reduce((acc, it) => {
+        let index = 0,
+            headers = [];
+
+        if (state.gfiFeaturesOfLayer.length > 0) {
+            const keySet = new Set(["id"]),
+                keyToValue = {id: "id"};
+
+            state.gfiFeaturesOfLayer.forEach(it => {
                 let keys = it.getAttributesToShow();
 
                 keys = keys === "showAll"
@@ -68,19 +49,42 @@ const simpleGetters = {
                     : Object.entries(keys);
                 keys.forEach(([key, value]) => {
                     if (!rootGetters.ignoredKeys.includes(key.toUpperCase())) {
-                        if (typeof value === "object" && Object.prototype.hasOwnProperty.call(value, "name")) {
-                            acc[key] = value.name;
-                        }
-                        else {
-                            acc[key] = value;
+                        keySet.add(key);
+                        if (!(key in keyToValue)) {
+                            keyToValue[key] = typeof value === "object" && value.name ? value.name : value;
                         }
                     }
                 });
-                return acc;
-            }, {})).map(([key, value]) => ({key, value}));
-
-        state.headers = headers;
+            });
+            headers = Array.from(keySet).map(key => ({
+                name: key === "id" ? key : keyToValue[key],
+                index: index++,
+                visible: key !== "id"
+            }));
+        }
         return headers;
+    },
+    /**
+     * Returns the details of the selected feature for the detail view
+     * @returns {Object} the details of the selected feature.
+     */
+    featureDetails (state, getters, rootState, rootGetters) {
+        const feature = state.gfiFeaturesOfLayer.find(f => f.id === state.selectedRow.id),
+            ignoredKeys = [...rootGetters.ignoredKeys, "ID"],
+            valuesToFilter = ["", null, undefined];
+
+        let attributes = Object.values(feature.getAttributesToShow());
+
+        if (feature.getAttributesToShow() === "showAll") {
+            const keys = Object.keys(state.selectedRow);
+
+            attributes = keys.filter(key => !ignoredKeys.includes(key.toUpperCase()));
+        }
+
+        return Object.fromEntries(
+            Object.entries(state.selectedRow).filter(([key, value]) => attributes.includes(key) && !valuesToFilter.includes(value)
+            )
+        );
     },
     /**
      * Returns the geometry type of the layer.

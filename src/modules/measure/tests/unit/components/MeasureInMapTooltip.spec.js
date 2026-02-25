@@ -6,7 +6,7 @@ import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import {Style} from "ol/style.js";
 
-import MeasureInMapTooltipComponent from "../../../components/MeasureInMapTooltip.vue";
+import MeasureInMapTooltipComponent from "@modules/measure/components/MeasureInMapTooltip.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -50,6 +50,7 @@ describe("src/modules/measure/components/MeasureInMapTooltip.vue", () => {
                                 lineLengths: () => ({lineId: "500 m"}),
                                 polygonAreas: () => ({polygonId: "500 m²"}),
                                 featureId: () => featureId,
+                                color: () => [255, 127, 0, 1.0],
                                 layer: () => new VectorLayer({
                                     name: "measureLayer",
                                     source: new VectorSource(),

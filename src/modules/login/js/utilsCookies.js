@@ -15,9 +15,13 @@ export function set (name, value, days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    const cookie = name + "=" + (value || "") + expires + "; secure; path=/";
 
-    document.cookie = cookie;
+    // Set cookie with standard attributes and with domain for better cross-environment compatibility
+    const domain = window.location.hostname,
+        cookieWithDomain = name + "=" + (value || "") + expires + "; Secure; Path=/; SameSite=None; domain=" + domain;
+
+
+    document.cookie = cookieWithDomain;
 }
 
 /**
@@ -50,7 +54,9 @@ export function get (name) {
  * @return {void}
  */
 export function erase (name) {
-    document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    const domain = window.location.hostname;
+
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/; SameSite=None; Secure; domain=" + domain;
 }
 
 /**
@@ -61,7 +67,7 @@ export function erase (name) {
  */
 export function eraseAll (names) {
     names.forEach(name => {
-        document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        erase(name);
     });
 }
 

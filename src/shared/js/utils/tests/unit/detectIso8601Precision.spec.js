@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import detectIso8601Precision from "../../detectIso8601Precision";
+import detectIso8601Precision from "@shared/js/utils/detectIso8601Precision.js";
 
 describe("src/utils/detectIso8601Precision.js", () => {
     describe("detectIso8601Precision", () => {

@@ -1,11 +1,11 @@
 import {markRaw} from "vue";
-import api from "@masterportal/masterportalapi/src/maps/api";
-import {rawLayerList} from "@masterportal/masterportalapi/src";
-import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript";
+import api from "@masterportal/masterportalapi/src/maps/api.js";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
+import load3DScript from "@masterportal/masterportalapi/src/lib/load3DScript.js";
 
-import {setResolutions, setValues} from "./setValuesToMapView";
-import store from "../../../app-store";
-import mapMarker from "./mapMarker";
+import {setResolutions, setValues} from "./setValuesToMapView.js";
+import store from "@appstore/index.js";
+import mapMarker from "./mapMarker.js";
 
 /**
  * Create the map in different modes and update the map attributes.
@@ -17,7 +17,7 @@ function initializeMaps (mapViewSettings, configJs) {
     create2DMap(mapViewSettings, configJs);
     store.dispatch("Maps/setMapAttributes");
     watchPortalConfig();
-    if (store.getters.controlsConfig?.button3d) {
+    if (store.getters.controlsConfig?.button3d || store.getters.controlsConfig?.expandable?.button3d) {
         load3DMap();
     }
     mapMarker.initializeMapMarkers(store.getters.mapMarker);
@@ -76,24 +76,51 @@ function load3DMap () {
  * @returns {void}
  */
 function create3DMap () {
-    const map3d = api.map.createMap({
-        cesiumParameter: store.getters.map3dParameter,
-        map2D: mapCollection.getMap("2D"),
-        shadowTime: function () {
-            return this.time || Cesium.JulianDate.fromDate(new Date());
-        }
-    }, "3D");
+    const map3dParameter = store.getters.map3dParameter,
+        shadowTimeFromConfig = map3dParameter?.shadowTime,
+        map3d = api.map.createMap({
+            cesiumParameter: map3dParameter,
+            map2D: mapCollection.getMap("2D"),
+            shadowTime: function () {
+                if (this.time) {
+                    return this.time;
+                }
+
+                if (shadowTimeFromConfig) {
+                    return Cesium.JulianDate.fromIso8601(shadowTimeFromConfig);
+                }
+
+                return Cesium.JulianDate.fromDate(new Date());
+            }
+        }, "3D"),
+        view = mapCollection.getMapView("2D"),
+        urlParamsMaps = store.state.urlParams?.MAPS ? Object.fromEntries(Object.entries(JSON.parse(store.state.urlParams?.MAPS)).map(([key, value]) => [key.toUpperCase(), value])).CENTER : undefined,
+        urlParamCenter = store.state.urlParams.CENTER || store.state.urlParams["MAP/CENTER"] || urlParamsMaps;
 
     markRaw(map3d);
 
-    /**
-     * Note: if the bugfix was released in an olcs version these two lines should be removed again
-     * @see {@link https://github.com/openlayers/ol-cesium/pull/1109}
-     */
-    map3d.setEnabled(true);
-    map3d.setEnabled(store.getters.startingMapMode === "3D");
-
     mapCollection.addMap(map3d, "3D");
+    if (store.state.urlParams.QUERY) {
+        store.dispatch("Modules/SearchBar/startSearch", store.state.urlParams.QUERY);
+    }
+    else if (!urlParamCenter && map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
+        view.setZoom(store.getters["Maps/initialZoom"]);
+        view.setCenter(store.getters["Maps/initialCenter"]);
+    }
+    else if (urlParamCenter && map3dParameter.camera && store.getters["Maps/mode"] === "2D") {
+        let center;
+
+        if (Array.isArray(urlParamCenter)) {
+            center = urlParamCenter;
+        }
+        else if (urlParamCenter?.includes("[")) {
+            center = JSON.parse(urlParamCenter);
+        }
+        else {
+            center = urlParamCenter?.split(",");
+        }
+        view.setCenter(center);
+    }
 }
 
 module.exports = {

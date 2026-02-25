@@ -1,7 +1,4 @@
-import VectorLayer from "ol/layer/Vector.js";
-
-import style from "../js/measureStyle";
-import source from "../js/measureSource";
+import source from "../js/measureSource.js";
 
 /**
  * Measure tool state definition.
@@ -38,7 +35,7 @@ const state = {
     hasMouseMapInteractions: true,
     icon: "bi-arrows-angle-expand",
     supportedDevices: ["Desktop", "Mobile", "Table"],
-    supportedMapModes: ["2D"],
+    supportedMapModes: ["2D", "3D"],
     type: "measure",
 
     // tool-specific config.json parameters
@@ -58,15 +55,10 @@ const state = {
     isDrawing: false,
 
     // measure layer and ol
+    color: [255, 127, 0, 1.0],
     interaction: null,
     source,
-    layer: new VectorLayer({
-        source,
-        style,
-        id: "measureLayer",
-        name: "measureLayer",
-        alwaysOnTop: true
-    }),
+    layer: null,
     featureId: null,
     tooltipCoord: []
 };

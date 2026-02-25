@@ -1,16 +1,18 @@
-import mutations from "./mutationsRouting";
-import actions from "./actionsRouting";
-import getters from "./gettersRouting";
-import state from "./stateRouting";
+import mutations from "./mutationsRouting.js";
+import actions from "./actionsRouting.js";
+import getters from "./gettersRouting.js";
+import state from "./stateRouting.js";
 
-import Directions from "./directions/indexDirections";
-import Isochrones from "./isochrones/indexIsochrones";
+import Directions from "./directions/indexDirections.js";
+import Isochrones from "./isochrones/indexIsochrones.js";
+import TSR from "./tsr/indexTSR.js";
 
 export default {
     namespaced: true,
     modules: {
         Directions,
-        Isochrones
+        Isochrones,
+        TSR
     },
     state,
     mutations,
