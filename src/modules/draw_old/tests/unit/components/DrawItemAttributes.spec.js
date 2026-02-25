@@ -1,11 +1,15 @@
-import DrawItemAttributes from "../../../components/DrawItemAttributes.vue";
+import DrawItemAttributes from "@modules/draw_old/components/DrawItemAttributes.vue";
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
     let testFeature, testLayer;
@@ -78,13 +82,13 @@ describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
         it("should have form element without input fields", () => {
             const wrapper = factory.getShallowMount();
 
-            expect(wrapper.findAll(".form-control")).to.have.lengthOf(0);
+            expect(wrapper.findAllComponents({name: "InputText"})).to.have.lengthOf(0);
         });
         it("should have form element with 2 input fields if a feature is selected", () => {
             const props = {selectedFeature: testFeature},
                 wrapper = factory.getShallowMount(props);
 
-            expect(wrapper.findAll(".form-control")).to.have.lengthOf(2);
+            expect(wrapper.findAllComponents({name: "InputText"})).to.have.lengthOf(2);
         });
         it("should have form element with 4 input fields if a feature is selected", async () => {
             const props = {selectedFeature: testFeature},
@@ -94,7 +98,7 @@ describe("src/modules/draw/components/DrawItemAttributes.vue", () => {
                 foo: "bar"
             }];
             await wrapper.vm.$nextTick();
-            expect(wrapper.findAll(".form-control")).to.have.lengthOf(4);
+            expect(wrapper.findAllComponents({name: "InputText"})).to.have.lengthOf(4);
         });
     });
 

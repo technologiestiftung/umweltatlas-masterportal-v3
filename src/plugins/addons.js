@@ -1,19 +1,20 @@
 /* eslint-disable no-undef */
-import store from "../app-store";
-import main from "../main";
+import store from "@appstore/index.js";
 import {defineComponent} from "vue";
+import {upperFirst} from "@shared/js/utils/changeCase.js";
 
 const allAddons = typeof VUE_ADDONS !== "undefined" ? VUE_ADDONS : {};
 
 export default {
 /**
  * Adds all addons based on config.js and addonsConf.json to the Vue Instance and store
+ * @param {Object} app The app.
  * @param {String[]} config The array of addonKeys specified in config.js
  * @returns {void}
  */
-    loadAddons: async function (config) {
-        main.getApp().config.globalProperties.$gfiThemeAddons = [];
-        main.getApp().config.globalProperties.$searchInterfaceAddons = [];
+    loadAddons: async function (app, config) {
+        app.config.globalProperties.$gfiThemeAddons = [];
+        app.config.globalProperties.$searchInterfaceAddons = [];
 
         if (config) {
             const addons = config.map(async addonKey => {
@@ -25,16 +26,19 @@ export default {
                             await this.loadControls(addonKey);
                         }
                         else if (addonConf.type === "gfiTheme") {
-                            await this.loadGfiThemes(addonKey);
+                            await this.loadGfiThemes(addonKey, app);
                         }
                         else if (addonConf.type === "searchInterface") {
-                            await this.loadSearchInterfaces(addonKey);
+                            await this.loadSearchInterfaces(addonKey, app);
                         }
                         else if (addonConf.type === "tool") {
                             await this.loadToolAddons(addonKey);
                         }
                         else if (addonConf.type === "javascript") {
                             await this.loadJavascriptAddons(addonKey);
+                        }
+                        else if (addonConf.type === "filterSnippet") {
+                            await this.loadFilterSnippetAddons(addonKey, app);
                         }
                     }
                 }
@@ -79,14 +83,16 @@ export default {
     /**
  * Loads the gfi themes and creates the Vue component and adds it to Vue instance globally
  * @param {String} addonKey specified in config.js
+ * @param {Object} app The app.
  * @returns {void}
  */
-    loadGfiThemes: async function (addonKey) {
+    loadGfiThemes: async function (addonKey, app) {
         const addon = await this.loadAddon(addonKey),
             addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
 
-        main.getApp().component(addon.component.name, addon.component);
-        main.getApp().config.globalProperties.$gfiThemeAddons.push(addon.component.name);
+        app.component(addon.component.name, addon.component);
+
+        app.config.globalProperties.$gfiThemeAddons.push(addon.component.name);
         if (addon.store) {
             store.registerModule(["Modules", addon.component.name], addon.store);
             moduleCollection[addonName] = addon.component;
@@ -96,12 +102,13 @@ export default {
     /**
  * Load searchInterface and register store when it exists.
  * @param {String} addonKey specified in config.js
+ * @param {Object} app The app.
  * @returns {void}
  */
-    loadSearchInterfaces: async function (addonKey) {
+    loadSearchInterfaces: async function (addonKey, app) {
         const addon = await this.loadAddon(addonKey);
 
-        main.getApp().config.globalProperties.$searchInterfaceAddons.push(addon);
+        app.config.globalProperties.$searchInterfaceAddons.push(addon);
     },
 
     /**
@@ -116,6 +123,17 @@ export default {
 
         store.registerModule(["Modules", addon.component.name], addon.store);
         moduleCollection[addonName] = addon.component;
+    },
+
+    loadFilterSnippetAddons: async function (addonKey, app) {
+        const addon = await this.loadAddon(addonKey),
+            addonName = addon.component.name.charAt(0).toLowerCase() + addon.component.name.slice(1);
+
+        app.component(addon.component.name, addon.component);
+        if (addon.store) {
+            store.registerModule(["Modules", addon.component.name], addon.store);
+            moduleCollection[addonName] = addon.component;
+        }
     },
 
     /**

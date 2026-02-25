@@ -1,9 +1,9 @@
 import {expect} from "chai";
-import {setCsvAttributes} from "../../../js/setCsvAttributes";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import LineString from "ol/geom/LineString";
-import Polygon from "ol/geom/Polygon";
+import {setCsvAttributes} from "@modules/draw_old/js/setCsvAttributes.js";
+import Feature from "ol/Feature.js";
+import Point from "ol/geom/Point.js";
+import LineString from "ol/geom/LineString.js";
+import Polygon from "ol/geom/Polygon.js";
 
 describe("src/modules/draw/js/setCsvAttributes.js", () => {
     let features, code;

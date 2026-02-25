@@ -1,7 +1,11 @@
-import {generateSimpleGetters} from "../../../../shared/js/utils/generators";
-import directionsState from "./stateDirections";
-import * as constantsRouting from "../constantsRouting";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import directionsState from "./stateDirections.js";
+import * as constantsRouting from "../constantsRouting.js";
 
+/**
+ * The getters for the routing directions.
+ * @module modules/routing/store/directions/getters
+ */
 const getters = {
     /**
      * Returns an object of simple getters for a state object, where
@@ -43,6 +47,14 @@ const getters = {
      */
     isInputDisabled ({isLoadingDirections}) {
         return isLoadingDirections;
+    },
+    /**
+     * Check if all HGV parameters are valid.
+     * @param {Object} state state
+     * @returns {Boolean} true if all parameters are valid
+     */
+    allHGVRestrictionsValid (state) {
+        return Object.values(state.routingRestrictionIsValid).every(val => val);
     }
 };
 

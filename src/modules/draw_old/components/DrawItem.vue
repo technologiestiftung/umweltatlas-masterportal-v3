@@ -1,14 +1,13 @@
 <script>
-import * as constants from "../store/constantsDraw";
+import * as constants from "../store/constantsDraw.js";
 import DownloadItem from "../components/DownloadItem.vue";
 import DrawItemFeaturesFilter from "./DrawItemFeaturesFilter.vue";
 import DrawItemAttributes from "./DrawItemAttributes.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "../../../core/layers/js/layerCollection.js";
-import main from "../js/main";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
-import VectorSource from "ol/source/Vector";
-import {Vector as VectorLayer} from "ol/layer";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 /**
  * DrawItem
@@ -45,14 +44,16 @@ export default {
         DrawItemFeaturesFilter,
         DrawItemAttributes,
         DownloadItem,
-        SwitchInput
+        SwitchInput,
+        InputText
     },
     data () {
         return {
             mapElement: document.getElementById("map"),
             storePath: this.$store.state.Draw_old,
             constants: constants,
-            drawing: true
+            drawing: true,
+            creationPromise: null
         };
     },
     computed: {
@@ -65,7 +66,6 @@ export default {
             "selectedFeature",
             "iconList",
             "symbol",
-            "layer",
             "styleSettings",
             "download",
             "filterList",
@@ -79,7 +79,8 @@ export default {
             "modifyInteraction",
             "attributesKeyList",
             "outerBorderColor",
-            "innerBorderColor"
+            "innerBorderColor",
+            "drawSquareSettings"
         ]),
         /**
          * Enables or disables all the select or input elements depending on if the currentInteraction is "draw".
@@ -110,6 +111,147 @@ export default {
                 return !this.drawLayerVisible || this.styleSettings?.circleMethod !== "defined";
             }
             return this.drawHTMLElementsModifyFeature;
+        },
+
+        /**
+         * Enables the input for the radius if the squareMethod is "defined", for interaction "modify" the rule of drawHTMLElementsModifyFeature takes place.
+         * @returns {Boolean} returns true to disable the input, false to enable the input
+         */
+        drawSquareMethods () {
+            if (this.currentInteraction === "draw") {
+                return !this.drawLayerVisible || this.styleSettings?.squareMethod !== "defined";
+            }
+            return this.drawHTMLElementsModifyFeature;
+        },
+
+        lineLengthComputed: {
+            /**
+             * Getter for the computed property length of the current drawType
+             * @info the internal representation of length is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const lineKm = this.styleSettings?.length / 1000;
+
+                    return lineKm.toFixed(2);
+                }
+                return this.styleSettings?.length;
+            },
+            /**
+             * Setter for the computed property line of the current drawType
+             * @info the internal representation of line is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setLength(parseFloat(value, 10) * 1000);
+                }
+                else {
+                    this.setLength(parseFloat(value, 10));
+                }
+            }
+        },
+
+        areaComputed: {
+            /**
+             * Getter for the computed property area of the current drawType
+             * @info the internal representation of area is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const areaKm = this.styleSettings?.area / 1000000;
+
+                    return areaKm.toFixed(2);
+                }
+                return this.styleSettings?.area;
+            },
+            /**
+             * Setter for the computed property area of the current drawType
+             * @info the internal representation of area is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setArea(parseFloat(value) * 1000);
+                }
+                else {
+                    this.setArea(parseFloat(value, 10));
+                }
+            }
+        },
+
+        squareAreaComputed: {
+            /**
+             * Getter for the computed property squareArea of the current drawType
+             * @info the internal representation of squareArea is always in meters
+             * @returns {Number} the current radius
+             */
+            get () {
+                if (this.styleSettings?.unit === "km") {
+                    const squareAreaKm = this.styleSettings?.squareArea / 1000;
+
+                    return squareAreaKm.toFixed(2);
+                }
+                return this.styleSettings?.squareArea;
+            },
+            /**
+             * Setter for the computed property squareArea of the current drawType
+             * @info the internal representation of squareArea is always in meters
+             * @param {Number} value the value to set the target to
+             * @returns {void}
+             */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    this.setSquareArea(parseFloat(value, 10) * 1000);
+                }
+                else {
+                    this.setSquareArea(parseFloat(value, 10));
+                }
+            }
+        },
+
+
+        squareSideLengthComputed: {
+        /**
+         * Getter for the computed property squareSideLength based on squareArea
+         * @info the internal representation of squareArea is always in meters
+         * @returns {Number} the current square side length as an integer
+         */
+            get () {
+                const squareAreaMeters = this.styleSettings?.squareArea || 0;
+
+                if (this.drawSquareSettings.squareSide !== "-") {
+                    if (this.styleSettings?.unit === "km") {
+                        const squareSideLengthKm = Math.sqrt(squareAreaMeters) / 1000;
+
+                        return squareSideLengthKm.toFixed(2);
+                    }
+                    return Math.round(Math.sqrt(squareAreaMeters));
+                }
+                return this.drawSquareSettings.squareSide;
+            },
+            /**
+         * Setter for the computed property squareSideLength based on squareArea
+         * @info the internal representation of squareArea is always in meters
+         * @param {Number} value the value to set the square side length to
+         * @returns {void}
+         */
+            set (value) {
+                if (this.styleSettings?.unit === "km") {
+                    const squareAreaKm = Math.pow(value / 1000, 2);
+
+                    this.setSquareSide(squareAreaKm);
+                }
+                else {
+                    const squareAreaMeters = Math.pow(value, 2);
+
+                    this.setSquareSide(squareAreaMeters);
+                }
+            }
         },
 
         circleRadiusComputed: {
@@ -174,6 +316,13 @@ export default {
             return this.styleSettings?.circleMethod;
         },
         /**
+         * computed property for squareMethod of the current drawType
+         * @returns {String} "defined" or "interactive"
+         */
+        squareMethodComputed () {
+            return this.styleSettings?.squareMethod;
+        },
+        /**
          * computed property for the unit of the current drawType
          * @returns {String} "m" or "km"
          */
@@ -184,8 +333,13 @@ export default {
          * computed property for the text of the current drawType
          * @returns {String} the current text
          */
-        textComputed () {
-            return this.styleSettings?.text;
+        textComputed: {
+            get () {
+                return this.styleSettings?.text;
+            },
+            set (value) {
+                this.setText(value);
+            }
         },
         /**
          * computed property for the font-size of the current drawType
@@ -285,7 +439,7 @@ export default {
          * @returns {Boolean} True if there are visible features otherwise false.
          */
         isFromDrawTool () {
-            const visibleFeatures = this.layer?.getSource()?.getFeatures()?.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
+            const visibleFeatures = this.getLayer()?.getSource()?.getFeatures()?.filter(feature => feature.get("masterportal_attributes").fromDrawTool &&
                 feature.get("masterportal_attributes").isVisible
             );
 
@@ -297,32 +451,45 @@ export default {
          * @returns {module:ol/Feature[]} The features from drawTool
          */
         featuresFromDrawTool () {
-            return this.layer.getSource().getFeatures().filter(feature => feature.get("masterportal_attributes").fromDrawTool);
+            return this.getLayer().getSource().getFeatures().filter(feature => feature.get("masterportal_attributes").fromDrawTool);
         }
     },
     created () {
-        let importDrawLayer = mapCollection.getMap(this.mode).getLayers().getArray().find(layer => layer.get("id") === "importDrawLayer");
+        const drawLayerId = "importDrawLayer";
 
-        if (importDrawLayer === undefined) {
-            importDrawLayer = new VectorLayer({
-                source: new VectorSource(),
-                id: "importDrawLayer",
-                name: "importDrawLayer",
-                alwaysOnTop: true
-            });
-        }
-        this.checkLayer(importDrawLayer).then((layerExists) => {
-            if (!layerExists) {
-                this.addLayer(importDrawLayer);
-                this.setLayer(importDrawLayer);
+        this.creationPromise = (async () => {
+            let importDrawLayer = layerCollection.getLayerById(drawLayerId)?.layer;
+
+            if (!importDrawLayer) {
+                await this.$store.dispatch("addLayerToLayerConfig", {
+                    layerConfig: {
+                        id: drawLayerId,
+                        name: drawLayerId,
+                        showInLayerTree: true,
+                        typ: "VECTORBASE",
+                        type: "layer",
+                        visibility: true
+                    },
+                    parentKey: treeSubjectsKey
+                }, {root: true});
+
+                importDrawLayer = layerCollection.getLayerById(drawLayerId).layer;
+                importDrawLayer.set("alwaysOnTop", true);
             }
-        });
-        main.getApp().config.globalProperties.$layer = importDrawLayer;
+
+            this.$.appContext.app.config.globalProperties.$layer = importDrawLayer;
+
+            if (!await this.checkLayer(importDrawLayer)) {
+                this.addLayer(importDrawLayer);
+            }
+        })();
     },
     mounted () {
-        this.startInteractions();
-        this.setCanvasCursorByInteraction(this.currentInteraction);
-        this.setFocusToFirstControl();
+        this.creationPromise.then(() => {
+            this.startInteractions();
+            this.setCanvasCursorByInteraction(this.currentInteraction);
+            this.setFocusToFirstControl();
+        });
     },
     unmounted () {
         this.resetModule();
@@ -343,13 +510,14 @@ export default {
             "setDrawLineSettings",
             "setDrawAreaSettings",
             "setDrawCircleSettings",
-            "setLayer",
             "setAttributesKeyList"
         ]),
         ...mapActions("Modules/Draw_old", [
             "undoLastStep",
             "redoLastStep",
             "clearLayer",
+            "setLength",
+            "setArea",
             "setDrawType",
             "setOpacity",
             "setStrokeWidth",
@@ -359,6 +527,9 @@ export default {
             "setFont",
             "setSymbol",
             "setText",
+            "setUnit",
+            "setSquareMethod",
+            "setSquareArea",
             "setCircleRadius",
             "setCircleMethod",
             "setCircleOuterRadius",
@@ -380,6 +551,14 @@ export default {
             "addLayer",
             "checkLayer"
         ]),
+
+        /**
+         * Returns the layer from globalProperties.
+         * @returns {Object} The layer from globalProperties.
+         */
+        getLayer () {
+            return this.$.appContext.app.config.globalProperties.$layer;
+        },
 
         /**
          * Adds all symbols found in layerModels to the iconList.
@@ -494,7 +673,7 @@ export default {
                     return "common:modules.draw_old.iconList." + option.id;
                 }
                 // need to fake the return here for now, as long as exists doesn't work
-                return "common:modules.draw_old.iconList." + option.id;
+                return option.id;
             }
             return "noName";
         },
@@ -511,7 +690,7 @@ export default {
             else {
                 this.resetCanvasCursor();
             }
-            this.updateDrawLayerVisible(value);
+            this.updateDrawLayerVisible({value, layer: this.getLayer()});
         },
         /**
          * Updates the attributes' key list.
@@ -585,7 +764,7 @@ export default {
         >
             <DrawItemAttributes
                 :selected-feature="selectedFeature"
-                :layer="layer"
+                :layer="getLayer()"
                 :attributes-key-list="attributesKeyList"
                 @update-attributes-key-list="updateAttributesKeyList"
             />
@@ -629,6 +808,163 @@ export default {
                 </div>
             </div>
             <div
+                v-if="drawType.id === 'drawArea'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-area"
+                >
+                    {{ $t('common:modules.draw_old.areaLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-area"
+                        v-model="areaComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :placeholder="$t('common:modules.draw_old.areaPlaceholder')"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawArea'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-areaUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-areaUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare' && currentInteraction !== 'modify'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareMethod"
+                >
+                    {{ $t("common:modules.draw_old.method") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-squareMethod"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setSquareMethod"
+                    >
+                        <option
+                            value="interactive"
+                            :selected="squareMethodComputed === 'interactive'"
+                        >
+                            {{ $t("common:modules.draw_old.interactive") }}
+                        </option>
+                        <option
+                            value="defined"
+                            :selected="squareMethodComputed === 'defined'"
+                        >
+                            {{ $t("common:modules.draw_old.defined") + $t("common:modules.draw_old.squareDefinedInfo") }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareArea"
+                >
+                    {{ $t('common:modules.draw_old.areaLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-squareArea"
+                        v-model="squareAreaComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="number"
+                        step="1"
+                        :placeholder="$t('common:modules.draw_old.squareAreaPlaceholder')"
+                        :disabled="drawSquareMethods"
+                        min="0"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareSideLength"
+                >
+                    {{ $t('common:modules.draw_old.squareSideLengthLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-squareSideLength"
+                        :value="squareSideLengthComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+
+
+            <div
+                v-if="drawType.id === 'drawSquare'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-squareUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-squareUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
                 v-if="drawType.id === 'drawCircle' || drawType.id === 'drawDoubleCircle'"
                 class="form-group form-group-sm row"
             >
@@ -642,12 +978,12 @@ export default {
                     <input
                         id="tool-draw-circleRadius"
                         v-model="circleRadiusComputed"
+                        :disabled="drawCircleMethods"
                         class="form-control form-control-sm"
                         :style="{borderColor: innerBorderColor}"
                         type="number"
                         step="1"
                         :placeholder="$t('common:modules.draw_old.doubleCirclePlaceholder')"
-                        :disabled="drawCircleMethods"
                         min="0"
                     >
                 </div>
@@ -666,11 +1002,11 @@ export default {
                     <input
                         id="tool-draw-circleOuterRadius"
                         v-model="circleOuterRadiusComputed"
+                        :disabled="drawCircleMethods"
                         class="form-control form-control-sm"
                         :style="{borderColor: outerBorderColor}"
                         type="number"
                         :placeholder="$t('common:modules.draw_old.doubleCirclePlaceholder')"
-                        :disabled="drawCircleMethods"
                         min="0"
                     >
                 </div>
@@ -714,15 +1050,15 @@ export default {
                     {{ $t("common:modules.draw_old.text") }}
                 </label>
                 <div class="col-md-7">
-                    <input
+                    <InputText
                         id="tool-draw-text"
-                        class="form-control form-control-sm"
-                        type="text"
+                        v-model="textComputed"
+                        label="common:modules.draw_old.text"
                         :placeholder="$t('common:modules.draw_old.clickToPlaceText')"
                         :disabled="drawHTMLElementsModifyFeature"
-                        :value="textComputed"
-                        @input="setText"
-                    >
+                        type="text"
+                        :class-obj="['form-control-sm']"
+                    />
                 </div>
             </div>
             <div
@@ -805,6 +1141,55 @@ export default {
                             :selected="option.id === symbol.id"
                         >
                             {{ $t(getIconLabelKey(option)) }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawLine'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-lineLength"
+                >
+                    {{ $t('common:modules.draw_old.lineLengthLabel') }}
+                </label>
+                <div class="col-md-7">
+                    <input
+                        id="tool-draw-lineLength"
+                        :value="lineLengthComputed"
+                        class="form-control form-control-sm"
+                        :style="{borderColor: innerBorderColor}"
+                        type="text"
+                        :disabled="true"
+                    >
+                </div>
+            </div>
+            <div
+                v-if="drawType.id === 'drawLine'"
+                class="form-group form-group-sm row"
+            >
+                <label
+                    class="col-md-5 col-form-label"
+                    for="tool-draw-lineUnit"
+                >
+                    {{ $t("common:modules.draw_old.unit") }}
+                </label>
+                <div class="col-md-7">
+                    <select
+                        id="tool-draw-lineUnit"
+                        class="form-select form-select-sm"
+                        :disabled="drawHTMLElementsModifyFeature"
+                        @change="setUnit"
+                    >
+                        <option
+                            v-for="option in constants.unitOptions"
+                            :key="'draw-fontSize-' + option.value"
+                            :selected="option.value === unitComputed"
+                            :value="option.value"
+                        >
+                            {{ option.caption }}
                         </option>
                     </select>
                 </div>

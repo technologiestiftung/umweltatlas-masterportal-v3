@@ -1,19 +1,26 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import GeometryFilter from "../../../components/GeometryFilter.vue";
+import GeometryFilter from "@modules/filter/components/GeometryFilter.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 import Draw from "ol/interaction/Draw.js";
-import {Vector as VectorLayer} from "ol/layer";
-import Feature from "ol/Feature";
-import {Polygon, LineString} from "ol/geom";
+import {Vector as VectorLayer} from "ol/layer.js";
+import Feature from "ol/Feature.js";
+import {Polygon, LineString} from "ol/geom.js";
+import {nextTick} from "vue";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/filter/components/GeometryFilter.vue", () => {
     let wrapper = null,
         sandbox,
         store;
+
+    const stubChangeCurrentMouseMapInteractionsComponent = sinon.stub();
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
@@ -34,7 +41,7 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
                         currentMouseMapInteractionsComponent: sinon.stub()
                     },
                     actions: {
-                        changeCurrentMouseMapInteractionsComponent: sinon.stub()
+                        changeCurrentMouseMapInteractionsComponent: stubChangeCurrentMouseMapInteractionsComponent
                     }
                 },
                 Modules: {
@@ -71,15 +78,21 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
         it("should exist", () => {
             expect(wrapper.exists()).to.be.true;
         });
-        it("should render correctly if component is created", () => {
-            expect(wrapper.find("#geometryFilterChecked").exists()).to.be.true;
-            expect(wrapper.find("#geometryFilterHelp").exists()).to.be.true;
-            expect(wrapper.find("#geometrySelect").exists()).to.be.false;
-            expect(wrapper.find("#inputLineBuffer").exists()).to.be.false;
-            expect(wrapper.find("#buttonRemoveGeometry").exists()).to.be.false;
+        it("should render geometry filter if component is created", () => {
+            expect(wrapper.find("#geometryFilter").exists()).to.be.true;
         });
+        it("should set correct buttonGroup initially", () => {
+            expect(wrapper.vm.selectedGroup).to.be.equal("geom");
+        });
+        it("should render the correct ButtonGroupLevels", async () => {
+            const expectedButtonGroupLevels = [
+                {name: "common:modules.filter.geometryFilter.geometries"},
+                {name: "common:modules.filter.geometryFilter.regions"}
+            ];
 
-        it("should render the correct values (incl. additional geometries) in the geometry selection dropdown", async () => {
+            expect(wrapper.vm.buttonGroupLevels).to.deep.equal(expectedButtonGroupLevels);
+        });
+        it("should render the correct geometrie buttons", async () => {
             const feature = new Feature({
                     bezirk: "Altona",
                     geometry: new Polygon([
@@ -95,74 +108,122 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
                 additionalGeometries = [{
                     attrNameForTitle: "bezirk",
                     features: [feature]
-                }],
-                expectedValues = ["common:modules.filter.geometryFilter.geometries.polygon",
-                    "common:modules.filter.geometryFilter.geometries.rectangle",
-                    "common:modules.filter.geometryFilter.geometries.circle",
-                    "common:modules.filter.geometryFilter.geometries.lineString",
-                    "Altona"];
+                }];
 
-            await wrapper.setData({isActive: true});
-            await wrapper.setProps({additionalGeometries: additionalGeometries});
-            wrapper.find("#geometrySelect").findAll("option").forEach((option, index) => {
-                expect(option.text()).to.be.equal(expectedValues[index]);
-            });
+            await wrapper.setProps({additionalGeometries: additionalGeometries, selectedGroup: "geom"});
+
+            expect(wrapper.find("#Polygon").exists()).to.be.true;
+            expect(wrapper.find("#Rectangle").exists()).to.be.true;
+            expect(wrapper.find("#Circle").exists()).to.be.true;
+            expect(wrapper.find("#LineString").exists()).to.be.true;
         });
 
-        it("should render geometry selection dropdown", async () => {
-            await wrapper.setData({isActive: true});
-
-            expect(wrapper.find("#geometrySelect").exists()).to.be.true;
+        it("should render the button wrapper", () => {
+            expect(wrapper.find(".icon-btn-wrapper").exists()).to.be.true;
         });
 
         it("should render buffer input", async () => {
-            await wrapper.setData({isActive: true, isBufferInputVisible: true});
+            await wrapper.setData({isBufferInputVisible: true});
 
             expect(wrapper.find("#inputLineBuffer").exists()).to.be.true;
         });
 
-        it("should render remove button", async () => {
-            await wrapper.setData({isGeometryVisible: true});
-
-            expect(wrapper.find("#buttonRemoveGeometry").exists()).to.be.true;
-        });
-
-        it("should set the correct type to the draw interaction if user changes the geometry selection", async () => {
-            const radioInput = wrapper.find("#geometryFilterChecked");
-
-            await radioInput.setChecked();
-            await wrapper.find("select").findAll("option").at(3).setSelected();
-            expect(wrapper.vm.draw.type_).to.be.equal("LineString");
+        it("should first set the polygon type to the drawing interaction", async () => {
+            expect(wrapper.vm.draw.type_).to.be.equal("Polygon");
         });
     });
 
     describe("User Interactions", () => {
-        it("should render geometry selection dropdown if user sets checked value to the checkbox", async () => {
-            const radioInput = wrapper.find("#geometryFilterChecked");
-
-            await radioInput.setChecked();
-
-            expect(radioInput.element.checked).to.be.true;
-            expect(wrapper.find("#geometrySelect").exists()).to.be.true;
-        });
-
-        it("should render the correct value in the dropdown if user changes it", async () => {
-            const radioInput = wrapper.find("#geometryFilterChecked");
-
-            await radioInput.setChecked();
-            await wrapper.find("select").findAll("option").at(1).setSelected();
-
-            expect(wrapper.find("option:checked").element.value).to.be.equal("1");
-            expect(wrapper.find("option:checked").text()).to.be.equal("common:modules.filter.geometryFilter.geometries.rectangle");
-        });
-
-        it("should call reset if user click on the remove button", async () => {
+        it("should set correct data initially", async () => {
             await wrapper.setData({isGeometryVisible: true});
-            await wrapper.find("#buttonRemoveGeometry").trigger("click");
 
-            expect(wrapper.vm.isGeometryVisible).to.be.false;
             expect(wrapper.vm.isBufferInputVisible).to.be.false;
             expect(wrapper.vm.layer.getSource().getFeatures()).to.have.lengthOf(0);
+        });
+        it("should set correct geometryIndex if user click on the geometry", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+
+            expect(wrapper.vm.selectedGeometryIndex).to.be.equal(0);
+
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+
+            });
+        });
+        it("should set the geometry index -10, if user click at the same geometry type and selected group is 'geom'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "geom"});
+
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-10);
+            });
+        });
+        it("should set the geometry index -1, if user click at the same geometry type and selected group is 'addit'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "addit"});
+
+            nextTick(() => {
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(1);
+
+                wrapper.find("#Rectangle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(2);
+
+                wrapper.find("#Circle").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(3);
+
+                wrapper.find("#LineString").trigger("click");
+                expect(wrapper.vm.selectedGeometryIndex).to.be.equal(-1);
+            });
+        });
+        it("should set the draw to active, if selected group is 'geom'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "geom"});
+
+            nextTick(() => {
+                expect(wrapper.vm.draw.getActive().to.be.true);
+            });
+        });
+        it("should set the draw to inactive, if selected group is 'aadit'", async () => {
+            await wrapper.setData({isGeometryVisible: true});
+            await wrapper.setData({isActive: true});
+            await wrapper.setData({selectedGroup: "addit"});
+
+            nextTick(() => {
+                expect(wrapper.vm.draw.getActive().to.be.false);
+            });
         });
     });
 
@@ -172,19 +233,19 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
                 expect(wrapper.vm.getGeometries()).to.deep.equal([
                     {
                         "type": "Polygon",
-                        "name": "common:modules.filter.geometryFilter.geometries.polygon"
+                        "name": "common:modules.filter.geometryFilter.geometryTypes.polygon"
                     },
                     {
                         "type": "Rectangle",
-                        "name": "common:modules.filter.geometryFilter.geometries.rectangle"
+                        "name": "common:modules.filter.geometryFilter.geometryTypes.rectangle"
                     },
                     {
                         "type": "Circle",
-                        "name": "common:modules.filter.geometryFilter.geometries.circle"
+                        "name": "common:modules.filter.geometryFilter.geometryTypes.circle"
                     },
                     {
                         "type": "LineString",
-                        "name": "common:modules.filter.geometryFilter.geometries.lineString"
+                        "name": "common:modules.filter.geometryFilter.geometryTypes.lineString"
                     }
                 ]);
             });
@@ -221,28 +282,28 @@ describe("src/modules/filter/components/GeometryFilter.vue", () => {
             it("should return the first geometry on startup", () => {
                 expect(wrapper.vm.getSelectedGeometry(0)).to.deep.equal({
                     "type": "Polygon",
-                    "name": "common:modules.filter.geometryFilter.geometries.polygon"
+                    "name": "common:modules.filter.geometryFilter.geometryTypes.polygon"
                 });
             });
 
             it("should return the second geometry if data.selectedGeometry is set 1", () => {
                 expect(wrapper.vm.getSelectedGeometry(1)).to.deep.equal({
                     "type": "Rectangle",
-                    "name": "common:modules.filter.geometryFilter.geometries.rectangle"
+                    "name": "common:modules.filter.geometryFilter.geometryTypes.rectangle"
                 });
             });
 
             it("should return the third geometry if data.selectedGeometry is set 2", () => {
                 expect(wrapper.vm.getSelectedGeometry(2)).to.deep.equal({
                     "type": "Circle",
-                    "name": "common:modules.filter.geometryFilter.geometries.circle"
+                    "name": "common:modules.filter.geometryFilter.geometryTypes.circle"
                 });
             });
 
             it("should return the fourth geometry if data.selectedGeometry is set 3", () => {
                 expect(wrapper.vm.getSelectedGeometry(3)).to.deep.equal({
                     "type": "LineString",
-                    "name": "common:modules.filter.geometryFilter.geometries.lineString"
+                    "name": "common:modules.filter.geometryFilter.geometryTypes.lineString"
                 });
             });
         });

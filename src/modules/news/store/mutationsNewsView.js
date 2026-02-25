@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import stateNewsView from "./stateNewsView";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateNewsView from "./stateNewsView.js";
 
 const mutations = {
     /**

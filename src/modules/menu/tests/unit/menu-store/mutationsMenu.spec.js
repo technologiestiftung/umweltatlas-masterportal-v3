@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../menu-store/mutationsMenu.js";
+import mutations from "@modules/menu/menu-store/mutationsMenu.js";
 
 
 describe("src/core/menu/menu-store/mutationsMenu.js", () => {
@@ -105,6 +105,79 @@ describe("src/core/menu/menu-store/mutationsMenu.js", () => {
                 }
             });
             expect(state.mainMenu.currentComponent).to.equals("xyz");
+        });
+
+        it("Should remove the last 'getFeatureInfo' component with 'name: none' from history", () => {
+            state.mainMenu.navigation.history = [
+                {
+                    type: "root",
+                    props: {name: "common:root"}
+                }
+            ];
+
+            state.mainMenu.navigation.currentComponent =
+                {
+                    type: "getFeatureInfo",
+                    props: {name: "none"}
+                };
+
+            const side = "mainMenu",
+                type = "xyz",
+                props = {name: "common:xyz"};
+
+            mutations.setCurrentComponent(state, {type, side, props});
+
+
+            expect(state.mainMenu.navigation.history).to.deep.equals([
+                {
+                    type: "root",
+                    props: {name: "common:root"}
+                }
+            ]);
+
+            expect(state.mainMenu.navigation.currentComponent).to.deep.equals({
+                type: "xyz",
+                props: {name: "common:xyz"}
+            });
+            expect(state.mainMenu.currentComponent).to.equals("xyz");
+        });
+
+        it("Should remove previous component if the last component type matches the current component type", () => {
+            state.mainMenu.navigation.history = [
+                {
+                    type: "root",
+                    props: {name: "common:root"}
+                },
+                {
+                    type: "abc",
+                    props: {name: "common:abc"}
+                }
+            ];
+
+            state.mainMenu.navigation.currentComponent =
+                {
+                    type: "getFeatureInfo",
+                    props: {name: "none"}
+                };
+
+            const side = "mainMenu",
+                type = "abc",
+                props = {name: "common:abc"};
+
+            mutations.setCurrentComponent(state, {type, side, props});
+
+            expect(state.mainMenu.navigation.history).to.deep.equals([
+                {
+                    type: "root",
+                    props: {name: "common:root"}
+                }
+            ]);
+
+            expect(state.mainMenu.navigation.currentComponent).to.deep.equals({
+                type: "abc",
+                props: {name: "common:abc"}
+            });
+            expect(state.mainMenu.currentComponent).to.equals("abc");
         });
     });
 

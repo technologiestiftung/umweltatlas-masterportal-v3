@@ -1,13 +1,14 @@
 <script>
 import {mapGetters} from "vuex";
-import * as constantsRouting from "../store/constantsRouting";
+import * as constantsRouting from "../store/constantsRouting.js";
 
 /**
  * Routing Avoid Features
- * @module modules/RoutingAvoidFeatures
+ * @module modules/routing/components/RoutingAvoidFeatures
  * @vue-prop {Array} activeAvoidFeaturesOptions - Th elist of the options.
  * @vue-prop {Object} settings - The settings for the element.
  * @vue-prop {Boolean} disabled - Shows if element is disabled.
+ * @vue-prop {Boolean} isTSR - Shows if TSR is enabled.
  * @vue-data {Boolean} showAvoidFeatures - Shows if avoid features are visible.
  * @vue-computed {Object} avoidSpeedProfileOptions - The options to display with the current active speed profile.
  * @vue-event {Number} addAvoidOption - Emits function to add avoid option.
@@ -25,6 +26,10 @@ export default {
             required: true
         },
         disabled: {
+            type: Boolean,
+            required: false
+        },
+        isTSR: {
             type: Boolean,
             required: false
         }
@@ -147,7 +152,8 @@ export default {
             <i
                 :class="showAvoidFeatures? 'bi-chevron-down' : 'bi-chevron-right'"
             />
-            <b>{{ $t('common:modules.routing.avoidOptions.header') }}</b>
+            <b v-if="!isTSR">{{ $t('common:modules.routing.avoidOptions.header') }}</b>
+            <b v-else>{{ $t('common:modules.routing.tsr.header') }}</b>
         </button>
         <div
             v-if="showAvoidFeatures"

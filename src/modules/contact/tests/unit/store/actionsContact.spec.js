@@ -1,9 +1,9 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
+import testAction from "@devtools/tests/VueTestUtils.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import httpClientModule from "../../../js/httpClient";
-import actions from "../../../store/actionsContact";
+import httpClientModule from "@modules/contact/js/httpClient.js";
+import actions from "@modules/contact/store/actionsContact.js";
 
 const {onSendSuccess, send} = actions;
 

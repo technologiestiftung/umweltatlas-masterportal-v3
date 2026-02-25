@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {convertAttrTypeXML} from "../../../utils/convertAttrType.js";
+import {convertAttrTypeXML} from "@modules/filter/utils/convertAttrType.js";
 
 describe("src/modules/filter/utils/convertAttrType.js", () => {
     describe("convertAttrTypeXML", () => {

@@ -1,15 +1,14 @@
-import Cluster from "ol/source/Cluster";
-import VectorSource from "ol/source/Vector";
-import {getWmsFeaturesByMimeType} from "../../../shared/js/utils/getWmsFeaturesByMimeType";
-import {getVisibleWmsLayersAtResolution} from "../js/getLayers";
-import store from "../../../app-store";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import transformer from "../../../shared/js/utils/coordToPixel3D";
-import changeCase from "../../../shared/js/utils/changeCase";
-
-let globeEventHandler,
-    colored3DTile,
-    old3DTileColor;
+import Cluster from "ol/source/Cluster.js";
+import VectorSource from "ol/source/Vector.js";
+import {getWmsFeaturesByMimeType} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
+import {getVisibleWmsLayersAtResolution} from "../js/getLayers.js";
+import store from "@appstore/index.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import transformer from "@shared/js/utils/coordToPixel3D.js";
+import changeCase from "@shared/js/utils/changeCase.js";
+import get3DHighlightColor from "@shared/js/utils/get3DHighlightColor.js";
+import applyTileStyle from "@shared/js/utils/applyTileStyle.js";
+import remove3DFeatureHighlight from "@shared/js/utils/remove3DFeatureHighlight.js";
 
 /**
  * The actions for the getFeatureInfo.
@@ -17,67 +16,68 @@ let globeEventHandler,
  */
 export default {
     /**
-     * Function to highlight a 3D Tile with left click.
-     * @param {Object} param.getters the getters
-     * @param {Object} param.dispatch the dispatch
+     * Highlights a 3D Tile when left-clicked.
+     *
+     * @param {Object} param - The parameters object.
+     * @param {Object} param.getters - The getters from the Vuex store.
+     * @param {Function} param.dispatch - The dispatch function from the Vuex store.
+     * @param {Function} param.commit - The commit function from the Vuex store.
      * @returns {void}
      */
-    highlight3DTile ({getters, dispatch}) {
-        const scene = mapCollection.getMap("3D").getCesiumScene();
+    highlight3DTile ({getters, dispatch, commit}) {
+        commit("destroyGlobeEventHandler");
 
-        globeEventHandler = new Cesium.ScreenSpaceEventHandler(
-            scene.canvas
-        );
-        let highlightColor = Cesium.Color.RED;
+        const scene = mapCollection.getMap("3D").getCesiumScene(),
+            highlightColor = get3DHighlightColor(getters.coloredHighlighting3D?.color, "RED"),
+            globeEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
-        old3DTileColor = null;
-        colored3DTile = [];
-        if (getters.coloredHighlighting3D?.color !== undefined) {
-            const configuredColor = getters.coloredHighlighting3D?.color;
+        commit("setGlobeEventHandlerCheck", globeEventHandler);
 
-            if (configuredColor instanceof Array) {
-                highlightColor = Cesium.Color.fromBytes(configuredColor[0], configuredColor[1], configuredColor[2], configuredColor[3]);
-            }
-            else if (configuredColor && typeof configuredColor === "string") {
-                highlightColor = Cesium.Color[configuredColor];
-            }
-            else {
-                console.warn("The color for the 3D highlighting is not valid. Please check the config or documentation.");
-            }
-        }
         globeEventHandler.setInputAction(function onLeftClick (
             click
         ) {
+            dispatch("Modules/SearchBar/removeHighlight3DTile", "", {root: true});
             dispatch("removeHighlightColor");
-            const pickedFeature = scene.pick(click.position);
+            const pickedFeature = scene.pick(click.position),
+                featureId = pickedFeature?.getProperty("id");
 
             if (pickedFeature) {
-                old3DTileColor = pickedFeature.color;
-                colored3DTile.push(pickedFeature);
-                pickedFeature.color = highlightColor;
+                commit("setLastPickedFeatureId", featureId);
+                applyTileStyle(featureId, highlightColor);
+            }
+            else {
+                dispatch("removeHighlightColor");
             }
         },
         Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
+
     /**
-     * Function to remove highlighting of a 3D Tile and the event handler.
-     * @param {Object} param.dispatch the dispatch
+     * Resets the highlight color of all or a specific 3D tile.
+     *
+     * - If a specific feature is provided, only that feature's color is reset.
+     * - If no feature is provided, all highlighted features are reset.
+     *
+     * @param {Object} context - The Vuex context object.
      * @returns {void}
      */
-    removeHighlight3DTile ({dispatch}) {
+    removeHighlight3DTile ({dispatch, commit}) {
         dispatch("removeHighlightColor");
-        if (globeEventHandler !== undefined && globeEventHandler instanceof Cesium.ScreenSpaceEventHandler) {
-            globeEventHandler.destroy();
-        }
+
+        commit("destroyGlobeEventHandler");
     },
     /**
-     * Function to revert the highlight coloring  of a 3D Tile.
+     * Removes the highlight effect from the last picked 3D tile.
+     *
+     * @param {Object} param - The Vuex context object.
+     * @param {Object} param.state - The current state from the Vuex store.
+     * @param {Function} param.commit - The commit function from the Vuex store.
      * @returns {void}
      */
-    removeHighlightColor () {
-        if (Array.isArray(colored3DTile) && colored3DTile.length > 0) {
-            colored3DTile[0].color = old3DTileColor;
-            colored3DTile = [];
+    removeHighlightColor ({state, commit}) {
+        if (state.lastPickedFeatureId) {
+            remove3DFeatureHighlight(state.lastPickedFeatureId);
+            commit("setLastPickedFeatureId", null);
         }
     },
 
@@ -95,11 +95,15 @@ export default {
             resolution = rootGetters["Maps/resolution"],
             projection = rootGetters["Maps/projection"],
             gfiFeaturesAtPixel = getters.gfiFeaturesAtPixel,
-            gfiWmsLayerList = getVisibleWmsLayersAtResolution(resolution, rootGetters.visibleSubjectDataLayerConfigs).filter(layer => {
+            gfiWmsLayerList = getVisibleWmsLayersAtResolution(resolution, rootGetters.visibleSubjectDataLayerConfigs.concat(rootGetters.visibleBaselayerConfigs)).filter(layer => {
                 return layer.get("gfiAttributes") !== "ignore";
             });
 
-        Promise.all(gfiWmsLayerList.map(layer => {
+        if (getters.menuExpandedBeforeGfi === null) {
+            commit("setMenuExpandedBeforeGfi", rootGetters["Menu/expanded"](getters.menuSide));
+        }
+
+        return Promise.allSettled(gfiWmsLayerList.map(layer => {
             const gfiParams = {
                 INFO_FORMAT: layer.get("infoFormat"),
                 FEATURE_COUNT: layer.get("featureCount")
@@ -112,9 +116,36 @@ export default {
 
                 url = newUrl;
             }
-
             return getWmsFeaturesByMimeType(layer, url);
         }))
+            .then((results) => {
+                const rejected = [],
+                    fulfilled = results.filter((result, index) => {
+                        if (result.status === "rejected") {
+                            console.error(result.reason);
+                            rejected.push(index);
+                            return false;
+                        }
+                        return true;
+                    });
+
+                if (rejected.length) {
+                    const errorLayers = rejected.reduce(
+                        (accumulator, index) => `${accumulator}<li>${gfiWmsLayerList[index].get("name")}</li>`,
+                        ""
+                    );
+
+                    dispatch(
+                        "Alerting/addSingleAlert",
+                        i18next.t("common:modules.getFeatureInfo.errorMessageLayers", {
+                            layers: errorLayers,
+                            interpolation: {escapeValue: false}}
+                        ), {root: true}
+                    );
+                }
+
+                return fulfilled.map(({value}) => value);
+            })
             .then(gfiFeatures => {
                 const clickPixel = rootGetters["Maps/clickPixel"],
                     mode = rootGetters["Maps/mode"];
@@ -141,11 +172,30 @@ export default {
                 }
                 else {
                     commit("setGfiFeatures", null);
+
+                    const currentComponent = rootGetters["Menu/currentComponent"](getters.menuSide),
+                        isGfiActive = currentComponent?.type === "getFeatureInfo";
+
+                    if (!isGfiActive) {
+                        return;
+                    }
+
+                    commit("Menu/switchToPreviousComponent", getters.menuSide, {root: true});
+
+                    if (!getters.menuExpandedBeforeGfi) {
+                        commit("Menu/setExpandedBySide", {expanded: false, side: getters.menuSide}, {root: true});
+                    }
+
+                    commit("setMenuExpandedBeforeGfi", null);
                 }
             })
             .catch(error => {
-                console.warn(error);
-                dispatch("Alerting/addSingleAlert", i18next.t("common:modules.getFeatureInfo.errorMessage"), {root: true});
+                if (error.message.includes("The request is not allowed")) {
+                    console.warn(error);
+                }
+                else {
+                    dispatch("Alerting/addSingleAlert", i18next.t("common:modules.getFeatureInfo.errorMessage"), {root: true});
+                }
             });
     },
 

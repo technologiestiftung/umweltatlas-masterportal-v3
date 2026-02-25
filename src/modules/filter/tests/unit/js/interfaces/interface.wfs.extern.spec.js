@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import InterfaceWfsExtern from "../../../../js/interfaces/interface.wfs.extern.js";
-import responseXML from "../../../resources/rawSources.js";
+import InterfaceWfsExtern from "@modules/filter/js/interfaces/interface.wfs.extern.js";
+import responseXML from "@modules/filter/tests/resources/rawSources.js";
 import GeometryCollection from "ol/geom/GeometryCollection.js";
 import Polygon from "ol/geom/Polygon.js";
 
@@ -357,6 +357,14 @@ describe("src/modules/filter/interfaces/utils/interface.wfs.extern.js", () => {
                 node = interfaceWfsExtern.intersectsGeometryFilter("foreverYoung", geometryCollection);
 
             expect(node.tagName_).to.equal("Intersects");
+        });
+    });
+
+    describe("convertGML32", () => {
+        it("fix incomplete GML3.2", () => {
+            const convertedPayload = interfaceWfsExtern.convertGML32("<GetFeature xmlns=\"http://www.opengis.net/wfs/2.0\" service=\"WFS\" version=\"2.0.0\" xsi:schemaLocation=\"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Query typeNames=\"tn\" srsName=\"EPSG:25832\"><Filter xmlns=\"http://www.opengis.net/fes/2.0\"><And><During><ValueReference>date_field</ValueReference><TimePeriod xmlns=\"http://www.opengis.net/gml\"><begin><TimeInstant><timePosition>1983-03-01</timePosition></TimeInstant></begin><end><TimeInstant><timePosition>2003-09-30</timePosition></TimeInstant></end></TimePeriod></During><Intersects><ValueReference>geom</ValueReference><Polygon xmlns=\"http://www.opengis.net/gml/3.2\"><exterior><LinearRing><posList srsDimension=\"2\">383871 5811969 398459 5811969 398459 5822945 383871 5822945 383871 5811969</posList></LinearRing></exterior></Polygon></Intersects></And></Filter></Query></GetFeature>");
+
+            expect(convertedPayload).to.equal("<GetFeature xmlns=\"http://www.opengis.net/wfs/2.0\" service=\"WFS\" version=\"2.0.0\" xsi:schemaLocation=\"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Query typeNames=\"tn\" srsName=\"EPSG:25832\"><Filter xmlns=\"http://www.opengis.net/fes/2.0\"><And><During><ValueReference>date_field</ValueReference><TimePeriod gml:id=\"timeperiod.request.1\" xmlns:gml=\"http://www.opengis.net/gml/3.2\" xmlns=\"http://www.opengis.net/gml/3.2\"><begin><TimeInstant gml:id=\"timeinstant.request.2\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"><timePosition>1983-03-01</timePosition></TimeInstant></begin><end><TimeInstant gml:id=\"timeinstant.request.3\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"><timePosition>2003-09-30</timePosition></TimeInstant></end></TimePeriod></During><Intersects><ValueReference>geom</ValueReference><Polygon gml:id=\"geom.request.0\" xmlns=\"http://www.opengis.net/gml/3.2\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"><exterior><LinearRing><posList srsDimension=\"2\">383871 5811969 398459 5811969 398459 5822945 383871 5822945 383871 5811969</posList></LinearRing></exterior></Polygon></Intersects></And></Filter></Query></GetFeature>");
         });
     });
 });

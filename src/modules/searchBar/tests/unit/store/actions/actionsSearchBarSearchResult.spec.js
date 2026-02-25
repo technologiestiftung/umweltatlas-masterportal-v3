@@ -1,10 +1,12 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import WKTUtil from "../../../../../../shared/js/utils/getWKTGeom";
-import wmsGFIUtil from "../../../../../../shared/js/utils/getWmsFeaturesByMimeType";
-import actions from "../../../../store/actions/actionsSearchBarSearchResult";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import WKTUtil from "@shared/js/utils/getWKTGeom.js";
+import wmsGFIUtil from "@shared/js/utils/getWmsFeaturesByMimeType.js";
+import actions from "@modules/searchBar/store/actions/actionsSearchBarSearchResult.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import mapMarker from "@core/maps/js/mapMarker.js";
+import markerHelper from "@modules/searchBar/js/marker.js";
 
 describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.js", () => {
     let dispatch,
@@ -38,6 +40,10 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
         };
         mapCollection.clear();
         mapCollection.addMap(map, "2D");
+        sinon.stub(mapMarker, "getMapmarkerLayerById").returns({getSource: () => {
+            return {getExtent: sinon.stub()};
+        }});
+        sinon.stub(markerHelper, "extentIsValid").returns(true);
     });
 
     afterEach(() => {
@@ -221,11 +227,9 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
     });
 
     describe("showInTree", () => {
-        const typeLayerSelection = {type: "layerSelection", props: {name: "common:modules.layerSelection.name"}};
 
         it("should call showLayer for a layer", async () => {
-            const layerId = "123",
-                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]};
+            const layerId = "123";
 
             dispatch = sinon.stub().resolves({id: layerId});
             await actions.showInTree({commit, dispatch}, {layerId});
@@ -239,16 +243,13 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
-            expect(commit.callCount).to.be.equals(2);
-            expect(commit.firstCall.args[0]).to.equals("setShowInTree");
+            expect(commit.callCount).to.be.equals(1);
+            expect(commit.firstCall.args[0]).to.equals("setShowSearchResultsInTree");
             expect(commit.firstCall.args[1]).to.be.equals(true);
-            expect(commit.secondCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
-            expect(commit.secondCall.args[1]).to.be.deep.equals(payload);
         });
 
         it("should call showLayer for a folder", async () => {
-            const layerId = "folder-1",
-                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]};
+            const layerId = "folder-1";
 
             dispatch = sinon.stub().resolves({id: layerId,
                 elements: [
@@ -267,19 +268,16 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.thirdCall.args[1]).to.be.deep.equals({
                 layerId: "123"
             });
-            expect(commit.callCount).to.be.equals(3);
-            expect(commit.firstCall.args[0]).to.equals("setShowInTree");
+            expect(commit.callCount).to.be.equals(2);
+            expect(commit.firstCall.args[0]).to.equals("setShowSearchResultsInTree");
             expect(commit.firstCall.args[1]).to.be.equals(true);
-            expect(commit.secondCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
-            expect(commit.secondCall.args[1]).to.be.deep.equals(payload);
-            expect(commit.thirdCall.args[0]).to.equals("Modules/LayerSelection/setHighlightLayerId");
-            expect(commit.thirdCall.args[1]).to.be.deep.equals(null);
+            expect(commit.secondCall.args[0]).to.equals("Modules/LayerSelection/setHighlightLayerId");
+            expect(commit.secondCall.args[1]).to.be.deep.equals(null);
         });
 
         it("should warn and show alert if layerConfig does not exist", async () => {
             const layerId = "123",
-                warnSpy = sinon.spy(),
-                payload = {side: "mainMenu", newHistory: [{type: "root", props: []}, typeLayerSelection]};
+                warnSpy = sinon.spy();
 
             sinon.stub(console, "warn").callsFake(warnSpy);
             dispatch = sinon.stub().resolves(undefined);
@@ -296,11 +294,9 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 category: "info",
                 content: i18next.t("common:modules.searchBar.layerResultNotShown")
             });
-            expect(commit.callCount).to.be.equals(2);
-            expect(commit.firstCall.args[0]).to.equals("setShowInTree");
+            expect(commit.callCount).to.be.equals(1);
+            expect(commit.firstCall.args[0]).to.equals("setShowSearchResultsInTree");
             expect(commit.firstCall.args[1]).to.be.equals(true);
-            expect(commit.secondCall.args[0]).to.equals("Menu/setNavigationHistoryBySide");
-            expect(commit.secondCall.args[1]).to.be.deep.equals(payload);
         });
 
     });
@@ -444,10 +440,11 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 },
                 stubGetWKTGeom = sinon.stub(WKTUtil, "getWKTGeom").returns(feature);
 
-            actions.highlightFeature({dispatch}, {hit});
-            expect(dispatch.calledOnce).to.be.true;
+            actions.highlightFeature({getters, dispatch}, {hit});
+            expect(dispatch.calledTwice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/placingPolygonMarker");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(feature.getGeometry());
+            expect(dispatch.secondCall.args[0]).to.equals("Maps/zoomToExtent");
             expect(stubGetWKTGeom.calledOnce).to.be.true;
             expect(stubGetWKTGeom.firstCall.args[0]).to.be.deep.equals(hit);
         });
@@ -495,38 +492,31 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 payload = [1234, 65432],
                 feature = {
                     id: "featureId",
-                    getGeometry: () =>{
-                        return {
-                            getType: () => {
-                                return "MultiPolygon";
-                            },
-                            intersectsCoordinate: () => {
-                                return coordinates;
-                            },
-                            getCoordinates: () => {
-                                return coordinates;
-                            }
-                        };
-                    }
+                    getGeometry: () => ({
+                        getType: () => "MultiPolygon",
+                        intersectsCoordinate: () => true,
+                        getCoordinates: () => coordinates
+                    })
                 },
                 layer = {
-                    get: () => {
-                        return "styleId";
-                    }
+                    get: () => "styleId"
+                },
+                state = {
+                    lastPickedFeatureId: "previousFeatureId"
                 },
                 rootGetters = {
                     "Modules/GetFeatureInfo/highlightVectorRules": null
                 },
                 highlightObject = {
                     type: "highlightMultiPolygon",
-                    feature: feature,
+                    feature,
                     styleId: "styleId",
                     highlightStyle: {
                         fill: {
-                            color: "rgb(215, 102, 41, 0.9)"
+                            color: "rgba(215, 102, 41, 0.9)"
                         },
                         stroke: {
-                            color: "rgb(215, 101, 41, 0.9)",
+                            color: "rgba(215, 101, 41, 0.9)",
                             width: 1
                         }
                     }
@@ -541,13 +531,14 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                     }
                 }]
             });
-            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            actions.setMarker({dispatch, state, rootGetters}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
-            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.deep.equal(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.deep.equal(payload);
         });
 
         it("highlights multipolygon feature with style from GetFeatureInfo", () => {
@@ -555,53 +546,53 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
                 payload = [1234, 65432],
                 feature = {
                     id: "featureId",
-                    getGeometry: () =>{
-                        return {
-                            getType: () => {
-                                return "MultiPolygon";
-                            },
-                            intersectsCoordinate: () => {
-                                return coordinates;
-                            }
-                        };
-                    }
+                    getGeometry: () => ({
+                        getType: () => "MultiPolygon",
+                        intersectsCoordinate: () => true,
+                        getCoordinates: () => coordinates
+                    })
                 },
                 layer = {
-                    get: () => {
-                        return "styleId";
-                    }
+                    get: () => "styleId"
+                },
+                state = {
+                    lastPickedFeatureId: "previousFeatureId"
                 },
                 rootGetters = {
                     "Modules/GetFeatureInfo/highlightVectorRules": {
-                        style: {
-                            polygonFillColor: [215, 102, 41, 0.9],
-                            polygonStrokeColor: [215, 101, 41, 0.9],
-                            polygonStrokeWidth: [1]
-                        }}
+                        fill: {
+                            color: "#abcdef"
+                        },
+                        stroke: {
+                            color: "#123456",
+                            width: 1
+                        }
+                    }
                 },
                 highlightObject = {
                     type: "highlightMultiPolygon",
-                    feature: feature,
+                    feature,
                     styleId: "styleId",
                     highlightStyle: {
                         fill: {
-                            color: "rgb(215, 102, 41, 0.9)"
+                            color: [171, 205, 239, 1]
                         },
                         stroke: {
-                            color: "rgb(215, 101, 41, 0.9)",
+                            color: [18, 52, 86, 1],
                             width: 1
                         }
                     }
                 };
 
             sinon.stub(styleList, "returnStyleObject").returns(null);
-            actions.setMarker({dispatch, rootGetters}, {coordinates, feature, layer});
+
+            actions.setMarker({dispatch, rootGetters, state}, {coordinates, feature, layer});
 
             expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equals("Maps/highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.be.deep.equals(highlightObject);
-            expect(dispatch.secondCall.args[0]).to.equals("Maps/placingPointMarker");
-            expect(dispatch.secondCall.args[1]).to.be.deep.equals(payload);
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1]).to.deep.equal(highlightObject);
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.secondCall.args[1]).to.deep.equal(payload);
         });
     });
 
@@ -633,6 +624,40 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchResult.spec.
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("Maps/zoomToExtent");
             expect(dispatch.firstCall.args[1]).to.be.deep.equals(payload);
+        });
+    });
+    describe("highlight3DTileByCoordinates", () => {
+        let mockState, mockDispatch, mockCommit, mockGetters;
+
+        beforeEach(() => {
+            mockState = {cameraMoveEndListener: null};
+
+            mockDispatch = sinon.spy();
+            mockCommit = sinon.spy();
+
+            mockGetters = {
+                coloredHighlighting3D: {
+                    color: [255, 0, 0, 255]
+                },
+                "Maps/mode": "3D"
+            };
+        });
+
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
+        it("should not perform any action if the mode is not 3D", async function () {
+            mockGetters["Maps/mode"] = "2D";
+
+            await actions.highlight3DTileByCoordinates(
+                {state: mockState, dispatch: mockDispatch, commit: mockCommit, rootGetters: mockGetters},
+                {coordinates: [12.345, 67.890]}
+            );
+
+            expect(mockDispatch.notCalled).to.be.true;
+            expect(mockCommit.notCalled).to.be.true;
         });
     });
 });

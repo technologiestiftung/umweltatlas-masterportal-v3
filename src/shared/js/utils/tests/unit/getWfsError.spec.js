@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getWfsError from "../../../utils/getWfsError";
+import getWfsError from "@shared/js/utils/getWfsError.js";
 
 describe("src/api/utils/getWfsError.js", () => {
     it("should return an error if anything but an xml object with a childElementCount is given", () => {

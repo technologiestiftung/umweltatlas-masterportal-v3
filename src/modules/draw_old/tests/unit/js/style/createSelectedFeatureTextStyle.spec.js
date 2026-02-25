@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {createSelectedFeatureTextStyle} from "../../../../js/style/createSelectedFeatureTextStyle";
-import Feature from "ol/Feature";
+import {createSelectedFeatureTextStyle} from "@modules/draw_old/js/style/createSelectedFeatureTextStyle.js";
+import Feature from "ol/Feature.js";
 import {Text} from "ol/style.js";
 
 describe("src/modules/draw/js/style/createSelectedFeatureTextStyle.js", () => {

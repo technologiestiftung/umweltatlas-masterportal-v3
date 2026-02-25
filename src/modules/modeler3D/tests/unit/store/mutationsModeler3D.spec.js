@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import crs from "@masterportal/masterportalapi/src/crs";
-import mutations from "../../../store/mutationsModeler3D";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import mutations from "@modules/modeler3D/store/mutationsModeler3D.js";
 
 const {setProjections} = mutations,
     namedProjections = [

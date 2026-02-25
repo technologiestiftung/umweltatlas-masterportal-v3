@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getUniqueValuesFromFetchedFeatures, getFilterableProperties} from "../../../utils/fetchAllStaProperties";
+import {getUniqueValuesFromFetchedFeatures, getFilterableProperties} from "@modules/filter/utils/fetchAllStaProperties.js";
 
 describe("src/modules/filter/utils/fetchAllStaProperties.js", () => {
     describe("getUniqueValuesFromFetchedFeatures", () => {

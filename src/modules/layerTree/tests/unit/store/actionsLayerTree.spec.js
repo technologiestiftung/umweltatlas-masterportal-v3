@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 
-import actions from "../../../store/actionsLayerTree";
+import actions from "@modules/layerTree/store/actionsLayerTree.js";
 
 const {removeLayer, updateTransparency, replaceByIdInLayerConfig} = actions;
 

@@ -1,9 +1,8 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
-import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer";
-import escapeId from "../../../shared/js/utils/escapeId";
-
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
+import baselayerHandler from "../../layerSelection/js/handleSingleBaselayer.js";
+import escapeId from "@shared/js/utils/escapeId.js";
 /**
  * Displays a checkbox to select a layer in layertree.
  * @module modules/layerTree/components/LayerCheckBox
@@ -51,6 +50,9 @@ export default {
          */
         isBold () {
             return this.isLayerVisible || this.highlightLayerId === this.conf.id;
+        },
+        layerName () {
+            return this.conf.shortname || this.conf.name;
         }
     },
     mounted () {
@@ -69,7 +71,6 @@ export default {
         ...mapActions("Modules/LayerSelection", ["changeVisibility"]),
         ...mapMutations("Modules/LayerSelection", ["addSelectedLayer", "removeSelectedLayer"]),
         escapeId,
-
         /**
          * Replaces the value of current conf's visibility in state's layerConfig
          * @param {Boolean} value visible or not
@@ -129,17 +130,10 @@ export default {
             :class="['pt-4']"
             :for="'layer-tree-layer-preview-' + conf.id"
             tabindex="0"
-            :aria-label="$t(conf.name)"
+            :aria-label="layerName"
         >
-            <span
-                v-if="conf.shortname"
-            >
-                {{ $t(conf.shortname) }}
-            </span>
-            <span
-                v-else
-            >
-                {{ $t(conf.name) }}
+            <span>
+                {{ $t(conf.shortname || conf.name) }}
             </span>
         </label>
     </div>
@@ -148,7 +142,7 @@ export default {
         :id="'layer-checkbox-' + escapeId(conf.id)"
         :disabled="disabled"
         class="btn d-flex w-100 layer-tree-layer-title pe-2 p-1 btn-light"
-        :title="conf.shortname ? conf.shortname : conf.name"
+        :title="$t(layerName)"
         @click="clicked()"
         @keydown.enter="clicked()"
     >
@@ -164,22 +158,19 @@ export default {
                 }
             ]"
         />
+        <i
+            v-if="conf.isSecured"
+            class="bi-lock-fill pe-1"
+        />
         <span
             :class="['layer-tree-layer-label', 'mt-0 d-flex flex-column align-self-start', isBold ? 'font-bold' : '']"
             :for="'layer-tree-layer-checkbox-' + conf.id"
             tabindex="0"
-            :aria-label="$t(conf.name)"
+            :aria-label="$t(layerName)"
         >
             <span
-                v-if="conf.shortname"
-            >
-                {{ $t(conf.shortname) }}
-            </span>
-            <span
-                v-else
-            >
-                {{ $t(conf.name) }}
-            </span>
+                v-html="$t(conf.shortname || conf.htmlName || conf.name)"
+            />
         </span>
     </button>
 </template>
@@ -189,6 +180,7 @@ export default {
     @import "~mixins";
     .layer-tree-layer-title {
         overflow: hidden;
+        line-height: normal;
     }
     .layer-tree-layer-label {
         overflow: hidden;

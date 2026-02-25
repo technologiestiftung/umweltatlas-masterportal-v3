@@ -1,11 +1,11 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
-import {fetchRoutingOrsIsochrones, getRoutingIsochronesSettingsUrl} from "../../../../js/isochrones/routing-ors-isochrones";
-import state from "../../../../store/stateRouting";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones.js";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area.js";
+import {fetchRoutingOrsIsochrones, getRoutingIsochronesSettingsUrl} from "@modules/routing/js/isochrones/routing-ors-isochrones.js";
+import state from "@modules/routing/store/stateRouting.js";
 
 describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
     let service;
@@ -30,7 +30,7 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
     });
 
     describe("should fetchRoutingOrsIsochrones", () => {
-        it("should process result correct", async () => {
+        it("should process result correct (default interval slider)", async () => {
             sinon.stub(axios, "post").returns(
                 new Promise(resolve => resolve({
                     data: {
@@ -45,7 +45,9 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                                     center: [
                                         6.582012174621497,
                                         51.331735245847746
-                                    ]
+                                    ],
+                                    total_pop: 1000,
+                                    area: 500
                                 },
                                 geometry: {
                                     coordinates: [
@@ -96,6 +98,7 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                 }))
             );
 
+            state.Isochrones.settings.intervalOption = "default";
             state.Isochrones.settings.timeValue = 1;
             state.Isochrones.settings.intervalValue = 1;
 
@@ -106,7 +109,8 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                     optimization: "TIME",
                     avoidSpeedProfileOptions: [],
                     preference: "RECOMMENDED",
-                    transformCoordinates: true
+                    transformCoordinates: true,
+                    avoidBorders: true
                 }),
                 expectedResult = new RoutingIsochrones([
                     6.577318,
@@ -116,8 +120,8 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                 ]);
 
             expectedResult.addArea(
-                new RoutingIsochronesArea(
-                    [
+                new RoutingIsochronesArea({
+                    coordinates: [
                         [
                             [6.577318, 51.33017],
                             [6.577483, 51.32985],
@@ -134,15 +138,141 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                             [6.577318, 51.33017]
                         ]
                     ],
-                    0,
-                    60,
-                    60,
-                    60,
-                    "CAR",
-                    "TIME",
-                    [],
-                    1
-                )
+                    groupIndex: 0,
+                    value: 60,
+                    maximum: 60,
+                    interval: 60,
+                    speedProfile: "CAR",
+                    optimization: "TIME",
+                    avoidSpeedProfileOptions: [],
+                    displayValue: 1,
+                    population: 1000,
+                    area: 500
+                })
+            );
+
+            expect(result).deep.to.equal(expectedResult);
+        });
+
+        it("should process result correct (count interval slider)", async () => {
+            sinon.stub(axios, "post").returns(
+                new Promise(resolve => resolve({
+                    data: {
+                        type: "FeatureCollection",
+                        bbox: [6.577318, 51.32985, 6.5873, 51.334001],
+                        features: [
+                            {
+                                type: "Feature",
+                                properties: {
+                                    group_index: 0,
+                                    value: 60.0,
+                                    center: [
+                                        6.582012174621497,
+                                        51.331735245847746
+                                    ],
+                                    total_pop: 1000,
+                                    area: 500
+                                },
+                                geometry: {
+                                    coordinates: [
+                                        [
+                                            [6.577318, 51.33017],
+                                            [6.577483, 51.32985],
+                                            [6.579256, 51.330183],
+                                            [6.584608, 51.331645],
+                                            [6.587009, 51.332532],
+                                            [6.5873, 51.332744],
+                                            [6.587089, 51.333649],
+                                            [6.586613, 51.333726],
+                                            [6.582049, 51.333983],
+                                            [6.581608, 51.334001],
+                                            [6.578644, 51.333313],
+                                            [6.578357, 51.333097],
+                                            [6.577318, 51.33017]
+                                        ]
+                                    ],
+                                    type: "Polygon"
+                                }
+                            }
+                        ],
+                        metadata: {
+                            attribution:
+                                "openrouteservice.org | OpenStreetMap contributors",
+                            service: "isochrones",
+                            timestamp: 1633506999835,
+                            query: {
+                                locations: [
+                                    [6.5821172105612185, 51.33169403960399]
+                                ],
+                                location_type: "start",
+                                range: [60.0],
+                                range_type: "time",
+                                units: "m",
+                                options: {},
+                                area_units: "m",
+                                interval: 60.0
+                            },
+                            engine: {
+                                version: "6.6.0",
+                                build_date: "2021-06-08T13:11:04Z",
+                                graph_date: "2021-06-16T12:52:16Z"
+                            }
+                        }
+                    }
+                }))
+            );
+
+            state.Isochrones.settings.intervalOption = "count";
+            state.Isochrones.settings.timeValue = 1;
+            state.Isochrones.settings.intervalValue = 1;
+
+            const result = await fetchRoutingOrsIsochrones({
+                    coordinates: [6.5821172105612185, 51.33169403960399],
+                    transformCoordinatesToLocal: coords => coords,
+                    speedProfile: "CAR",
+                    optimization: "TIME",
+                    avoidSpeedProfileOptions: [],
+                    preference: "RECOMMENDED",
+                    transformCoordinates: true,
+                    avoidBorders: true
+                }),
+                expectedResult = new RoutingIsochrones([
+                    6.577318,
+                    51.32985,
+                    6.5873,
+                    51.334001
+                ]);
+
+            expectedResult.addArea(
+                new RoutingIsochronesArea({
+                    coordinates: [
+                        [
+                            [6.577318, 51.33017],
+                            [6.577483, 51.32985],
+                            [6.579256, 51.330183],
+                            [6.584608, 51.331645],
+                            [6.587009, 51.332532],
+                            [6.5873, 51.332744],
+                            [6.587089, 51.333649],
+                            [6.586613, 51.333726],
+                            [6.582049, 51.333983],
+                            [6.581608, 51.334001],
+                            [6.578644, 51.333313],
+                            [6.578357, 51.333097],
+                            [6.577318, 51.33017]
+                        ]
+                    ],
+                    groupIndex: 0,
+                    value: 60,
+                    maximum: 60,
+                    interval: 1,
+                    speedProfile: "CAR",
+                    optimization: "TIME",
+                    avoidSpeedProfileOptions: [],
+                    displayValue: 1,
+                    population: 1000,
+                    area: 500
+                })
             );
 
             expect(result).deep.to.equal(expectedResult);
@@ -165,7 +295,8 @@ describe("src/modules/routing/js/directions/routing-ors-directions.js", () => {
                     optimization: "TIME",
                     avoidSpeedProfileOptions: [],
                     preference: "RECOMMENDED",
-                    transformCoordinates: true
+                    transformCoordinates: true,
+                    avoidBorders: false
                 });
                 // should not reach here
                 expect(true).to.be.false;

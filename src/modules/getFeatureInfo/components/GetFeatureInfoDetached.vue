@@ -1,9 +1,10 @@
 <script>
 import DefaultTheme from "../themes/default/components/DefaultTheme.vue";
 import SensorTheme from "../themes/sensor/components/SensorTheme.vue";
-import getTheme from "../js/getTheme";
+import getTheme from "../js/getTheme.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
 /**
  * Get Feature Info Detached
@@ -29,6 +30,21 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        pagerIndex: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        totalFeatures: {
+            type: Number,
+            required: false,
+            default: 1
+        },
+        showPageNumber: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     emits: ["updateFeatureDone"],
@@ -45,9 +61,11 @@ export default {
             "centerMapToClickPoint",
             "currentFeature",
             "highlightVectorRules",
+            "showPolygonMarkerForWMS",
             "menuSide",
             "showMarker",
-            "hideMapMarkerOnVectorHighlight"
+            "hideMapMarkerOnVectorHighlight",
+            "stickyHeader"
         ]),
 
         /**
@@ -55,7 +73,7 @@ export default {
          * @returns {String} the title
          */
         title: function () {
-            return this.feature.getTitle();
+            return removeHtmlTags(this.feature.getTitle());
         },
 
         /**
@@ -65,6 +83,22 @@ export default {
          */
         theme: function () {
             return getTheme(this.feature.getTheme(), this.$options.components, this.$gfiThemeAddons);
+        },
+
+        /**
+         * Returns true if the page counter should be displayed.
+         * @returns {Boolean} true if counter should be shown
+         */
+        showCounter: function () {
+            return this.showPageNumber && this.totalFeatures > 1;
+        },
+
+        /**
+         * Returns the formatted page counter text.
+         * @returns {String} the page counter text (e.g., "(2/5)")
+         */
+        pageCounterText: function () {
+            return `(${this.pagerIndex + 1}/${this.totalFeatures})`;
         }
     },
     created () {
@@ -74,11 +108,13 @@ export default {
     },
     mounted () {
         this.highlightVectorFeature();
+        this.highlightWMSFeature();
         this.setMarker();
     },
     updated: function () {
         if (this.isUpdated) {
             this.highlightVectorFeature();
+            this.highlightWMSFeature();
             this.setMarker();
             this.$emit("updateFeatureDone");
         }
@@ -87,6 +123,7 @@ export default {
         if (this.searchInput === "") {
             this.removePointMarker();
             this.removeHighlighting();
+            this.removePolygonMarker();
         }
     },
     methods: {
@@ -94,10 +131,12 @@ export default {
         ...mapActions("Maps", [
             "placingPointMarker",
             "removePointMarker",
+            "removePolygonMarker",
             "highlightFeature",
             "removeHighlightFeature",
             "setCenter"
         ]),
+        removeHtmlTags,
 
         /**
          * Sets the center of the view on the clickCoord and place the MapMarker on it
@@ -178,6 +217,14 @@ export default {
                             };
                             break;
                         }
+                        case "MultiLineString":
+                        {
+                            highlightObject.type = "highlightMultiLine";
+                            highlightObject.highlightStyle = {
+                                stroke: this.highlightVectorRules.stroke
+                            };
+                            break;
+                        }
                         default:
                             break;
                     }
@@ -186,6 +233,62 @@ export default {
                     this.highlightFeature(highlightObject);
                 }
                 this.lastFeature = this.feature;
+            }
+        },
+        /**
+         * Highlights a feature with a Polygon-Marker
+         * @returns {void}
+         */
+        highlightWMSFeature () {
+            if (this.showPolygonMarkerForWMS) {
+                const layer = layerCollection.getLayerById(this.feature.getLayerId()),
+                    highlightObject = {
+                        feature: this.feature.getOlFeature(),
+                        layer: {id: this.feature.getLayerId()}
+                    };
+
+                if (layer?.attributes?.typ?.toLowerCase() === "wms") {
+                    this.removePolygonMarker();
+
+                    if (this.hideMapMarkerOnVectorHighlight) {
+                        this.hideMarker();
+                    }
+
+                    if (this.feature.getOlFeature() && typeof this.feature.getOlFeature().getGeometry === "function") {
+                        switch (this.feature.getOlFeature().getGeometry()?.getType()) {
+                            case "Point": {
+                                highlightObject.type = "highlightPoint";
+                                break;
+                            }
+                            case "MultiPoint": {
+                                highlightObject.type = "highlightMultiPoint";
+                                break;
+                            }
+                            case "Polygon": {
+                                highlightObject.type = "highlightPolygon";
+                                break;
+                            }
+                            case "MultiPolygon": {
+                                highlightObject.type = "highlightMultiPolygon";
+                                break;
+                            }
+                            case "LineString": {
+                                highlightObject.type = "highlightLine";
+                                break;
+                            }
+                            case "MultiLineString": {
+                                highlightObject.type = "highlightMultiLine";
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+                    }
+                    if (highlightObject.type) {
+                        this.highlightFeature(highlightObject);
+                    }
+                    this.lastFeature = this.feature;
+                }
             }
         },
         /**
@@ -213,25 +316,106 @@ export default {
 </script>
 
 <template>
-    <div>
-        <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
+    <!-- Fixed header layout (when stickyHeader is true) -->
+    <div
+        v-if="stickyHeader"
+        class="gfi-detached-container"
+    >
+        <div
+            ref="gfiHeader"
+            class="gfi-header-fixed d-flex align-items-center justify-content-between"
+        >
             <slot name="pager-left" />
-            <span class="gfi-title mx-3 font-bold">
-                {{ translate(title) }}
-            </span>
+            <div class="gfi-title-container mx-3 flex-grow-1">
+                <div
+                    v-if="showCounter"
+                    class="gfi-page-counter"
+                >
+                    {{ pageCounterText }}
+                </div>
+                <div class="gfi-title font-bold">
+                    {{ translate(title) }}
+                </div>
+            </div>
             <slot name="pager-right" />
         </div>
-        <component
-            :is="theme"
-            :feature="feature"
-        />
+        <div class="gfi-content-scrollable">
+            <component
+                :is="theme"
+                :feature="feature"
+            />
+        </div>
+    </div>
+    <!-- Simple layout (default when stickyHeader is false) -->
+    <div v-else>
+        <div
+            ref="gfiHeader"
+            class="gfi-header-simple d-flex align-items-center justify-content-between mt-3 mb-4"
+        >
+            <slot name="pager-left" />
+            <div class="gfi-title-container mx-3 flex-grow-1">
+                <div
+                    v-if="showCounter"
+                    class="gfi-page-counter"
+                >
+                    {{ pageCounterText }}
+                </div>
+                <div class="gfi-title font-bold">
+                    {{ translate(title) }}
+                </div>
+            </div>
+            <slot name="pager-right" />
+        </div>
+        <div>
+            <component
+                :is="theme"
+                :feature="feature"
+            />
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~variables";
 
+/* Fixed header layout (when stickyHeader is true) */
+.gfi-detached-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.gfi-header-fixed {
+    flex-shrink: 0;
+    background-color: $white;
+    padding: 1rem 0 1rem 0;
+    border-bottom: 0.0625rem solid $light_grey;
+    z-index: 10;
+}
+
+.gfi-content-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding-top: 1rem;
+}
+
+.gfi-title-container {
+    min-width: 0;
+    text-align: center;
+}
+
 .gfi-title {
     font-size: 1.5rem;
- }
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.gfi-page-counter {
+    font-size: 0.875rem;
+    color: $dark_grey;
+    font-weight: normal;
+    white-space: nowrap;
+    margin-bottom: 0.25rem;
+}
 </style>

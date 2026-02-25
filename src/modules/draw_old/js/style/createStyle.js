@@ -1,7 +1,7 @@
 import {Style} from "ol/style.js";
-import {createDrawStyle} from "./createDrawStyle";
-import {createIconStyle} from "./createIconStyle";
-import {createTextStyle} from "./createTextStyle";
+import {createDrawStyle} from "./createDrawStyle.js";
+import {createIconStyle} from "./createIconStyle.js";
+import {createTextStyle} from "./createTextStyle.js";
 
 /**
  * Creates and returns the styling for the draw interaction.

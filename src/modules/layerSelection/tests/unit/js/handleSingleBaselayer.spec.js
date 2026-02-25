@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import singleBaselayerHandler from "../../../js/handleSingleBaselayer";
+import singleBaselayerHandler from "@modules/layerSelection/js/handleSingleBaselayer.js";
 
 describe("src/modules/layerSelection/js/handleSingleBaselayer.js", () => {
 

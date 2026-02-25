@@ -1,8 +1,8 @@
 <script>
 import {toRaw} from "vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import changeCase from "../../../shared/js/utils/changeCase";
-import visibilityChecker from "../../../shared/js/utils/visibilityChecker";
+import changeCase from "@shared/js/utils/changeCase.js";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 
 /**
  * Control layout component that places controls on the map.
@@ -128,7 +128,14 @@ export default {
                 supportedDevices = this.$store.getters[`Controls/${changeCase.upperFirst(key)}/supportedDevices`],
                 supportedTreeTypes = this.$store.getters[`Controls/${changeCase.upperFirst(key)}/supportedTreeTypes`];
 
-            return visibilityChecker.isModuleVisible(this.mode, this.deviceMode, this.portalConfig?.tree?.type, supportedMapModes, supportedDevices, supportedTreeTypes);
+            return visibilityChecker.isModuleVisible({
+                mapMode: this.mode,
+                deviceMode: this.deviceMode,
+                treeType: this.portalConfig?.tree?.type,
+                supportedMapModes: supportedMapModes,
+                supportedDevices: supportedDevices,
+                supportedTreeTypes: supportedTreeTypes
+            });
         }
     }
 };

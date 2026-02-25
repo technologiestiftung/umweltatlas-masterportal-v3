@@ -1,9 +1,9 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import getNestedValues from "../../shared/js/utils/getNestedValues";
-import {sortObjects} from "../../shared/js/utils/sortObjects";
-import {treeBaselayersKey, treeSubjectsKey} from "../../shared/js/utils/constants";
-import {uniqueId} from "../../shared/js/utils/uniqueId.js";
-import layerFactory from "../../core/layers/js/layerFactory";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import {sortObjects} from "@shared/js/utils/sortObjects.js";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import layerTypes from "@core/layers/js/layerTypes.js";
 
 /**
  * Returns all layer from services.json to add to states layerConfig for treetype 'auto', besides background-layers.
@@ -82,8 +82,10 @@ function build (layerList, layerConfig, category, shownLayerConfs = [], category
         if (subjectDataLayers.find(conf => conf.id === rawLayer.id) !== undefined) {
             continue;
         }
-        if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey] === "") {
-            rawLayer.datasets[0][categoryKey] = "ohne Kategorie";
+        if (rawLayer.datasets[0] && (rawLayer.datasets[0][categoryKey] === ""
+            || Array.isArray(rawLayer.datasets[0][categoryKey]) && rawLayer.datasets[0][categoryKey].length === 0
+            || Array.isArray(rawLayer.datasets[0][categoryKey]) && rawLayer.datasets[0][categoryKey].length === 1 && rawLayer.datasets[0][categoryKey][0] === "")) {
+            rawLayer.datasets[0][categoryKey] = "common:modules.layerTree.noCategory";
         }
         if (rawLayer.datasets[0] && rawLayer.datasets[0][categoryKey] !== undefined) {
             shownLayerConfs.forEach(layerConf => {
@@ -158,13 +160,9 @@ function setIdsAtSubFolders (folder) {
     folder.elements?.forEach(element => {
         if (element.type === "folder") {
             element.id = getId();
+            setIdsAtSubFolders(element);
         }
         element.parentId = folder.id;
-        if (folder.elements) {
-            folder.elements.forEach(subElement => {
-                setIdsAtSubFolders(subElement);
-            });
-        }
     });
 }
 /**
@@ -180,15 +178,15 @@ function getId () {
  * @returns {Boolean} true, if all layers are 3D-layer.
  */
 function containsOnly3DLayer (layers) {
-    return layers.every(conf => layerFactory.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
+    return layers.every(conf => layerTypes.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
 }
 /**
- * Returns all 3D-layers with typ contained in layerFactory.getLayerTypes3d().
+ * Returns all 3D-layers with typ contained in layerTypes.getLayerTypes3d().
  * @param {Array} layers containing layer configurations
  * @returns {Array} all 3D-layers
  */
 function get3DLayers (layers) {
-    return layers.filter(conf => layerFactory.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
+    return layers.filter(conf => layerTypes.getLayerTypes3d().includes(rawLayerList.getLayerWhere({id: conf.id})?.typ.toUpperCase()));
 }
 
 /**

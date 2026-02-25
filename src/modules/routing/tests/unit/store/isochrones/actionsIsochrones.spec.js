@@ -1,14 +1,14 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actionsIsochrones from "../../../../store/isochrones/actionsIsochrones";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
-import Draw from "ol/interaction/Draw";
-import {RoutingWaypoint} from "../../../../js/classes/routing-waypoint";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
+import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones.js";
+import Feature from "ol/Feature.js";
+import Point from "ol/geom/Point.js";
+import VectorSource from "ol/source/Vector.js";
+import Draw from "ol/interaction/Draw.js";
+import {RoutingWaypoint} from "@modules/routing/js/classes/routing-waypoint.js";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones.js";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area.js";
 
 describe("src/modules/routing/store/isochrones/actionsIsochrones.js", () => {
     let state, commitSpy, commit, dispatchSpy, dispatch, dispatchMocks, getters, rootState, waypoint, isochronesAreaSource, isochronesResult;
@@ -28,28 +28,29 @@ describe("src/modules/routing/store/isochrones/actionsIsochrones.js", () => {
         dispatchSpy = sinon.spy();
 
         isochronesResult = new RoutingIsochrones([8, 51, 9, 52]);
-        isochronesResult.addArea(new RoutingIsochronesArea(
-            [[8.1, 51.1], [8.2, 51.2], [8.3, 51.3], [8.1, 51.1]],
-            0,
-            1800,
-            1800,
-            900,
-            "CAR",
-            "TIME",
-            [],
-            30
-        ));
-        isochronesResult.addArea(new RoutingIsochronesArea(
-            [[9.1, 52.1], [9.2, 52.2], [9.3, 52.3], [9.1, 52.1]],
-            0,
-            900,
-            1800,
-            900,
-            "CAR",
-            "TIME",
-            [],
-            15
-        ));
+        isochronesResult.addArea(new RoutingIsochronesArea({
+            coordinates: [[8.1, 51.1], [8.2, 51.2], [8.3, 51.3], [8.1, 51.1]],
+            groupIndex: 0,
+            value: 1800,
+            maximum: 1800,
+            interval: 900,
+            speedProfile: "CAR",
+            optimization: "TIME",
+            selectedAvoidSpeedProfileOptions: [],
+            displayValue: 30
+        }));
+        isochronesResult.addArea(new RoutingIsochronesArea({
+            coordinates: [[9.1, 52.1], [9.2, 52.2], [9.3, 52.3], [9.1, 52.1]],
+            groupIndex: 0,
+            value: 900,
+            maximum: 1800,
+            interval: 900,
+            speedProfile: "CAR",
+            optimization: "TIME",
+            selectedAvoidSpeedProfileOptions: [],
+            displayValue: 15
+        }));
+
         dispatchMocks = {
             fetchIsochrones: isochronesResult
         };

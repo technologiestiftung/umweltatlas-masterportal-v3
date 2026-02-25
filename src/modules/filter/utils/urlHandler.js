@@ -1,5 +1,5 @@
-import isObject from "../../../shared/js/utils/isObject";
-import {addSnippetOperator, addSnippetTypes} from "./compileSnippets";
+import isObject from "@shared/js/utils/isObject.js";
+import {addSnippetOperator, addSnippetTypes} from "./compileSnippets.js";
 /**
  * The UrlHandler has controll over the url of the filter and containing params.
  * @class

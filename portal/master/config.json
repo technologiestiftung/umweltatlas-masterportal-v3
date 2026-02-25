@@ -34,7 +34,8 @@
             ]
           },
           "freeze": true,
-          "fullScreen": true
+          "fullScreen": true,
+          "exampleControl": true
         }
       },
       "featureViaURL": {
@@ -128,7 +129,7 @@
       },
       "mouseHover": {
         "numFeaturesToShow": 2,
-        "infoText": "Exampletext"
+        "infoText": "common:modules.mouseHover.infoText"
       },
       "startingMapMode": "2D",
       "zoomTo": [
@@ -163,6 +164,7 @@
         "toolTip": "Landesbetrieb Geoinformation und Vermessung"
       },
       "searchBar": {
+        "placeholder": "common:modules.searchBar.placeholder.addressTopic",
         "searchInterfaces": [
           {
             "type": "elasticSearch",
@@ -226,7 +228,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -250,7 +253,8 @@
             "resultEvents": {
               "onClick": [
                 "setMarker",
-                "zoomToResult"
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
               ],
               "onHover": [
                 "setMarker"
@@ -288,7 +292,20 @@
             "serviceId": "10",
             "limit": 60,
             "states": "Hamburg",
-            "classes": "place,highway,building,shop,historic,leisure,city,county"
+            "classes": "place,highway,building,shop,historic,leisure,city,county",
+            "resultEvents": {
+              "onClick": [
+                "setMarker",
+                "zoomToResult",
+                "highlight3DTileByCoordinates"
+              ],
+              "onHover": [
+                "setMarker"
+              ],
+              "buttons": [
+                "startRouting"
+              ]
+            }
           },
           {
             "type": "topicTree",
@@ -316,6 +333,15 @@
           },
           {
             "type": "specialWfs",
+            "resultEvents": {
+              "onClick": [
+                "zoomToResult",
+                "highlightFeature"
+              ],
+              "onHover": [
+                "setMarker"
+              ]
+            },
             "definitions": [
               {
                 "url": "https://geodienste.hamburg.de/HH_WFS_Krankenhaeuser",
@@ -351,7 +377,6 @@
                 "propertyNames": [
                   "app:Name"
                 ],
-
                 "namespaces": "xmlns:app='http://www.deegree.org/app'"
               },
               {
@@ -506,7 +531,7 @@
                   "action": "Maps/activateViewpoint",
                   "payload": {
                     "heading": -0.30858728378862876,
-                    "tilt": 0.9321791580603296,
+                    "tilt": -90,
                     "altitude": 272.3469798217454,
                     "center": [
                       564028.7954571751,
@@ -515,8 +540,11 @@
                     "zoom": 7.456437968949651
                   }
                 }
-            }
+              }
             ]
+          },
+          {
+            "type": "copyrightConstraints"
           }
         ]
       ]
@@ -527,6 +555,9 @@
         [
           {
             "type": "populationRequest"
+          },
+          {
+            "type": "compareFeatures"
           },
           {
             "type": "print",
@@ -540,6 +571,8 @@
           {
             "type": "featureLister",
             "maxFeatures": 10,
+            "showGraphicalSelect": true,
+            "bufferDistance": 500,
             "highlightVectorRulesPolygon": {
               "fill": {
                 "color": [
@@ -592,6 +625,7 @@
               "type": "ORS",
               "serviceId": "bkg_ors",
               "speedProfile": "CAR",
+              "elevation": true,
               "batchProcessing": {
                 "enabled": false,
                 "active": false
@@ -605,10 +639,37 @@
                 "enabled": false,
                 "active": false
               }
+            },
+            "tsrSettings": {
+              "type": "TSR",
+              "serviceId": "bkg_tsr",
+              "speedProfile": "CAR",
+              "elevation": true,
+              "tsrPointLimit": 50,
+              "styleRoute": {
+                "fillColor": [50, 169, 232, 1.0]
+              }
             }
           },
           {
-            "type": "modeler3D"
+            "type": "modeler3D",
+            "gmlIdPath": "gmlid",
+            "updateAllLayers": false,
+            "highlightStyle": {
+              "silhouetteColor": "#E20D0F",
+              "silhouetteSize": 4
+            },
+            "allowedAttributes": [
+              "Gebaeudefunktion",
+              "Wertbezeichnung"
+            ],
+            "pvoColors": {
+              "housing": "#ff0000",
+              "commercial": "#666666",
+              "public": "#44ff44"
+            },
+            "buildingSource": "ALKIS",
+            "buildingFunctionURL": "https://geoportal-hamburg.de/3Dprojektplaner/buildingFunctionTypeAdV.xml"
           },
           {
             "type": "scaleSwitcher"
@@ -656,6 +717,23 @@
               {
                 "title": "common:modules.wfsSearch.parcelSearch",
                 "userHelp": "hide",
+                "zoomButtonInColumn": true,
+                "resultList": {
+                  "gemarkungsname": "Gemarkungsname",
+                  "gemarkung": "Gemarkung",
+                  "flurstuecksnummer": "Flurstücknummer",
+                  "flurstueck_lang": "Flurstücknummer - lang",
+                  "flurstuecksflaeche": "Flurstückfläche",
+                  "verwaltungsart": "Verwaltungsart",
+                  "gemeindename": "Gemeindename",
+                  "gemeinde": "Gemeinde",
+                  "kreisname": "Kreisname",
+                  "kreis": "Kreis",
+                  "land": "Land",
+                  "regierungsbezirk": "Regierungsbezirk",
+                  "status": "Status",
+                  "geometry": "Zoomen"
+              },
                 "requestConfig": {
                   "gazetteer": {
                     "namespaces": [
@@ -746,6 +824,7 @@
     },
     "tree": {
       "singleBaselayer": false,
+      "showFolderPath": true,
       "addLayerButton": {
         "active": true,
         "searchBar": {
@@ -754,15 +833,16 @@
             {
               "id":"elasticSearch_0",
               "searchCategory": "Thema (externe Fachdaten)"
-            }, 
+            },
             {
               "id": "topicTree",
               "searchCategory": "Thema"
             }
-          ]         
+          ]
         }
       },
       "highlightedFeatures": {
+        "layerName": "common:shared.js.utils.selectedFeatures",
         "active": true
       },
       "layerIDsToStyle": [
@@ -807,7 +887,7 @@
           "visibility": true
         },
         {
-          "id": "452",
+          "id": "34127",
           "name": "Digitale Orthophotos (belaubt) Hamburg",
           "shortname": "Orthophotos",
           "typ": "WMS",
@@ -817,19 +897,11 @@
             "zoomLevel": 6,
             "center": "566245.97,5938894.79",
             "radius": 500
-          }
+          },
+          "time": false
         },
         {
-          "id": [
-            "4736",
-            "12062",
-            "4745",
-            "4739",
-            "12061",
-            "4742",
-            "12060",
-            "12059"
-          ],
+          "id": "33787",
           "name": "Geobasiskarten (schwarz-grau)",
           "shortname": "Karte schwarz-grau",
           "visibility": false
@@ -937,12 +1009,6 @@
     "subjectlayer": {
       "elements": [
         {
-          "id": "1935"
-        },
-        {
-          "id": "1933"
-        },
-        {
           "id": [ "20501", "20502", "20503", "20504" ],
           "name": "Gruppe Freizeitrouten und Radfernwege (4 WFS Layer)",
           "typ": "GROUP",
@@ -951,7 +1017,7 @@
           "showInLayerTree": true
         },
         {
-          "id": "47",
+          "id": "34406",
           "styleId": "47",
           "name": "##O+++O## Ich sollte NIEMALS im Themenbaum sichtbar sein (isNeverVisibleInTree)!",
           "isNeverVisibleInTree": true
@@ -970,10 +1036,14 @@
           "visibility": false
         },
         {
-          "id": "4538",
-          "name": "ek pv",
+          "id": "18106",
+          "name": "Elektro Ladestandorte Hamburg",
+          "typ": "SensorThings"
+        },
+        {
+          "id": "30916",
+          "name": "Solarpotenzialflächen",
           "typ": "WMS",
-          "gfiTheme": "solaratlas",
           "visibility": false
         },
         {
@@ -987,7 +1057,8 @@
               "isFilterable": true,
               "isSortable": true,
               "enableDownload": true,
-              "exportFileName": "Schwermetallmessungen"
+              "exportFileName": "Schwermetallmessungen",
+              "fullViewEnabled": true
             }
           }
         },
@@ -1013,7 +1084,8 @@
           "id": "2426",
           "name": "Bezirke",
           "typ": "WMS",
-          "visibility": true
+          "visibility": true,
+          "showInLayerTree": false
         },
         {
           "id": "2425",
@@ -1037,6 +1109,7 @@
         {
           "name": "Emissionen",
           "type": "folder",
+          "isFolderSelectable": true,
           "elements": [
             {
               "name": "Lärmschutzbereiche Flughafen Hamburg (FluLärmHmbV)",
@@ -1044,7 +1117,7 @@
               "elements": [
                 {
                   "id": "2431",
-                  "visibility": false
+                  "visibility": true
                 },
                 {
                   "id": "2430",
@@ -1056,14 +1129,50 @@
                 {
                   "name": "Überschwemmungsgebiete",
                   "type": "folder",
+                  "isFolderSelectable": true,
                   "elements": [
                     {
                       "id": "1103",
                       "visibility": false
                     }
                   ]
+                },
+                {
+                  "name": "Wohnunterkünfte",
+                  "type": "folder",
+                  "isFolderSelectable": false,
+                  "elements": [
+                    {
+                      "id": "30555",
+                      "visibility": false
+                    }
+                  ]
                 }
               ]
+            },
+            {
+              "name": "Starkregen",
+              "type": "folder",
+              "elements": [
+                {
+                  "id": "28988"
+                },
+                {
+                  "id": "28989"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "HVV",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "1935"
+            },
+            {
+              "id": "1933"
             }
           ]
         },
@@ -1131,94 +1240,18 @@
           "visibility": false
         },
         {
+          "id": "27926",
+          "styleId": "8712",
+          "name": "Schulen (Layertyp OAF)",
+          "typ": "OAF",
+          "gfiTheme": "schulinfo"
+        },
+        {
           "id": "18104",
           "styleId": "18104",
           "name": "Anzahl frei verfügbarer E-Lastenräder je StadtRad-Station",
           "typ": "SensorThings",
           "visibility": false
-        },
-        {
-          "id": "18106",
-          "name": "Elektro Ladestandorte Hamburg",
-          "url": "https://iot.hamburg.de",
-          "typ": "SensorThings",
-          "version": "1.1",
-          "gfiAttributes": {
-              "dataStreamValue": "Status",
-              "dataStreamPhenomenonTime": "Letzte Aktualisierung",
-              "steckerTyp": "Typ",
-              "connector": "Stecker",
-              "ownerThing": "Betreiber",
-              "authMeth1": "Authentifizierungsmethode 1",
-              "authMeth2": "Authentifizierungsmethode 2",
-              "ownerData": "Dateneigentümer",
-              "metadata": "Metadateneintrag",
-              "dataStreamId": "Datastream-ID"
-          },
-          "layerAttribution": "nicht vorhanden",
-          "legendURL": "",
-          "datasets": [
-              {
-                  "md_id": "07302A1A-3250-4F0F-9F6E-96C508288D03",
-                  "csw_url": "https://metaver.de/csw",
-                  "show_doc_url": "https://metaver.de/trefferanzeige?cmd=doShowDocument&docuuid=",
-                  "rs_id": "https://registry.gdi-de.org/id/de.hh/84b8b24e-300d-48d3-a711-aadc472f886d",
-                  "md_name": "Elektro Ladestandorte Hamburg",
-                  "bbox": "461468.96892897453,5916367.229806512,587010.9095989474,5980347.755797674",
-                  "kategorie_opendata": [
-                      "Verkehr"
-                  ],
-                  "kategorie_inspire": [
-                      "Verkehrsnetze"
-                  ],
-                  "kategorie_organisation": "Behörde für Verkehr und Mobilitätswende (BVM)"
-              }
-          ],
-          "urlParameter": {
-              "root": "Datastreams",
-              "filter": "properties%2FserviceName%20eq%20%27HH_STA_E-Ladestationen%27%20and%20properties/layerName%20eq%20%27Status_E-Ladepunkt%27",
-              "expand": "Observations($orderby=phenomenonTime%20desc;$top=1),Thing($expand=Locations)"
-          },
-          "related_wms_layers": [
-              "937"
-          ],
-          "epsg": "EPSG:4326",
-          "gfiTheme": {
-              "name": "sensor",
-              "params": {
-                  "charts": {
-                      "barPercentage": 1.1,
-                      "values": {
-                          "AVAILABLE": {
-                              "title": "common:modules.getFeatureInfo.themes.sensor.chargingStations.available",
-                              "color": "rgba(0, 220, 0, 1)",
-                              "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeTextAvailable"
-                          },
-                          "CHARGING": {
-                              "title": "common:modules.getFeatureInfo.themes.sensor.chargingStations.charging",
-                              "color": "rgba(220, 0, 0, 1)",
-                              "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeTextCharging"
-                          },
-                          "FAULTED": {
-                              "title": "common:modules.getFeatureInfo.themes.sensor.chargingStations.outoforder",
-                              "color": "rgba(175, 175, 175, 1)",
-                              "noticeText": "common:modules.getFeatureInfo.themes.sensor.sensorBarChart.noticeOutoforder"
-                          }
-                      }
-                  }
-              }
-          },
-          "styleId": "18106",
-          "loadThingsOnlyInCurrentExtent": true,
-          "urlIsVisible": true
-        },
-        {
-          "id": "27926",
-          "styleId": "8712",
-          "name": "Schulen (Layertyp OAF)",
-          "typ": "OAF",
-          "visibility": true,
-          "gfiTheme": "schulinfo"
         },
         {
           "id": "20625.90024",
@@ -1310,7 +1343,7 @@
           "loadingStrategy": "all",
           "mouseHoverField": [
             "belegenheit",
-            "nutzung"
+            "gruen_art"
           ]
         },
         {
@@ -1412,7 +1445,8 @@
                   "name": "Gebäude LoD2",
                   "typ": "TileSet3D",
                   "gfiAttributes": "showAll",
-                  "visibility": true
+                  "visibility": true,
+                  "styleId": "3DTileSetStyle"
                 },
                 {
                   "id": "16100",
@@ -1431,6 +1465,7 @@
                   "name": "3D-Entities Testlayer",
                   "typ": "Entities3D",
                   "visibility": false,
+                  "layerAttribution": "Test 3D layerAttribution",
                   "entities": [
                     {
                       "url": "https://daten-hamburg.de/gdi3d/datasource-data/Simple_Building.glb",

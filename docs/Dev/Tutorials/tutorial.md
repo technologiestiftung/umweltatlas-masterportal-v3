@@ -121,7 +121,7 @@ export default state;
 Add [VueX getters](https://vuex.vuejs.org/guide/getters.html) to the `modules/scaleSwitcher/store/gettersScaleSwitcher.js`. For simple getters that only retrieve state, the generator function `generateSimpleGetters` is used.
 
 ```js
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
+import {generateSimpleGetters} from "@shared/js/utils/generators";
 import scaleSwitcherState from "./stateScaleSwitcher";
 
 const getters = {
@@ -138,7 +138,7 @@ export default getters;
 Add [Vuex mutations](https://vuex.vuejs.org/guide/mutations.html) to the `modules/scaleSwitcher/store/mutationsScaleSwitcher.js`. For simple mutations that only write state, the generator function `generateSimpleMutations` is used.
 
 ```js
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
+import {generateSimpleMutations} from "@shared/js/utils/generators";
 import stateScaleSwitcher from "./stateScaleSwitcher";
 
 const mutations = {

@@ -1,12 +1,12 @@
-import processUrlParams from "../../../shared/js/utils/processUrlParams";
-import store from "../../../app-store";
+import processUrlParams from "@shared/js/utils/processUrlParams.js";
+import store from "@appstore/index.js";
 
 /**
  * Here the urlParams for the layers are processed.
  *
  * Examples:
- * - https://localhost:9001/portal/master/?LAYERS=[{%22id%22:%222426%22},{%22id%22:%221711%22,%22visibility%22:false},{%22id%22:%22452%22,%22visibility%22:true,%22transparency%22:50}]
- * - https://localhost:9001/portal/master/?Map/layerIds=452,1711&visibility=true,false&transparency=50,0
+ * - https://localhost:9001/portal/master/?LAYERS=[{%22id%22:%222426%22},{%22id%22:%221711%22,%22visibility%22:false},{%22id%22:%2234127%22,%22visibility%22:true,%22transparency%22:50}]
+ * - https://localhost:9001/portal/master/?Map/layerIds=34127,1711&visibility=true,false&transparency=50,0
  * - https://localhost:9001/portal/master/?mdid=F35EAC11-C236-429F-B1BF-751C0C18E8B7
  * - https://localhost:9001/portal/master/?mdid=F35EAC11-C236-429F-B1BF-751C0C18E8B7,C1AC42B2-C104-45B8-91F9-DA14C3C88A1F
  */
@@ -16,12 +16,16 @@ const layerUrlParams = {
         MDID: setLayersByMetadataId
     },
     legacyLayerUrlParams = {
-        LAYERIDS: setLayerIds,
-        "MAP/LAYERIDS": setLayerIds,
+        LAYERIDS: collectParams,
+        "MAP/LAYERIDS": collectParams,
         "MAP/MDID": setLayersByMetadataId,
-        TRANSPARENCY: setLayerIds,
-        VISIBILITY: setLayerIds
+        TRANSPARENCY: collectParams,
+        VISIBILITY: collectParams
     };
+
+let baselayerExists = false,
+    baselayerIndex = 0,
+    collectedParams = {};
 
 /**
  * Process the menu url params.
@@ -41,6 +45,18 @@ function setLayers (params) {
 
     removeCurrentLayerFromLayerTree();
     addLayerToLayerTree(layers);
+}
+
+/**
+ * Collects the Params of layer ids with their visibility and transperancy, so that they can be processed together.
+ * @param {Object} params The found params.
+ */
+function collectParams (params) {
+    collectedParams = {...collectedParams, ...params};
+
+    if ((collectedParams["MAP/LAYERIDS"] || collectedParams.LAYERIDS) && collectedParams.TRANSPARENCY && collectedParams.VISIBILITY) {
+        setLayerIds(collectedParams);
+    }
 }
 
 /**
@@ -72,7 +88,9 @@ function setLayerIds (params) {
         };
     });
 
-    removeCurrentLayerFromLayerTree();
+    if (!((params.MDID || params["MAP/MDID"]) && (params["MAP/LAYERIDS"] || params.LAYERIDS))) {
+        removeCurrentLayerFromLayerTree();
+    }
     addLayerToLayerTree(layers);
 }
 
@@ -131,12 +149,29 @@ function removeCurrentLayerFromLayerTree () {
  */
 function addLayerToLayerTree (layers) {
     layers.forEach((layer, index) => {
+        const isBaseLayer = store.getters.layerConfigById(layer.id).baselayer;
+        let zIndex;
+
+        if (isBaseLayer) {
+            if (!baselayerExists) {
+                baselayerIndex = 0;
+                baselayerExists = true;
+            }
+            zIndex = baselayerIndex;
+            baselayerIndex++;
+
+        }
+        else {
+            zIndex = index + baselayerIndex;
+        }
+
         store.dispatch("addOrReplaceLayer", {
             layerId: layer.id,
             visibility: typeof layer.visibility === "boolean" ? layer.visibility : true,
             transparency: layer.transparency || 0,
             showInLayerTree: true,
-            zIndex: index
+            zIndex: zIndex,
+            time: layer.params?.TIME ? {default: layer.params.TIME} : undefined
         },
         {root: true}).then((success) => {
             if (!success) {

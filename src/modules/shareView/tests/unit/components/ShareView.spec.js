@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import ShareViewComponent from "../../../components/ShareView.vue";
-import ShareView from "../../../store/indexShareView";
+import ShareViewComponent from "@modules/shareView/components/ShareView.vue";
+import ShareView from "@modules/shareView/store/indexShareView.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -113,15 +113,16 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
             global.navigator = localNavigator;
         });
 
-        it("copy to clipboard for secure websites", () => {
-            const writeTextSpy = sinon.spy();
+        it("copy to clipboard for secure websites", function () {
+            let text = "";
 
-            global.window.isSecureContext = true;
-            global.navigator = {
-                clipboard: {
-                    writeText: writeTextSpy
+            window.isSecureContext = true;
+            navigator.clipboard = {
+                writeText: (aText) => {
+                    text = aText;
                 }
             };
+            const writeTextStub = sinon.stub(navigator.clipboard, "writeText").resolves(text);
 
             wrapper = shallowMount(ShareViewComponent, {
                 global: {
@@ -130,8 +131,8 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
 
             wrapper.vm.copyToClipboard();
 
-
-            expect(writeTextSpy.callCount).to.equals(1);
+            expect(writeTextStub.calledOnceWithExactly("stub#")).to.be.true;
+            expect(writeTextStub.callCount).to.equals(1);
         });
 
         it("draw an alert for unsecure websites", () => {
@@ -149,26 +150,96 @@ describe("src/modules/shareView/components/ShareView.vue", () => {
                 content: "common:modules.shareView.copyErrorAlert"
             });
         });
-        it("copies the URL with attached # to clipboard", () => {
-            const writeTextSpy = sinon.spy();
+        it("copies the URL with attached # to clipboard", function () {
+            let text = "";
 
-            global.window.isSecureContext = true;
-            global.navigator = {
-                clipboard: {
-                    writeText: writeTextSpy
+            window.isSecureContext = true;
+            navigator.clipboard = {
+                writeText: (aText) => {
+                    text = aText;
                 }
             };
+            const writeTextStub = sinon.stub(navigator.clipboard, "writeText").resolves(text);
 
             wrapper = shallowMount(ShareViewComponent, {
-                global: {
-                    plugins: [store]
-                }
+                global: {plugins: [store]}
             });
 
             wrapper.vm.copyToClipboard();
 
-            expect(writeTextSpy.callCount).to.equal(1);
-            expect(writeTextSpy.firstCall.args[0]).to.equal("stub#");
+            expect(writeTextStub.calledOnceWithExactly("stub#")).to.be.true;
+            expect(writeTextStub.callCount).to.equals(1);
+        });
+
+        it("includes existing URL parameters in the share URL", () => {
+            const mockLayerUrlParams = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ],
+                mockMapUrlParams = "MAP=mapValue",
+                mockMenuUrlParams = {
+                    main: {
+                        currentComponent: "root"
+                    },
+                    secondary: {
+                        currentComponent: "root"
+                    }
+                },
+                mockAddonUrlParams = "ADDONPARAM=addonValue",
+                rootGetters = {
+                    layerUrlParams: mockLayerUrlParams,
+                    "Maps/urlParams": mockMapUrlParams,
+                    "Menu/urlParams": mockMenuUrlParams
+                },
+                originalLocation = global.location,
+                state = {},
+                getters = {},
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=[{\"id\":\"layer1\",\"visibility\":true},{\"id\":\"layer2\",\"visibility\":false}]&ADDONPARAM=addonValue";
+
+            global.location = {
+                ...originalLocation,
+                origin: "https://self.example.org",
+                pathname: "/portal/",
+                search: mockAddonUrlParams
+            };
+
+            expect(decodeURI(ShareView.getters.url(state, getters, {}, rootGetters))).to.equal(expectedURL);
+            global.location = originalLocation;
+        });
+        it("ignore existing basic URL parameters in the share URL", () => {
+            const mockLayerUrlParams = [
+                    {id: "layer1", visibility: true},
+                    {id: "layer2", visibility: false}
+                ],
+                mockMapUrlParams = "MAP=mapValue",
+                mockMenuUrlParams = {
+                    main: {
+                        currentComponent: "root"
+                    },
+                    secondary: {
+                        currentComponent: "root"
+                    }
+                },
+                mockExistingParams = "MAP=oldMapValue&LAYERS=oldLayerValue&MENU=oldMenuValue&ADDONPARAM=addonValue",
+                rootGetters = {
+                    layerUrlParams: mockLayerUrlParams,
+                    "Maps/urlParams": mockMapUrlParams,
+                    "Menu/urlParams": mockMenuUrlParams
+                },
+                originalLocation = global.location,
+                state = {},
+                getters = {},
+                expectedURL = "https://self.example.org/portal/?MAP=mapValue&MENU={\"main\":{\"currentComponent\":\"root\"},\"secondary\":{\"currentComponent\":\"root\"}}&LAYERS=[{\"id\":\"layer1\",\"visibility\":true},{\"id\":\"layer2\",\"visibility\":false}]&ADDONPARAM=addonValue";
+
+            global.location = {
+                ...originalLocation,
+                origin: "https://self.example.org",
+                pathname: "/portal/",
+                search: mockExistingParams
+            };
+
+            expect(decodeURI(ShareView.getters.url(state, getters, {}, rootGetters))).to.equal(expectedURL);
+            global.location = originalLocation;
         });
     });
 

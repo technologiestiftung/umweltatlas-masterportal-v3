@@ -149,6 +149,8 @@ function addSearchbar (data, mainMenu) {
         }
 
         Object.entries(oldSearchbar).forEach(([searchName, searchConfig]) => {
+            let addToNewConfig = true;
+
             if (typeof searchConfig === "object") {
                 let searchType = searchName;
 
@@ -168,8 +170,18 @@ function addSearchbar (data, mainMenu) {
                     console.info("--- HINT: deprecated " + searchType + " is no longer provided, use elastic instead.");
                 }
                 if (searchName === "bkg") {
+                    searchConfig.geoSearchServiceId = searchConfig.geosearchServiceId;
+
+                    delete searchConfig.geosearchServiceId;
+                    delete searchConfig.minCharacters;
+                    delete searchConfig.suggestCount;
+                    delete searchConfig.suggestServiceId;
+                    delete searchConfig.zoomLevel;
+
                     if (searchConfig.zoomToResultOnHover !== undefined || searchConfig.zoomToResultOnClick !== undefined) {
                         console.info("--- HINT: " + searchType + " removed deprecated property zoomToResultOnHover and zoomToResultOnClick, configure resultEvents instead.");
+                        delete searchConfig.zoomToResultOnClick;
+                        delete searchConfig.zoomToResultOnHover;
                     }
                 }
                 if (searchName.toLowerCase() === "specialwfs") {
@@ -181,14 +193,17 @@ function addSearchbar (data, mainMenu) {
                     }
                 }
                 if (searchName.toLowerCase() === "visiblewfs") {
-                    searchType = "visibleWfs";
+                    console.warn("--- WARNING: " + searchType + " seems to be a very old configuration, this type is not supported. It will not be migrated, you can use visibleVector instead and configure it by hand!");
+                    addToNewConfig = false;
                 }
-                searchConfig.type = searchType;
-                console.info("   searchbar entry " + searchType);
-                if (searchConfig.zoomToResult !== undefined) {
-                    console.info("--- HINT: " + searchType + " removed deprecated property zoomToResult, configure resultEvents instead.");
+                if (addToNewConfig) {
+                    searchConfig.type = searchType;
+                    console.info("   searchbar entry " + searchType);
+                    if (searchConfig.zoomToResult !== undefined) {
+                        console.info("--- HINT: " + searchType + " removed deprecated property zoomToResult, configure resultEvents instead.");
+                    }
+                    newSearchbar.searchInterfaces.push(searchConfig);
                 }
-                newSearchbar.searchInterfaces.push(searchConfig);
             }
         });
         mainMenu.searchBar = newSearchbar;

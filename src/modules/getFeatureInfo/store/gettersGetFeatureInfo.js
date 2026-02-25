@@ -1,9 +1,10 @@
-import Point from "ol/geom/Point";
-import {buffer} from "ol/extent";
-import {createGfiFeature} from "../../../shared/js/utils/getWmsFeaturesByMimeType";
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import gfiFeatureProvider from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
-import stateGetFeatureInfo from "./stateGetFeatureInfo";
+import Point from "ol/geom/Point.js";
+import {buffer} from "ol/extent.js";
+import {createGfiFeature} from "@shared/js/utils/getWmsFeaturesByMimeType.js";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import gfiFeatureProvider from "@shared/js/utils/getGfiFeaturesByTileFeature.js";
+import stateGetFeatureInfo from "./stateGetFeatureInfo.js";
+import {getWebglFeaturesFromLayers} from "@shared/js/utils/getWebglFeaturesFromLayers.js";
 
 /**
  * The getters for the getFeatureInfo.
@@ -49,40 +50,22 @@ export default {
             /** check WebGL Layers
             * use buffered coord instead of pixel for hitTolerance and to catch overlapping WebGL features
             */
-            mapCollection.getMap("2D").getLayers().getArray()
-                .filter(layer => layer.get("renderer") === "webgl")
-                .forEach(layer => {
-                    if (layer.get("gfiAttributes") && layer.get("gfiAttributes") !== "ignore") {
-                        /**
-                         * use OL resolution based buffer to adjust the hitTolerance (in m) for lower zoom levels
-                         */
-                        const hitBox = buffer(
-                            new Point(clickCoordinate).getExtent(),
-                            (layer.get("hitTolerance") || 1) * Math.sqrt(mapCollection.getMapView("2D").getResolution())
-                        );
+            const map = mapCollection.getMap("2D");
+            const resolution = mapCollection.getMapView("2D").getResolution();
 
-                        if (layer.get("typ") === "VectorTile" && layer.get("renderer") === "webgl") {
-                            const features = layer.getSource()?.getFeaturesInExtent(hitBox);
+            const webglLayers = map.getLayers().getArray()
+                .filter(layer => layer.get("renderer") === "webgl");
 
-                            features.forEach(feature => {
-                                featuresAtPixel.push(createGfiFeature(
-                                    layer,
-                                    "",
-                                    feature
-                                ));
-                            });
-                        }
-                        else {
-                            layer.getSource()?.forEachFeatureIntersectingExtent(hitBox, feature => {
-                                featuresAtPixel.push(createGfiFeature(
-                                    layer,
-                                    "",
-                                    feature
-                                ));
-                            });
-                        }
-                    }
-                });
+            const webglFeatures = getWebglFeaturesFromLayers(
+                map,
+                webglLayers,
+                layer => buffer(
+                    new Point(clickCoordinate).getExtent(),
+                    (layer.get("hitTolerance") || 1) * Math.sqrt(resolution)
+                )
+            );
+
+            featuresAtPixel.push(...webglFeatures);
         }
         if (mode === "3D") {
             // add features from map3d

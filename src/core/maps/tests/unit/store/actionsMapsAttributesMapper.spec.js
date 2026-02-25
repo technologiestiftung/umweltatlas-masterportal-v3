@@ -1,9 +1,9 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
 
-import actions from "../../../store/actionsMapsAttributesMapper";
+import actions from "@core/maps/store/actionsMapsAttributesMapper.js";
 
 const {
     initTwoFingerPan,

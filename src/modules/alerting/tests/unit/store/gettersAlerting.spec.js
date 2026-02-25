@@ -1,4 +1,4 @@
-import getters from "../../../store/gettersAlerting";
+import getters from "@modules/alerting/store/gettersAlerting.js";
 import {expect} from "chai";
 
 describe("src/modules/alerting/store/gettersAlerting.js", () => {

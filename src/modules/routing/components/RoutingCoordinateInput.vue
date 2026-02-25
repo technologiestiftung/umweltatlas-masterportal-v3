@@ -1,11 +1,12 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import {RoutingGeosearchResult} from "../js/classes/routing-geosearch-result";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import {RoutingGeosearchResult} from "../js/classes/routing-geosearch-result.js";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 
 /**
  * RoutingCoordinateInput
- * @module modules/RoutingCoordinateInput
+ * @module modules/routing/components/RoutingCoordinateInput
  * @vue-prop {Object} waypoint - The waypoints.
  * @vue-prop {Number} countWaypoints - The number of waypoints.
  *
@@ -14,6 +15,7 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  * @vue-data {Array} searchResults - The list of search results.
  * @vue-data {Boolean} ignoreNextSearchChange - Shows if the next change of the search should be ignored.
  * @vue-data {Boolean} isFocused - Shows if input is focused.
+ * @vue-data {Number} selectedIndex - index of selected search result.
  *
  * @vue-computed {String} waypointDisplayName - The waypoint display name.
  *
@@ -21,10 +23,11 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  * @vue-event {String} moveWaypointUp - Emits function to move waypoint up.
  * @vue-event {String} searchResultSelected - Emits function to select search result.
  * @vue-event {Boolean} removeWaypoint - Emits function to remove waypoint.
+ * @vue-event {Boolean} addStartEnd - Emits function to add start or endpoint if input field is focused.
  */
 export default {
     name: "RoutingCoordinateInput",
-    components: {IconButton},
+    components: {IconButton, InputText},
     props: {
         waypoint: {
             type: Object,
@@ -39,7 +42,9 @@ export default {
         "moveWaypointDown",
         "moveWaypointUp",
         "searchResultSelected",
-        "removeWaypoint"
+        "removeWaypoint",
+        "addStartEnd",
+        "removeAvoidInteraction"
     ],
     data () {
         return {
@@ -49,11 +54,14 @@ export default {
             awaitingSearch: false,
             searchResults: [],
             ignoreNextSearchChange: false,
-            isFocused: false
+            isFocused: false,
+            selectedIndex: -1
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing/Directions", ["waypoints"]),
+        ...mapGetters("Modules/Routing/Directions", ["waypoints", "isAwaitingRouteModifyEnd"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption"]),
+
         /**
          * Computed value for the waypoint display name to watch for changes
          * @returns {String} the display name for the waypoint
@@ -118,10 +126,23 @@ export default {
                         this.searchResults = await this.fetchCoordinatesByText({
                             search: this.search
                         });
+                        this.selectedIndex = -1;
                     }
                 }, 1000);
             }
             this.awaitingSearch = true;
+        },
+        isFocused: function () {
+            this.addStartEnd();
+        },
+        /**
+         * Watch for route modify interaction to be finished.
+         * @returns {void}
+         */
+        isAwaitingRouteModifyEnd () {
+            if (!this.isAwaitingRouteModifyEnd) {
+                this.search = this.waypoint.getDisplayName();
+            }
         }
     },
     methods: {
@@ -129,6 +150,15 @@ export default {
             "fetchCoordinatesByText",
             "transformCoordinatesWgs84ToLocalProjection"
         ]),
+        /**
+         * Emits function to add start or endpoint if input field is focused.
+         * @returns {void}
+         */
+        addStartEnd () {
+            if (this.isFocused) {
+                this.$emit("addStartEnd");
+            }
+        },
         /**
          * Selects a result from the external service provider.
          * @param {RoutingGeosearchResult} searchResult which was selected by the user
@@ -142,6 +172,7 @@ export default {
             this.ignoreNextSearchChange = true;
             this.search = searchResult.getDisplayName();
             this.searchResults = [];
+            this.selectedIndex = -1;
             this.$emit("searchResultSelected");
         },
         /**
@@ -207,10 +238,20 @@ export default {
             if (this.waypoint.index === 0) {
                 return this.$t("common:modules.routing.startpoint");
             }
-            else if (this.waypoint.index === this.countWaypoints - 1) {
+            else if (this.activeRoutingToolOption !== "TSR" && this.waypoint.index === this.countWaypoints - 1) {
                 return this.$t("common:modules.routing.endpoint");
             }
+            else if (this.activeRoutingToolOption === "TSR" && this.waypoint.index === this.countWaypoints - 1) {
+                return this.$t("common:modules.routing.tsr.tsrEndpoint");
+            }
             return this.$t("common:modules.routing.waypoint");
+        },
+        /**
+         * Remove avoid draw interaction when clicking into coordinate input field.
+         * @returns {void}
+         */
+        removeAvoidInteraction () {
+            this.$emit("removeAvoidInteraction");
         }
     }
 };
@@ -224,16 +265,18 @@ export default {
                 :for="'routingCoordinateInput_' + waypoint.index"
                 class="d-flex flex-row pr-0 pl-0"
             >
-                <input
+                <InputText
                     :id="'routingCoordinateInput_' + waypoint.index"
                     v-model="search"
-                    type="text"
-                    class="col-md-11 form-control form-control-sm"
+                    :class-obj="['form-control-sm', 'col-md-12']"
+                    class="w-100"
                     :placeholder="getPlaceholder()"
+                    :label="getPlaceholder()"
                     autocomplete="off"
                     @focus="isFocused = true"
                     @blur="isFocused = false"
-                >
+                    @click="removeAvoidInteraction"
+                />
                 <button
                     v-if="search.length > 0 && search !== waypointDisplayName"
                     class="btn-icon input-icon reset-button"
@@ -246,19 +289,18 @@ export default {
             <div class="d-flex">
                 <div class="justify-content-between">
                     <div
-                        v-show="waypoint.index !== 0"
+                        v-show="activeRoutingToolOption !== 'TSR' ? waypoint.index !== 0 : false"
                         class="h-50"
                     >
                         <IconButton
-                            class="button-up"
                             :aria="$t('common:modules.routing.moveWaypointUp')"
-                            :class-array="['btn-light', 'btn-up-down']"
+                            :class-array="['btn-light', 'btn-up-down', 'button-up']"
                             :icon="'bi-chevron-up fs-6'"
                             :interaction="() => $emit('moveWaypointUp')"
                         />
                     </div>
                     <div
-                        v-show="waypoint.index !== countWaypoints - 1"
+                        v-show="activeRoutingToolOption !== 'TSR' ? waypoint.index !== countWaypoints - 1 : false"
                         class="h-50"
                     >
                         <IconButton
@@ -287,6 +329,7 @@ export default {
                 v-for="(searchResult, index) of searchResults"
                 :key="index"
                 class="list-group-item"
+                :class="{ 'active': index === selectedIndex }"
             >
                 <button
                     class="btn-icon search-result-button"
@@ -305,11 +348,13 @@ export default {
 .btn-up-down {
     margin-left: 5px;
 }
+
 .btn-icon {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     padding: 5px 0 0 10px;
 }
+
 .input-icon {
     margin-left: -37px;
 }
@@ -319,7 +364,7 @@ label {
     margin-bottom: 0;
 }
 
-li:hover {
+li:hover, li.active {
     cursor: pointer;
     background: $light-grey;
     font-size: $font-size-base;

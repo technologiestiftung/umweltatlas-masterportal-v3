@@ -1,9 +1,7 @@
-import Cluster from "ol/source/Cluster";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import validator from "../js/validator";
-import legendDraw from "../js/legendDraw";
-import layerCollector from "../js/layerCollector";
-import cleaner from "../js/cleaner";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import validator from "../js/validator.js";
+import legendDraw from "../js/legendDraw.js";
+import layerCollector from "../js/layerCollector.js";
 
 const actions = {
     /**
@@ -15,18 +13,9 @@ const actions = {
         const allLayers = layerCollector.getLayerHolder();
 
         allLayers.forEach(layerHolder => {
-            const layer = layerHolder.layer;
+            const {layer, visibility} = layerHolder;
 
-            if (typeof layer.layerSource?.getFeatures === "function" && layer.getLayerSource().getFeatures().length === 0) {
-                const layerSource = layer.getLayerSource() instanceof Cluster ? layer.getLayerSource().getSource() : layer.getLayerSource();
-
-                layerSource.on("featuresloadend", () => {
-                    dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
-                });
-            }
-            else {
-                dispatch("toggleLayerInLegend", {layer, visibility: layerHolder.visibility});
-            }
+            dispatch("toggleLayerInLegend", {layer, visibility});
         });
     },
 
@@ -246,27 +235,29 @@ const actions = {
     },
 
     /**
-     * Prepares the legend array for a grouplayer by iterating over its layers and generating the legend of each child.
-     * @param {Object} param.commit the commit
-     * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.getters the getters
-     * @param {ol/Layer/Source} layerSource Layer sources of group layer.
-     * @returns {void}
+     * Prepares the legend array for a group layer by iterating over its sub-layers
+     * and generating a grouped structure of legends for each child.
+     * Each sub-layer's legends are generated as an array, and the resulting structure
+     * is an array of arrays, preserving the grouping of legends by sub-layer.
+     *
+     * @param {Object} param.commit - The Vuex commit function for state mutations.
+     * @param {Object} param.dispatch - The Vuex dispatch function to trigger other actions.
+     * @param {ol/Layer/Source[]} layerSource - Array of sub-layer sources in the group layer.
+     * @returns {Array[]} - A grouped legend structure as an array of arrays, where each
+     *                      sub-array contains the legends for a specific sub-layer.
      */
-    async prepareLegendForGroupLayer ({commit, dispatch, getters}, layerSource) {
-        let legends = [];
+    async prepareLegendForGroupLayer ({commit, dispatch}, layerSource) {
+        const groupedLegends = [];
 
         for (let i = 0; i < layerSource.length; i++) {
-            const layer = layerSource[i];
+            const layer = layerSource[i],
+                subLayerLegend = await dispatch("prepareLegend", await layer.createLegend());
 
-            dispatch("prepareLegend", await layer.createLegend());
-            legends.push(await getters.preparedLegend);
+            groupedLegends.push(subLayerLegend);
         }
 
-        legends = [].concat(...legends);
-        legends = cleaner.cleanUpLegend(legends);
-        commit("setPreparedLegend", legends);
-        return legends;
+        commit("setPreparedLegend", groupedLegends);
+        return groupedLegends;
     }
 };
 

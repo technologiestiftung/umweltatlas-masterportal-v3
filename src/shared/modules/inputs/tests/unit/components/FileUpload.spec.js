@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import FileUpload from "../../../components/FileUpload.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 
 config.global.mocks.$t = key => key;
 

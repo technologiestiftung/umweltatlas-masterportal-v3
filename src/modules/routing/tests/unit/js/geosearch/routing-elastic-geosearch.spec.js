@@ -1,9 +1,9 @@
-import store from "../../../../../../app-store";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
 import {
     getRoutingElasticUrl
-} from "../../../../js/geosearch/routing-elastic-geosearch";
+} from "@modules/routing/js/geosearch/routing-elastic-geosearch.js";
 describe("src/modules/routing/js/geosearch/routing-elastic-geosearch.js", () => {
     let service;
 

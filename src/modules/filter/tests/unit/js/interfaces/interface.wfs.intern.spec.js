@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import InterfaceWfsIntern from "../../../../js/interfaces/interface.wfs.intern.js";
+import InterfaceWfsIntern from "@modules/filter/js/interfaces/interface.wfs.intern.js";
 
 describe("src/modules/filter/interfaces/utils/interface.wfs.intern.js", () => {
     let interfaceWfsIntern = null;

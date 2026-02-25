@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getIconListFromLegendModule from "../../../utils/getIconListFromLegend.js";
+import getIconListFromLegendModule from "@modules/filter/utils/getIconListFromLegend.js";
 
 describe("getIconListFromLegend", () => {
     it("should return empty object if called with no args", () => {

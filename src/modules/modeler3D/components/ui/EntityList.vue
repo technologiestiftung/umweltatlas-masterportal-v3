@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import SwitchInput from "../../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 /**
  * The component to display the drawn entities as list.
  * @module modules/modeler3D/components/ui/EntityList

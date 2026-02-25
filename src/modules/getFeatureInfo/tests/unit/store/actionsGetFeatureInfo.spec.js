@@ -1,10 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import VectorSource from "ol/source/Vector";
-import transformer from "../../../../../shared/js/utils/coordToPixel3D";
-import actions from "../../../store/actionsGetFeatureInfo.js";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-
+import VectorSource from "ol/source/Vector.js";
+import transformer from "@shared/js/utils/coordToPixel3D.js";
+import actions from "@modules/getFeatureInfo/store/actionsGetFeatureInfo.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
     let getters,
@@ -12,7 +11,8 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
         dispatch,
         commit,
         addEventListenerSpy,
-        clickPixel;
+        clickPixel,
+        consoleWarnSpy;
 
     beforeEach(() => {
         addEventListenerSpy = sinon.spy();
@@ -21,6 +21,9 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
         const map3D = {
                 id: "1",
                 mode: "3D",
+                getLayers: () => ({
+                    getArray: () => []
+                }),
                 getCesiumScene: () => {
                     return {
                         primitives: {
@@ -39,6 +42,9 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
             map2D = {
                 id: "ol",
                 mode: "2D",
+                getLayers: () => ({
+                    getArray: () => []
+                }),
                 getPixelFromCoordinate: sinon.stub().returns(clickPixel)
             };
 
@@ -57,7 +63,7 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
         global.Cesium.Color = {
             RED: () => sinon.stub()
         };
-        sinon.stub(console, "warn");
+        consoleWarnSpy = sinon.stub(console, "warn");
 
         dispatch = sinon.spy();
         commit = sinon.spy();
@@ -68,23 +74,26 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
 
     afterEach(() => {
         sinon.restore();
+        consoleWarnSpy.restore();
     });
 
     describe("test 3D Highlighting", () => {
-        it("console warns if color is not array or string", () => {
+        it("console warns if color is not a string", () => {
             getters = {
                 "coloredHighlighting3D": {
                     "color": {}
                 }
             };
-            actions.highlight3DTile({getters, dispatch});
-            expect(console.warn.called).to.be.true;
-            expect(console.warn.calledWith("The color for the 3D highlighting is not valid. Please check the config or documentation.")).to.be.true;
+
+            actions.highlight3DTile({getters, dispatch, commit});
+            expect(consoleWarnSpy.calledOnce).to.be.true;
+            expect(consoleWarnSpy.calledWith("The color for the 3D highlighting is not valid. Ensure it follows one of the valid color formats.")).to.be.true;
         });
         it("dispatch removeHighlightColor", () => {
-            actions.removeHighlight3DTile({dispatch});
+            actions.removeHighlight3DTile({dispatch, commit});
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equal("removeHighlightColor");
+            expect(commit.calledOnce).to.be.true;
         });
     });
 
@@ -276,6 +285,66 @@ describe("src/modules/getFeatureInfo/store/actionsGetFeatureInfo.js", () => {
             expect(dispatch.secondCall.args[1]).to.be.deep.equals({currentComponent: {type: getters.type}, componentName, side: getters.menuSide});
             expect(dispatch.thirdCall.args[0]).to.equal("Menu/updateComponentState");
             expect(dispatch.thirdCall.args[1]).to.be.deep.equals({type: componentName, attributes});
+        });
+    });
+    describe("collectGfiFeatures", () => {
+        let gfiFeaturesAtPixelStub;
+
+        beforeEach(() => {
+            gfiFeaturesAtPixelStub = sinon.stub().returns([]);
+            getters = {
+                gfiFeaturesAtPixel: gfiFeaturesAtPixelStub,
+                menuSide: "secondaryMenu",
+                menuExpandedBeforeGfi: null
+            };
+            rootGetters = {
+                "Maps/clickCoordinate": [100, 200],
+                "Maps/resolution": 1,
+                "Maps/projection": "EPSG:25832",
+                "Maps/clickPixel": [10, 20],
+                "Maps/mode": "2D",
+                layerConfigById: () => ({zIndex: 0}),
+                visibleSubjectDataLayerConfigs: [],
+                visibleBaselayerConfigs: [],
+                "Menu/expanded": sinon.stub().returns(true),
+                "Menu/currentComponent": sinon.stub().returns({type: "getFeatureInfo"})
+            };
+            sinon.stub(layerCollection, "getLayerById");
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
+        it("commits menuExpandedBeforeGfi when features exist", async () => {
+            gfiFeaturesAtPixelStub.returns([{getLayerId: () => "layer1"}]);
+
+            await actions.collectGfiFeatures({getters, commit, dispatch, rootGetters});
+
+            const setMenuExpandedCall = commit.getCalls().find(c => c.args[0] === "setMenuExpandedBeforeGfi");
+
+            expect(setMenuExpandedCall).to.not.be.undefined;
+            expect(setMenuExpandedCall.args[1]).to.equal(true);
+        });
+
+        it("switches to previous component but does not close menu if it was expanded before", async () => {
+            getters.menuExpandedBeforeGfi = true;
+
+            await actions.collectGfiFeatures({getters, commit, dispatch, rootGetters});
+
+            expect(commit.calledWith("Menu/switchToPreviousComponent", getters.menuSide, {root: true})).to.be.true;
+            expect(commit.calledWith("Menu/setExpandedBySide")).to.be.false;
+            expect(commit.calledWith("setMenuExpandedBeforeGfi", null)).to.be.true;
+        });
+
+        it("switches to previous component and closes menu if it was not expanded before", async () => {
+            getters.menuExpandedBeforeGfi = false;
+
+            await actions.collectGfiFeatures({getters, commit, dispatch, rootGetters});
+
+            expect(commit.calledWith("Menu/switchToPreviousComponent", getters.menuSide, {root: true})).to.be.true;
+            expect(commit.calledWith("Menu/setExpandedBySide", {expanded: false, side: getters.menuSide}, {root: true})).to.be.true;
+            expect(commit.calledWith("setMenuExpandedBeforeGfi", null)).to.be.true;
         });
     });
 });

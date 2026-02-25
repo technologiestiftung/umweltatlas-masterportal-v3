@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {hasUnfixedRules} from "../../../utils/hasUnfixedRules.js";
-import {isRule} from "../../../utils/isRule.js";
+import {hasUnfixedRules} from "@modules/filter/utils/hasUnfixedRules.js";
+import {isRule} from "@modules/filter/utils/isRule.js";
 import sinon from "sinon";
 
 describe("hasUnfixedRules", () => {

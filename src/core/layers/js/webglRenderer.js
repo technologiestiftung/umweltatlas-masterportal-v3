@@ -1,5 +1,5 @@
-import store from "../../../app-store";
-import * as webgl from "@masterportal/masterportalapi/src/renderer/webgl";
+import store from "@appstore/index.js";
+import * as webgl from "@masterportal/masterportalapi/src/renderer/webgl.js";
 
 
 /**
@@ -107,7 +107,7 @@ function setLayerProperties (layerObject) {
     layerObject.isDisposed = isDisposed;
     layerObject.visibilityChanged = visibilityChanged;
     layerObject.setStyle = setStyle;
-    // todo inka: these functions are not implemented in layers at the moment - delete?
+    layerObject.isPointLayer = layerObject?.layer?.values_?.isPointLayer;
     layerObject.hideAllFeatures = hideAllFeatures;
     layerObject.showAllFeatures = showAllFeatures;
     layerObject.showFeaturesByIds = showFeaturesByIds;

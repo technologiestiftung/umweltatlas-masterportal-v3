@@ -1,4 +1,4 @@
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 
 /**
  * Process the functions of url params.

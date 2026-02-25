@@ -1,4 +1,4 @@
-import degreesToRadians from "../../../../shared/js/utils/degreesToRadians";
+import degreesToRadians from "@shared/js/utils/degreesToRadians.js";
 
 export default {
     /**

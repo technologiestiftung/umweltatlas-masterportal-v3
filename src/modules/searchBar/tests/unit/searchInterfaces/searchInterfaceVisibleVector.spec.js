@@ -1,15 +1,15 @@
-import Cluster from "ol/source/Cluster";
+import Cluster from "ol/source/Cluster.js";
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
 import {Icon} from "ol/style.js";
 import Point from "ol/geom/Point.js";
 import MultiPolygon from "ol/geom/MultiPolygon.js";
 import sinon from "sinon";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceVisibleVector from "../../../searchInterfaces/searchInterfaceVisibleVector.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceVisibleVector from "@modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js", () => {
     let clusterLayer1,
@@ -65,6 +65,10 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
                 additionalInfoField: "street",
                 name: "The layer",
                 searchField: "name",
+                url: "https://example.com/wfs",
+                version: "1.1.0",
+                featureType: "exampleFeatureType",
+                crs: "EPSG:4326",
                 style: () => {
                     return {
                         getImage: () => sinon.stub()
@@ -104,7 +108,11 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
                 const visibleVectorLayerConfigs = [{
                         id: "123",
                         name: "The layer",
-                        searchField: "name"
+                        searchField: "name",
+                        url: "https://example.com/wfs",
+                        version: "1.1.0",
+                        featureType: "exampleFeatureType",
+                        crs: "EPSG:4326"
                     }],
                     searchInput = "hos",
                     matchingFeatures = SearchInterface1.findMatchingFeatures(visibleVectorLayerConfigs, searchInput);
@@ -163,6 +171,10 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
                         additionalInfoField: "street",
                         name: "The layer",
                         searchField: "name",
+                        url: "https://example.com/wfs",
+                        version: "1.1.0",
+                        featureType: "exampleFeatureType",
+                        crs: "EPSG:4326",
                         style: () => {
                             return {
                                 getImage: () => sinon.stub()
@@ -184,7 +196,11 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceVisibleVector.js
                 const visibleVectorLayerConfigs = [{
                         id: "789",
                         name: "The layer",
-                        searchField: "name"
+                        searchField: "name",
+                        url: "https://example.com/wfs",
+                        version: "1.1.0",
+                        featureType: "exampleFeatureType",
+                        crs: "EPSG:4326"
                     }],
                     searchInput = "scho";
 

@@ -27,12 +27,13 @@ export default {
     computed: {
         ...mapGetters("Modules/SearchBar", [
             "minCharacters",
-            "showInTree",
+            "showSearchResultsInTree",
             "searchInput",
             "searchResults",
             "searchResultsActive",
             "showAllResults",
-            "currentSide"
+            "currentSide",
+            "showAllResultsSearchInterfaceInstances"
         ]),
         ...mapGetters("Menu", [
             "menuBySide"
@@ -44,7 +45,7 @@ export default {
     methods: {
         ...mapMutations("Modules/SearchBar", [
             "setCurrentAvailableCategories",
-            "setSearchResultsActive",
+            "setPlaceholder",
             "setShowAllResults",
             "setShowAllResultsSearchInterfaceInstances"
         ]),
@@ -60,13 +61,23 @@ export default {
          * @returns {void}
          */
         prepareShowAllResults (categoryItem) {
-            const side = this.currentSide;
+            const side = this.currentSide,
+                interfaceToAdd = {id: this.limitedSortedSearchResults.results.categoryProvider[categoryItem], searchCategory: categoryItem},
+                exists = this.showAllResultsSearchInterfaceInstances.find(searchInterface => searchInterface.id === interfaceToAdd.id);
 
-            this.setShowAllResultsSearchInterfaceInstances(this.limitedSortedSearchResults.results.categoryProvider[categoryItem]);
+            if (!exists) {
+                const currentInterfaces = [...this.showAllResultsSearchInterfaceInstances];
+
+                currentInterfaces.push(interfaceToAdd);
+                this.setShowAllResultsSearchInterfaceInstances(currentInterfaces);
+            }
             if (this.menuBySide(side)) {
-                this.setNavigationCurrentComponentBySide({side: side, newComponent: {props: {name: "common:modules.searchBar.searchResults"}, type: "searchbar"}});
-                this.setCurrentComponentBySide({side: side, type: "searchbar"});
-                this.setNavigationHistoryBySide({side: side, newHistory: [{type: "root", props: []}, {type: "searchBar", props: {name: "modules.searchBar.searchBar"}}, {type: "searchBar", props: {name: "modules.searchBar.searchResultList"}}]});
+                const name = i18next.t("common:modules.searchBar.searchResults") + " - " + categoryItem;
+
+                this.setNavigationCurrentComponentBySide({side: side, newComponent: {props: {name}, type: "searchBar"}});
+                this.setPlaceholder(i18next.t("common:modules.searchBar.placeholder.searchFor") + " " + categoryItem);
+                this.setCurrentComponentBySide({side: side, type: "searchBar"});
+                this.setNavigationHistoryBySide({side: side, newHistory: [{type: "root", props: []}, {type: "searchBar", props: {name}}, {type: "searchBar", props: {name: "modules.searchBar.searchResultList"}}]});
             }
             this.setCurrentAvailableCategories(categoryItem);
             this.currentShowAllList = this.limitedSortedSearchResults.currentShowAllList.filter(value => {
@@ -74,6 +85,20 @@ export default {
             });
 
             this.setShowAllResults(true);
+        },
+        /**
+         * Returns the first search result object belonging to the given category.
+         * Useful for accessing category-specific properties such as `imagePath` or `icon`.
+         *
+         * @param {String} category - The category name to search for.
+         * @returns {Object|undefined} The first search result matching the category, or `undefined` if none is found.
+         */
+        getFirstByCategory (category) {
+            const results = this.limitedSortedSearchResults.results;
+
+            return Object.values(results).find(
+                (item) => item?.category === category
+            );
         }
     }
 };
@@ -81,7 +106,7 @@ export default {
 
 <template lang="html">
     <div
-        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0 && !showInTree"
+        v-if="searchInput?.length >= minCharacters && searchResultsActive && searchResults?.length > 0 && !showSearchResultsInTree"
         class="suggestions-container"
     >
         <div
@@ -95,12 +120,13 @@ export default {
                 :title="$t('common:modules.searchBar.searchResultsFrom') + limitedSortedSearchResults.results.categoryProvider[categoryItem] + '-' + $t('common:modules.searchBar.search')"
             >
                 <img
-                    v-if="limitedSortedSearchResults.results[categoryItem + 'ImgPath']"
+                    v-if="getFirstByCategory(categoryItem)?.imagePath"
                     alt="search result image"
-                    src="searchResult.imgPath"
+                    class="search-bar-suggestion-image"
+                    :src="getFirstByCategory(categoryItem).imagePath"
                 >
                 <i
-                    v-if="!limitedSortedSearchResults.results[categoryItem + 'ImgPath']"
+                    v-if="!getFirstByCategory(categoryItem)?.imagePath"
                     :class="limitedSortedSearchResults.results[categoryItem + 'Icon']"
                 />
 
@@ -151,5 +177,14 @@ button {
     display: flex;
     justify-content: right;
     align-items: right;
+}
+.search-bar-suggestion-image{
+    float: left;
+    max-width: 21px;
+    max-height: 21px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-right: 0.5rem;
 }
 </style>

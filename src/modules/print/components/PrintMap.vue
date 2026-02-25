@@ -1,20 +1,20 @@
 <script>
 import axios from "axios";
-import Cluster from "ol/source/Cluster";
+import Cluster from "ol/source/Cluster.js";
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import {Vector} from "ol/layer.js";
 
-import isObject from "../../../shared/js/utils/isObject";
-import mutations from "../store/mutationsPrint";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
-import layerProvider from "../js/getVisibleLayer";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import InputText from "../../../shared/modules/inputs/components/InputText.vue";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import BuildSpec from "../js/buildSpec";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
+import isObject from "@shared/js/utils/isObject.js";
+import mutations from "../store/mutationsPrint.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
+import layerProvider from "../js/getVisibleLayer.js";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import BuildSpec from "../js/buildSpec.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
 
 /**
  * Tool to print a part of the map
@@ -33,7 +33,8 @@ export default {
         return {
             subtitle: "",
             textField: "",
-            author: ""
+            author: "",
+            initialized: false
         };
     },
     computed: {
@@ -158,6 +159,14 @@ export default {
                 this.setFilename(value);
                 this.isValid(value);
             }
+        },
+        titleComputed: {
+            get () {
+                return this.title;
+            },
+            set (value) {
+                this.setTitle(value);
+            }
         }
     },
     watch: {
@@ -180,30 +189,29 @@ export default {
         },
         isIncreased3DResolutionSelected: function (value) {
             this.update3DResolutionScale(value);
+        },
+        /**
+         * Watches for first time layout is set and initializes after it.
+         * Must be done this way to wait for the response of requesting capabilities.
+         * @param {Object} value the layout value
+         * @returns {void}
+         */
+        currentLayout: function (value) {
+            if (value && !this.initialized) {
+                this.init();
+            }
         }
     },
     created () {
         this.setServiceId(this.printServiceId);
     },
     mounted () {
-        if (this.mode === "3D") {
-            this.setIs3d(true);
-        }
-        else {
-            this.setIs3d(false);
-        }
+        this.setIs3d(this.mode === "3D");
         this.$nextTick(() => {
             if (this.shownLayoutList.length === 0) {
                 this.retrieveCapabilites();
-                this.setCurrentMapScale(this.scale);
-                this.togglePostrenderListener();
-                this.updateCanvasByFeaturesLoadend(this.visibleLayerList);
-                this.setIsScaleSelectedManually(false);
-                this.setCurrentMapScale(this.scale);
-                this.setIsIncreased3DResolutionSelected(false);
             }
         });
-
         this.setCurrentMapScale(this.scale);
     },
     unmounted () {
@@ -224,7 +232,25 @@ export default {
             "getAttributeInLayoutByName",
             "update3DResolutionScale"
         ]),
+        ...mapActions("Modules/Print", {
+            initSetDpiList: "setDpiList",
+            ensureDpiForPdfInList: "ensureDpiForPdfInList"
+        }),
         ...mapActions("Alerting", ["addSingleAlert"]),
+
+        /**
+         * Initializes the print module and sets data.initialized to true.
+         * @returns {void}
+         */
+        init () {
+            this.setCurrentMapScale(this.scale);
+            this.togglePostrenderListener();
+            this.updateCanvasByFeaturesLoadend(this.visibleLayerList);
+            this.setIsScaleSelectedManually(false);
+            this.setIsIncreased3DResolutionSelected(false);
+            this.updateCanvasLayer();
+            this.initialized = true;
+        },
 
         /**
          * Waits until the features of Vector layers are loaded and then renders the canvas again.
@@ -301,6 +327,8 @@ export default {
             }
             this.updateCanvasLayer();
             await mapCollection.getMap("2D").render();
+            this.initSetDpiList();
+            this.ensureDpiForPdfInList();
         },
 
         /**
@@ -391,13 +419,13 @@ export default {
                 valid = regex.test(value);
 
             if (!valid) {
-                document.getElementById("outputFileTitleWarning").classList.remove("active");
+                this.$refs.outputFileTitleWarning.classList.remove("active");
                 document.getElementById("outputFileTitle").classList.add("danger");
 
                 document.getElementById("printBtn").disabled = true;
             }
             else {
-                document.getElementById("outputFileTitleWarning").classList.add("active");
+                this.$refs.outputFileTitleWarning.classList.add("active");
                 document.getElementById("outputFileTitle").classList.remove("danger");
                 document.getElementById("printBtn").disabled = false;
             }
@@ -510,10 +538,9 @@ export default {
             <div>
                 <InputText
                     :id="'docTitle'"
+                    v-model="titleComputed"
                     :label="$t('common:modules.print.titleLabel')"
                     :placeholder="$t('common:modules.print.titleLabel')"
-                    :value="title"
-                    :input="setTitle"
                 />
             </div>
             <div
@@ -521,10 +548,9 @@ export default {
             >
                 <InputText
                     :id="subtitle"
+                    v-model="subtitle"
                     :label="$t('common:modules.print.subtitleLabel')"
                     :placeholder="$t('common:modules.print.subtitleLabel')"
-                    :value="subtitle"
-                    :input="setSubtitle"
                     :max-length="'60'"
                 />
             </div>
@@ -551,10 +577,9 @@ export default {
             >
                 <InputText
                     :id="author"
+                    v-model="author"
                     :label="$t('common:modules.print.authorLabel')"
                     :placeholder="$t('common:modules.print.authorLabel')"
-                    :value="author"
-                    :input="setAuthor"
                     :max-length="'60'"
                 />
             </div>
@@ -662,6 +687,7 @@ export default {
                 />
                 <small
                     id="outputFileTitleWarning"
+                    ref="outputFileTitleWarning"
                     class="offset-md-5 col-md-7 active"
                 >
                     {{ $t("common:modules.print.validationWarning") }}

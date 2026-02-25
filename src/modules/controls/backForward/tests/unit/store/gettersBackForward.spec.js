@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import getters from "../../../store/gettersBackForward.js";
+import getters from "@modules/controls/backForward/store/gettersBackForward.js";
 
 const {backAvailable, forthAvailable} = getters;
 

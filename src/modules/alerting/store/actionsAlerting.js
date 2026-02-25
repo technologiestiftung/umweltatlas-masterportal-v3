@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import store from "../../../app-store";
+import store from "@appstore/index.js";
 
 dayjs.extend(duration);
 
@@ -66,7 +66,7 @@ export default {
         const storageKey = state.localStorageDisplayedAlertsKey;
 
         state.alerts.forEach(singleAlert => {
-            if (!singleAlert.mustBeConfirmed && singleAlert.initialConfirmed !== false && singleAlert.initial !== undefined) {
+            if (!singleAlert.mustBeConfirmed && singleAlert.initialConfirmed !== false && singleAlert.initial !== undefined && singleAlert.once === true) {
                 commit("addToDisplayedAlerts", singleAlert);
                 commit("removeFromAlerts", singleAlert);
             }

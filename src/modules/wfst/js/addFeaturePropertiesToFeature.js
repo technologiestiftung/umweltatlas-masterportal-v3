@@ -1,4 +1,4 @@
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 
 /**
  * Adds the given featureProperties and the geometry of the feature
@@ -10,31 +10,37 @@ import Feature from "ol/Feature";
  * @param {String} featurePrefix Prefix defined by the namespace of the service.
  * @returns {module:ol/Feature} Feature to be inserted or updated.
  */
-export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature") {
-    const transactionFeature = new Feature();
+export default function ({id, geometry, geometryName}, featureProperties, updateFeature, featurePrefix = "feature", LayerConfigAttributes = []) {
+    const transactionFeature = new Feature(),
+        regex = /:$/,
+        featurePrefixWithoutColon = featurePrefix.replace(regex, "");
 
     featureProperties.forEach(property => {
         const key = updateFeature
-            ? `${featurePrefix}:${property.key}`
+            ? `${featurePrefixWithoutColon}:${property.key}`
             : property.key;
 
-        if (["", null, undefined].includes(property.value) && updateFeature) {
-            transactionFeature.set(key, null);
-        }
-        if (property.type === "geometry") {
-            transactionFeature.setGeometryName(updateFeature
-                ? `${featurePrefix}:${geometryName}`
-                : geometryName);
-            transactionFeature.setGeometry(geometry);
-        }
-        else if (["integer", "int", "decimal", "short", "float"].includes(property.type)) {
-            if (!Number.isFinite(parseFloat(property.value))) {
-                return;
+
+        if (property.label && !LayerConfigAttributes.includes(property.label.toLowerCase())) {
+
+            if (["", null, undefined].includes(property.value) && updateFeature) {
+                transactionFeature.set(key, null);
             }
-            transactionFeature.set(key, Number(property.value));
-        }
-        else {
-            transactionFeature.set(key, property.value);
+            else if (property.type === "geometry") {
+                transactionFeature.setGeometryName(updateFeature
+                    ? `${featurePrefixWithoutColon}:${geometryName}`
+                    : geometryName);
+                transactionFeature.setGeometry(geometry);
+            }
+            else if (["integer", "int", "decimal", "short", "float"].includes(property.type)) {
+                if (!Number.isFinite(parseFloat(property.value))) {
+                    return;
+                }
+                transactionFeature.set(key, Number(property.value));
+            }
+            else {
+                transactionFeature.set(key, property.value);
+            }
         }
     });
 

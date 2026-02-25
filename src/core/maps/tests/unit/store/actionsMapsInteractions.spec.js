@@ -1,9 +1,9 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
 
-import actions from "../../../store/actionsMapsInteractions";
+import actions from "@core/maps/store/actionsMapsInteractions.js";
 
 const {
     registerListener,
@@ -130,6 +130,28 @@ describe("src/core/maps/store/actionsMapsInteractions.js", () => {
             expect(commit.firstCall.args[0]).to.equals(payload.listener);
             expect(commit.firstCall.args[1]).to.be.deep.equals(evt);
             expect(commit.firstCall.args[2]).to.be.deep.equals({root: true});
+        });
+        it("register and unregister moveend listener with keyForBoundFunctions", () => {
+            const dispatch = sinon.spy(),
+                commit = sinon.spy(),
+                evt = {type: "pointermove"};
+
+            payload = {
+                type: "moveend",
+                listener: sinon.spy(),
+                keyForBoundFunctions: "keyForBoundFunctions"
+            };
+            registerListener({commit, dispatch}, payload);
+            expect(Object.keys(olMap.listeners_)).include("moveend");
+            olMap.listeners_.moveend[0](evt);
+            expect(dispatch.notCalled).to.be.true;
+            expect(commit.notCalled).to.be.true;
+            expect(payload.listener.calledOnce).to.be.true;
+            expect(payload.listener.firstCall.args[0]).to.be.deep.equals(evt);
+
+            unregisterListener({}, payload);
+            expect(Object.keys(olMap.listeners_)).not.include("moveend");
+
         });
     });
 

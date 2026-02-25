@@ -1,9 +1,9 @@
 import axios from "axios";
-import {vectorTile} from "@masterportal/masterportalapi";
+import {vectorTile} from "@masterportal/masterportalapi/src/index.js";
 
-import store from "../../../app-store";
-import webgl from "./webglRenderer";
-import Layer2d from "./layer2d";
+import store from "@appstore/index.js";
+import webgl from "./webglRenderer.js";
+import Layer2d from "./layer2d.js";
 
 /**
  * Creates a 2d vector tile layer.
@@ -77,6 +77,7 @@ Layer2dVectorTile.prototype.getRawLayerAttributes = function (attributes) {
 Layer2dVectorTile.prototype.getLayerParams = function (attributes) {
     return {
         gfiAttributes: attributes.gfiAttributes,
+        gfiTitleAttribute: attributes.gfiTitleAttribute,
         opacity: (100 - attributes.transparency) / 100,
         zIndex: attributes.zIndex,
         renderer: attributes.renderer, // use "default" (canvas) or "webgl" renderer

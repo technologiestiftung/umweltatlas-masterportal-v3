@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {idx, badPathSymbol} from "../../idx";
+import {idx, badPathSymbol} from "@shared/js/utils/idx.js";
 
 describe("src/shared/js/utils/idx.js", () => {
     const firstFinish = "We want this!",

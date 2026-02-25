@@ -1,4 +1,4 @@
-import changeTimeZone from "../../changeTimeZone.js";
+import changeTimeZone from "@shared/js/utils/changeTimeZone.js";
 import {expect} from "chai";
 
 describe("src/shared/js/utils/changeTimeZone.js", () => {

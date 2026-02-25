@@ -1,14 +1,17 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import {expect} from "chai";
-import CopyrightConstraints from "../../../components/CopyrightConstraints.vue";
-import state from "../../../store/stateCopyrightConstraints";
+import CopyrightConstraints from "@modules/copyrightConstraints/components/CopyrightConstraints.vue";
+import state from "@modules/copyrightConstraints/store/stateCopyrightConstraints.js";
+import sinon from "sinon";
+import axios from "axios";
 
 config.global.mocks.$t = key => key;
 
-// skipped: see https://lgv-hamburg.atlassian.net/browse/BG-5562
-describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
-    let store;
+describe("src/modules/copyrightConstraints/components/CopyrightConstraints.vue", () => {
+    let store,
+        axiosMock,
+        useLayerCswUrl;
     const visibleLayers =
         [
             {
@@ -133,7 +136,8 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
                                 return state;
                             },
                             getters: {
-                                cswUrl: () => "https://gdk.gdi-de.org/gdi-de/srv/ger/csw"
+                                cswUrl: () => "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+                                useLayerCswUrl: () => useLayerCswUrl
                             }
                         }
                     }
@@ -143,6 +147,13 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
                 visibleLayerConfigs: () => visibleLayers
             }
         });
+
+        useLayerCswUrl = false;
+        axiosMock = sinon.stub(axios, "get").resolves({status: 200, statusText: "OK", request: {responseXML: new DOMParser().parseFromString("", "text/xml")}});
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     it("renders the CopyrightConstraints component", () => {
@@ -155,6 +166,23 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
         expect(wrapper.classes()).to.contain("infoText");
     });
 
+    it("shows not specified message for empty csw response", async () => {
+        const wrapper = mount(CopyrightConstraints, {
+            global: {
+                plugins: [store]
+            }});
+
+        let messageElement = wrapper.find("ul.copyrightConstraints_layerList li div div i");
+
+        await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
+        await wrapper.vm.$nextTick();
+
+        messageElement = wrapper.find("ul.copyrightConstraints_layerList li div div i");
+
+        expect(messageElement.exists()).to.be.true;
+        expect(messageElement.text()).to.be.equals("common:modules.copyrightConstraints.notSpecified");
+    });
+
     describe("copyrightConstraints.vue methods", () => {
         it("getMetaData returns an object with properties access and use", async () => {
             const wrapper = mount(CopyrightConstraints, {
@@ -165,7 +193,31 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
 
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("access");
             expect(returnedMetaData.getConstraints()).to.be.an("object").that.have.property("use").that.is.an("array");
-        }).timeout(4000);
+        });
+        it("getMetaData requests csw service defined in tool", async () => {
+            const wrapper = mount(CopyrightConstraints, {
+                global: {
+                    plugins: [store]
+                }});
+
+            await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
+
+            expect(axiosMock.called).to.be.true;
+            expect(axiosMock.firstCall.args[0]).to.be.equals("https://gdk.gdi-de.org/gdi-de/srv/ger/csw");
+        });
+        it("getMetaData requests csw service defined in layer if useLayerCswUrl is set to true", async () => {
+            useLayerCswUrl = true;
+
+            const wrapper = mount(CopyrightConstraints, {
+                global: {
+                    plugins: [store]
+                }});
+
+            await wrapper.vm.getMetaData("B6A59A2B-2D40-4676-9094-0EB73039ED34");
+
+            expect(axiosMock.called).to.be.true;
+            expect(axiosMock.firstCall.args[0]).to.be.equals("https://metaver.de/csw");
+        });
         it("getCswConstraints and rendered data", async () => {
             const wrapper = mount(CopyrightConstraints, {
                 global: {
@@ -193,7 +245,7 @@ describe.skip("src/modules/copyrightConstraints/components/CopyrightConstraints.
             expect(ullayerList.exists()).to.be.true;
             expect(ulConstraintsList.exists()).to.be.false;
             expect(ulPointOfContactList.exists()).to.be.true;
-        }).timeout(4000);
+        });
         it("getVisibleLayer returns an array", () => {
             const wrapper = mount(CopyrightConstraints, {
                     global: {

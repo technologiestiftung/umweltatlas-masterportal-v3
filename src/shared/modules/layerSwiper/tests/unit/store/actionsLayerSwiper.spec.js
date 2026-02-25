@@ -1,16 +1,17 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../../../store/actionsLayerSwiper";
+import actions from "@shared/modules/layerSwiper/store/actionsLayerSwiper.js";
 import {JSDOM} from "jsdom";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("actions", () => {
-    let commit, dispatch, state, rootGetters, jsdom, map, originalDocument, originalWindow, originalKeyboardEvent, originalMouseEvent;
+    let commit, dispatch, state, rootGetters, jsdom, map, originalDocument, originalWindow, originalKeyboardEvent, originalPointerEvent;
 
     before(() => {
         originalDocument = global.document;
         originalWindow = global.window;
         originalKeyboardEvent = global.KeyboardEvent;
-        originalMouseEvent = global.MouseEvent;
+        originalPointerEvent = global.PointerEvent;
         mapCollection.clear();
         map = {
             id: "ol",
@@ -20,40 +21,49 @@ describe("actions", () => {
         };
 
         mapCollection.addMap(map, "2D");
+    });
+
+    beforeEach(() => {
         jsdom = new JSDOM("<!doctype html><html><body></body></html>");
         global.document = jsdom.window.document;
         global.window = jsdom.window;
         global.KeyboardEvent = jsdom.window.KeyboardEvent;
-        global.MouseEvent = jsdom.window.MouseEvent;
-    });
-
-    beforeEach(() => {
+        // PointerEvent is missing in jsdom, using MouseEvent for test instead https://github.com/jsdom/jsdom/issues/2527
+        global.PointerEvent = jsdom.window.MouseEvent;
         commit = sinon.spy();
         dispatch = sinon.spy();
         state = {
             valueX: 100,
             currentTimeSliderObject: {keyboardMovement: 5},
             active: true,
-            targetLayer: {getLayer: () => ({once: sinon.stub()})},
-            sourceLayer: {getLayer: () => ({once: sinon.stub()})}
+            targetLayerId: "123",
+            sourceLayerId: "456"
         };
         rootGetters = {
             "Modules/WmsTime/TimeSlider/playing": false,
             "Maps/mode": "2D",
             "Modules/WmsTime/layerAppendix": "_appendix"
         };
+        sinon.stub(layerCollection, "getLayerById").callsFake(id => ({
+            id,
+            getLayer: sinon.stub().returns({
+                once: sinon.stub(),
+                on: sinon.stub(),
+                un: sinon.stub()
+            })
+        }));
     });
 
     afterEach(() => {
         global.document = originalDocument;
         global.window = originalWindow;
         global.KeyboardEvent = originalKeyboardEvent;
-        global.MouseEvent = originalMouseEvent;
+        global.PointerEvent = originalPointerEvent;
         sinon.restore();
     });
 
-    it("should calculate new position and commit changes on mousemove", () => {
-        const event = new MouseEvent("mousemove", {
+    it("should calculate new position and commit changes on pointermove", () => {
+        const event = new PointerEvent("pointermove", {
             clientX: 150
         });
 

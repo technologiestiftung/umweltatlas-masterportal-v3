@@ -1,11 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer from "ol/layer/Layer";
-import TileWMS from "ol/source/TileWMS";
-import store from "../../../../../app-store";
-import Layer2d from "../../../js/layer2d";
+import Layer from "ol/layer/Layer.js";
+import TileWMS from "ol/source/TileWMS.js";
+import store from "@appstore/index.js";
+import Layer2d from "@core/layers/js/layer2d.js";
 import axios from "axios";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
 describe("src/core/js/layers/layer2d.js", () => {
     let warn,

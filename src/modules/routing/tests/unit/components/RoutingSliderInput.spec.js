@@ -2,11 +2,11 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import RoutingSliderInputComponent from "../../../components/RoutingSliderInput.vue";
-import mutations from "../../../store/mutationsRouting";
-import actions from "../../../store/actionsRouting";
-import getters from "../../../store/gettersRouting";
-import state from "../../../store/stateRouting";
+import RoutingSliderInputComponent from "@modules/routing/components/RoutingSliderInput.vue";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import getters from "@modules/routing/store/gettersRouting.js";
+import state from "@modules/routing/store/stateRouting.js";
 
 config.global.mocks.$t = key => key;
 

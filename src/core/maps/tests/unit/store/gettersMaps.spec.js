@@ -1,12 +1,16 @@
 import {expect} from "chai";
-import Map from "ol/Map";
-import View from "ol/View";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import gettersMap from "../../../store/gettersMaps";
-import stateMap from "../../../store/stateMaps";
-import actions from "../../../store/actionsMapsLayers";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
+import gettersMap from "@core/maps/store/gettersMaps.js";
+import stateMap from "@core/maps/store/stateMaps.js";
+import actions from "@core/maps/store/actionsMapsLayers.js";
 import sinon from "sinon";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 const {
     addLayer
@@ -67,7 +71,7 @@ describe("src/core/maps/store/gettersMap.js", () => {
         });
     });
 
-    describe("isMaxZoomDisplayed", async () => {
+    describe("isMaxZoomDisplayed", () => {
         it("returns false for isMaxZoomDisplayed from stateMaps and true for local state", () => {
             const state = {
                 maxZoom: 10,
@@ -91,7 +95,7 @@ describe("src/core/maps/store/gettersMap.js", () => {
         });
     });
 
-    describe("urlParams", async () => {
+    describe("urlParams", () => {
         it("returns urlParams for local state", () => {
             const state = {
                     center: [5, 8],
@@ -104,20 +108,28 @@ describe("src/core/maps/store/gettersMap.js", () => {
                     getCesiumScene: () => {
                         return {"camera": {
                             "heading": 1,
-                            "position": {x: 3742884.2199247065, y: 659588.8716800908, z: 5111473.458863588},
+                            "positionWC": {x: 3742884.2199247065, y: 659588.8716800908, z: 5111473.458863588},
                             "pitch": 0
                         }};
                     }
                 };
 
             global.Cesium = {};
-            global.Cesium.Cartographic = () => { /* no content*/ };
-            global.Cesium.Cartographic.fromCartesian = () => sinon.stub();
-            global.Cesium.Cartographic.fromCartesian.height = () => sinon.stub();
+            global.Cesium.Cartographic = class {};
+            global.Cesium.Cartographic.fromCartesian = sinon.stub().returns({
+                longitude: 0.065,
+                latitude: 0.045,
+                height: 100
+            });
+            global.Cesium.Math = {
+                toDegrees: (radians) => radians * (180 / Math.PI)
+            };
 
             mapCollection.addMap(map3d, "3D");
 
-            expect(gettersMap.urlParams(state).toString()).to.be.equal("MAPS={\"center\":[5,8],\"mode\":\"3D\",\"zoom\":5,\"heading\":1,\"tilt\":0}");
+            expect(gettersMap.urlParams(state)).to.be.equal(
+                "MAPS={\"center\":[5,8],\"mode\":\"3D\",\"zoom\":5,\"lon\":3.724225668350351,\"lat\":2.5783100780887045,\"height\":100,\"heading\":57.29577951308232,\"pitch\":0}"
+            );
 
             mapCollection.clear();
         });

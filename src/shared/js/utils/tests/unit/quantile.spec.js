@@ -1,7 +1,7 @@
-import quantile from "../../quantile";
+import quantile from "@shared/js/utils/quantile.js";
 import {expect} from "chai";
 
-describe("src_3_0_0/shared/js/utils/quantile.js", () => {
+describe("src/shared/js/utils/quantile.js", () => {
     it("should calculate correct quantiles", () => {
         expect(quantile([1], 0.1)).to.equal(1);
         expect(quantile([1, 2], 0.1)).to.equal(1);

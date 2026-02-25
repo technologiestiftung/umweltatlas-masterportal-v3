@@ -1,9 +1,9 @@
-import {generateSimpleGetters} from "../shared/js/utils/generators";
-import getNestedValues from "../shared/js/utils/getNestedValues";
-import searchInTree from "../shared/js/utils/searchInTree";
-import {sortObjects} from "../shared/js/utils/sortObjects";
-import stateAppStore from "./state";
-import {treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import searchInTree from "@shared/js/utils/searchInTree.js";
+import {sortObjects} from "@shared/js/utils/sortObjects.js";
+import stateAppStore from "./state.js";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 /**
  * The root getters.
@@ -32,6 +32,15 @@ export default {
     },
 
     /**
+     * Returns the add layer button attributes
+     * @param {Object} state state of the app-store.
+     * @returns {Object} The add layer button attributes.
+     */
+    addLayerButton: state => {
+        return state.portalConfig?.tree?.addLayerButton || {};
+    },
+
+    /**
      * Returns all categories defined in config.json.
      * @param {Object} state state of the app-store.
      * @returns {Array} all categories defined in config.json
@@ -48,7 +57,6 @@ export default {
     singleBaselayer: state => {
         return state.portalConfig?.tree?.singleBaselayer;
     },
-
 
     /**
      * Returns whether all configs were loaded.
@@ -416,6 +424,15 @@ export default {
      */
     menuFromConfig: state => side => {
         return state.portalConfig[side] || {};
+    },
+
+    /**
+     * Returns the configured value for mouseHover.
+     * @param {Object} state state of the app-store.
+     * @returns {Array} value for mouseHover or false if not configured
+     */
+    mouseHover: state => {
+        return state.portalConfig?.map?.mouseHover || false;
     },
 
     /**

@@ -1,7 +1,10 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import VectorLayer from "ol/layer/Vector.js";
 import MeasureInMapTooltip from "./MeasureInMapTooltip.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import source from "../js/measureSource.js";
+import getStyle from "../js/measureStyle.js";
 
 /**
  * Measurement tool to measure lines and areas in the map.
@@ -24,6 +27,7 @@ export default {
             "featureId",
             "tooltipCoord",
             "interaction",
+            "color",
             "source",
             "layer",
             "lines",
@@ -40,6 +44,12 @@ export default {
         ...mapGetters("Maps", ["mode"])
     },
     watch: {
+        mode () {
+            this.removeIncompleteDrawing();
+            this.removeDrawInteraction();
+            this.createDrawInteraction();
+            this.setFocusToFirstControl();
+        },
         /**
          * Recreates draw interaction on geometry type update.
          * @returns {void}
@@ -49,6 +59,13 @@ export default {
         }
     },
     created () {
+        this.setLayer(new VectorLayer({
+            source,
+            id: "measureLayer",
+            name: "measureLayer",
+            style: getStyle(this.color),
+            alwaysOnTop: true
+        }));
         this.$store.dispatch("Maps/checkLayer", this.layer).then((layerExists) => {
             if (!layerExists) {
                 this.$store.dispatch("Maps/addLayer", this.layer);
@@ -65,7 +82,7 @@ export default {
         this.removeDrawInteraction();
     },
     methods: {
-        ...mapMutations("Modules/Measure", ["setSelectedGeometry", "setSelectedLineStringUnit", "setSelectedPolygonUnit"]),
+        ...mapMutations("Modules/Measure", ["setSelectedGeometry", "setSelectedLineStringUnit", "setSelectedPolygonUnit", "setLayer"]),
         ...mapActions("Modules/Measure", ["deleteFeatures", "createDrawInteraction", "removeIncompleteDrawing", "removeDrawInteraction"]),
 
         /**
@@ -136,7 +153,7 @@ export default {
                     :value="geometryValue"
                 >
                     {{ is3DMode()
-                        ? selectedGeometry
+                        ? "3D"
                         : $t("common:modules.measure." +
                             (geometryValue === "LineString" ? "stretch" : "area"))
                     }}
@@ -152,6 +169,7 @@ export default {
                 id="measure-tool-unit-select"
                 ref="measure-tool-unit-select"
                 class="form-select"
+                :disabled="is3DMode()"
                 aria-label="..."
                 :value="selectedGeometry === 'LineString' ? selectedLineStringUnit : selectedPolygonUnit"
                 @change="setSelectedUnit($event.target.value)"

@@ -1,12 +1,30 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import getters from "../../../store/gettersFeatureLister";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-const {featureProperties, featureDetails, getGeometryType, headers, selectedFeature} = getters;
+import getters from "@modules/featureLister/store/gettersFeatureLister.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+const {featureDetails, getGeometryType, headers, selectedFeature} = getters;
 
 describe("src/modules/featureLister/store/gettersFeatureLister", () => {
-    const gfiFeature1 = {
+    let state;
+    const olFeature1 = {
+            getId: () => "1",
+            getGeometry: () => ({getType: () => "Polygon"})
+        },
+        olFeature2 = {
+            getId: () => "2"
+        },
+        olFeature3 = {
+            getId: () => "3"
+        },
+        olFeature4_1 = {
+            getId: () => "4.1"
+        },
+        olFeature4_2 = {
+            getId: () => "4.2"
+        },
+        gfiFeature1 = {
             id: "1",
+            olFeature: olFeature1,
             getAttributesToShow: () => "showAll",
             getProperties: () => ({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"}),
             getGeometry: () => ({
@@ -15,24 +33,23 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
         },
         gfiFeature2 = {
             id: "2",
+            olFeature: olFeature2,
             getAttributesToShow: () => ({generic: "Show Generic", alpha: "Show Alpha"}),
             getProperties: () => ({generic: "Test", alpha: "ohne", beta: "Gamma und Delta"})
         },
         gfiFeature3 = {
             id: "3",
+            olFeature: olFeature3,
             getAttributesToShow: () => ({generic: "Show Generic", beta: "Show Beta"}),
             getProperties: () => ({generic: "Test", alpha: "ohne", beta: "", gamma: "Delta"})
-        },
-        listOfHeaders = {
-            mapHeaders: (list) => Object.fromEntries(list.map(({key, value}) => [key, value]))
         };
-
-    let state;
 
     beforeEach(() => {
         state = {
-            selectedFeatureIndex: 0,
-            gfiFeaturesOfLayer: [gfiFeature1, gfiFeature2, gfiFeature3, {id: "4.1"}, {id: "4.2"}],
+            selectedRow: {
+                id: 0
+            },
+            gfiFeaturesOfLayer: [gfiFeature1, gfiFeature2, gfiFeature3, {id: "4.1", olFeature: olFeature4_1}, {id: "4.2", olFeature: olFeature4_2}],
             layer: {id: "id"}
         };
         sinon.stub(layerCollection, "getLayerById").returns(
@@ -40,10 +57,7 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
                 getLayerSource: () => {
                     return {
                         getFeatures: () => {
-                            return state.gfiFeaturesOfLayer;
-                        },
-                        getFeatureById: (id) => {
-                            return state.gfiFeaturesOfLayer.find(f => f.id === id);
+                            return [olFeature1, olFeature2, olFeature3, olFeature4_1, olFeature4_2];
                         }
                     };
                 }
@@ -65,24 +79,32 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
 
     describe("selectedFeature", () => {
         it("returns the feature at index 0", () => {
-            expect(selectedFeature(state)(0)).to.be.deep.equal(gfiFeature1);
+            expect(selectedFeature(state)("1")).to.be.deep.equal(olFeature1);
         });
         it("returns the feature at index 1", () => {
-            expect(selectedFeature(state)(1)).to.be.deep.equal(gfiFeature2);
+            expect(selectedFeature(state)("2")).to.be.deep.equal(olFeature2);
         });
         it("returns nested feature", () => {
-            expect(selectedFeature(state)(3)).to.be.deep.equal({id: "4.1"});
+            expect(selectedFeature(state)("4.1")).to.be.deep.equal(olFeature4_1);
+        });
+        it("falls back to layer source when olFeature is missing", () => {
+            state.gfiFeaturesOfLayer = [{id: "1"}];
+            expect(selectedFeature(state)("1")).to.be.deep.equal(olFeature1);
         });
     });
 
     describe("headers", () => {
         it("lists all used attributes", () => {
             state.gfiFeaturesOfLayer = [gfiFeature2, gfiFeature3];
-            expect(listOfHeaders.mapHeaders(headers(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({generic: "Show Generic", alpha: "Show Alpha", beta: "Show Beta"});
+            const headerNames = headers(state, {}, {}, {ignoredKeys: []}).map(header => header.name);
+
+            expect(headerNames).to.deep.equal(["id", "Show Generic", "Show Alpha", "Show Beta"]);
         });
         it("shows all properties with showAll feature", () => {
             state.gfiFeaturesOfLayer = [gfiFeature1, gfiFeature2];
-            expect(Object.keys(listOfHeaders.mapHeaders(headers(state, {}, {}, {ignoredKeys: []})))).to.deep.equal(["generic", "alpha", "beta", "gamma", "delta"]);
+            const headerNames = headers(state, {}, {}, {ignoredKeys: []}).map(header => header.name);
+
+            expect(headerNames).to.deep.equal(["id", "generic", "alpha", "beta", "gamma", "delta"]);
         });
         it("header value as object, use name as value", () => {
             const gfiFeature = {
@@ -97,38 +119,57 @@ describe("src/modules/featureLister/store/gettersFeatureLister", () => {
                 }),
                 getProperties: () => ({generic: "Test", alpha: "01.01.2022"})
             };
+            let headerNames = [];
 
             state.gfiFeaturesOfLayer = [gfiFeature];
-            expect(listOfHeaders.mapHeaders(headers(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({generic: "Show Generic", alpha: "Name Von Alpha"});
+            headerNames = headers(state, {}, {}, {ignoredKeys: []}).map(header => header.name);
+            expect(headerNames).to.deep.equal(["id", "Show Generic", "Name Von Alpha"]);
         });
     });
 
     describe("featureDetails", () => {
-        const mapFeatureDetails = Object.fromEntries;
 
         it("returns the exactly the attribute titles and values that are to show", () => {
-            state.selectedFeatureIndex = 1;
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({"Show Generic": "Test", "Show Alpha": "ohne"});
+            state.selectedRow = {
+                id: "2",
+                "Show Generic": "Test",
+                "Show Alpha": "ohne",
+                "Show Beta": "Gamma und Delta"
+            };
+
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({"Show Generic": "Test", "Show Alpha": "ohne"});
         });
         it("returns all attribute values if showAll is set", () => {
-            state.selectedFeatureIndex = 0;
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal(gfiFeature1.getProperties());
+            state.selectedRow = {
+                id: "1",
+                generic: "Hallo",
+                alpha: "Dies",
+                beta: "ist",
+                gamma: "ein",
+                delta: "Test"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({generic: "Hallo", alpha: "Dies", beta: "ist", gamma: "ein", delta: "Test"});
         });
         it("ignores globally hidden keys if showAll is set", () => {
-            state.selectedFeatureIndex = 0;
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: ["ALPHA", "BETA", "GAMMA", "DELTA"]}))).to.deep.equal({generic: "Hallo"});
+            state.selectedRow = {
+                id: "1",
+                generic: "Hallo",
+                alpha: "Dies",
+                beta: "ist",
+                gamma: "ein",
+                delta: "Test"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: ["ALPHA", "BETA", "GAMMA", "DELTA"]})).to.deep.equal({generic: "Hallo"});
         });
         it("ignores false-ish values", () => {
-            state.selectedFeatureIndex = 2;
-            expect(mapFeatureDetails(featureDetails(state, {}, {}, {ignoredKeys: []}))).to.deep.equal({"Show Generic": "Test"});
-        });
-    });
-
-    describe("featureProperties", () => {
-        it("returns a nested array with equal length for each row", () => {
-            state.headers = ["generic", "gamma"].map(it => ({key: it, value: "The " + it}));
-            state.gfiFeaturesOfLayer = [gfiFeature2, gfiFeature3];
-            expect(featureProperties(state)).to.deep.equal([["Test", ""], ["Test", "Delta"]]);
+            state.selectedRow = {
+                id: "3",
+                "Show Generic": "Test",
+                "Show Alpha": "ohne",
+                "Show Beta": "",
+                gamma: "Delta"
+            };
+            expect(featureDetails(state, {}, {}, {ignoredKeys: []})).to.deep.equal({"Show Generic": "Test"});
         });
     });
 });

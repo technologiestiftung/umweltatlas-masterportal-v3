@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 
-import actions from "../../../store/actionsStyleVT";
+import actions from "@modules/styleVT/store/actionsStyleVT.js";
 
 describe("src/modules/styleVT/store/actionsStyleVT.js", () => {
     const layerOne = {

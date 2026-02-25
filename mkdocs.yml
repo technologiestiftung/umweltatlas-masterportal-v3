@@ -19,6 +19,7 @@ theme:
         - search.share
         - search.suggest
         - toc.follow
+        - toc.integrate
     palette:
         -   scheme: slate
             primary: white
@@ -42,8 +43,15 @@ validation:
         anchors: warn
 
 plugins:
+    - search:
+        lang:
+            - en
+            - de
+
     - tablestrip:
           strip_word: "Expert"
+    - mike:
+          version_selector: true
 
 markdown_extensions:
     # Code Block Highlighting:
@@ -54,6 +62,7 @@ markdown_extensions:
     - pymdownx.inlinehilite
     - pymdownx.snippets
     - pymdownx.superfences
+    - attr_list
 
     # Content Tabs
     - pymdownx.tabbed:
@@ -88,6 +97,7 @@ extra:
 
 extra_css:
     - '_docsCustomization/css/contentAreaFullWidth.css'
+    - '_docsCustomization/css/linkUnderline.css'
 extra_javascript:
     - '_docsCustomization/js/copyHeadingLinkToClipboard.js'
 
@@ -129,10 +139,12 @@ nav:
                     - Dev/sensorThings.md
                     - Dev/variables.md
                     - Dev/remoteInterface/remoteInterface.md
+                    - Dev/groupedLayers.md
             -   'Tutorials':
                     - Dev/Tutorials/tutorial.md
                     - Dev/Tutorials/addOnsVue.md
             -   'Vue Components':
+                    - Dev/vueComponents/ModuleCaching.md
                     - Dev/vueComponents/Alerting.md
                     - Dev/vueComponents/BasicDragHandle.md
                     - Dev/vueComponents/BasicResizeHandle.md

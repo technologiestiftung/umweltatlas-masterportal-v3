@@ -1,7 +1,7 @@
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {addAdditional, getAndMergeAllRawLayers, getAndMergeRawLayer, resetZIndex} from "../../../js/getAndMergeRawLayer.js";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../../shared/js/utils/constants";
-import layerFactory from "../../../../core/layers/js/layerFactory";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import {addAdditional, getAndMergeAllRawLayers, getAndMergeRawLayer, resetZIndex} from "@appstore/js/getAndMergeRawLayer.js";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import layerTypes from "@core/layers/js/layerTypes.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -10,7 +10,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
         warnSpy;
 
     before(() => {
-        sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
+        sinon.stub(layerTypes, "getLayerTypes3d").returns(["TERRAIN3D"]);
     });
 
     beforeEach(() => {
@@ -36,7 +36,6 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                     id: "notExisting",
                     name: "WARN: Layer with id notExisting was not found in services.json and has no name! ",
                     type: "layer",
-                    showInLayerTree: false,
                     is3DLayer: false
                 };
 
@@ -157,6 +156,77 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             expect(result[0].layers).to.be.equals("layer717,layer718,layer719");
             expect(result[0].maxScale).to.be.equals(30000);
             expect(result[0].minScale).to.be.equals(10);
+            expect(result[0].visibility).to.be.true;
+        });
+
+        it("should return a merged raw layer with custom minScale and maxScale, if ids are in an array - NOT typ GROUP", () => {
+            layerConfig = {
+                [treeBaselayersKey]: {
+                    elements: [
+                        {
+                            id: [
+                                "717",
+                                "718",
+                                "719"
+                            ],
+                            minScale: "5000",
+                            maxScale: "50000",
+                            visibility: true,
+                            name: "Geobasiskarten (farbig)",
+                            type: "layer"
+                        }
+                    ]
+                }
+            };
+            const simpleLayerList = [
+                {
+                    id: "453",
+                    name: "layer453"
+                },
+                {
+                    id: "717",
+                    name: "name717",
+                    layers: "layer717",
+                    maxScale: "10000",
+                    minScale: "10",
+                    url: "url",
+                    typ: "WMS"
+                },
+                {
+                    id: "718",
+                    name: "name718",
+                    layers: "layer718",
+                    maxScale: "30000",
+                    minScale: "30",
+                    url: "url",
+                    typ: "WMS"
+                },
+                {
+                    id: "719",
+                    name: "name719",
+                    layers: "layer719",
+                    maxScale: "20000",
+                    minScale: "20",
+                    url: "url",
+                    typ: "WMS"
+                }
+            ];
+            let result = null;
+
+            sinon.stub(rawLayerList, "getLayerWhere").callsFake(function (searchAttributes) {
+                return simpleLayerList.find(entry => Object.keys(searchAttributes).every(key => entry[key] === searchAttributes[key])) || null;
+            });
+            sinon.stub(rawLayerList, "getLayerList").returns(simpleLayerList);
+
+            result = getAndMergeRawLayer(layerConfig[treeBaselayersKey].elements[0]);
+
+            expect(Array.isArray(result)).to.be.true;
+            expect(result.length).to.be.equals(1);
+            expect(result[0].id).to.be.equals("717");
+            expect(result[0].name).to.be.equals("Geobasiskarten (farbig)");
+            expect(result[0].layers).to.be.equals("layer717,layer718,layer719");
+            expect(result[0].maxScale).to.be.equals(50000);
+            expect(result[0].minScale).to.be.equals(5000);
             expect(result[0].visibility).to.be.true;
         });
 
@@ -445,9 +515,10 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
             });
         });
 
-        it("should set showInLayerTree to false, if showAllLayerInTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility false", () => {
             const rawLayer = {
-                    id: "2"
+                    id: "2",
+                    visibility: false
                 },
                 showAllLayerInTree = false;
 
@@ -455,28 +526,12 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 id: "2",
                 showInLayerTree: false,
                 type: "layer",
-                is3DLayer: false
+                is3DLayer: false,
+                visibility: false
             });
         });
 
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true", () => {
-            const rawLayer = {
-                    id: "3",
-                    visibility: true
-                },
-                showAllLayerInTree = false;
-
-            expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
-                id: "3",
-                showInLayerTree: true,
-                visibility: true,
-                type: "layer",
-                zIndex: 2,
-                is3DLayer: false
-            });
-        });
-
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true", () => {
+        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true and showInLayerTree undefined", () => {
             const rawLayer = {
                     id: "4",
                     visibility: true
@@ -488,7 +543,7 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 3,
+                zIndex: 2,
                 is3DLayer: false
             });
         });
@@ -507,12 +562,12 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
                 showInLayerTree: true,
                 visibility: false,
                 type: "layer",
-                zIndex: 4,
+                zIndex: 3,
                 is3DLayer: false
             });
         });
 
-        it("should set showInLayerTree to true, if showAllLayerInTree is false and visibility is true and showInLayerTree is false", () => {
+        it("should set showInLayerTree to false, if showAllLayerInTree is false and visibility is true", () => {
             const rawLayer = {
                     id: "6",
                     showInLayerTree: false,
@@ -524,30 +579,29 @@ describe("src/app-store/js/getAndMergeRawLayer.js", () => {
 
             expect(addAdditional(rawLayer, showAllLayerInTree)).to.deep.equals({
                 id: "6",
-                showInLayerTree: true,
+                showInLayerTree: false,
                 visibility: true,
                 type: "layer",
-                zIndex: 5,
+                zIndex: 4,
                 typ: "WMS",
                 is3DLayer: false
             });
         });
 
-        it("should set is3DLayer to true, if layrs typ is 3D-type", () => {
+        it("should set is3DLayer to true, if layers typ is 3D-type", () => {
             const rawLayer = {
                 id: "6",
-                showInLayerTree: false,
+                showInLayerTree: true,
                 visibility: true,
                 typ: "terrain3D"
             };
-
 
             expect(addAdditional(rawLayer, true)).to.deep.equals({
                 id: "6",
                 showInLayerTree: true,
                 visibility: true,
                 type: "layer",
-                zIndex: 6,
+                zIndex: 5,
                 typ: "terrain3D",
                 is3DLayer: true
             });

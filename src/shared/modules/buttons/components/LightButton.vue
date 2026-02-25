@@ -1,6 +1,18 @@
 <script>
-import decodeHtmlEntites from "../../../js/utils/htmlEntities";
+import decodeHtmlEntites from "@shared/js/utils/htmlEntities.js";
 
+
+/**
+ * LightButton component: A lightweight button component.
+ * @module shared/modules/button/LightButton
+ * @vue-prop {String} text defines the Buttons text label and tooltip text.
+ * @vue-prop {Function} interaction sets the function to be called on click.
+ * @vue-prop {String} icon sets the (bootstrap-)icon to be displayed in the button.
+ * @vue-prop {String} iconEnd can be used to display a second icon on the right-hand-side of the button.
+ * @vue-prop {String} customClass sets custom html-classes to be used on the button.
+ * @vue-prop {String} customClasstitle sets custom html-classes to be used by the span-element holding the title.
+ * @vue-prop {String} description can be used to create a subtitle to the title-label of the button.
+ */
 export default {
     name: "LightButton",
     props: {
@@ -27,6 +39,11 @@ export default {
             default: null,
             required: false
         },
+        customclasstitle: {
+            type: String,
+            default: null,
+            required: false
+        },
         description: {
             type: String,
             default: null,
@@ -48,7 +65,6 @@ export default {
         ]"
         :aria-label=" decodeHtmlEntites($t(text))"
         @click="interaction"
-        @keydown.enter="interaction"
     >
         <i
             v-if="icon !== null"
@@ -60,7 +76,12 @@ export default {
         <span
             class="col lh-1 btn-texts row py-2"
         >
-            <span class="btn-title">
+            <span
+                class="btn-title"
+                :class="[
+                    customclasstitle
+                ]"
+            >
                 {{ decodeHtmlEntites($t(text)) }}
             </span>
             <span
@@ -113,8 +134,10 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // Padding, so the Ü dots are visible
+        // Padding-top, so the Ü dots are visible
         padding-top: 2px;
+        // Padding-bottom, so the g is fully visible
+        padding-bottom: 1px;
     }
 }
 .btn-description {
@@ -124,5 +147,9 @@ export default {
 .mp-btn-light {
     margin-left: 0;
     margin-right: 0;
+}
+
+.btn-title.btn-title-long {
+    text-overflow: unset;
 }
 </style>

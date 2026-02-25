@@ -3,10 +3,10 @@ import {expect} from "chai";
 import sinon from "sinon";
 import {shallowMount} from "@vue/test-utils";
 import AppComponent from "../../App.vue";
-import MenuContainer from "../../modules/menu/components/MenuContainer.vue";
-import MenuToggleButton from "../../modules/menu/components/MenuToggleButton.vue";
-import maps from "../../core/maps/js/maps.js";
-import loadAddons from "../../plugins/addons";
+import MenuContainer from "@modules/menu/components/MenuContainer.vue";
+import MenuToggleButton from "@modules/menu/components/MenuToggleButton.vue";
+import maps from "@core/maps/js/maps.js";
+import loadAddons from "@plugins/addons";
 
 describe("src/App.vue", () => {
     let store,
@@ -15,6 +15,10 @@ describe("src/App.vue", () => {
         initializeMapsSpy;
 
     beforeEach(() => {
+        window.matchMedia = () => ({
+            addEventListener: sinon.stub(),
+            removeEventListener: sinon.stub()
+        });
         initializeMapsSpy = sinon.spy(maps, "initializeMaps");
         actions = {
             extendLayers: sinon.spy(),
@@ -23,7 +27,8 @@ describe("src/App.vue", () => {
             loadRestServicesJson: sinon.spy(),
             loadServicesJson: sinon.spy(),
             initializeVectorStyle: sinon.spy(),
-            initializeOther: sinon.stub()
+            initializeOther: sinon.stub(),
+            initializeUrlParams: sinon.stub()
         };
 
         store = createStore({

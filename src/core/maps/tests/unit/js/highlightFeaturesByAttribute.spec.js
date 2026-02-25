@@ -1,4 +1,4 @@
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
 import {Polygon, LineString} from "ol/geom.js";
 import sinon from "sinon";
@@ -7,8 +7,8 @@ import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.j
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 
-import highlightFeaturesByAttribute from "../../../js/highlightFeaturesByAttribute.js";
-import handleAxiosError from "../../../../../shared/js/utils/handleAxiosError.js";
+import highlightFeaturesByAttribute from "@core/maps/js/highlightFeaturesByAttribute.js";
+import handleAxiosError from "@shared/js/utils/handleAxiosError.js";
 
 describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
     const expectedEqualToOGC = `<ogc:PropertyIsEqualTo matchCase='false' wildCard='%' singleChar='#' escapeChar='!'>
@@ -86,23 +86,33 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
             const styleId = "defaultHighlightFeaturesPoint",
                 layerId = "highlight_point_layer",
                 layerName = "highlight features point layer",
-                gfiAttributes = "showAll",
+                rawLayer = {
+                    gfiAttributes: "showAll",
+                    featureType: "gesundheit_krankenhaeuser",
+                    url: "https://testurl.de",
+                    version: "1.1.0"
+
+                },
                 dispatch = sinon.spy();
 
-            highlightFeaturesByAttribute.createVectorLayer(styleId, layerId, layerName, gfiAttributes, dispatch);
+            highlightFeaturesByAttribute.createVectorLayer(styleId, layerId, layerName, rawLayer, dispatch);
 
             expect(dispatch.calledOnce).to.be.true;
             expect(dispatch.firstCall.args[0]).to.equals("addLayerToLayerConfig");
             expect(dispatch.firstCall.args[1]).to.deep.equals({
                 layerConfig: {
-                    gfiAttributes: gfiAttributes,
+                    gfiAttributes: rawLayer.gfiAttributes,
                     id: layerId,
                     name: layerName,
                     showInLayerTree: true,
                     styleId: styleId,
                     typ: "VECTORBASE",
                     type: "layer",
-                    visibility: true
+                    visibility: true,
+                    featureType: rawLayer.featureType,
+                    url: rawLayer.url,
+                    version: rawLayer.version,
+                    isDynamic: true
                 },
                 parentKey: "subjectlayer"
             });
@@ -134,24 +144,28 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                 {
                     id: "123",
                     getGeometry: () => new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 },
                 {
                     id: "456",
                     getGeometry: () => new Polygon([[[565086.1948534324, 5934664.461947621], [565657.6945448224, 5934738.54524095], [565625.9445619675, 5934357.545446689], [565234.3614400891, 5934346.962119071], [565086.1948534324, 5934664.461947621]]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 }
             ],
             lineFeatures = [
                 {
                     id: "123",
                     getGeometry: () => new LineString([[0, 0], [1000, 0]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 },
                 {
                     id: "456",
                     getGeometry: () => new LineString([[0, 0], [1000, 0]]),
-                    getProperties: () => []
+                    getProperties: () => [],
+                    get: () => sinon.spy()
                 }
             ],
             styleObject = {
@@ -191,7 +205,7 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: null, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: null, treeType: undefined};
 
             highlightFeaturesByAttribute.highlightPointFeature("defaultHighlightFeaturesPoint", "highlight_point_layer", "highlightPoint", layer, pointFeatures, dispatch, rootGetters);
 
@@ -211,9 +225,9 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: {active: false}, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: {active: false}, treeType: undefined};
 
-            highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
+            await highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesPolygon", "highlight_polygon_layer", "highlightPolygon", "Polygon", layer, polygonFeatures, dispatch, rootGetters);
 
             expect(showLayerSpy.calledOnce).to.be.true;
             expect(showLayerSpy.firstCall.args[0]).to.equals("highlight_polygon_layer");
@@ -231,9 +245,9 @@ describe("src/core/maps/js/highlightFeaturesByAttribute", () => {
                     gfiAttributes: "showAll"
                 },
                 dispatch = sinon.spy(),
-                rootGetters = {treeHighlightedFeatures: {active: false}, treeType: undefined};
+                rootGetters = {ignoredKeys: ["geom"], treeHighlightedFeatures: {active: false}, treeType: undefined};
 
-            highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
+            await highlightFeaturesByAttribute.highlightLineOrPolygonFeature("defaultHighlightFeaturesLine", "highlight_line_layer", "highlightLine", "LineString", layer, lineFeatures, dispatch, rootGetters);
 
             expect(showLayerSpy.calledOnce).to.be.true;
             expect(showLayerSpy.firstCall.args[0]).to.equals("highlight_line_layer");

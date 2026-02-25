@@ -20,7 +20,7 @@ import {
     convertToRgbaString,
     convertHexToHSL,
     convertHslToHex
-} from "../../convertColor.js";
+} from "@shared/js/utils/convertColor.js";
 
 describe("src/shared/js/utils/convertColor.js", () => {
     describe("isRgbArray", () => {

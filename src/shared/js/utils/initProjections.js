@@ -1,5 +1,5 @@
-import addWGS84Decimal from "./addWGS84Decimal";
-import addETRS893GK3 from "./addETRS893GK3";
+import addWGS84Decimal from "./addWGS84Decimal.js";
+import addETRS893GK3 from "./addETRS893GK3.js";
 
 /**
 * Initializes the projections to select. If projection EPSG:4326 is available same is added in decimal-degree.

@@ -3,22 +3,12 @@ import {apply as applyTransform} from "ol/transform.js";
 import {createEmpty, extendCoordinate} from "ol/extent.js";
 import {DEVICE_PIXEL_RATIO} from "ol/has.js";
 
-import BuildSpec from "../js/buildSpec";
-import Canvas from "../js/buildCanvas";
-import layerProvider from "../js/getVisibleLayer";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
+import BuildSpec from "../js/buildSpec.js";
+import Canvas from "../js/buildCanvas.js";
+import layerProvider from "../js/getVisibleLayer.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 import {autoDrawMask} from "olcs/lib/olcs/print/drawCesiumMask.js";
 import {computeRectangle} from "olcs/lib/olcs/print/computeRectangle.js";
-
-let lastPrintedExtent;
-
-/**
- * Return last printed extent
- * @returns {Extent} OL extent
- */
-export function getLastPrintedExtent () {
-    return lastPrintedExtent;
-}
 
 export default {
     /**
@@ -84,6 +74,7 @@ export default {
         dispatch("getAttributeInLayoutByName", "legend");
         dispatch("getAttributeInLayoutByName", "scale");
         dispatch("setDpiList");
+        dispatch("ensureDpiForPdfInList");
         commit("setFormatList", state.formatList);
         commit("setCurrentScale", rootGetters["Maps/scale"]);
         dispatch("togglePostrenderListener");
@@ -126,8 +117,10 @@ export default {
         const configuredLayout = layouts.find(layout => layout.name === state.currentLayoutName),
             layoutToUse = configuredLayout || layouts[0];
 
-        commit("setCurrentLayout", layoutToUse);
-        commit("setCurrentLayoutName", layoutToUse.name);
+        if (layoutToUse) {
+            commit("setCurrentLayout", layoutToUse);
+            commit("setCurrentLayoutName", layoutToUse.name);
+        }
     },
 
     /**
@@ -176,6 +169,18 @@ export default {
                     .clientInfo?.dpiSuggestions || []);
             }
         });
+    },
+
+    /**
+     * Ensures dpiForPdf contains a value of the current dpiList
+     * @param {Object} param.state the state
+     * @param {Object} param.commit the commit
+     * @returns {void}
+     */
+    ensureDpiForPdfInList: function ({state, commit}) {
+        if (state.dpiList.length && !state.dpiList.includes(state.dpiForPdf)) {
+            commit("setDpiForPdf", state.dpiList[0]);
+        }
     },
 
     /**
@@ -329,6 +334,7 @@ export default {
                 "pixelToCoordinateTransform": frameState.pixelToCoordinateTransform,
                 "mapSize": frameState.size,
                 "resolution": frameState.viewState.resolution,
+                "rotation": frameState.viewState.rotation,
                 "printMapSize": state.layoutMapInfo,
                 "scale": "",
                 "context": context
@@ -398,20 +404,26 @@ export default {
      * @returns {void}
      */
     drawMask: function (context, drawMaskOpt) {
-        const mapSize = drawMaskOpt.frameState.size,
-            postrenderContext = drawMaskOpt.context,
-            ration = drawMaskOpt.context.canvas.width > mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
-            mapWidth = mapSize[0] * ration,
-            mapHeight = mapSize[1] * ration;
+        const postrenderContext = drawMaskOpt.context,
+            rotation = drawMaskOpt.frameState.viewState.rotation,
+            canvasWidth = postrenderContext.canvas.width,
+            canvasHeight = postrenderContext.canvas.height,
+            minX = -canvasWidth,
+            maxX = canvasWidth,
+            minY = -canvasHeight,
+            maxY = canvasHeight;
+
+        postrenderContext.save();
+
+        postrenderContext.translate(canvasWidth / 2, canvasHeight / 2);
+        postrenderContext.rotate(-rotation);
 
         postrenderContext.beginPath();
         // Outside polygon, must be clockwise
-        postrenderContext.moveTo(0, 0);
-        postrenderContext.lineTo(mapWidth, 0);
-        postrenderContext.lineTo(mapWidth, mapHeight);
-        postrenderContext.lineTo(0, mapHeight);
-        postrenderContext.lineTo(0, 0);
+        postrenderContext.rect(minX, minY, maxX - minX, maxY - minY);
         postrenderContext.closePath();
+
+        postrenderContext.restore();
     },
     /**
      * draws the print page
@@ -420,31 +432,46 @@ export default {
      * @returns {void}
      */
     drawPrintPage: function ({state}, canvasPrintOptions) {
-        const ration = canvasPrintOptions.context.canvas.width > canvasPrintOptions.mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
+        const canvas = canvasPrintOptions.context.canvas,
+            canvasWidth = canvas.width,
+            canvasHeight = canvas.height,
+            ration = canvasWidth > canvasPrintOptions.mapSize[0] ? DEVICE_PIXEL_RATIO : 1,
             center = [canvasPrintOptions.mapSize[0] * ration / 2, canvasPrintOptions.mapSize[1] * ration / 2],
-            boundWidth = canvasPrintOptions.printMapSize[0] / state.DOTS_PER_INCH / state.INCHES_PER_METER * canvasPrintOptions.scale / canvasPrintOptions.resolution * ration,
-            boundHeight = canvasPrintOptions.printMapSize[1] / state.DOTS_PER_INCH / state.INCHES_PER_METER * canvasPrintOptions.scale / canvasPrintOptions.resolution * ration,
-            minx = center[0] - (boundWidth / 2),
-            miny = center[1] - (boundHeight / 2),
-            maxx = center[0] + (boundWidth / 2),
-            maxy = center[1] + (boundHeight / 2),
-            extent = createEmpty(),
+            boundWidth = canvasPrintOptions.printMapSize[0] / state.DOTS_PER_INCH / state.INCHES_PER_METER * canvasPrintOptions.scale / canvasPrintOptions.resolution * DEVICE_PIXEL_RATIO,
+            boundHeight = canvasPrintOptions.printMapSize[1] / state.DOTS_PER_INCH / state.INCHES_PER_METER * canvasPrintOptions.scale / canvasPrintOptions.resolution * DEVICE_PIXEL_RATIO,
+            extentMinx = center[0] - (boundWidth / 2),
+            extentMiny = center[1] - (boundHeight / 2),
+            extentMaxx = center[0] + (boundWidth / 2),
+            extentMaxy = center[1] + (boundHeight / 2),
+            minX = -(boundWidth / 2),
+            maxX = boundWidth / 2,
+            minY = -(boundHeight / 2),
+            maxY = boundHeight / 2,
             transform = canvasPrintOptions.pixelToCoordinateTransform,
-            c1 = applyTransform(transform, [minx, miny]),
-            c2 = applyTransform(transform, [maxx, maxy]);
+            c1 = applyTransform(transform, [extentMinx, extentMiny]),
+            c2 = applyTransform(transform, [extentMaxx, extentMaxy]),
+            extent = createEmpty(),
+            rotation = canvasPrintOptions.rotation;
+
+        canvasPrintOptions.context.save();
+
+        canvasPrintOptions.context.translate(canvasWidth / 2, canvasHeight / 2);
+        canvasPrintOptions.context.rotate(-rotation);
 
         // Inner polygon,must be counter-clockwise
-        canvasPrintOptions.context.moveTo(minx, miny);
-        canvasPrintOptions.context.lineTo(minx, maxy);
-        canvasPrintOptions.context.lineTo(maxx, maxy);
-        canvasPrintOptions.context.lineTo(maxx, miny);
-        canvasPrintOptions.context.lineTo(minx, miny);
+        canvasPrintOptions.context.moveTo(minX, minY);
+        canvasPrintOptions.context.lineTo(minX, maxY);
+        canvasPrintOptions.context.lineTo(maxX, maxY);
+        canvasPrintOptions.context.lineTo(maxX, minY);
+        canvasPrintOptions.context.lineTo(minX, minY);
         canvasPrintOptions.context.closePath();
+
+        canvasPrintOptions.context.restore();
 
         // Keep the print extent available for later use
         extendCoordinate(extent, c1);
         extendCoordinate(extent, c2);
-        lastPrintedExtent = extent;
+        BuildSpec.setLastPrintedExtent(extent);
     },
 
     /**

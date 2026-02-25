@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../js/utils/generators";
-import stateGraphicalSelect from "./stateGraphicalSelect";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateGraphicalSelect from "./stateGraphicalSelect.js";
 
 const mutations = {
     /**

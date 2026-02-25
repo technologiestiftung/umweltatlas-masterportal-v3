@@ -20,7 +20,6 @@
  * @property {String} [iconLogged] - Icon displayed next to title if logged in.
  * @property {Boolean} [renderToWindow] - Determines if the component is rendered in a window pane instead of the sidebar.
  * @property {Boolean} [resizableWindow] - If true and if rendered to window pane, the pane is resizable.
- * @property {Boolean} [deactivateGFI] - If true, component activation deactivates the GFI (GetFeatureInfo) component.
  */
 const state = {
     icon: "bi-door-open",

@@ -2,15 +2,17 @@ import {createStore} from "vuex";
 import {config, mount, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../../../shared/js/utils/constants";
-import getNestedValues from "../../../../../shared/js/utils/getNestedValues";
-import LayerTreeComponent from "../../../components/LayerTree.vue";
-import LayerTree from "../../../store/indexLayerTree";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import LayerTreeComponent from "@modules/layerTree/components/LayerTree.vue";
+import LayerTree from "@modules/layerTree/store/indexLayerTree.js";
 
 config.global.mocks.$t = key => key;
 
 describe("src/modules/layerTree/components/LayerTree.vue", () => {
-    let store,
+    let allLayerConfigsStructured,
+        layerConfigs,
+        store,
         wrapper,
         mapMode,
         layerBG_1,
@@ -97,6 +99,9 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                 ]
             }];
         subjectDataLayers = layers2D;
+        allLayerConfigsStructured = () => {
+            return layersBG.concat(subjectDataLayers);
+        };
         store = createStore({
             modules: {
                 Maps: {
@@ -155,28 +160,33 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                                 name: () => "Contactname",
                                 type: () => "contact"
                             }
+                        },
+                        ResizeHandle: {
+                            namespaced: true,
+                            getters: {
+                                mainMenuWidth: () => 0,
+                                secondaryMenuWidth: () => 0
+                            }
                         }
                     }
                 }
             },
             getters: {
                 isModuleAvailable: () => () => true,
-                allLayerConfigsStructured: () => () =>{
-                    return layersBG.concat(subjectDataLayers);
-                },
-                allLayerConfigs: () =>{
+                addLayerButton: () => addLayerButton,
+                allLayerConfigsStructured: () => allLayerConfigsStructured,
+                allLayerConfigs: () => {
                     return layersBG.concat(subjectDataLayers);
                 },
                 portalConfig: () => {
                     return {
                         tree: {
-                            type: treeType,
-                            addLayerButton: addLayerButton
+                            type: treeType
                         }
                     };
                 },
                 layerConfigsByAttributes: () => () => {
-                    const layerConfigs = {
+                    const layerConfigurations = {
                             [treeSubjectsKey]: {
                                 elements: subjectDataLayers
                             },
@@ -184,14 +194,72 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
                                 elements: layersBG
                             }
                         },
-                        allConfigs = getNestedValues(layerConfigs, "elements", true).flat(Infinity);
+                        allConfigs = getNestedValues(layerConfigurations, "elements", true).flat(Infinity);
 
                     return allConfigs.filter(conf => conf.showInLayerTree === true);
                 },
                 showLayerAddButton: () => addLayerButton.active,
-                showFolderPath: () => true
+                showFolderPath: () => true,
+                layerConfig: () => {
+                    return {
+                        subjectlayer: {
+                            elements: subjectDataLayers
+                        }
+                    };
+                }
             }
         });
+
+        layerConfigs = [
+            {
+                id: "1"
+            },
+            {
+                id: "2"
+            },
+            {
+                id: "3"
+            },
+            {
+                name: "folder 1",
+                type: "folder",
+                elements: [
+                    {
+                        id: "4"
+                    },
+                    {
+                        id: "5"
+                    },
+                    {
+                        name: "folder 1_1",
+                        type: "folder",
+                        elements: [
+                            {
+                                id: "6"
+                            },
+                            {
+                                id: "7"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "folder 2",
+                type: "folder",
+                elements: [
+                    {
+                        id: "8"
+                    },
+                    {
+                        id: "9"
+                    },
+                    {
+                        id: "10"
+                    }
+                ]
+            }
+        ];
     });
 
     afterEach(() => {
@@ -204,7 +272,8 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = shallowMount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#layer-tree").exists()).to.be.true;
         expect(wrapper.findAll("layer-tree-node-stub").length).to.be.equals(1);
@@ -220,7 +289,8 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = shallowMount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#layer-tree").exists()).to.be.true;
         expect(wrapper.findAll("layer-tree-node-stub").length).to.be.equals(1);
@@ -231,7 +301,8 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = mount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#layer-tree").exists()).to.be.true;
         expect(wrapper.findAll(".layer-tree-layer-checkbox").length).to.be.equals(4);
@@ -246,7 +317,8 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = mount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#layer-tree").exists()).to.be.true;
         expect(wrapper.findAll("li").length).to.be.equals(3);
@@ -291,7 +363,8 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = shallowMount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#add-layer-btn").attributes().text).to.be.equals("common:modules.layerTree.addLayer");
     });
@@ -306,8 +379,261 @@ describe("src/modules/layerTree/components/LayerTree.vue", () => {
         wrapper = shallowMount(LayerTreeComponent, {
             global: {
                 plugins: [store]
-            }});
+            }
+        });
 
         expect(wrapper.find("#add-layer-btn").attributes().text).to.be.equals("test");
+    });
+
+    describe("reverseAllLayerConfigs", () => {
+        it("should reverse all layer configs also in sub folder", () => {
+            wrapper = shallowMount(LayerTreeComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.reverseAllLayerConfigs(layerConfigs)).to.deep.equals(
+                [
+                    {
+                        name: "folder 2",
+                        type: "folder",
+                        elements: [
+                            {
+                                id: "10"
+                            },
+                            {
+                                id: "9"
+                            },
+                            {
+                                id: "8"
+                            }
+                        ]
+                    },
+                    {
+                        name: "folder 1",
+                        type: "folder",
+                        elements: [
+                            {
+                                name: "folder 1_1",
+                                type: "folder",
+                                elements: [
+                                    {
+                                        id: "7"
+                                    },
+                                    {
+                                        id: "6"
+                                    }
+                                ]
+                            },
+                            {
+                                id: "5"
+                            },
+                            {
+                                id: "4"
+                            }
+                        ]
+                    },
+                    {
+                        id: "3"
+                    },
+                    {
+                        id: "2"
+                    },
+                    {
+                        id: "1"
+                    }
+                ]
+            );
+        });
+    });
+
+    describe("showLayerSelection", () => {
+        it("should navigate forward with sorted layerConfigs", () => {
+            const baselayerConfigs = [
+                {
+                    id: "baselayer_1"
+                },
+                {
+                    id: "baselayer_2"
+                }
+            ];
+            let changeCurrentComponentSpy = "",
+                navigateForwardSpy = "";
+
+            allLayerConfigsStructured = (value) => value === "subjectlayer" ? layerConfigs : baselayerConfigs;
+            wrapper = shallowMount(LayerTreeComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            changeCurrentComponentSpy = sinon.spy(wrapper.vm, "changeCurrentComponent");
+            navigateForwardSpy = sinon.spy(wrapper.vm, "navigateForward");
+
+            wrapper.vm.showLayerSelection();
+
+            expect(changeCurrentComponentSpy.calledOnce).to.be.true;
+            expect(navigateForwardSpy.calledOnce).to.be.true;
+            expect(navigateForwardSpy.firstCall.args[0]).to.deep.equals(
+                {
+                    baselayerConfs: [
+                        {
+                            id: "baselayer_1"
+                        },
+                        {
+                            id: "baselayer_2"
+                        }
+                    ],
+                    lastFolderName: "root",
+                    subjectDataLayerConfs: [
+                        {
+                            name: "folder 1",
+                            type: "folder",
+                            elements: [
+                                {
+                                    id: "4"
+                                },
+                                {
+                                    id: "5"
+                                },
+                                {
+                                    name: "folder 1_1",
+                                    type: "folder",
+                                    elements: [
+                                        {
+                                            id: "6"
+                                        },
+                                        {
+                                            id: "7"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "folder 2",
+                            type: "folder",
+                            elements: [
+                                {
+                                    id: "8"
+                                },
+                                {
+                                    id: "9"
+                                },
+                                {
+                                    id: "10"
+                                }
+                            ]
+                        },
+                        {
+                            id: "1"
+                        },
+                        {
+                            id: "2"
+                        },
+                        {
+                            id: "3"
+                        }
+                    ]
+                }
+            );
+        });
+
+        it("should navigate forward with reverse sorted layerConfigs", () => {
+            const baselayerConfigs = [
+                {
+                    id: "baselayer_1"
+                },
+                {
+                    id: "baselayer_2"
+                }
+            ];
+            let changeCurrentComponentSpy = "",
+                navigateForwardSpy = "";
+
+            addLayerButton = {
+                active: true,
+                reverseLayer: true
+            };
+
+            allLayerConfigsStructured = (value) => value === "subjectlayer" ? layerConfigs : baselayerConfigs;
+            wrapper = shallowMount(LayerTreeComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            changeCurrentComponentSpy = sinon.spy(wrapper.vm, "changeCurrentComponent");
+            navigateForwardSpy = sinon.spy(wrapper.vm, "navigateForward");
+
+            wrapper.vm.showLayerSelection();
+
+            expect(changeCurrentComponentSpy.calledOnce).to.be.true;
+            expect(navigateForwardSpy.calledOnce).to.be.true;
+            expect(navigateForwardSpy.firstCall.args[0]).to.deep.equals(
+                {
+                    baselayerConfs: [
+                        {
+                            id: "baselayer_1"
+                        },
+                        {
+                            id: "baselayer_2"
+                        }
+                    ],
+                    lastFolderName: "root",
+                    subjectDataLayerConfs: [
+                        {
+                            name: "folder 2",
+                            type: "folder",
+                            elements: [
+                                {
+                                    id: "10"
+                                },
+                                {
+                                    id: "9"
+                                },
+                                {
+                                    id: "8"
+                                }
+                            ]
+                        },
+                        {
+                            name: "folder 1",
+                            type: "folder",
+                            elements: [
+                                {
+                                    name: "folder 1_1",
+                                    type: "folder",
+                                    elements: [
+                                        {
+                                            id: "7"
+                                        },
+                                        {
+                                            id: "6"
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: "5"
+                                },
+                                {
+                                    id: "4"
+                                }
+                            ]
+                        },
+                        {
+                            id: "3"
+                        },
+                        {
+                            id: "2"
+                        },
+                        {
+                            id: "1"
+                        }
+                    ]
+                }
+            );
+        });
     });
 });

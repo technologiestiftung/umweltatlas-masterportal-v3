@@ -1,9 +1,10 @@
 <script>
 import LegendSingleLayer from "../../legend/components/LegendSingleLayer.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import {isWebLink} from "../../../shared/js/utils/urlHelper";
-import AccordionItem from "../../../shared/modules/accordion/components/AccordionItem.vue";
+import {isWebLink} from "@shared/js/utils/urlHelper.js";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import UrlInput from "../../../shared/modules/urlInput/components/UrlInput.vue";
+import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper.js";
 import LayerInfoContactButton from "../../layerTree/components/LayerInfoContactButton.vue";
 import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
@@ -15,6 +16,7 @@ import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
  * @vue-computed {Boolean} showAdditionalMetaData - Shows if additional meta data should be displayed.
  * @vue-computed {Boolean} showCustomMetaData - Shows if custom meta data should be displayed.
  * @vue-computed {Boolean} showPublication - Shows if publication should be displayed.
+ * @vue-computed {Boolean} showRevision - Determines if the revision date should be displayed.
  * @vue-computed {Boolean} showPeriodicity - Shows if periodicity should be displayed.
  * @vue-computed {Boolean} showDownloadLinks - Shows if download lonks should be displayed.
  * @vue-computed {Boolean} showUrl - Shows if url should be displayed.
@@ -36,13 +38,15 @@ export default {
     data () {
         return {
             activeTab: "layerinfo-legend",
+            selectedOption: null,
+            dropdownOptions: [],
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
             berlinImgLink: "./resources/img/berlin.png",
             imgLink: "./resources/img/person-circle.svg"
         };
     },
     computed: {
-        ...mapGetters(["configJs"]),
+        ...mapGetters(["configJs", "layerConfigById"]),
         ...mapGetters("Modules/LayerInformation", [
             "abstractText",
             "customText",
@@ -88,19 +92,54 @@ export default {
             return this.downloadLinks !== null;
         },
         showUrl () {
-            return (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === true) || (this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal === undefined && this.layerInfo.urlIsVisible !== false);
+            if (this.layerInfo.typ === "GROUP" && Array.isArray(this.layerInfo.layers)) {
+                const selectedLayer = this.layerInfo.layers[this.selectedOption];
+
+                return selectedLayer?.url && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
+            }
+            return this.layerInfo.url && this.layerInfo.typ !== "SensorThings" && this.showUrlGlobal !== false && this.layerInfo.urlIsVisible !== false;
+        },
+        selectedMetaURLs () {
+            if (this.layerInfo.typ === "GROUP" && Array.isArray(this.layerInfo.layers)) {
+                const selectedLayer = this.layerInfo.layers[this.selectedOption],
+                    metaID = selectedLayer?.metaID;
+
+                return buildMetaURLs(metaID, {
+                    layerInfo: this.layerInfo,
+                    metaDataCatalogueId: this.configJs?.metaDataCatalogueId,
+                    restServiceById: this.restServiceById
+                });
+            }
+            return this.metaURLs || [];
         },
         showAttachFile () {
-            return this.downloadLinks && this.downloadLinks.length > 1;
+            return this.downloadLinks?.length > 1;
         },
         layerUrl () {
-            return Array.isArray(this.layerInfo.url) ? this.layerInfo.url.map((url, i) => ({url, typ: this.layerInfo.typ?.[i]})).map(this.getGetCapabilitiesUrl) : this.getGetCapabilitiesUrl({url: this.layerInfo.url, typ: this.layerInfo.typ});
+            const layer = this.layerInfo;
+
+            if (layer.typ === "GROUP" && layer.layers) {
+                const selectedLayer = layer.layers[this.selectedOption];
+
+                return selectedLayer ? this.getLayerAddress(selectedLayer) : "";
+            }
+            return layer.url ? this.getLayerAddress(layer) : "";
         },
         legendURL  () {
             return this.layerInfo.legendURL;
         },
-        layerTyp  () {
-            return this.layerInfo.typ !== "GROUP" ? `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}` : this.$t("common:modules.layerInformation.addressSuffixes");
+        layerTyp () {
+            if (this.layerInfo.typ !== "GROUP") {
+                return `${this.layerInfo.typ}-${this.$t("common:modules.layerInformation.addressSuffix")}`;
+            }
+
+            const selectedLayer = this.layerInfo.layers[this.selectedOption];
+
+            if (selectedLayer && selectedLayer.type) {
+                return `${selectedLayer.type}-${this.$t("common:modules.layerInformation.addressSuffix")}`;
+            }
+
+            return this.$t("common:modules.layerInformation.addressSuffixes");
         },
         contact () {
             const poc = Array.isArray(this.pointOfContact) ? this.pointOfContact : (this.pointOfContact ? [this.pointOfContact] : []);
@@ -169,8 +208,25 @@ export default {
         }
     },
 
+    watch: {
+        /**
+         * Watches changes to `selectedOption` and updates the layer's abstract information accordingly.
+         *
+         * @param {Number} newIndex - The newly selected layer index.
+         */
+        selectedOption (newIndex) {
+            const metaInfo = this.getMetaInfoForLayer(newIndex);
+
+            this.getAbstractInfo(metaInfo);
+        }
+    },
+
     created () {
         this.setConfigParams(this.configJs);
+
+        if (this.layerInfo.typ === "GROUP") {
+            this.createDropdownOptions();
+        }
     },
 
     mounted () {
@@ -188,15 +244,71 @@ export default {
     },
 
     methods: {
-        ...mapActions("Modules/LayerInformation", ["setConfigParams"]),
+        ...mapActions("Modules/LayerInformation", ["setConfigParams", "additionalSingleLayerInfo", "getAbstractInfo"]),
         ...mapActions("Modules/Legend", ["createLegendForLayerInfo"]),
-        ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId"]),
+        ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId", "setSelectedLayerIndex"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
         ...mapActions("Modules/SearchBar", [
             "showInTree"
         ]),
         isWebLink,
+
+        /**
+         * Creates the dropdown options from the layers and selects the first option.
+         * This method maps the `layerInfo.layers` array to create an array of dropdown options,
+         * where each option has a `value` (the index of the layer) and a `label` (the name of the layer).
+         * If any options are available, the first option is selected by default.
+         *
+         * @returns {void}
+         */
+        createDropdownOptions () {
+            this.dropdownOptions = this.layerInfo.layers.map((layer, index) => ({
+                value: index,
+                label: this.$t(layer.name)
+            }));
+
+            if (this.dropdownOptions.length > 0) {
+                this.selectedOption = this.dropdownOptions[0].value;
+            }
+        },
+
+        /**
+         * Handles the change of the selected layer from the dropdown.
+         * Updates the layer information displayed based on the selected layer.
+         *
+         * @param {Event} event - The change event from the dropdown.
+         * @returns {void}
+         */
+        handleDropdownChange (event) {
+            const selectedLayerIndex = event.target.value;
+
+            if (selectedLayerIndex !== -1) {
+                this.setSelectedLayerIndex(selectedLayerIndex);
+            }
+            else {
+                console.warn(`Layer not found: ${event.target.label}`);
+            }
+        },
+
+        /**
+         * Retrieves metadata information for a specified layer.
+         *
+         * @param {number} index - Index of the layer to fetch metadata for.
+         * @returns {Object} Metadata for the layer, including:
+         *   - {String} metaId - The metadata ID for the layer.
+         *   - {String} cswUrl - The CSW URL for the layer.
+         *   - {Object} customMetadata - Additional custom metadata for the layer.
+         *   - {Object} attributes - Attributes related to the layer.
+         */
+        getMetaInfoForLayer (index) {
+            return {
+                metaId: this.layerInfo.layers[index].metaID,
+                cswUrl: this.layerInfo.cswUrl,
+                customMetadata: this.layerInfo.customMetadata,
+                attributes: this.layerInfo.attributes
+            };
+        },
 
         /**
          * checks if the given tab name is currently active
@@ -225,16 +337,45 @@ export default {
             return {active: this.isActiveTab(tab), show: this.isActiveTab(tab), "tab-pane": true, fade: true};
         },
         /**
-         * generates a GetCapabilities URL from a given service base address and type
+         * Removes slash or questionmark from the end of the url.
+         * @param {String} url the url to clean
+         * @returns {String} the cleaned URL
+         */
+        cleanUrl (url) {
+            let baseUrl = url.split("?")[0];
+
+            if (baseUrl.endsWith("/")) {
+                baseUrl = baseUrl.slice(0, -1);
+            }
+            return baseUrl;
+        },
+        /**
+         * Generates a GetCapabilities URL from a given service base address and type vor 2D layers or
+         * Appends 'tileset.json' to TileSet3D layers url, if not exists.
+         * Appends always 'layer.json' to Terrain3D layers url.
          * @param {Object} param payload
          * @param {String} param.url service base URL
          * @param {String} param.typ service type (e.g., WMS)
-         * @returns {String} GetCapabilities URL
+         * @returns {String} the created URL
          */
-        getGetCapabilitiesUrl ({url, typ}) {
-            const urlObject = new URL(url, location.href);
+        getLayerAddress (layerInfo) {
+            const typ = layerInfo.typ ?? layerInfo.type,
+                config = this.layerConfigById(layerInfo.id);
+            let url = config?.origUrl ? config.origUrl : layerInfo.url,
+                urlObject = new URL(url, location.href);
 
-            if (typ !== "OAF") {
+            if (typ && typ.toUpperCase() === "TILESET3D") {
+                const baseUrl = this.cleanUrl(url);
+
+                // if no json-file is provided in masterportalAPI src/layer/tileset.js "/tileset.json" is appended
+                url = baseUrl + (baseUrl.endsWith(".json") ? "" : "/tileset.json");
+                urlObject = new URL(url, location.href);
+            }
+            else if (typ && typ.toUpperCase() === "TERRAIN3D") {
+                // terrain layer: in Cesium "/layer.json" is appended to url
+                urlObject = new URL(this.cleanUrl(url) + "/layer.json", location.href);
+            }
+            else if (typ && typ !== "OAF") {
                 urlObject.searchParams.set("SERVICE", typ);
                 urlObject.searchParams.set("REQUEST", "GetCapabilities");
             }
@@ -513,6 +654,7 @@ export default {
                 <LegendSingleLayer
                     v-if="legendURL !== 'ignore'"
                     :legend-obj="layerInfoLegend"
+                    :selected-layer="selectedOption"
                 />
             </div>
             <div
@@ -539,7 +681,7 @@ export default {
                     </ul>
                 </div>
             </div>
-            <div
+                       <div
                 v-if="showUrl"
                 id="url"
                 :show="isActiveTab('url')"

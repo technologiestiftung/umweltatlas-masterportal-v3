@@ -1,6 +1,5 @@
-import Layer2d from "./layer2d";
-import Layer3d from "./layer3d";
-import store from "../../../app-store";
+import layerTypes from "./layerTypes.js";
+import store from "@appstore/index.js";
 
 const layerCollection = [];
 
@@ -12,7 +11,7 @@ const layerCollection = [];
 function addLayer (layer) {
     layerCollection.push(layer);
 
-    if (layer instanceof Layer2d) {
+    if (layerTypes.getLayerTypes2d().includes(layer.get("typ")?.toUpperCase())) {
         store.dispatch("Maps/addLayer", layer.getLayer());
     }
 }
@@ -25,7 +24,7 @@ function addLayer (layer) {
 function removeLayerById (layerId) {
     const removeLayer = getLayerById(layerId);
 
-    if (removeLayer instanceof Layer2d) {
+    if (layerTypes.getLayerTypes2d().includes(removeLayer.get("typ")?.toUpperCase())) {
         mapCollection.getMap("2D")?.removeLayer(removeLayer.layer);
     }
     for (let i = 0; i < layerCollection.length; i++) {
@@ -41,13 +40,13 @@ function removeLayerById (layerId) {
  */
 function clear () {
     layerCollection.forEach(layer => {
-        if (layer instanceof Layer2d) {
+        if (layerTypes.getLayerTypes2d().includes(layer.get("typ")?.toUpperCase())) {
             const olLayer = layer.getLayer();
 
             olLayer.setVisible(false);
             mapCollection.getMap("2D")?.removeLayer(olLayer);
         }
-        else if (layer instanceof Layer3d) {
+        else if (layerTypes.getLayerTypes3d().includes(layer.get("typ")?.toUpperCase())) {
             layer.setVisible(false, mapCollection.getMap("3D"), layer.attributes);
         }
     });

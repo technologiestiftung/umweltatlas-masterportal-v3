@@ -1,5 +1,5 @@
 <script>
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 /**
 * Snippet Info
@@ -23,7 +23,8 @@ export default {
     },
     data () {
         return {
-            showInfo: false
+            showInfo: false,
+            listenerAdded: false
         };
     },
     computed: {
@@ -39,6 +40,9 @@ export default {
             return "";
         }
     },
+    beforeUnmount () {
+        document.removeEventListener("click", this.handleClickOutside);
+    },
     methods: {
         translateKeyWithPlausibilityCheck,
         /**
@@ -47,6 +51,21 @@ export default {
          */
         toggleInfo () {
             this.showInfo = !this.showInfo;
+            if (!this.listenerAdded) {
+                document.addEventListener("click", this.handleClickOutside);
+                this.listenerAdded = true;
+            }
+        },
+
+        /**
+         * Handles clicks outside the component to close the info.
+         * @param {Event} event - The click event.
+         * @returns {void}
+         */
+        handleClickOutside (event) {
+            if (this.$refs.root && !this.$refs.root.contains(event.target)) {
+                this.showInfo = false;
+            }
         }
     }
 };
@@ -54,9 +73,12 @@ export default {
 
 <template>
     <div v-if="info">
-        <div class="info-icon">
+        <div
+            ref="root"
+            class="info-icon ms-3"
+        >
             <button
-                :class="['bi bi-info-circle-fill', showInfo ? 'opened' : '']"
+                :class="['bi bi-info-circle', showInfo ? 'opened' : '']"
                 class="btn-info-icon"
                 @click="toggleInfo()"
                 @keydown.enter="toggleInfo()"
@@ -81,14 +103,15 @@ export default {
     @import "~mixins";
     @import "~variables";
     .bottom {
-        position: sticky;
+        position: absolute;
         width: 340px;
-        float: left;
+        right: 9px;
+        top: 25px;
         z-index: 1001;
-        justify-content: flex-end;
     }
     .info-icon {
         float: right;
+        margin-right: -20px;
         font-size: $font-size-lg;
         color: $dark_grey;
     }
@@ -100,9 +123,9 @@ export default {
         color: lighten($dark_grey, 15%);
     }
     .info-text {
-        border: 1px solid $light_grey;
-        border-radius: 5px;
-        background-color: rgb(241, 241, 241, 0.95);
+        border: 1px solid $dark_grey;
+        border-radius: 10px;
+        background-color: $light_grey;
         font-size: $font-size-sm;
         padding: 15px 10px;
         cursor: pointer;

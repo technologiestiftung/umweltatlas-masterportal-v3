@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import searchInTree from "../../searchInTree";
+import searchInTree from "@shared/js/utils/searchInTree.js";
 
 describe("src/utils/searchInTree.js", () => {
     const layersWithFolder =

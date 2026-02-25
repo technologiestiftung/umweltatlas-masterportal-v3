@@ -2,9 +2,10 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import crs from "@masterportal/masterportalapi/src/crs";
-import CoordToolkitComponent from "../../../components/CoordToolkit.vue";
-import CoordToolkit from "../../../store/indexCoordToolkit";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import CoordToolkitComponent from "@modules/coordToolkit/components/CoordToolkit.vue";
+import CoordToolkit from "@modules/coordToolkit/store/indexCoordToolkit.js";
+import actions from "@modules/coordToolkit/store/actionsCoordToolkit.js";
 
 const namedProjections = [
     ["EPSG:31467", "+title=Bessel/Gauß-Krüger 3 +proj=tmerc +lat_0=0 +lon_0=9 +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs"],
@@ -72,22 +73,19 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
         wrapper,
         isMobile,
         text = "",
-        origvalidateInput,
-        originitHeightLayer,
-        origtransformCoordinatesFromTo,
-        origPositionClicked,
-        copyStub;
+        copyStub,
+        validateInputSpy,
+        initHeightLayerSpy,
+        transformCoordinatesFromToSpy,
+        positionClickedSpy;
 
     beforeEach(() => {
-        origvalidateInput = CoordToolkit.actions.validateInput;
         isMobile = false;
-        originitHeightLayer = CoordToolkit.actions.initHeightLayer;
-        origtransformCoordinatesFromTo = CoordToolkit.actions.transformCoordinatesFromTo;
-        origPositionClicked = CoordToolkit.actions.positionClicked;
-        CoordToolkit.actions.validateInput = sinon.spy();
-        CoordToolkit.actions.initHeightLayer = sinon.spy();
-        CoordToolkit.actions.transformCoordinatesFromTo = sinon.spy();
-        CoordToolkit.actions.positionClicked = sinon.spy();
+
+        validateInputSpy = sinon.spy();
+        initHeightLayerSpy = sinon.spy();
+        transformCoordinatesFromToSpy = sinon.spy();
+        positionClickedSpy = sinon.spy();
 
         store = createStore({
             namespaced: true,
@@ -96,7 +94,16 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
                 Modules: {
                     namespaced: true,
                     modules: {
-                        CoordToolkit
+                        CoordToolkit: {
+                            ...CoordToolkit,
+                            actions: {
+                                ...actions,
+                                validateInput: validateInputSpy,
+                                initHeightLayer: initHeightLayerSpy,
+                                transformCoordinatesFromTo: transformCoordinatesFromToSpy,
+                                positionClicked: positionClickedSpy
+                            }
+                        }
                     }
                 },
                 Maps: {
@@ -136,10 +143,6 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
 
     afterEach(() => {
         sinon.restore();
-        CoordToolkit.actions.validateInput = origvalidateInput;
-        CoordToolkit.actions.initHeightLayer = originitHeightLayer;
-        CoordToolkit.actions.transformCoordinatesFromTo = origtransformCoordinatesFromTo;
-        CoordToolkit.actions.positionClicked = origPositionClicked;
     });
 
     it("renders CoordToolkit without height field", () => {
@@ -150,7 +153,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
 
         expect(wrapper.find("#coord-toolkit").exists()).to.be.true;
         expect(wrapper.find("#coordinatesHeightField").exists()).to.be.false;
-        expect(CoordToolkit.actions.initHeightLayer.calledOnce).to.be.false;
+        expect(initHeightLayerSpy.calledOnce).to.be.false;
     });
 
 
@@ -184,7 +187,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             }});
         await wrapper.vm.$nextTick();
 
-        expect(CoordToolkit.actions.initHeightLayer.calledOnce).to.be.true;
+        expect(initHeightLayerSpy.calledOnce).to.be.true;
     });
 
     it("has initially selected projection \"EPSG:25832\"", async () => {
@@ -225,6 +228,38 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
         await wrapper.vm.$nextTick();
 
         expect(unregisterListenerSpy.calledOnce).to.equal(true);
+    });
+
+    it("if coordToolkit is unmounted with keepMarkerVisible=false (default), marker should be removed", async () => {
+        const removeMarkerSpy = sinon.spy();
+
+        store.state.Modules.CoordToolkit.keepMarkerVisible = false;
+        wrapper = shallowMount(CoordToolkitComponent, {
+            global: {
+                plugins: [store]
+            }});
+        wrapper.vm.removeMarker = removeMarkerSpy;
+
+        wrapper.vm.$options.unmounted.call(wrapper.vm);
+        await wrapper.vm.$nextTick();
+
+        expect(removeMarkerSpy.calledOnce).to.equal(true);
+    });
+
+    it("if coordToolkit is unmounted with keepMarkerVisible=true, marker should NOT be removed", async () => {
+        const removeMarkerSpy = sinon.spy();
+
+        store.state.Modules.CoordToolkit.keepMarkerVisible = true;
+        wrapper = shallowMount(CoordToolkitComponent, {
+            global: {
+                plugins: [store]
+            }});
+        wrapper.vm.removeMarker = removeMarkerSpy;
+
+        wrapper.vm.$options.unmounted.call(wrapper.vm);
+        await wrapper.vm.$nextTick();
+
+        expect(removeMarkerSpy.called).to.equal(false);
     });
 
     describe("CoordToolkit.vue methods", () => {
@@ -394,13 +429,13 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             wrapper.vm.changeMode("supply");
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.onInputEvent("1234", {"value": "111"});
-            expect(CoordToolkit.actions.validateInput.calledOnce).to.be.false;
+            expect(validateInputSpy.calledOnce).to.be.false;
 
             wrapper.vm.changeMode("search");
             await wrapper.vm.$nextTick();
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("search");
             wrapper.vm.onInputEvent("1234", {"value": "111"});
-            expect(CoordToolkit.actions.validateInput.calledOnce).to.be.true;
+            expect(validateInputSpy.calledOnce).to.be.true;
         });
 
         it("getClassForEasting no error", async () => {
@@ -576,7 +611,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             await wrapper.vm.$nextTick();
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, [10, 20]);
-            expect(CoordToolkit.actions.positionClicked.calledOnce).to.be.true;
+            expect(positionClickedSpy.calledOnce).to.be.true;
         });
         it("watch to clickCoordinate in mode search shall not call positionClicked", async () => {
             wrapper = shallowMount(CoordToolkitComponent, {
@@ -587,7 +622,7 @@ describe("src/modules/coordToolkit/components/CoordToolkit.vue", () => {
             expect(store.state.Modules.CoordToolkit.mode).to.be.equals("supply");
             wrapper.vm.changeMode("search");
             wrapper.vm.$options.watch.clickCoordinate.handler.call(wrapper.vm, [10, 20]);
-            expect(CoordToolkit.actions.positionClicked.notCalled).to.be.true;
+            expect(positionClickedSpy.notCalled).to.be.true;
         });
     });
 });

@@ -1,10 +1,10 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
-import isObject from "../../../shared/js/utils/isObject";
-import {buildXmlFilter} from "../js/buildFilter";
-import {fieldValueChanged} from "../js/literalFunctions";
-import {buildPath, getOptions, prepareOptionsWithId} from "../js/pathFunctions";
-import requestProvider from "../js/requests";
+import isObject from "@shared/js/utils/isObject.js";
+import {buildXmlFilter} from "../js/buildFilter.js";
+import {fieldValueChanged} from "../js/literalFunctions.js";
+import {buildPath, getOptions, prepareOptionsWithId} from "../js/pathFunctions.js";
+import requestProvider from "../js/requests.js";
 
 /**
  * Validates that the prop for the type is correct.
@@ -170,6 +170,29 @@ export default {
     watch: {
         currentInstanceIndex () {
             this.updateCurrentInstanceOptions();
+        },
+        selectableOptions (newOptions) {
+            if (this.value) {
+                const option = Array.isArray(this.options) && !isObject(this.options[0]) ? this.options[0] : this.options,
+                    indexInNewOptions = newOptions.findIndex(e => e.fieldValue === this.value);
+
+                if (newOptions.length === 0 || (this.selectedOptions[option] === undefined && indexInNewOptions === -1) || (this.selectedOptions[option] !== undefined && indexInNewOptions > -1 && newOptions.findIndex(e => e.fieldValue === this.value) !== this.selectedOptions[option]?.index)) {
+                    this.value = undefined;
+                    fieldValueChanged(this.selectableParameters.fieldId, this.value, this.currentInstance.literals, this.requiredValues, this.parameterIndex);
+                    this.$el.querySelector("select").value = undefined;
+                }
+            }
+        },
+        selectedOptions () {
+            if (this.value) {
+                if (typeof this.options !== "string") {
+                    if (this.$el.querySelector("input")) {
+                        this.$el.querySelector("input").value = "";
+                        this.value = undefined;
+                        fieldValueChanged(this.selectableParameters.fieldId, this.value, this.currentInstance.literals, this.requiredValues, this.parameterIndex);
+                    }
+                }
+            }
         }
     },
     mounted () {
@@ -183,7 +206,7 @@ export default {
             "addOptions"
         ]),
         /**
-         * Update the addedOptions field for the current instance.         *
+         * Update the addedOptions field for the current instance.
          * @returns {void}
          */
         updateCurrentInstanceOptions () {

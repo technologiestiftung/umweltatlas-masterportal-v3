@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import validator from "../../../js/validator";
+import validator from "@modules/legend/js/validator.js";
 
 describe("src/modules/legend/js/validator.js", function () {
     describe("isValidLegendObj", () => {

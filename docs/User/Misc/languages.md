@@ -112,8 +112,6 @@ The layer tree (de: "Themenbaum") can be translated as well.
 
 >⚠️ **Plate note**: Adding a translation key to a layer tree entry will overwrite any title or name of the service.
 
-If the tree.type is `"default"` or `"custom"`, folder names can be specified. In the following example, the tree would show the value for the key `"foo.bar.exampleSubjectData"` instead of "Subject data".
-
 Default translations:
 
 * Baselayer: "Baselayers" (de: "Baselayer")
@@ -157,10 +155,10 @@ The language files can be found under `./addons/{addon-name}/locales/{language}/
 A translation is implemented this way:
 
 ```js
-i18next.t("additional:modules.tools.example.title"),
+i18next.t("additional:modules.example.title"),
 ```
 
-[See this for an example.](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev_vue/populationRequest/)
+[See this for an example.](https://bitbucket.org/geowerkstatt-hamburg/addons/src/dev/populationRequest/)
 
 ## Interesting i18nxt translation functions
 

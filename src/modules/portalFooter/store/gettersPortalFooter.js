@@ -1,5 +1,5 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import statePortalFooter from "./statePortalFooter";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import statePortalFooter from "./statePortalFooter.js";
 
 const getters = {
     ...generateSimpleGetters(statePortalFooter)

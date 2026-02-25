@@ -1,51 +1,65 @@
 <script>
-import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "@shared/modules/graphicalSelect/js/definitionsGraphicalSelect.js";
 import {mapGetters, mapActions, mapMutations} from "vuex";
 import Draw, {createBox} from "ol/interaction/Draw.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import {Circle} from "ol/geom.js";
+import Feature from "ol/Feature.js";
 
+/**
+ * GraphicalSelect component: selection of geometries on the map
+ *  @module shared/modules/graphicalSelect/GraphicalSelect
+ * @vue-prop {String} selectElement The used template element for graphical selection
+ * @vue-prop {String} selectedOption preselected draw modus: Box|Circle|Polygon|Line
+ * @vue-prop {Object} options The keys corresponds to the ol draw modus and the values to the elements text content.
+ * @vue-prop {Boolean} focusOnCreation - if focus should be set to this component when it is created
+ * @vue-prop {String} label The label of the select
+ * @vue-prop {String} description The description over the select
+ * @vue-prop {Object} startGeometry Use existing geometry
+ * @vue-prop {Number} bufferDistance Buffer distance for line geometries in meters
+ */
 export default {
     name: "GraphicalSelect",
     props: {
-        // The used template element for graphical selection
         selectElement: {
             type: String,
             required: false,
             default: "Dropdown"
-
         },
-        // preselected draw modus
         selectedOption: {
             type: String,
             required: false,
             default: "Box"
-
         },
-        // The keys corresponds to the ol draw modus
-        // and the values to the elements text content.
         options: {
             type: Object,
             required: false,
             default: undefined
         },
-        // if focus should be set to this component when it is created
         focusOnCreation: {
             type: Boolean,
             default: false,
             required: false
         },
-        // The label of the select
         label: {
             type: String,
             required: true
         },
-        // The description over the select
         description: {
             type: String,
             default: "",
             required: false
+        },
+        startGeometry: {
+            type: Object,
+            required: false,
+            default: undefined
+        },
+        bufferDistance: {
+            type: Number,
+            required: false,
+            default: 100
         }
     },
     data () {
@@ -53,7 +67,10 @@ export default {
             selectedOptionData: this.selectedOption,
             circleOverlay: definitionsGraphicalSelect.circleOverlay,
             tooltipOverlay: definitionsGraphicalSelect.tooltipOverlay,
-            drawInteraction: definitionsGraphicalSelect.drawInteraction
+            drawInteraction: definitionsGraphicalSelect.drawInteraction,
+            bufferDistanceData: this.bufferDistance,
+            lineDrawn: false,
+            currentLineGeometry: null
         };
     },
     computed: {
@@ -67,8 +84,14 @@ export default {
             return this.options ? this.options : {
                 "Box": this.$t("common:shared.modules.graphicalSelect.selectBySquare"),
                 "Circle": this.$t("common:shared.modules.graphicalSelect.selectByCircle"),
-                "Polygon": this.$t("common:shared.modules.graphicalSelect.selectByPolygon")
+                "Polygon": this.$t("common:shared.modules.graphicalSelect.selectByPolygon"),
+                "Line": this.$t("common:shared.modules.graphicalSelect.selectByLine")
             };
+        }
+    },
+    watch: {
+        drawEndData (newData) {
+            this.$emit("onDrawEnd", newData);
         }
     },
 
@@ -94,13 +117,15 @@ export default {
         ...mapMutations("Modules/GraphicalSelect", [
             "setDefaultSelection",
             "setActive",
-            "setCurrentValue"
+            "setCurrentValue",
+            "setBufferDistance"
         ]),
         ...mapActions("Modules/GraphicalSelect", [
             "createDomOverlay",
             "showTooltipOverlay",
             "toggleOverlay",
-            "updateDrawInteractionListener"
+            "updateDrawInteractionListener",
+            "createBufferFromLine"
         ]),
         ...mapActions("Maps", [
             "addLayer",
@@ -142,7 +167,7 @@ export default {
          * @returns {void}
          */
         checkOptions: function () {
-            if (!this.geographicValues.every(key => Object.keys(this.optionsValue).includes(key))) {
+            if (!Object.keys(this.optionsValue).every(key => this.geographicValues.includes(key))) {
                 this.addSingleAlert({
                     "content": this.$t("common:shared.modules.graphicalSelect.alert.notSupportedOption") + this.geographicValues
                 });
@@ -243,7 +268,62 @@ export default {
         },
 
         /**
-         * Create the draw interaction Box |Circle |Polygon
+         * Handles the line drawing end event and creates a buffer around the line
+         * @param {Object} evt - Draw end event
+         * @returns {void}
+         */
+        handleLineDrawEnd: function (evt) {
+            const feature = evt.feature,
+                geometry = feature.getGeometry();
+
+            if (!geometry) {
+                return;
+            }
+
+            this.currentLineGeometry = geometry.clone();
+            this.lineDrawn = true;
+            this.createBufferFromLine({geometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
+        },
+
+        /**
+         * Updates the buffer when the buffer distance changes (during slider movement)
+         * @param {Event} event - Input event with new buffer distance
+         * @returns {void}
+         */
+        updateBufferDistance: function (event) {
+            const newValue = Number(event.target.value);
+
+            if (isNaN(newValue) || newValue < 1 || newValue > 1000) {
+                return;
+            }
+            this.bufferDistanceData = newValue;
+            this.setBufferDistance(newValue);
+
+            if (this.lineDrawn && this.currentLineGeometry) {
+                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: false});
+            }
+        },
+        /**
+         * Finalizes the buffer when the slider is released
+         * @returns {void}
+         */
+        finalizeBufferDistance: function () {
+            if (this.lineDrawn && this.currentLineGeometry) {
+                this.createBufferFromLine({geometry: this.currentLineGeometry, layer: this.layer, bufferDistance: this.bufferDistanceData, triggerEvent: true});
+            }
+        },
+
+        /**
+         * Reset the state when switching to a different drawing type
+         * @returns {void}
+         */
+        resetLineState: function () {
+            this.lineDrawn = false;
+            this.currentLineGeometry = null;
+        },
+
+        /**
+         * Create the draw interaction Box|Circle|Polygon|Line
          * @todo Replace if removeOverlay and pointermove is available in vue
          * @returns {void}
          */
@@ -251,8 +331,31 @@ export default {
             const geometryFunction = createBox(),
                 drawtype = this.selectedOptionData;
 
-            if (this.layer) {
+            this.resetLineState();
+
+            if (this.layer && !this.startGeometry) {
                 this.resetView(this.layer);
+            }
+            else if (this.startGeometry) {
+                if (this.layer) {
+                    this.layer?.getSource().clear();
+                    mapCollection.getMap("2D").removeLayer(this.layer);
+                }
+
+                this.removeInteraction(this.draw);
+
+                const polygonSource = new VectorSource({
+                    features: [new Feature({
+                        geometry: this.startGeometry
+                    })]
+                });
+
+                this.layer = new VectorLayer({
+                    id: "geometry_selection_layer",
+                    name: "Geometry-Selection",
+                    source: polygonSource,
+                    alwaysOnTop: true
+                });
             }
             else {
                 this.layer = new VectorLayer({
@@ -266,8 +369,8 @@ export default {
             // createBox() and type: 'Circle' return a box instead of a circle geometry
             this.draw = new Draw({
                 source: this.layer.getSource(),
-                type: drawtype === "Box" ? "Circle" : drawtype,
-                geometryFunction: drawtype === "Polygon" ? undefined : (coordinates, opt_geom) => {
+                type: this.getDrawType(drawtype),
+                geometryFunction: drawtype === "Polygon" || drawtype === "Line" ? undefined : (coordinates, opt_geom) => {
                     if (drawtype === "Box") {
                         return geometryFunction(coordinates, opt_geom);
                     }
@@ -275,15 +378,34 @@ export default {
                 }
             });
 
+            if (drawtype === "Line") {
+                this.draw.on("drawend", this.handleLineDrawEnd);
+            }
+
             this.addInteraction(this.draw);
             this.setCurrentValue(drawtype);
             this.toggleOverlay({type: drawtype, overlayCircle: this.circleOverlay, overlayTool: this.tooltipOverlay});
             this.updateDrawInteractionListener({interaction: this.draw, layer: this.layer, vm: this});
             this.drawInteraction = this.draw;
-            this.registerListener({type: "pointermove", listener: this.showTooltipOverlay});
+            this.registerListener({type: "pointermove", listener: this.showTooltipOverlay, keyForBoundFunctions: "graphicalSelect_pointermove"});
             if (!mapCollection.getMap("2D").getLayers().getArray().find(l => l.get("id") === this.layer.get("id"))) {
                 this.addLayer(this.layer);
             }
+        },
+
+        /**
+         * Determines the draw type for OpenLayers based on the selected option
+         * @param {String} drawtype - The selected draw type
+         * @returns {String} The OpenLayers draw type
+         */
+        getDrawType: function (drawtype) {
+            if (drawtype === "Box") {
+                return "Circle";
+            }
+            else if (drawtype === "Line") {
+                return "LineString";
+            }
+            return drawtype;
         }
     }
 };
@@ -316,6 +438,42 @@ export default {
         <label for="graphicalSelect">
             {{ $t(label) }}
         </label>
+    </div>
+    <!-- Buffer distance control - only visible when Line is selected and drawn -->
+    <div
+        v-if="selectedOptionData === 'Line' && lineDrawn"
+        class="mb-3"
+    >
+        <label
+            for="buffer-distance"
+            class="form-label"
+        >
+            {{ $t("common:shared.modules.graphicalSelect.bufferDistance") }}
+        </label>
+        <div class="d-flex align-items-center">
+            <input
+                id="buffer-distance"
+                type="range"
+                class="form-range me-2"
+                min="1"
+                max="1000"
+                step="1"
+                :value="bufferDistanceData"
+                style="flex-grow: 1;"
+                @input="updateBufferDistance"
+                @change="finalizeBufferDistance"
+            >
+            <input
+                type="number"
+                class="form-control"
+                min="1"
+                max="1000"
+                :value="bufferDistanceData"
+                style="width: 80px;"
+                @input="updateBufferDistance"
+                @change="finalizeBufferDistance"
+            >
+        </div>
     </div>
 </template>
 

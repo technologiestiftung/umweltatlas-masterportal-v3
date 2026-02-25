@@ -1,7 +1,13 @@
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import routingState from "./stateRouting";
-import * as constantsRouting from "./constantsRouting";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import routingState from "./stateRouting.js";
+import DirectionsItem from "../components/Directions/DirectionsItem.vue";
+import IsochronesItem from "../components/Isochrones/IsochronesItem.vue";
+import TsrItem from "../components/TSR/TsrItem.vue";
 
+/**
+ * The gettters for the routing module.
+ * @module modules/routing/store/getters
+ */
 const getters = {
     /**
      * Returns an object of simple getters for a state object, where
@@ -21,13 +27,18 @@ const getters = {
      * @returns {String[]} routing tool options
      */
     filteredRoutingToolOptions ({routingToolOptions}) {
+        const constantOptions = [
+            {id: "DIRECTIONS", component: DirectionsItem},
+            {id: "ISOCHRONES", component: IsochronesItem},
+            {id: "TSR", component: TsrItem}
+        ];
         let options = routingToolOptions;
 
         if (options.length === 0) {
-            options = ["DIRECTIONS", "ISOCHRONES"];
+            options = ["DIRECTIONS", "ISOCHRONES", "TSR"];
         }
 
-        return constantsRouting.routingToolOptions.filter(option => options.includes(option.id));
+        return constantOptions.filter(option => options.includes(option.id));
     },
 
     /**

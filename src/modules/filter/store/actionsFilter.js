@@ -2,8 +2,8 @@ import {isRule} from "../utils/isRule.js";
 import {GeoJSON} from "ol/format.js";
 import {
     Polygon
-} from "ol/geom";
-import isObject from "../../../shared/js/utils/isObject.js";
+} from "ol/geom.js";
+import isObject from "@shared/js/utils/isObject.js";
 import {getFeaturesOfAdditionalGeometries} from "../utils/getFeaturesOfAdditionalGeometries.js";
 
 export default {
@@ -46,7 +46,7 @@ export default {
         }
         else {
             try {
-                rules = JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId]));
+                rules = typeof context.state.rulesOfFilters?.[filterId] !== "undefined" ? JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId])) : [];
             }
             catch (error) {
                 console.warn("Cannot parse rules in action updateRules", error);
@@ -73,7 +73,7 @@ export default {
         let rules;
 
         try {
-            rules = JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId]));
+            rules = typeof context.state.rulesOfFilters?.[filterId] !== "undefined" ? JSON.parse(JSON.stringify(context.state.rulesOfFilters[filterId])) : [];
         }
         catch (error) {
             console.warn("Cannot parse rules in action updateRules", error);

@@ -1,14 +1,18 @@
-import {fetchRoutingOrsIsochrones} from "../../js/isochrones/routing-ors-isochrones";
-import Polygon from "ol/geom/Polygon";
-import Feature from "ol/Feature";
+import {fetchRoutingOrsIsochrones} from "../../js/isochrones/routing-ors-isochrones.js";
+import Polygon from "ol/geom/Polygon.js";
+import Feature from "ol/Feature.js";
 
+/**
+ * The actions for the routing isochrones.
+ * @module modules/routing/store/isochrones/actions
+ */
 export default {
     /**
      * Finds the Route for the current waypoints.
      * @param {Object} context actions context object.
      * @returns {void}
      */
-    async findIsochrones ({rootState, state, dispatch, commit}) {
+    async findIsochrones ({rootState, state, getters, dispatch, commit}) {
         if (state?.waypoint?.getCoordinates().length < 2) {
             return;
         }
@@ -19,6 +23,16 @@ export default {
                 {root: true}
             ),
             map = mapCollection.getMap(rootState.Maps.mode);
+
+        if (!getters.allHGVRestrictionsValid && state.settings.speedProfile === "HGV") {
+            await dispatch("resetIsochronesResult");
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                title: i18next.t("common:modules.routing.errors.titleErrorIsochroneFetch"),
+                content: i18next.t("common:modules.routing.errors.hgvRestrictionOutOfRange")
+            }, {root: true});
+            return;
+        }
 
         commit("setIsLoadingIsochrones", true);
         await dispatch("resetIsochronesResult");
@@ -36,7 +50,9 @@ export default {
                         speedProfile: area.getSpeedProfile(),
                         optimization: area.getOptimization(),
                         color: area.getColor(),
-                        avoidSpeedProfileOptions: area.getAvoidSpeedProfileOptions()
+                        avoidSpeedProfileOptions: area.getAvoidSpeedProfileOptions(),
+                        ...area.getPopulation() && {population: area.getPopulation()},
+                        ...area.getArea() && {area: area.getArea()}
                     })
                 )
             );
@@ -85,7 +101,8 @@ export default {
      */
     async fetchIsochrones ({state, dispatch, getters, rootState}, {wgs84Coords, transformCoordinates}) {
         const isoChroneSettings = rootState.Modules.Routing.isochronesSettings,
-            {selectedAvoidSpeedProfileOptions} = getters;
+            {selectedAvoidSpeedProfileOptions} = getters,
+            avoidBorders = selectedAvoidSpeedProfileOptions.find(o => o.id === "BORDERS");
 
         if (isoChroneSettings.type === "ORS") {
             return fetchRoutingOrsIsochrones({
@@ -97,8 +114,9 @@ export default {
                 ),
                 speedProfile: state.settings.speedProfile,
                 optimization: state.settings.isochronesMethodOption,
-                avoidSpeedProfileOptions: selectedAvoidSpeedProfileOptions,
-                transformCoordinates: transformCoordinates
+                avoidSpeedProfileOptions: selectedAvoidSpeedProfileOptions.filter(o => o.id !== "BORDERS"),
+                transformCoordinates: transformCoordinates,
+                avoidBorders: avoidBorders
             });
         }
 
@@ -173,14 +191,6 @@ export default {
      */
     createIsochronePointModifyInteractionListener ({state, dispatch}) {
         const {isochronesPointModifyInteraction, waypoint} = state;
-        let newCoordinates;
-
-        isochronesPointModifyInteraction.on("modifystart", event => {
-            newCoordinates = event.features
-                .getArray()[0]
-                .getGeometry()
-                .getCoordinates();
-        });
 
         isochronesPointModifyInteraction.on("modifyend", async () => {
             const coordinates = await dispatch(
@@ -195,7 +205,7 @@ export default {
                     },
                     {root: true}
                 ),
-                displayName = geoSearchResult ? geoSearchResult.getDisplayName() : newCoordinates;
+                displayName = geoSearchResult ? geoSearchResult.getDisplayName() : waypoint.getCoordinates();
 
             waypoint.setDisplayName(displayName);
         });

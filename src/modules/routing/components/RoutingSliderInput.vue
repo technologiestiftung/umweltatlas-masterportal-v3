@@ -1,8 +1,8 @@
 <script>
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 /**
  * RoutingSliderInput
- * @module modules/RoutingSliderInput
+ * @module modules/routing/components/RoutingSliderInput
  * @vue-prop {String} label - The label for the input.
  * @vue-prop {String} value - The value for the input.
  * @vue-prop {Number} min - The min value for the inputrange.
@@ -57,12 +57,25 @@ export default {
         <label :for="'routing-slider-input-' + label">
             <h6>{{ label }}</h6>
         </label>
-        <div class="d-flex justify-content-between">
+        <div
+            v-if="label !== $t('common:modules.routing.isochrones.interval.count')"
+            class="d-flex justify-content-between"
+        >
             <span>{{ min }} {{ unit }}</span>
             <span>
                 <b>{{ value }}</b> <span>{{ unit }}</span>
             </span>
             <span>{{ max }} {{ unit }}</span>
+        </div>
+        <div
+            v-else
+            class="d-flex justify-content-between"
+        >
+            <span>{{ min }}</span>
+            <span>
+                <b>{{ value }}</b>
+            </span>
+            <span>{{ max }}</span>
         </div>
 
         <SliderItem
@@ -76,6 +89,7 @@ export default {
             :step="step"
             :disabled="disabled"
             :interaction="$event=> $emit('input', Number($event.target.value))"
+            :show-markers="true"
         />
     </div>
 </template>

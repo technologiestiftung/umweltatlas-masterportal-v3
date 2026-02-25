@@ -1,9 +1,13 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsPrint";
+import testAction from "@devtools/tests/VueTestUtils.js";
+import actions from "@modules/print/store/actionsPrint.js";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
 
 const {activatePrintStarted, getMetaDataForPrint, createPrintJob, migratePayload, waitForPrintJob, waitForPrintJobSuccess, downloadFile} = actions;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/print/store/actionsPrint", function () {
     describe("activatePrintStarted", function () {
@@ -157,6 +161,54 @@ describe("src/modules/print/store/actionsPrint", function () {
                 {type: "sendRequest", payload: serviceRequest, dispatch: true}
             ], {}, done);
         });
+        it("should trigger addSingleAlert when response.status is 'error'", done => {
+            const state = {
+                    serviceUrl: "https://geodienste.hamburg.de/mapfish_print_internet/print/",
+                    printAppId: "master"
+                },
+                response = {
+                    status: "error"
+                },
+                expectedActions = [
+                    {
+                        type: "Alerting/addSingleAlert",
+                        payload: {
+                            category: "error",
+                            content: i18next.t("common:modules.print.waitForPrintErrorMessage")
+                        },
+                        dispatch: true
+                    },
+                    {type: "setPrintStarted", payload: false, commit: true},
+                    {type: "setFileDownloads", payload: [], commit: true}
+                ];
+
+            testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
+        });
+    });
+    it("should trigger addSingleAlert when response.data.status is 'error'", done => {
+        const state = {
+                serviceUrl: "https://geodienste.hamburg.de/mapfish_print_internet/print/",
+                printAppId: "master"
+            },
+            response = {
+                data: {
+                    status: "error"
+                }
+            },
+            expectedActions = [
+                {
+                    type: "Alerting/addSingleAlert",
+                    payload: {
+                        category: "error",
+                        content: i18next.t("common:modules.print.waitForPrintErrorMessage")
+                    },
+                    dispatch: true
+                },
+                {type: "setPrintStarted", payload: false, commit: true},
+                {type: "setFileDownloads", payload: [], commit: true}
+            ];
+
+        testAction(waitForPrintJobSuccess, response, state, {}, expectedActions, {}, done);
     });
 
     describe("waitForPrintJobSuccess", function () {

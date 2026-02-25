@@ -1,6 +1,8 @@
 const {config, enableAutoUnmount} = require("@vue/test-utils");
 const canvas = require("canvas");
 const sinon = require("sinon");
+const {expect} = require("chai");
+const mapCollection = require("../../src/core/maps/js/mapCollection.js");
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
@@ -75,7 +77,20 @@ global.CanvasPattern = canvas.CanvasPattern;
  */
 enableAutoUnmount(afterEach);
 
-// root hook to run after every test (even in other files)
-afterEach(function () {
+/**
+ * Global root hook to run before every test.
+ */
+beforeEach(() => {
     sinon.restore();
 });
+
+/**
+ * Global root hook to run after every test.
+ * Clears mapCollection after each test.
+ */
+afterEach(function () {
+    sinon.restore();
+    mapCollection.default.clear();
+    expect(mapCollection.default.isEmpty()).to.be.true;
+});
+

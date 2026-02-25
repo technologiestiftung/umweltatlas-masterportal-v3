@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getFeatureGET, getFeaturePOST} from "../../../wfs/getFeature.js";
+import {getFeatureGET, getFeaturePOST} from "@shared/js/api/wfs/getFeature.js";
 
 describe("src/api/wfs/js", () => {
     describe("getFeatureGET", () => {

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import SwitchInput from "../../../shared/modules/checkboxes/components/SwitchInput.vue";
+import SwitchInput from "@shared/modules/checkboxes/components/SwitchInput.vue";
 
 /**
  * Alerting
@@ -289,7 +289,7 @@ export default {
                                     class="d-flex justify-content-between mb-3"
                                 >
                                     <h3>
-                                        {{ singleAlert.title }}
+                                        {{ $t(singleAlert.title) }}
                                     </h3>
                                     <button
                                         v-if="sortedAlerts(sortedAlertsSwitch).length >1"

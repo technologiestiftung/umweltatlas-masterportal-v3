@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import stateLayerSelection from "./stateLayerSelection";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateLayerSelection from "./stateLayerSelection.js";
 
 const mutations = {
     ...generateSimpleMutations(stateLayerSelection),

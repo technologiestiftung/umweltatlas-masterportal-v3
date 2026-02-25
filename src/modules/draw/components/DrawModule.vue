@@ -1,12 +1,12 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
 import VectorLayer from "ol/layer/Vector.js";
-import VectorSource from "ol/source/Vector";
+import VectorSource from "ol/source/Vector.js";
 
-import DrawEdit from "../../../shared/modules/draw/components/DrawEdit.vue";
-import DrawLayout from "../../../shared/modules/draw/components/DrawLayout.vue";
-import DrawSettingsCircle from "../../../shared/modules/draw/components/DrawSettingsCircle.vue";
-import DrawTypes from "../../../shared/modules/draw/components/DrawTypes.vue";
+import DrawEdit from "@shared/modules/draw/components/DrawEdit.vue";
+import DrawLayout from "@shared/modules/draw/components/DrawLayout.vue";
+import DrawSettingsCircle from "@shared/modules/draw/components/DrawSettingsCircle.vue";
+import DrawTypes from "@shared/modules/draw/components/DrawTypes.vue";
 
 /**
  * Modules to make drawings.
@@ -108,45 +108,52 @@ export default {
             id="draw-types"
             class="mb-5"
         >
-            <DrawTypes
-                :circle-options="circleOptions"
-                :current-layout="currentLayout"
-                :current-layout-outer-circle="currentLayoutOuterCircle"
-                :draw-icons="drawIcons"
-                :draw-types="drawTypesMain"
-                :selected-draw-type="selectedDrawType"
-                :selected-draw-type-main="selectedDrawTypeMain"
-                :selected-interaction="selectedInteraction"
-                :set-selected-draw-type="setSelectedDrawType"
-                :set-selected-draw-type-main="setSelectedDrawTypeMain"
-                :set-selected-interaction="setSelectedInteraction"
-                :source="source"
-                :should-emit-events="false"
-            />
-            <DrawTypes
-                v-if="selectedDrawTypeMain === 'geometries'"
-                class="mt-4"
-                :circle-options="circleOptions"
-                :current-layout="currentLayout"
-                :current-layout-outer-circle="currentLayoutOuterCircle"
-                :draw-icons="drawIcons"
-                :draw-types="drawTypesGeometrie"
-                :selected-draw-type="selectedDrawType"
-                :set-selected-draw-type="setSelectedDrawType"
-                :source="source"
-                :should-emit-events="false"
-            />
-            <DrawTypes
-                v-else-if="selectedDrawTypeMain === 'symbols'"
-                class="mt-4"
-                :current-layout="currentLayout"
-                :draw-icons="drawIcons"
-                :draw-types="drawTypesSymbols"
-                :selected-draw-type="selectedDrawType"
-                :set-selected-draw-type="setSelectedDrawType"
-                :source="source"
-                :should-emit-events="false"
-            />
+            <div class="d-flex mb-5 align-items-center">
+                <DrawTypes
+                    :circle-options="circleOptions"
+                    :current-layout="currentLayout"
+                    :current-layout-outer-circle="currentLayoutOuterCircle"
+                    :draw-icons="drawIcons"
+                    :draw-types="drawTypesMain"
+                    :selected-draw-type="selectedDrawType"
+                    :selected-draw-type-main="selectedDrawTypeMain"
+                    :selected-interaction="selectedInteraction"
+                    :set-selected-draw-type="setSelectedDrawType"
+                    :set-selected-draw-type-main="setSelectedDrawTypeMain"
+                    :set-selected-interaction="setSelectedInteraction"
+                    :source="source"
+                    :should-emit-events="false"
+                />
+            </div>
+            <div
+                v-if="selectedDrawTypeMain === 'geometries' || selectedDrawTypeMain === 'symbols'"
+                class="d-flex mb-5 align-items-center"
+            >
+                <DrawTypes
+                    v-if="selectedDrawTypeMain === 'geometries'"
+                    class="mt-4"
+                    :circle-options="circleOptions"
+                    :current-layout="currentLayout"
+                    :current-layout-outer-circle="currentLayoutOuterCircle"
+                    :draw-icons="drawIcons"
+                    :draw-types="drawTypesGeometrie"
+                    :selected-draw-type="selectedDrawType"
+                    :set-selected-draw-type="setSelectedDrawType"
+                    :source="source"
+                    :should-emit-events="false"
+                />
+                <DrawTypes
+                    v-else-if="selectedDrawTypeMain === 'symbols'"
+                    class="mt-4"
+                    :current-layout="currentLayout"
+                    :draw-icons="drawIcons"
+                    :draw-types="drawTypesSymbols"
+                    :selected-draw-type="selectedDrawType"
+                    :set-selected-draw-type="setSelectedDrawType"
+                    :source="source"
+                    :should-emit-events="false"
+                />
+            </div>
         </div>
         <div
             id="draw-layouts"

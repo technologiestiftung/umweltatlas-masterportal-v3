@@ -1,23 +1,28 @@
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import WMTSTileGrid from "ol/tilegrid/WMTS";
-import TileGrid from "ol/tilegrid/TileGrid";
+import WMTSTileGrid from "ol/tilegrid/WMTS.js";
+import TileGrid from "ol/tilegrid/TileGrid.js";
 import {Style as OlStyle} from "ol/style.js";
 import {TileWMS, ImageWMS, WMTS} from "ol/source.js";
 import {Tile, Vector} from "ol/layer.js";
 import {expect} from "chai";
-import createTestFeatures from "./testHelper";
+import createTestFeatures from "./testHelper.js";
 import Feature from "ol/Feature.js";
 import {Polygon} from "ol/geom.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
-import measureStyle from "./../../../../measure/js/measureStyle";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
+import WebGlTileLayer from "ol/layer/WebGLTile.js";
+import GeoTiffSource from "ol/source/GeoTIFF.js";
+import measureStyle from "@modules/measure/js/measureStyle.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
 import sinon from "sinon";
-import BuildSpec from "../../../js/buildSpec";
+import BuildSpec from "@modules/print/js/buildSpec.js";
 import Circle from "ol/geom/Circle.js";
-import CircleStyle from "ol/style/Circle";
-import IconStyle from "ol/style/Icon";
+import CircleStyle from "ol/style/Circle.js";
+import IconStyle from "ol/style/Icon.js";
+import {createStore} from "vuex";
+
+import store from "@appstore/index.js";
 
 describe("src/modules/print/js/buildSpec", function () {
     let buildSpec,
@@ -395,6 +400,224 @@ describe("src/modules/print/js/buildSpec", function () {
                 label: "name_WMS"
             }]);
         });
+        it("should return prepared legend for a linestring geometry with svg style", function () {
+            const legend = [
+                {
+                    graphic: "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M 05 30 L 30 05' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='4' stroke-dasharray='20 10' fill='none'/></svg>",
+                    name: "name_lineString_json"
+                }];
+
+            expect(buildSpec.prepareLegendAttributes(legend)).to.deep.equal([
+                {
+                    legendType: "geometry",
+                    geometryType: "lineString",
+                    imageUrl: "",
+                    color: "",
+                    label: "name_lineString_json",
+                    svg: "<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M 05 30 L 30 05' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='4' stroke-dasharray='20 10' fill='none'/></svg>"
+                }
+            ]);
+        });
+    });
+
+    describe("BuildSpec", function () {
+        describe("buildLegend", function () {
+            let getResponseStub,
+                mockStore;
+
+            /**
+             * Returns the default print settings used for initializing the print store state.
+             *
+             * @returns {Object} The default print configuration including visible layers, layout, map attributes, legend, and output format.
+             */
+            function getDefaultPrintSettings () {
+                return {
+                    visibleLayerIds: ["layer1", "layer2"],
+                    layout: "A4 Hochformat",
+                    attributes: {
+                        title: "TestTitel",
+                        map: {
+                            dpi: 96,
+                            projection: "EPSG:25832",
+                            center: [0, 0],
+                            scale: 40000
+                        },
+                        legend: {layers: []}
+                    },
+                    outputFormat: "pdf"
+                };
+            }
+
+            /**
+             * Creates a Vuex mock store with predefined Legend and Print modules.
+             *
+             * @param {Array<Object>} legends - An array of legend objects, each containing at least an `id`, `name`, and `legend` array.
+             * @returns {Object} A Vuex store instance configured for unit testing.
+             */
+            function createMockStore (legends) {
+                return createStore({
+                    modules: {
+                        Modules: {
+                            namespaced: true,
+                            modules: {
+                                Legend: {
+                                    namespaced: true,
+                                    getters: {
+                                        legends: () => legends,
+                                        sldVersion: () => "1.1.0"
+                                    }
+                                },
+                                Print: {
+                                    namespaced: true,
+                                    state: {
+                                        defaults: getDefaultPrintSettings()
+                                    },
+                                    actions: {
+                                        createPrintJob: sinon.stub()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            beforeEach(() => {
+                const legends = [
+                    {id: "layer1", name: "Layer 1", legend: ["image1.png"]},
+                    {id: "layer2", name: "Layer 2", legend: ["image2.png"]}
+                ];
+
+                mockStore = createMockStore(legends);
+
+                buildSpec.store = mockStore;
+                buildSpec.defaults = getDefaultPrintSettings();
+
+                getResponseStub = sinon.stub().resolves({});
+                sinon.stub(buildSpec, "hashImage").callsFake(async (url) => {
+                    return url === "image1.png" ? "hash1" : "hash2";
+                });
+                sinon.stub(buildSpec, "getMetaData").resolves();
+            });
+
+            afterEach(() => {
+                sinon.restore();
+            });
+
+            it("should generate legend object with unique images", async () => {
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, true, getResponseStub, 1);
+
+                expect(buildSpec.hashImage.callCount).to.equal(2);
+                expect(mockStore._actions["Modules/Print/createPrintJob"]).to.exist;
+            });
+
+            it("should skip adding duplicate images to the legend", async () => {
+                const legends = [
+                        {id: "layer1", name: "Layer 1", legend: ["image1.png"]},
+                        {id: "layer2", name: "Layer 2", legend: ["image1.png"]}
+                    ],
+                    duplicateStore = createMockStore(legends);
+
+                buildSpec.store = duplicateStore;
+                store.getters = duplicateStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                buildSpec.hashImage.restore();
+                sinon.stub(buildSpec, "hashImage").resolves("sameHash");
+
+                await buildSpec.buildLegend(true, false, getResponseStub, 1);
+
+                expect(buildSpec.hashImage.callCount).to.equal(2);
+                expect(buildSpec.defaults.attributes.legend.layers).to.have.lengthOf(1);
+            });
+
+            it("should handle metadata retrieval when available", async () => {
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, true, getResponseStub, 1);
+
+                expect(buildSpec.getMetaData.called).to.be.true;
+            });
+
+            it("should not crash if image hashing fails", async () => {
+                buildSpec.hashImage.restore();
+                sinon.stub(buildSpec, "hashImage").resolves(null);
+
+                store.getters = mockStore.getters;
+                store.state.defaults = getDefaultPrintSettings();
+
+                await buildSpec.buildLegend(true, false, getResponseStub, 1);
+
+                expect(mockStore._actions["Modules/Print/createPrintJob"]).to.exist;
+            });
+
+            it("getLegendImageUrl returns string URL if legend[0] is string", () => {
+                const legendObj = {legend: ["image.png"]},
+                    result = buildSpec.getLegendImageUrl(legendObj);
+
+                expect(result).to.equal("image.png");
+            });
+
+            it("getLegendImageUrl returns graphic if legend[0] is object", () => {
+                const legendObj = {legend: [{graphic: "img.png"}]},
+                    result = buildSpec.getLegendImageUrl(legendObj);
+
+                expect(result).to.equal("img.png");
+            });
+
+            it("getLegendImageUrl returns null if legend is empty", () => {
+                const legendObj = {legend: []},
+                    result = buildSpec.getLegendImageUrl(legendObj);
+
+                expect(result).to.be.null;
+            });
+
+            it("updateHashMap creates new entry if hash does not exist", () => {
+                const hashMap = {},
+                    legendObj = {name: "Layer A", legend: ["a.png"]};
+
+                sinon.stub(buildSpec, "prepareLegendAttributes").returns(["prepared"]);
+
+                buildSpec.updateHashMap(hashMap, "hash1", legendObj);
+
+                expect(hashMap.hash1.names).to.include("Layer A");
+                expect(hashMap.hash1.values).to.deep.equal(["prepared"]);
+            });
+
+            it("updateHashMap appends name if hash already exists", () => {
+                const hashMap = {hash1: {names: ["Layer A"], values: ["prepared"]}},
+                    legendObj = {name: "Layer B", legend: ["b.png"]};
+
+                buildSpec.updateHashMap(hashMap, "hash1", legendObj);
+
+                expect(hashMap.hash1.names).to.deep.equal(["Layer A", "Layer B"]);
+            });
+
+            it("processLegendImage adds new legend to hashMap", async () => {
+                const legendObj = {name: "Layer 1", legend: ["image1.png"]},
+                    hashMap = {};
+
+                await buildSpec.processLegendImage(legendObj, hashMap);
+
+                expect(hashMap.hash1.names).to.include("Layer 1");
+            });
+
+            it("processLegendImage skips adding when hashImage returns null", async () => {
+                buildSpec.hashImage.restore();
+                sinon.stub(buildSpec, "hashImage").resolves(null);
+
+                const legendObj = {name: "Layer 4", legend: ["image.png"]},
+                    hashMap = {};
+
+                await buildSpec.processLegendImage(legendObj, hashMap);
+
+                expect(hashMap).to.be.empty;
+            });
+        });
     });
 
     describe("prepareGfiAttributes", function () {
@@ -511,7 +734,7 @@ describe("src/modules/print/js/buildSpec", function () {
         });
     });
 
-    describe("buildTileWms", function () {
+    describe("buildTileWms", () => {
         const tileWmsLayer = new Tile({
             source: new TileWMS({
                 url: "url",
@@ -520,7 +743,8 @@ describe("src/modules/print/js/buildSpec", function () {
                     FORMAT: "image/png",
                     TRANSPARENT: true,
                     WIDTH: 512,
-                    HEIGHT: 512
+                    HEIGHT: 512,
+                    VERSION: "1.3.0"
                 },
                 tileGrid: new TileGrid({
                     extent: [510000.0, 5850000.0, 625000.4, 6000000.0],
@@ -531,7 +755,7 @@ describe("src/modules/print/js/buildSpec", function () {
             opacity: 1
         });
 
-        it("should buildTileWms", function () {
+        it("should buildTileWms", () => {
             expect(buildSpec.buildTileWms(tileWmsLayer)).to.deep.own.include({
                 baseURL: "url",
                 opacity: 1,
@@ -540,10 +764,71 @@ describe("src/modules/print/js/buildSpec", function () {
                 imageFormat: "image/png",
                 customParams: {
                     TRANSPARENT: true,
-                    DPI: 200
+                    DPI: 200,
+                    TIME: undefined
                 },
-                tileSize: [512, 512]
+                tileSize: [512, 512],
+                version: "1.3.0"
             });
+        });
+
+        it("should handle imported WMS layer when LAYERS is an array", () => {
+            const layerWithArray = new Tile({
+                    source: new TileWMS({
+                        url: "https://example.com/wms",
+                        params: {
+                            LAYERS: ["PS.ProtectedSitesGSG"],
+                            FORMAT: "image/png",
+                            TRANSPARENT: true,
+                            WIDTH: 256,
+                            HEIGHT: 256,
+                            VERSION: "1.3.0"
+                        },
+                        tileGrid: new TileGrid({
+                            extent: [510000.0, 5850000.0, 625000.4, 6000000.0],
+                            resolutions: [78271.51696401172, 305.7481131406708],
+                            tileSize: [256, 256]
+                        })
+                    }),
+                    opacity: 0.8
+                }),
+
+                result = buildSpec.buildTileWms(layerWithArray);
+
+            expect(result.layers).to.deep.equal(["PS.ProtectedSitesGSG"]);
+            expect(result.type).to.equal("tiledwms");
+            expect(result.imageFormat).to.equal("image/png");
+            expect(result.customParams).to.have.property("TRANSPARENT", true);
+            expect(result.version).to.equals("1.3.0");
+        });
+
+        it("should handle imported WMS layer when LAYERS is a proxy-like object", () => {
+            const layerWithProxy = new Tile({
+                    source: new TileWMS({
+                        url: "https://example.com/wms",
+                        params: {
+                            LAYERS: {value: ["PS.ProtectedSitesGSG"]},
+                            FORMAT: "image/png",
+                            TRANSPARENT: false,
+                            WIDTH: 512,
+                            HEIGHT: 512,
+                            VERSION: "1.1.0"
+                        },
+                        tileGrid: new TileGrid({
+                            extent: [510000.0, 5850000.0, 625000.4, 6000000.0],
+                            resolutions: [78271.51696401172, 305.7481131406708],
+                            tileSize: [512, 512]
+                        })
+                    }),
+                    opacity: 0.5
+                }),
+
+                result = buildSpec.buildTileWms(layerWithProxy);
+
+            expect(result.layers).to.deep.equal(["PS.ProtectedSitesGSG"]);
+            expect(result.customParams).to.have.property("DPI");
+            expect(result.imageFormat).to.equal("image/png");
+            expect(result.version).to.equals("1.1.0");
         });
     });
 
@@ -561,6 +846,8 @@ describe("src/modules/print/js/buildSpec", function () {
         });
 
         it("should buildImageWms", function () {
+            attr.layout = "A4 Hochformat";
+            buildSpec.setAttributes(attr);
             expect(buildSpec.buildImageWms(imageWmsLayer)).to.deep.own.include({
                 baseURL: "url",
                 opacity: 1,
@@ -569,9 +856,22 @@ describe("src/modules/print/js/buildSpec", function () {
                 imageFormat: "image/png",
                 customParams: {
                     TRANSPARENT: true,
-                    DPI: 200
+                    DPI: 200,
+                    TIME: undefined
                 }
             });
+        });
+
+        it("should buildImageWms for A0", function () {
+            attr.layout = "A0 Querformat";
+            buildSpec.setAttributes(attr);
+            const result = buildSpec.buildImageWms(imageWmsLayer);
+
+            expect(result.type).to.be.equal("tiledwms");
+            expect(result.tileSize).to.deep.equal([512, 512]);
+            // reset layout to A4
+            attr.layout = "A4 Hochformat";
+            buildSpec.setAttributes(attr);
         });
     });
     describe("getFeatureStyle", function () {
@@ -664,7 +964,7 @@ describe("src/modules/print/js/buildSpec", function () {
             const source = new VectorSource(),
                 layer = new VectorLayer({
                     source,
-                    style: measureStyle
+                    style: measureStyle([255, 127, 0, 1.0])
                 }),
                 feature = new Feature({
                     geometry: new Polygon([[[0, 0], [0, 1], [1, 1], [0, 0]]])
@@ -1479,7 +1779,8 @@ describe("src/modules/print/js/buildSpec", function () {
                 imageFormat: "image/png",
                 customParams: {
                     TRANSPARENT: true,
-                    DPI: 200
+                    DPI: 200,
+                    TIME: undefined
                 }
             });
         });
@@ -1495,6 +1796,42 @@ describe("src/modules/print/js/buildSpec", function () {
                 opacity: 1,
                 type: "image"
             });
+        });
+    });
+    describe("buildGeoTiff", function () {
+        it("should buildGeoTiff", function () {
+            const geotiffLayer = new WebGlTileLayer({
+                source: new GeoTiffSource({
+                    sources: [
+                        {
+                            url: "https://example.com/spot.tif"
+                        }
+                    ],
+                    convertToRGB: "auto",
+                    normalize: true,
+                    projection: "EPSG:25832"
+                }),
+                name: "GeoTiffLayer",
+                typ: "GeoTiff"
+            });
+
+            expect(buildSpec.buildGeoTiff(geotiffLayer)).to.deep.own.include({
+                url: "https://example.com/spot.tif",
+                opacity: 1,
+                type: "geotiff"
+            });
+        });
+    });
+    describe("getGeometryTypeFromSVG", function () {
+        it("should return gemetry type polygon for a svg polygon style", function () {
+            const graphic = "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><polygon points='5,5 30,5 30,30 5,30' style='fill:rgb(10, 200, 0);fill-opacity:0.2;stroke:rgb(0, 0, 0);stroke-opacity:1;stroke-width:1;'/></svg>";
+
+            expect(buildSpec.getGeometryTypeFromSVG(graphic)).to.deep.equal("polygon");
+        });
+        it("should return gemetry type lineString for a svg polygon style", function () {
+            const graphic = "data:image/svg+xml;charset=utf-8,<svg height='35' width='35' version='1.1' xmlns='http://www.w3.org/2000/svg'><path d='M 05 30 L 30 05' stroke='rgb(0, 0, 0)' stroke-opacity='1' stroke-width='4' stroke-dasharray='20 10' fill='none'/></svg>";
+
+            expect(buildSpec.getGeometryTypeFromSVG(graphic)).to.deep.equal("lineString");
         });
     });
 });

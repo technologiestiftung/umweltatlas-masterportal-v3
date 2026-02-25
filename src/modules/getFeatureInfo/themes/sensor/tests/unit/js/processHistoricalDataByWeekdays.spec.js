@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {createZeroTimeObservation, addIndex, processHistoricalDataByWeekdays} from "../../../js/processHistoricalDataByWeekdays.js";
+import {createZeroTimeObservation, addIndex, processHistoricalDataByWeekdays} from "@modules/getFeatureInfo/themes/sensor/js/processHistoricalDataByWeekdays.js";
 import dayjs from "dayjs";
 
 describe("src/modules/getFeatureInfo/themes/sensor/js/processHistoricalDataByWeekdays.js", () => {

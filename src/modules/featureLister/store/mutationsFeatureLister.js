@@ -1,7 +1,8 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import stateFeatureLister from "./stateFeatureLister";
-import getGfiFeatureModule from "../../../shared/js/utils/getGfiFeaturesByTileFeature";
-import layerCollection from "../../../core/layers/js/layerCollection";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateFeatureLister from "./stateFeatureLister.js";
+import getGfiFeatureModule from "@shared/js/utils/getGfiFeaturesByTileFeature.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import tabStatus from "../constantsTabStatus.js";
 
 const mutations = {
     /**
@@ -12,17 +13,19 @@ const mutations = {
      */
     ...generateSimpleMutations(stateFeatureLister),
     /**
-     * Sets the compare List.
-     * @param {Object} state context object.
+     * Sets the GFI features for the selected layer from payload or by extracting features from the layer source
+     * and converts them to the needed format. Handles nested features if present.
+     * @param {Object} state - The Vuex state object
+     * @param {Array<ol.Feature>} [payload] - Optional array of features. If not provided, features will be retrieved from the layer source
      * @returns {void}
      */
-    setGfiFeaturesOfLayer: (state) => {
-        const layer = layerCollection.getLayerById(state.layer.id),
-            features = layer.getLayerSource().getFeatures();
+    setGfiFeaturesOfLayer: (state, payload) => {
+        const layerFromCollection = layerCollection.getLayerById(state.layer.id),
+            features = payload ?? layerFromCollection.getLayerSource().getFeatures();
 
         if (features) {
             const gfiFeatures = [],
-                olLayer = layer.getLayer();
+                olLayer = layerFromCollection.getLayer();
 
             features.forEach(feature => {
                 if (feature.values_ && Object.prototype.hasOwnProperty.call(feature.values_, "features")) {
@@ -30,6 +33,8 @@ const mutations = {
                         const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, nestedFeature.values_);
 
                         gfiFeature.id = nestedFeature.getId();
+                        gfiFeature.geom = nestedFeature.getGeometry();
+                        gfiFeature.olFeature = nestedFeature;
                         gfiFeatures.push(gfiFeature);
                     });
                     state.nestedFeatures = true;
@@ -38,6 +43,8 @@ const mutations = {
                     const gfiFeature = getGfiFeatureModule.getGfiFeature(olLayer.values_, feature.values_);
 
                     gfiFeature.id = feature.getId();
+                    gfiFeature.geom = feature.getGeometry();
+                    gfiFeature.olFeature = feature;
                     gfiFeatures.push(gfiFeature);
                     state.nestedFeatures = false;
                 }
@@ -53,11 +60,14 @@ const mutations = {
      * @returns {void}
      */
     resetToThemeChooser: (state) => {
-        state.selectedFeatureIndex = null;
+        state.selectedRow = null;
+        state.layerListView = tabStatus.ACTIVE;
+        state.featureListView = tabStatus.DISABLED;
+        state.featureDetailView = tabStatus.DISABLED;
+        state.selectedArea = null;
         state.layer = null;
-        state.layerListView = true;
-        state.featureListView = false;
-        state.featureDetailView = false;
+        state.headers = [];
+        state.gfiFeaturesOfLayer = [];
     }
 };
 

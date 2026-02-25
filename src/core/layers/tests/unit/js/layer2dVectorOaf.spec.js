@@ -4,12 +4,12 @@ import sinon from "sinon";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
-import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import webgl from "../../../js/webglRenderer";
-import store from "../../../../../app-store";
-import {oaf} from "@masterportal/masterportalapi";
-import Layer2dVectorOaf from "../../../js/layer2dVectorOaf";
+import getGeometryTypeFromService from "@masterportal/masterportalapi/src/vectorStyle/lib/getGeometryTypeFromService.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import webgl from "@core/layers/js/webglRenderer.js";
+import store from "@appstore/index.js";
+import {oaf} from "@masterportal/masterportalapi/src/index.js";
+import Layer2dVectorOaf from "@core/layers/js/layer2dVectorOaf.js";
 
 describe("src/core/js/layers/layer2dVectorOaf.js", () => {
     let attributes,
@@ -192,6 +192,7 @@ describe("src/core/js/layers/layer2dVectorOaf.js", () => {
         beforeEach(() => {
             options = [
                 "clusterGeometryFunction",
+                "doNotLoadInitially",
                 "featuresFilter",
                 "loadingParams",
                 "loadingStrategy",

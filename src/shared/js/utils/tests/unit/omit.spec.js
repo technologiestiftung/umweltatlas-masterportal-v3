@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import omit from "../../omit";
+import omit from "@shared/js/utils/omit.js";
 
 describe("src/shared/js/utils/omit.js", () => {
     describe("omit", () => {

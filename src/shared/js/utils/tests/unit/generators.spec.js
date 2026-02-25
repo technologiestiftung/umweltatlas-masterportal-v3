@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {generateSimpleGetters, generateSimpleMutations} from "../../generators";
+import {generateSimpleGetters, generateSimpleMutations} from "@shared/js/utils/generators.js";
 
 describe("src/shared/js/utils/generators.js", () => {
     describe("generateSimpleGetters", () => {

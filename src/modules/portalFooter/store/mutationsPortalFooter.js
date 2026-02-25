@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import statePortalFooter from "./statePortalFooter";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import statePortalFooter from "./statePortalFooter.js";
 
 const mutations = {
     ...generateSimpleMutations(statePortalFooter)

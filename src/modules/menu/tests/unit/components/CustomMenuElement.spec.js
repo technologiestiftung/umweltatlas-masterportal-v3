@@ -1,9 +1,10 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
 import axios from "axios";
-import CustomMenuElement from "../../../components/CustomMenuElement.vue";
+import CustomMenuElement from "@modules/menu/components/CustomMenuElement.vue";
 import {expect} from "chai";
 import sinon from "sinon";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 
 config.global.mocks.$t = key => key;
 
@@ -14,13 +15,20 @@ describe("src/modules/menu/components/CustomMenuElement.vue", () => {
         side,
         htmlContent,
         errorSpy,
-        currentComponentProps;
+        currentComponentProps,
+        isModuleVisible;
 
     beforeEach(() => {
         side = "mainMenu";
+        isModuleVisible = true;
+        sinon.stub(visibilityChecker, "isModuleVisible").callsFake(() => {
+            return isModuleVisible;
+        });
         currentComponentProps = {
             htmlContent: undefined,
-            pathToContent: undefined
+            pathToContent: undefined,
+            mapMode: undefined,
+            deviceMode: undefined
         };
         currentComponent = {
             props: currentComponentProps
@@ -102,5 +110,32 @@ describe("src/modules/menu/components/CustomMenuElement.vue", () => {
 
         expect(wrapper.find(".custom-menu-element").exists()).to.be.true;
         expect(errorSpy.calledOnce).to.be.true;
+    });
+    it("renders only a div if no htmlContent or pathToContent is given into secondary menu", () => {
+        side = "secondaryMenu";
+
+        wrapper = mount(CustomMenuElement,
+            {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {side}
+            });
+
+        expect(wrapper.find(".custom-menu-element").exists()).to.be.true;
+        expect(wrapper.vm.side).to.be.equals(side);
+    });
+
+    it("does not render htmlContent when module is not visible", () => {
+        isModuleVisible = false;
+
+        wrapper = mount(CustomMenuElement, {
+            global: {
+                plugins: [store]
+            },
+            propsData: {side}
+        });
+
+        expect(wrapper.find(".custom-menu-element").exists()).to.be.false;
     });
 });

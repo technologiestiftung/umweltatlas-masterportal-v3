@@ -1,8 +1,8 @@
 import {Vector} from "ol/layer.js";
-import Cluster from "ol/source/Cluster";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import store from "../../../app-store";
+import Cluster from "ol/source/Cluster.js";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
+import store from "@appstore/index.js";
 
 /**
  * Interactions with the layers of the map.
@@ -42,7 +42,8 @@ export default {
                 id: layerName,
                 name: layerName,
                 source: new VectorSource(),
-                alwaysOnTop: alwaysOnTop
+                alwaysOnTop: alwaysOnTop,
+                zIndex: alwaysOnTop === true ? 9999999 : undefined
             });
 
             // @TODO use the existing method

@@ -1,6 +1,6 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 const gfiAttributes = {
     featureLabel: "",
@@ -73,7 +73,7 @@ export function getFeatureIds (layerId) {
         layer = mapCollection.getMap("2D").getLayers().getArray().find(l => l.get("id") === layerId);
 
     if (typeof layer === "undefined") {
-        console.warn(i18next.t("common:core.maps.featureViaURL.messages.layerNotFound"));
+        console.warn(i18next.t("common:core.maps.featureViaURL.messages.layerNotFound", {layerId}));
         return featureArray;
     }
     layer.getSource().getFeatures().forEach(feature => {
@@ -127,11 +127,11 @@ export default {
                     dispatch("Alerting/addSingleAlert", {content: i18next.t("common:core.maps.featureViaURL.messages.featureParsingNoneAdded"), "multipleAlert": true}, {root: true});
                 }
 
-                dispatch("createVectorLayer", {layers, pos, geoJSON});
-
-                if (typeof zoomTo !== "undefined" && (zoomTo === layerId || zoomTo.indexOf(layerId) !== -1)) {
-                    dispatch("zoomToFilteredFeatures", {ids: getFeatureIds(layerId), layerId: layerId});
-                }
+                dispatch("createVectorLayer", {layers, pos, geoJSON}).then(() => {
+                    if (typeof zoomTo !== "undefined" && (zoomTo === layerId || zoomTo.indexOf(layerId) !== -1)) {
+                        dispatch("zoomToFilteredFeatures", {ids: getFeatureIds(layerId), layerId: layerId});
+                    }
+                });
             });
         }
 
@@ -147,7 +147,7 @@ export default {
      * @returns {void}
     */
     createVectorLayer ({dispatch}, {layers, pos, geoJSON}) {
-        dispatch("addLayerToLayerConfig", {
+        return dispatch("addLayerToLayerConfig", {
             layerConfig: {
                 gfiAttributes: layers[pos].gfiAttributes || gfiAttributes,
                 geojson: geoJSON,

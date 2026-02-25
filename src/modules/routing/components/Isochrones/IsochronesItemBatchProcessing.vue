@@ -1,9 +1,17 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import mutations from "../../store/isochrones/mutationsIsochrones";
+import mutations from "../../store/isochrones/mutationsIsochrones.js";
 import RoutingBatchProcessing from "../RoutingBatchProcessing.vue";
-import {RoutingTaskHandler} from "../../js/classes/routing-task-handler";
+import {RoutingTaskHandler} from "../../js/classes/routing-task-handler.js";
 
+/**
+ * IsochronesItemBatchProcessing
+ * @module modules/routing/components/Isochrones/IsochronesItemBatchProcessing
+ * @vue-prop {Object} settings - The settings.
+ * @vue-data {Boolean} isProcessing - Shows if files are being processed.
+ * @vue-data {Number} countFailed - The failed attempts fo get directions.
+ * @vue-data {Number} serviceRequests
+ */
 export default {
     name: "IsochronesItemBatchProcessing",
     components: {
@@ -97,7 +105,6 @@ export default {
                 downloadFilename = this.createDownloadFilename(filename);
 
             if (typeof navigator.msSaveOrOpenBlob === "function") {
-                // TODO übersetzung des Downloadtypes  GEOJSON nach json/geojson?
                 window.navigator.msSaveOrOpenBlob(new Blob([downloadString], {
                     type: "application/geo+json;charset=utf-8"
                 }), downloadFilename);

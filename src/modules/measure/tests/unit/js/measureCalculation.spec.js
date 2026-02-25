@@ -3,7 +3,7 @@ import Feature from "ol/Feature.js";
 
 import {expect} from "chai";
 
-import {calculateLineLengths, calculatePolygonAreas} from "../../../js/measureCalculation";
+import {calculateLineLengths, calculatePolygonAreas} from "@modules/measure/js/measureCalculation.js";
 
 describe("src/modules/measure/js/measureCalculation", function () {
     describe("calculateLineLengths", function () {

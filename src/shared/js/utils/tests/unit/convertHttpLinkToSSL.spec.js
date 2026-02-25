@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import convertHttpLinkToSSL from "../../convertHttpLinkToSSL";
+import convertHttpLinkToSSL from "@shared/js/utils/convertHttpLinkToSSL.js";
 
 describe("src/utils/convertHttpLinkToSSL.js", () => {
     describe("convertHttpLinkToSSL", () => {

@@ -1,8 +1,8 @@
 import {expect} from "chai";
-import {getVisibleLayersWithGroupLayersChildren, getVisibleWmsLayersAtResolution} from "../../../js/getLayers";
-import Layer from "ol/layer/Layer";
-import LayerGroup from "ol/layer/Group";
-import actionsMaps from "../../../../../core/maps/store/actionsMaps";
+import {getVisibleLayersWithGroupLayersChildren, getVisibleWmsLayersAtResolution} from "@modules/getFeatureInfo/js/getLayers.js";
+import Layer from "ol/layer/Layer.js";
+import LayerGroup from "ol/layer/Group.js";
+import actionsMaps from "@core/maps/store/actionsMaps.js";
 
 const {addLayer} = actionsMaps;
 

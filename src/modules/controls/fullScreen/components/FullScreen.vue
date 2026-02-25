@@ -86,7 +86,8 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Controls/FullScreen", ["iconArrow", "iconExit"])
+        ...mapGetters("Controls/FullScreen", ["iconArrow", "iconExit", "newTabFromFrame"]),
+        ...mapGetters("Modules/ShareView", ["url"])
     },
     mounted () {
         document.addEventListener("mozfullscreenchange", this.escapeHandler);
@@ -116,8 +117,8 @@ export default {
          */
         toggleFullScreen () {
             // if portal is in an iframe, it can't be set to fullscreen - open new tab for better access
-            if (window.self !== window.top) {
-                window.open(window.location.href, "_blank");
+            if (this.newTabFromFrame && window.self !== window.top) {
+                window.open(this.url, "_blank");
                 return;
             }
             if (this.active) {

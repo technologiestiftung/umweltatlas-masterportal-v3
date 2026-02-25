@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../controls-store/mutationsControls";
+import mutations from "@modules/controls/controls-store/mutationsControls.js";
 
 const {registerControl} = mutations;
 

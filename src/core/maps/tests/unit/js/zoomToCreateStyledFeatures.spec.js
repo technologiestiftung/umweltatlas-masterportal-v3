@@ -1,12 +1,12 @@
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
-import Feature from "ol/Feature";
-import {Icon, Style} from "ol/style";
-import Point from "ol/geom/Point";
+import Feature from "ol/Feature.js";
+import {Icon, Style} from "ol/style.js";
+import Point from "ol/geom/Point.js";
 import sinon from "sinon";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
-import createStyledFeatures from "../../../js/zoomToCreateStyledFeatures";
+import createStyledFeatures from "@core/maps/js/zoomToCreateStyledFeatures.js";
 
 describe("src/core/maps/js/zoomToCreateStyledFeatures.js", () => {
     const consoleSpy = sinon.spy(),

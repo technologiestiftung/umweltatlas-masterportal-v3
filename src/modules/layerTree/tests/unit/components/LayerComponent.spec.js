@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import layerFactory from "../../../../../core/layers/js/layerFactory";
-import LayerComponent from "../../../components/LayerComponent.vue";
+import layerTypes from "@core/layers/js/layerTypes.js";
+import LayerComponent from "@modules/layerTree/components/LayerComponent.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -33,7 +33,7 @@ describe("src/modules/layerTree/components/LayerComponent.vue", () => {
         };
 
         replaceByIdInLayerConfigSpy = sinon.spy();
-        sinon.stub(layerFactory, "getLayerTypes3d").returns(["TERRAIN3D"]);
+        sinon.stub(layerTypes, "getLayerTypes3d").returns(["TERRAIN3D"]);
         store = createStore({
             modules: {
                 Modules: {
@@ -117,13 +117,17 @@ describe("src/modules/layerTree/components/LayerComponent.vue", () => {
             propsData
         });
 
-        expect(wrapper.find("#layer-tree-layer-" + propsData.conf.id).exists()).to.be.true;
-        expect(wrapper.findAll("layer-check-box-stub").length).to.be.equals(1);
+        const layerWrapper = wrapper.find("#layer-tree-layer-" + propsData.conf.id),
+            checkbox = wrapper.find("layer-check-box-stub"),
+            tooltipEl = wrapper.find(".layer-checkbox-tooltip");
+
+        expect(layerWrapper.exists()).to.be.true;
+        expect(checkbox.exists()).to.be.true;
+        expect(checkbox.attributes().disabled).to.be.equals("true");
         expect(wrapper.findAll("layer-component-icon-sub-menu-stub").length).to.be.equals(1);
         expect(wrapper.findAll("layer-component-icon-info-stub").length).to.be.equals(1);
         expect(wrapper.findAll("layer-component-sub-menu-stub").length).to.be.equals(1);
-        expect(wrapper.find("span").attributes()["data-bs-toggle"]).to.be.equals("tooltip");
-        expect(wrapper.find("layer-check-box-stub").attributes().disabled).to.be.equals("true");
+        expect(tooltipEl.exists()).to.be.true;
         expect(wrapper.vm.tooltipText).to.be.equals("common:modules.layerTree.invisibleLayer");
     });
     it("renders layer only with checkbox - no submenu", () => {
@@ -141,6 +145,24 @@ describe("src/modules/layerTree/components/LayerComponent.vue", () => {
         expect(wrapper.findAll("layer-component-icon-sub-menu-stub").length).to.be.equals(0);
         expect(wrapper.findAll("layer-component-icon-info-stub").length).to.be.equals(1);
         expect(wrapper.findAll("layer-component-sub-menu-stub").length).to.be.equals(0);
+    });
+
+    it("renders layer out of range with only maxScale and shows invisibleLayerMaxScale tooltip", () => {
+        layer.maxScale = "10000";
+        delete layer.minScale;
+
+        wrapper = shallowMount(LayerComponent, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        const checkbox = wrapper.find("layer-check-box-stub");
+
+        expect(checkbox.exists()).to.be.true;
+        expect(checkbox.attributes().disabled).to.be.equals("true");
+        expect(wrapper.vm.tooltipText).to.be.equals("common:modules.layerTree.invisibleLayerMaxScale");
     });
 
     describe("methods", () => {

@@ -2,25 +2,26 @@ import Feature from "ol/Feature.js";
 import {GeoJSON} from "ol/format.js";
 import {Image, Tile, Vector} from "ol/layer.js";
 import {MVTEncoder} from "@geoblocks/print";
-import Geometry from "ol/geom/Geometry";
+import Geometry from "ol/geom/Geometry.js";
 import {Point} from "ol/geom.js";
-import Icon from "ol/style/Icon";
+import Icon from "ol/style/Icon.js";
 import {fromCircle} from "ol/geom/Polygon.js";
-import CircleStyle from "ol/style/Circle";
-import VectorTileLayer from "ol/layer/VectorTile";
+import CircleStyle from "ol/style/Circle.js";
+import VectorTileLayer from "ol/layer/VectorTile.js";
+import WebGlTileLayer from "ol/layer/WebGLTile.js";
 import StaticImageSource from "ol/source/ImageStatic.js";
-import {convertColor} from "../../../shared/js/utils/convertColor";
-import isObject from "../../../shared/js/utils/isObject";
-import differenceJS from "../../../shared/js/utils/differenceJS";
-import findWhereJs from "../../../shared/js/utils/findWhereJs";
-import {getLastPrintedExtent} from "../store/actionsPrintInitialization";
-import sortBy from "../../../shared/js/utils/sortBy";
-import store from "../../../app-store";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
+import GeoTiffSource from "ol/source/GeoTIFF.js";
+import {convertColor} from "@shared/js/utils/convertColor.js";
+import isObject from "@shared/js/utils/isObject.js";
+import differenceJS from "@shared/js/utils/differenceJS.js";
+import findWhereJs from "@shared/js/utils/findWhereJs.js";
+import sortBy from "@shared/js/utils/sortBy.js";
+import store from "@appstore/index.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import {getRulesForFeature} from "@masterportal/masterportalapi/src/vectorStyle/lib/getRuleForIndex.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
 
 const BuildSpecModel = {
     defaults: {
@@ -221,6 +222,16 @@ const BuildSpecModel = {
 
         return undefined;
     },
+
+    /**
+     * Setter for lastPrintedExtent.
+     * @param {Array} extent the extent
+     * @returns {void}
+     */
+    setLastPrintedExtent: function (extent) {
+        this.lastPrintedExtent = extent;
+
+    },
     /**
      * Returns information about the layer depending on the layer type.
      *
@@ -238,13 +249,11 @@ const BuildSpecModel = {
         let features = [],
             returnLayer;
 
-        if (isInScaleRange || scaleDoesNotMatter) {
+        if (isInScaleRange || scaleDoesNotMatter || layer instanceof Vector) {
             const source = layer.getSource();
 
             if (layer instanceof VectorTileLayer) {
-                const maskExtent = getLastPrintedExtent();
-
-                returnLayer = await this.buildVectorTile(layer, currentResolution, maskExtent);
+                returnLayer = await this.buildVectorTile(layer, currentResolution, this.lastPrintedExtent);
             }
             else if (layer instanceof Image) {
                 returnLayer = this.buildImageWms(layer, dpi);
@@ -257,6 +266,9 @@ const BuildSpecModel = {
                 else if (source?.getLayer) {
                     returnLayer = this.buildWmts(layer, source);
                 }
+            }
+            else if (layer instanceof WebGlTileLayer && source instanceof GeoTiffSource) {
+                console.warn(`Das Drucken von GeoTiff-Layern wird aktuell noch nicht unterstützt. Der Layer "${layer.get("name")}" wird ignoriert.`);
             }
             else if (typeof layer?.get === "function" && layer.get("name") === "importDrawLayer") {
                 returnLayer = this.getDrawLayerInfo(layer, extent);
@@ -376,12 +388,13 @@ const BuildSpecModel = {
      * @param {ol.layer.Tile} layer tile layer with tile wms source
      * @param {Number} [dpi] The dpi to use instead of the dpi from store.
      * @returns {Object} - wms layer spec
-     */
+    */
     buildTileWms: function (layer, dpi) {
         const source = layer.getSource(),
             isPlotservice = store.state.Modules.Print.printService === "plotservice";
         let mapObject = null,
-            styles;
+            styles,
+            layersParam = source.getParams().LAYERS;
 
         if (source.getParams().STYLES) {
             if (typeof source.getParams().STYLES === "string") {
@@ -390,21 +403,43 @@ const BuildSpecModel = {
             else if (Array.isArray(source.getParams().STYLES)) {
                 styles = source.getParams().STYLES;
             }
+            else if (source.getParams().STYLES && typeof source.getParams().STYLES === "object" && "value" in source.getParams().STYLES) {
+                styles = Array.isArray(source.getParams().STYLES.value)
+                    ? source.getParams().STYLES.value
+                    : String(source.getParams().STYLES.value).split(",");
+            }
         }
+
+        if (!Array.isArray(layersParam)) {
+            if (typeof layersParam === "string") {
+                layersParam = layersParam.split(",");
+            }
+            else if (layersParam && typeof layersParam === "object" && "value" in layersParam) {
+                layersParam = Array.isArray(layersParam.value)
+                    ? layersParam.value
+                    : String(layersParam.value).split(",");
+            }
+            else {
+                console.warn("Unexpected LAYERS param format:", layersParam);
+                layersParam = [];
+            }
+        }
+
         mapObject = {
             baseURL: source.getUrls()[0],
             opacity: layer.getOpacity(),
             type: source.getParams().SINGLETILE || isPlotservice ? "WMS" : "tiledwms",
-            layers: source.getParams().LAYERS.split(","),
+            layers: layersParam,
             styles: styles,
             imageFormat: source.getParams().FORMAT,
             customParams: {
                 "TRANSPARENT": source.getParams().TRANSPARENT,
-                "DPI": typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf
+                "DPI": typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf,
+                "TIME": source.getParams().TIME
             }
         };
 
-        if (store.state.Modules.Print.printService === "plotservice") {
+        if (isPlotservice) {
             mapObject.title = layer.get("name");
         }
         if (!source.getParams().SINGLETILE) {
@@ -414,14 +449,47 @@ const BuildSpecModel = {
             mapObject.customParams.SLD_BODY = source.getParams().SLD_BODY;
             mapObject.styles = ["style"];
         }
+
+        if (source.getParams().VERSION) {
+            mapObject.version = source.getParams().VERSION;
+        }
+
         return mapObject;
     },
     /**
-     * Returns image wms layer information
-     * @param {ol.layer.Image} layer - image layer with image wms source
-     * @param {Number} [dpi] The dpi to use instead of the dpi from store.
-     * @returns {Object} - wms layer spec
-     */
+     * Returns GeoTiff (WebGL tile) layer information
+     * @param {ol.layer.Tile} layer WebGL tile layer
+     * @returns {Object} - layer spec for type "geotiff"
+    */
+    buildGeoTiff: function (layer) {
+        const source = layer.getSource(),
+            sourceUrl = source.getKey()?.split(",")[0],
+            fullUrl = sourceUrl.startsWith("http") ? sourceUrl : new URL(sourceUrl, window.location.href),
+            mapObject = {
+                opacity: layer.getOpacity(),
+                url: fullUrl.toString(),
+                type: "geotiff"
+            };
+
+        if (source.getKey()?.split(",").length > 1) {
+            console.warn(i18next.t("common:modules.print.geoTiffWarning"));
+        }
+
+        return mapObject;
+    },
+    /**
+     * Returns ImageWMS layer information for MapFish print.
+     * For large layouts or high DPI values MapFish may create oversized single-image WMS requests.
+     * This can lead to rendering artifacts (e.g. red background) in the generated PDF.
+     * To avoid this, the layer is automatically requested as "tiledwms" instead of a single image:
+     * - for A0 layouts
+     * - for known problematic layers when DPI >= 400
+     *
+     * @param {ol.layer.Image} layer - Image layer with ImageWMS source
+     * @param {Number} [dpi] The dpi to use instead of the dpi from store
+     * @returns {Object} WMS layer spec for MapFish
+    */
+
     buildImageWms: function (layer, dpi) {
         const source = layer.getSource(),
             mapObject = {
@@ -440,7 +508,8 @@ const BuildSpecModel = {
             mapObject.imageFormat = source.getParams().FORMAT;
             mapObject.customParams = {
                 "TRANSPARENT": source.getParams().TRANSPARENT,
-                "DPI": typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf
+                "DPI": typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf,
+                "TIME": source.getParams().TIME
             };
             if (source.getParams().VERSION) {
                 mapObject.version = source.getParams().VERSION;
@@ -449,6 +518,17 @@ const BuildSpecModel = {
 
         if (store.state.Modules.Print.printService === "plotservice") {
             mapObject.title = layer.get("name");
+        }
+        const effectiveDpi = typeof dpi === "number" ? dpi : store.state.Modules.Print.dpiForPdf;
+        const layout = this.defaults.layout ?? "";
+
+        const isA0 = layout.startsWith("A0");
+        const isProblemLayerAtHighDpi = effectiveDpi >= 400;
+
+        if (isA0 || isProblemLayerAtHighDpi) {
+            mapObject.type = "tiledwms";
+            // Use a fixed tile size to avoid oversized single-image requests
+            mapObject.tileSize = [512, 512];
         }
 
         return mapObject;
@@ -507,8 +587,7 @@ const BuildSpecModel = {
             styles.forEach((style, index) => {
                 if (style !== null) {
                     const styleObjectFromStyleList = styleList.returnStyleObject(layer.get("styleId"));
-                    let limiter = ",",
-                        styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
+                    let styleFromStyleList = styleObjectFromStyleList ? createStyle.getGeometryStyle(feature, styleObjectFromStyleList.rules, false, Config.wfsImgPath) : undefined;
 
                     if (Array.isArray(styleFromStyleList)) {
                         styleFromStyleList = styleFromStyleList[0];
@@ -557,15 +636,14 @@ const BuildSpecModel = {
                         }
                     }
                     stylingRules = this.getStylingRules(layer, clonedFeature, styleAttributes, style);
-                    if (styleFromStyleList !== undefined && styleFromStyleList.attributes?.labelField && styleFromStyleList.attributes?.labelField.length > 0) {
-                        stylingRules = stylingRules.replaceAll(limiter, " AND ");
-                        limiter = " AND ";
-                    }
+
+                    stylingRules = stylingRules.replace(/,(?=(?:[^'"]*['"][^'"]*['"])*[^'"]*$)/g, " AND ");
+
                     stylingRulesSplit = stylingRules
                         .replaceAll("[", "")
                         .replaceAll("]", "")
                         .replaceAll("*", "")
-                        .split(limiter)
+                        .split(" AND ")
                         .map(rule => rule.split("="));
 
                     if (Array.isArray(stylingRulesSplit) && stylingRulesSplit.length) {
@@ -985,6 +1063,10 @@ const BuildSpecModel = {
         const strokeColor = style.getColor();
 
         obj.strokeColor = convertColor(strokeColor, "hex");
+
+        if (Array.isArray(strokeColor) && strokeColor.length === 4) {
+            obj.strokeOpacity = strokeColor[3];
+        }
         if (typeof style.getWidth === "function" && style.getWidth() !== undefined) {
             obj.strokeWidth = style.getWidth();
         }
@@ -1265,6 +1347,7 @@ const BuildSpecModel = {
 
         return valuesArray;
     },
+
     /**
      * Gets legend from legend vue store and builds legend object for mapfish print
      * The legend is only print if the related layer is visible.
@@ -1275,14 +1358,15 @@ const BuildSpecModel = {
      * @param {Object} legends the available legends
      * @return {void}
      */
-    buildLegend: function (isLegendSelected, isMetaDataAvailable, getResponse, index) {
+    buildLegend: async function (isLegendSelected, isMetaDataAvailable, getResponse, index) {
         const legendObject = {},
             metaDataLayerList = [],
-            legends = store.getters["Modules/Legend/legends"];
+            legends = store.getters["Modules/Legend/legends"],
+            hashMap = {};
 
         if (isLegendSelected && legends.length > 0) {
             legendObject.layers = [];
-            legends.forEach(legendObj => {
+            for (const legendObj of legends) {
                 if (layerCollection.getLayerById(legendObj.id)?.get("children")?.length > 0) {
                     legendObj.id = layerCollection.getLayerById(legendObj.id).get("children")[0].id;
                 }
@@ -1296,24 +1380,28 @@ const BuildSpecModel = {
                     if (legendContainsPdf) {
                         store.dispatch("Alerting/addSingleAlert", {
                             category: "info",
-                            content: "<b>The layer \"" + legendObj.name + "\" contains a pre-defined Legend. " +
-                            "This legens cannot be added to the print.</b><br>" +
-                            "You can download the pre-defined legend from the download menu seperately.",
+                            content: `<b>${i18next.t("common:modules.print.predefinedLegendInfo", {layerName: legendObj.name})}</b><br>${i18next.t("common:modules.print.predefinedLegendDownload")}`,
                             displayClass: "info",
                             kategorie: "alert-info"
                         });
                     }
                     else {
-                        legendObject.layers.push({
-                            layerName: legendObj.name,
-                            values: this.prepareLegendAttributes(legendObj.legend, store.getters["Modules/Legend/sldVersion"])
-                        });
+                        await this.processLegendImage(legendObj, hashMap);
                     }
                 }
-            });
+            }
+
+            for (const hash in hashMap) {
+                legendObject.layers.push({
+                    layerName: hashMap[hash].names.join(" / "),
+                    values: hashMap[hash].values
+                });
+            }
         }
+
         this.setShowLegend(isLegendSelected);
         this.setLegend(legendObject);
+
         if (isMetaDataAvailable && metaDataLayerList.length > 0) {
             metaDataLayerList.forEach((layerName) => {
                 this.getMetaData(layerName, getResponse, index);
@@ -1329,6 +1417,93 @@ const BuildSpecModel = {
             store.dispatch("Modules/Print/createPrintJob", printJob);
         }
     },
+
+    /**
+     * Processes a legend image by hashing it and adding it to the hash map.
+     * If an image with the same hash already exists, the layer name is appended to the existing entry.
+     * @param {Object} legendObj - The legend object containing image details.
+     * @param {Object} hashMap - The hash map storing unique legend images.
+     * @return {Promise<void>}
+     */
+    async processLegendImage (legendObj, hashMap) {
+        const imageUrl = this.getLegendImageUrl(legendObj),
+            hash = imageUrl ? await this.hashImage(imageUrl) : null;
+
+        if (!imageUrl) {
+            console.warn("No valid image URL for legend:", legendObj.name);
+            return;
+        }
+
+        if (!hash) {
+            console.warn("[Legend] Failed to generate hash for image:", imageUrl, " (layer:", legendObj.name, ")");
+            return;
+        }
+
+        this.updateHashMap(hashMap, hash, legendObj);
+    },
+
+    /**
+     * Extracts a valid image URL from the legend object.
+     * @param {Object} legendObj - The legend object.
+     * @returns {string|null} The image URL, or null if not found.
+     */
+    getLegendImageUrl (legendObj) {
+        const firstLegend = legendObj.legend?.[0];
+
+        if (!firstLegend) {
+            console.warn("[Legend] Missing legend entry for:", legendObj.name);
+            return null;
+        }
+
+        if (typeof firstLegend === "string") {
+            return firstLegend;
+        }
+
+        return firstLegend?.graphic || null;
+    },
+
+    /**
+     * Updates the hash map with the given legend information.
+     * @param {Object} hashMap - The hash map.
+     * @param {string} hash - The image hash.
+     * @param {Object} legendObj - The legend object.
+     */
+    updateHashMap (hashMap, hash, legendObj) {
+        if (hashMap[hash]) {
+            hashMap[hash].names.push(legendObj.name);
+        }
+        else {
+            hashMap[hash] = {
+                names: [legendObj.name],
+                values: this.prepareLegendAttributes(
+                    legendObj.legend,
+                    store.getters["Modules/Legend/sldVersion"]
+                )
+            };
+        }
+    },
+
+    /**
+     * Generates a SHA-256 hash for a given image URL.
+     * @param {String} imageUrl - The URL of the image to be hashed.
+     * @return {Promise<String|null>} - The hash of the image, or null if an error occurs.
+     */
+    async hashImage (imageUrl) {
+        try {
+            const response = await fetch(imageUrl),
+                arrayBuffer = await response.arrayBuffer(),
+                hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, "0"))
+                .join("");
+        }
+        catch (error) {
+            console.error(`Error hashing image ${imageUrl}:`, error);
+            return null;
+        }
+    },
+
     /**
      * Checks if the legend url is a pdf.
      * @param {String} legend contains the legend url
@@ -1381,10 +1556,16 @@ const BuildSpecModel = {
                 legendObj.legendType = "svgAndPng";
             }
             else if (graphic.indexOf("<svg") !== -1) {
-                legendObj.color = this.getFillColorFromSVG(graphic);
-                this.getFillStrokeFromSVG(graphic, legendObj);
-                legendObj.legendType = "geometry";
                 legendObj.geometryType = this.getGeometryTypeFromSVG(graphic);
+                if (legendObj.geometryType === "lineString") {
+                    legendObj.svg = decodeURIComponent(graphic).split("data:image/svg+xml;charset=utf-8,")[1];
+                }
+                else {
+                    legendObj.color = this.getFillColorFromSVG(graphic);
+                    this.getFillStrokeFromSVG(graphic, legendObj);
+                }
+                legendObj.legendType = "geometry";
+
             }
             else if (graphic.toUpperCase().includes("GETLEGENDGRAPHIC")) {
                 legendObj.legendType = "wmsGetLegendGraphic";
@@ -1515,6 +1696,9 @@ const BuildSpecModel = {
         }
         if (svgString.includes("<polygon")) {
             geometryType = "polygon";
+        }
+        if (svgString.includes("<path")) {
+            geometryType = "lineString";
         }
         return geometryType;
     },

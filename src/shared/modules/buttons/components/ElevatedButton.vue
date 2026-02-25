@@ -1,4 +1,12 @@
 <script>
+
+/**
+ * Elevated Button component: A simple button that looks elevated from its background.
+ * @module shared/modules/buttons/ElevatedButton
+ * @vue-prop {String} text holds the Button-text.
+ * @vue-prop {function} interaction binds a function to a click on the button.
+ * @vue-prop {String} icon defines the Icon to be displayed alongside the text inside the button.
+ */
 export default {
     name: "ElevatedButton",
     props: {
@@ -25,7 +33,6 @@ export default {
         type="button"
         :aria-label="text"
         @click="interaction"
-        @keydown.enter="interaction"
     >
         <i
             v-if="icon !== null"

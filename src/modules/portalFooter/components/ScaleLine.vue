@@ -1,6 +1,6 @@
 <script>
 import {mapGetters} from "vuex";
-import thousandsSeparator from "../../../shared/js/utils/thousandsSeparator";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 
 /**
  * Scale Line

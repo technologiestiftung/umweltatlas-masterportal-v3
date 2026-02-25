@@ -2,7 +2,7 @@ import {shallowMount, config} from "@vue/test-utils";
 import {expect} from "chai";
 import ChartJs from "chart.js/auto";
 import {nextTick} from "vue";
-import BarchartItem from "../../../components/BarchartItem.vue";
+import BarchartItem from "@shared/modules/charts/components/BarchartItem.vue";
 
 config.global.mocks.$t = key => key;
 

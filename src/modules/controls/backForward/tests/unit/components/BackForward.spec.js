@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, mount} from "@vue/test-utils";
-import BackForward from "../../../components/BackForward.vue";
-import BackForwardModule from "../../../store/indexBackForward";
+import BackForward from "@modules/controls/backForward/components/BackForward.vue";
+import BackForwardModule from "@modules/controls/backForward/store/indexBackForward.js";
 import {expect} from "chai";
 
 config.global.mocks.$t = key => key;

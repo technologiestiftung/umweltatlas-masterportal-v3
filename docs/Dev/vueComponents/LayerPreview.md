@@ -34,7 +34,7 @@ If property `checkable` is true, `previewClicked` is emitted to parent component
 |zoomLevel|no|Number|initial zoom-level of the map|Zoom-level for the preview.|
 |radius|no|Number|1000|Radius of the extent.|
 |customClass|no|String|""|Custom css-class to overwrite style, NOTICE: maybe `!important` must be used.|
-|src|no|String||Path to preview image.|
+|src|no|String||Link to a static preview image that is used instead of a dynamic preview. Can be a relative path or an external URL. Recommended size: 150x150 px.|
 
 Example of a WMS-layer:
 ```json
@@ -43,10 +43,10 @@ Example of a WMS-layer:
 "shortname": "Orthophotos",
 "typ": "WMS",
 "preview":{
-            "zoomLevel": 6,
-            "center":"566245.97,5938894.79",
-            "radius": 500
-          }
+    "zoomLevel": 6,
+    "center":"566245.97,5938894.79",
+    "radius": 500
+}
 ```
 
 Example of a VectorTile-layer:
@@ -56,14 +56,25 @@ Example of a VectorTile-layer:
 "shortname": "VectorTile",
 "typ": "VectorTile",
 "preview":{
-  "src": "./resources/vectorTile.png"
+    "src": "./resources/vectorTile.png"
+},
+```
+
+Example of a static preview URL:
+```json
+"id": "453",
+"name": "Geobasiskarten (HamburgDE)",
+"shortname": "Geobasiskarten",
+"typ": "WMS",
+"preview":{
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/250px-The_Earth_seen_from_Apollo_17.jpg"
 },
 ```
 
 Example of usage in a SFC:
 
 ```js
-import LayerPreview from "../../../shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/components/LayerPreview.vue";
 
 // [...]
 

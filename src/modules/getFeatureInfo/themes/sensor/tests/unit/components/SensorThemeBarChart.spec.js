@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import {expect} from "chai";
 import sinon from "sinon";
 import Chart from "chart.js";
-import SensorThemeBartChart from "../../../components/SensorThemeBarChart.vue";
+import SensorThemeBartChart from "@modules/getFeatureInfo/themes/sensor/components/SensorThemeBarChart.vue";
 
 config.global.mocks.$t = key => key;
 config.global.mocks.$i18next = {
@@ -171,6 +171,7 @@ describe("src/modules/getFeatureInfo/themes/senor/components/SensorThemeBarChart
     });
 
     it("should show the day before yesterday after two clicks on left button ", async () => {
+        await wrapper.vm.$nextTick();
         await wrapper.findAll("button").at(0).trigger("click");
         await wrapper.findAll("button").at(0).trigger("click");
 

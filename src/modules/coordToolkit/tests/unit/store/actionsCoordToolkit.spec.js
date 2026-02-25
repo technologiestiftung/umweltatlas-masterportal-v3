@@ -1,6 +1,6 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsCoordToolkit";
-import crs from "@masterportal/masterportalapi/src/crs";
+import testAction from "@devtools/tests/VueTestUtils.js";
+import actions from "@modules/coordToolkit/store/actionsCoordToolkit.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import sinon from "sinon";
 import {expect} from "chai";
 

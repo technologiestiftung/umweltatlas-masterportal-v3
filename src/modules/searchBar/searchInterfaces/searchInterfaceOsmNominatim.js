@@ -1,9 +1,10 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import dayjs from "dayjs";
 
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import proj4 from "proj4";
 
 /**
  * The search interface to the osm nominatim geocoder.
@@ -31,7 +32,7 @@ export default function SearchInterfaceOsmNominatim ({serviceId, classes, countr
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -74,7 +75,7 @@ SearchInterfaceOsmNominatim.prototype.search = async function (searchInput) {
     else {
         await new Promise(resolve => {
             setTimeout(async () => {
-                if (searchInput === store.getters["SearchBar/searchInput"]) {
+                if (searchInput === store.getters["Modules/SearchBar/searchInput"]) {
                     resolve(await this.search(searchInput));
                 }
             }, 1000);
@@ -185,7 +186,8 @@ SearchInterfaceOsmNominatim.prototype.createToolTipName = function (searchResult
  * @returns {Object} The possible actions.
  */
 SearchInterfaceOsmNominatim.prototype.createPossibleActions = function (searchResult) {
-    const coordinates = this.processCoordinatesForActions(searchResult);
+    const coordinates = this.processCoordinatesForActions(searchResult),
+        targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coordinates);
 
     return {
         setMarker: {
@@ -197,6 +199,9 @@ SearchInterfaceOsmNominatim.prototype.createPossibleActions = function (searchRe
         startRouting: {
             coordinates: coordinates,
             name: searchResult.display_name
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

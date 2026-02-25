@@ -1,6 +1,6 @@
 import {Style} from "ol/style.js";
 import {expect} from "chai";
-import {createTextStyle} from "../../../../js/style/createTextStyle";
+import {createTextStyle} from "@modules/draw_old/js/style/createTextStyle.js";
 
 describe("src/modules/draw/js/style/createTextStyle.js", () => {
     describe("createTextStyle", () => {

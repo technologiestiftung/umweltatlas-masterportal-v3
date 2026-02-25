@@ -1,8 +1,8 @@
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import store from "../../../app-store";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import store from "@appstore/index.js";
 
 /**
  * Create the map markers and add them to the map.
@@ -83,13 +83,15 @@ function createPolygonMarker (styleId = "defaultMapMarkerPolygon") {
  * @returns {void}
  */
 function addFeatureToMapMarkerLayer (layerId, feature) {
-    const markerLayer = getMapmarkerLayerById(layerId),
-        styleId = markerLayer.get("styleId"),
-        styleObject = styleList.returnStyleObject(styleId),
-        featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
+    if (getMapmarkerLayerById(layerId) !== undefined) {
+        const markerLayer = getMapmarkerLayerById(layerId),
+            styleId = markerLayer.get("styleId"),
+            styleObject = styleList.returnStyleObject(styleId),
+            featureStyle = createStyle.createStyle(styleObject, feature, false, Config.wfsImgPath);
 
-    feature.setStyle(featureStyle);
-    markerLayer.getSource().addFeature(feature);
+        feature.setStyle(featureStyle);
+        markerLayer.getSource().addFeature(feature);
+    }
 }
 
 /**

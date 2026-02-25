@@ -37,6 +37,12 @@ const publicHolidayMatrix = {
             return dayjs(year + "-01-06", "YYYY-MM-DD");
         }
     },
+    internationalWomensDay: {
+        translationKey: "common:utils.calendar.internationalWomensDay",
+        getMoment: (year) => {
+            return dayjs(year + "-03-08", "YYYY-MM-DD");
+        }
+    },
     goodFriday: {
         translationKey: "common:utils.calendar.goodFriday",
         getMoment: (year, easterMoment) => {
@@ -59,6 +65,12 @@ const publicHolidayMatrix = {
         translationKey: "common:utils.calendar.laborDay",
         getMoment: (year) => {
             return dayjs(year + "-05-01", "YYYY-MM-DD");
+        }
+    },
+    liberationDay: {
+        translationKey: "common:utils.calendar.liberationDay",
+        getMoment: (year) => {
+            return year === "2020" || year === "2025" ? dayjs(year + "-05-08", "YYYY-MM-DD") : undefined;
         }
     },
     ascensionDay: {
@@ -95,6 +107,12 @@ const publicHolidayMatrix = {
         translationKey: "common:utils.calendar.assumptionDay",
         getMoment: (year) => {
             return dayjs(year + "-08-15", "YYYY-MM-DD");
+        }
+    },
+    childrensDay: {
+        translationKey: "common:utils.calendar.childrensDay",
+        getMoment: (year) => {
+            return dayjs(year + "-09-20", "YYYY-MM-DD");
         }
     },
     germanUnityDay: {
@@ -221,7 +239,7 @@ function getPublicHoliday (date, holidayKeys = false, format = false) {
         }
 
         holidayMoment = publicHolidayMatrix[holidayKey].getMoment(year, easterMoment, adventMoment);
-        if (givenMoment.format("YYYY-MM-DD") !== holidayMoment.format("YYYY-MM-DD")) {
+        if (holidayMoment === undefined || givenMoment.format("YYYY-MM-DD") !== holidayMoment.format("YYYY-MM-DD")) {
             continue;
         }
 
@@ -248,11 +266,15 @@ function getPublicHolidays (year, holidayKeys = false) {
 
     keys.forEach(holidayKey => {
         if (isCalendarMoment(publicHolidayMatrix[holidayKey])) {
-            result.push({
-                moment: publicHolidayMatrix[holidayKey].getMoment(year, easterMoment, adventMoment),
-                holidayKey,
-                translationKey: publicHolidayMatrix[holidayKey].translationKey
-            });
+            const moment = publicHolidayMatrix[holidayKey].getMoment(year, easterMoment, adventMoment);
+
+            if (moment) {
+                result.push({
+                    moment,
+                    holidayKey,
+                    translationKey: publicHolidayMatrix[holidayKey].translationKey
+                });
+            }
         }
     });
 
